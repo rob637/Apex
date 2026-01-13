@@ -1,0 +1,67 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Build outputs
+lib/
+dist/
+build/
+*.js.map
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Unity
+unity/*/Library/
+unity/*/Temp/
+unity/*/Obj/
+unity/*/Build/
+unity/*/Builds/
+unity/*/Logs/
+unity/*/UserSettings/
+unity/*/*.csproj
+unity/*/*.unityproj
+unity/*/*.sln
+unity/*/*.suo
+unity/*/*.tmp
+unity/*/*.user
+unity/*/*.userprefs
+unity/*/*.pidb
+unity/*/*.booproj
+unity/*/*.svd
+unity/*/*.pdb
+unity/*/*.mdb
+unity/*/*.opendb
+unity/*/*.VC.db
+unity/*/MemoryCaptures/
+unity/**/InitTestScene*.unity
+unity/**/InitTestScene*.unity.meta
+
+# IDE
+.idea/
+.vs/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (never commit these!)
+**/google-services.json
+**/GoogleService-Info.plist
+*.keystore
+*.jks
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+.env.*.local

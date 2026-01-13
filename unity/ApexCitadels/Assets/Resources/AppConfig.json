@@ -1,0 +1,27 @@
+{
+  "project": {
+    "name": "ApexCitadels",
+    "bundleIdentifier": {
+      "android": "com.apexcitadels.game",
+      "ios": "com.apexcitadels.game"
+    }
+  },
+  "firebase": {
+    "projectId": "apex-citadels-dev",
+    "storageBucket": "apex-citadels-dev.appspot.com",
+    "messagingSenderId": "FILL_IN_FROM_FIREBASE_CONSOLE",
+    "appId": {
+      "android": "FILL_IN_FROM_FIREBASE_CONSOLE",
+      "ios": "FILL_IN_FROM_FIREBASE_CONSOLE"
+    }
+  },
+  "arcore": {
+    "geospatialApiKey": "PASTE_YOUR_API_KEY_HERE",
+    "geospatialEnabled": true,
+    "cloudAnchorsEnabled": true
+  },
+  "settings": {
+    "emulatorMode": false,
+    "productionMode": true
+  }
+}

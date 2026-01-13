@@ -1,0 +1,151 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ========================================================================
+    // Helper Functions
+    // ========================================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    // ========================================================================
+    // Users Collection
+    // ========================================================================
+    
+    match /users/{userId} {
+      // Anyone can read user profiles (for leaderboards, etc.)
+      allow read: if true;
+      
+      // Only the user can create/update their own profile
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      
+      // Users cannot delete their profile (handled by Cloud Function)
+      allow delete: if false;
+    }
+    
+    // ========================================================================
+    // Spatial Anchors Collection
+    // ========================================================================
+    
+    match /spatial_anchors/{anchorId} {
+      // Anyone can read anchors (needed for AR visualization)
+      allow read: if true;
+      
+      // Only authenticated users can create anchors
+      allow create: if isAuthenticated() 
+                    && request.resource.data.ownerId == request.auth.uid;
+      
+      // Only anchor owner can update/delete
+      allow update: if isAuthenticated() 
+                    && resource.data.ownerId == request.auth.uid;
+      allow delete: if isAuthenticated() 
+                    && resource.data.ownerId == request.auth.uid;
+    }
+    
+    // ========================================================================
+    // Citadels Collection
+    // ========================================================================
+    
+    match /citadels/{citadelId} {
+      // Anyone can read citadels
+      allow read: if true;
+      
+      // Only authenticated users can create citadels
+      allow create: if isAuthenticated() 
+                    && request.resource.data.ownerId == request.auth.uid;
+      
+      // Owner or guild members can update citadel
+      allow update: if isAuthenticated() 
+                    && (resource.data.ownerId == request.auth.uid
+                        || (resource.data.guildId != null 
+                            && getUserData().guildId == resource.data.guildId));
+      
+      // Only owner can delete citadel
+      allow delete: if isAuthenticated() 
+                    && resource.data.ownerId == request.auth.uid;
+    }
+    
+    // ========================================================================
+    // Guilds Collection
+    // ========================================================================
+    
+    match /guilds/{guildId} {
+      // Anyone can read guild info
+      allow read: if true;
+      
+      // Only authenticated users can create guilds
+      allow create: if isAuthenticated();
+      
+      // Only guild leaders can update
+      allow update: if isAuthenticated() 
+                    && resource.data.leaderId == request.auth.uid;
+      
+      // Only guild leaders can delete
+      allow delete: if isAuthenticated() 
+                    && resource.data.leaderId == request.auth.uid;
+    }
+    
+    // ========================================================================
+    // Leaderboards Collection (Read-Only, Updated by Cloud Functions)
+    // ========================================================================
+    
+    match /leaderboards/{leaderboardId} {
+      allow read: if true;
+      allow write: if false; // Only Cloud Functions can write
+    }
+    
+    // ========================================================================
+    // Districts & Zones (Read-Only, Seeded by Admin)
+    // ========================================================================
+    
+    match /districts/{districtId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    match /zones/{zoneId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // ========================================================================
+    // Battles Collection
+    // ========================================================================
+    
+    match /battles/{battleId} {
+      // Participants can read battle
+      allow read: if isAuthenticated();
+      
+      // Only authenticated users can create battles
+      allow create: if isAuthenticated();
+      
+      // Participants can update (submit actions)
+      allow update: if isAuthenticated() 
+                    && (resource.data.attackerId == request.auth.uid
+                        || resource.data.defenderId == request.auth.uid);
+      
+      // No deletion
+      allow delete: if false;
+    }
+    
+    // ========================================================================
+    // Resource Nodes (Read-Only, Managed by Cloud Functions)
+    // ========================================================================
+    
+    match /resource_nodes/{nodeId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
