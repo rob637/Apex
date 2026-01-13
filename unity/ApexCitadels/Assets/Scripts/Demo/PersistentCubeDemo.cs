@@ -75,7 +75,7 @@ namespace ApexCitadels.Demo
             UpdateStatus("Tap on a surface to place a cube...");
         }
 
-        private async void TryPlaceCube(Vector2 screenPosition)
+        private void TryPlaceCube(Vector2 screenPosition)
         {
             _isPlacementMode = false;
 
@@ -120,7 +120,8 @@ namespace ApexCitadels.Demo
             // Save to cloud
             if (AnchorPersistenceService.Instance != null)
             {
-                SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(out double lat, out double lon, out double alt);
+                double lat = 0, lon = 0, alt = 0;
+                SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(out lat, out lon, out alt);
                 
                 var anchorId = await AnchorPersistenceService.Instance.SaveAnchorAsync(
                     lat, lon, alt,
@@ -153,7 +154,8 @@ namespace ApexCitadels.Demo
                 return;
             }
 
-            SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(out double lat, out double lon, out double _);
+            double lat = 0, lon = 0;
+            SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(out lat, out lon, out double _);
             
             var anchors = await AnchorPersistenceService.Instance.LoadAnchorsNearbyAsync(lat, lon, 100);
             
@@ -177,7 +179,7 @@ namespace ApexCitadels.Demo
 
         private void OnClearCubesClicked()
         {
-            var cubes = GameObject.FindObjectsOfType<MeshFilter>();
+            var cubes = GameObject.FindObjectsByType<MeshFilter>(FindObjectsSortMode.None);
             foreach (var cube in cubes)
             {
                 if (cube.sharedMesh != null && cube.sharedMesh.name == "Cube")

@@ -15,7 +15,9 @@ namespace ApexCitadels.Backend
         
         public bool IsInitialized { get; private set; }
         public event Action OnInitialized;
+#pragma warning disable CS0067 // Event is reserved for Firebase implementation
         public event Action<string> OnError;
+#pragma warning restore CS0067
 
         private List<AnchorData> _localAnchors = new List<AnchorData>();
 
