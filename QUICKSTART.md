@@ -9,7 +9,7 @@ This guide walks you through setting up and running the Apex Citadels prototype.
 ## ✅ Step 1: Prerequisites
 
 Ensure you have:
-- [ ] **Unity 2022.3 LTS** or newer installed
+- [ ] **Unity 6 LTS** (or Unity 2022.3 LTS) installed
 - [ ] **Android device** with ARCore support, OR **iOS device** with ARKit
 - [ ] **USB cable** to connect device to computer
 - [ ] **Node.js 18+** installed
