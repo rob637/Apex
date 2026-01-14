@@ -1,0 +1,7 @@
+{
+    "apiKey": "PASTE_YOUR_API_KEY_HERE",
+    "firebaseProjectId": "apex-citadels-dev",
+    "gameId": "virtual-geocaching",
+    "searchRadiusMeters": 500,
+    "maxCachesPerPlayer": 50
+}

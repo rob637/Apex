@@ -53,15 +53,44 @@ namespace ApexCitadels.AR
             worldPosition = Vector3.zero;
             rotation = Quaternion.identity;
 
-            if (_raycastManager == null)
+            // Find any active camera
+            Camera cam = Camera.main;
+            if (cam == null)
+            {
+                cam = FindObjectOfType<Camera>();
+            }
+            
+            if (cam == null)
+            {
+                Debug.LogError("[SpatialAnchorManager] No camera found!");
+                return false;
+            }
+
+            // ALWAYS use desktop fallback - skip AR raycast entirely on desktop
+            // AR raycast fails without XR subsystem
+            bool useDesktopFallback = true;
+            
+            #if UNITY_ANDROID || UNITY_IOS
+            // Only try AR raycast on mobile if manager is fully available
+            if (_raycastManager != null && 
+                _raycastManager.enabled && 
+                _raycastManager.gameObject.activeInHierarchy &&
+                _raycastManager.subsystem != null)
+            {
+                useDesktopFallback = false;
+            }
+            #endif
+            
+            if (useDesktopFallback)
             {
                 // Fallback: project onto a plane at y=0
-                var ray = Camera.main.ScreenPointToRay(screenPosition);
+                var ray = cam.ScreenPointToRay(screenPosition);
                 var plane = new Plane(Vector3.up, Vector3.zero);
                 if (plane.Raycast(ray, out float distance))
                 {
                     worldPosition = ray.GetPoint(distance);
                     rotation = Quaternion.identity;
+                    Debug.Log($"[SpatialAnchorManager] Desktop fallback hit at {worldPosition}");
                     return true;
                 }
                 return false;

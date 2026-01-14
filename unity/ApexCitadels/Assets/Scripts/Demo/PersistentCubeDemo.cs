@@ -79,11 +79,25 @@ namespace ApexCitadels.Demo
         {
             _isPlacementMode = false;
 
+            // Find any active camera
+            Camera cam = Camera.main;
+            if (cam == null)
+            {
+                cam = FindObjectOfType<Camera>();
+            }
+
             // Check if SpatialAnchorManager exists
             if (SpatialAnchorManager.Instance == null)
             {
                 // Fallback: Place cube at a position in front of camera
-                PlaceCubeAtPosition(Camera.main.transform.position + Camera.main.transform.forward * 2f);
+                if (cam != null)
+                {
+                    PlaceCubeAtPosition(cam.transform.position + cam.transform.forward * 2f);
+                }
+                else
+                {
+                    UpdateStatus("No camera found!");
+                }
                 return;
             }
 
@@ -93,7 +107,15 @@ namespace ApexCitadels.Demo
             }
             else
             {
-                UpdateStatus("Couldn't find a surface. Try again.");
+                // Fallback: place in front of camera anyway
+                if (cam != null)
+                {
+                    PlaceCubeAtPosition(cam.transform.position + cam.transform.forward * 2f);
+                }
+                else
+                {
+                    UpdateStatus("Couldn't find a surface. Try again.");
+                }
             }
         }
 
