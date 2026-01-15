@@ -285,17 +285,67 @@ class MixamoDownloader:
         """Select a character to apply animations to."""
         print("\n👤 Selecting character...")
         try:
-            # Click on Characters tab
-            char_tab = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'product-panel')]//span[contains(text(), 'Characters')]"))
-            )
-            char_tab.click()
-            time.sleep(2)
+            time.sleep(3)  # Wait for page to fully load
             
-            # Select first available character (Y Bot is good for all animations)
-            char_item = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'product-thumbnail')]"))
-            )
+            # Try multiple selectors for Characters tab
+            char_tab_selectors = [
+                "//span[contains(text(), 'Characters')]",
+                "//div[contains(text(), 'Characters')]",
+                "//*[contains(@class, 'characters')]",
+                "//a[contains(text(), 'Characters')]",
+                "//button[contains(text(), 'Characters')]",
+            ]
+            
+            char_tab = None
+            for selector in char_tab_selectors:
+                try:
+                    char_tab = WebDriverWait(self.driver, 3).until(
+                        EC.element_to_be_clickable((By.XPATH, selector))
+                    )
+                    print(f"   Found Characters tab")
+                    break
+                except:
+                    continue
+            
+            if char_tab:
+                char_tab.click()
+                time.sleep(3)
+            else:
+                print("   ⚠️ Could not find Characters tab, checking if already on characters...")
+            
+            # Try multiple selectors for character thumbnails
+            char_selectors = [
+                "//div[contains(@class, 'product-thumbnail')]",
+                "//div[contains(@class, 'thumbnail')]",
+                "//div[contains(@class, 'character')]//img",
+                "//img[contains(@class, 'character')]",
+                "//*[contains(@class, 'product-item')]",
+                "//div[contains(@class, 'grid')]//div[contains(@class, 'item')]",
+            ]
+            
+            char_item = None
+            for selector in char_selectors:
+                try:
+                    char_item = WebDriverWait(self.driver, 5).until(
+                        EC.element_to_be_clickable((By.XPATH, selector))
+                    )
+                    print(f"   Found character thumbnail")
+                    break
+                except:
+                    continue
+            
+            if not char_item:
+                self.driver.save_screenshot("character_debug.png")
+                print(f"   ⚠️ Could not find character thumbnails. Screenshot saved.")
+                print(f"   Current URL: {self.driver.current_url}")
+                
+                # Ask user to select manually
+                print("\n   📋 Please select a character manually in the browser...")
+                print("   Press ENTER when you've selected a character...")
+                input()
+                print("   ✅ Continuing with manual character selection")
+                return True
+            
             char_item.click()
             time.sleep(3)
             
@@ -303,21 +353,57 @@ class MixamoDownloader:
             return True
             
         except Exception as e:
-            print(f"   ❌ Character selection failed: {e}")
-            return False
+            self.driver.save_screenshot("character_error.png")
+            print(f"   ⚠️ Character selection error: {e}")
+            print("\n   📋 Please select a character manually in the browser...")
+            print("   Press ENTER when you've selected a character...")
+            input()
+            print("   ✅ Continuing with manual character selection")
+            return True
     
     def search_animation(self, search_term: str) -> bool:
         """Search for an animation by name."""
         try:
             # Click Animations tab if not already there
-            anim_tab = self.driver.find_element(By.XPATH, "//div[contains(@class, 'product-panel')]//span[contains(text(), 'Animations')]")
-            anim_tab.click()
-            time.sleep(1)
+            anim_tab_selectors = [
+                "//span[contains(text(), 'Animations')]",
+                "//div[contains(text(), 'Animations')]",
+                "//*[contains(@class, 'animations')]",
+            ]
             
-            # Find and clear search box
-            search_box = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Search animations...']"))
-            )
+            for selector in anim_tab_selectors:
+                try:
+                    anim_tab = self.driver.find_element(By.XPATH, selector)
+                    anim_tab.click()
+                    time.sleep(1)
+                    break
+                except:
+                    continue
+            
+            # Find search box - try multiple selectors
+            search_selectors = [
+                "//input[@placeholder='Search animations...']",
+                "//input[@placeholder='Search']",
+                "//input[contains(@placeholder, 'Search')]",
+                "//input[contains(@class, 'search')]",
+                "//input[@type='search']",
+                "//input[@type='text']",
+            ]
+            
+            search_box = None
+            for selector in search_selectors:
+                try:
+                    search_box = WebDriverWait(self.driver, 3).until(
+                        EC.presence_of_element_located((By.XPATH, selector))
+                    )
+                    break
+                except:
+                    continue
+            
+            if not search_box:
+                print(f"   ⚠️ Could not find search box")
+                return False
+            
             search_box.clear()
             search_box.send_keys(search_term)
             search_box.send_keys(Keys.RETURN)
@@ -332,10 +418,29 @@ class MixamoDownloader:
     def select_first_animation(self) -> bool:
         """Select the first animation from search results."""
         try:
-            # Wait for results to load
-            anim_item = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'product-thumbnail') and contains(@class, 'animation')]"))
-            )
+            # Wait for results to load - try multiple selectors
+            anim_selectors = [
+                "//div[contains(@class, 'product-thumbnail')]",
+                "//div[contains(@class, 'thumbnail')]",
+                "//div[contains(@class, 'animation')]//img",
+                "//*[contains(@class, 'product-item')]",
+                "//div[contains(@class, 'grid')]//div[contains(@class, 'item')]",
+            ]
+            
+            anim_item = None
+            for selector in anim_selectors:
+                try:
+                    anim_item = WebDriverWait(self.driver, 5).until(
+                        EC.element_to_be_clickable((By.XPATH, selector))
+                    )
+                    break
+                except:
+                    continue
+            
+            if not anim_item:
+                print(f"   ⚠️ No animations found")
+                return False
+            
             anim_item.click()
             time.sleep(2)
             
@@ -352,13 +457,26 @@ class MixamoDownloader:
         """Configure animation settings (In Place checkbox)."""
         try:
             if in_place:
-                # Find In Place checkbox
-                in_place_checkbox = WebDriverWait(self.driver, 5).until(
-                    EC.presence_of_element_located((By.XPATH, "//label[contains(text(), 'In Place')]//input"))
-                )
-                if not in_place_checkbox.is_selected():
-                    in_place_checkbox.click()
-                    time.sleep(1)
+                # Find In Place checkbox - try multiple selectors
+                in_place_selectors = [
+                    "//label[contains(text(), 'In Place')]//input",
+                    "//input[@id='inplace']",
+                    "//*[contains(text(), 'In Place')]//preceding-sibling::input",
+                    "//*[contains(text(), 'In Place')]//following-sibling::input",
+                    "//label[contains(text(), 'In Place')]",
+                ]
+                
+                for selector in in_place_selectors:
+                    try:
+                        checkbox = WebDriverWait(self.driver, 2).until(
+                            EC.presence_of_element_located((By.XPATH, selector))
+                        )
+                        if not checkbox.is_selected():
+                            checkbox.click()
+                            time.sleep(0.5)
+                        break
+                    except:
+                        continue
             
             return True
         except Exception as e:
@@ -368,10 +486,28 @@ class MixamoDownloader:
     def download_animation(self, animation: Animation) -> bool:
         """Download the currently selected animation."""
         try:
-            # Click Download button
-            download_btn = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Download')]"))
-            )
+            # Click Download button - try multiple selectors
+            download_selectors = [
+                "//button[contains(text(), 'Download')]",
+                "//button[contains(text(), 'DOWNLOAD')]",
+                "//*[contains(@class, 'download')]//button",
+                "//a[contains(text(), 'Download')]",
+            ]
+            
+            download_btn = None
+            for selector in download_selectors:
+                try:
+                    download_btn = WebDriverWait(self.driver, 5).until(
+                        EC.element_to_be_clickable((By.XPATH, selector))
+                    )
+                    break
+                except:
+                    continue
+            
+            if not download_btn:
+                print(f"   ⚠️ Could not find Download button")
+                return False
+            
             download_btn.click()
             time.sleep(1)
             
