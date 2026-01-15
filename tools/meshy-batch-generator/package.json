@@ -1,0 +1,19 @@
+{
+  "name": "meshy-batch-generator",
+  "version": "1.0.0",
+  "description": "Batch generator for Meshy.ai 3D models",
+  "scripts": {
+    "generate": "python generate_models.py",
+    "dry-run": "python generate_models.py --dry-run",
+    "list": "python generate_models.py --list",
+    "section1": "python generate_models.py --only-section 1",
+    "section2": "python generate_models.py --only-section 2",
+    "section3": "python generate_models.py --only-section 3",
+    "section4": "python generate_models.py --only-section 4",
+    "section5": "python generate_models.py --only-section 5",
+    "section6": "python generate_models.py --only-section 6"
+  },
+  "dependencies": {
+    "python": ">=3.8"
+  }
+}

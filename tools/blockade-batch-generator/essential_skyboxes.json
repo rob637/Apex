@@ -1,0 +1,96 @@
+{
+  "description": "Essential skyboxes for AR game - reflection probes, portals, menus, events",
+  "total": 15,
+  "skyboxes": [
+    {
+      "id": "SKY02",
+      "name": "Clear Day Noon",
+      "prompt": "Bright clear noon sky, medieval fantasy world, midday sun, deep blue gradient, minimal white clouds, vibrant colors, epic scale, game environment skybox",
+      "use": "Default daytime reflections"
+    },
+    {
+      "id": "SKY04",
+      "name": "Clear Day Golden Hour",
+      "prompt": "Golden hour sky, medieval fantasy world, sunset approaching, orange and gold gradient, dramatic lighting, warm romantic atmosphere, game environment skybox",
+      "use": "Evening reflections"
+    },
+    {
+      "id": "SKY17",
+      "name": "Starry Night Clear",
+      "prompt": "Clear starry night sky, medieval fantasy world, thousands of stars visible, dark blue sky, milky way band, peaceful night, game environment skybox",
+      "use": "Night mode reflections"
+    },
+    {
+      "id": "SKY19",
+      "name": "Full Moon Night",
+      "prompt": "Full moon night sky, medieval fantasy world, large bright full moon, moonlit clouds, silver illumination, romantic atmosphere, game environment skybox",
+      "use": "Night with moon reflections"
+    },
+    {
+      "id": "SKY32",
+      "name": "Nebula Night",
+      "prompt": "Colorful nebula night sky, medieval fantasy world, cosmic clouds visible, purple and blue nebula, alien beauty, magical universe, game environment skybox",
+      "use": "Menu background / Epic scenes"
+    },
+    {
+      "id": "SKY33",
+      "name": "Approaching Storm",
+      "prompt": "Approaching storm sky, medieval fantasy world, dark storm clouds gathering, ominous atmosphere, wind picking up, dramatic tension, game environment skybox",
+      "use": "Battle event - pre-combat"
+    },
+    {
+      "id": "SKY34",
+      "name": "Thunderstorm",
+      "prompt": "Thunderstorm sky, medieval fantasy world, dark roiling clouds, lightning in distance, dramatic atmosphere, dangerous weather, game environment skybox",
+      "use": "Battle event - active combat"
+    },
+    {
+      "id": "SKY39",
+      "name": "After Rain Rainbow",
+      "prompt": "After rain sky, medieval fantasy world, clearing clouds, rainbow visible, fresh clean atmosphere, hopeful feeling, game environment skybox",
+      "use": "Victory / Reward screens"
+    },
+    {
+      "id": "SKY65",
+      "name": "Magic Surge",
+      "prompt": "Magical energy surge sky, medieval fantasy world, purple energy in sky, arcane storm, mystical phenomenon, powerful magic, game environment skybox",
+      "use": "Magic portal effect"
+    },
+    {
+      "id": "SKY66",
+      "name": "Portal Opening",
+      "prompt": "Portal opening sky, medieval fantasy world, swirling vortex in sky, otherworldly colors, dimensional breach, dramatic event, game environment skybox",
+      "use": "Portal/teleport effect"
+    },
+    {
+      "id": "SKY67",
+      "name": "Divine Blessing",
+      "prompt": "Divine blessing sky, medieval fantasy world, golden heavenly light, rays from clouds, sacred atmosphere, blessed moment, game environment skybox",
+      "use": "Level up / Achievement"
+    },
+    {
+      "id": "SKY68",
+      "name": "Dark Curse",
+      "prompt": "Dark curse sky, medieval fantasy world, evil purple darkness spreading, corrupted atmosphere, ominous threat, dark magic, game environment skybox",
+      "use": "Enemy attack / Dark zones"
+    },
+    {
+      "id": "SKY69",
+      "name": "Eclipse",
+      "prompt": "Solar eclipse sky, medieval fantasy world, moon blocking sun, corona visible, dramatic darkness, rare event, game environment skybox",
+      "use": "Special world event"
+    },
+    {
+      "id": "SKY70",
+      "name": "Meteor Shower",
+      "prompt": "Meteor shower night sky, medieval fantasy world, shooting stars everywhere, spectacular display, magical night, wish-making atmosphere, game environment skybox",
+      "use": "Special world event"
+    },
+    {
+      "id": "SKY72",
+      "name": "Blood Moon",
+      "prompt": "Blood moon night sky, medieval fantasy world, red lunar eclipse, ominous red moon, supernatural atmosphere, dark magic night, game environment skybox",
+      "use": "Special PvP event"
+    }
+  ]
+}

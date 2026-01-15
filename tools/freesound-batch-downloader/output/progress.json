@@ -1,0 +1,740 @@
+{
+  "completed": {
+    "SFX-UI01": {
+      "freesound_id": 288909,
+      "freesound_name": "Click_Standard_00.wav",
+      "duration": 0.21075
+    },
+    "SFX-UI02": {
+      "freesound_id": 517379,
+      "freesound_name": "UI_3-3 FHSandal sinus(Sytrus,arpegio,multiprocessing,rsmpl).wav",
+      "duration": 0.214943
+    },
+    "SFX-UI03": {
+      "freesound_id": 788602,
+      "freesound_name": "Cancel or No Button Sound",
+      "duration": 0.635782
+    },
+    "SFX-UI05": {
+      "freesound_id": 772764,
+      "freesound_name": "Usdr Interface beep select highlight menu button click hover",
+      "duration": 1.51467
+    },
+    "SFX-UI06": {
+      "freesound_id": 686543,
+      "freesound_name": "pong sound effect ui button",
+      "duration": 0.298639
+    },
+    "SFX-UI07": {
+      "freesound_id": 408230,
+      "freesound_name": "Light Switch.wav",
+      "duration": 1.5
+    },
+    "SFX-UI08": {
+      "freesound_id": 457037,
+      "freesound_name": "Light Switch (on / off)",
+      "duration": 0.597868
+    },
+    "SFX-UI10": {
+      "freesound_id": 45110,
+      "freesound_name": "thats_it.wav",
+      "duration": 6.21007
+    },
+    "SFX-UI11": {
+      "freesound_id": 802085,
+      "freesound_name": "tf_one_inspired_megatron_transformation_collection_sounds_04252025",
+      "duration": 6.64764
+    },
+    "SFX-UI12": {
+      "freesound_id": 560338,
+      "freesound_name": "Beating Pillow Backed by Wooden Panel with Closed Fist.wav",
+      "duration": 9.52071
+    },
+    "SFX-UI13": {
+      "freesound_id": 776016,
+      "freesound_name": "POP SFX Neutral",
+      "duration": 0.5
+    },
+    "SFX-UI15": {
+      "freesound_id": 836451,
+      "freesound_name": "Simple or Cute UI / UX / Interface Hover sound",
+      "duration": 0.499229
+    },
+    "SFX-UI16": {
+      "freesound_id": 571580,
+      "freesound_name": "Metallic Game Menu Ping Variation 1",
+      "duration": 0.079093
+    },
+    "SFX-UI17": {
+      "freesound_id": 323421,
+      "freesound_name": "Glass Slide 9",
+      "duration": 1.37205
+    },
+    "SFX-UI18": {
+      "freesound_id": 323421,
+      "freesound_name": "Glass Slide 9",
+      "duration": 1.37205
+    },
+    "SFX-UI23": {
+      "freesound_id": 350865,
+      "freesound_name": "Blip_C_01",
+      "duration": 0.182653
+    },
+    "SFX-UI27": {
+      "freesound_id": 580655,
+      "freesound_name": "coindtouch_single_short3.wav",
+      "duration": 0.0965079
+    },
+    "SFX-UI28": {
+      "freesound_id": 629985,
+      "freesound_name": "Multiple Coins Dropping.wav",
+      "duration": 3.95261
+    },
+    "SFX-UI29": {
+      "freesound_id": 623077,
+      "freesound_name": "tossed coin 5.wav",
+      "duration": 1.26354
+    },
+    "SFX-UI31": {
+      "freesound_id": 701577,
+      "freesound_name": "file_example_WAV_1MG.wav",
+      "duration": 5.94317
+    },
+    "SFX-UI38": {
+      "freesound_id": 274204,
+      "freesound_name": "UI_Synth_01.wav",
+      "duration": 2.0
+    },
+    "SFX-UI39": {
+      "freesound_id": 731993,
+      "freesound_name": "click 1",
+      "duration": 1.85095
+    },
+    "SFX-UI40": {
+      "freesound_id": 350865,
+      "freesound_name": "Blip_C_01",
+      "duration": 0.182653
+    },
+    "SFX-UI41": {
+      "freesound_id": 398123,
+      "freesound_name": "Warble Alarm Mono.wav",
+      "duration": 5.627
+    },
+    "SFX-UI42": {
+      "freesound_id": 693507,
+      "freesound_name": "Toy Double Barrel Shotgun Reloading",
+      "duration": 1.60218
+    },
+    "SFX-UI43": {
+      "freesound_id": 204511,
+      "freesound_name": "Water / Industrial",
+      "duration": 7.66107
+    },
+    "SFX-UI44": {
+      "freesound_id": 795492,
+      "freesound_name": "Broken Egg timer",
+      "duration": 8.56758
+    },
+    "SFX-UI45": {
+      "freesound_id": 182352,
+      "freesound_name": "Day_1_v3.wav",
+      "duration": 3.03311
+    },
+    "SFX-UI46": {
+      "freesound_id": 380144,
+      "freesound_name": "Computer Keyboard - single key - type 6 - space bar.wav",
+      "duration": 0.237333
+    },
+    "SFX-UI47": {
+      "freesound_id": 494481,
+      "freesound_name": "Overdriven Synthetics",
+      "duration": 2.5
+    },
+    "SFX-UI48": {
+      "freesound_id": 582687,
+      "freesound_name": "Rising Activate 03.wav",
+      "duration": 1.41658
+    },
+    "SFX-BLD01": {
+      "freesound_id": 89391,
+      "freesound_name": "WoodSmashAndFall_04.wav",
+      "duration": 1.60102
+    },
+    "SFX-BLD02": {
+      "freesound_id": 544391,
+      "freesound_name": "Hits Concrete 08.wav",
+      "duration": 0.716689
+    },
+    "SFX-BLD03": {
+      "freesound_id": 337849,
+      "freesound_name": "metal-free-long.wav",
+      "duration": 7.02604
+    },
+    "SFX-CMB02": {
+      "freesound_id": 492252,
+      "freesound_name": "Imperius - Spear Whoosh.wav",
+      "duration": 1.39512
+    },
+    "SFX-CMB03": {
+      "freesound_id": 492225,
+      "freesound_name": "Axe Throwing Hitting Flesh.wav",
+      "duration": 1.78993
+    },
+    "SFX-CMB04": {
+      "freesound_id": 344131,
+      "freesound_name": "Sword Slice",
+      "duration": 0.42
+    },
+    "SFX-CMB05": {
+      "freesound_id": 666581,
+      "freesound_name": "Sword drawing",
+      "duration": 1.83333
+    },
+    "SFX-CMB06": {
+      "freesound_id": 449552,
+      "freesound_name": "Sword from sheath.wav",
+      "duration": 1.43751
+    },
+    "SFX-CMB07": {
+      "freesound_id": 735907,
+      "freesound_name": "Whip woosh",
+      "duration": 1.54
+    },
+    "SFX-CMB08": {
+      "freesound_id": 492252,
+      "freesound_name": "Imperius - Spear Whoosh.wav",
+      "duration": 1.39512
+    },
+    "SFX-CMB09": {
+      "freesound_id": 223631,
+      "freesound_name": "Weapon Swing Heavy 1",
+      "duration": 0.713537
+    },
+    "SFX-CMB12": {
+      "freesound_id": 492252,
+      "freesound_name": "Imperius - Spear Whoosh.wav",
+      "duration": 1.39512
+    },
+    "SFX-CMB13": {
+      "freesound_id": 649332,
+      "freesound_name": "Bow_draw_fast01.wav",
+      "duration": 0.75
+    },
+    "SFX-CMB14": {
+      "freesound_id": 384916,
+      "freesound_name": "Bow Release (Bow and Arrow) 2",
+      "duration": 0.75
+    },
+    "SFX-CMB15": {
+      "freesound_id": 384908,
+      "freesound_name": "Arrow Whoosh 1",
+      "duration": 0.812494
+    },
+    "SFX-CMB16": {
+      "freesound_id": 734609,
+      "freesound_name": "Arrow - Bow manipulation & tree branch",
+      "duration": 6.86131
+    },
+    "SFX-CMB19": {
+      "freesound_id": 660765,
+      "freesound_name": "Loading a Ballista",
+      "duration": 2.42624
+    },
+    "SFX-CMB20": {
+      "freesound_id": 384916,
+      "freesound_name": "Bow Release (Bow and Arrow) 2",
+      "duration": 0.75
+    },
+    "SFX-CMB21": {
+      "freesound_id": 466716,
+      "freesound_name": "1 Inch Impact Gun.wav",
+      "duration": 2.61342
+    },
+    "SFX-CMB22": {
+      "freesound_id": 553906,
+      "freesound_name": "Nerf Gun/Catapult Being Loaded and then Shot",
+      "duration": 4.01086
+    },
+    "SFX-CMB23": {
+      "freesound_id": 553906,
+      "freesound_name": "Nerf Gun/Catapult Being Loaded and then Shot",
+      "duration": 4.01086
+    },
+    "SFX-CMB35": {
+      "freesound_id": 492237,
+      "freesound_name": "Shield Breaking With Bludgeon.wav",
+      "duration": 1.87689
+    },
+    "SFX-CMB36": {
+      "freesound_id": 616492,
+      "freesound_name": "clank.wav",
+      "duration": 0.522449
+    },
+    "SFX-CMB37": {
+      "freesound_id": 743262,
+      "freesound_name": "Stone Sliding",
+      "duration": 0.390667
+    },
+    "SFX-CHR03": {
+      "freesound_id": 506664,
+      "freesound_name": "Wood Creak Single V9",
+      "duration": 1.14444
+    },
+    "SFX-CHR04": {
+      "freesound_id": 477394,
+      "freesound_name": "Steps-Dirt_3b.OGG",
+      "duration": 0.374853
+    },
+    "SFX-CHR06": {
+      "freesound_id": 270428,
+      "freesound_name": "Footstep_Water_05.wav",
+      "duration": 0.645828
+    },
+    "SFX-CHR07": {
+      "freesound_id": 368812,
+      "freesound_name": "Camera Flash, Lift, F.wav",
+      "duration": 1.47061
+    },
+    "SFX-CHR08": {
+      "freesound_id": 445719,
+      "freesound_name": "Evil Presence 01.wav",
+      "duration": 2.0
+    },
+    "SFX-CHR09": {
+      "freesound_id": 494789,
+      "freesound_name": "Jacket/Cloth Rustle 3",
+      "duration": 0.928479
+    },
+    "SFX-CHR18": {
+      "freesound_id": 419321,
+      "freesound_name": "Greeting - Well Met Friend - British Male",
+      "duration": 1.56735
+    },
+    "SFX-ENV02": {
+      "freesound_id": 768870,
+      "freesound_name": "heavy_rain_outside",
+      "duration": 26.5
+    },
+    "SFX-ENV03": {
+      "freesound_id": 251626,
+      "freesound_name": "NYC Rain 3A- interior Thunder distant traffic- A.wav",
+      "duration": 7.76535
+    },
+    "SFX-ENV11": {
+      "freesound_id": 746365,
+      "freesound_name": "Southern Summer Evening Ambience with Crickets 4",
+      "duration": 29.2804
+    },
+    "SFX-ENV12": {
+      "freesound_id": 763652,
+      "freesound_name": "Owl Recording",
+      "duration": 4.01417
+    },
+    "SFX-ENV13": {
+      "freesound_id": 236172,
+      "freesound_name": "Jazz the Dog Howl & Bark (069).wav",
+      "duration": 3.41392
+    },
+    "SFX-ENV14": {
+      "freesound_id": 405136,
+      "freesound_name": "Autumn leaves falling on forest floor (close, loopable)",
+      "duration": 9.41656
+    },
+    "SFX-ENV15": {
+      "freesound_id": 559081,
+      "freesound_name": "Spring cave.Water flows and drips.Artificial(4lrs,mltprcssng).wav",
+      "duration": 27.5646
+    },
+    "SFX-ENV16": {
+      "freesound_id": 316590,
+      "freesound_name": "Water_Paddle_med_003.wav",
+      "duration": 1.61828
+    },
+    "SFX-ENV17": {
+      "freesound_id": 786171,
+      "freesound_name": "Water Stream 1",
+      "duration": 26.0
+    },
+    "SFX-ENV18": {
+      "freesound_id": 676385,
+      "freesound_name": "Fire Crackling",
+      "duration": 11.5963
+    },
+    "SFX-ENV20": {
+      "freesound_id": 648932,
+      "freesound_name": "LS_34808-1_FR_HandBell.wav",
+      "duration": 18.2468
+    },
+    "SFX-ENV21": {
+      "freesound_id": 584952,
+      "freesound_name": "Spooky dungeon machine_3(2lrs) .wav",
+      "duration": 16.4103
+    },
+    "SFX-ENV23": {
+      "freesound_id": 615439,
+      "freesound_name": "Storm on Sea of Galilee",
+      "duration": 30.0
+    },
+    "SFX-ENV25": {
+      "freesound_id": 399796,
+      "freesound_name": "Superb Lyrebird II",
+      "duration": 28.4484
+    },
+    "SFX-ENV26": {
+      "freesound_id": 792191,
+      "freesound_name": "Eurasian Wren Winterkoning 1136 AM 250306_1056",
+      "duration": 5.789
+    },
+    "SFX-ENV27": {
+      "freesound_id": 417400,
+      "freesound_name": "Distant Swords",
+      "duration": 9.84871
+    },
+    "SFX-ENV28": {
+      "freesound_id": 475653,
+      "freesound_name": "Pub(short).wav",
+      "duration": 26.0
+    },
+    "SFX-ENV29": {
+      "freesound_id": 578543,
+      "freesound_name": "Church Bell 1",
+      "duration": 3.72351
+    },
+    "SFX-FX09": {
+      "freesound_id": 732089,
+      "freesound_name": "Boom and Rattle",
+      "duration": 0.643583
+    },
+    "SFX-FX10": {
+      "freesound_id": 692923,
+      "freesound_name": "Crunchy Explosion",
+      "duration": 1.75
+    },
+    "SFX-FX11": {
+      "freesound_id": 161968,
+      "freesound_name": "Single Shots, Bursts at Shooting Range 02",
+      "duration": 1.89254
+    },
+    "SFX-FX12": {
+      "freesound_id": 719973,
+      "freesound_name": "ICEBrk_Break04_InMotionAudio_FREESampleSunday",
+      "duration": 0.933333
+    },
+    "SFX-FX13": {
+      "freesound_id": 222679,
+      "freesound_name": "AC-buzz 02",
+      "duration": 1.0049
+    },
+    "SFX-FX14": {
+      "freesound_id": 714257,
+      "freesound_name": "Puff of Smoke",
+      "duration": 0.500625
+    },
+    "SFX-FX15": {
+      "freesound_id": 680739,
+      "freesound_name": "\u0421\u0442\u0440\u043e\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0440\u0443\u043a\u0430\u0432",
+      "duration": 8.43
+    },
+    "SFX-FX16": {
+      "freesound_id": 398039,
+      "freesound_name": "water splash 2",
+      "duration": 1.89494
+    },
+    "SFX-FX22": {
+      "freesound_id": 810757,
+      "freesound_name": "buzzer 02",
+      "duration": 1.05902
+    },
+    "SFX-BLD04": {
+      "freesound_id": 501316,
+      "freesound_name": "Sawing wood",
+      "duration": 0.943696
+    },
+    "SFX-BLD06": {
+      "freesound_id": 540039,
+      "freesound_name": "Otherworld industrial ambience_2-1(2lrs,mltprcssng).wav",
+      "duration": 6.60279
+    },
+    "SFX-BLD07": {
+      "freesound_id": 742600,
+      "freesound_name": "Squeaky metal screwed 01",
+      "duration": 7.46917
+    },
+    "SFX-BLD08": {
+      "freesound_id": 802697,
+      "freesound_name": "Rope - Quick snatch",
+      "duration": 4.27764
+    },
+    "SFX-BLD09": {
+      "freesound_id": 458122,
+      "freesound_name": "Pouring_Brown_Sugar_04.mp3",
+      "duration": 3.32498
+    },
+    "SFX-BLD10": {
+      "freesound_id": 540078,
+      "freesound_name": "Pipe Flush (Blub)",
+      "duration": 3.60904
+    },
+    "SFX-BLD11": {
+      "freesound_id": 757845,
+      "freesound_name": "place unit",
+      "duration": 0.144739
+    },
+    "SFX-BLD12": {
+      "freesound_id": 429018,
+      "freesound_name": "WAREMBOURG_Sabrina_2017_2018_rainshower.wav",
+      "duration": 6.38073
+    },
+    "SFX-BLD16": {
+      "freesound_id": 121366,
+      "freesound_name": "glass_kappa_03.wav",
+      "duration": 6.2671
+    },
+    "SFX-BLD17": {
+      "freesound_id": 336665,
+      "freesound_name": "ELECTRIC_MOTOR.aif",
+      "duration": 6.06678
+    },
+    "SFX-BLD18": {
+      "freesound_id": 85586,
+      "freesound_name": "hit-wood05.wav",
+      "duration": 0.600635
+    },
+    "SFX-BLD19": {
+      "freesound_id": 794522,
+      "freesound_name": "Wood Collapse",
+      "duration": 1.8502
+    },
+    "SFX-BLD20": {
+      "freesound_id": 669456,
+      "freesound_name": "SFX_wood_fall_pile_bunch_stone_floor.wav",
+      "duration": 2.01041
+    },
+    "SFX-BLD21": {
+      "freesound_id": 503554,
+      "freesound_name": "08191 heavy stones falling.wav",
+      "duration": 1.6263
+    },
+    "SFX-BLD22": {
+      "freesound_id": 540078,
+      "freesound_name": "Pipe Flush (Blub)",
+      "duration": 3.60904
+    },
+    "SFX-BLD23": {
+      "freesound_id": 553402,
+      "freesound_name": "FX_Blocks_Topple_02.WAV",
+      "duration": 5.27467
+    },
+    "SFX-BLD24": {
+      "freesound_id": 208696,
+      "freesound_name": "Glass smash under boot (+ footsteps)",
+      "duration": 5.83331
+    },
+    "SFX-BLD26": {
+      "freesound_id": 89389,
+      "freesound_name": "WoodDebrisFallB.wav",
+      "duration": 1.61011
+    },
+    "SFX-BLD27": {
+      "freesound_id": 672069,
+      "freesound_name": "ancient-hatch.wav",
+      "duration": 8.61669
+    },
+    "SFX-BLD28": {
+      "freesound_id": 399449,
+      "freesound_name": "cemeterygate16.aif",
+      "duration": 3.18651
+    },
+    "SFX-BLD31": {
+      "freesound_id": 471923,
+      "freesound_name": "66-PuertaAbri\u00e9ndose2.wav",
+      "duration": 0.741429
+    },
+    "SFX-BLD32": {
+      "freesound_id": 30238,
+      "freesound_name": "door.flac",
+      "duration": 0.789478
+    },
+    "SFX-BLD33": {
+      "freesound_id": 467596,
+      "freesound_name": "Lock Unlock - Impact Machine UI.wav",
+      "duration": 2.0
+    },
+    "SFX-BLD34": {
+      "freesound_id": 467596,
+      "freesound_name": "Lock Unlock - Impact Machine UI.wav",
+      "duration": 2.0
+    },
+    "SFX-BLD35": {
+      "freesound_id": 47836,
+      "freesound_name": "match.wav",
+      "duration": 5.20533
+    },
+    "SFX-BLD36": {
+      "freesound_id": 424605,
+      "freesound_name": "Pepper mill grinds pepper",
+      "duration": 6.0
+    },
+    "SFX-CMB01": {
+      "freesound_id": 733890,
+      "freesound_name": "Whoosh 03",
+      "duration": 0.986145
+    },
+    "SFX-CMB59": {
+      "freesound_id": 720201,
+      "freesound_name": "Booga Booga War Horn Variant 3",
+      "duration": 5.85143
+    },
+    "SFX-CMB60": {
+      "freesound_id": 741118,
+      "freesound_name": "Victory sting 1",
+      "duration": 4.36365
+    },
+    "SFX-CHR01": {
+      "freesound_id": 384895,
+      "freesound_name": "Knight Right Footstep Forest/Grass 6 (With Chainmail)",
+      "duration": 1.0
+    },
+    "SFX-CHR02": {
+      "freesound_id": 517136,
+      "freesound_name": "Footsteps Stone (7).wav",
+      "duration": 0.544399
+    },
+    "SFX-CHR05": {
+      "freesound_id": 144096,
+      "freesound_name": "FootstepsOnMetal-06.wav",
+      "duration": 0.705917
+    },
+    "SFX-CHR10": {
+      "freesound_id": 572459,
+      "freesound_name": "jump_land.wav",
+      "duration": 0.424104
+    },
+    "SFX-CHR11": {
+      "freesound_id": 723430,
+      "freesound_name": "FGHTMisc_Anime Dodge 8",
+      "duration": 7.5
+    },
+    "SFX-CHR12": {
+      "freesound_id": 592005,
+      "freesound_name": "Climbing Express Gear",
+      "duration": 0.410113
+    },
+    "SFX-CHR13": {
+      "freesound_id": 435877,
+      "freesound_name": "Applause Clapping",
+      "duration": 5.62855
+    },
+    "SFX-CHR14": {
+      "freesound_id": 466767,
+      "freesound_name": "Murmur.wav",
+      "duration": 5.57544
+    },
+    "SFX-CHR15": {
+      "freesound_id": 424790,
+      "freesound_name": "Crowded street at medieval market",
+      "duration": 9.6
+    },
+    "SFX-CHR16": {
+      "freesound_id": 347411,
+      "freesound_name": "03_b5.flac",
+      "duration": 1.75
+    },
+    "SFX-CHR17": {
+      "freesound_id": 531700,
+      "freesound_name": "IndustrialMachine",
+      "duration": 3.61902
+    },
+    "SFX-CHR21": {
+      "freesound_id": 348322,
+      "freesound_name": "DoorBell.wav",
+      "duration": 1.62501
+    },
+    "SFX-CHR23": {
+      "freesound_id": 531750,
+      "freesound_name": "Metal Gear Solid Guard Alert Exclamation",
+      "duration": 2.40069
+    },
+    "SFX-ENV01": {
+      "freesound_id": 187927,
+      "freesound_name": "CardinalChirpingParabolicMP3VersionMay62013.mp3",
+      "duration": 21.541
+    },
+    "SFX-ENV04": {
+      "freesound_id": 565739,
+      "freesound_name": "Short explosion.wav",
+      "duration": 4.46509
+    },
+    "SFX-ENV05": {
+      "freesound_id": 399357,
+      "freesound_name": "dawn120008883.wav",
+      "duration": 14.5769
+    },
+    "SFX-ENV06": {
+      "freesound_id": 485779,
+      "freesound_name": "APRAHAMIAN_Alexandra_2019_2020_snowCabin.wav",
+      "duration": 9.49376
+    },
+    "SFX-ENV07": {
+      "freesound_id": 167080,
+      "freesound_name": "JM_IMPACT_01c - Snow on cement.wav",
+      "duration": 0.854603
+    },
+    "SFX-ENV08": {
+      "freesound_id": 613151,
+      "freesound_name": "Big bad boss",
+      "duration": 28.2353
+    },
+    "SFX-ENV09": {
+      "freesound_id": 265043,
+      "freesound_name": "bird sounds.wav",
+      "duration": 20.1369
+    },
+    "SFX-ENV10": {
+      "freesound_id": 543683,
+      "freesound_name": "SWALLOWS",
+      "duration": 4.52275
+    }
+  },
+  "failed": [
+    "SFX-CMB58",
+    "SFX-UI14",
+    "SFX-CMB26",
+    "SFX-CMB31",
+    "SFX-CMB50",
+    "SFX-CMB53",
+    "SFX-CMB30",
+    "SFX-CMB52",
+    "SFX-CHR20",
+    "SFX-CMB18",
+    "SFX-CMB56",
+    "SFX-CMB57",
+    "SFX-CMB33",
+    "SFX-CMB25",
+    "SFX-ENV30",
+    "SFX-CMB17",
+    "SFX-CHR19",
+    "SFX-CMB32",
+    "SFX-BLD25",
+    "SFX-CMB11",
+    "SFX-CMB29",
+    "SFX-CMB10",
+    "SFX-CHR22",
+    "SFX-CMB49",
+    "SFX-UI09",
+    "SFX-BLD14",
+    "SFX-CMB27",
+    "SFX-ENV22",
+    "SFX-ENV24",
+    "SFX-FX23",
+    "SFX-CMB54",
+    "SFX-CHR24",
+    "SFX-ENV19",
+    "SFX-CMB55",
+    "SFX-CMB34",
+    "SFX-CMB28",
+    "SFX-CMB24",
+    "SFX-BLD05"
+  ],
+  "timestamp": "2026-01-15 16:23:33"
+}

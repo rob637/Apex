@@ -1,0 +1,703 @@
+======================================================================
+SUNO AI - READY TO PASTE PROMPTS
+======================================================================
+Total: 60 tracks remaining
+
+WORKFLOW:
+1. Go to suno.ai and select 'Custom' mode
+2. Copy the STYLE TAGS into the style field
+3. Copy the PROMPT into the lyrics/description field
+4. Set duration and generate
+5. Download and save with the filename shown
+======================================================================
+
+
+======================================================================
+SECTION: MAIN THEMES (8 tracks)
+======================================================================
+
+[MUS01] Main Theme Epic
+Save as: MUS01_Main_Theme_Epic.mp3
+Duration: 3:00 | BPM: 90-100
+--------------------------------------------------
+STYLE TAGS:
+orchestral, epic, fantasy, cinematic, brass, strings, percussion
+
+PROMPT:
+Epic orchestral main theme for medieval fantasy castle building game. Majestic brass fanfares, sweeping string melodies, powerful percussion. Starts quietly with solo French horn, builds to full orchestra crescendo. Themes of heroism, conquest, and building empires. Memorable main melody that can be hummed. Grand finale with timpani and full brass.
+--------------------------------------------------
+
+[MUS02] Main Theme Soft
+Save as: MUS02_Main_Theme_Soft.mp3
+Duration: 2:30 | BPM: 70-80
+--------------------------------------------------
+STYLE TAGS:
+orchestral, gentle, fantasy, strings, harp, peaceful
+
+PROMPT:
+Gentle orchestral version of main theme for medieval fantasy game menus. Soft strings carrying main melody, gentle harp arpeggios, light woodwinds. Peaceful and inviting, like viewing your kingdom from afar at sunset. Warm and welcoming atmosphere for new players.
+--------------------------------------------------
+
+[MUS03] Menu Ambient
+Save as: MUS03_Menu_Ambient.mp3
+Duration: 3:00 | BPM: 60-70
+--------------------------------------------------
+STYLE TAGS:
+ambient, medieval, fantasy, atmospheric, calm, strings
+
+PROMPT:
+Ambient background music for game menus. Soft evolving pads, gentle medieval instrumentation, occasional harp flourishes. Non-intrusive but engaging. Creates sense of entering a magical world. Subtle main theme motifs woven throughout.
+--------------------------------------------------
+
+[MUS04] Loading Screen
+Save as: MUS04_Loading_Screen.mp3
+Duration: 1:30 | BPM: 80-90
+--------------------------------------------------
+STYLE TAGS:
+orchestral, building, anticipation, medieval, fantasy
+
+PROMPT:
+Loading screen music for medieval fantasy game. Building anticipation, gentle orchestral swell, hint of adventure to come. Short loopable section. Ends on unresolved chord to transition smoothly to gameplay music.
+--------------------------------------------------
+
+[MUS05] Victory Fanfare
+Save as: MUS05_Victory_Fanfare.mp3
+Duration: 1:00 | BPM: 120-130
+--------------------------------------------------
+STYLE TAGS:
+orchestral, triumphant, fanfare, brass, celebration
+
+PROMPT:
+Triumphant victory fanfare for winning battles and completing objectives. Bright brass fanfare, celebratory percussion, ascending melody lines. Short but impactful. Feeling of achievement and glory. Can loop for extended victory screens.
+--------------------------------------------------
+
+[MUS06] Defeat Somber
+Save as: MUS06_Defeat_Somber.mp3
+Duration: 1:30 | BPM: 50-60
+--------------------------------------------------
+STYLE TAGS:
+orchestral, sad, melancholy, strings, solo
+
+PROMPT:
+Somber defeat music for lost battles. Solo cello or violin with quiet string accompaniment. Melancholic but not depressing. Sense of lesson learned, motivation to try again. Resolves to hopeful ending note.
+--------------------------------------------------
+
+[MUS07] Tutorial Friendly
+Save as: MUS07_Tutorial_Friendly.mp3
+Duration: 2:00 | BPM: 100-110
+--------------------------------------------------
+STYLE TAGS:
+orchestral, light, friendly, woodwinds, playful
+
+PROMPT:
+Friendly tutorial music for learning game mechanics. Light woodwinds, playful rhythm, encouraging tone. Not too complex or distracting. Helpful and supportive feeling. Like a wise mentor guiding the player.
+--------------------------------------------------
+
+[MUS08] Intro Cinematic
+Save as: MUS08_Intro_Cinematic.mp3
+Duration: 2:30 | BPM: 85-95
+--------------------------------------------------
+STYLE TAGS:
+orchestral, epic, cinematic, dramatic, fantasy, choir
+
+PROMPT:
+Epic cinematic intro music. Full orchestra with choir. Tells story of rising from small settlement to mighty empire. Dramatic build-ups, emotional peaks. Themes of destiny, ambition, and medieval glory. Hollywood-quality production feel.
+--------------------------------------------------
+
+
+======================================================================
+SECTION: GAMEPLAY AMBIENT (12 tracks)
+======================================================================
+
+[MUS09] Building Mode Peaceful
+Save as: MUS09_Building_Mode_Peaceful.mp3
+Duration: 3:30 | BPM: 70-80
+--------------------------------------------------
+STYLE TAGS:
+medieval, peaceful, acoustic, lute, flute, ambient
+
+PROMPT:
+Peaceful building mode music for constructing castle. Gentle acoustic medieval instruments - lute, recorder, soft percussion. Non-intrusive background that doesn't distract from creative decisions. Pleasant loops for extended building sessions. Occasional bird sounds.
+--------------------------------------------------
+
+[MUS10] Building Mode Active
+Save as: MUS10_Building_Mode_Active.mp3
+Duration: 3:00 | BPM: 100-110
+--------------------------------------------------
+STYLE TAGS:
+medieval, upbeat, construction, rhythmic, folk
+
+PROMPT:
+Active building music with gentle energy. Medieval folk feel with steady rhythm suggesting construction activity. Hammers and building implied in percussion. Motivating without being intense. Good for productive building sessions.
+--------------------------------------------------
+
+[MUS11] Building Mode Night
+Save as: MUS11_Building_Mode_Night.mp3
+Duration: 3:30 | BPM: 60-70
+--------------------------------------------------
+STYLE TAGS:
+medieval, calm, night, ambient, strings, peaceful
+
+PROMPT:
+Nighttime building ambience. Soft strings, gentle night atmosphere, calm and focused mood. For players building late at night. Relaxing but not sleepy. Moonlit castle construction feeling.
+--------------------------------------------------
+
+[MUS12] Upgrade Celebration
+Save as: MUS12_Upgrade_Celebration.mp3
+Duration: 0:30 | BPM: 120
+--------------------------------------------------
+STYLE TAGS:
+medieval, celebratory, fanfare, short, joyful
+
+PROMPT:
+Short celebration music for building upgrades completing. Quick medieval fanfare, cheerful and satisfying. Positive reinforcement for player progress. Short enough to not interrupt gameplay flow.
+--------------------------------------------------
+
+[MUS13] World Map Overview
+Save as: MUS13_World_Map_Overview.mp3
+Duration: 3:00 | BPM: 80-90
+--------------------------------------------------
+STYLE TAGS:
+orchestral, exploration, vast, wonder, adventure
+
+PROMPT:
+World map overview music. Sense of vast world to explore. Orchestral with adventure themes. Looking down at territories, planning conquests. Inspiring wanderlust and strategic thinking. Hints of main theme.
+--------------------------------------------------
+
+[MUS14] Territory Neutral
+Save as: MUS14_Territory_Neutral.mp3
+Duration: 3:30 | BPM: 75-85
+--------------------------------------------------
+STYLE TAGS:
+medieval, neutral, ambient, exploration, mystery
+
+PROMPT:
+Music for exploring neutral territories. Mysterious but not threatening. Medieval ambient with sense of unknown lands. What secrets does this territory hold? Curiosity and careful exploration.
+--------------------------------------------------
+
+[MUS15] Territory Friendly
+Save as: MUS15_Territory_Friendly.mp3
+Duration: 3:00 | BPM: 90-100
+--------------------------------------------------
+STYLE TAGS:
+medieval, friendly, warm, folk, welcoming
+
+PROMPT:
+Music for allied/friendly territories. Warm and welcoming medieval folk music. Sense of visiting friends. Trade and diplomacy themes. Comfortable and safe feeling among allies.
+--------------------------------------------------
+
+[MUS16] Territory Enemy
+Save as: MUS16_Territory_Enemy.mp3
+Duration: 3:00 | BPM: 85-95
+--------------------------------------------------
+STYLE TAGS:
+orchestral, tense, danger, suspense, enemy
+
+PROMPT:
+Music for enemy territory proximity. Tense and suspenseful. Low strings, ominous undertones. Danger nearby but not immediate combat. Strategic awareness, need for caution.
+--------------------------------------------------
+
+[MUS17] Economy Prosperous
+Save as: MUS17_Economy_Prosperous.mp3
+Duration: 3:00 | BPM: 110-120
+--------------------------------------------------
+STYLE TAGS:
+medieval, prosperous, market, lively, coins, trade
+
+PROMPT:
+Prosperous economy music. Lively medieval market feel. Sound of commerce and busy trade. Happy citizens, flowing resources. Kingdom thriving economically. Cheerful without being silly.
+--------------------------------------------------
+
+[MUS18] Economy Struggling
+Save as: MUS18_Economy_Struggling.mp3
+Duration: 2:30 | BPM: 70-80
+--------------------------------------------------
+STYLE TAGS:
+medieval, somber, concern, strings, worry
+
+PROMPT:
+Music for low resources or economic trouble. Concerned tone, strings with worried quality. Not panic, but awareness of challenges. Motivation to improve situation. Hopeful undertones.
+--------------------------------------------------
+
+[MUS19] Shop & Market
+Save as: MUS19_Shop_&_Market.mp3
+Duration: 3:00 | BPM: 100-110
+--------------------------------------------------
+STYLE TAGS:
+medieval, market, lively, folk, trading, cheerful
+
+PROMPT:
+In-game shop music. Cheerful medieval marketplace. Merchants selling wares, coins changing hands. Encouraging purchases without being pushy. Pleasant shopping experience.
+--------------------------------------------------
+
+[MUS20] Treasure Found
+Save as: MUS20_Treasure_Found.mp3
+Duration: 0:45 | BPM: 100
+--------------------------------------------------
+STYLE TAGS:
+orchestral, discovery, magical, sparkle, reward
+
+PROMPT:
+Treasure discovery music. Magical sparkle sounds, rewarding orchestral swell. Short celebratory piece for finding rewards. Satisfying feedback for player achievements.
+--------------------------------------------------
+
+
+======================================================================
+SECTION: COMBAT MUSIC (12 tracks)
+======================================================================
+
+[MUS21] Battle Preparation
+Save as: MUS21_Battle_Preparation.mp3
+Duration: 2:30 | BPM: 90-100
+--------------------------------------------------
+STYLE TAGS:
+orchestral, preparation, tension, building, drums
+
+PROMPT:
+Pre-battle preparation music. Building tension, drums beginning to roll. Army assembling, strategies being made. Anticipation of combat. Not full battle yet but imminent.
+--------------------------------------------------
+
+[MUS22] Enemy Approaching
+Save as: MUS22_Enemy_Approaching.mp3
+Duration: 2:00 | BPM: 100-110
+--------------------------------------------------
+STYLE TAGS:
+orchestral, warning, urgent, approach, suspense
+
+PROMPT:
+Enemy approaching warning music. Increasing urgency, enemy forces drawing near. Time to prepare defenses. Suspenseful build-up to combat. Growing intensity.
+--------------------------------------------------
+
+[MUS23] Siege Incoming
+Save as: MUS23_Siege_Incoming.mp3
+Duration: 2:30 | BPM: 85-95
+--------------------------------------------------
+STYLE TAGS:
+orchestral, siege, massive, epic, impending, war drums
+
+PROMPT:
+Siege incoming music. Massive war drums, full siege about to begin. Heaviest attack coming. Epic scale preparation. Final moments before major battle.
+--------------------------------------------------
+
+[MUS24] Combat Light Skirmish
+Save as: MUS24_Combat_Light_Skirmish.mp3
+Duration: 2:30 | BPM: 130-140
+--------------------------------------------------
+STYLE TAGS:
+orchestral, action, combat, light, skirmish, quick
+
+PROMPT:
+Light skirmish combat music. Quick action, small engagements. Fast-paced but not overwhelming. Minor combat encounters. Energetic percussion, exciting but manageable threat.
+--------------------------------------------------
+
+[MUS25] Combat Medium Battle
+Save as: MUS25_Combat_Medium_Battle.mp3
+Duration: 3:00 | BPM: 140-150
+--------------------------------------------------
+STYLE TAGS:
+orchestral, battle, intense, combat, brass, percussion
+
+PROMPT:
+Medium intensity battle music. Full combat engagement. Brass and strings clash, powerful percussion. Serious battle but not desperate. Strategic combat, skill required.
+--------------------------------------------------
+
+[MUS26] Combat Heavy War
+Save as: MUS26_Combat_Heavy_War.mp3
+Duration: 3:30 | BPM: 150-160
+--------------------------------------------------
+STYLE TAGS:
+orchestral, war, epic, intense, full orchestra, battle
+
+PROMPT:
+Full scale war music. Massive orchestral combat. Epic brass fanfares clashing, thunderous percussion. Life or death struggle. Everything on the line. Peak intensity combat.
+--------------------------------------------------
+
+[MUS27] Combat Boss Fight
+Save as: MUS27_Combat_Boss_Fight.mp3
+Duration: 3:00 | BPM: 140-150
+--------------------------------------------------
+STYLE TAGS:
+orchestral, boss, epic, dramatic, challenging, powerful
+
+PROMPT:
+Boss encounter music. Unique challenging enemy. Dramatic orchestral with memorable motifs. Sense of major threat. Special encounter requiring full effort. Cinematic quality.
+--------------------------------------------------
+
+[MUS28] Combat Siege Defense
+Save as: MUS28_Combat_Siege_Defense.mp3
+Duration: 3:30 | BPM: 145-155
+--------------------------------------------------
+STYLE TAGS:
+orchestral, siege, defense, desperate, walls, epic
+
+PROMPT:
+Siege defense music. Defending castle walls. Desperate but heroic. Waves of enemies attacking. Holding the line. Epic defense music with rising and falling intensity.
+--------------------------------------------------
+
+[MUS29] Combat Siege Attack
+Save as: MUS29_Combat_Siege_Attack.mp3
+Duration: 3:30 | BPM: 140-150
+--------------------------------------------------
+STYLE TAGS:
+orchestral, siege, attack, conquest, invasion, powerful
+
+PROMPT:
+Siege attack music. Storming enemy fortress. Conquest and invasion themes. Battering rams and siege towers. Taking the fight to the enemy. Triumphant aggression.
+--------------------------------------------------
+
+[MUS30] Combat Victory
+Save as: MUS30_Combat_Victory.mp3
+Duration: 1:30 | BPM: 110-120
+--------------------------------------------------
+STYLE TAGS:
+orchestral, victory, triumph, celebration, glory
+
+PROMPT:
+Post-combat victory music. Battle won, enemies defeated. Triumphant but respectful. Glory earned through combat. Celebration of victory. Resolves to peaceful conclusion.
+--------------------------------------------------
+
+[MUS31] Combat Defeat
+Save as: MUS31_Combat_Defeat.mp3
+Duration: 1:30 | BPM: 60-70
+--------------------------------------------------
+STYLE TAGS:
+orchestral, defeat, loss, somber, reflection
+
+PROMPT:
+Post-combat defeat music. Battle lost, but not the war. Somber reflection, lessons learned. Motivation to rebuild and return stronger. Ends with hopeful notes.
+--------------------------------------------------
+
+[MUS32] Combat Draw/Retreat
+Save as: MUS32_Combat_Draw/Retreat.mp3
+Duration: 1:00 | BPM: 80-90
+--------------------------------------------------
+STYLE TAGS:
+orchestral, retreat, tactical, relief, neutral
+
+PROMPT:
+Tactical retreat or draw music. Combat ended without clear winner. Relief at survival, need to regroup. Neither triumphant nor defeated. Strategic reset.
+--------------------------------------------------
+
+
+======================================================================
+SECTION: SOCIAL & UI MUSIC (8 tracks)
+======================================================================
+
+[MUS33] Alliance Hall
+Save as: MUS33_Alliance_Hall.mp3
+Duration: 3:00 | BPM: 90-100
+--------------------------------------------------
+STYLE TAGS:
+medieval, guild, brotherhood, proud, fellowship
+
+PROMPT:
+Alliance guild hall music. Brotherhood and fellowship themes. Proud guild members united. Medieval tavern meets noble court. Camaraderie and loyalty. Warm social atmosphere.
+--------------------------------------------------
+
+[MUS34] Alliance War
+Save as: MUS34_Alliance_War.mp3
+Duration: 3:00 | BPM: 130-140
+--------------------------------------------------
+STYLE TAGS:
+orchestral, alliance, war, united, epic, coordination
+
+PROMPT:
+Alliance war coordination music. Multiple guilds united against common enemy. Epic cooperation themes. Coordinated attacks, allied forces combining. Greater than sum of parts.
+--------------------------------------------------
+
+[MUS35] Friends Online
+Save as: MUS35_Friends_Online.mp3
+Duration: 0:15 | BPM: 100
+--------------------------------------------------
+STYLE TAGS:
+medieval, social, friendly, notification, pleasant
+
+PROMPT:
+Friend online notification sound/music. Pleasant brief melody. Social connection acknowledged. Welcoming sound for when friends join. Short and sweet.
+--------------------------------------------------
+
+[MUS36] Chat Ambient
+Save as: MUS36_Chat_Ambient.mp3
+Duration: 2:30 | BPM: 75-85
+--------------------------------------------------
+STYLE TAGS:
+medieval, chat, social, background, unobtrusive
+
+PROMPT:
+Background music for chat interfaces. Unobtrusive medieval ambient. Focus on communication, not music. Gentle presence that doesn't distract from reading messages.
+--------------------------------------------------
+
+[MUS37] Achievement Unlocked
+Save as: MUS37_Achievement_Unlocked.mp3
+Duration: 0:30 | BPM: 120
+--------------------------------------------------
+STYLE TAGS:
+orchestral, achievement, fanfare, reward, triumphant
+
+PROMPT:
+Achievement unlock fanfare. Triumphant short piece. Player accomplished something notable. Positive reinforcement, feeling of progress. Memorable and satisfying.
+--------------------------------------------------
+
+[MUS38] Level Up
+Save as: MUS38_Level_Up.mp3
+Duration: 0:45 | BPM: 110
+--------------------------------------------------
+STYLE TAGS:
+orchestral, level up, growth, ascending, magical
+
+PROMPT:
+Level up celebration music. Ascending melody, magical growth sounds. Player becoming more powerful. Satisfying progression feedback. Brief but impactful.
+--------------------------------------------------
+
+[MUS39] Daily Reward
+Save as: MUS39_Daily_Reward.mp3
+Duration: 0:30 | BPM: 100
+--------------------------------------------------
+STYLE TAGS:
+medieval, reward, gift, pleasant, opening
+
+PROMPT:
+Daily reward collection music. Pleasant gift-opening feel. Anticipation and reward. Encouraging daily return to game. Cheerful and generous feeling.
+--------------------------------------------------
+
+[MUS40] Chest Opening
+Save as: MUS40_Chest_Opening.mp3
+Duration: 0:45 | BPM: 90-100
+--------------------------------------------------
+STYLE TAGS:
+medieval, chest, treasure, mystery, reveal, magical
+
+PROMPT:
+Treasure chest opening music. Mystery building, then reveal. Magical sparkle as chest opens. Excitement of unknown rewards. Satisfying loot experience.
+--------------------------------------------------
+
+
+======================================================================
+SECTION: EVENT & SEASONAL (12 tracks)
+======================================================================
+
+[MUS41] Spring Festival
+Save as: MUS41_Spring_Festival.mp3
+Duration: 3:00 | BPM: 110-120
+--------------------------------------------------
+STYLE TAGS:
+medieval, spring, renewal, flowers, cheerful, festival
+
+PROMPT:
+Spring festival event music. Renewal and rebirth themes. Flowers blooming, new beginnings. Cheerful medieval celebration. Light and joyful spring atmosphere.
+--------------------------------------------------
+
+[MUS42] Summer Festival
+Save as: MUS42_Summer_Festival.mp3
+Duration: 3:00 | BPM: 120-130
+--------------------------------------------------
+STYLE TAGS:
+medieval, summer, celebration, warm, festive, lively
+
+PROMPT:
+Summer festival event music. Peak celebration, warm days. Lively medieval summer fair. Dancing and merriment. Energetic and joyful summer atmosphere.
+--------------------------------------------------
+
+[MUS43] Autumn Harvest
+Save as: MUS43_Autumn_Harvest.mp3
+Duration: 3:00 | BPM: 95-105
+--------------------------------------------------
+STYLE TAGS:
+medieval, autumn, harvest, grateful, folk, warm
+
+PROMPT:
+Autumn harvest festival music. Gratitude for bounty. Medieval harvest celebration. Folk instruments, warm atmosphere. Preparing for winter, enjoying abundance.
+--------------------------------------------------
+
+[MUS44] Winter Holiday
+Save as: MUS44_Winter_Holiday.mp3
+Duration: 3:00 | BPM: 90-100
+--------------------------------------------------
+STYLE TAGS:
+medieval, winter, holiday, magical, snow, cozy
+
+PROMPT:
+Winter holiday event music. Magical snowy atmosphere. Medieval winter celebration. Warm despite cold weather. Family and fellowship themes. Cozy and magical.
+--------------------------------------------------
+
+[MUS45] Halloween Event
+Save as: MUS45_Halloween_Event.mp3
+Duration: 3:00 | BPM: 100-110
+--------------------------------------------------
+STYLE TAGS:
+medieval, halloween, spooky, fun, mysterious, playful
+
+PROMPT:
+Halloween special event music. Spooky but fun, not scary. Medieval mystery and magic. Playful ghost themes. Treats and tricks atmosphere. Family-friendly spooky.
+--------------------------------------------------
+
+[MUS46] Anniversary Event
+Save as: MUS46_Anniversary_Event.mp3
+Duration: 2:30 | BPM: 100-110
+--------------------------------------------------
+STYLE TAGS:
+orchestral, celebration, anniversary, grateful, retrospective
+
+PROMPT:
+Game anniversary celebration music. Looking back on journey. Grateful orchestral themes. Special occasion feel. Memorable moments remembered. Hopeful future ahead.
+--------------------------------------------------
+
+[MUS47] Tournament
+Save as: MUS47_Tournament.mp3
+Duration: 3:00 | BPM: 120-130
+--------------------------------------------------
+STYLE TAGS:
+medieval, tournament, competition, jousting, exciting
+
+PROMPT:
+Tournament event music. Medieval jousting and competition. Exciting contest atmosphere. Knights competing for glory. Crowd cheering, champions rising. Competitive but sporting.
+--------------------------------------------------
+
+[MUS48] Invasion Event
+Save as: MUS48_Invasion_Event.mp3
+Duration: 3:30 | BPM: 140-150
+--------------------------------------------------
+STYLE TAGS:
+orchestral, invasion, urgent, massive, server-wide, epic
+
+PROMPT:
+Server-wide invasion event music. Massive threat requiring all players. Urgent epic orchestral. Everyone must unite against common enemy. Peak cooperative gameplay.
+--------------------------------------------------
+
+[MUS49] Limited Time Event
+Save as: MUS49_Limited_Time_Event.mp3
+Duration: 2:30 | BPM: 125-135
+--------------------------------------------------
+STYLE TAGS:
+orchestral, urgent, limited, exciting, special, countdown
+
+PROMPT:
+Limited time event urgency music. Special opportunity won't last. Exciting but time-sensitive. Don't miss out feeling. Energetic and motivating.
+--------------------------------------------------
+
+[MUS50] World Boss Event
+Save as: MUS50_World_Boss_Event.mp3
+Duration: 3:30 | BPM: 145-155
+--------------------------------------------------
+STYLE TAGS:
+orchestral, world boss, massive, coordinated, epic, legendary
+
+PROMPT:
+World boss event music. Massive legendary creature. All players coordinating to defeat. Epic scale encounter. Legendary battle themes. Once in a lifetime challenge.
+--------------------------------------------------
+
+[MUS51] Night Event
+Save as: MUS51_Night_Event.mp3
+Duration: 3:00 | BPM: 80-90
+--------------------------------------------------
+STYLE TAGS:
+medieval, night, special, mysterious, stars, magical
+
+PROMPT:
+Special nighttime event music. Stars aligned, magic stronger. Mysterious opportunities at night. Special nocturnal activities. Magical night atmosphere.
+--------------------------------------------------
+
+[MUS52] Trading Event
+Save as: MUS52_Trading_Event.mp3
+Duration: 2:30 | BPM: 105-115
+--------------------------------------------------
+STYLE TAGS:
+medieval, trading, market, merchant, exotic, special
+
+PROMPT:
+Special trading event music. Exotic merchants arrived. Special goods available. Limited time deals. Exciting marketplace atmosphere. Rare opportunity for trades.
+--------------------------------------------------
+
+
+======================================================================
+SECTION: AMBIENT & ENVIRONMENTAL (8 tracks)
+======================================================================
+
+[MUS53] Morning Ambience
+Save as: MUS53_Morning_Ambience.mp3
+Duration: 4:00 | BPM: 60-70
+--------------------------------------------------
+STYLE TAGS:
+ambient, morning, peaceful, birds, sunrise, medieval
+
+PROMPT:
+Morning ambient atmosphere. Sunrise over castle. Birds beginning to sing. Peaceful start to day. Soft medieval textures. Fresh new day beginning. Extended ambient loop.
+--------------------------------------------------
+
+[MUS54] Afternoon Ambience
+Save as: MUS54_Afternoon_Ambience.mp3
+Duration: 4:00 | BPM: 75-85
+--------------------------------------------------
+STYLE TAGS:
+ambient, afternoon, busy, active, medieval, peaceful
+
+PROMPT:
+Afternoon ambient atmosphere. Kingdom active but calm. Busy peaceful activity. Citizens going about day. Productive afternoon feeling. Background ambience.
+--------------------------------------------------
+
+[MUS55] Evening Ambience
+Save as: MUS55_Evening_Ambience.mp3
+Duration: 4:00 | BPM: 65-75
+--------------------------------------------------
+STYLE TAGS:
+ambient, evening, sunset, reflection, peaceful, medieval
+
+PROMPT:
+Evening ambient atmosphere. Sunset over castle. Day's work ending. Reflective peaceful mood. Warm evening light. Day well spent feeling.
+--------------------------------------------------
+
+[MUS56] Night Ambience
+Save as: MUS56_Night_Ambience.mp3
+Duration: 4:00 | BPM: 50-60
+--------------------------------------------------
+STYLE TAGS:
+ambient, night, calm, stars, sleep, medieval
+
+PROMPT:
+Night ambient atmosphere. Stars out, castle sleeping. Calm nocturnal sounds. Guards on watch. Peaceful protected feeling. Kingdom at rest.
+--------------------------------------------------
+
+[MUS57] Rain Ambience
+Save as: MUS57_Rain_Ambience.mp3
+Duration: 4:00 | BPM: 60-70
+--------------------------------------------------
+STYLE TAGS:
+ambient, rain, cozy, inside, medieval, peaceful
+
+PROMPT:
+Rainy day ambient atmosphere. Rain on castle roof. Cozy inside feeling. Medieval rainy day. Peaceful contemplation. Good day for planning.
+--------------------------------------------------
+
+[MUS58] Storm Ambience
+Save as: MUS58_Storm_Ambience.mp3
+Duration: 3:30 | BPM: 70-80
+--------------------------------------------------
+STYLE TAGS:
+ambient, storm, dramatic, thunder, medieval, powerful
+
+PROMPT:
+Storm ambient atmosphere. Thunder rolling, powerful winds. Dramatic but safe inside. Medieval castle in storm. Nature's power on display. Exciting weather.
+--------------------------------------------------
+
+[MUS59] Snow Ambience
+Save as: MUS59_Snow_Ambience.mp3
+Duration: 4:00 | BPM: 55-65
+--------------------------------------------------
+STYLE TAGS:
+ambient, snow, quiet, winter, peaceful, medieval
+
+PROMPT:
+Snowy winter ambient atmosphere. Quiet snowfall, muffled sounds. Peaceful winter kingdom. Medieval winter scene. Tranquil and beautiful.
+--------------------------------------------------
+
+[MUS60] Wind Ambience
+Save as: MUS60_Wind_Ambience.mp3
+Duration: 3:30 | BPM: 60-70
+--------------------------------------------------
+STYLE TAGS:
+ambient, wind, mysterious, medieval, lonely, atmospheric
+
+PROMPT:
+Windy ambient atmosphere. Strong winds around castle. Mysterious and atmospheric. Medieval wind sounds. Slightly lonely feeling. Dramatic wind textures.
+--------------------------------------------------
+

@@ -1,0 +1,1974 @@
+======================================================================
+MIDJOURNEY WEB - READY TO PASTE PROMPTS
+======================================================================
+Total: 317 prompts remaining
+
+INSTRUCTIONS:
+1. Copy ONE prompt at a time (the line after the ID)
+2. Paste into Midjourney Web prompt box
+3. Click Submit
+4. Save the result with the ID as filename
+======================================================================
+
+
+======================================================================
+SECTION 1: RESOURCE ICONS (32 icons)
+======================================================================
+
+[RI01] Gold Coin
+Save as: RI01_Gold_Coin.png
+--------------------------------------------------
+Game UI icon, single shiny gold coin, medieval fantasy currency, detailed embossed design, metallic reflection, clean simple design, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI02] Gold Coin Stack
+Save as: RI02_Gold_Coin_Stack.png
+--------------------------------------------------
+Game UI icon, stack of gold coins, medieval fantasy treasure, multiple coins arranged, gleaming metal, clean design, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI03] Gold Pile
+Save as: RI03_Gold_Pile.png
+--------------------------------------------------
+Game UI icon, pile of gold coins overflowing, medieval treasure hoard, wealthy abundance, sparkling gold, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI04] Gem Blue Crystal
+Save as: RI04_Gem_Blue_Crystal.png
+--------------------------------------------------
+Game UI icon, blue crystal gem, faceted sapphire, premium currency, magical glow, brilliant shine, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI05] Gem Red Ruby
+Save as: RI05_Gem_Red_Ruby.png
+--------------------------------------------------
+Game UI icon, red ruby gem, faceted precious stone, rare currency, deep crimson glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI06] Gem Green Emerald
+Save as: RI06_Gem_Green_Emerald.png
+--------------------------------------------------
+Game UI icon, green emerald gem, faceted precious stone, nature currency, verdant glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI07] Gem Purple Amethyst
+Save as: RI07_Gem_Purple_Amethyst.png
+--------------------------------------------------
+Game UI icon, purple amethyst gem, faceted crystal, arcane currency, mystical glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI08] Gem Diamond
+Save as: RI08_Gem_Diamond.png
+--------------------------------------------------
+Game UI icon, white diamond gem, brilliant cut, ultimate premium currency, rainbow sparkle, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI09] Wood Bundle
+Save as: RI09_Wood_Bundle.png
+--------------------------------------------------
+Game UI icon, bundle of wooden logs, tied with rope, medieval lumber resource, natural brown tones, clean design, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI10] Wood Planks
+Save as: RI10_Wood_Planks.png
+--------------------------------------------------
+Game UI icon, stack of wooden planks, processed lumber, construction material, crafted wood resource, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI11] Stone Pile
+Save as: RI11_Stone_Pile.png
+--------------------------------------------------
+Game UI icon, pile of gray stone blocks, quarried rock, medieval building material, rough texture, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI12] Stone Brick
+Save as: RI12_Stone_Brick.png
+--------------------------------------------------
+Game UI icon, single stone brick, processed building block, masonry material, clean cut stone, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI13] Metal Ore
+Save as: RI13_Metal_Ore.png
+--------------------------------------------------
+Game UI icon, raw metal ore chunk, iron ore rock, unprocessed mineral, metallic glints in stone, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI14] Metal Ingot
+Save as: RI14_Metal_Ingot.png
+--------------------------------------------------
+Game UI icon, silver steel ingot bar, refined metal, processed ore, industrial shine, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI15] Metal Gold Bar
+Save as: RI15_Metal_Gold_Bar.png
+--------------------------------------------------
+Game UI icon, gold ingot bar, precious refined metal, stamped bullion, wealthy resource, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI16] Crystal Shard
+Save as: RI16_Crystal_Shard.png
+--------------------------------------------------
+Game UI icon, purple magic crystal shard, glowing arcane energy, mystical resource, magical sparkle, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI17] Crystal Cluster
+Save as: RI17_Crystal_Cluster.png
+--------------------------------------------------
+Game UI icon, cluster of magic crystals, multiple glowing shards, concentrated arcane power, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI18] Food Bread
+Save as: RI18_Food_Bread.png
+--------------------------------------------------
+Game UI icon, loaf of bread, medieval bakery product, golden brown crust, food resource, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI19] Food Meat
+Save as: RI19_Food_Meat.png
+--------------------------------------------------
+Game UI icon, cooked meat leg, medieval feast food, protein resource, savory appearance, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI20] Food Basket
+Save as: RI20_Food_Basket.png
+--------------------------------------------------
+Game UI icon, woven basket with bread and fruit, medieval food bundle, provisions, meal resource, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI21] Food Apple
+Save as: RI21_Food_Apple.png
+--------------------------------------------------
+Game UI icon, red apple fruit, fresh produce, simple food resource, healthy shine, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI22] XP Star
+Save as: RI22_XP_Star.png
+--------------------------------------------------
+Game UI icon, golden star with sparkles, experience points symbol, level up indicator, radiant glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI23] XP Orb
+Save as: RI23_XP_Orb.png
+--------------------------------------------------
+Game UI icon, glowing blue experience orb, floating energy sphere, XP pickup, magical aura, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI24] Level Up Arrow
+Save as: RI24_Level_Up_Arrow.png
+--------------------------------------------------
+Game UI icon, upward golden arrow with sparkles, level up symbol, progression indicator, triumphant glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI25] Skill Point
+Save as: RI25_Skill_Point.png
+--------------------------------------------------
+Game UI icon, glowing skill point crystal, ability unlock token, purple magical energy, talent resource, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI26] Energy Lightning
+Save as: RI26_Energy_Lightning.png
+--------------------------------------------------
+Game UI icon, lightning bolt energy symbol, action points, stamina resource, electric yellow glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI27] Mana Potion
+Save as: RI27_Mana_Potion.png
+--------------------------------------------------
+Game UI icon, blue mana potion bottle, magical energy drink, mystical liquid, glowing contents, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI28] Health Heart
+Save as: RI28_Health_Heart.png
+--------------------------------------------------
+Game UI icon, red heart health symbol, life points, vitality resource, pulsing glow, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI29] Shield Armor
+Save as: RI29_Shield_Armor.png
+--------------------------------------------------
+Game UI icon, golden shield symbol, defense points, protection resource, metallic shine, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI30] Key Golden
+Save as: RI30_Key_Golden.png
+--------------------------------------------------
+Game UI icon, ornate golden key, unlock item, access resource, medieval design, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI31] Ticket Token
+Save as: RI31_Ticket_Token.png
+--------------------------------------------------
+Game UI icon, event ticket token, special entry pass, limited resource, golden trim, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[RI32] Crown Royal
+Save as: RI32_Crown_Royal.png
+--------------------------------------------------
+Game UI icon, golden royal crown, premium status, VIP resource, jeweled decoration, dark background, 2D digital art, professional game asset --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 2: ACTION ICONS (48 icons)
+======================================================================
+
+[AI01] Build Hammer
+Save as: AI01_Build_Hammer.png
+--------------------------------------------------
+Game UI icon, medieval hammer tool, construction symbol, building action, golden handle, silver head, clean design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI02] Build Plus
+Save as: AI02_Build_Plus.png
+--------------------------------------------------
+Game UI icon, plus sign in stone frame, add building symbol, construction action, medieval style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI03] Upgrade Arrow
+Save as: AI03_Upgrade_Arrow.png
+--------------------------------------------------
+Game UI icon, upward arrow with sparkles, upgrade symbol, improvement action, green and gold colors, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI04] Demolish X
+Save as: AI04_Demolish_X.png
+--------------------------------------------------
+Game UI icon, red X with debris, demolish symbol, destruction action, warning style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI05] Move Arrows
+Save as: AI05_Move_Arrows.png
+--------------------------------------------------
+Game UI icon, four directional arrows, move symbol, relocation action, white arrows, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI06] Rotate Circular
+Save as: AI06_Rotate_Circular.png
+--------------------------------------------------
+Game UI icon, circular rotation arrows, rotate symbol, orientation action, curved arrows, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI07] Place Checkmark
+Save as: AI07_Place_Checkmark.png
+--------------------------------------------------
+Game UI icon, green checkmark on foundation, place confirm, building placement action, approval symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI08] Cancel X
+Save as: AI08_Cancel_X.png
+--------------------------------------------------
+Game UI icon, red X mark bold, cancel symbol, abort action, stop indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI09] Attack Sword
+Save as: AI09_Attack_Sword.png
+--------------------------------------------------
+Game UI icon, crossed medieval swords, attack symbol, combat action, silver blades, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI10] Attack Quick
+Save as: AI10_Attack_Quick.png
+--------------------------------------------------
+Game UI icon, single sword with speed lines, quick attack, fast strike action, silver blade, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI11] Attack Heavy
+Save as: AI11_Attack_Heavy.png
+--------------------------------------------------
+Game UI icon, large battle axe, heavy attack, powerful strike action, massive weapon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI12] Attack Siege
+Save as: AI12_Attack_Siege.png
+--------------------------------------------------
+Game UI icon, catapult projectile, siege attack, artillery action, explosive impact, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI13] Defend Shield
+Save as: AI13_Defend_Shield.png
+--------------------------------------------------
+Game UI icon, medieval shield raised, defend symbol, protection action, silver and blue, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI14] Defend Fortress
+Save as: AI14_Defend_Fortress.png
+--------------------------------------------------
+Game UI icon, castle walls fortified, fortress defense, stronghold action, impenetrable walls, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI15] Heal Heart Plus
+Save as: AI15_Heal_Heart_Plus.png
+--------------------------------------------------
+Game UI icon, red heart with green plus, heal symbol, recovery action, medical cross, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI16] Buff Arrow Up
+Save as: AI16_Buff_Arrow_Up.png
+--------------------------------------------------
+Game UI icon, upward arrow with wings, buff symbol, enhancement action, power increase, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI17] Debuff Arrow Down
+Save as: AI17_Debuff_Arrow_Down.png
+--------------------------------------------------
+Game UI icon, downward arrow with chains, debuff symbol, weakness action, power decrease, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI18] Special Star Burst
+Save as: AI18_Special_Star_Burst.png
+--------------------------------------------------
+Game UI icon, star burst explosion, special ability, ultimate action, golden radiance, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI19] Collect Hand
+Save as: AI19_Collect_Hand.png
+--------------------------------------------------
+Game UI icon, hand grabbing coins, collect symbol, gather resources action, golden glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI20] Harvest Sickle
+Save as: AI20_Harvest_Sickle.png
+--------------------------------------------------
+Game UI icon, medieval sickle tool, harvest symbol, resource gathering action, farming tool, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI21] Mine Pickaxe
+Save as: AI21_Mine_Pickaxe.png
+--------------------------------------------------
+Game UI icon, mining pickaxe, mine symbol, extraction action, stone and metal, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI22] Chop Axe
+Save as: AI22_Chop_Axe.png
+--------------------------------------------------
+Game UI icon, woodcutting axe, chop symbol, lumber action, sharp blade, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI23] Trade Scales
+Save as: AI23_Trade_Scales.png
+--------------------------------------------------
+Game UI icon, balanced scales, trade symbol, exchange action, merchant tool, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI24] Buy Cart
+Save as: AI24_Buy_Cart.png
+--------------------------------------------------
+Game UI icon, shopping cart with coins, buy symbol, purchase action, market transaction, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI25] Sell Coin Hand
+Save as: AI25_Sell_Coin_Hand.png
+--------------------------------------------------
+Game UI icon, hand offering coin, sell symbol, sale action, merchant transaction, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI26] Craft Anvil
+Save as: AI26_Craft_Anvil.png
+--------------------------------------------------
+Game UI icon, blacksmith anvil with hammer, craft symbol, creation action, forging tool, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI27] Chat Bubble
+Save as: AI27_Chat_Bubble.png
+--------------------------------------------------
+Game UI icon, speech bubble, chat symbol, message action, communication icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI28] Chat Bubbles Double
+Save as: AI28_Chat_Bubbles_Double.png
+--------------------------------------------------
+Game UI icon, two overlapping speech bubbles, conversation symbol, dialogue action, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI29] Friend Add
+Save as: AI29_Friend_Add.png
+--------------------------------------------------
+Game UI icon, person silhouette with plus, add friend symbol, social connection action, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI30] Alliance Handshake
+Save as: AI30_Alliance_Handshake.png
+--------------------------------------------------
+Game UI icon, two hands shaking, alliance symbol, guild action, partnership, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI31] Invite Letter
+Save as: AI31_Invite_Letter.png
+--------------------------------------------------
+Game UI icon, sealed envelope with ribbon, invite symbol, invitation action, message delivery, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI32] Gift Box
+Save as: AI32_Gift_Box.png
+--------------------------------------------------
+Game UI icon, wrapped gift box with bow, gift symbol, present action, giving, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI33] Report Flag
+Save as: AI33_Report_Flag.png
+--------------------------------------------------
+Game UI icon, warning flag, report symbol, moderation action, alert indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI34] Block Circle
+Save as: AI34_Block_Circle.png
+--------------------------------------------------
+Game UI icon, circle with slash, block symbol, prevent action, restriction indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI35] Settings Gear
+Save as: AI35_Settings_Gear.png
+--------------------------------------------------
+Game UI icon, mechanical gear cog, settings symbol, configuration action, metallic gray, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI36] Menu Bars
+Save as: AI36_Menu_Bars.png
+--------------------------------------------------
+Game UI icon, three horizontal bars, menu symbol, navigation action, hamburger menu, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI37] Close X
+Save as: AI37_Close_X.png
+--------------------------------------------------
+Game UI icon, X close button, exit symbol, close action, window control, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI38] Back Arrow
+Save as: AI38_Back_Arrow.png
+--------------------------------------------------
+Game UI icon, left pointing arrow, back symbol, return action, navigation arrow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI39] Forward Arrow
+Save as: AI39_Forward_Arrow.png
+--------------------------------------------------
+Game UI icon, right pointing arrow, forward symbol, proceed action, navigation arrow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI40] Refresh Circular
+Save as: AI40_Refresh_Circular.png
+--------------------------------------------------
+Game UI icon, circular arrows refresh, reload symbol, update action, sync indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI41] Search Magnify
+Save as: AI41_Search_Magnify.png
+--------------------------------------------------
+Game UI icon, magnifying glass, search symbol, find action, exploration tool, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI42] Filter Funnel
+Save as: AI42_Filter_Funnel.png
+--------------------------------------------------
+Game UI icon, filter funnel, sort symbol, organize action, refinement tool, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI43] Info Circle i
+Save as: AI43_Info_Circle_i.png
+--------------------------------------------------
+Game UI icon, letter i in circle, info symbol, information action, help indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI44] Help Question
+Save as: AI44_Help_Question.png
+--------------------------------------------------
+Game UI icon, question mark in circle, help symbol, support action, guidance indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI45] Warning Triangle
+Save as: AI45_Warning_Triangle.png
+--------------------------------------------------
+Game UI icon, exclamation in triangle, warning symbol, alert action, caution indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI46] Lock Closed
+Save as: AI46_Lock_Closed.png
+--------------------------------------------------
+Game UI icon, closed padlock, locked symbol, secure action, restriction indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI47] Lock Open
+Save as: AI47_Lock_Open.png
+--------------------------------------------------
+Game UI icon, open padlock, unlocked symbol, access granted action, freedom indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AI48] Sound Speaker
+Save as: AI48_Sound_Speaker.png
+--------------------------------------------------
+Game UI icon, speaker with sound waves, audio symbol, sound action, volume indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 3: NAVIGATION ICONS (24 icons)
+======================================================================
+
+[NI01] Home Castle
+Save as: NI01_Home_Castle.png
+--------------------------------------------------
+Game UI icon, medieval castle silhouette, home symbol, main base navigation, fortress icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI02] Map Scroll
+Save as: NI02_Map_Scroll.png
+--------------------------------------------------
+Game UI icon, treasure map scroll, world map navigation, exploration symbol, parchment design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI03] Inventory Backpack
+Save as: NI03_Inventory_Backpack.png
+--------------------------------------------------
+Game UI icon, medieval backpack open, inventory navigation, storage symbol, adventurer bag, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI04] Inventory Chest
+Save as: NI04_Inventory_Chest.png
+--------------------------------------------------
+Game UI icon, treasure chest open, inventory navigation, storage symbol, item container, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI05] Alliance Banner
+Save as: NI05_Alliance_Banner.png
+--------------------------------------------------
+Game UI icon, guild banner flag, alliance navigation, clan symbol, team flag, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI06] Alliance Shield
+Save as: NI06_Alliance_Shield.png
+--------------------------------------------------
+Game UI icon, heraldic shield emblem, alliance navigation, guild crest, team symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI07] Leaderboard Trophy
+Save as: NI07_Leaderboard_Trophy.png
+--------------------------------------------------
+Game UI icon, golden trophy cup, leaderboard navigation, ranking symbol, champion prize, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI08] Leaderboard Crown
+Save as: NI08_Leaderboard_Crown.png
+--------------------------------------------------
+Game UI icon, ranking crown with numbers, leaderboard navigation, competition symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI09] Shop Storefront
+Save as: NI09_Shop_Storefront.png
+--------------------------------------------------
+Game UI icon, medieval shop building, store navigation, market symbol, merchant stall, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI10] Shop Coins
+Save as: NI10_Shop_Coins.png
+--------------------------------------------------
+Game UI icon, bag of coins, shop navigation, purchase symbol, merchant currency, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI11] Profile Knight
+Save as: NI11_Profile_Knight.png
+--------------------------------------------------
+Game UI icon, knight helmet profile, player navigation, character symbol, avatar icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI12] Profile Shield
+Save as: NI12_Profile_Shield.png
+--------------------------------------------------
+Game UI icon, personal shield with silhouette, profile navigation, identity symbol, player badge, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI13] Notifications Bell
+Save as: NI13_Notifications_Bell.png
+--------------------------------------------------
+Game UI icon, golden bell with dot, notifications navigation, alert symbol, message indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI14] Chat Messages
+Save as: NI14_Chat_Messages.png
+--------------------------------------------------
+Game UI icon, multiple message bubbles, chat navigation, communication symbol, conversation icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI15] Friends People
+Save as: NI15_Friends_People.png
+--------------------------------------------------
+Game UI icon, two person silhouettes, friends navigation, social symbol, connections icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI16] Quests Scroll
+Save as: NI16_Quests_Scroll.png
+--------------------------------------------------
+Game UI icon, quest scroll with checkmarks, missions navigation, task list symbol, objectives icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI17] Achievements Medal
+Save as: NI17_Achievements_Medal.png
+--------------------------------------------------
+Game UI icon, golden medal with star, achievements navigation, accomplishment symbol, reward icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI18] Events Calendar
+Save as: NI18_Events_Calendar.png
+--------------------------------------------------
+Game UI icon, calendar with star event, events navigation, schedule symbol, special date icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI19] Battle Swords
+Save as: NI19_Battle_Swords.png
+--------------------------------------------------
+Game UI icon, crossed swords, battle navigation, combat symbol, warfare icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI20] Territory Flag
+Save as: NI20_Territory_Flag.png
+--------------------------------------------------
+Game UI icon, territory flag on map, region navigation, land claim symbol, conquest icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI21] Resources Pile
+Save as: NI21_Resources_Pile.png
+--------------------------------------------------
+Game UI icon, mixed resource pile, resources navigation, materials symbol, inventory icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI22] Army Troops
+Save as: NI22_Army_Troops.png
+--------------------------------------------------
+Game UI icon, soldier group formation, army navigation, military symbol, troops icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI23] Tech Book
+Save as: NI23_Tech_Book.png
+--------------------------------------------------
+Game UI icon, ancient tome with gear, technology navigation, research symbol, progress icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[NI24] Daily Gift
+Save as: NI24_Daily_Gift.png
+--------------------------------------------------
+Game UI icon, wrapped daily gift box, rewards navigation, bonus symbol, daily login icon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 4: STATUS ICONS (24 icons)
+======================================================================
+
+[SI01] Online Green
+Save as: SI01_Online_Green.png
+--------------------------------------------------
+Game UI icon, green glowing dot, online status, active player indicator, presence symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI02] Offline Gray
+Save as: SI02_Offline_Gray.png
+--------------------------------------------------
+Game UI icon, gray circle dot, offline status, inactive player indicator, absence symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI03] Away Yellow
+Save as: SI03_Away_Yellow.png
+--------------------------------------------------
+Game UI icon, yellow half-moon, away status, idle player indicator, pause symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI04] Busy Red
+Save as: SI04_Busy_Red.png
+--------------------------------------------------
+Game UI icon, red minus circle, busy status, do not disturb indicator, unavailable symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI05] VIP Crown
+Save as: SI05_VIP_Crown.png
+--------------------------------------------------
+Game UI icon, small golden crown, VIP status, premium player indicator, elite symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI06] Admin Star
+Save as: SI06_Admin_Star.png
+--------------------------------------------------
+Game UI icon, blue admin star badge, administrator status, moderator indicator, authority symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI07] Under Construction
+Save as: SI07_Under_Construction.png
+--------------------------------------------------
+Game UI icon, construction crane symbol, building in progress status, work ongoing indicator, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI08] Complete Check
+Save as: SI08_Complete_Check.png
+--------------------------------------------------
+Game UI icon, green checkmark badge, complete status, finished building indicator, success symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI09] Damaged Warning
+Save as: SI09_Damaged_Warning.png
+--------------------------------------------------
+Game UI icon, orange warning crack, damaged status, repair needed indicator, alert symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI10] Destroyed Rubble
+Save as: SI10_Destroyed_Rubble.png
+--------------------------------------------------
+Game UI icon, gray rubble debris, destroyed status, ruin indicator, loss symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI11] Upgrading Arrow
+Save as: SI11_Upgrading_Arrow.png
+--------------------------------------------------
+Game UI icon, blue upward arrow badge, upgrading status, improvement indicator, progress symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI12] Protected Shield
+Save as: SI12_Protected_Shield.png
+--------------------------------------------------
+Game UI icon, blue shield bubble, protected status, invulnerable indicator, safety symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI13] Buff Attack Sword
+Save as: SI13_Buff_Attack_Sword.png
+--------------------------------------------------
+Game UI icon, green sword up arrow, attack buff status, damage increase indicator, power boost symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI14] Buff Defense Shield
+Save as: SI14_Buff_Defense_Shield.png
+--------------------------------------------------
+Game UI icon, green shield up arrow, defense buff status, protection increase indicator, armor boost symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI15] Buff Speed Wing
+Save as: SI15_Buff_Speed_Wing.png
+--------------------------------------------------
+Game UI icon, green wing up arrow, speed buff status, movement increase indicator, haste boost symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI16] Debuff Attack Sword
+Save as: SI16_Debuff_Attack_Sword.png
+--------------------------------------------------
+Game UI icon, red sword down arrow, attack debuff status, damage decrease indicator, weakness symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI17] Debuff Defense Shield
+Save as: SI17_Debuff_Defense_Shield.png
+--------------------------------------------------
+Game UI icon, red shield down arrow, defense debuff status, protection decrease indicator, vulnerability symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI18] Debuff Slow Chain
+Save as: SI18_Debuff_Slow_Chain.png
+--------------------------------------------------
+Game UI icon, red chain down arrow, slow debuff status, movement decrease indicator, hindrance symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI19] Poison Skull
+Save as: SI19_Poison_Skull.png
+--------------------------------------------------
+Game UI icon, green skull with drops, poison status, damage over time indicator, toxin symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI20] Burn Flame
+Save as: SI20_Burn_Flame.png
+--------------------------------------------------
+Game UI icon, orange flame burn, burning status, fire damage indicator, combustion symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI21] Freeze Snowflake
+Save as: SI21_Freeze_Snowflake.png
+--------------------------------------------------
+Game UI icon, blue snowflake ice, frozen status, cold effect indicator, frost symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI22] Stun Stars
+Save as: SI22_Stun_Stars.png
+--------------------------------------------------
+Game UI icon, yellow spinning stars, stunned status, incapacitated indicator, daze symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI23] Heal Sparkle
+Save as: SI23_Heal_Sparkle.png
+--------------------------------------------------
+Game UI icon, green sparkle plus, healing status, recovery indicator, regeneration symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SI24] Invisible Ghost
+Save as: SI24_Invisible_Ghost.png
+--------------------------------------------------
+Game UI icon, faded ghost outline, invisible status, hidden indicator, stealth symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 5: BUILDING TYPE ICONS (20 icons)
+======================================================================
+
+[BI01] Resource Gold Mine
+Save as: BI01_Resource_Gold_Mine.png
+--------------------------------------------------
+Game UI icon, gold mine entrance with pickaxe, resource building category, mining facility symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI02] Resource Lumber Mill
+Save as: BI02_Resource_Lumber_Mill.png
+--------------------------------------------------
+Game UI icon, sawmill with logs, lumber building category, wood processing symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI03] Resource Quarry
+Save as: BI03_Resource_Quarry.png
+--------------------------------------------------
+Game UI icon, stone quarry with blocks, quarry building category, stone mining symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI04] Resource Farm
+Save as: BI04_Resource_Farm.png
+--------------------------------------------------
+Game UI icon, farm with crops, agriculture building category, food production symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI05] Military Barracks
+Save as: BI05_Military_Barracks.png
+--------------------------------------------------
+Game UI icon, barracks with sword, military building category, troop training symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI06] Military Forge
+Save as: BI06_Military_Forge.png
+--------------------------------------------------
+Game UI icon, blacksmith forge with hammer, forge building category, weapon crafting symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI07] Military Tower
+Save as: BI07_Military_Tower.png
+--------------------------------------------------
+Game UI icon, guard tower silhouette, tower building category, defense symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI08] Military Wall
+Save as: BI08_Military_Wall.png
+--------------------------------------------------
+Game UI icon, castle wall segment, wall building category, fortification symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI09] Economy Market
+Save as: BI09_Economy_Market.png
+--------------------------------------------------
+Game UI icon, market stall with coins, market building category, trade symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI10] Economy Treasury
+Save as: BI10_Economy_Treasury.png
+--------------------------------------------------
+Game UI icon, vault with gold bars, treasury building category, wealth storage symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI11] Economy Warehouse
+Save as: BI11_Economy_Warehouse.png
+--------------------------------------------------
+Game UI icon, warehouse with crates, storage building category, inventory symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI12] Magic Academy
+Save as: BI12_Magic_Academy.png
+--------------------------------------------------
+Game UI icon, wizard tower with book, academy building category, magic research symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI13] Magic Portal
+Save as: BI13_Magic_Portal.png
+--------------------------------------------------
+Game UI icon, portal archway with energy, portal building category, teleportation symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI14] Magic Temple
+Save as: BI14_Magic_Temple.png
+--------------------------------------------------
+Game UI icon, temple with divine light, temple building category, worship symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI15] Special Throne
+Save as: BI15_Special_Throne.png
+--------------------------------------------------
+Game UI icon, throne room silhouette, throne building category, headquarters symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI16] Special Monument
+Save as: BI16_Special_Monument.png
+--------------------------------------------------
+Game UI icon, statue monument, monument building category, landmark symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI17] Special Hospital
+Save as: BI17_Special_Hospital.png
+--------------------------------------------------
+Game UI icon, hospital with cross, hospital building category, healing symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI18] Special Tavern
+Save as: BI18_Special_Tavern.png
+--------------------------------------------------
+Game UI icon, tavern with mug sign, tavern building category, social hub symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI19] Special Prison
+Save as: BI19_Special_Prison.png
+--------------------------------------------------
+Game UI icon, prison bars, prison building category, detention symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[BI20] Special Stable
+Save as: BI20_Special_Stable.png
+--------------------------------------------------
+Game UI icon, stable with horse, stable building category, mount facility symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 6: RARITY & QUALITY FRAMES (15 frames)
+======================================================================
+
+[RF01] Common Frame Gray
+Save as: RF01_Common_Frame_Gray.png
+--------------------------------------------------
+Game UI item frame, simple gray stone border, common rarity tier, basic design, empty center, square frame, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF02] Uncommon Frame Green
+Save as: RF02_Uncommon_Frame_Green.png
+--------------------------------------------------
+Game UI item frame, green glowing border, uncommon rarity tier, subtle magic effect, empty center, square frame, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF03] Rare Frame Blue
+Save as: RF03_Rare_Frame_Blue.png
+--------------------------------------------------
+Game UI item frame, blue glowing border, rare rarity tier, magical sparkles, empty center, square frame, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF04] Epic Frame Purple
+Save as: RF04_Epic_Frame_Purple.png
+--------------------------------------------------
+Game UI item frame, purple glowing border, epic rarity tier, energy wisps, empty center, square frame, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF05] Legendary Frame Gold
+Save as: RF05_Legendary_Frame_Gold.png
+--------------------------------------------------
+Game UI item frame, golden glowing border, legendary rarity tier, divine light rays, empty center, square frame, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF06] Mythic Frame Rainbow
+Save as: RF06_Mythic_Frame_Rainbow.png
+--------------------------------------------------
+Game UI item frame, rainbow prismatic border, mythic rarity tier, ultimate power glow, empty center, square frame, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF07] Card Frame Common
+Save as: RF07_Card_Frame_Common.png
+--------------------------------------------------
+Game UI card frame, simple stone border, common tier card, medieval style, empty center, portrait orientation, dark background, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF08] Card Frame Rare
+Save as: RF08_Card_Frame_Rare.png
+--------------------------------------------------
+Game UI card frame, ornate blue border, rare tier card, magical accents, empty center, portrait orientation, dark background, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF09] Card Frame Epic
+Save as: RF09_Card_Frame_Epic.png
+--------------------------------------------------
+Game UI card frame, elaborate purple border, epic tier card, energy effects, empty center, portrait orientation, dark background, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF10] Card Frame Legendary
+Save as: RF10_Card_Frame_Legendary.png
+--------------------------------------------------
+Game UI card frame, magnificent golden border, legendary tier card, divine radiance, empty center, portrait orientation, dark background, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF11] Achievement Bronze
+Save as: RF11_Achievement_Bronze.png
+--------------------------------------------------
+Game UI achievement frame, bronze medal border, third tier achievement, circular frame, laurel details, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF12] Achievement Silver
+Save as: RF12_Achievement_Silver.png
+--------------------------------------------------
+Game UI achievement frame, silver medal border, second tier achievement, circular frame, laurel details, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF13] Achievement Gold
+Save as: RF13_Achievement_Gold.png
+--------------------------------------------------
+Game UI achievement frame, gold medal border, first tier achievement, circular frame, laurel crown details, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF14] Achievement Platinum
+Save as: RF14_Achievement_Platinum.png
+--------------------------------------------------
+Game UI achievement frame, platinum diamond border, ultimate tier achievement, circular frame, sparkling details, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[RF15] Achievement Special
+Save as: RF15_Achievement_Special.png
+--------------------------------------------------
+Game UI achievement frame, unique prismatic border, special limited achievement, circular frame, animated effect look, dark background, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+
+======================================================================
+SECTION 7: UI PANELS & FRAMES (24 panels)
+======================================================================
+
+[UP01] Main Panel Large
+Save as: UP01_Main_Panel_Large.png
+--------------------------------------------------
+Game UI panel, medieval fantasy style frame, ornate golden corners, dark gradient center with subtle pattern, elegant stone border, wide horizontal panel, empty interior, 2D digital art --ar 16:9 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP02] Main Panel Medium
+Save as: UP02_Main_Panel_Medium.png
+--------------------------------------------------
+Game UI panel, medieval fantasy style frame, decorative corners, dark center with texture, medium sized panel, empty interior, 2D digital art --ar 4:3 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP03] Main Panel Small
+Save as: UP03_Main_Panel_Small.png
+--------------------------------------------------
+Game UI panel, medieval fantasy frame, compact design, golden accents, small panel, empty interior, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP04] Main Panel Vertical
+Save as: UP04_Main_Panel_Vertical.png
+--------------------------------------------------
+Game UI panel, medieval fantasy frame, tall vertical design, ornate top and bottom, side panel style, empty interior, 2D digital art --ar 9:16 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP05] Dialog Box Standard
+Save as: UP05_Dialog_Box_Standard.png
+--------------------------------------------------
+Game UI dialog box, parchment style background, decorative scroll corners, speech panel, horizontal format, empty interior, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP06] Dialog Box Fancy
+Save as: UP06_Dialog_Box_Fancy.png
+--------------------------------------------------
+Game UI dialog box, ornate golden frame, royal announcement style, important message panel, empty interior, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP07] Dialog Box Alert
+Save as: UP07_Dialog_Box_Alert.png
+--------------------------------------------------
+Game UI dialog box, red warning border, alert notification style, urgent message panel, empty interior, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP08] Dialog Box Success
+Save as: UP08_Dialog_Box_Success.png
+--------------------------------------------------
+Game UI dialog box, green success border, celebration style, achievement message panel, empty interior, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP09] Tooltip Standard
+Save as: UP09_Tooltip_Standard.png
+--------------------------------------------------
+Game UI tooltip, small info box, dark background, thin border, pointed bottom indicator, compact design, empty interior, 2D digital art --ar 2:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP10] Tooltip Item
+Save as: UP10_Tooltip_Item.png
+--------------------------------------------------
+Game UI item tooltip, rarity-ready frame, stat display area, item information panel, empty interior, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP11] Tooltip Building
+Save as: UP11_Tooltip_Building.png
+--------------------------------------------------
+Game UI building tooltip, construction info panel, resource requirement area, building details frame, empty interior, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP12] Info Card
+Save as: UP12_Info_Card.png
+--------------------------------------------------
+Game UI info card, character or unit display, portrait area top, stats area bottom, detailed information panel, empty interior, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP13] Button Normal Large
+Save as: UP13_Button_Normal_Large.png
+--------------------------------------------------
+Game UI button, medieval stone style, golden border, rounded rectangle, normal unpressed state, large size, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP14] Button Normal Medium
+Save as: UP14_Button_Normal_Medium.png
+--------------------------------------------------
+Game UI button, medieval stone style, golden border, rounded rectangle, normal state, medium size, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP15] Button Normal Small
+Save as: UP15_Button_Normal_Small.png
+--------------------------------------------------
+Game UI button, medieval stone style, thin border, rounded rectangle, normal state, small compact size, empty center, 2D digital art --ar 2:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP16] Button Pressed Large
+Save as: UP16_Button_Pressed_Large.png
+--------------------------------------------------
+Game UI button pressed state, darker stone texture, inset shadow effect, golden border, pressed down appearance, large size, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP17] Button Disabled
+Save as: UP17_Button_Disabled.png
+--------------------------------------------------
+Game UI button disabled state, grayed out stone texture, muted border, unavailable appearance, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP18] Button Special Gold
+Save as: UP18_Button_Special_Gold.png
+--------------------------------------------------
+Game UI premium button, golden metallic style, ornate design, special action button, glowing effect, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP19] Progress Bar Frame
+Save as: UP19_Progress_Bar_Frame.png
+--------------------------------------------------
+Game UI progress bar frame, medieval style, empty bar with ornate end caps, horizontal track, filling area empty, 2D digital art --ar 6:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP20] Progress Bar Fill Green
+Save as: UP20_Progress_Bar_Fill_Green.png
+--------------------------------------------------
+Game UI progress bar fill, green gradient, health or progress indicator, left-to-right fill, glowing edge, 2D digital art --ar 6:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP21] Progress Bar Fill Blue
+Save as: UP21_Progress_Bar_Fill_Blue.png
+--------------------------------------------------
+Game UI progress bar fill, blue gradient, mana or experience indicator, left-to-right fill, glowing edge, 2D digital art --ar 6:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP22] Progress Bar Fill Gold
+Save as: UP22_Progress_Bar_Fill_Gold.png
+--------------------------------------------------
+Game UI progress bar fill, golden gradient, premium or special progress, left-to-right fill, sparkling effect, 2D digital art --ar 6:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP23] Circular Progress Frame
+Save as: UP23_Circular_Progress_Frame.png
+--------------------------------------------------
+Game UI circular progress frame, round border, cooldown or timer display, empty center, radial design, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+[UP24] Slider Track
+Save as: UP24_Slider_Track.png
+--------------------------------------------------
+Game UI slider track, horizontal bar with notches, settings slider, volume or value control, empty design, 2D digital art --ar 8:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 4:3
+--------------------------------------------------
+
+
+======================================================================
+SECTION 8: ACHIEVEMENT ICONS (30 icons)
+======================================================================
+
+[AC01] First Blood
+Save as: AC01_First_Blood.png
+--------------------------------------------------
+Game UI achievement icon, single sword with blood drop, first victory, combat milestone, dramatic lighting, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC02] Warrior 10 Wins
+Save as: AC02_Warrior_10_Wins.png
+--------------------------------------------------
+Game UI achievement icon, sword and shield with number 10, battle veteran, combat milestone, bronze style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC03] Champion 100 Wins
+Save as: AC03_Champion_100_Wins.png
+--------------------------------------------------
+Game UI achievement icon, crossed swords with laurel wreath, hundred victories, combat master, silver style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC04] Conqueror 1000 Wins
+Save as: AC04_Conqueror_1000_Wins.png
+--------------------------------------------------
+Game UI achievement icon, golden crown over crossed swords, thousand victories, legendary warrior, golden style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC05] Undefeated Streak
+Save as: AC05_Undefeated_Streak.png
+--------------------------------------------------
+Game UI achievement icon, flaming sword with streak counter, winning streak, unbeaten record, intense glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC06] Giant Slayer
+Save as: AC06_Giant_Slayer.png
+--------------------------------------------------
+Game UI achievement icon, small sword defeating large enemy, underdog victory, epic triumph, dramatic scene, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC07] First Foundation
+Save as: AC07_First_Foundation.png
+--------------------------------------------------
+Game UI achievement icon, single foundation block with sparkle, first building placed, builder milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC08] Architect 10 Buildings
+Save as: AC08_Architect_10_Buildings.png
+--------------------------------------------------
+Game UI achievement icon, small village layout, ten buildings achievement, settlement milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC09] City Planner 50 Buildings
+Save as: AC09_City_Planner_50_Buildings.png
+--------------------------------------------------
+Game UI achievement icon, city skyline, fifty buildings achievement, urban development milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC10] Master Builder 100 Buildings
+Save as: AC10_Master_Builder_100_Buildings.png
+--------------------------------------------------
+Game UI achievement icon, grand castle complex, hundred buildings achievement, architectural mastery, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC11] Max Level Building
+Save as: AC11_Max_Level_Building.png
+--------------------------------------------------
+Game UI achievement icon, building with max level stars, fully upgraded structure, perfection milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC12] Diverse Builder
+Save as: AC12_Diverse_Builder.png
+--------------------------------------------------
+Game UI achievement icon, various building types arranged, all building types placed, variety milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC13] First Fortune
+Save as: AC13_First_Fortune.png
+--------------------------------------------------
+Game UI achievement icon, single gold coin with sparkle, first gold earned, wealth milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC14] Wealthy 10000 Gold
+Save as: AC14_Wealthy_10000_Gold.png
+--------------------------------------------------
+Game UI achievement icon, gold coin pile, ten thousand gold accumulated, wealth milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC15] Tycoon 100000 Gold
+Save as: AC15_Tycoon_100000_Gold.png
+--------------------------------------------------
+Game UI achievement icon, treasure vault overflowing, hundred thousand gold, extreme wealth milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC16] Gem Collector
+Save as: AC16_Gem_Collector.png
+--------------------------------------------------
+Game UI achievement icon, various gems arranged, gem collection achievement, precious stones milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC17] Resource Baron
+Save as: AC17_Resource_Baron.png
+--------------------------------------------------
+Game UI achievement icon, all resource types piled, resource mastery achievement, material wealth milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC18] First Friend
+Save as: AC18_First_Friend.png
+--------------------------------------------------
+Game UI achievement icon, two hands connecting, first friend added, social milestone, warm glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC19] Popular 10 Friends
+Save as: AC19_Popular_10_Friends.png
+--------------------------------------------------
+Game UI achievement icon, group of people, ten friends achievement, social network milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC20] Social Butterfly 50 Friends
+Save as: AC20_Social_Butterfly_50_Friends.png
+--------------------------------------------------
+Game UI achievement icon, large connected network, fifty friends achievement, popular player milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC21] Alliance Founder
+Save as: AC21_Alliance_Founder.png
+--------------------------------------------------
+Game UI achievement icon, guild banner planted, alliance created achievement, leadership milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC22] Alliance Champion
+Save as: AC22_Alliance_Champion.png
+--------------------------------------------------
+Game UI achievement icon, guild trophy raised, alliance victories achievement, teamwork milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC23] Generous Gifter
+Save as: AC23_Generous_Gifter.png
+--------------------------------------------------
+Game UI achievement icon, gift boxes sent, gifting achievement, generosity milestone, warm glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC24] Level 10
+Save as: AC24_Level_10.png
+--------------------------------------------------
+Game UI achievement icon, number 10 with level badge, level milestone, progression achievement, bronze style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC25] Level 25
+Save as: AC25_Level_25.png
+--------------------------------------------------
+Game UI achievement icon, number 25 with level badge, level milestone, progression achievement, silver style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC26] Level 50
+Save as: AC26_Level_50.png
+--------------------------------------------------
+Game UI achievement icon, number 50 with level badge, level milestone, progression achievement, gold style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC27] Level 100 Max
+Save as: AC27_Level_100_Max.png
+--------------------------------------------------
+Game UI achievement icon, number 100 with crown, max level achievement, ultimate progression milestone, legendary style, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC28] Daily Streak 7
+Save as: AC28_Daily_Streak_7.png
+--------------------------------------------------
+Game UI achievement icon, calendar with 7 day streak, weekly login achievement, dedication milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC29] Daily Streak 30
+Save as: AC29_Daily_Streak_30.png
+--------------------------------------------------
+Game UI achievement icon, calendar with 30 day streak, monthly login achievement, commitment milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[AC30] Daily Streak 365
+Save as: AC30_Daily_Streak_365.png
+--------------------------------------------------
+Game UI achievement icon, calendar with yearly badge, annual login achievement, legendary dedication milestone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 9: EMOTES & EXPRESSIONS (16 emotes)
+======================================================================
+
+[EM01] Happy Smile
+Save as: EM01_Happy_Smile.png
+--------------------------------------------------
+Game UI emote, happy smiling face, positive emotion, cheerful expression, stylized cartoon, yellow glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM02] Thumbs Up
+Save as: EM02_Thumbs_Up.png
+--------------------------------------------------
+Game UI emote, thumbs up hand gesture, approval expression, positive feedback, stylized cartoon, golden glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM03] Heart Love
+Save as: EM03_Heart_Love.png
+--------------------------------------------------
+Game UI emote, red heart with sparkles, love expression, affection symbol, stylized cartoon, pink glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM04] Celebration
+Save as: EM04_Celebration.png
+--------------------------------------------------
+Game UI emote, party popper with confetti, celebration expression, victory symbol, stylized cartoon, colorful, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM05] Star Impressed
+Save as: EM05_Star_Impressed.png
+--------------------------------------------------
+Game UI emote, starry eyes face, impressed expression, amazement symbol, stylized cartoon, sparkling, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM06] Clap Applause
+Save as: EM06_Clap_Applause.png
+--------------------------------------------------
+Game UI emote, clapping hands, applause expression, appreciation symbol, stylized cartoon, golden sparkles, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM07] Thinking
+Save as: EM07_Thinking.png
+--------------------------------------------------
+Game UI emote, thinking face with thought bubble, contemplation expression, pondering symbol, stylized cartoon, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM08] Wave Hello
+Save as: EM08_Wave_Hello.png
+--------------------------------------------------
+Game UI emote, waving hand gesture, greeting expression, hello symbol, stylized cartoon, friendly glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM09] Shrug
+Save as: EM09_Shrug.png
+--------------------------------------------------
+Game UI emote, shrugging figure, uncertainty expression, dunno symbol, stylized cartoon, neutral tone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM10] Surprised
+Save as: EM10_Surprised.png
+--------------------------------------------------
+Game UI emote, surprised face, shock expression, amazement symbol, stylized cartoon, blue accents, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM11] Sad Tear
+Save as: EM11_Sad_Tear.png
+--------------------------------------------------
+Game UI emote, sad face with tear, sadness expression, disappointment symbol, stylized cartoon, blue tones, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM12] Angry
+Save as: EM12_Angry.png
+--------------------------------------------------
+Game UI emote, angry face, frustration expression, upset symbol, stylized cartoon, red accents, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM13] Thumbs Down
+Save as: EM13_Thumbs_Down.png
+--------------------------------------------------
+Game UI emote, thumbs down hand gesture, disapproval expression, negative feedback, stylized cartoon, gray tone, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM14] Facepalm
+Save as: EM14_Facepalm.png
+--------------------------------------------------
+Game UI emote, facepalm gesture, exasperation expression, disbelief symbol, stylized cartoon, muted colors, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM15] Battle Cry
+Save as: EM15_Battle_Cry.png
+--------------------------------------------------
+Game UI emote, shouting face with energy, battle cry expression, war symbol, stylized cartoon, intense red, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[EM16] GG Good Game
+Save as: EM16_GG_Good_Game.png
+--------------------------------------------------
+Game UI emote, handshake with GG letters, good game expression, sportsmanship symbol, stylized cartoon, golden glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 10: BACKGROUNDS & TEXTURES (20 textures)
+======================================================================
+
+[TX01] Stone Wall Texture
+Save as: TX01_Stone_Wall_Texture.png
+--------------------------------------------------
+Seamless stone wall texture, medieval castle interior, gray bricks, subtle shadows, tileable pattern, game UI background, 2D digital art --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX02] Wood Plank Texture
+Save as: TX02_Wood_Plank_Texture.png
+--------------------------------------------------
+Seamless wooden plank texture, medieval floor boards, warm brown tones, wood grain detail, tileable pattern, game UI background, 2D digital art --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX03] Parchment Paper Texture
+Save as: TX03_Parchment_Paper_Texture.png
+--------------------------------------------------
+Seamless old parchment texture, aged paper, subtle stains, scroll background, tileable pattern, game UI background, 2D digital art --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX04] Metal Plate Texture
+Save as: TX04_Metal_Plate_Texture.png
+--------------------------------------------------
+Seamless metal plate texture, iron or steel surface, rivets and panels, industrial medieval, tileable pattern, game UI background, 2D digital art --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX05] Leather Texture
+Save as: TX05_Leather_Texture.png
+--------------------------------------------------
+Seamless leather texture, worn leather surface, stitching details, equipment background, tileable pattern, game UI background, 2D digital art --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX06] Dark Gradient Texture
+Save as: TX06_Dark_Gradient_Texture.png
+--------------------------------------------------
+Seamless dark gradient texture, subtle noise pattern, UI panel background, vignette edges, tileable pattern, game interface background, 2D digital art --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX07] Stone Material
+Save as: TX07_Stone_Material.png
+--------------------------------------------------
+Seamless stone material texture, medieval castle stone, normal map ready, PBR style, gray tones, tileable pattern, game asset texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX08] Wood Material
+Save as: TX08_Wood_Material.png
+--------------------------------------------------
+Seamless wood material texture, medieval construction lumber, normal map ready, PBR style, brown tones, tileable pattern, game asset texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX09] Metal Material
+Save as: TX09_Metal_Material.png
+--------------------------------------------------
+Seamless metal material texture, medieval iron armor, normal map ready, PBR style, silver metallic, tileable pattern, game asset texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX10] Gold Material
+Save as: TX10_Gold_Material.png
+--------------------------------------------------
+Seamless gold material texture, ornate treasure surface, normal map ready, PBR style, rich golden, tileable pattern, game asset texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX11] Crystal Material
+Save as: TX11_Crystal_Material.png
+--------------------------------------------------
+Seamless crystal material texture, magical gem surface, translucent quality, PBR style, blue purple tones, tileable pattern, game asset texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX12] Grass Material
+Save as: TX12_Grass_Material.png
+--------------------------------------------------
+Seamless grass material texture, medieval ground cover, normal map ready, PBR style, green natural, tileable pattern, game environment texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX13] Dirt Path Material
+Save as: TX13_Dirt_Path_Material.png
+--------------------------------------------------
+Seamless dirt path texture, worn earth road, normal map ready, PBR style, brown earth tones, tileable pattern, game environment texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX14] Cobblestone Material
+Save as: TX14_Cobblestone_Material.png
+--------------------------------------------------
+Seamless cobblestone street texture, medieval town road, normal map ready, PBR style, gray stones, tileable pattern, game environment texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX15] Magic Glow Texture
+Save as: TX15_Magic_Glow_Texture.png
+--------------------------------------------------
+Seamless magical glow texture, energy effect, blue ethereal light, particle effect background, tileable pattern, game VFX texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX16] Fire Gradient Texture
+Save as: TX16_Fire_Gradient_Texture.png
+--------------------------------------------------
+Seamless fire gradient texture, flame effect, orange to yellow gradient, heat distortion background, tileable pattern, game VFX texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX17] Water Surface Texture
+Save as: TX17_Water_Surface_Texture.png
+--------------------------------------------------
+Seamless water surface texture, ripple patterns, blue reflective, caustics effect, tileable pattern, game environment texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX18] Smoke Texture
+Save as: TX18_Smoke_Texture.png
+--------------------------------------------------
+Seamless smoke texture, wispy cloud pattern, gray translucent, atmosphere effect, tileable pattern, game VFX texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX19] Lightning Texture
+Save as: TX19_Lightning_Texture.png
+--------------------------------------------------
+Seamless lightning pattern texture, electric energy, branching bolts, blue white energy, tileable pattern, game VFX texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+[TX20] Sparkle Noise Texture
+Save as: TX20_Sparkle_Noise_Texture.png
+--------------------------------------------------
+Seamless sparkle noise texture, random bright points, magical particle effect, star field style, tileable pattern, game VFX texture --tile --v 6.1 --style raw --no text, words, letters, watermark --ar 16:9
+--------------------------------------------------
+
+
+======================================================================
+SECTION 11: FACTION SPECIFIC ASSETS (40 items)
+======================================================================
+
+[FA01] Kingdom Banner
+Save as: FA01_Kingdom_Banner.png
+--------------------------------------------------
+Game UI icon, blue kingdom banner with golden lion crest, royal heraldry, faction A symbol, noble design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA02] Kingdom Shield
+Save as: FA02_Kingdom_Shield.png
+--------------------------------------------------
+Game UI icon, blue shield with golden crown emblem, kingdom faction crest, royal defense symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA03] Kingdom Emblem
+Save as: FA03_Kingdom_Emblem.png
+--------------------------------------------------
+Game UI emblem, golden lion on blue background, kingdom faction logo, royal insignia, circular design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA04] Kingdom Frame
+Save as: FA04_Kingdom_Frame.png
+--------------------------------------------------
+Game UI panel frame, blue velvet with golden ornate border, kingdom faction style, royal elegant design, empty center, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA05] Kingdom Button
+Save as: FA05_Kingdom_Button.png
+--------------------------------------------------
+Game UI button, blue background with golden trim, kingdom faction style, royal button design, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA06] Kingdom Portrait Frame
+Save as: FA06_Kingdom_Portrait_Frame.png
+--------------------------------------------------
+Game UI portrait frame, blue and gold ornate border, kingdom faction style, character frame, empty center, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA07] Kingdom Victory Banner
+Save as: FA07_Kingdom_Victory_Banner.png
+--------------------------------------------------
+Game UI victory screen banner, kingdom blue and gold, celebration design, win announcement, faction A style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA08] Kingdom Territory Marker
+Save as: FA08_Kingdom_Territory_Marker.png
+--------------------------------------------------
+Game UI map marker, blue flag with golden trim, kingdom territory indicator, map ownership symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA09] Kingdom Chat Badge
+Save as: FA09_Kingdom_Chat_Badge.png
+--------------------------------------------------
+Game UI chat badge, small kingdom emblem, faction identifier, message accent, compact design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FA10] Kingdom Loading Frame
+Save as: FA10_Kingdom_Loading_Frame.png
+--------------------------------------------------
+Game UI loading screen frame, kingdom blue and gold theme, decorative border, loading content area, faction A style, 2D digital art --ar 16:9 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB01] Empire Banner
+Save as: FB01_Empire_Banner.png
+--------------------------------------------------
+Game UI icon, red empire banner with black eagle crest, military heraldry, faction B symbol, aggressive design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB02] Empire Shield
+Save as: FB02_Empire_Shield.png
+--------------------------------------------------
+Game UI icon, red shield with black sword emblem, empire faction crest, military defense symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB03] Empire Emblem
+Save as: FB03_Empire_Emblem.png
+--------------------------------------------------
+Game UI emblem, black eagle on red background, empire faction logo, military insignia, circular design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB04] Empire Frame
+Save as: FB04_Empire_Frame.png
+--------------------------------------------------
+Game UI panel frame, red background with black iron border, empire faction style, military design, empty center, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB05] Empire Button
+Save as: FB05_Empire_Button.png
+--------------------------------------------------
+Game UI button, red background with black trim, empire faction style, military button design, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB06] Empire Portrait Frame
+Save as: FB06_Empire_Portrait_Frame.png
+--------------------------------------------------
+Game UI portrait frame, red and black ornate border, empire faction style, character frame, empty center, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB07] Empire Victory Banner
+Save as: FB07_Empire_Victory_Banner.png
+--------------------------------------------------
+Game UI victory screen banner, empire red and black, conquest design, win announcement, faction B style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB08] Empire Territory Marker
+Save as: FB08_Empire_Territory_Marker.png
+--------------------------------------------------
+Game UI map marker, red flag with black trim, empire territory indicator, map ownership symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB09] Empire Chat Badge
+Save as: FB09_Empire_Chat_Badge.png
+--------------------------------------------------
+Game UI chat badge, small empire emblem, faction identifier, message accent, compact design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FB10] Empire Loading Frame
+Save as: FB10_Empire_Loading_Frame.png
+--------------------------------------------------
+Game UI loading screen frame, empire red and black theme, decorative border, loading content area, faction B style, 2D digital art --ar 16:9 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC01] Forest Banner
+Save as: FC01_Forest_Banner.png
+--------------------------------------------------
+Game UI icon, green forest banner with tree crest, nature heraldry, faction C symbol, organic design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC02] Forest Shield
+Save as: FC02_Forest_Shield.png
+--------------------------------------------------
+Game UI icon, green shield with leaf emblem, forest faction crest, nature defense symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC03] Forest Emblem
+Save as: FC03_Forest_Emblem.png
+--------------------------------------------------
+Game UI emblem, great tree on green background, forest faction logo, nature insignia, circular design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC04] Forest Frame
+Save as: FC04_Forest_Frame.png
+--------------------------------------------------
+Game UI panel frame, green background with wooden vine border, forest faction style, organic design, empty center, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC05] Forest Button
+Save as: FC05_Forest_Button.png
+--------------------------------------------------
+Game UI button, green background with brown trim, forest faction style, nature button design, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC06] Forest Portrait Frame
+Save as: FC06_Forest_Portrait_Frame.png
+--------------------------------------------------
+Game UI portrait frame, green and brown ornate border, forest faction style, character frame, empty center, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC07] Forest Victory Banner
+Save as: FC07_Forest_Victory_Banner.png
+--------------------------------------------------
+Game UI victory screen banner, forest green and brown, nature celebration, win announcement, faction C style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC08] Forest Territory Marker
+Save as: FC08_Forest_Territory_Marker.png
+--------------------------------------------------
+Game UI map marker, green flag with brown trim, forest territory indicator, map ownership symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC09] Forest Chat Badge
+Save as: FC09_Forest_Chat_Badge.png
+--------------------------------------------------
+Game UI chat badge, small forest emblem, faction identifier, message accent, compact design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FC10] Forest Loading Frame
+Save as: FC10_Forest_Loading_Frame.png
+--------------------------------------------------
+Game UI loading screen frame, forest green and brown theme, decorative border, loading content area, faction C style, 2D digital art --ar 16:9 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD01] Arcane Banner
+Save as: FD01_Arcane_Banner.png
+--------------------------------------------------
+Game UI icon, purple arcane banner with silver moon crest, magical heraldry, faction D symbol, mystical design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD02] Arcane Shield
+Save as: FD02_Arcane_Shield.png
+--------------------------------------------------
+Game UI icon, purple shield with crystal emblem, arcane faction crest, magical defense symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD03] Arcane Emblem
+Save as: FD03_Arcane_Emblem.png
+--------------------------------------------------
+Game UI emblem, silver crescent moon on purple background, arcane faction logo, magical insignia, circular design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD04] Arcane Frame
+Save as: FD04_Arcane_Frame.png
+--------------------------------------------------
+Game UI panel frame, purple background with silver runic border, arcane faction style, mystical design, empty center, 2D digital art --ar 1:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD05] Arcane Button
+Save as: FD05_Arcane_Button.png
+--------------------------------------------------
+Game UI button, purple background with silver trim, arcane faction style, magical button design, empty center, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD06] Arcane Portrait Frame
+Save as: FD06_Arcane_Portrait_Frame.png
+--------------------------------------------------
+Game UI portrait frame, purple and silver ornate border, arcane faction style, character frame, empty center, 2D digital art --ar 3:4 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD07] Arcane Victory Banner
+Save as: FD07_Arcane_Victory_Banner.png
+--------------------------------------------------
+Game UI victory screen banner, arcane purple and silver, magical celebration, win announcement, faction D style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD08] Arcane Territory Marker
+Save as: FD08_Arcane_Territory_Marker.png
+--------------------------------------------------
+Game UI map marker, purple flag with silver trim, arcane territory indicator, map ownership symbol, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD09] Arcane Chat Badge
+Save as: FD09_Arcane_Chat_Badge.png
+--------------------------------------------------
+Game UI chat badge, small arcane emblem, faction identifier, message accent, compact design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[FD10] Arcane Loading Frame
+Save as: FD10_Arcane_Loading_Frame.png
+--------------------------------------------------
+Game UI loading screen frame, arcane purple and silver theme, decorative border, loading content area, faction D style, 2D digital art --ar 16:9 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+
+======================================================================
+SECTION 12: SEASONAL & EVENT ASSETS (24 items)
+======================================================================
+
+[SE01] Spring Banner
+Save as: SE01_Spring_Banner.png
+--------------------------------------------------
+Game UI banner, spring festival theme, flowers and butterflies, pastel colors, seasonal celebration, game event style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE02] Spring Frame
+Save as: SE02_Spring_Frame.png
+--------------------------------------------------
+Game UI panel frame, spring theme, flower border, pastel pink and green, seasonal design, empty center, 2D digital art --ar 4:3 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE03] Spring Icon
+Save as: SE03_Spring_Icon.png
+--------------------------------------------------
+Game UI icon, blooming flower, spring event symbol, nature awakening, pastel colors, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE04] Easter Egg Icon
+Save as: SE04_Easter_Egg_Icon.png
+--------------------------------------------------
+Game UI icon, decorated easter egg, holiday event symbol, colorful patterns, festive design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE05] Spring Currency
+Save as: SE05_Spring_Currency.png
+--------------------------------------------------
+Game UI icon, spring petal currency, seasonal event money, flower token, limited time, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE06] Spring Chest
+Save as: SE06_Spring_Chest.png
+--------------------------------------------------
+Game UI icon, spring themed reward chest, flower decorations, seasonal loot box, event reward, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE07] Summer Banner
+Save as: SE07_Summer_Banner.png
+--------------------------------------------------
+Game UI banner, summer festival theme, sun and waves, bright warm colors, seasonal celebration, game event style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE08] Summer Frame
+Save as: SE08_Summer_Frame.png
+--------------------------------------------------
+Game UI panel frame, summer theme, beach border, sunny yellow and blue, seasonal design, empty center, 2D digital art --ar 4:3 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE09] Summer Icon
+Save as: SE09_Summer_Icon.png
+--------------------------------------------------
+Game UI icon, bright sun, summer event symbol, warm season, golden rays, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE10] Beach Ball Icon
+Save as: SE10_Beach_Ball_Icon.png
+--------------------------------------------------
+Game UI icon, colorful beach ball, summer holiday symbol, fun festive design, seasonal item, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE11] Summer Currency
+Save as: SE11_Summer_Currency.png
+--------------------------------------------------
+Game UI icon, seashell currency, seasonal event money, ocean token, limited time, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE12] Summer Chest
+Save as: SE12_Summer_Chest.png
+--------------------------------------------------
+Game UI icon, summer themed reward chest, beach decorations, seasonal loot box, event reward, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE13] Autumn Banner
+Save as: SE13_Autumn_Banner.png
+--------------------------------------------------
+Game UI banner, autumn festival theme, falling leaves and pumpkins, orange warm colors, seasonal celebration, game event style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE14] Autumn Frame
+Save as: SE14_Autumn_Frame.png
+--------------------------------------------------
+Game UI panel frame, autumn theme, leaf border, orange and brown, seasonal design, empty center, 2D digital art --ar 4:3 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE15] Halloween Icon
+Save as: SE15_Halloween_Icon.png
+--------------------------------------------------
+Game UI icon, jack-o-lantern pumpkin, halloween event symbol, spooky festive, orange glow, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE16] Ghost Icon
+Save as: SE16_Ghost_Icon.png
+--------------------------------------------------
+Game UI icon, cute ghost, halloween symbol, spooky but friendly, festive design, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE17] Autumn Currency
+Save as: SE17_Autumn_Currency.png
+--------------------------------------------------
+Game UI icon, maple leaf currency, seasonal event money, autumn token, limited time, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE18] Halloween Chest
+Save as: SE18_Halloween_Chest.png
+--------------------------------------------------
+Game UI icon, halloween themed reward chest, spooky decorations, seasonal loot box, event reward, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE19] Winter Banner
+Save as: SE19_Winter_Banner.png
+--------------------------------------------------
+Game UI banner, winter festival theme, snow and presents, blue and white colors, seasonal celebration, game event style, 2D digital art --ar 3:1 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE20] Winter Frame
+Save as: SE20_Winter_Frame.png
+--------------------------------------------------
+Game UI panel frame, winter theme, snowflake border, icy blue and white, seasonal design, empty center, 2D digital art --ar 4:3 --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE21] Christmas Icon
+Save as: SE21_Christmas_Icon.png
+--------------------------------------------------
+Game UI icon, christmas tree with star, holiday event symbol, festive green and gold, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE22] Snowflake Icon
+Save as: SE22_Snowflake_Icon.png
+--------------------------------------------------
+Game UI icon, crystal snowflake, winter symbol, icy design, sparkling detail, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE23] Winter Currency
+Save as: SE23_Winter_Currency.png
+--------------------------------------------------
+Game UI icon, snowflake currency, seasonal event money, winter token, limited time, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
+[SE24] Christmas Chest
+Save as: SE24_Christmas_Chest.png
+--------------------------------------------------
+Game UI icon, christmas themed reward chest, wrapped present style, seasonal loot box, event reward, dark background, 2D digital art --v 6.1 --style raw --no text, words, letters, watermark --ar 1:1
+--------------------------------------------------
+
