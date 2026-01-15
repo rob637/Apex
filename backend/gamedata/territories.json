@@ -1,0 +1,207 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-27",
+  
+  "territoryConfig": {
+    "claimRadius": 20,
+    "minDistanceBetweenTerritories": 50,
+    "maxTerritoriesPerUser": 10,
+    "maxTerritoriesPerUserPremium": 25,
+    "claimCost": {
+      "energy": 50
+    }
+  },
+  
+  "territoryLevels": [
+    {
+      "level": 1,
+      "name": "Outpost",
+      "health": 1000,
+      "maxBlocks": 50,
+      "maxDefenses": 2,
+      "resourceGeneration": {
+        "stone": 5,
+        "wood": 5
+      },
+      "upgradeCost": null
+    },
+    {
+      "level": 2,
+      "name": "Settlement",
+      "health": 1500,
+      "maxBlocks": 100,
+      "maxDefenses": 4,
+      "resourceGeneration": {
+        "stone": 10,
+        "wood": 10,
+        "metal": 2
+      },
+      "upgradeCost": {
+        "stone": 500,
+        "wood": 500,
+        "energy": 100
+      }
+    },
+    {
+      "level": 3,
+      "name": "Village",
+      "health": 2000,
+      "maxBlocks": 175,
+      "maxDefenses": 6,
+      "resourceGeneration": {
+        "stone": 15,
+        "wood": 15,
+        "metal": 5
+      },
+      "upgradeCost": {
+        "stone": 1000,
+        "wood": 1000,
+        "metal": 100,
+        "energy": 150
+      }
+    },
+    {
+      "level": 4,
+      "name": "Town",
+      "health": 2750,
+      "maxBlocks": 275,
+      "maxDefenses": 8,
+      "resourceGeneration": {
+        "stone": 25,
+        "wood": 25,
+        "metal": 10,
+        "crystals": 1
+      },
+      "upgradeCost": {
+        "stone": 2000,
+        "wood": 2000,
+        "metal": 300,
+        "crystals": 25,
+        "energy": 250
+      }
+    },
+    {
+      "level": 5,
+      "name": "Fortress",
+      "health": 4000,
+      "maxBlocks": 400,
+      "maxDefenses": 12,
+      "resourceGeneration": {
+        "stone": 40,
+        "wood": 40,
+        "metal": 20,
+        "crystals": 3
+      },
+      "upgradeCost": {
+        "stone": 5000,
+        "wood": 5000,
+        "metal": 750,
+        "crystals": 100,
+        "energy": 500
+      }
+    },
+    {
+      "level": 6,
+      "name": "Citadel",
+      "health": 6000,
+      "maxBlocks": 500,
+      "maxDefenses": 16,
+      "resourceGeneration": {
+        "stone": 60,
+        "wood": 60,
+        "metal": 30,
+        "crystals": 5
+      },
+      "upgradeCost": null,
+      "isMaxLevel": true
+    }
+  ],
+  
+  "zoneTypes": {
+    "residential": {
+      "name": "Residential Zone",
+      "description": "Quiet neighborhoods with moderate resources",
+      "resourceMultiplier": 1.0,
+      "defenseBonus": 1.1,
+      "contestFrequency": "low"
+    },
+    "commercial": {
+      "name": "Commercial Zone",
+      "description": "Busy shopping areas with high foot traffic",
+      "resourceMultiplier": 1.25,
+      "defenseBonus": 0.9,
+      "contestFrequency": "medium"
+    },
+    "industrial": {
+      "name": "Industrial Zone",
+      "description": "Metal-rich areas with industrial resources",
+      "resourceMultiplier": 1.5,
+      "defenseBonus": 1.0,
+      "contestFrequency": "medium",
+      "specialResource": "metal"
+    },
+    "landmark": {
+      "name": "Landmark Zone",
+      "description": "Famous locations with special significance",
+      "resourceMultiplier": 2.0,
+      "defenseBonus": 1.0,
+      "contestFrequency": "high",
+      "specialResource": "crystals",
+      "leaderboardBonus": 2
+    },
+    "park": {
+      "name": "Park Zone",
+      "description": "Green spaces with natural resources",
+      "resourceMultiplier": 1.5,
+      "defenseBonus": 0.8,
+      "contestFrequency": "low",
+      "specialResource": "wood"
+    },
+    "downtown": {
+      "name": "Downtown Zone",
+      "description": "City center with maximum strategic value",
+      "resourceMultiplier": 2.5,
+      "defenseBonus": 1.2,
+      "contestFrequency": "very_high",
+      "leaderboardBonus": 5,
+      "allianceWarZone": true
+    }
+  },
+  
+  "controlBonuses": {
+    "adjacentTerritoryBonus": 0.1,
+    "maxAdjacentBonus": 0.5,
+    "districtControlBonus": {
+      "25": 1.1,
+      "50": 1.25,
+      "75": 1.5,
+      "100": 2.0
+    },
+    "cityControlTitle": "Mayor",
+    "districtControlTitle": "District Lord"
+  },
+  
+  "maintenance": {
+    "enabled": false,
+    "dailyCost": {
+      "energy": 10
+    },
+    "gracePeriodDays": 3,
+    "abandonmentPenalty": {
+      "healthLossPercent": 25
+    }
+  },
+  
+  "visualConfig": {
+    "boundaryColor": {
+      "owned": "#10B981",
+      "allied": "#3B82F6",
+      "enemy": "#EF4444",
+      "neutral": "#6B7280"
+    },
+    "boundaryOpacity": 0.3,
+    "monumentHeight": 2,
+    "flagHeight": 4,
+    "buildZoneIndicator": true
+  }
+}

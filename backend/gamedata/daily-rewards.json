@@ -1,0 +1,202 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-27",
+  
+  "dailyRewards": {
+    "cycle": 7,
+    "resetOnMiss": true,
+    "gracePeriodHours": 24,
+    "rewards": [
+      {
+        "day": 1,
+        "rewards": {
+          "stone": 50,
+          "wood": 50,
+          "energy": 20
+        },
+        "label": "Day 1"
+      },
+      {
+        "day": 2,
+        "rewards": {
+          "stone": 75,
+          "wood": 75,
+          "metal": 10
+        },
+        "label": "Day 2"
+      },
+      {
+        "day": 3,
+        "rewards": {
+          "stone": 100,
+          "wood": 100,
+          "metal": 20,
+          "energy": 30
+        },
+        "label": "Day 3"
+      },
+      {
+        "day": 4,
+        "rewards": {
+          "stone": 125,
+          "wood": 125,
+          "metal": 30,
+          "crystals": 5
+        },
+        "label": "Day 4"
+      },
+      {
+        "day": 5,
+        "rewards": {
+          "stone": 150,
+          "wood": 150,
+          "metal": 40,
+          "crystals": 10,
+          "energy": 50
+        },
+        "label": "Day 5"
+      },
+      {
+        "day": 6,
+        "rewards": {
+          "stone": 200,
+          "wood": 200,
+          "metal": 50,
+          "crystals": 15
+        },
+        "label": "Day 6"
+      },
+      {
+        "day": 7,
+        "rewards": {
+          "stone": 300,
+          "wood": 300,
+          "metal": 75,
+          "crystals": 25,
+          "gems": 25,
+          "energy": 100
+        },
+        "label": "Weekly Bonus!",
+        "special": true
+      }
+    ]
+  },
+  
+  "streakBonuses": {
+    "enabled": true,
+    "bonuses": [
+      {
+        "streak": 7,
+        "multiplier": 1.1,
+        "bonusGems": 10
+      },
+      {
+        "streak": 14,
+        "multiplier": 1.15,
+        "bonusGems": 25
+      },
+      {
+        "streak": 30,
+        "multiplier": 1.25,
+        "bonusGems": 50
+      },
+      {
+        "streak": 60,
+        "multiplier": 1.35,
+        "bonusGems": 100
+      },
+      {
+        "streak": 90,
+        "multiplier": 1.5,
+        "bonusGems": 200
+      }
+    ]
+  },
+  
+  "monthlyCalendar": {
+    "enabled": false,
+    "specialDays": [
+      {
+        "dayOfMonth": 1,
+        "label": "First of Month",
+        "bonusMultiplier": 2.0
+      },
+      {
+        "dayOfMonth": 15,
+        "label": "Mid-Month",
+        "bonusMultiplier": 1.5
+      }
+    ]
+  },
+  
+  "seasonalEvents": {
+    "enabled": true,
+    "events": [
+      {
+        "id": "winter_fest",
+        "name": "Winter Festival",
+        "startMonth": 12,
+        "startDay": 20,
+        "endMonth": 1,
+        "endDay": 5,
+        "bonusMultiplier": 2.0,
+        "specialRewards": {
+          "crystals": 50,
+          "gems": 100
+        }
+      },
+      {
+        "id": "spring_bloom",
+        "name": "Spring Bloom",
+        "startMonth": 3,
+        "startDay": 20,
+        "endMonth": 4,
+        "endDay": 5,
+        "bonusMultiplier": 1.5,
+        "specialRewards": {
+          "wood": 500,
+          "crystals": 25
+        }
+      },
+      {
+        "id": "summer_siege",
+        "name": "Summer Siege",
+        "startMonth": 6,
+        "startDay": 21,
+        "endMonth": 7,
+        "endDay": 10,
+        "bonusMultiplier": 1.5,
+        "specialRewards": {
+          "metal": 200,
+          "energy": 100
+        }
+      },
+      {
+        "id": "harvest_moon",
+        "name": "Harvest Moon",
+        "startMonth": 9,
+        "startDay": 22,
+        "endMonth": 10,
+        "endDay": 7,
+        "bonusMultiplier": 1.75,
+        "specialRewards": {
+          "stone": 500,
+          "crystals": 30
+        }
+      }
+    ]
+  },
+  
+  "welcomeBackRewards": {
+    "enabled": true,
+    "inactiveDaysRequired": 7,
+    "rewards": {
+      "stone": 500,
+      "wood": 500,
+      "metal": 100,
+      "energy": 100,
+      "gems": 50
+    },
+    "message": "Welcome back, Commander! Here's a care package to help you get started again."
+  }
+}

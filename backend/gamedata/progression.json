@@ -1,0 +1,196 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-27",
+  
+  "levelCurve": {
+    "description": "XP required to reach each level",
+    "maxLevel": 100,
+    "xpPerLevel": [
+      0,
+      100,
+      250,
+      450,
+      700,
+      1000,
+      1400,
+      1900,
+      2500,
+      3200,
+      4000,
+      5000,
+      6200,
+      7600,
+      9200,
+      11000,
+      13100,
+      15500,
+      18200,
+      21200,
+      24500,
+      28200,
+      32300,
+      36800,
+      41700,
+      47000,
+      52800,
+      59100,
+      65900,
+      73200,
+      81000,
+      89500,
+      98700,
+      108600,
+      119200,
+      130500,
+      142600,
+      155500,
+      169200,
+      183700,
+      199000,
+      215200,
+      232300,
+      250300,
+      269200,
+      289000,
+      309800,
+      331600,
+      354400,
+      378200,
+      403000,
+      428900,
+      455900,
+      484000,
+      513200,
+      543600,
+      575200,
+      608000,
+      642000,
+      677300,
+      713900,
+      751800,
+      791100,
+      831800,
+      873900,
+      917500,
+      962600,
+      1009200,
+      1057400,
+      1107200,
+      1158600,
+      1211700,
+      1266500,
+      1323100,
+      1381500,
+      1441700,
+      1503800,
+      1567800,
+      1633800,
+      1701800,
+      1771800,
+      1843900,
+      1918200,
+      1994700,
+      2073400,
+      2154500,
+      2238000,
+      2323900,
+      2412300,
+      2503200,
+      2596800,
+      2693100,
+      2792100,
+      2893900,
+      2998600,
+      3106200,
+      3216800,
+      3330400,
+      3447100,
+      3566900
+    ]
+  },
+  
+  "levelBonuses": {
+    "attackDamagePerLevel": 0.05,
+    "defensePerLevel": 0.03,
+    "resourceCapacityPerLevel": 0.02,
+    "harvestBonusPerLevel": 0.02,
+    "energyRegenPerLevel": 0.01
+  },
+  
+  "xpRewards": {
+    "claimTerritory": 100,
+    "defendTerritory": 75,
+    "conquerTerritory": 150,
+    "buildBlock": 10,
+    "harvestResource": 5,
+    "firstDailyLogin": 50,
+    "completeAchievement": "varies",
+    "allianceWinWar": 500,
+    "allianceParticipate": 100
+  },
+  
+  "milestones": [
+    {
+      "level": 5,
+      "reward": { "gems": 50 },
+      "unlock": "defensive_walls"
+    },
+    {
+      "level": 10,
+      "reward": { "gems": 100 },
+      "unlock": "alliance_creation"
+    },
+    {
+      "level": 15,
+      "reward": { "gems": 150 },
+      "unlock": "turrets"
+    },
+    {
+      "level": 20,
+      "reward": { "gems": 200 },
+      "unlock": "alliance_wars"
+    },
+    {
+      "level": 25,
+      "reward": { "gems": 300 },
+      "unlock": "premium_cosmetics"
+    },
+    {
+      "level": 30,
+      "reward": { "gems": 400 },
+      "unlock": "advanced_attacks"
+    },
+    {
+      "level": 40,
+      "reward": { "gems": 500 },
+      "unlock": "legendary_blocks"
+    },
+    {
+      "level": 50,
+      "reward": { "gems": 750, "title": "Veteran" },
+      "unlock": "veteran_rewards"
+    },
+    {
+      "level": 75,
+      "reward": { "gems": 1000, "title": "Master Builder" },
+      "unlock": "master_cosmetics"
+    },
+    {
+      "level": 100,
+      "reward": { "gems": 2000, "title": "Apex Legend" },
+      "unlock": "everything"
+    }
+  ],
+  
+  "prestigeSystem": {
+    "enabled": false,
+    "requiredLevel": 100,
+    "prestigeBonuses": [
+      { "prestige": 1, "xpBonus": 1.1, "cosmetic": "gold_border" },
+      { "prestige": 2, "xpBonus": 1.2, "cosmetic": "platinum_border" },
+      { "prestige": 3, "xpBonus": 1.3, "cosmetic": "diamond_border" },
+      { "prestige": 4, "xpBonus": 1.4, "cosmetic": "crystal_border" },
+      { "prestige": 5, "xpBonus": 1.5, "cosmetic": "apex_border" }
+    ]
+  }
+}

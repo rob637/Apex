@@ -6,12 +6,301 @@
  * - User authentication hooks
  * - Game state validation
  * - Leaderboard calculations
+ * - Combat system
+ * - Progression (daily rewards, achievements, XP)
+ * - Alliance management
+ * - Notifications
+ * - World Events (FOMO system)
+ * - Season Pass / Battle Pass
+ * - Friends & Social
+ * - Anti-cheat & Location Validation
+ * - Analytics & Telemetry
+ * - Real-time Map API
+ * - Referral System
+ * - Chat System
  */
 
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 admin.initializeApp();
+
+// ============================================================================
+// Re-export Modular Functions
+// ============================================================================
+
+// Combat System
+export {
+  attackTerritory,
+  getAttackCooldowns,
+  getBattleHistory,
+  repairTerritory,
+  activateShield
+} from './combat';
+
+// Battle System (Turn-based Strategic Combat)
+export {
+  scheduleBattle,
+  setBattleFormation,
+  executeBattle,
+  reclaimTerritory,
+  reportBattleParticipation,
+  trainTroops,
+  collectTrainedTroops,
+  processPendingBattles
+} from './battle';
+
+// Protection System (Shields & Activity Bonuses)
+export {
+  getMyProtectionStatus,
+  checkTerritoryAttackable,
+  waiveNewcomerShield,
+  grantTemporaryShield
+} from './protection';
+
+// Blueprint System (Save/Restore Citadel Layouts)
+export {
+  saveBlueprint,
+  getMyBlueprints,
+  getBlueprintDetails,
+  deleteBlueprint,
+  renameBlueprint,
+  applyBlueprint,
+  previewBlueprintCost
+} from './blueprint';
+
+// Location Utilities (Density & Territory Sizing)
+export {
+  setAreaDensity,
+  getLocationInfo,
+  precomputeRegionDensity
+} from './location-utils';
+
+// Progression System (Daily Rewards, Achievements, XP)
+export {
+  claimDailyReward,
+  getDailyRewardStatus,
+  awardXp,
+  checkAchievements,
+  claimAchievementReward,
+  getAchievements
+} from './progression';
+
+// Alliance System
+export {
+  createAlliance,
+  joinAlliance,
+  leaveAlliance,
+  inviteToAlliance,
+  respondToInvitation,
+  startAllianceWar,
+  declareAllianceWar,
+  cancelAllianceWar,
+  getAllianceWarStatus,
+  processWarPhases,
+  getAllianceDetails,
+  searchAlliances
+} from './alliance';
+
+// Notification System
+export {
+  getNotifications,
+  markNotificationRead,
+  cleanupOldNotifications,
+  registerFcmToken,
+  updateNotificationSettings,
+  sendDailyRewardReminder as sendDailyRewardReminderLegacy
+} from './notifications';
+
+// World Events System (FOMO)
+export {
+  getActiveEvents,
+  joinEvent,
+  contributeToEvent,
+  claimEventRewards,
+  createWorldEvent,
+  activateScheduledEvents,
+  completeEndedEvents,
+  getEventLeaderboard
+} from './world-events';
+
+// Season Pass / Battle Pass System
+export {
+  getCurrentSeason,
+  purchasePremiumPass,
+  claimSeasonReward,
+  completeChallenge,
+  refreshDailyChallenges,
+  createSeason
+} from './season-pass';
+
+// Friends & Social System
+export {
+  sendFriendRequest,
+  respondToFriendRequest,
+  getFriendsList,
+  getFriendRequests,
+  sendGift,
+  claimGift,
+  getPendingGifts,
+  getActivityFeed,
+  likeActivity,
+  removeFriend,
+  searchUsers,
+  getFriendLeaderboard
+} from './friends';
+
+// Anti-cheat & Location Validation
+export {
+  validateLocationRequest,
+  checkActionRateLimit,
+  getTrustScore,
+  reviewSuspiciousActivity,
+  cleanupRateLimits
+} from './anticheat';
+
+// Analytics & Telemetry
+export {
+  trackEvent,
+  startSession,
+  endSession,
+  getFunnelAnalysis,
+  getEconomyMetrics,
+  getRetentionCohorts,
+  getABTestVariant,
+  recordABTestConversion,
+  calculateDailyMetrics
+} from './analytics';
+
+// Real-time Map API
+export {
+  getMapTiles,
+  getTerritoriesInArea,
+  getNearbyPlayers,
+  getRecentActivity,
+  getHeatmapData,
+  cleanupMapData
+} from './map-api';
+
+// Referral & Viral Growth System
+export {
+  generateReferralCode,
+  useReferralCode,
+  claimReferralRewards,
+  claimMilestoneReward,
+  recordShare,
+  getReferralStats,
+  getActiveViralChallenges,
+  generateShareLink
+} from './referrals';
+
+// Chat System
+export {
+  sendMessage,
+  getMessages,
+  createChannel,
+  joinChannel,
+  leaveChannel,
+  reactToMessage,
+  reportMessage,
+  deleteMessage,
+  muteUser,
+  getUserChannels,
+  initializeGlobalChat
+} from './chat';
+
+// In-App Purchases System
+export {
+  getProductCatalog,
+  verifyApplePurchase,
+  verifyGooglePurchase,
+  restorePurchases,
+  getPurchaseHistory,
+  getEntitlements,
+  adminGrantProduct,
+  appleWebhook,
+  checkSubscriptionExpiry,
+  grantDailyVIPRewards,
+  getRevenueAnalytics
+} from './iap';
+
+// Push Notifications
+export {
+  registerPushToken,
+  unregisterPushToken,
+  updateNotificationPreferences,
+  getNotificationSettings,
+  sendPushNotification,
+  broadcastNotification,
+  subscribeToAllianceTopic,
+  unsubscribeFromAllianceTopic,
+  onTerritoryAttacked,
+  onFriendRequestCreated,
+  onAllianceInviteCreated,
+  onAllianceWarStarted,
+  onUserLevelUp,
+  sendDailyRewardReminder,
+  sendWelcomeBackNotification,
+  sendWorldEventReminders,
+  sendSeasonEndingReminder,
+  notificationWebhook
+} from './push';
+
+// World Seed System
+export {
+  seedRegion,
+  getNearbySeeds,
+  discoverSeed,
+  claimSeedResources,
+  getSeededRegions,
+  clearRegionSeeds,
+  importPOIData
+} from './world-seed';
+
+// GDPR & Privacy Compliance
+export {
+  requestDataExport,
+  processDataExport,
+  getDataExportStatus,
+  requestDataDeletion,
+  cancelDataDeletion,
+  processScheduledDeletions,
+  updateConsent,
+  getConsent,
+  updatePrivacySettings,
+  getPrivacySettings,
+  adminGetDeletionRequests,
+  adminForceDelete
+} from './gdpr';
+
+// Content Moderation
+export {
+  moderateContent,
+  reportContent,
+  resolveReport,
+  getPendingReports,
+  muteUser as moderationMuteUser,
+  banUserFunction,
+  appealBan,
+  cleanupExpiredMutes,
+  checkBanStatus
+} from './moderation';
+
+// Cosmetics Shop
+export {
+  getShopCatalog,
+  getFeaturedItems,
+  purchaseCosmetic,
+  getUserCosmetics,
+  equipCosmetic,
+  unequipCosmetic,
+  toggleFavorite,
+  getCurrencyBalance,
+  awardCurrency,
+  adminCreateCosmetic,
+  adminCreateRotation,
+  adminGrantCosmetic
+} from './cosmetics';
 
 const db = admin.firestore();
 

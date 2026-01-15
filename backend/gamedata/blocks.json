@@ -1,0 +1,209 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-27",
+  
+  "blocks": {
+    "foundation": {
+      "id": "foundation",
+      "name": "Foundation Block",
+      "category": "structural",
+      "dimensions": { "x": 2, "y": 0.5, "z": 2 },
+      "health": 200,
+      "buildCost": {
+        "stone": 20,
+        "energy": 5
+      },
+      "unlockLevel": 1,
+      "description": "Heavy foundation block. Required base for all structures.",
+      "buildTime": 0,
+      "stackable": false,
+      "maxPerTerritory": 50
+    },
+    "wall": {
+      "id": "wall",
+      "name": "Wall Block",
+      "category": "structural",
+      "dimensions": { "x": 2, "y": 2, "z": 0.3 },
+      "health": 150,
+      "buildCost": {
+        "stone": 15,
+        "energy": 3
+      },
+      "unlockLevel": 1,
+      "description": "Standard stone wall. Provides cover and territory definition.",
+      "buildTime": 0,
+      "stackable": true,
+      "maxPerTerritory": 100
+    },
+    "tower": {
+      "id": "tower",
+      "name": "Tower Block",
+      "category": "structural",
+      "dimensions": { "x": 1, "y": 3, "z": 1 },
+      "health": 175,
+      "buildCost": {
+        "stone": 25,
+        "energy": 8
+      },
+      "unlockLevel": 3,
+      "description": "Vertical stone pillar. Great for watch towers and height.",
+      "buildTime": 5,
+      "stackable": true,
+      "maxPerTerritory": 30
+    },
+    "roof": {
+      "id": "roof",
+      "name": "Roof Block",
+      "category": "structural",
+      "dimensions": { "x": 2, "y": 0.3, "z": 2 },
+      "health": 100,
+      "buildCost": {
+        "wood": 20,
+        "energy": 5
+      },
+      "unlockLevel": 2,
+      "description": "Slanted terracotta roof. Provides shelter and aesthetics.",
+      "buildTime": 0,
+      "stackable": false,
+      "maxPerTerritory": 40
+    },
+    "window": {
+      "id": "window",
+      "name": "Window Block",
+      "category": "decorative",
+      "dimensions": { "x": 0.8, "y": 1, "z": 0.2 },
+      "health": 50,
+      "buildCost": {
+        "stone": 10,
+        "crystals": 2
+      },
+      "unlockLevel": 4,
+      "description": "Transparent window with stone frame. Allows visibility.",
+      "buildTime": 0,
+      "stackable": false,
+      "maxPerTerritory": 50
+    },
+    "door": {
+      "id": "door",
+      "name": "Door Block",
+      "category": "structural",
+      "dimensions": { "x": 1, "y": 2, "z": 0.3 },
+      "health": 100,
+      "buildCost": {
+        "wood": 25,
+        "metal": 5
+      },
+      "unlockLevel": 2,
+      "description": "Wooden door with metal hinges. Entry point for territories.",
+      "buildTime": 0,
+      "stackable": false,
+      "maxPerTerritory": 10
+    },
+    "defensiveWall": {
+      "id": "defensiveWall",
+      "name": "Defensive Wall",
+      "category": "defensive",
+      "dimensions": { "x": 2, "y": 2.5, "z": 0.4 },
+      "health": 300,
+      "buildCost": {
+        "stone": 40,
+        "metal": 10,
+        "energy": 15
+      },
+      "unlockLevel": 5,
+      "description": "Reinforced wall with crenellations. Excellent defense.",
+      "buildTime": 30,
+      "stackable": true,
+      "maxPerTerritory": 40,
+      "defenseBonus": 10
+    },
+    "turretBase": {
+      "id": "turretBase",
+      "name": "Turret Base",
+      "category": "defensive",
+      "dimensions": { "x": 1.5, "y": 0.5, "z": 1.5 },
+      "health": 250,
+      "buildCost": {
+        "stone": 30,
+        "metal": 20,
+        "energy": 25
+      },
+      "unlockLevel": 8,
+      "description": "Reinforced base for mounting turrets. Auto-attacks intruders.",
+      "buildTime": 60,
+      "stackable": false,
+      "maxPerTerritory": 8,
+      "defenseBonus": 25,
+      "attackPower": 15,
+      "attackRange": 15
+    },
+    "resourceStorage": {
+      "id": "resourceStorage",
+      "name": "Resource Storage",
+      "category": "utility",
+      "dimensions": { "x": 1.5, "y": 1, "z": 1.5 },
+      "health": 150,
+      "buildCost": {
+        "wood": 30,
+        "metal": 15
+      },
+      "unlockLevel": 3,
+      "description": "Wooden crate for storing resources. Increases capacity.",
+      "buildTime": 10,
+      "stackable": false,
+      "maxPerTerritory": 20,
+      "storageBonus": {
+        "stone": 500,
+        "wood": 500,
+        "metal": 200,
+        "crystals": 100
+      }
+    },
+    "flagPole": {
+      "id": "flagPole",
+      "name": "Flag Pole",
+      "category": "decorative",
+      "dimensions": { "x": 0.1, "y": 4, "z": 0.1 },
+      "health": 75,
+      "buildCost": {
+        "metal": 10,
+        "energy": 2
+      },
+      "unlockLevel": 1,
+      "description": "Metal pole with customizable flag. Show your colors!",
+      "buildTime": 0,
+      "stackable": false,
+      "maxPerTerritory": 5,
+      "customizable": true
+    }
+  },
+  
+  "categories": {
+    "structural": {
+      "name": "Structural",
+      "description": "Basic building blocks for construction",
+      "color": "#6B7280"
+    },
+    "defensive": {
+      "name": "Defensive",
+      "description": "Fortifications that protect your territory",
+      "color": "#EF4444"
+    },
+    "utility": {
+      "name": "Utility",
+      "description": "Functional structures with special abilities",
+      "color": "#3B82F6"
+    },
+    "decorative": {
+      "name": "Decorative",
+      "description": "Aesthetic blocks for customization",
+      "color": "#8B5CF6"
+    }
+  },
+  
+  "globalLimits": {
+    "maxBlocksPerTerritory": 500,
+    "maxHeightMeters": 30,
+    "minDistanceBetweenBlocks": 0.1
+  }
+}

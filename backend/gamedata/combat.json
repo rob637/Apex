@@ -1,0 +1,163 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-27",
+  
+  "attacks": {
+    "scout": {
+      "id": "scout",
+      "name": "Scout Attack",
+      "description": "Quick reconnaissance. Low damage but reveals territory info.",
+      "baseDamage": 10,
+      "cooldownSeconds": 60,
+      "resourceCost": {
+        "energy": 5
+      },
+      "unlockLevel": 1,
+      "revealInfo": true,
+      "icon": "👁️"
+    },
+    "skirmish": {
+      "id": "skirmish",
+      "name": "Skirmish",
+      "description": "Light attack. Test enemy defenses.",
+      "baseDamage": 25,
+      "cooldownSeconds": 300,
+      "resourceCost": {
+        "energy": 15
+      },
+      "unlockLevel": 1,
+      "icon": "⚔️"
+    },
+    "raid": {
+      "id": "raid",
+      "name": "Raid",
+      "description": "Standard attack. Balanced damage and cost.",
+      "baseDamage": 50,
+      "cooldownSeconds": 900,
+      "resourceCost": {
+        "energy": 30,
+        "metal": 10
+      },
+      "unlockLevel": 5,
+      "icon": "🗡️"
+    },
+    "siege": {
+      "id": "siege",
+      "name": "Siege Attack",
+      "description": "Heavy assault. High damage, breaks defenses.",
+      "baseDamage": 100,
+      "cooldownSeconds": 3600,
+      "resourceCost": {
+        "energy": 60,
+        "metal": 30,
+        "stone": 20
+      },
+      "unlockLevel": 10,
+      "breakDefenses": true,
+      "icon": "🏰"
+    },
+    "blitz": {
+      "id": "blitz",
+      "name": "Blitz",
+      "description": "Rapid strike. Bypasses some defenses.",
+      "baseDamage": 40,
+      "cooldownSeconds": 600,
+      "resourceCost": {
+        "energy": 40,
+        "crystals": 5
+      },
+      "unlockLevel": 15,
+      "bypassDefensePercent": 30,
+      "icon": "⚡"
+    },
+    "conquest": {
+      "id": "conquest",
+      "name": "Conquest",
+      "description": "All-out attack. Massive damage, high cost.",
+      "baseDamage": 200,
+      "cooldownSeconds": 7200,
+      "resourceCost": {
+        "energy": 100,
+        "metal": 50,
+        "crystals": 20
+      },
+      "unlockLevel": 20,
+      "aoeRadius": 5,
+      "icon": "👑"
+    }
+  },
+  
+  "defenses": {
+    "wall": {
+      "id": "wall",
+      "name": "Wall Defense",
+      "damageReduction": 10,
+      "healthBonus": 0,
+      "stackable": true,
+      "maxStacks": 5
+    },
+    "defensiveWall": {
+      "id": "defensiveWall",
+      "name": "Fortified Wall",
+      "damageReduction": 20,
+      "healthBonus": 50,
+      "stackable": true,
+      "maxStacks": 4
+    },
+    "turret": {
+      "id": "turret",
+      "name": "Turret",
+      "damageReduction": 5,
+      "healthBonus": 0,
+      "counterAttack": {
+        "damage": 15,
+        "chance": 0.5
+      },
+      "stackable": true,
+      "maxStacks": 8
+    },
+    "shield": {
+      "id": "shield",
+      "name": "Energy Shield",
+      "damageReduction": 50,
+      "healthBonus": 0,
+      "duration": 3600,
+      "cooldown": 86400,
+      "stackable": false
+    }
+  },
+  
+  "combat": {
+    "baseHealth": 1000,
+    "raidWindowEnabled": true,
+    "raidWindowHours": {
+      "start": 8,
+      "end": 22
+    },
+    "shieldDurationHours": 12,
+    "autoShieldOnConquest": true,
+    "conquestBonusResources": {
+      "stone": 100,
+      "wood": 100,
+      "metal": 25,
+      "crystals": 5
+    },
+    "minimumDamage": 5,
+    "criticalHitChance": 0.1,
+    "criticalHitMultiplier": 1.5
+  },
+  
+  "territoryHealth": {
+    "base": 1000,
+    "perLevel": 50,
+    "perDefensiveBlock": 25,
+    "regenerationPerHour": 10,
+    "maxRegenPercent": 0.5
+  },
+  
+  "cooldowns": {
+    "maxPerUser": 20,
+    "globalCooldown": 30,
+    "sameTerritoryMultiplier": 2.0
+  }
+}

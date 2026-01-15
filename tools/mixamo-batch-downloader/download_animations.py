@@ -108,54 +108,150 @@ class MixamoDownloader:
         
         try:
             self.driver.get(self.MIXAMO_URL)
-            time.sleep(2)
+            time.sleep(3)
             
-            # Click Sign In button
-            sign_in_btn = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Sign')]"))
-            )
-            sign_in_btn.click()
-            time.sleep(2)
+            # Try multiple selectors for Sign In button
+            sign_in_selectors = [
+                "//button[contains(text(), 'Sign')]",
+                "//button[contains(text(), 'Log')]", 
+                "//a[contains(text(), 'Sign')]",
+                "//a[contains(@href, 'login')]",
+                "//*[contains(@class, 'sign-in')]",
+                "//*[contains(@class, 'login')]",
+            ]
             
-            # Wait for Adobe login iframe/page
-            WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, "EmailPage-EmailField"))
-            )
+            sign_in_btn = None
+            for selector in sign_in_selectors:
+                try:
+                    sign_in_btn = WebDriverWait(self.driver, 3).until(
+                        EC.element_to_be_clickable((By.XPATH, selector))
+                    )
+                    print(f"   Found sign-in button with: {selector}")
+                    break
+                except:
+                    continue
+            
+            if sign_in_btn:
+                sign_in_btn.click()
+                time.sleep(3)
+            
+            # Wait for Adobe login page - try multiple possible selectors
+            email_selectors = [
+                (By.ID, "EmailPage-EmailField"),
+                (By.NAME, "username"),
+                (By.NAME, "email"),
+                (By.CSS_SELECTOR, "input[type='email']"),
+                (By.CSS_SELECTOR, "input[name='username']"),
+                (By.XPATH, "//input[@placeholder='Email address']"),
+            ]
+            
+            email_field = None
+            for by, selector in email_selectors:
+                try:
+                    email_field = WebDriverWait(self.driver, 5).until(
+                        EC.presence_of_element_located((by, selector))
+                    )
+                    print(f"   Found email field")
+                    break
+                except:
+                    continue
+            
+            if not email_field:
+                # Take screenshot for debugging
+                self.driver.save_screenshot("login_debug.png")
+                print(f"   ⚠️ Could not find email field. Screenshot saved to login_debug.png")
+                print(f"   Current URL: {self.driver.current_url}")
+                print(f"   Page title: {self.driver.title}")
+                
+                # Check if already logged in
+                if "mixamo.com" in self.driver.current_url and "login" not in self.driver.current_url.lower():
+                    print("   ✅ Appears to be already logged in!")
+                    return True
+                return False
             
             # Enter email
-            email_field = self.driver.find_element(By.ID, "EmailPage-EmailField")
             email_field.clear()
             email_field.send_keys(self.email)
+            time.sleep(1)
             
-            # Click Continue
-            continue_btn = self.driver.find_element(By.XPATH, "//button[@data-id='EmailPage-ContinueButton']")
-            continue_btn.click()
-            time.sleep(2)
+            # Click Continue - try multiple selectors
+            continue_selectors = [
+                (By.XPATH, "//button[@data-id='EmailPage-ContinueButton']"),
+                (By.XPATH, "//button[contains(text(), 'Continue')]"),
+                (By.XPATH, "//button[contains(text(), 'Next')]"),
+                (By.XPATH, "//button[@type='submit']"),
+                (By.CSS_SELECTOR, "button[type='submit']"),
+            ]
             
-            # Enter password
-            password_field = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.ID, "PasswordPage-PasswordField"))
-            )
+            for by, selector in continue_selectors:
+                try:
+                    continue_btn = self.driver.find_element(by, selector)
+                    continue_btn.click()
+                    print(f"   Clicked continue button")
+                    break
+                except:
+                    continue
+            
+            time.sleep(3)
+            
+            # Enter password - try multiple selectors
+            password_selectors = [
+                (By.ID, "PasswordPage-PasswordField"),
+                (By.NAME, "password"),
+                (By.CSS_SELECTOR, "input[type='password']"),
+                (By.XPATH, "//input[@type='password']"),
+            ]
+            
+            password_field = None
+            for by, selector in password_selectors:
+                try:
+                    password_field = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((by, selector))
+                    )
+                    print(f"   Found password field")
+                    break
+                except:
+                    continue
+            
+            if not password_field:
+                self.driver.save_screenshot("password_debug.png")
+                print(f"   ⚠️ Could not find password field. Screenshot saved.")
+                return False
+            
             password_field.clear()
             password_field.send_keys(self.password)
+            time.sleep(1)
             
-            # Click Continue
-            continue_btn = self.driver.find_element(By.XPATH, "//button[@data-id='PasswordPage-ContinueButton']")
-            continue_btn.click()
+            # Click login/continue
+            for by, selector in continue_selectors:
+                try:
+                    continue_btn = self.driver.find_element(by, selector)
+                    continue_btn.click()
+                    print(f"   Clicked login button")
+                    break
+                except:
+                    continue
             
             # Wait for Mixamo to load after login
-            time.sleep(5)
-            WebDriverWait(self.driver, 30).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "product-panel"))
-            )
+            print("   Waiting for Mixamo to load...")
+            time.sleep(8)
             
-            print("   ✅ Logged in successfully")
-            return True
+            # Check if we're on Mixamo
+            if "mixamo.com" in self.driver.current_url:
+                print("   ✅ Logged in successfully")
+                return True
+            else:
+                self.driver.save_screenshot("post_login_debug.png")
+                print(f"   ⚠️ Unexpected URL after login: {self.driver.current_url}")
+                return False
             
         except TimeoutException as e:
-            print(f"   ❌ Login timeout: {e}")
+            self.driver.save_screenshot("timeout_debug.png")
+            print(f"   ❌ Login timeout. Screenshot saved.")
+            print(f"   Current URL: {self.driver.current_url}")
             return False
         except Exception as e:
+            self.driver.save_screenshot("error_debug.png")
             print(f"   ❌ Login failed: {e}")
             return False
     

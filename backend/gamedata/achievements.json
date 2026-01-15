@@ -1,0 +1,399 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-27",
+  
+  "achievements": [
+    {
+      "id": "first_steps",
+      "name": "First Steps",
+      "description": "Claim your first territory",
+      "category": "exploration",
+      "icon": "🚶",
+      "requirement": {
+        "stat": "territoriesClaimed",
+        "value": 1
+      },
+      "reward": {
+        "xp": 100,
+        "gems": 10
+      },
+      "hidden": false
+    },
+    {
+      "id": "pioneer",
+      "name": "Pioneer",
+      "description": "Claim 10 territories",
+      "category": "exploration",
+      "icon": "🗺️",
+      "requirement": {
+        "stat": "territoriesClaimed",
+        "value": 10
+      },
+      "reward": {
+        "xp": 500,
+        "gems": 50
+      },
+      "hidden": false
+    },
+    {
+      "id": "conqueror",
+      "name": "Conqueror",
+      "description": "Claim 100 territories",
+      "category": "exploration",
+      "icon": "👑",
+      "requirement": {
+        "stat": "territoriesClaimed",
+        "value": 100
+      },
+      "reward": {
+        "xp": 2500,
+        "gems": 200,
+        "title": "The Conqueror"
+      },
+      "hidden": false
+    },
+    {
+      "id": "builder_apprentice",
+      "name": "Builder Apprentice",
+      "description": "Place 50 building blocks",
+      "category": "building",
+      "icon": "🧱",
+      "requirement": {
+        "stat": "blocksPlaced",
+        "value": 50
+      },
+      "reward": {
+        "xp": 200,
+        "gems": 20
+      },
+      "hidden": false
+    },
+    {
+      "id": "master_architect",
+      "name": "Master Architect",
+      "description": "Place 1,000 building blocks",
+      "category": "building",
+      "icon": "🏗️",
+      "requirement": {
+        "stat": "blocksPlaced",
+        "value": 1000
+      },
+      "reward": {
+        "xp": 2000,
+        "gems": 150,
+        "title": "Architect"
+      },
+      "hidden": false
+    },
+    {
+      "id": "fort_knox",
+      "name": "Fort Knox",
+      "description": "Build 50 defensive structures",
+      "category": "building",
+      "icon": "🏰",
+      "requirement": {
+        "stat": "defensiveBlocksPlaced",
+        "value": 50
+      },
+      "reward": {
+        "xp": 750,
+        "gems": 75
+      },
+      "hidden": false
+    },
+    {
+      "id": "first_blood",
+      "name": "First Blood",
+      "description": "Win your first attack",
+      "category": "combat",
+      "icon": "⚔️",
+      "requirement": {
+        "stat": "raidsWon",
+        "value": 1
+      },
+      "reward": {
+        "xp": 150,
+        "gems": 15
+      },
+      "hidden": false
+    },
+    {
+      "id": "warlord",
+      "name": "Warlord",
+      "description": "Win 50 attacks",
+      "category": "combat",
+      "icon": "🗡️",
+      "requirement": {
+        "stat": "raidsWon",
+        "value": 50
+      },
+      "reward": {
+        "xp": 1500,
+        "gems": 100,
+        "title": "Warlord"
+      },
+      "hidden": false
+    },
+    {
+      "id": "unstoppable",
+      "name": "Unstoppable",
+      "description": "Win 10 attacks in a row",
+      "category": "combat",
+      "icon": "💪",
+      "requirement": {
+        "stat": "winStreak",
+        "value": 10
+      },
+      "reward": {
+        "xp": 1000,
+        "gems": 100
+      },
+      "hidden": false
+    },
+    {
+      "id": "iron_wall",
+      "name": "Iron Wall",
+      "description": "Defend your territory 25 times",
+      "category": "defense",
+      "icon": "🛡️",
+      "requirement": {
+        "stat": "raidsDefended",
+        "value": 25
+      },
+      "reward": {
+        "xp": 750,
+        "gems": 75
+      },
+      "hidden": false
+    },
+    {
+      "id": "impenetrable",
+      "name": "Impenetrable",
+      "description": "Defend 100 attacks successfully",
+      "category": "defense",
+      "icon": "🏛️",
+      "requirement": {
+        "stat": "raidsDefended",
+        "value": 100
+      },
+      "reward": {
+        "xp": 2500,
+        "gems": 200,
+        "title": "The Unbreakable"
+      },
+      "hidden": false
+    },
+    {
+      "id": "team_player",
+      "name": "Team Player",
+      "description": "Join an alliance",
+      "category": "social",
+      "icon": "🤝",
+      "requirement": {
+        "stat": "alliancesJoined",
+        "value": 1
+      },
+      "reward": {
+        "xp": 100,
+        "gems": 25
+      },
+      "hidden": false
+    },
+    {
+      "id": "alliance_leader",
+      "name": "Alliance Leader",
+      "description": "Create your own alliance",
+      "category": "social",
+      "icon": "👨‍✈️",
+      "requirement": {
+        "stat": "alliancesCreated",
+        "value": 1
+      },
+      "reward": {
+        "xp": 500,
+        "gems": 100
+      },
+      "hidden": false
+    },
+    {
+      "id": "war_veteran",
+      "name": "War Veteran",
+      "description": "Participate in 10 alliance wars",
+      "category": "social",
+      "icon": "⚔️",
+      "requirement": {
+        "stat": "allianceWarsParticipated",
+        "value": 10
+      },
+      "reward": {
+        "xp": 1500,
+        "gems": 150
+      },
+      "hidden": false
+    },
+    {
+      "id": "gatherer",
+      "name": "Gatherer",
+      "description": "Harvest 1,000 resources",
+      "category": "resources",
+      "icon": "🪨",
+      "requirement": {
+        "stat": "resourcesHarvested",
+        "value": 1000
+      },
+      "reward": {
+        "xp": 300,
+        "gems": 30
+      },
+      "hidden": false
+    },
+    {
+      "id": "hoarder",
+      "name": "Hoarder",
+      "description": "Accumulate 10,000 total resources",
+      "category": "resources",
+      "icon": "💰",
+      "requirement": {
+        "stat": "resourcesAccumulated",
+        "value": 10000
+      },
+      "reward": {
+        "xp": 1000,
+        "gems": 100
+      },
+      "hidden": false
+    },
+    {
+      "id": "loyal_player",
+      "name": "Loyal Player",
+      "description": "Log in 7 days in a row",
+      "category": "dedication",
+      "icon": "📅",
+      "requirement": {
+        "stat": "loginStreak",
+        "value": 7
+      },
+      "reward": {
+        "xp": 350,
+        "gems": 50
+      },
+      "hidden": false
+    },
+    {
+      "id": "dedicated",
+      "name": "Dedicated",
+      "description": "Log in 30 days in a row",
+      "category": "dedication",
+      "icon": "🏆",
+      "requirement": {
+        "stat": "loginStreak",
+        "value": 30
+      },
+      "reward": {
+        "xp": 1500,
+        "gems": 200,
+        "title": "The Dedicated"
+      },
+      "hidden": false
+    },
+    {
+      "id": "walking_legend",
+      "name": "Walking Legend",
+      "description": "Walk 100 km while playing",
+      "category": "exploration",
+      "icon": "🚶‍♂️",
+      "requirement": {
+        "stat": "distanceWalkedKm",
+        "value": 100
+      },
+      "reward": {
+        "xp": 2000,
+        "gems": 200
+      },
+      "hidden": false
+    },
+    {
+      "id": "night_owl",
+      "name": "Night Owl",
+      "description": "Play between midnight and 4 AM",
+      "category": "secret",
+      "icon": "🦉",
+      "requirement": {
+        "type": "playtime",
+        "condition": "nightHours"
+      },
+      "reward": {
+        "xp": 100,
+        "gems": 25
+      },
+      "hidden": true
+    },
+    {
+      "id": "perfectionist",
+      "name": "Perfectionist",
+      "description": "Build a territory with 100+ blocks all aligned",
+      "category": "secret",
+      "icon": "📐",
+      "requirement": {
+        "type": "building",
+        "condition": "alignedBlocks"
+      },
+      "reward": {
+        "xp": 500,
+        "gems": 100
+      },
+      "hidden": true
+    }
+  ],
+  
+  "categories": {
+    "exploration": {
+      "name": "Exploration",
+      "description": "Discover and claim new territories",
+      "color": "#10B981",
+      "icon": "🗺️"
+    },
+    "building": {
+      "name": "Building",
+      "description": "Construct and fortify your citadels",
+      "color": "#F59E0B",
+      "icon": "🏗️"
+    },
+    "combat": {
+      "name": "Combat",
+      "description": "Attack and conquer rival territories",
+      "color": "#EF4444",
+      "icon": "⚔️"
+    },
+    "defense": {
+      "name": "Defense",
+      "description": "Protect your territory from attackers",
+      "color": "#3B82F6",
+      "icon": "🛡️"
+    },
+    "social": {
+      "name": "Social",
+      "description": "Work with allies and dominate together",
+      "color": "#8B5CF6",
+      "icon": "🤝"
+    },
+    "resources": {
+      "name": "Resources",
+      "description": "Gather and manage your resources",
+      "color": "#6B7280",
+      "icon": "💰"
+    },
+    "dedication": {
+      "name": "Dedication",
+      "description": "Show your commitment to the game",
+      "color": "#EC4899",
+      "icon": "❤️"
+    },
+    "secret": {
+      "name": "Secret",
+      "description": "Hidden achievements for the dedicated",
+      "color": "#1F2937",
+      "icon": "❓"
+    }
+  }
+}
