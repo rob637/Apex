@@ -110,7 +110,7 @@ class MixamoDownloader:
             self.driver.get(self.MIXAMO_URL)
             time.sleep(3)
             
-            # Try multiple selectors for Sign In button
+            # Try multiple selectors for Sign In button on Mixamo homepage
             sign_in_selectors = [
                 "//button[contains(text(), 'Sign')]",
                 "//button[contains(text(), 'Log')]", 
@@ -134,6 +134,29 @@ class MixamoDownloader:
             if sign_in_btn:
                 sign_in_btn.click()
                 time.sleep(3)
+            
+            # Check if we landed on signup page - if so, click "Sign in" link
+            if "signup" in self.driver.current_url.lower() or "create" in self.driver.title.lower():
+                print("   Detected signup page, looking for Sign in link...")
+                sign_in_link_selectors = [
+                    "//a[contains(text(), 'Sign in')]",
+                    "//a[contains(text(), 'sign in')]",
+                    "//a[text()='Sign in']",
+                    "//*[contains(text(), 'Already have an account')]//a",
+                    "//a[contains(@href, 'signin')]",
+                ]
+                
+                for selector in sign_in_link_selectors:
+                    try:
+                        sign_in_link = WebDriverWait(self.driver, 3).until(
+                            EC.element_to_be_clickable((By.XPATH, selector))
+                        )
+                        sign_in_link.click()
+                        print("   Clicked 'Sign in' link to go to login page")
+                        time.sleep(3)
+                        break
+                    except:
+                        continue
             
             # Wait for Adobe login page - try multiple possible selectors
             email_selectors = [
