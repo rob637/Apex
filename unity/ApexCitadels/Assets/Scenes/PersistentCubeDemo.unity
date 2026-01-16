@@ -268,7 +268,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 300001}
-  - component: {fileID: 300002}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -293,18 +292,6 @@ Transform:
   - {fileID: 320001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &300002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 300000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0000000000000000f000000000000004, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ApexCitadels.Demo.PersistentCubeDemo
 --- !u!1 &310000
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +301,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 310001}
-  - component: {fileID: 310002}
   m_Layer: 0
   m_Name: SpatialAnchorManager
   m_TagString: Untagged
@@ -337,18 +323,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 300001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &310002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0000000000000000f000000000000005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ApexCitadels.AR.SpatialAnchorManager
 --- !u!1 &320000
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +332,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 320001}
-  - component: {fileID: 320002}
   m_Layer: 0
   m_Name: AnchorPersistenceService
   m_TagString: Untagged
@@ -381,18 +354,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 300001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &320002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0000000000000000f000000000000006, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ApexCitadels.Backend.AnchorPersistenceService
 --- !u!1 &400000
 GameObject:
   m_ObjectHideFlags: 0
