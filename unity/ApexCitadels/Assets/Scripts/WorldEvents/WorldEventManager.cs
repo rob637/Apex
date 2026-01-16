@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
-#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.WorldEvents
@@ -85,10 +83,8 @@ namespace ApexCitadels.WorldEvents
         // State
         private List<WorldEvent> _activeEvents = new List<WorldEvent>();
         private Dictionary<string, EventParticipation> _participations = new Dictionary<string, EventParticipation>();
-#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
-#endif
         private float _lastRefresh;
 
         public List<WorldEvent> ActiveEvents => _activeEvents;

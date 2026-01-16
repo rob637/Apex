@@ -209,5 +209,30 @@ namespace ApexCitadels.IAP
         {
             return _entitlements.TryGetValue(entitlementType, out var ent) ? ent : null;
         }
+
+        public List<IAPProduct> GetSpecialOffers()
+        {
+            return _products.FindAll(p => p.Category == IAPProductCategory.Offer);
+        }
+
+        public List<IAPProduct> GetStarterPacks()
+        {
+            return _products.FindAll(p => p.Category == IAPProductCategory.StarterPack);
+        }
+
+        public List<IAPProduct> GetGemPacks()
+        {
+            return _products.FindAll(p => p.Category == IAPProductCategory.Currency);
+        }
+
+        public bool HasPurchased(string productId)
+        {
+            return _entitlements.ContainsKey(productId);
+        }
+
+        public async Task<PurchaseResult> Purchase(string productId)
+        {
+            return await PurchaseProduct(productId);
+        }
     }
 }

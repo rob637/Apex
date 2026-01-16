@@ -42,6 +42,10 @@ namespace ApexCitadels.Data
         public DateTime CreatedAt;
         public bool IsAutoSaved;
 
+        // Property aliases for compatibility
+        public string TerritoryId { get => SourceTerritoryId; set => SourceTerritoryId = value; }
+        public bool IsAutoSave { get => IsAutoSaved; set => IsAutoSaved = value; }
+
         public Blueprint()
         {
             Id = Guid.NewGuid().ToString();
@@ -50,7 +54,12 @@ namespace ApexCitadels.Data
             CreatedAt = DateTime.UtcNow;
         }
 
-        public int BuildingCount => Buildings?.Count ?? 0;
+        private int _buildingCount;
+        public int BuildingCount
+        {
+            get => Buildings?.Count ?? _buildingCount;
+            set => _buildingCount = value;
+        }
     }
 
     /// <summary>

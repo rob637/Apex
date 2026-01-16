@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
-#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Social
@@ -45,6 +43,9 @@ namespace ApexCitadels.Social
         public string FromUserAvatar { get; set; }
         public int FromUserLevel { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        // Compatibility property
+        public string SenderName => FromUserName;
     }
 
     /// <summary>
@@ -107,14 +108,13 @@ namespace ApexCitadels.Social
         private List<Gift> _pendingGifts = new List<Gift>();
         private List<ActivityItem> _activityFeed = new List<ActivityItem>();
         private int _dailyGiftsSent = 0;
-#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
-#endif
 
         public List<Friend> Friends => _friends;
         public List<FriendRequest> IncomingRequests => _incomingRequests;
         public List<FriendRequest> OutgoingRequests => _outgoingRequests;
+        public List<FriendRequest> PendingRequests => _incomingRequests;
         public List<Gift> PendingGifts => _pendingGifts;
         public List<ActivityItem> ActivityFeed => _activityFeed;
         public int DailyGiftsRemaining => dailyGiftLimit - _dailyGiftsSent;
@@ -343,8 +343,9 @@ namespace ApexCitadels.Social
         {
             Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendGift is a stub.");
             return Task.FromResult(false);
-#endif
+        }
 
+#if FIREBASE_ENABLED_NEVER_COMPILE
             try
             {
                 var callable = _functions.GetHttpsCallable("sendGift");
@@ -370,7 +371,7 @@ namespace ApexCitadels.Social
                 Debug.LogError($"Failed to send gift: {e.Message}");
                 return false;
             }
-        }
+#endif
 
         /// <summary>
         /// Claim a received gift

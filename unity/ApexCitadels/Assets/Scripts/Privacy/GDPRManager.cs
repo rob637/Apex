@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-#if FIREBASE_ENABLED
 using Firebase.Functions;
-#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Privacy
@@ -81,9 +79,7 @@ namespace ApexCitadels.Privacy
         public event Action OnConsentRequired; // Show consent dialog
 
         // State
-#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
-#endif
         private ConsentPreferences _currentConsent;
         private PrivacySettings _privacySettings;
         private string _storedConsentVersion;

@@ -110,6 +110,7 @@ namespace ApexCitadels.DailyRewards
         public LoginStreak CurrentStreak => _streak;
         public List<DailyReward> WeeklyRewards => _weeklyRewards;
         public bool CanClaim => _streak?.CanClaimReward ?? false;
+        public bool CanClaimReward => CanClaim;
 
         private void Awake()
         {

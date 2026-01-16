@@ -29,6 +29,8 @@ namespace ApexCitadels.Territory
         public event Action<Territory> OnTerritoryLost;
         public event Action<Territory> OnTerritoryAttacked;
         public event Action<Territory, int> OnTerritoryDamaged;
+        public event Action<Territory> OnTerritoryUpdated;
+        public event Action<Territory> OnTerritoryUnderAttack;
 
         // Local cache of territories
         private Dictionary<string, Territory> _territories = new Dictionary<string, Territory>();
@@ -404,6 +406,32 @@ namespace ApexCitadels.Territory
         }
 
         public string GetCurrentPlayerId() => _currentPlayerId;
+
+        /// <summary>
+        /// Get territories near a location
+        /// </summary>
+        public List<Territory> GetNearbyTerritories(double latitude, double longitude, float radiusMeters = 1000f)
+        {
+            var result = new List<Territory>();
+            foreach (var territory in _territories.Values)
+            {
+                float distance = Territory.CalculateDistance(latitude, longitude, territory.CenterLatitude, territory.CenterLongitude);
+                if (distance <= radiusMeters)
+                {
+                    result.Add(territory);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get a territory by ID
+        /// </summary>
+        public Territory GetTerritory(string territoryId)
+        {
+            _territories.TryGetValue(territoryId, out Territory territory);
+            return territory;
+        }
 
         #endregion
     }

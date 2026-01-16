@@ -347,6 +347,43 @@ namespace ApexCitadels.Player
             _ = SavePlayerToCloud();
         }
 
+        /// <summary>
+        /// Get current player ID
+        /// </summary>
+        public string GetCurrentPlayerId()
+        {
+            return CurrentPlayer?.Id;
+        }
+
+        /// <summary>
+        /// Add a specific resource type
+        /// </summary>
+        public void AddResource(ResourceType type, int amount)
+        {
+            if (CurrentPlayer == null || amount <= 0) return;
+
+            switch (type)
+            {
+                case ResourceType.Stone:
+                    CurrentPlayer.Stone += amount;
+                    break;
+                case ResourceType.Wood:
+                    CurrentPlayer.Wood += amount;
+                    break;
+                case ResourceType.Metal:
+                    CurrentPlayer.Metal += amount;
+                    break;
+                case ResourceType.Crystal:
+                    CurrentPlayer.Crystal += amount;
+                    break;
+                case ResourceType.Gems:
+                    CurrentPlayer.Gems += amount;
+                    break;
+            }
+            OnResourceChanged?.Invoke(type, amount);
+            _ = SavePlayerToCloud();
+        }
+
         #endregion
 
         #region Cloud Sync

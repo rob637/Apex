@@ -120,6 +120,66 @@ namespace Firebase.Firestore
         public static object ArrayRemove(params object[] values) => values;
         public static object Increment(long value) => value;
     }
+
+    public class Timestamp
+    {
+        public System.DateTime ToDateTime() => System.DateTime.UtcNow;
+        public static Timestamp FromDateTime(System.DateTime dt) => new Timestamp();
+    }
+}
+
+namespace Firebase.Functions
+{
+    public class FirebaseFunctions
+    {
+        public static FirebaseFunctions DefaultInstance => new FirebaseFunctions();
+        public HttpsCallableReference GetHttpsCallable(string name) => new HttpsCallableReference();
+    }
+
+    public class HttpsCallableReference
+    {
+        public System.Threading.Tasks.Task<HttpsCallableResult> CallAsync(object data = null)
+            => System.Threading.Tasks.Task.FromResult(new HttpsCallableResult());
+    }
+
+    public class HttpsCallableResult
+    {
+        public object Data => "{}";
+    }
+}
+
+namespace Firebase.Analytics
+{
+    public static class FirebaseAnalytics
+    {
+        public static string ParameterLevel => "level";
+        public static string ParameterValue => "value";
+        public static void LogEvent(string name, params Parameter[] parameters) { }
+        public static void SetUserId(string userId) { }
+        public static void SetUserProperty(string name, string value) { }
+    }
+
+    public class Parameter
+    {
+        public Parameter(string name, string value) { }
+        public Parameter(string name, long value) { }
+        public Parameter(string name, double value) { }
+    }
+}
+
+namespace Firebase.Crashlytics
+{
+    public static class Crashlytics
+    {
+        public static bool IsCrashlyticsCollectionEnabled { get; set; }
+        public static void Log(string message) { }
+        public static void SetCustomKey(string key, string value) { }
+        public static void SetCustomKey(string key, int value) { }
+        public static void SetCustomKey(string key, float value) { }
+        public static void SetCustomKey(string key, bool value) { }
+        public static void SetUserId(string userId) { }
+        public static void RecordException(System.Exception ex) { }
+    }
 }
 
 #endif

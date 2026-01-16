@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
-#if FIREBASE_ENABLED
 using Firebase.Extensions;
 using Firebase.Firestore;
 using Firebase.Functions;
-#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Chat
@@ -98,11 +96,9 @@ namespace ApexCitadels.Chat
         public event Action<string> OnChannelDeleted;
 
         // State
-#if FIREBASE_ENABLED
         private FirebaseFirestore _db;
         private FirebaseFunctions _functions;
         private string _userId;
-#endif
         
         private List<ChatChannel> _channels = new List<ChatChannel>();
         private Dictionary<string, List<ChatMessage>> _messageCache = new Dictionary<string, List<ChatMessage>>();

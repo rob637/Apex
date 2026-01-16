@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-#if FIREBASE_ENABLED
 using Firebase.Functions;
-#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Cosmetics
@@ -130,9 +128,7 @@ namespace ApexCitadels.Cosmetics
         public event Action<CurrencyBalance> OnBalanceChanged;
 
         // State
-#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
-#endif
         private CurrencyBalance _balance;
         private List<CosmeticItem> _shopItems = new List<CosmeticItem>();
         private List<CosmeticItem> _ownedItems = new List<CosmeticItem>();

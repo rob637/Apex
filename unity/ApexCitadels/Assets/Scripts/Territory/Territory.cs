@@ -26,6 +26,12 @@ namespace ApexCitadels.Territory
         public bool IsContested;
         public string ContestingPlayerId;
 
+        // Property aliases for compatibility
+        public string Name { get => OwnerName; set => OwnerName = value; }
+        public double Latitude { get => CenterLatitude; set => CenterLatitude = value; }
+        public double Longitude { get => CenterLongitude; set => CenterLongitude = value; }
+        public float Radius { get => RadiusMeters; set => RadiusMeters = value; }
+
         public Territory()
         {
             Id = Guid.NewGuid().ToString();

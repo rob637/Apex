@@ -183,6 +183,12 @@ namespace ApexCitadels.Data
         public int AttackerXp;
         public int DefenderXp;
         public ResourceCost ResourcesLooted;
+
+        // Additional properties for compatibility
+        public string BattleId;
+        public string WinnerId;
+        public int AttackerCasualties;
+        public int DefenderCasualties;
     }
 
     /// <summary>
@@ -303,6 +309,14 @@ namespace ApexCitadels.Data
         public List<TrainingQueueItem> TrainingQueue;
         public DateTime LastUpdated;
 
+        // Convenience properties for troop counts by type
+        public int Infantry { get => GetTroopCount(TroopType.Infantry); set => SetTroopCount(TroopType.Infantry, value); }
+        public int Archer { get => GetTroopCount(TroopType.Archer); set => SetTroopCount(TroopType.Archer, value); }
+        public int Cavalry { get => GetTroopCount(TroopType.Cavalry); set => SetTroopCount(TroopType.Cavalry, value); }
+        public int Siege { get => GetTroopCount(TroopType.Siege); set => SetTroopCount(TroopType.Siege, value); }
+        public int Mage { get => GetTroopCount(TroopType.Mage); set => SetTroopCount(TroopType.Mage, value); }
+        public int Guardian { get => GetTroopCount(TroopType.Guardian); set => SetTroopCount(TroopType.Guardian, value); }
+
         public UserTroops()
         {
             Troops = new List<Troop>();
@@ -327,6 +341,19 @@ namespace ApexCitadels.Data
                 if (troop.Type == type) return troop.Count;
             }
             return 0;
+        }
+
+        private void SetTroopCount(TroopType type, int count)
+        {
+            foreach (var troop in Troops)
+            {
+                if (troop.Type == type)
+                {
+                    troop.Count = count;
+                    return;
+                }
+            }
+            Troops.Add(new Troop { Type = type, Count = count });
         }
     }
 }

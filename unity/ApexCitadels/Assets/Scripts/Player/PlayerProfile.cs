@@ -27,6 +27,9 @@ namespace ApexCitadels.Player
         public int TerritoriesLost;
         public int BlocksPlaced;
         public int BlocksDestroyed;
+        public int AttacksWon;
+        public int DefensesWon;
+        public int BuildingsPlaced;
 
         // Resources
         public int Stone;
@@ -40,6 +43,12 @@ namespace ApexCitadels.Player
         // Alliance
         public string AllianceId;
         public string AllianceName;
+
+        // Property aliases for compatibility
+        public int CurrentXP => Experience;
+        public int XPToNextLevel => GetExperienceForNextLevel();
+        public int TotalExperience => Experience + (Level - 1) * 100; // Accumulated XP estimate
+        public int TotalTerritoriesCaptured => TerritoresConquered;
 
         public PlayerProfile()
         {
