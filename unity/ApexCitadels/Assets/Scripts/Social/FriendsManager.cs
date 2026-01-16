@@ -306,6 +306,147 @@ namespace ApexCitadels.Social
             Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendGift is a stub.");
             return Task.FromResult(false);
         }
+
+        /// <summary>
+        /// Load pending friend requests
+        /// </summary>
+        private async void LoadPendingRequests()
+        {
+            try
+            {
+                var callable = _functions.GetHttpsCallable("getPendingRequests");
+                var result = await callable.CallAsync();
+                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
+                if (response.ContainsKey("requests"))
+                {
+                    var requestsJson = JsonConvert.SerializeObject(response["requests"]);
+                    _incomingRequests = JsonConvert.DeserializeObject<List<FriendRequest>>(requestsJson);
+                    OnRequestsUpdated?.Invoke(_incomingRequests);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load pending requests: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Load pending gifts
+        /// </summary>
+        private async void LoadPendingGifts()
+        {
+            try
+            {
+                var callable = _functions.GetHttpsCallable("getPendingGifts");
+                var result = await callable.CallAsync();
+                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
+                if (response.ContainsKey("gifts"))
+                {
+                    var giftsJson = JsonConvert.SerializeObject(response["gifts"]);
+                    _pendingGifts = JsonConvert.DeserializeObject<List<PendingGift>>(giftsJson);
+                    OnGiftsUpdated?.Invoke(_pendingGifts);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load pending gifts: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Load activity feed
+        /// </summary>
+        private async void LoadActivityFeed()
+        {
+            try
+            {
+                var callable = _functions.GetHttpsCallable("getActivityFeed");
+                var result = await callable.CallAsync();
+                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
+                if (response.ContainsKey("activities"))
+                {
+                    var activitiesJson = JsonConvert.SerializeObject(response["activities"]);
+                    _activityFeed = JsonConvert.DeserializeObject<List<ActivityFeedItem>>(activitiesJson);
+                    OnActivityFeedUpdated?.Invoke(_activityFeed);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load activity feed: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Subscribe to friend requests
+        /// </summary>
+        private void SubscribeToFriendRequests()
+        {
+            // Real-time listener for friend requests would go here
+            Debug.Log("[FriendsManager] Subscribed to friend requests");
+        }
+
+        /// <summary>
+        /// Subscribe to gifts
+        /// </summary>
+        private void SubscribeToGifts()
+        {
+            // Real-time listener for gifts would go here
+            Debug.Log("[FriendsManager] Subscribed to gifts");
+        }
+
+        /// <summary>
+        /// Update online statuses
+        /// </summary>
+        private async void UpdateOnlineStatuses()
+        {
+            try
+            {
+                var callable = _functions.GetHttpsCallable("getFriendsOnlineStatus");
+                var result = await callable.CallAsync();
+                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
+                if (response.ContainsKey("statuses"))
+                {
+                    var statusesJson = JsonConvert.SerializeObject(response["statuses"]);
+                    var statuses = JsonConvert.DeserializeObject<Dictionary<string, bool>>(statusesJson);
+                    foreach (var friend in _friends)
+                    {
+                        if (statuses.ContainsKey(friend.UserId))
+                        {
+                            friend.IsOnline = statuses[friend.UserId];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to update online statuses: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Claim all pending gifts
+        /// </summary>
+        public async Task<bool> ClaimAllGifts()
+        {
+            try
+            {
+                var callable = _functions.GetHttpsCallable("claimAllGifts");
+                var result = await callable.CallAsync();
+                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
+                if (response.ContainsKey("success") && Convert.ToBoolean(response["success"]))
+                {
+                    _pendingGifts.Clear();
+                    OnGiftsUpdated?.Invoke(_pendingGifts);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to claim all gifts: {e.Message}");
+                return false;
+            }
+        }
 #else
         private void Start()
         {

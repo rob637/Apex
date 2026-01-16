@@ -5,9 +5,6 @@ using UnityEngine;
 #if FIREBASE_ENABLED
 using Firebase.Analytics;
 using Firebase.Crashlytics;
-#else
-using Firebase.Analytics;
-using Firebase.Crashlytics;
 #endif
 
 namespace ApexCitadels.Monitoring
@@ -152,6 +149,7 @@ namespace ApexCitadels.Monitoring
             _isInitialized = true;
 
             // Initialize Crashlytics
+#if FIREBASE_ENABLED
             if (enableCrashlytics)
             {
                 try
@@ -168,6 +166,7 @@ namespace ApexCitadels.Monitoring
                     UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Crashlytics init failed: {ex.Message}");
                 }
             }
+#endif
 
             // Log session start
             LogEvent("session_start", new Dictionary<string, object>
@@ -345,11 +344,13 @@ namespace ApexCitadels.Monitoring
         {
             try
             {
+#if FIREBASE_ENABLED
                 FirebaseAnalytics.LogEvent("screen_view", new[]
                 {
                     new Parameter("screen_name", screenName),
                     new Parameter("screen_class", screenClass ?? screenName)
                 });
+#endif
             }
             catch (Exception ex)
             {
@@ -364,6 +365,7 @@ namespace ApexCitadels.Monitoring
         {
             try
             {
+#if FIREBASE_ENABLED
                 if (parameters == null || parameters.Count == 0)
                 {
                     FirebaseAnalytics.LogEvent(eventName);
@@ -388,6 +390,7 @@ namespace ApexCitadels.Monitoring
                 }
 
                 FirebaseAnalytics.LogEvent(eventName, paramList.ToArray());
+#endif
             }
             catch (Exception ex)
             {
@@ -404,6 +407,7 @@ namespace ApexCitadels.Monitoring
 
             try
             {
+#if FIREBASE_ENABLED
                 if (enableCrashlytics)
                 {
                     Crashlytics.SetCustomKey("last_error", message);
@@ -415,6 +419,7 @@ namespace ApexCitadels.Monitoring
                         Crashlytics.Log(stackTrace);
                     }
                 }
+#endif
 
                 LogEvent("error_logged", new Dictionary<string, object>
                 {
@@ -441,12 +446,14 @@ namespace ApexCitadels.Monitoring
 
             try
             {
+#if FIREBASE_ENABLED
                 if (enableCrashlytics)
                 {
                     Crashlytics.SetCustomKey("last_exception", exception.GetType().Name);
                     Crashlytics.SetCustomKey("exception_context", context ?? "unknown");
-                    Crashlytics.RecordException(exception);
+                    Crashlytics.LogException(exception);
                 }
+#endif
 
                 LogEvent("exception_logged", new Dictionary<string, object>
                 {
@@ -475,10 +482,12 @@ namespace ApexCitadels.Monitoring
 
             try
             {
+#if FIREBASE_ENABLED
                 if (enableCrashlytics)
                 {
                     Crashlytics.Log($"[Warning] {message}");
                 }
+#endif
 
                 LogEvent("warning_logged", new Dictionary<string, object>
                 {
@@ -497,12 +506,14 @@ namespace ApexCitadels.Monitoring
         {
             try
             {
+#if FIREBASE_ENABLED
                 FirebaseAnalytics.SetUserProperty(name, value);
 
                 if (enableCrashlytics)
                 {
                     Crashlytics.SetCustomKey(name, value);
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -517,12 +528,14 @@ namespace ApexCitadels.Monitoring
         {
             try
             {
+#if FIREBASE_ENABLED
                 FirebaseAnalytics.SetUserId(userId);
 
                 if (enableCrashlytics)
                 {
                     Crashlytics.SetUserId(userId);
                 }
+#endif
             }
             catch (Exception ex)
             {
