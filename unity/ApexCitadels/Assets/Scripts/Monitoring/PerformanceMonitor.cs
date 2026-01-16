@@ -5,6 +5,9 @@ using UnityEngine;
 #if FIREBASE_ENABLED
 using Firebase.Analytics;
 using Firebase.Crashlytics;
+#else
+using Firebase.Analytics;
+using Firebase.Crashlytics;
 #endif
 
 namespace ApexCitadels.Monitoring

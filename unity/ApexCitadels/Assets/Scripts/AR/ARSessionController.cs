@@ -524,9 +524,11 @@ namespace ApexCitadels.AR
             
             if (arCameraManager != null)
             {
+                // Note: In AR Foundation 6.0+, use Feature flags instead of deprecated LightEstimationMode
+                // For now, just set basic ambient intensity estimation
                 arCameraManager.requestedLightEstimation = enabled 
-                    ? LightEstimationMode.AmbientIntensity | LightEstimationMode.AmbientColor
-                    : LightEstimationMode.Disabled;
+                    ? UnityEngine.XR.ARSubsystems.LightEstimation.AmbientIntensity
+                    : UnityEngine.XR.ARSubsystems.LightEstimation.None;
             }
         }
 

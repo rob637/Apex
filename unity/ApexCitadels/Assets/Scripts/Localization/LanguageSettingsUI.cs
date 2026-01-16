@@ -129,7 +129,10 @@ namespace ApexCitadels.Localization
 
                 Sprite flagSprite = showLanguageFlags ? GetFlagForLanguage(lang) : null;
 
-                options.Add(new TMP_Dropdown.OptionData(displayName, flagSprite));
+                var optionData = new TMP_Dropdown.OptionData();
+                optionData.text = displayName;
+                optionData.image = flagSprite;
+                options.Add(optionData);
 
                 if (LocalizationManager.Instance != null && lang == LocalizationManager.Instance.CurrentLanguage)
                 {

@@ -387,6 +387,25 @@ namespace ApexCitadels.Resources
         }
 
         /// <summary>
+        /// Get the current amount of a specific resource by name
+        /// </summary>
+        public int GetResource(string resourceName)
+        {
+            // Delegate to PlayerManager for actual resource counts
+            var type = resourceName.ToLower() switch
+            {
+                "gems" => ResourceType.Gems,
+                "coins" or "gold" => ResourceType.Gold,
+                "stone" => ResourceType.Stone,
+                "wood" => ResourceType.Wood,
+                "metal" or "iron" => ResourceType.Metal,
+                "crystal" => ResourceType.Crystal,
+                _ => ResourceType.Stone
+            };
+            return PlayerManager.Instance?.CurrentPlayer?.GetResourceAmount(type) ?? 0;
+        }
+
+        /// <summary>
         /// Collect passive income (called periodically)
         /// </summary>
         public void CollectPassiveIncome(float hoursElapsed)

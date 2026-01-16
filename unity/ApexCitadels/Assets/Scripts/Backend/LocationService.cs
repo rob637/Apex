@@ -115,7 +115,7 @@ namespace ApexCitadels.Backend
         /// </summary>
         public async Task<float> GetTerritoryRadiusAsync(double latitude, double longitude)
         {
-            var info = await GetLocationInfoAsync(latitude, longitude);
+            var info = await GetLocationInfoFullAsync(latitude, longitude);
             return info.TerritoryRadius;
         }
 
@@ -124,7 +124,7 @@ namespace ApexCitadels.Backend
         /// </summary>
         public async Task<bool> IsUrbanAreaAsync(double latitude, double longitude)
         {
-            var info = await GetLocationInfoAsync(latitude, longitude);
+            var info = await GetLocationInfoFullAsync(latitude, longitude);
             return info.Density == LocationDensity.Urban;
         }
 
@@ -133,7 +133,7 @@ namespace ApexCitadels.Backend
         /// </summary>
         public async Task<LocationDensity> GetDensityAsync(double latitude, double longitude)
         {
-            var info = await GetLocationInfoAsync(latitude, longitude);
+            var info = await GetLocationInfoFullAsync(latitude, longitude);
             return info.Density;
         }
 

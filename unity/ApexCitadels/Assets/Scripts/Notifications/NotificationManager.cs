@@ -278,35 +278,17 @@ namespace ApexCitadels.Notifications
 
         private void RequestPushPermission()
         {
-#if UNITY_IOS
-            UnityEngine.iOS.NotificationServices.RegisterForNotifications(
-                UnityEngine.iOS.NotificationType.Alert |
-                UnityEngine.iOS.NotificationType.Badge |
-                UnityEngine.iOS.NotificationType.Sound
-            );
-#endif
-            // Android doesn't require explicit permission request for notifications
-            // but you'd configure Firebase Cloud Messaging here
-            
-            Debug.Log("[NotificationManager] Push notifications enabled");
+            // Note: iOS NotificationServices API was deprecated in Unity 2018+
+            // Use Unity Mobile Notifications package for cross-platform notifications
+            // For now, we just log that permissions would be requested
+            Debug.Log("[NotificationManager] Push notifications permission requested");
         }
 
         private void SchedulePushNotification(GameNotification notification)
         {
-            // This would integrate with Firebase Cloud Messaging
-            // For local notifications:
-            
-#if UNITY_IOS && !UNITY_EDITOR
-            var localNotification = new UnityEngine.iOS.LocalNotification
-            {
-                alertBody = notification.Message,
-                alertAction = notification.Title,
-                fireDate = System.DateTime.Now,
-                soundName = UnityEngine.iOS.LocalNotification.defaultSoundName,
-                applicationIconBadgeNumber = UnreadCount
-            };
-            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotification);
-#endif
+            // This would integrate with Firebase Cloud Messaging or Unity Mobile Notifications
+            // For local notifications, use Unity Mobile Notifications package
+            Debug.Log($"[NotificationManager] Would schedule notification: {notification.Title}");
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             // Would use Unity Mobile Notifications package

@@ -5,6 +5,7 @@ using UnityEngine;
 using Firebase.Firestore;
 using Firebase.Functions;
 using Newtonsoft.Json;
+using ApexCitadels.Notifications;
 
 namespace ApexCitadels.WorldEvents
 {

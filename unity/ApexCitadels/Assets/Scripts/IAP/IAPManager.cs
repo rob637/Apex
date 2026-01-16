@@ -212,7 +212,7 @@ namespace ApexCitadels.IAP
 
         public List<IAPProduct> GetSpecialOffers()
         {
-            return _products.FindAll(p => p.Category == IAPProductCategory.Offer);
+            return _products.FindAll(p => p.Category == IAPProductCategory.SpecialOffer);
         }
 
         public List<IAPProduct> GetStarterPacks()

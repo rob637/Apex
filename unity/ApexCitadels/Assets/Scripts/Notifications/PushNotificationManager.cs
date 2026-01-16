@@ -65,6 +65,7 @@ namespace ApexCitadels.Notifications
         public bool Enabled;
         public int StartHour = 22;
         public int EndHour = 8;
+        public string Timezone = "UTC";
     }
 
     /// <summary>
@@ -79,6 +80,7 @@ namespace ApexCitadels.Notifications
         public PushNotificationType Type;
         public DateTime ReceivedAt;
         public Dictionary<string, string> Data;
+        public bool WasTapped;
     }
 
     /// <summary>
@@ -203,27 +205,30 @@ namespace ApexCitadels.Notifications
             OnSettingsUpdated?.Invoke(_settings);
         }
 
-        public void SetNotificationsEnabled(bool enabled)
+        public async System.Threading.Tasks.Task SetNotificationsEnabled(bool enabled)
         {
             _settings.EnablePush = enabled;
             SaveSettings();
             OnSettingsUpdated?.Invoke(_settings);
+            await System.Threading.Tasks.Task.CompletedTask;
         }
 
-        public void UpdatePreferences(NotificationPreferences preferences)
+        public async System.Threading.Tasks.Task UpdatePreferences(NotificationPreferences preferences)
         {
             _preferences = preferences;
             _settings.Preferences = preferences;
             SavePreferences();
             SaveSettings();
             OnSettingsUpdated?.Invoke(_settings);
+            await System.Threading.Tasks.Task.CompletedTask;
         }
 
-        public void UpdateQuietHours(QuietHoursSettings quietHours)
+        public async System.Threading.Tasks.Task UpdateQuietHours(QuietHoursSettings quietHours)
         {
             _settings.QuietHours = quietHours;
             SaveSettings();
             OnSettingsUpdated?.Invoke(_settings);
+            await System.Threading.Tasks.Task.CompletedTask;
         }
 
         private void SaveSettings()

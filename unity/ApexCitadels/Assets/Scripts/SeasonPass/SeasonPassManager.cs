@@ -60,6 +60,7 @@ namespace ApexCitadels.SeasonPass
         public int CurrentLevel { get; set; }
         public int CurrentXp { get; set; }
         public int XpToNextLevel { get; set; }
+        public int TotalXP => CurrentXp; // Alias for TotalXP
         public bool HasPremium { get; set; }
         public List<int> ClaimedFreeRewards { get; set; }
         public List<int> ClaimedPremiumRewards { get; set; }

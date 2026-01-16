@@ -13,6 +13,7 @@ namespace ApexCitadels.Territory
         public string Id;
         public string OwnerId;
         public string OwnerName;
+        public string TerritoryName;
         public double CenterLatitude;
         public double CenterLongitude;
         public float RadiusMeters;
@@ -25,9 +26,10 @@ namespace ApexCitadels.Territory
         // Territory states
         public bool IsContested;
         public string ContestingPlayerId;
+        public string AllianceId;
 
         // Property aliases for compatibility
-        public string Name { get => OwnerName; set => OwnerName = value; }
+        public string Name { get => TerritoryName ?? $"Territory {Id?.Substring(0, 8)}"; set => TerritoryName = value; }
         public double Latitude { get => CenterLatitude; set => CenterLatitude = value; }
         public double Longitude { get => CenterLongitude; set => CenterLongitude = value; }
         public float Radius { get => RadiusMeters; set => RadiusMeters = value; }

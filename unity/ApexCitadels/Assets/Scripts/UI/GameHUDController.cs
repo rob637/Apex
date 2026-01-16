@@ -260,7 +260,7 @@ namespace ApexCitadels.UI
             }
 
             // Check for unclaimed rewards
-            bool hasUnclaimedRewards = SeasonPassManager.Instance.HasUnclaimedRewards();
+            bool hasUnclaimedRewards = SeasonPassManager.Instance.HasUnclaimedRewards;
             if (claimRewardButton != null)
                 claimRewardButton.gameObject.SetActive(hasUnclaimedRewards);
             if (newRewardIndicator != null)
@@ -298,7 +298,7 @@ namespace ApexCitadels.UI
             // Daily reward
             if (dailyRewardAvailableIndicator != null)
             {
-                bool available = DailyRewards.DailyRewardManager.Instance?.CanClaimReward() ?? false;
+                bool available = DailyRewards.DailyRewardManager.Instance?.CanClaimReward ?? false;
                 dailyRewardAvailableIndicator.SetActive(available);
             }
         }

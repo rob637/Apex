@@ -165,11 +165,11 @@ namespace ApexCitadels.Backend
                 Id = blueprintId,
                 Name = "Detailed Blueprint",
                 BuildingCount = 20,
-                Buildings = new List<BlueprintBuilding>
+                Buildings = new List<Data.BuildingPlacement>
                 {
-                    new BlueprintBuilding { BlockType = "stone_wall", Count = 10 },
-                    new BlueprintBuilding { BlockType = "wooden_tower", Count = 4 },
-                    new BlueprintBuilding { BlockType = "iron_gate", Count = 2 }
+                    new Data.BuildingPlacement { BlockType = "stone_wall", PositionX = 0, PositionY = 0, PositionZ = 0 },
+                    new Data.BuildingPlacement { BlockType = "wooden_tower", PositionX = 5, PositionY = 0, PositionZ = 0 },
+                    new Data.BuildingPlacement { BlockType = "iron_gate", PositionX = 10, PositionY = 0, PositionZ = 0 }
                 }
             };
 #endif

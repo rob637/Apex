@@ -155,7 +155,7 @@ namespace ApexCitadels.Map
             // Add/update visible territories
             foreach (var territory in territories)
             {
-                SetTerritory(territory);
+                SetTerritory(new TerritoryData(territory));
             }
         }
 

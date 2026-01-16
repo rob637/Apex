@@ -362,13 +362,17 @@ namespace ApexCitadels.Map
 
             while (attempts < retryAttempts)
             {
-                using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
+                using (UnityWebRequest request = UnityWebRequest.Get(url))
                 {
+                    request.downloadHandler = new DownloadHandlerBuffer();
                     yield return request.SendWebRequest();
 
                     if (request.result == UnityWebRequest.Result.Success)
                     {
-                        tile.Texture = DownloadHandlerTexture.GetContent(request);
+                        // Create texture from downloaded bytes
+                        Texture2D texture = new Texture2D(2, 2);
+                        texture.LoadImage(request.downloadHandler.data);
+                        tile.Texture = texture;
                         tile.IsLoading = false;
                         tile.LoadedAt = DateTime.Now;
 

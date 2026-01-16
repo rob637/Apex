@@ -427,7 +427,7 @@ namespace ApexCitadels.UI
             if (_selectedProduct == null) return;
 
             HidePurchaseConfirm();
-            IAPManager.Instance.Purchase(_selectedProduct);
+            IAPManager.Instance.Purchase(_selectedProduct.ProductId);
         }
 
         private void CancelPurchase()

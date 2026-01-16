@@ -669,7 +669,7 @@ namespace ApexCitadels.Cosmetics
 
             // For now, assume the image is in Resources
             // In production, use AddressableAssets or async download
-            var sprite = Resources.Load<Sprite>($"Cosmetics/{_selectedItem.Id}");
+            var sprite = UnityEngine.Resources.Load<Sprite>($"Cosmetics/{_selectedItem.Id}");
             if (sprite != null)
             {
                 previewImage.sprite = sprite;

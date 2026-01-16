@@ -173,7 +173,7 @@ namespace ApexCitadels.Localization
 
             // Try loading from Resources
             string resourcePath = $"{localizationFolder}/{langCode}";
-            TextAsset resourceFile = Resources.Load<TextAsset>(resourcePath);
+            TextAsset resourceFile = UnityEngine.Resources.Load<TextAsset>(resourcePath);
             if (resourceFile != null)
             {
                 ParseLanguageFile(resourceFile.text, targetDict);

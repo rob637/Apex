@@ -52,7 +52,7 @@ namespace ApexCitadels.Config
 
         private static void LoadConfig()
         {
-            var configJson = Resources.Load<TextAsset>("AppConfig");
+            var configJson = UnityEngine.Resources.Load<TextAsset>("AppConfig");
             if (configJson != null)
             {
                 _config = JsonUtility.FromJson<ConfigData>(configJson.text);
