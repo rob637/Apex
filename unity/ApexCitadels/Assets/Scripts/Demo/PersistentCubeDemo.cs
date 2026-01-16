@@ -69,11 +69,16 @@ namespace ApexCitadels.Demo
             canvasGO.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             canvasGO.AddComponent<GraphicRaycaster>();
 
+            // Find a font - try multiple options
+            Font font = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
+            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 24);
+            if (font == null) font = Font.CreateDynamicFontFromOSFont(Font.GetOSInstalledFontNames()[0], 24);
+
             // Create Status Text at top
             var statusGO = new GameObject("StatusText");
             statusGO.transform.SetParent(canvasGO.transform, false);
             _statusText = statusGO.AddComponent<Text>();
-            _statusText.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            _statusText.font = font;
             _statusText.fontSize = 24;
             _statusText.alignment = TextAnchor.UpperCenter;
             _statusText.color = Color.white;
@@ -135,10 +140,15 @@ namespace ApexCitadels.Demo
             var btn = btnGO.AddComponent<Button>();
             btn.targetGraphic = image;
 
+            // Find a font
+            Font font = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
+            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 20);
+            if (font == null) font = Font.CreateDynamicFontFromOSFont(Font.GetOSInstalledFontNames()[0], 20);
+
             var textGO = new GameObject("Text");
             textGO.transform.SetParent(btnGO.transform, false);
             var btnText = textGO.AddComponent<Text>();
-            btnText.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            btnText.font = font;
             btnText.text = text;
             btnText.fontSize = 20;
             btnText.alignment = TextAnchor.MiddleCenter;
