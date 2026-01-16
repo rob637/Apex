@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Extensions;
 using Firebase.Firestore;
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Chat
@@ -40,7 +42,11 @@ namespace ApexCitadels.Chat
         public bool IsDeleted;
         public List<string> Reactions;
 
+#if FIREBASE_ENABLED
         public bool IsMine => SenderId == Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
+#else
+        public bool IsMine => false;
+#endif
     }
 
     /// <summary>
@@ -92,14 +98,18 @@ namespace ApexCitadels.Chat
         public event Action<string> OnChannelDeleted;
 
         // State
+#if FIREBASE_ENABLED
         private FirebaseFirestore _db;
         private FirebaseFunctions _functions;
         private string _userId;
+#endif
         
         private List<ChatChannel> _channels = new List<ChatChannel>();
         private Dictionary<string, List<ChatMessage>> _messageCache = new Dictionary<string, List<ChatMessage>>();
+#if FIREBASE_ENABLED
         private Dictionary<string, ListenerRegistration> _messageListeners = new Dictionary<string, ListenerRegistration>();
         private ListenerRegistration _channelListener;
+#endif
         
         private string _currentChannelId;
         private Dictionary<string, HashSet<string>> _typingUsers = new Dictionary<string, HashSet<string>>();
@@ -121,6 +131,7 @@ namespace ApexCitadels.Chat
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _db = FirebaseFirestore.DefaultInstance;
@@ -144,10 +155,23 @@ namespace ApexCitadels.Chat
                 listener?.Stop();
             }
         }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[ChatManager] Firebase SDK not installed. Running in stub mode.");
+            InvokeRepeating(nameof(CleanupTypingIndicators), 1f, 1f);
+        }
+
+        private void OnDestroy()
+        {
+            // No listeners to clean up in stub mode
+        }
+#endif
 
         /// <summary>
         /// Subscribe to user's chat channels
         /// </summary>
+#if FIREBASE_ENABLED
         private void SubscribeToChannels()
         {
             _channelListener = _db.Collection("chat_members")
@@ -204,10 +228,24 @@ namespace ApexCitadels.Chat
             
             OnChannelsUpdated?.Invoke(_channels);
         }
+#else
+        private void SubscribeToChannels()
+        {
+            Debug.LogWarning("[ChatManager] SubscribeToChannels called but Firebase SDK not installed.");
+            OnChannelsUpdated?.Invoke(_channels);
+        }
+
+        private void LoadChannelDetails(List<string> channelIds)
+        {
+            Debug.LogWarning("[ChatManager] LoadChannelDetails called but Firebase SDK not installed.");
+            OnChannelsUpdated?.Invoke(_channels);
+        }
+#endif
 
         /// <summary>
         /// Get or create global chat channel
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<ChatChannel> GetGlobalChannel()
         {
             try
@@ -224,10 +262,18 @@ namespace ApexCitadels.Chat
                 return null;
             }
         }
+#else
+        public Task<ChatChannel> GetGlobalChannel()
+        {
+            Debug.LogWarning("[ChatManager] GetGlobalChannel called but Firebase SDK not installed.");
+            return Task.FromResult<ChatChannel>(null);
+        }
+#endif
 
         /// <summary>
         /// Get or create alliance chat channel
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<ChatChannel> GetAllianceChannel(string allianceId)
         {
             try
@@ -245,10 +291,18 @@ namespace ApexCitadels.Chat
                 return null;
             }
         }
+#else
+        public Task<ChatChannel> GetAllianceChannel(string allianceId)
+        {
+            Debug.LogWarning("[ChatManager] GetAllianceChannel called but Firebase SDK not installed.");
+            return Task.FromResult<ChatChannel>(null);
+        }
+#endif
 
         /// <summary>
         /// Create or get direct message channel with another user
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<ChatChannel> CreateDirectMessage(string otherUserId)
         {
             try
@@ -269,10 +323,18 @@ namespace ApexCitadels.Chat
                 return null;
             }
         }
+#else
+        public Task<ChatChannel> CreateDirectMessage(string otherUserId)
+        {
+            Debug.LogWarning("[ChatManager] CreateDirectMessage called but Firebase SDK not installed.");
+            return Task.FromResult<ChatChannel>(null);
+        }
+#endif
 
         /// <summary>
         /// Join a chat channel
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> JoinChannel(string channelId)
         {
             try
@@ -288,10 +350,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> JoinChannel(string channelId)
+        {
+            Debug.LogWarning("[ChatManager] JoinChannel called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Leave a chat channel
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> LeaveChannel(string channelId)
         {
             try
@@ -317,10 +387,20 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> LeaveChannel(string channelId)
+        {
+            Debug.LogWarning("[ChatManager] LeaveChannel called but Firebase SDK not installed.");
+            _messageCache.Remove(channelId);
+            OnChannelDeleted?.Invoke(channelId);
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Open a channel and start listening to messages
         /// </summary>
+#if FIREBASE_ENABLED
         public void OpenChannel(string channelId)
         {
             _currentChannelId = channelId;
@@ -364,10 +444,19 @@ namespace ApexCitadels.Chat
             // Mark as read
             MarkChannelAsRead(channelId);
         }
+#else
+        public void OpenChannel(string channelId)
+        {
+            Debug.LogWarning("[ChatManager] OpenChannel called but Firebase SDK not installed.");
+            _currentChannelId = channelId;
+            OnMessagesLoaded?.Invoke(channelId, new List<ChatMessage>());
+        }
+#endif
 
         /// <summary>
         /// Load messages for a channel
         /// </summary>
+#if FIREBASE_ENABLED
         public async void LoadMessages(string channelId, DocumentSnapshot startAfter = null)
         {
             try
@@ -412,10 +501,18 @@ namespace ApexCitadels.Chat
                 Debug.LogError($"Failed to load messages: {e.Message}");
             }
         }
+#else
+        public void LoadMessages(string channelId, object startAfter = null)
+        {
+            Debug.LogWarning("[ChatManager] LoadMessages called but Firebase SDK not installed.");
+            OnMessagesLoaded?.Invoke(channelId, new List<ChatMessage>());
+        }
+#endif
 
         /// <summary>
         /// Send a text message
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> SendMessage(string channelId, string content)
         {
             try
@@ -440,10 +537,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> SendMessage(string channelId, string content)
+        {
+            Debug.LogWarning("[ChatManager] SendMessage called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Send an emote message
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> SendEmote(string channelId, string emoteId)
         {
             try
@@ -464,10 +569,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> SendEmote(string channelId, string emoteId)
+        {
+            Debug.LogWarning("[ChatManager] SendEmote called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Send a system message (for game events)
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> SendSystemMessage(string channelId, string content, Dictionary<string, object> metadata = null)
         {
             try
@@ -488,10 +601,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> SendSystemMessage(string channelId, string content, Dictionary<string, object> metadata = null)
+        {
+            Debug.LogWarning("[ChatManager] SendSystemMessage called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Delete a message
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> DeleteMessage(string messageId)
         {
             try
@@ -514,10 +635,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> DeleteMessage(string messageId)
+        {
+            Debug.LogWarning("[ChatManager] DeleteMessage called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Report a message for moderation
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> ReportMessage(string messageId, string reason)
         {
             try
@@ -537,10 +666,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> ReportMessage(string messageId, string reason)
+        {
+            Debug.LogWarning("[ChatManager] ReportMessage called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Add a reaction to a message
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> AddReaction(string messageId, string reaction)
         {
             try
@@ -560,10 +697,18 @@ namespace ApexCitadels.Chat
                 return false;
             }
         }
+#else
+        public Task<bool> AddReaction(string messageId, string reaction)
+        {
+            Debug.LogWarning("[ChatManager] AddReaction called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         /// <summary>
         /// Indicate user is typing
         /// </summary>
+#if FIREBASE_ENABLED
         public async void StartTyping(string channelId)
         {
             try
@@ -582,10 +727,17 @@ namespace ApexCitadels.Chat
                 Debug.LogWarning($"Failed to set typing indicator: {e.Message}");
             }
         }
+#else
+        public void StartTyping(string channelId)
+        {
+            // No-op in stub mode
+        }
+#endif
 
         /// <summary>
         /// Clear typing indicator
         /// </summary>
+#if FIREBASE_ENABLED
         public async void StopTyping(string channelId)
         {
             try
@@ -599,10 +751,17 @@ namespace ApexCitadels.Chat
                 Debug.LogWarning($"Failed to clear typing indicator: {e.Message}");
             }
         }
+#else
+        public void StopTyping(string channelId)
+        {
+            // No-op in stub mode
+        }
+#endif
 
         /// <summary>
         /// Subscribe to typing indicators for a channel
         /// </summary>
+#if FIREBASE_ENABLED
         public void SubscribeToTypingIndicators(string channelId)
         {
             _db.Collection("chat_typing")
@@ -625,10 +784,17 @@ namespace ApexCitadels.Chat
                     OnTypingUsersUpdated?.Invoke(channelId, typingUserIds.ToList());
                 });
         }
+#else
+        public void SubscribeToTypingIndicators(string channelId)
+        {
+            // No-op in stub mode
+        }
+#endif
 
         /// <summary>
         /// Mark channel as read
         /// </summary>
+#if FIREBASE_ENABLED
         private async void MarkChannelAsRead(string channelId)
         {
             try
@@ -650,6 +816,17 @@ namespace ApexCitadels.Chat
                 Debug.LogWarning($"Failed to mark channel as read: {e.Message}");
             }
         }
+#else
+        private void MarkChannelAsRead(string channelId)
+        {
+            var channel = _channels.FirstOrDefault(c => c.Id == channelId);
+            if (channel != null)
+            {
+                channel.UnreadCount = 0;
+                OnChannelsUpdated?.Invoke(_channels);
+            }
+        }
+#endif
 
         /// <summary>
         /// Get cached messages for a channel
@@ -672,6 +849,7 @@ namespace ApexCitadels.Chat
         /// <summary>
         /// Search messages in a channel
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<List<ChatMessage>> SearchMessages(string channelId, string query)
         {
             try
@@ -694,6 +872,13 @@ namespace ApexCitadels.Chat
                 return new List<ChatMessage>();
             }
         }
+#else
+        public Task<List<ChatMessage>> SearchMessages(string channelId, string query)
+        {
+            Debug.LogWarning("[ChatManager] SearchMessages called but Firebase SDK not installed.");
+            return Task.FromResult(new List<ChatMessage>());
+        }
+#endif
 
         private void CleanupTypingIndicators()
         {
@@ -727,6 +912,7 @@ namespace ApexCitadels.Chat
             }
         }
 
+#if FIREBASE_ENABLED
         private ChatChannel ParseChannel(DocumentSnapshot doc)
         {
             return new ChatChannel
@@ -774,5 +960,6 @@ namespace ApexCitadels.Chat
                     : new List<string>()
             };
         }
+#endif
     }
 }

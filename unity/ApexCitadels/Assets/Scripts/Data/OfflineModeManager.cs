@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+#if FIREBASE_ENABLED
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Data

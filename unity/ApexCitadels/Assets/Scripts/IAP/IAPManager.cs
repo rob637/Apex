@@ -5,7 +5,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
+#if FIREBASE_ENABLED
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.IAP
@@ -120,7 +122,9 @@ namespace ApexCitadels.IAP
         // State
         private IStoreController _storeController;
         private IExtensionProvider _extensionProvider;
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
+#endif
 
         private List<IAPProduct> _products = new List<IAPProduct>();
         private Dictionary<string, Entitlement> _entitlements = new Dictionary<string, Entitlement>();
@@ -149,6 +153,7 @@ namespace ApexCitadels.IAP
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
@@ -184,6 +189,19 @@ namespace ApexCitadels.IAP
                 OnInitializationFailed?.Invoke(e.Message);
             }
         }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[IAPManager] Firebase SDK not installed. Running in stub mode.");
+            InitializeUnityIAP();
+        }
+
+        public void LoadProductCatalog()
+        {
+            Debug.LogWarning("[IAPManager] Firebase SDK not installed. LoadProductCatalog is a stub.");
+            InitializeUnityIAP();
+        }
+#endif
 
         /// <summary>
         /// Initialize Unity IAP with product catalog

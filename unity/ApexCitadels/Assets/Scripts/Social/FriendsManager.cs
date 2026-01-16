@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Social
@@ -105,8 +107,10 @@ namespace ApexCitadels.Social
         private List<Gift> _pendingGifts = new List<Gift>();
         private List<ActivityItem> _activityFeed = new List<ActivityItem>();
         private int _dailyGiftsSent = 0;
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
+#endif
 
         public List<Friend> Friends => _friends;
         public List<FriendRequest> IncomingRequests => _incomingRequests;
@@ -129,6 +133,7 @@ namespace ApexCitadels.Social
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
@@ -298,6 +303,47 @@ namespace ApexCitadels.Social
                 Debug.LogWarning("Daily gift limit reached");
                 return false;
             }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. Running in stub mode.");
+        }
+
+        public Task LoadFriendsList()
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadFriendsList is a stub.");
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> SendFriendRequest(string toUserId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendFriendRequest is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> AcceptFriendRequest(string requestId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. AcceptFriendRequest is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> DeclineFriendRequest(string requestId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. DeclineFriendRequest is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> RemoveFriend(string friendUserId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. RemoveFriend is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> SendGift(string toUserId, string giftType = "energy")
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendGift is a stub.");
+            return Task.FromResult(false);
+#endif
 
             try
             {

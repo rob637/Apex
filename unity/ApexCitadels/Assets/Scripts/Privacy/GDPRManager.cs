@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Privacy
@@ -79,7 +81,9 @@ namespace ApexCitadels.Privacy
         public event Action OnConsentRequired; // Show consent dialog
 
         // State
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
+#endif
         private ConsentPreferences _currentConsent;
         private PrivacySettings _privacySettings;
         private string _storedConsentVersion;
@@ -108,12 +112,25 @@ namespace ApexCitadels.Privacy
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
             LoadLocalPreferences();
             CheckConsentStatus();
         }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[GDPRManager] Firebase SDK not installed. Running in stub mode.");
+            LoadLocalPreferences();
+            // Check local consent only in stub mode
+            if (!_hasValidConsent)
+            {
+                OnConsentRequired?.Invoke();
+            }
+        }
+#endif
 
         /// <summary>
         /// Load locally cached preferences
@@ -169,6 +186,7 @@ namespace ApexCitadels.Privacy
         /// <summary>
         /// Check if consent is needed (call on app start)
         /// </summary>
+#if FIREBASE_ENABLED
         public async void CheckConsentStatus()
         {
             // First check local state
@@ -203,10 +221,21 @@ namespace ApexCitadels.Privacy
                 // On error, use local state
             }
         }
+#else
+        public void CheckConsentStatus()
+        {
+            // Stub mode - only check local state
+            if (!_hasValidConsent)
+            {
+                OnConsentRequired?.Invoke();
+            }
+        }
+#endif
 
         /// <summary>
         /// Update consent preferences
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> UpdateConsent(ConsentPreferences consent)
         {
             try
@@ -255,10 +284,29 @@ namespace ApexCitadels.Privacy
                 return false;
             }
         }
+#else
+        public Task<bool> UpdateConsent(ConsentPreferences consent)
+        {
+            Debug.LogWarning("[GDPRManager] UpdateConsent called but Firebase SDK not installed. Saving locally only.");
+            
+            // Save locally in stub mode
+            _currentConsent = consent;
+            _storedConsentVersion = currentConsentVersion;
+            _hasValidConsent = true;
+
+            PlayerPrefs.SetString(CONSENT_PREFS_KEY, JsonConvert.SerializeObject(consent));
+            PlayerPrefs.SetString(CONSENT_VERSION_KEY, currentConsentVersion);
+            PlayerPrefs.Save();
+
+            OnConsentUpdated?.Invoke(consent);
+            return Task.FromResult(true);
+        }
+#endif
 
         /// <summary>
         /// Update privacy settings
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> UpdatePrivacySettings(PrivacySettings settings)
         {
             try
@@ -307,10 +355,23 @@ namespace ApexCitadels.Privacy
                 return false;
             }
         }
+#else
+        public Task<bool> UpdatePrivacySettings(PrivacySettings settings)
+        {
+            Debug.LogWarning("[GDPRManager] UpdatePrivacySettings called but Firebase SDK not installed. Saving locally only.");
+            
+            _privacySettings = settings;
+            PlayerPrefs.SetString(PRIVACY_PREFS_KEY, JsonConvert.SerializeObject(settings));
+            PlayerPrefs.Save();
+            OnPrivacySettingsUpdated?.Invoke(settings);
+            return Task.FromResult(true);
+        }
+#endif
 
         /// <summary>
         /// Load privacy settings from server
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task LoadPrivacySettings()
         {
             try
@@ -348,12 +409,21 @@ namespace ApexCitadels.Privacy
                 Debug.LogError($"[GDPR] Failed to load privacy settings: {ex.Message}");
             }
         }
+#else
+        public Task LoadPrivacySettings()
+        {
+            Debug.LogWarning("[GDPRManager] LoadPrivacySettings called but Firebase SDK not installed. Using local settings.");
+            OnPrivacySettingsUpdated?.Invoke(_privacySettings);
+            return Task.CompletedTask;
+        }
+#endif
 
         #region Data Export
 
         /// <summary>
         /// Request a full data export
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<DataExportStatus> RequestDataExport(string format = "json")
         {
             try
@@ -378,10 +448,20 @@ namespace ApexCitadels.Privacy
                 return new DataExportStatus { Status = "failed", ErrorMessage = ex.Message };
             }
         }
+#else
+        public Task<DataExportStatus> RequestDataExport(string format = "json")
+        {
+            Debug.LogWarning("[GDPRManager] RequestDataExport called but Firebase SDK not installed.");
+            var status = new DataExportStatus { Status = "unavailable", ErrorMessage = "Firebase not installed" };
+            OnExportStatusChanged?.Invoke(status);
+            return Task.FromResult(status);
+        }
+#endif
 
         /// <summary>
         /// Check data export status
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<DataExportStatus> GetExportStatus(string requestId = null)
         {
             try
@@ -430,6 +510,13 @@ namespace ApexCitadels.Privacy
                 return new DataExportStatus { Status = "error", ErrorMessage = ex.Message };
             }
         }
+#else
+        public Task<DataExportStatus> GetExportStatus(string requestId = null)
+        {
+            Debug.LogWarning("[GDPRManager] GetExportStatus called but Firebase SDK not installed.");
+            return Task.FromResult(new DataExportStatus { Status = "unavailable", ErrorMessage = "Firebase not installed" });
+        }
+#endif
 
         #endregion
 
@@ -438,6 +525,7 @@ namespace ApexCitadels.Privacy
         /// <summary>
         /// Request account and data deletion
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<DataDeletionStatus> RequestDataDeletion()
         {
             try
@@ -474,10 +562,20 @@ namespace ApexCitadels.Privacy
                 return new DataDeletionStatus { Status = "error" };
             }
         }
+#else
+        public Task<DataDeletionStatus> RequestDataDeletion()
+        {
+            Debug.LogWarning("[GDPRManager] RequestDataDeletion called but Firebase SDK not installed.");
+            var status = new DataDeletionStatus { Status = "unavailable" };
+            OnDeletionStatusChanged?.Invoke(status);
+            return Task.FromResult(status);
+        }
+#endif
 
         /// <summary>
         /// Cancel a pending deletion request
         /// </summary>
+#if FIREBASE_ENABLED
         public async Task<bool> CancelDataDeletion(string requestId)
         {
             try
@@ -506,6 +604,13 @@ namespace ApexCitadels.Privacy
                 return false;
             }
         }
+#else
+        public Task<bool> CancelDataDeletion(string requestId)
+        {
+            Debug.LogWarning("[GDPRManager] CancelDataDeletion called but Firebase SDK not installed.");
+            return Task.FromResult(false);
+        }
+#endif
 
         #endregion
 

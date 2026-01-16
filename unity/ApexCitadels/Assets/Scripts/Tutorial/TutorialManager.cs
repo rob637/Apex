@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+#if FIREBASE_ENABLED
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Tutorial
@@ -153,7 +155,9 @@ namespace ApexCitadels.Tutorial
         public event Action OnTutorialSkipped;
 
         // State
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
+#endif
         private TutorialProgress _progress;
         private TutorialStep _currentStep;
         private bool _isRunning;
@@ -198,6 +202,7 @@ namespace ApexCitadels.Tutorial
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
@@ -211,6 +216,21 @@ namespace ApexCitadels.Tutorial
                 StartCoroutine(DelayedStart());
             }
         }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[TutorialManager] Firebase SDK not installed. Running in stub mode.");
+            
+            // Load progress
+            LoadProgress();
+
+            // Auto-start for new users
+            if (autoStartForNewUsers && enableTutorial && !_progress.IsComplete && _progress.CompletedSteps.Count == 0)
+            {
+                StartCoroutine(DelayedStart());
+            }
+        }
+#endif
 
         private IEnumerator DelayedStart()
         {

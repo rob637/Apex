@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Analytics;
 using Firebase.Crashlytics;
+#endif
 
 namespace ApexCitadels.Monitoring
 {

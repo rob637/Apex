@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Messaging;
 using Firebase.Functions;
 using Firebase.Extensions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Notifications
@@ -135,7 +137,9 @@ namespace ApexCitadels.Notifications
         public event Action<NotificationSettings> OnSettingsUpdated;
 
         // State
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
+#endif
         private string _currentToken;
         private NotificationSettings _settings;
         private Queue<ReceivedNotification> _notificationQueue = new Queue<ReceivedNotification>();
@@ -164,6 +168,7 @@ namespace ApexCitadels.Notifications
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
@@ -242,6 +247,25 @@ namespace ApexCitadels.Notifications
             await Task.CompletedTask;
 #endif
         }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[PushNotificationManager] Firebase SDK not installed. Running in stub mode.");
+            LoadCachedSettings();
+            CreateNotificationChannels();
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            _isPaused = paused;
+        }
+
+        public void Initialize()
+        {
+            Debug.LogWarning("[PushNotificationManager] Firebase SDK not installed. Initialize is a stub.");
+            _isInitialized = true;
+        }
+#endif
 
         /// <summary>
         /// Create Android notification channels

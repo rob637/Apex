@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Moderation
@@ -80,7 +82,9 @@ namespace ApexCitadels.Moderation
         public event Action<ReportResult> OnReportSubmitted;
 
         // State
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
+#endif
         private bool _isMuted;
         private DateTime? _muteExpiresAt;
         private BanStatus _banStatus;
@@ -107,28 +111,11 @@ namespace ApexCitadels.Moderation
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
             CheckBanStatus();
-        }
-
-        /// <summary>
-        /// Initialize client-side filter patterns
-        /// </summary>
-        private void InitializePatterns()
-        {
-            // Basic profanity patterns (client-side quick filter)
-            _profanityPatterns.Add(new Regex(@"\b(f+[u*@]+[c*@]+[k*@]+)\b", RegexOptions.IgnoreCase));
-            _profanityPatterns.Add(new Regex(@"\b(s+h+[i*@]+[t*@]+)\b", RegexOptions.IgnoreCase));
-            _profanityPatterns.Add(new Regex(@"\b(a+[s*@]+[s*@]+)\b", RegexOptions.IgnoreCase));
-            _profanityPatterns.Add(new Regex(@"\b(b+[i*@]+[t*@]+c+h+)\b", RegexOptions.IgnoreCase));
-            
-            // Common banned words
-            _bannedWords.AddRange(new[] { 
-                "admin", "moderator", "staff", "official", "support",
-                "free gems", "hack", "cheat", "exploit"
-            });
         }
 
         /// <summary>
@@ -246,6 +233,48 @@ namespace ApexCitadels.Moderation
 
             // Default: approve if no validation
             return new ModerationResult { Approved = true };
+        }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[ContentModerationManager] Firebase SDK not installed. Running in stub mode.");
+        }
+
+        public void CheckBanStatus()
+        {
+            Debug.LogWarning("[ContentModerationManager] Firebase SDK not installed. CheckBanStatus is a stub.");
+            _banStatus = new BanStatus { Banned = false };
+        }
+
+        public Task<ModerationResult> ModerateContent(string content, string contentType = "chat")
+        {
+            Debug.LogWarning("[ContentModerationManager] Firebase SDK not installed. ModerateContent is a stub.");
+            if (enableClientSideFilter)
+            {
+                var result = QuickClientFilter(content);
+                OnContentModerated?.Invoke(result);
+                return Task.FromResult(result);
+            }
+            return Task.FromResult(new ModerationResult { Approved = true });
+        }
+#endif
+
+        /// <summary>
+        /// Initialize client-side filter patterns
+        /// </summary>
+        private void InitializePatterns()
+        {
+            // Basic profanity patterns (client-side quick filter)
+            _profanityPatterns.Add(new Regex(@"\b(f+[u*@]+[c*@]+[k*@]+)\b", RegexOptions.IgnoreCase));
+            _profanityPatterns.Add(new Regex(@"\b(s+h+[i*@]+[t*@]+)\b", RegexOptions.IgnoreCase));
+            _profanityPatterns.Add(new Regex(@"\b(a+[s*@]+[s*@]+)\b", RegexOptions.IgnoreCase));
+            _profanityPatterns.Add(new Regex(@"\b(b+[i*@]+[t*@]+c+h+)\b", RegexOptions.IgnoreCase));
+            
+            // Common banned words
+            _bannedWords.AddRange(new[] { 
+                "admin", "moderator", "staff", "official", "support",
+                "free gems", "hack", "cheat", "exploit"
+            });
         }
 
         /// <summary>

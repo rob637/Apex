@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.WorldEvents
@@ -83,8 +85,10 @@ namespace ApexCitadels.WorldEvents
         // State
         private List<WorldEvent> _activeEvents = new List<WorldEvent>();
         private Dictionary<string, EventParticipation> _participations = new Dictionary<string, EventParticipation>();
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
+#endif
         private float _lastRefresh;
 
         public List<WorldEvent> ActiveEvents => _activeEvents;
@@ -102,6 +106,7 @@ namespace ApexCitadels.WorldEvents
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
@@ -296,6 +301,42 @@ namespace ApexCitadels.WorldEvents
                 return null;
             }
         }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. Running in stub mode.");
+        }
+
+        private void Update()
+        {
+            // Check for event endings only
+            CheckEventTimers();
+        }
+
+        public Task RefreshEvents()
+        {
+            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. RefreshEvents is a stub.");
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> JoinEvent(string eventId)
+        {
+            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. JoinEvent is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> ContributeToEvent(string eventId, int amount, string contributionType)
+        {
+            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. ContributeToEvent is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<EventRewards> ClaimEventRewards(string eventId)
+        {
+            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. ClaimEventRewards is a stub.");
+            return Task.FromResult<EventRewards>(null);
+        }
+#endif
 
         /// <summary>
         /// Get current event multipliers (for UI display)

@@ -3,9 +3,11 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if FIREBASE_ENABLED
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
+#endif
 
 namespace ApexCitadels.Core
 {
@@ -35,17 +37,29 @@ namespace ApexCitadels.Core
         public event Action OnUserSignedOut;
 
         // State
+#if FIREBASE_ENABLED
         private FirebaseApp _firebaseApp;
         private FirebaseAuth _auth;
         private FirebaseUser _currentUser;
+#else
+        private bool _firebaseAppStub;
+        private string _currentUserIdStub;
+#endif
         private bool _isInitialized;
         private float _initStartTime;
 
         public bool IsInitialized => _isInitialized;
+#if FIREBASE_ENABLED
         public bool IsAuthenticated => _currentUser != null;
         public string UserId => _currentUser?.UserId;
         public string UserDisplayName => _currentUser?.DisplayName;
         public string UserEmail => _currentUser?.Email;
+#else
+        public bool IsAuthenticated => !string.IsNullOrEmpty(_currentUserIdStub);
+        public string UserId => _currentUserIdStub;
+        public string UserDisplayName => "StubUser";
+        public string UserEmail => "stub@example.com";
+#endif
         public bool IsDebugMode => enableDebugMode;
 
         private void Awake()
@@ -70,6 +84,7 @@ namespace ApexCitadels.Core
             }
         }
 
+#if FIREBASE_ENABLED
         /// <summary>
         /// Initialize all game systems
         /// </summary>
@@ -177,72 +192,6 @@ namespace ApexCitadels.Core
             yield return null;
         }
 
-        private IEnumerator InitializeCoreManagers()
-        {
-            // Initialize managers that are already in the scene
-            // They self-initialize in their Start() methods
-
-            // Ensure AntiCheat is running
-            if (AntiCheat.AntiCheatManager.Instance != null)
-            {
-                AntiCheat.AntiCheatManager.Instance.StartLocationValidation();
-            }
-
-            // Initialize Analytics
-            if (Analytics.AnalyticsManager.Instance != null)
-            {
-                Analytics.AnalyticsManager.Instance.SetUserProperty("initialized", true);
-            }
-
-            yield return null;
-        }
-
-        private IEnumerator LoadPlayerData()
-        {
-            var tasks = new System.Collections.Generic.List<Task>();
-
-            // Load player profile
-            if (Player.PlayerManager.Instance != null)
-            {
-                // PlayerManager handles its own loading
-            }
-
-            // Load season pass progress
-            if (SeasonPass.SeasonPassManager.Instance != null)
-            {
-                SeasonPass.SeasonPassManager.Instance.LoadCurrentSeason();
-            }
-
-            // Load friends list
-            if (Social.FriendsManager.Instance != null)
-            {
-                Social.FriendsManager.Instance.LoadFriendsList();
-            }
-
-            // Load referral data
-            if (Referrals.ReferralManager.Instance != null)
-            {
-                Referrals.ReferralManager.Instance.LoadReferralData();
-            }
-
-            // Apply pending referral code (from deep link)
-            if (Referrals.ReferralManager.Instance != null)
-            {
-                _ = Referrals.ReferralManager.Instance.ApplyPendingReferralCode();
-            }
-
-            yield return new WaitForSeconds(0.5f); // Allow async operations to start
-        }
-
-        private IEnumerator FinalSetup()
-        {
-            // Register for push notifications
-            // Initialize in-app purchases
-            // Load remote config
-
-            yield return null;
-        }
-
         private void OnAuthStateChanged(object sender, EventArgs e)
         {
             var newUser = _auth.CurrentUser;
@@ -321,6 +270,144 @@ namespace ApexCitadels.Core
         {
             _auth.SignOut();
             _currentUser = null;
+        }
+
+        private void OnDestroy()
+        {
+            if (_auth != null)
+            {
+                _auth.StateChanged -= OnAuthStateChanged;
+            }
+        }
+#else
+        /// <summary>
+        /// Initialize all game systems (stub mode)
+        /// </summary>
+        public IEnumerator InitializeGame()
+        {
+            _initStartTime = Time.time;
+            OnInitializationStarted?.Invoke();
+
+            Debug.LogWarning("[GameManager] Firebase SDK not installed. Running in stub mode.");
+
+            OnInitializationProgress?.Invoke(0.20f);
+            yield return null;
+
+            OnInitializationProgress?.Invoke(0.40f);
+            yield return StartCoroutine(InitializeCoreManagers());
+
+            OnInitializationProgress?.Invoke(0.60f);
+            yield return StartCoroutine(FinalSetup());
+
+            OnInitializationProgress?.Invoke(1.0f);
+
+            // Ensure minimum splash duration
+            float elapsed = Time.time - _initStartTime;
+            if (elapsed < splashMinDuration)
+            {
+                yield return new WaitForSeconds(splashMinDuration - elapsed);
+            }
+
+            _isInitialized = true;
+            _firebaseAppStub = true;
+            OnInitializationComplete?.Invoke();
+
+            Debug.Log("[GameManager] Initialization complete (stub mode)!");
+        }
+
+        public Task<bool> SignInWithEmail(string email, string password)
+        {
+            Debug.LogWarning("[GameManager] Firebase SDK not installed. SignInWithEmail is a stub.");
+            _currentUserIdStub = "stub_user_id";
+            OnUserAuthenticated?.Invoke();
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> CreateAccount(string email, string password, string displayName)
+        {
+            Debug.LogWarning("[GameManager] Firebase SDK not installed. CreateAccount is a stub.");
+            _currentUserIdStub = "stub_user_id";
+            OnUserAuthenticated?.Invoke();
+            return Task.FromResult(true);
+        }
+
+        public void SignOut()
+        {
+            Debug.LogWarning("[GameManager] Firebase SDK not installed. SignOut is a stub.");
+            _currentUserIdStub = null;
+            OnUserSignedOut?.Invoke();
+        }
+
+        private void OnDestroy()
+        {
+            // No Firebase cleanup needed in stub mode
+        }
+#endif
+
+        private IEnumerator InitializeCoreManagers()
+        {
+            // Initialize managers that are already in the scene
+            // They self-initialize in their Start() methods
+
+            // Ensure AntiCheat is running
+            if (AntiCheat.AntiCheatManager.Instance != null)
+            {
+                AntiCheat.AntiCheatManager.Instance.StartLocationValidation();
+            }
+
+            // Initialize Analytics
+            if (Analytics.AnalyticsManager.Instance != null)
+            {
+                Analytics.AnalyticsManager.Instance.SetUserProperty("initialized", true);
+            }
+
+            yield return null;
+        }
+
+        private IEnumerator LoadPlayerData()
+        {
+            var tasks = new System.Collections.Generic.List<Task>();
+
+            // Load player profile
+            if (Player.PlayerManager.Instance != null)
+            {
+                // PlayerManager handles its own loading
+            }
+
+            // Load season pass progress
+            if (SeasonPass.SeasonPassManager.Instance != null)
+            {
+                SeasonPass.SeasonPassManager.Instance.LoadCurrentSeason();
+            }
+
+            // Load friends list
+            if (Social.FriendsManager.Instance != null)
+            {
+                Social.FriendsManager.Instance.LoadFriendsList();
+            }
+
+            // Load referral data
+            if (Referrals.ReferralManager.Instance != null)
+            {
+                Referrals.ReferralManager.Instance.LoadReferralData();
+            }
+
+            // Apply pending referral code (from deep link)
+            if (Referrals.ReferralManager.Instance != null)
+            {
+                _ = Referrals.ReferralManager.Instance.ApplyPendingReferralCode();
+            }
+
+            yield return new WaitForSeconds(0.5f); // Allow async operations to start
+        }
+
+        private IEnumerator FinalSetup()
+        {
+            // Register for push notifications
+            // Initialize in-app purchases
+            // Load remote config
+
+            yield return null;
         }
 
         /// <summary>

@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.SeasonPass
@@ -108,8 +110,10 @@ namespace ApexCitadels.SeasonPass
         private Season _currentSeason;
         private SeasonProgress _progress;
         private List<SeasonChallenge> _challenges = new List<SeasonChallenge>();
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
+#endif
 
         public Season CurrentSeason => _currentSeason;
         public SeasonProgress Progress => _progress;
@@ -129,6 +133,7 @@ namespace ApexCitadels.SeasonPass
             }
         }
 
+#if FIREBASE_ENABLED
         private void Start()
         {
             _functions = FirebaseFunctions.DefaultInstance;
@@ -372,6 +377,55 @@ namespace ApexCitadels.SeasonPass
                 return false;
             }
         }
+
+        /// <summary>
+        /// Refresh progress from server
+        /// </summary>
+        public async void RefreshProgress()
+        {
+            await LoadCurrentSeason();
+        }
+#else
+        private void Start()
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. Running in stub mode.");
+        }
+
+        public Task LoadCurrentSeason()
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. LoadCurrentSeason is a stub.");
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> PurchasePremiumPass()
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. PurchasePremiumPass is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<RewardItem> ClaimReward(int level, bool isPremium)
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. ClaimReward is a stub.");
+            return Task.FromResult<RewardItem>(null);
+        }
+
+        public Task<List<RewardItem>> ClaimAllAvailableRewards()
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. ClaimAllAvailableRewards is a stub.");
+            return Task.FromResult(new List<RewardItem>());
+        }
+
+        public Task<bool> CompleteChallenge(string challengeId)
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. CompleteChallenge is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public void RefreshProgress()
+        {
+            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. RefreshProgress is a stub.");
+        }
+#endif
 
         /// <summary>
         /// Check if a reward can be claimed
