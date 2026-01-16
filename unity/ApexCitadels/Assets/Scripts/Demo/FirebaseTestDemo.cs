@@ -1,0 +1,151 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
+
+#if FIREBASE_ENABLED
+using Firebase;
+using Firebase.Firestore;
+using Firebase.Extensions;
+#endif
+
+namespace ApexCitadels.Demo
+{
+    /// <summary>
+    /// Simple demo to test Firebase connection and Firestore read/write
+    /// </summary>
+    public class FirebaseTestDemo : MonoBehaviour
+    {
+        [Header("UI")]
+        [SerializeField] private TMP_Text statusText;
+        [SerializeField] private Button testWriteButton;
+        [SerializeField] private Button testReadButton;
+
+        private bool _firebaseReady = false;
+
+#if FIREBASE_ENABLED
+        private FirebaseFirestore _db;
+#endif
+
+        private void Start()
+        {
+            SetStatus("Initializing Firebase...");
+            
+            if (testWriteButton != null)
+                testWriteButton.onClick.AddListener(OnTestWriteClick);
+            if (testReadButton != null)
+                testReadButton.onClick.AddListener(OnTestReadClick);
+
+            InitializeFirebase();
+        }
+
+        private void InitializeFirebase()
+        {
+#if FIREBASE_ENABLED
+            FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.Result == DependencyStatus.Available)
+                {
+                    _db = FirebaseFirestore.DefaultInstance;
+                    _firebaseReady = true;
+                    SetStatus("✓ Firebase Ready!\n\nTap 'Write Test' to save data\nTap 'Read Test' to load data");
+                    Debug.Log("Firebase initialized successfully!");
+                }
+                else
+                {
+                    SetStatus($"✗ Firebase Error: {task.Result}");
+                    Debug.LogError($"Could not resolve Firebase dependencies: {task.Result}");
+                }
+            });
+#else
+            SetStatus("Firebase not enabled.\n\nAdd FIREBASE_ENABLED to\nPlayer Settings → Scripting Define Symbols");
+            Debug.LogWarning("Firebase is not enabled. Add FIREBASE_ENABLED to Scripting Define Symbols.");
+#endif
+        }
+
+        private void OnTestWriteClick()
+        {
+#if FIREBASE_ENABLED
+            if (!_firebaseReady)
+            {
+                SetStatus("Firebase not ready yet...");
+                return;
+            }
+
+            SetStatus("Writing test data...");
+
+            var testData = new Dictionary<string, object>
+            {
+                { "message", "Hello from Apex Citadels!" },
+                { "timestamp", FieldValue.ServerTimestamp },
+                { "testNumber", Random.Range(1, 1000) },
+                { "platform", Application.platform.ToString() }
+            };
+
+            _db.Collection("test").Document("unity-test").SetAsync(testData).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted && !task.IsFaulted)
+                {
+                    SetStatus("✓ Write successful!\n\nData saved to Firestore.\nCheck Firebase Console to see it.\n\nTap 'Read Test' to read it back.");
+                    Debug.Log("Test data written to Firestore!");
+                }
+                else
+                {
+                    SetStatus($"✗ Write failed:\n{task.Exception?.Message}");
+                    Debug.LogError($"Failed to write test data: {task.Exception}");
+                }
+            });
+#else
+            SetStatus("Firebase not enabled.");
+#endif
+        }
+
+        private void OnTestReadClick()
+        {
+#if FIREBASE_ENABLED
+            if (!_firebaseReady)
+            {
+                SetStatus("Firebase not ready yet...");
+                return;
+            }
+
+            SetStatus("Reading test data...");
+
+            _db.Collection("test").Document("unity-test").GetSnapshotAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted && !task.IsFaulted)
+                {
+                    var snapshot = task.Result;
+                    if (snapshot.Exists)
+                    {
+                        var data = snapshot.ToDictionary();
+                        string message = data.ContainsKey("message") ? data["message"].ToString() : "N/A";
+                        string testNum = data.ContainsKey("testNumber") ? data["testNumber"].ToString() : "N/A";
+                        
+                        SetStatus($"✓ Read successful!\n\nMessage: {message}\nTest #: {testNum}\n\n Firebase is working!");
+                        Debug.Log($"Read from Firestore: {message}");
+                    }
+                    else
+                    {
+                        SetStatus("No data found.\nTap 'Write Test' first.");
+                    }
+                }
+                else
+                {
+                    SetStatus($"✗ Read failed:\n{task.Exception?.Message}");
+                    Debug.LogError($"Failed to read test data: {task.Exception}");
+                }
+            });
+#else
+            SetStatus("Firebase not enabled.");
+#endif
+        }
+
+        private void SetStatus(string message)
+        {
+            if (statusText != null)
+                statusText.text = message;
+            Debug.Log($"[FirebaseTest] {message}");
+        }
+    }
+}
