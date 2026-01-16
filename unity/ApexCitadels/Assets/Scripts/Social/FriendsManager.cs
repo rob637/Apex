@@ -343,8 +343,8 @@ namespace ApexCitadels.Social
                 if (response.ContainsKey("gifts"))
                 {
                     var giftsJson = JsonConvert.SerializeObject(response["gifts"]);
-                    _pendingGifts = JsonConvert.DeserializeObject<List<PendingGift>>(giftsJson);
-                    OnGiftsUpdated?.Invoke(_pendingGifts);
+                    _pendingGifts = JsonConvert.DeserializeObject<List<Gift>>(giftsJson);
+                    OnPendingGiftsUpdated?.Invoke(_pendingGifts);
                 }
             }
             catch (Exception e)
@@ -366,7 +366,7 @@ namespace ApexCitadels.Social
                 if (response.ContainsKey("activities"))
                 {
                     var activitiesJson = JsonConvert.SerializeObject(response["activities"]);
-                    _activityFeed = JsonConvert.DeserializeObject<List<ActivityFeedItem>>(activitiesJson);
+                    _activityFeed = JsonConvert.DeserializeObject<List<ActivityItem>>(activitiesJson);
                     OnActivityFeedUpdated?.Invoke(_activityFeed);
                 }
             }
@@ -436,7 +436,7 @@ namespace ApexCitadels.Social
                 if (response.ContainsKey("success") && Convert.ToBoolean(response["success"]))
                 {
                     _pendingGifts.Clear();
-                    OnGiftsUpdated?.Invoke(_pendingGifts);
+                    OnPendingGiftsUpdated?.Invoke(_pendingGifts);
                     return true;
                 }
                 return false;
