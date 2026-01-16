@@ -1,5 +1,13 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "Google ARCore",
+      "url": "https://packages.developers.google.com/artifactory/api/npm/unity-packages",
+      "scopes": ["com.google.ar"]
+    }
+  ],
   "dependencies": {
+    "com.google.ar.core.arfoundation.extensions": "1.46.0",
     "com.unity.xr.arcore": "6.0.4",
     "com.unity.xr.arfoundation": "6.0.4",
     "com.unity.xr.arkit": "6.0.4",
