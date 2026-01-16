@@ -71,6 +71,7 @@ namespace ApexCitadels.Demo
             {
                 eventSystem = new GameObject("EventSystem");
                 eventSystem.AddComponent<EventSystem>();
+                Debug.Log("[DemoAutoSetup] Created EventSystem");
             }
 
             // Ensure EventSystem component exists
@@ -79,29 +80,38 @@ namespace ApexCitadels.Demo
                 eventSystem.AddComponent<EventSystem>();
             }
 
-            // Remove old StandaloneInputModule if present
-            var oldModule = eventSystem.GetComponent<StandaloneInputModule>();
-            if (oldModule != null)
+            // Try to add the new Input System module (Unity 6 default)
+            try
             {
-                Object.Destroy(oldModule);
-                Debug.Log("[DemoAutoSetup] Removed old StandaloneInputModule");
+                var moduleType = System.Type.GetType("UnityEngine.InputSystem.UI.InputSystemUIInputModule, Unity.InputSystem");
+                if (moduleType != null)
+                {
+                    var existingModule = eventSystem.GetComponent(moduleType);
+                    if (existingModule == null)
+                    {
+                        eventSystem.AddComponent(moduleType);
+                        Debug.Log("[DemoAutoSetup] Added InputSystemUIInputModule");
+                    }
+                }
+                else
+                {
+                    // Fallback to StandaloneInputModule
+                    if (eventSystem.GetComponent<StandaloneInputModule>() == null)
+                    {
+                        eventSystem.AddComponent<StandaloneInputModule>();
+                        Debug.Log("[DemoAutoSetup] Added StandaloneInputModule (fallback)");
+                    }
+                }
             }
-
-            // Add new Input System UI module
-            #if ENABLE_INPUT_SYSTEM
-            var newModule = eventSystem.GetComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
-            if (newModule == null)
+            catch (System.Exception e)
             {
-                eventSystem.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
-                Debug.Log("[DemoAutoSetup] Added InputSystemUIInputModule for new Input System");
+                Debug.LogWarning($"[DemoAutoSetup] Could not add input module: {e.Message}");
+                // Fallback
+                if (eventSystem.GetComponent<StandaloneInputModule>() == null)
+                {
+                    eventSystem.AddComponent<StandaloneInputModule>();
+                }
             }
-            #else
-            // Fallback for old input system
-            if (eventSystem.GetComponent<StandaloneInputModule>() == null)
-            {
-                eventSystem.AddComponent<StandaloneInputModule>();
-            }
-            #endif
         }
     }
 }

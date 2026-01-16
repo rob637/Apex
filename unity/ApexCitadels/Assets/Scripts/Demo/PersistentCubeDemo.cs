@@ -127,7 +127,21 @@ namespace ApexCitadels.Demo
             _loadCubesButton = CreateButton(panelGO.transform, "LOAD CUBES", new Color(0.2f, 0.8f, 0.4f));
             _clearCubesButton = CreateButton(panelGO.transform, "CLEAR ALL", new Color(0.9f, 0.3f, 0.3f));
 
-            Debug.Log("[PersistentCubeDemo] UI created successfully!");
+            // Connect button listeners immediately
+            _placeCubeButton.onClick.AddListener(() => {
+                Debug.Log("[PersistentCubeDemo] PLACE CUBE clicked!");
+                OnPlaceCubeClicked();
+            });
+            _loadCubesButton.onClick.AddListener(() => {
+                Debug.Log("[PersistentCubeDemo] LOAD CUBES clicked!");
+                OnLoadCubesClicked();
+            });
+            _clearCubesButton.onClick.AddListener(() => {
+                Debug.Log("[PersistentCubeDemo] CLEAR ALL clicked!");
+                OnClearCubesClicked();
+            });
+
+            Debug.Log("[PersistentCubeDemo] UI created and listeners connected!");
         }
 
         private Button CreateButton(Transform parent, string text, Color color)
