@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
+using System;
 
 namespace ApexCitadels.Editor
 {
@@ -59,7 +59,7 @@ namespace ApexCitadels.Editor
 
         private static void SetupMainMenuScene()
         {
-            Debug.Log("[SceneSetup] Setting up Main Menu Scene...");
+            UnityEngine.Debug.Log("[SceneSetup] Setting up Main Menu Scene...");
 
             // Ensure EventSystem exists
             AddEventSystem();
@@ -74,8 +74,8 @@ namespace ApexCitadels.Editor
             CreatePanel(canvas.transform, "SettingsPanel", new Vector2(0, 0));
             CreatePanel(canvas.transform, "LoadingPanel", new Vector2(0, 0));
 
-            // Add MainMenuController
-            var controller = canvas.AddComponent<UI.MainMenuController>();
+            // Add MainMenuController using type name
+            AddComponentByName(canvas.gameObject, "ApexCitadels.UI.MainMenuController");
 
             // Add Camera if none exists
             if (Camera.main == null)
@@ -88,13 +88,13 @@ namespace ApexCitadels.Editor
                 camGO.AddComponent<AudioListener>();
             }
 
-            Debug.Log("[SceneSetup] Main Menu Scene setup complete!");
+            UnityEngine.Debug.Log("[SceneSetup] Main Menu Scene setup complete!");
             EditorUtility.SetDirty(canvas);
         }
 
         private static void SetupARGameplayScene()
         {
-            Debug.Log("[SceneSetup] Setting up AR Gameplay Scene...");
+            UnityEngine.Debug.Log("[SceneSetup] Setting up AR Gameplay Scene...");
 
             // Add AR Session
             var arSession = new GameObject("AR Session");
@@ -115,14 +115,14 @@ namespace ApexCitadels.Editor
             var canvas = CreateCanvas("GameplayCanvas");
             
             // Add HUD Controller
-            canvas.AddComponent<UI.GameHUDController>();
+            AddComponentByName(canvas.gameObject, "ApexCitadels.UI.GameHUDController");
 
-            Debug.Log("[SceneSetup] AR Gameplay Scene setup complete!");
+            UnityEngine.Debug.Log("[SceneSetup] AR Gameplay Scene setup complete!");
         }
 
         private static void SetupBootstrapScene()
         {
-            Debug.Log("[SceneSetup] Setting up Bootstrap Scene...");
+            UnityEngine.Debug.Log("[SceneSetup] Setting up Bootstrap Scene...");
 
             // Add EventSystem
             AddEventSystem();
@@ -140,11 +140,11 @@ namespace ApexCitadels.Editor
 
             // Add GameManager
             var gameManager = new GameObject("GameManager");
-            gameManager.AddComponent<Core.GameManager>();
+            AddComponentByName(gameManager, "ApexCitadels.Core.GameManager");
 
             // Add SceneLoader
             var sceneLoader = new GameObject("SceneLoader");
-            sceneLoader.AddComponent<Core.SceneLoader>();
+            AddComponentByName(sceneLoader, "ApexCitadels.Core.SceneLoader");
 
             // Create Loading UI Canvas
             var canvas = CreateCanvas("BootstrapCanvas");
@@ -153,7 +153,7 @@ namespace ApexCitadels.Editor
             var loadingText = CreateText(canvas.transform, "LoadingText", "Initializing...");
             loadingText.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
-            Debug.Log("[SceneSetup] Bootstrap Scene setup complete!");
+            UnityEngine.Debug.Log("[SceneSetup] Bootstrap Scene setup complete!");
         }
 
         private static Canvas CreateCanvas(string name)
@@ -197,42 +197,45 @@ namespace ApexCitadels.Editor
             var rect = textGO.AddComponent<RectTransform>();
             rect.sizeDelta = new Vector2(400, 60);
 
-            var tmp = textGO.AddComponent<TextMeshProUGUI>();
-            tmp.text = text;
-            tmp.fontSize = 36;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.color = Color.white;
+            // Use legacy UI Text (always available)
+            var uiText = textGO.AddComponent<Text>();
+            uiText.text = text;
+            uiText.fontSize = 36;
+            uiText.alignment = TextAnchor.MiddleCenter;
+            uiText.color = Color.white;
 
             return textGO;
         }
 
         private static void AddEventSystem()
         {
-            if (Object.FindObjectOfType<EventSystem>() == null)
+            if (UnityEngine.Object.FindFirstObjectByType<EventSystem>() == null)
             {
                 var eventSystem = new GameObject("EventSystem");
                 eventSystem.AddComponent<EventSystem>();
                 eventSystem.AddComponent<StandaloneInputModule>();
-                Debug.Log("[SceneSetup] Added EventSystem");
+                UnityEngine.Debug.Log("[SceneSetup] Added EventSystem");
             }
         }
 
         private static void AddDebugTools()
         {
             // Debug Console
-            if (Object.FindObjectOfType<Debug.DebugConsole>() == null)
+            var existingConsole = FindComponentByName("ApexCitadels.Debug.DebugConsole");
+            if (existingConsole == null)
             {
                 var console = new GameObject("DebugConsole");
-                console.AddComponent<Debug.DebugConsole>();
-                Debug.Log("[SceneSetup] Added DebugConsole");
+                AddComponentByName(console, "ApexCitadels.Debug.DebugConsole");
+                UnityEngine.Debug.Log("[SceneSetup] Added DebugConsole");
             }
 
             // Debug Overlay
-            if (Object.FindObjectOfType<Debug.DebugOverlay>() == null)
+            var existingOverlay = FindComponentByName("ApexCitadels.Debug.DebugOverlay");
+            if (existingOverlay == null)
             {
                 var overlay = new GameObject("DebugOverlay");
-                overlay.AddComponent<Debug.DebugOverlay>();
-                Debug.Log("[SceneSetup] Added DebugOverlay");
+                AddComponentByName(overlay, "ApexCitadels.Debug.DebugOverlay");
+                UnityEngine.Debug.Log("[SceneSetup] Added DebugOverlay");
             }
         }
 
@@ -240,36 +243,50 @@ namespace ApexCitadels.Editor
         {
             var managers = new GameObject("Managers");
 
-            // Add service managers
-            var serviceLocator = new GameObject("ServiceLocator");
-            serviceLocator.transform.SetParent(managers.transform);
-            serviceLocator.AddComponent<Backend.ServiceLocator>();
+            // Add service managers using type names
+            CreateManagerObject(managers.transform, "ServiceLocator", "ApexCitadels.Backend.ServiceLocator");
+            CreateManagerObject(managers.transform, "SpatialAnchorManager", "ApexCitadels.AR.SpatialAnchorManager");
+            CreateManagerObject(managers.transform, "AnchorPersistenceService", "ApexCitadels.Backend.AnchorPersistenceService");
+            CreateManagerObject(managers.transform, "PlayerManager", "ApexCitadels.Player.PlayerManager");
+            CreateManagerObject(managers.transform, "TerritoryManager", "ApexCitadels.Territory.TerritoryManager");
+            CreateManagerObject(managers.transform, "BuildingManager", "ApexCitadels.Building.BuildingManager");
+            CreateManagerObject(managers.transform, "ResourceManager", "ApexCitadels.Resources.ResourceManager");
 
-            var spatialAnchor = new GameObject("SpatialAnchorManager");
-            spatialAnchor.transform.SetParent(managers.transform);
-            spatialAnchor.AddComponent<AR.SpatialAnchorManager>();
+            UnityEngine.Debug.Log("[SceneSetup] Added Service Managers");
+        }
 
-            var anchorPersistence = new GameObject("AnchorPersistenceService");
-            anchorPersistence.transform.SetParent(managers.transform);
-            anchorPersistence.AddComponent<Backend.AnchorPersistenceService>();
+        private static void CreateManagerObject(Transform parent, string objectName, string typeName)
+        {
+            var obj = new GameObject(objectName);
+            obj.transform.SetParent(parent);
+            AddComponentByName(obj, typeName);
+        }
 
-            var playerManager = new GameObject("PlayerManager");
-            playerManager.transform.SetParent(managers.transform);
-            playerManager.AddComponent<Player.PlayerManager>();
+        private static void AddComponentByName(GameObject obj, string typeName)
+        {
+            var type = Type.GetType(typeName + ", Assembly-CSharp") ?? 
+                       Type.GetType(typeName + ", ApexCitadels.Core");
+            
+            if (type != null)
+            {
+                obj.AddComponent(type);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning($"[SceneSetup] Type not found: {typeName}. Component will need to be added manually.");
+            }
+        }
 
-            var territoryManager = new GameObject("TerritoryManager");
-            territoryManager.transform.SetParent(managers.transform);
-            territoryManager.AddComponent<Territory.TerritoryManager>();
-
-            var buildingManager = new GameObject("BuildingManager");
-            buildingManager.transform.SetParent(managers.transform);
-            buildingManager.AddComponent<Building.BuildingManager>();
-
-            var resourceManager = new GameObject("ResourceManager");
-            resourceManager.transform.SetParent(managers.transform);
-            resourceManager.AddComponent<Resources.ResourceManager>();
-
-            Debug.Log("[SceneSetup] Added Service Managers");
+        private static Component FindComponentByName(string typeName)
+        {
+            var type = Type.GetType(typeName + ", Assembly-CSharp") ?? 
+                       Type.GetType(typeName + ", ApexCitadels.Core");
+            
+            if (type != null)
+            {
+                return UnityEngine.Object.FindFirstObjectByType(type) as Component;
+            }
+            return null;
         }
     }
 }

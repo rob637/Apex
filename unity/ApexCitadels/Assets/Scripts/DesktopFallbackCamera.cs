@@ -61,7 +61,6 @@ public class DesktopFallbackCamera : MonoBehaviour
         testCube.transform.localScale = Vector3.one * 0.5f;
         Debug.Log($"[DesktopFallback] Created test cube at {testCube.transform.position}");
     }
-    }
     
     void DisableARGameObjects()
     {
