@@ -3,7 +3,7 @@ using TMPro;
 using ApexCitadels.AR;
 using ApexCitadels.Player;
 
-namespace ApexCitadels.Debug
+namespace ApexCitadels.Debugging
 {
     /// <summary>
     /// Shows debug information overlay on screen

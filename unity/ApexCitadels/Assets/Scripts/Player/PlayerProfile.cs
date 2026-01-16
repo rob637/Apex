@@ -16,6 +16,9 @@ namespace ApexCitadels.Player
         public DateTime CreatedAt;
         public DateTime LastLoginAt;
 
+        // Alias for Id used by some systems
+        public string PlayerId => Id;
+
         // Stats
         public int Level;
         public int Experience;

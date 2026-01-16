@@ -222,6 +222,64 @@ namespace ApexCitadels.Player
         }
 
         /// <summary>
+        /// Spend a specific resource type
+        /// </summary>
+        public bool SpendResource(ResourceType type, int amount)
+        {
+            if (CurrentPlayer == null || amount <= 0) return false;
+
+            switch (type)
+            {
+                case ResourceType.Stone:
+                    if (CurrentPlayer.Stone >= amount)
+                    {
+                        CurrentPlayer.Stone -= amount;
+                        OnResourceChanged?.Invoke(type, -amount);
+                        _ = SavePlayerToCloud();
+                        return true;
+                    }
+                    break;
+                case ResourceType.Wood:
+                    if (CurrentPlayer.Wood >= amount)
+                    {
+                        CurrentPlayer.Wood -= amount;
+                        OnResourceChanged?.Invoke(type, -amount);
+                        _ = SavePlayerToCloud();
+                        return true;
+                    }
+                    break;
+                case ResourceType.Metal:
+                    if (CurrentPlayer.Metal >= amount)
+                    {
+                        CurrentPlayer.Metal -= amount;
+                        OnResourceChanged?.Invoke(type, -amount);
+                        _ = SavePlayerToCloud();
+                        return true;
+                    }
+                    break;
+                case ResourceType.Crystal:
+                    if (CurrentPlayer.Crystal >= amount)
+                    {
+                        CurrentPlayer.Crystal -= amount;
+                        OnResourceChanged?.Invoke(type, -amount);
+                        _ = SavePlayerToCloud();
+                        return true;
+                    }
+                    break;
+                case ResourceType.Gems:
+                    if (CurrentPlayer.Gems >= amount)
+                    {
+                        CurrentPlayer.Gems -= amount;
+                        OnResourceChanged?.Invoke(type, -amount);
+                        _ = SavePlayerToCloud();
+                        return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Add resources to player inventory
         /// </summary>
         public void AddResources(int stone = 0, int wood = 0, int metal = 0, int crystal = 0)

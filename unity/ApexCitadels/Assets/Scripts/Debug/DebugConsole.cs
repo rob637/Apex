@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace ApexCitadels.Debug
+namespace ApexCitadels.Debugging
 {
     /// <summary>
     /// In-game debug console for testing and development
@@ -290,11 +290,11 @@ namespace ApexCitadels.Debug
                 if (Player.PlayerManager.Instance?.CurrentPlayer != null)
                 {
                     var player = Player.PlayerManager.Instance.CurrentPlayer;
-                    Log($"Stone: {player.Resources.Stone}");
-                    Log($"Wood: {player.Resources.Wood}");
-                    Log($"Metal: {player.Resources.Metal}");
-                    Log($"Crystal: {player.Resources.Crystal}");
-                    Log($"Gems: {player.Resources.Gems}");
+                    Log($"Stone: {player.Stone}");
+                    Log($"Wood: {player.Wood}");
+                    Log($"Metal: {player.Metal}");
+                    Log($"Crystal: {player.Crystal}");
+                    Log($"Gems: {player.Gems}");
                 }
                 else
                 {

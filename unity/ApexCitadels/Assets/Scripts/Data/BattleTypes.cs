@@ -121,12 +121,14 @@ namespace ApexCitadels.Data
         public List<Troop> Troops;
         public int TotalPower;
         public string Strategy; // "aggressive", "defensive", "balanced"
+        public bool IsReady;
 
         public BattleFormation()
         {
             Troops = new List<Troop>();
             TotalPower = 0;
             Strategy = "balanced";
+            IsReady = false;
         }
     }
 
@@ -154,6 +156,10 @@ namespace ApexCitadels.Data
         public BattleResult Result;
         public string WarId;
         public bool IsWarBattle;
+
+        // Aliases for compatibility
+        public string BattleId { get => Id; set => Id = value; }
+        public DateTime ScheduledTime { get => ScheduledAt; set => ScheduledAt = value; }
     }
 
     /// <summary>

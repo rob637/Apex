@@ -221,20 +221,20 @@ namespace ApexCitadels.Editor
         private static void AddDebugTools()
         {
             // Debug Console
-            var existingConsole = FindComponentByName("ApexCitadels.Debug.DebugConsole");
+            var existingConsole = FindComponentByName("ApexCitadels.Debugging.DebugConsole");
             if (existingConsole == null)
             {
                 var console = new GameObject("DebugConsole");
-                AddComponentByName(console, "ApexCitadels.Debug.DebugConsole");
+                AddComponentByName(console, "ApexCitadels.Debugging.DebugConsole");
                 UnityEngine.Debug.Log("[SceneSetup] Added DebugConsole");
             }
 
             // Debug Overlay
-            var existingOverlay = FindComponentByName("ApexCitadels.Debug.DebugOverlay");
+            var existingOverlay = FindComponentByName("ApexCitadels.Debugging.DebugOverlay");
             if (existingOverlay == null)
             {
                 var overlay = new GameObject("DebugOverlay");
-                AddComponentByName(overlay, "ApexCitadels.Debug.DebugOverlay");
+                AddComponentByName(overlay, "ApexCitadels.Debugging.DebugOverlay");
                 UnityEngine.Debug.Log("[SceneSetup] Added DebugOverlay");
             }
         }
