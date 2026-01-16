@@ -12,9 +12,15 @@ namespace ApexCitadels.Demo
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoSetup()
         {
-            // Only run in the PersistentCubeDemo scene
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "PersistentCubeDemo")
+            var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            Debug.Log($"[DemoAutoSetup] Current scene: '{sceneName}'");
+            
+            // Run in any scene that contains "Persistent" or "Demo" (case insensitive)
+            if (!sceneName.ToLower().Contains("persistent") && !sceneName.ToLower().Contains("demo"))
+            {
+                Debug.Log("[DemoAutoSetup] Not a demo scene, skipping setup");
                 return;
+            }
 
             Debug.Log("[DemoAutoSetup] Setting up demo scene...");
 
