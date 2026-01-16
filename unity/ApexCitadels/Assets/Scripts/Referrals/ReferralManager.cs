@@ -24,6 +24,17 @@ namespace ApexCitadels.Referrals
         public bool Claimed;
     }
 
+    [Serializable]
+    public class ReferralMilestone
+    {
+        public int RequiredReferrals;
+        public string RewardType;
+        public int RewardAmount;
+        public string RewardItemId;
+        public string Description;
+        public bool Claimed;
+    }
+
     /// <summary>
     /// Referral Manager - requires Firebase SDK for full functionality
     /// </summary>
@@ -36,6 +47,7 @@ namespace ApexCitadels.Referrals
 
         public event Action OnReferralDataLoaded;
         public event Action<ReferralReward> OnRewardClaimed;
+        public event Action<ReferralMilestone> OnMilestoneReached;
         public event Action<string> OnReferralCodeApplied;
         public event Action<string> OnError;
 

@@ -35,7 +35,23 @@ namespace ApexCitadels.Notifications
     }
 
     /// <summary>
-    /// Notification preferences
+    /// Notification settings for user preferences
+    /// </summary>
+    [Serializable]
+    public class NotificationSettings
+    {
+        public bool EnablePush = true;
+        public bool EnableSound = true;
+        public bool EnableVibration = true;
+        public bool EnableInApp = true;
+        public Dictionary<PushNotificationType, bool> TypePreferences = new Dictionary<PushNotificationType, bool>();
+        public int QuietHoursStart = 22; // 10 PM
+        public int QuietHoursEnd = 8;    // 8 AM
+        public bool EnableQuietHours = false;
+    }
+
+    /// <summary>
+    /// Notification preferences (alias for backwards compatibility)
     /// </summary>
     [Serializable]
     public class NotificationPreferences
