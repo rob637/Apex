@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ApexCitadels.Demo
 {
@@ -16,6 +17,9 @@ namespace ApexCitadels.Demo
                 return;
 
             Debug.Log("[DemoAutoSetup] Setting up demo scene...");
+
+            // Fix EventSystem for new Input System
+            FixEventSystem();
 
             // Find or create Managers object
             var managersGO = GameObject.Find("Managers");
@@ -58,6 +62,46 @@ namespace ApexCitadels.Demo
             }
 
             Debug.Log("[DemoAutoSetup] Demo scene setup complete!");
+        }
+
+        private static void FixEventSystem()
+        {
+            var eventSystem = GameObject.Find("EventSystem");
+            if (eventSystem == null)
+            {
+                eventSystem = new GameObject("EventSystem");
+                eventSystem.AddComponent<EventSystem>();
+            }
+
+            // Ensure EventSystem component exists
+            if (eventSystem.GetComponent<EventSystem>() == null)
+            {
+                eventSystem.AddComponent<EventSystem>();
+            }
+
+            // Remove old StandaloneInputModule if present
+            var oldModule = eventSystem.GetComponent<StandaloneInputModule>();
+            if (oldModule != null)
+            {
+                Object.Destroy(oldModule);
+                Debug.Log("[DemoAutoSetup] Removed old StandaloneInputModule");
+            }
+
+            // Add new Input System UI module
+            #if ENABLE_INPUT_SYSTEM
+            var newModule = eventSystem.GetComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+            if (newModule == null)
+            {
+                eventSystem.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+                Debug.Log("[DemoAutoSetup] Added InputSystemUIInputModule for new Input System");
+            }
+            #else
+            // Fallback for old input system
+            if (eventSystem.GetComponent<StandaloneInputModule>() == null)
+            {
+                eventSystem.AddComponent<StandaloneInputModule>();
+            }
+            #endif
         }
     }
 }
