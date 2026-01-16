@@ -319,7 +319,7 @@ namespace ApexCitadels.Map
                     var territory = TerritoryManager.Instance.GetTerritory(territoryId);
                     if (territory != null)
                     {
-                        UpdateTerritoryZone(zoneUI, territory);
+                        UpdateTerritoryZone(zoneUI, new TerritoryData(territory));
                     }
                 }
             }

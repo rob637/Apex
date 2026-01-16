@@ -184,6 +184,16 @@ namespace ApexCitadels.Notifications
             {
                 SchedulePushNotification(notification);
             }
+        }
+
+        /// <summary>
+        /// Show a local notification (convenience method)
+        /// </summary>
+        public void ShowLocalNotification(string title, string message, string relatedId = "")
+        {
+            AddNotification(NotificationType.System, title, message, relatedId);
+        }
+            }
 
             Debug.Log($"[NotificationManager] New notification: {title}");
         }
@@ -348,13 +358,14 @@ namespace ApexCitadels.Notifications
                     );
                 };
 
-                TerritoryManager.Instance.OnTerritoryUnderAttack += (territory) =>
+                TerritoryManager.Instance.OnTerritoryUnderAttack += (territoryId) =>
                 {
+                    var territory = TerritoryManager.Instance.GetTerritory(territoryId);
                     AddNotification(
                         NotificationType.TerritoryAttacked,
                         "Under Attack!",
-                        $"{territory.Name} is being attacked!",
-                        territory.Id
+                        $"{territory?.Name ?? territoryId} is being attacked!",
+                        territoryId
                     );
                 };
             }

@@ -62,6 +62,9 @@ namespace ApexCitadels.IAP
         public string LocalizedPrice;
         public string CurrencyCode;
         public bool IsAvailable;
+
+        // Alias for compatibility
+        public string ProductId => Id;
     }
 
     /// <summary>

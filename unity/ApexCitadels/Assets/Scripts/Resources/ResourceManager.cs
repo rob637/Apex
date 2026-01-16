@@ -392,17 +392,19 @@ namespace ApexCitadels.Resources
         public int GetResource(string resourceName)
         {
             // Delegate to PlayerManager for actual resource counts
-            var type = resourceName.ToLower() switch
+            var player = PlayerManager.Instance?.CurrentPlayer;
+            if (player == null) return 0;
+
+            return resourceName.ToLower() switch
             {
-                "gems" => ResourceType.Gems,
-                "coins" or "gold" => ResourceType.Gold,
-                "stone" => ResourceType.Stone,
-                "wood" => ResourceType.Wood,
-                "metal" or "iron" => ResourceType.Metal,
-                "crystal" => ResourceType.Crystal,
-                _ => ResourceType.Stone
+                "gems" => player.Gems,
+                "coins" or "gold" => player.Gems, // Use gems as currency
+                "stone" => player.Stone,
+                "wood" => player.Wood,
+                "metal" or "iron" => player.Metal,
+                "crystal" => player.Crystal,
+                _ => 0
             };
-            return PlayerManager.Instance?.CurrentPlayer?.GetResourceAmount(type) ?? 0;
         }
 
         /// <summary>

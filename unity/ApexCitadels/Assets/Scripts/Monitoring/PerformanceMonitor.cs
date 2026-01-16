@@ -345,10 +345,10 @@ namespace ApexCitadels.Monitoring
         {
             try
             {
-                FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventScreenView, new[]
+                FirebaseAnalytics.LogEvent("screen_view", new[]
                 {
-                    new Parameter(FirebaseAnalytics.ParameterScreenName, screenName),
-                    new Parameter(FirebaseAnalytics.ParameterScreenClass, screenClass ?? screenName)
+                    new Parameter("screen_name", screenName),
+                    new Parameter("screen_class", screenClass ?? screenName)
                 });
             }
             catch (Exception ex)
@@ -445,7 +445,7 @@ namespace ApexCitadels.Monitoring
                 {
                     Crashlytics.SetCustomKey("last_exception", exception.GetType().Name);
                     Crashlytics.SetCustomKey("exception_context", context ?? "unknown");
-                    Crashlytics.LogException(exception);
+                    Crashlytics.RecordException(exception);
                 }
 
                 LogEvent("exception_logged", new Dictionary<string, object>
