@@ -12,6 +12,7 @@ namespace ApexCitadels.Notifications
     /// </summary>
     public enum NotificationType
     {
+        System,
         TerritoryAttacked,
         TerritoryLost,
         TerritoryCaptured,
