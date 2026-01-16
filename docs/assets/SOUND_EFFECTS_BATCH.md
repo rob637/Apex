@@ -19,7 +19,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-UI06 | button_disabled | Disabled button attempt, blocked sound | 0.15s | Freesound.org |
 | SFX-UI07 | toggle_on | Toggle switch on | 0.1s | Freesound.org |
 | SFX-UI08 | toggle_off | Toggle switch off | 0.1s | Freesound.org |
-| SFX-UI09 | slider_tick | Slider value change tick | 0.05s | Freesound.org |
+| SFX-UI09 | slider_tick | Slider value change tick | 0.05s | ElevenLabs SFX |
 | SFX-UI10 | slider_end | Slider reached end | 0.1s | Freesound.org |
 
 ## 1.2 Panel & Window Sounds
@@ -29,7 +29,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-UI11 | panel_open | Panel sliding open | 0.3s | Freesound.org |
 | SFX-UI12 | panel_close | Panel sliding closed | 0.25s | Freesound.org |
 | SFX-UI13 | popup_appear | Popup window appearing | 0.2s | Freesound.org |
-| SFX-UI14 | popup_dismiss | Popup window dismissing | 0.15s | Freesound.org |
+| SFX-UI14 | popup_dismiss | Popup window dismissing | 0.15s | ElevenLabs SFX |
 | SFX-UI15 | tab_switch | Tab changing | 0.1s | Freesound.org |
 | SFX-UI16 | scroll_tick | List scrolling tick | 0.05s | Freesound.org |
 | SFX-UI17 | drawer_open | Menu drawer opening | 0.3s | Freesound.org |
@@ -92,7 +92,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-BLD02 | hammer_hit_stone | Hammer on stone | 0.25s | Freesound.org |
 | SFX-BLD03 | hammer_hit_metal | Hammer on metal | 0.3s | Freesound.org |
 | SFX-BLD04 | saw_wood | Sawing wood | 1.0s | Freesound.org |
-| SFX-BLD05 | chisel_stone | Chiseling stone | 0.5s | Freesound.org |
+| SFX-BLD05 | chisel_stone | Chiseling stone | 0.5s | ElevenLabs SFX |
 | SFX-BLD06 | construction_ambient | Construction site ambient | 5.0s | Freesound.org |
 | SFX-BLD07 | scaffolding_creak | Wooden scaffolding creak | 0.4s | Freesound.org |
 | SFX-BLD08 | rope_pull | Rope pulling/hoisting | 0.6s | Freesound.org |
@@ -106,7 +106,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-BLD11 | tower_place | Tower placed | 0.6s | Freesound.org |
 | SFX-BLD12 | roof_place | Roof placed | 0.5s | Freesound.org |
 | SFX-BLD13 | building_complete | Building construction complete | 1.0s | ElevenLabs SFX |
-| SFX-BLD14 | building_upgrade_start | Upgrade beginning | 0.5s | Freesound.org |
+| SFX-BLD14 | building_upgrade_start | Upgrade beginning | 0.5s | ElevenLabs SFX |
 | SFX-BLD15 | building_upgrade_complete | Upgrade finished | 1.0s | ElevenLabs SFX |
 | SFX-BLD16 | building_rotate | Building rotation | 0.2s | Freesound.org |
 | SFX-BLD17 | building_move | Building being moved | 0.4s | Freesound.org |
@@ -122,7 +122,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-BLD22 | wall_breach | Wall being breached | 0.8s | Freesound.org |
 | SFX-BLD23 | tower_fall | Tower collapsing | 2.0s | Freesound.org |
 | SFX-BLD24 | demolish_small | Small demolition | 0.6s | Freesound.org |
-| SFX-BLD25 | demolish_large | Large demolition | 1.5s | Freesound.org |
+| SFX-BLD25 | demolish_large | Large demolition | 1.5s | ElevenLabs SFX |
 | SFX-BLD26 | debris_fall | Debris falling | 0.5s | Freesound.org |
 
 ## 2.4 Building Specific Sounds
@@ -157,8 +157,8 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-CMB07 | axe_swing | Axe swing | 0.35s | Freesound.org |
 | SFX-CMB08 | axe_hit | Axe impact | 0.3s | Freesound.org |
 | SFX-CMB09 | mace_swing | Mace swing | 0.3s | Freesound.org |
-| SFX-CMB10 | mace_hit | Mace impact | 0.35s | Freesound.org |
-| SFX-CMB11 | spear_thrust | Spear thrust | 0.25s | Freesound.org |
+| SFX-CMB10 | mace_hit | Mace impact | 0.35s | ElevenLabs SFX |
+| SFX-CMB11 | spear_thrust | Spear thrust | 0.25s | ElevenLabs SFX |
 | SFX-CMB12 | spear_hit | Spear impact | 0.2s | Freesound.org |
 
 ## 3.2 Ranged Weapons
@@ -169,8 +169,8 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-CMB14 | bow_release | Arrow release | 0.15s | Freesound.org |
 | SFX-CMB15 | arrow_fly | Arrow in flight | 0.3s | Freesound.org |
 | SFX-CMB16 | arrow_hit_wood | Arrow hitting wood | 0.2s | Freesound.org |
-| SFX-CMB17 | arrow_hit_stone | Arrow hitting stone | 0.15s | Freesound.org |
-| SFX-CMB18 | arrow_hit_flesh | Arrow hitting target | 0.2s | Freesound.org |
+| SFX-CMB17 | arrow_hit_stone | Arrow hitting stone | 0.15s | ElevenLabs SFX |
+| SFX-CMB18 | arrow_hit_flesh | Arrow hitting target | 0.2s | ElevenLabs SFX |
 | SFX-CMB19 | crossbow_load | Crossbow loading | 0.5s | Freesound.org |
 | SFX-CMB20 | crossbow_fire | Crossbow firing | 0.2s | Freesound.org |
 | SFX-CMB21 | bolt_impact | Crossbow bolt impact | 0.25s | Freesound.org |
@@ -181,22 +181,22 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 |----|------------|-------------|----------|----------------------|
 | SFX-CMB22 | catapult_load | Catapult loading | 1.0s | Freesound.org |
 | SFX-CMB23 | catapult_fire | Catapult release | 0.5s | Freesound.org |
-| SFX-CMB24 | catapult_impact | Catapult projectile impact | 0.8s | Freesound.org |
-| SFX-CMB25 | trebuchet_release | Trebuchet firing | 0.7s | Freesound.org |
-| SFX-CMB26 | trebuchet_impact | Heavy siege impact | 1.2s | Freesound.org |
-| SFX-CMB27 | battering_ram_hit | Battering ram impact | 0.8s | Freesound.org |
-| SFX-CMB28 | siege_tower_move | Siege tower wheels | 2.0s | Freesound.org |
-| SFX-CMB29 | ballista_fire | Ballista firing | 0.4s | Freesound.org |
-| SFX-CMB30 | ballista_impact | Ballista bolt impact | 0.5s | Freesound.org |
+| SFX-CMB24 | catapult_impact | Catapult projectile impact | 0.8s | ElevenLabs SFX |
+| SFX-CMB25 | trebuchet_release | Trebuchet firing | 0.7s | ElevenLabs SFX |
+| SFX-CMB26 | trebuchet_impact | Heavy siege impact | 1.2s | ElevenLabs SFX |
+| SFX-CMB27 | battering_ram_hit | Battering ram impact | 0.8s | ElevenLabs SFX |
+| SFX-CMB28 | siege_tower_move | Siege tower wheels | 2.0s | ElevenLabs SFX |
+| SFX-CMB29 | ballista_fire | Ballista firing | 0.4s | ElevenLabs SFX |
+| SFX-CMB30 | ballista_impact | Ballista bolt impact | 0.5s | ElevenLabs SFX |
 
 ## 3.4 Shield & Armor
 
 | ID | Sound Name | Description | Duration | Source Recommendation |
 |----|------------|-------------|----------|----------------------|
-| SFX-CMB31 | shield_raise | Shield raised | 0.2s | Freesound.org |
-| SFX-CMB32 | shield_block_sword | Shield blocking sword | 0.3s | Freesound.org |
-| SFX-CMB33 | shield_block_arrow | Shield blocking arrow | 0.25s | Freesound.org |
-| SFX-CMB34 | shield_block_heavy | Shield blocking heavy attack | 0.4s | Freesound.org |
+| SFX-CMB31 | shield_raise | Shield raised | 0.2s | ElevenLabs SFX |
+| SFX-CMB32 | shield_block_sword | Shield blocking sword | 0.3s | ElevenLabs SFX |
+| SFX-CMB33 | shield_block_arrow | Shield blocking arrow | 0.25s | ElevenLabs SFX |
+| SFX-CMB34 | shield_block_heavy | Shield blocking heavy attack | 0.4s | ElevenLabs SFX |
 | SFX-CMB35 | shield_break | Shield breaking | 0.5s | Freesound.org |
 | SFX-CMB36 | armor_hit | Armor being hit | 0.25s | Freesound.org |
 | SFX-CMB37 | armor_move | Armor movement/footstep | 0.3s | Freesound.org |
@@ -221,7 +221,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 
 | ID | Sound Name | Description | Duration | Source Recommendation |
 |----|------------|-------------|----------|----------------------|
-| SFX-CMB49 | hit_reaction_light | Light hit taken | 0.2s | Freesound.org |
+| SFX-CMB49 | hit_reaction_light | Light hit taken | 0.2s | ElevenLabs SFX |
 | SFX-CMB50 | hit_reaction_heavy | Heavy hit taken | 0.4s | Freesound.org |
 | SFX-CMB51 | critical_hit | Critical hit | 0.5s | ElevenLabs SFX |
 | SFX-CMB52 | dodge | Dodge/evade | 0.2s | Freesound.org |
@@ -234,8 +234,8 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | ID | Sound Name | Description | Duration | Source Recommendation |
 |----|------------|-------------|----------|----------------------|
 | SFX-CMB56 | battle_ambient_light | Light battle background | 5.0s | Freesound.org |
-| SFX-CMB57 | battle_ambient_heavy | Heavy battle background | 5.0s | Freesound.org |
-| SFX-CMB58 | siege_ambient | Siege battle background | 5.0s | Freesound.org |
+| SFX-CMB57 | battle_ambient_heavy | Heavy battle background | 5.0s | ElevenLabs SFX |
+| SFX-CMB58 | siege_ambient | Siege battle background | 5.0s | ElevenLabs SFX |
 | SFX-CMB59 | war_horn | War horn call | 2.0s | Freesound.org |
 | SFX-CMB60 | victory_horn | Victory horn fanfare | 1.5s | Freesound.org |
 
@@ -280,12 +280,12 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | ID | Sound Name | Description | Duration | Source Recommendation |
 |----|------------|-------------|----------|----------------------|
 | SFX-CHR18 | npc_greet | NPC greeting sound | 0.5s | Freesound.org |
-| SFX-CHR19 | npc_confirm | NPC confirmation | 0.4s | Freesound.org |
-| SFX-CHR20 | npc_decline | NPC decline/negative | 0.4s | Freesound.org |
+| SFX-CHR19 | npc_confirm | NPC confirmation | 0.4s | ElevenLabs SFX |
+| SFX-CHR20 | npc_decline | NPC decline/negative | 0.4s | ElevenLabs SFX |
 | SFX-CHR21 | shop_welcome | Shopkeeper welcome | 0.6s | Freesound.org |
-| SFX-CHR22 | merchant_transaction | Transaction complete | 0.4s | Freesound.org |
+| SFX-CHR22 | merchant_transaction | Transaction complete | 0.4s | ElevenLabs SFX |
 | SFX-CHR23 | guard_alert | Guard alert sound | 0.5s | Freesound.org |
-| SFX-CHR24 | villager_idle | Villager idle sound | 0.5s | Freesound.org |
+| SFX-CHR24 | villager_idle | Villager idle sound | 0.5s | ElevenLabs SFX |
 
 ---
 
@@ -323,12 +323,12 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 
 | ID | Sound Name | Description | Duration | Source Recommendation |
 |----|------------|-------------|----------|----------------------|
-| SFX-ENV19 | castle_interior | Castle interior ambient | 10.0s | Freesound.org |
+| SFX-ENV19 | castle_interior | Castle interior ambient | 10.0s | ElevenLabs SFX |
 | SFX-ENV20 | castle_courtyard | Courtyard ambient | 10.0s | Freesound.org |
 | SFX-ENV21 | dungeon_ambient | Dungeon/basement ambient | 10.0s | Freesound.org |
-| SFX-ENV22 | throne_room | Throne room ambient | 10.0s | Freesound.org |
+| SFX-ENV22 | throne_room | Throne room ambient | 10.0s | ElevenLabs SFX |
 | SFX-ENV23 | tower_wind | Wind at tower top | 10.0s | Freesound.org |
-| SFX-ENV24 | wall_patrol | Wall patrol ambient | 5.0s | Freesound.org |
+| SFX-ENV24 | wall_patrol | Wall patrol ambient | 5.0s | ElevenLabs SFX |
 
 ## 5.4 Town Ambient
 
@@ -339,7 +339,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-ENV27 | blacksmith_ambient | Blacksmith shop ambient | 5.0s | Freesound.org |
 | SFX-ENV28 | tavern_ambient | Tavern interior ambient | 10.0s | Freesound.org |
 | SFX-ENV29 | church_bells | Church/temple bells | 5.0s | Freesound.org |
-| SFX-ENV30 | town_clock | Town clock chiming | 3.0s | Freesound.org |
+| SFX-ENV30 | town_clock | Town clock chiming | 3.0s | ElevenLabs SFX |
 
 ## 5.5 Magical Ambient
 
@@ -392,7 +392,7 @@ This document outlines all required sound effects for Apex Citadels, with sourci
 | SFX-FX20 | rare_event | Rare event trigger | 1.0s | ElevenLabs SFX |
 | SFX-FX21 | boss_appear | Boss appearance | 1.5s | ElevenLabs SFX |
 | SFX-FX22 | timer_warning | Timer warning | 0.5s | Freesound.org |
-| SFX-FX23 | timer_expired | Timer expired | 0.6s | Freesound.org |
+| SFX-FX23 | timer_expired | Timer expired | 0.6s | ElevenLabs SFX |
 | SFX-FX24 | secret_found | Secret discovered | 1.0s | ElevenLabs SFX |
 
 ---

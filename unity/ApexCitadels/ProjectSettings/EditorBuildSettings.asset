@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/PersistentCubeDemo.unity
+    path: Assets/Scenes/Bootstrap.unity
+    guid: 
+  - enabled: 1
+    path: Assets/Scenes/ARGameplay.unity
+    guid: 
+  - enabled: 1
+    path: Assets/Scenes/MapView.unity
     guid: 
   m_configObjects: {}

@@ -218,6 +218,40 @@ namespace ApexCitadels.Backend
 #endif
         }
 
+        /// <summary>
+        /// Get all active/recent wars for an alliance
+        /// </summary>
+        public async Task<List<AllianceWar>> GetAllianceWarsAsync(string allianceId)
+        {
+#if FIREBASE_ENABLED
+            try
+            {
+                var functions = Firebase.Functions.FirebaseFunctions.DefaultInstance;
+                var callable = functions.GetHttpsCallable("getAllianceWars");
+                var data = new Dictionary<string, object> { { "allianceId", allianceId } };
+                var result = await callable.CallAsync(data);
+                var json = result.Data.ToString();
+                // Parse JSON array to list
+                var wars = JsonUtility.FromJson<AllianceWarList>("{\"wars\":" + json + "}");
+                return wars?.wars ?? new List<AllianceWar>();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceWarService] GetAllianceWars failed: {ex.Message}");
+                return new List<AllianceWar>();
+            }
+#else
+            Debug.Log($"[STUB] GetAllianceWarsAsync for alliance: {allianceId}");
+            await Task.Delay(100);
+            var wars = new List<AllianceWar>();
+            if (_currentWar != null)
+            {
+                wars.Add(_currentWar);
+            }
+            return wars;
+#endif
+        }
+
         #endregion
 
         #region Helper Classes
@@ -226,6 +260,12 @@ namespace ApexCitadels.Backend
         private class SuccessResponse
         {
             public bool success;
+        }
+
+        [Serializable]
+        private class AllianceWarList
+        {
+            public List<AllianceWar> wars;
         }
 
         #endregion

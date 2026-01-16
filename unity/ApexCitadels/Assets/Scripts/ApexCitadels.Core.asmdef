@@ -3,6 +3,7 @@
     "rootNamespace": "ApexCitadels",
     "references": [
         "Unity.XR.ARFoundation",
+        "Unity.XR.ARSubsystems",
         "Unity.XR.CoreUtils",
         "Unity.TextMeshPro"
     ],

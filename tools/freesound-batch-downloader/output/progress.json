@@ -694,47 +694,71 @@
       "freesound_id": 543683,
       "freesound_name": "SWALLOWS",
       "duration": 4.52275
+    },
+    "SFX-CMB50": {
+      "freesound_id": 507567,
+      "freesound_name": "Similar to Glitch (stage 3) 110bpm - variation 1",
+      "duration": 8.72726
+    },
+    "SFX-CMB52": {
+      "freesound_id": 641893,
+      "freesound_name": "Dodge - [Rpg] 1",
+      "duration": 0.350458
+    },
+    "SFX-CMB53": {
+      "freesound_id": 525175,
+      "freesound_name": "Metal Impact 5 {Soft}.wav",
+      "duration": 0.708209
+    },
+    "SFX-CMB54": {
+      "freesound_id": 391655,
+      "freesound_name": "player_death.wav",
+      "duration": 0.939206
+    },
+    "SFX-CMB55": {
+      "freesound_id": 318320,
+      "freesound_name": "Large Monster Death 02.wav",
+      "duration": 2.04481
+    },
+    "SFX-CMB56": {
+      "freesound_id": 417400,
+      "freesound_name": "Distant Swords",
+      "duration": 9.84871
     }
   },
   "failed": [
-    "SFX-CMB58",
-    "SFX-UI14",
-    "SFX-CMB26",
-    "SFX-CMB31",
-    "SFX-CMB50",
-    "SFX-CMB53",
+    "SFX-CMB27",
+    "SFX-BLD05",
     "SFX-CMB30",
-    "SFX-CMB52",
-    "SFX-CHR20",
-    "SFX-CMB18",
-    "SFX-CMB56",
-    "SFX-CMB57",
-    "SFX-CMB33",
+    "SFX-UI09",
     "SFX-CMB25",
-    "SFX-ENV30",
-    "SFX-CMB17",
+    "SFX-CHR20",
+    "SFX-CMB26",
     "SFX-CHR19",
-    "SFX-CMB32",
-    "SFX-BLD25",
+    "SFX-CMB18",
+    "SFX-CMB57",
     "SFX-CMB11",
+    "SFX-ENV22",
+    "SFX-BLD14",
     "SFX-CMB29",
     "SFX-CMB10",
+    "SFX-CMB24",
+    "SFX-UI14",
     "SFX-CHR22",
-    "SFX-CMB49",
-    "SFX-UI09",
-    "SFX-BLD14",
-    "SFX-CMB27",
-    "SFX-ENV22",
+    "SFX-ENV19",
     "SFX-ENV24",
     "SFX-FX23",
-    "SFX-CMB54",
-    "SFX-CHR24",
-    "SFX-ENV19",
-    "SFX-CMB55",
-    "SFX-CMB34",
+    "SFX-CMB31",
+    "SFX-CMB58",
+    "SFX-CMB32",
+    "SFX-BLD25",
+    "SFX-CMB49",
+    "SFX-CMB33",
+    "SFX-ENV30",
     "SFX-CMB28",
-    "SFX-CMB24",
-    "SFX-BLD05"
+    "SFX-CMB17",
+    "SFX-CMB34",
+    "SFX-CHR24"
   ],
-  "timestamp": "2026-01-15 16:23:33"
+  "timestamp": "2026-01-15 17:37:34"
 }

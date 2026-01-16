@@ -136,27 +136,68 @@ class MixamoDownloader:
                 time.sleep(3)
             
             # Check if we landed on signup page - if so, click "Sign in" link
-            if "signup" in self.driver.current_url.lower() or "create" in self.driver.title.lower():
-                print("   Detected signup page, looking for Sign in link...")
-                sign_in_link_selectors = [
-                    "//a[contains(text(), 'Sign in')]",
-                    "//a[contains(text(), 'sign in')]",
-                    "//a[text()='Sign in']",
-                    "//*[contains(text(), 'Already have an account')]//a",
-                    "//a[contains(@href, 'signin')]",
-                ]
+            # Adobe's signup page has different URL patterns
+            current_url = self.driver.current_url.lower()
+            page_source = self.driver.page_source.lower()
+            
+            is_signup_page = (
+                "signup" in current_url or 
+                "create" in current_url or
+                "register" in current_url or
+                "create an account" in page_source or
+                "create account" in page_source
+            )
+            
+            if is_signup_page:
+                print("   Detected signup/create account page, redirecting to sign in...")
                 
-                for selector in sign_in_link_selectors:
-                    try:
-                        sign_in_link = WebDriverWait(self.driver, 3).until(
-                            EC.element_to_be_clickable((By.XPATH, selector))
-                        )
-                        sign_in_link.click()
-                        print("   Clicked 'Sign in' link to go to login page")
-                        time.sleep(3)
-                        break
-                    except:
-                        continue
+                # Adobe's sign-in page URL - go directly
+                adobe_signin_url = "https://auth.services.adobe.com/en_US/index.html?callback=https%3A%2F%2Fims-na1.adobelogin.com%2Fims%2Fadobeid%2FMixamoWeb%2FAdobeID%2Ftoken&client_id=MixamoWeb&scope=openid%2CAdobeID%2Csession%2Cav_read%2Cav_write%2Cmixamo%2Csao.cce_private&denied_callback=https%3A%2F%2Fwww.mixamo.com%2F&display=web_v2&relay=b6ee04b6-6c40-4e1b-920a-2c52d0ebd14b&locale=en_US&flow_type=token&idp_flow_type=login"
+                self.driver.get(adobe_signin_url)
+                time.sleep(3)
+                
+                # If still on signup, try to find and click sign-in link
+                if "signup" in self.driver.current_url.lower():
+                    sign_in_link_selectors = [
+                        "//a[contains(text(), 'Sign in')]",
+                        "//a[contains(text(), 'sign in')]",
+                        "//a[text()='Sign in']",
+                        "//span[contains(text(), 'Sign in')]",
+                        "//*[contains(text(), 'Already have an account')]",
+                        "//a[contains(@href, 'signin')]",
+                        "//a[contains(@href, 'login')]",
+                        # Adobe specific: look for link near "Already have an Adobe Account?"
+                        "//*[contains(text(), 'Already have')]/following::a[1]",
+                        "//*[contains(text(), 'Already have')]//a",
+                    ]
+                    
+                    found_signin = False
+                    for selector in sign_in_link_selectors:
+                        try:
+                            sign_in_link = WebDriverWait(self.driver, 2).until(
+                                EC.element_to_be_clickable((By.XPATH, selector))
+                            )
+                            sign_in_link.click()
+                            print(f"   Clicked sign-in link: {selector}")
+                            found_signin = True
+                            time.sleep(3)
+                            break
+                        except:
+                            continue
+                    
+                    if not found_signin:
+                        # Last resort: find all links and look for sign in
+                        try:
+                            links = self.driver.find_elements(By.TAG_NAME, "a")
+                            for link in links:
+                                link_text = link.text.lower()
+                                if "sign in" in link_text:
+                                    link.click()
+                                    print(f"   Found and clicked sign-in link: '{link.text}'")
+                                    time.sleep(3)
+                                    break
+                        except:
+                            pass
             
             # Wait for Adobe login page - try multiple possible selectors
             email_selectors = [

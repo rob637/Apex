@@ -440,14 +440,6 @@ namespace ApexCitadels.Core
 #endif
         }
 
-        private void OnDestroy()
-        {
-            if (_auth != null)
-            {
-                _auth.StateChanged -= OnAuthStateChanged;
-            }
-        }
-
         private void OnApplicationPause(bool paused)
         {
             if (paused)

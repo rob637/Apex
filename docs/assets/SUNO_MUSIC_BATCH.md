@@ -1,49 +1,98 @@
 # Suno AI Music Generation Batch
 
-## ⚠️ No API Available - Manual Generation Required
+## 📊 CURRENT STATUS: 0/60 tracks (Not Started)
 
-**Suno does not have a public API**, so all 60 music tracks must be generated manually through their web interface. However, we have a **batch helper tool** to make this process faster and organized.
+**Last Updated**: January 16, 2026
 
 ---
 
-## 🛠️ Batch Helper Tool
+## ⚠️ No API Available - Manual Generation Required!
 
-Location: `/workspaces/Apex/tools/suno-batch-helper/`
+**Suno does not have a public API**, so use manual generation with these helper tools:
+- **Hybrid Playwright script** - Opens browser, auto-copies prompts
+- **Rename script** - Auto-renames short filenames to full names
 
-### Quick Start
+---
+
+## 🚀 QUICK START (Recommended Workflow)
+
+### Option A: Simple Manual (No Script)
+1. Go to [suno.ai](https://suno.ai) → Create → Custom mode
+2. Copy style tags & prompts from sections below
+3. Generate, download with **short name** (e.g., `MUS01.mp3`)
+4. Upload to `/workspaces/Apex/tools/suno-batch-helper/output/`
+5. Run rename script to get full names!
+
+### Option B: Hybrid Script (Assisted)
+See detailed setup below.
+
+---
+
+## 📁 FILE NAMING - SIMPLIFIED!
+
+### When downloading from Suno, just use SHORT names:
+```
+MUS01.mp3
+MUS02.mp3
+MUS03.mp3
+... etc
+```
+
+### Upload to:
+```
+/workspaces/Apex/tools/suno-batch-helper/output/
+```
+
+### Then run rename script:
 ```bash
 cd /workspaces/Apex/tools/suno-batch-helper
-python prompt_helper.py
+python rename_tracks.py output/
 ```
 
-### Commands
-| Command | Action |
-|---------|--------|
-| `n` / `next` | Show next pending track |
-| `d MUS01` | Mark track as complete |
-| `s MUS05` | Show specific track details |
-| `l` / `list` | List all tracks with status |
-| `e` / `export` | Export remaining to file |
-
-### Export All Prompts
-```bash
-python prompt_helper.py --export
+### Script automatically renames to full names:
 ```
-Creates `output/ready_prompts.txt` with all prompts formatted for copy-paste.
+MUS01.mp3 → MUS01_Main_Theme_Epic.mp3
+MUS02.mp3 → MUS02_Victory_Fanfare.mp3
+MUS03.mp3 → MUS03_Defeat_Somber.mp3
+... etc
+```
 
 ---
 
-## 📋 Manual Workflow
+## 🚀 HYBRID SCRIPT SETUP (Optional)
 
-1. **Run helper**: `python prompt_helper.py` then press `n`
-2. **Open [suno.ai](https://suno.ai)** and select "Custom" mode
-3. **Copy STYLE TAGS** → paste into Suno's style field
-4. **Copy PROMPT** → paste into description/lyrics field
-5. **Set duration** as shown, click Generate
-6. **Download** the best result
-7. **Save as**: `MUS##_Track_Name.mp3` (filename shown in helper)
-8. **Mark complete**: `d MUS01` in helper
-9. **Repeat** for all 60 tracks
+### Step 1: Copy Script to Local Machine
+
+**Script location in repo**: `/workspaces/Apex/tools/suno-batch-helper/suno_local.py`
+
+**Save to your Windows machine as**: `C:\Users\rob\suno_local.py`
+
+### Step 2: Install Dependencies (PowerShell)
+```powershell
+cd C:\Users\rob
+pip install playwright pyperclip
+playwright install chromium
+```
+
+### Step 3: Run the Helper
+```powershell
+python suno_local.py
+```
+
+---
+
+## 📋 WORKFLOW (With Hybrid Script)
+
+1. **Run script**: `python suno_local.py`
+2. **Browser opens** → Log into suno.ai
+3. Go to **Create** page, select **Custom** mode
+4. Press ENTER in terminal
+5. **Style tags auto-copied** → Paste into Suno style field
+6. Press ENTER → **Prompt auto-copied** → Paste into description
+7. Click **Generate**, wait ~30 sec, pick best result
+8. **Download** the MP3 (use short name like `MUS01.mp3`)
+9. Press ENTER → **Auto-saves progress**, shows next track
+10. Type `q` to quit anytime (progress saved!)
 
 ---
 
@@ -51,24 +100,57 @@ Creates `output/ready_prompts.txt` with all prompts formatted for copy-paste.
 
 | Tracks | Time per track | Total |
 |--------|----------------|-------|
-| 60 | ~3 min | **~3 hours** |
-
-**Tip**: Do in sessions of 10-15 tracks to avoid fatigue.
+| 60 | ~1-2 min | **~1-2 hours** |
 
 ---
 
-## 💾 Output Location
+## 💾 Output Locations
 
-Save generated music to:
+### Downloaded files:
+```
+/workspaces/Apex/tools/suno-batch-helper/output/
+├── MUS01.mp3  (short names OK!)
+├── MUS02.mp3
+└── ... 
+```
+
+### After running rename_tracks.py:
+```
+/workspaces/Apex/tools/suno-batch-helper/output/
+├── MUS01_Main_Theme_Epic.mp3
+├── MUS02_Victory_Fanfare.mp3
+└── ... (full names!)
+```
+
+### Final Unity location:
 ```
 unity/ApexCitadels/Assets/Audio/Music/
 ├── Themes/          # MUS01-MUS08
 ├── Ambient/         # MUS09-MUS20
-├── Combat/          # MUS21-MUS36
-├── Events/          # MUS37-MUS48
-├── Environmental/   # MUS49-MUS56
-└── UI/              # MUS57-MUS60
+├── Combat/          # MUS21-MUS32
+├── Events/          # MUS33-MUS44
+├── Environmental/   # MUS45-MUS52
+└── UI/              # MUS53-MUS60
 ```
+
+---
+
+## 🛠️ Alternative: Command-Line Helper (Codespaces)
+
+Location: `/workspaces/Apex/tools/suno-batch-helper/`
+
+```bash
+cd /workspaces/Apex/tools/suno-batch-helper
+python prompt_helper.py
+```
+
+| Command | Action |
+|---------|--------|
+| `n` / `next` | Show next pending track |
+| `d MUS01` | Mark track as complete |
+| `s MUS05` | Show specific track details |
+| `l` / `list` | List all tracks with status |
+| `e` / `export` | Export remaining to file |
 
 ---
 

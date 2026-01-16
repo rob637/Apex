@@ -22,6 +22,12 @@
   },
   "settings": {
     "emulatorMode": false,
+    "emulatorHost": "localhost",
+    "emulatorPorts": {
+      "auth": 9099,
+      "firestore": 8080,
+      "functions": 5001
+    },
     "productionMode": true
   }
 }
