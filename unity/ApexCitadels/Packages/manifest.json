@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.google.ar.core.arfoundation.extensions": "1.43.0",
     "com.unity.xr.arcore": "6.0.4",
     "com.unity.xr.arfoundation": "6.0.4",
     "com.unity.xr.arkit": "6.0.4",
@@ -20,14 +19,5 @@
     "com.unity.modules.unitywebrequest": "1.0.0",
     "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
     "com.unity.modules.unitywebrequestwww": "1.0.0"
-  },
-  "scopedRegistries": [
-    {
-      "name": "Google APIs for Unity",
-      "url": "https://unityregistry-pa.googleapis.com",
-      "scopes": [
-        "com.google"
-      ]
-    }
-  ]
+  }
 }
