@@ -162,6 +162,12 @@ namespace ApexCitadels.Demo
         {
             if (_isPlacementMode && Input.GetMouseButtonDown(0))
             {
+                // Don't place cube if clicking on UI
+                if (UnityEngine.EventSystems.EventSystem.current != null && 
+                    UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }
                 TryPlaceCube(Input.mousePosition);
             }
 
@@ -171,6 +177,12 @@ namespace ApexCitadels.Demo
                 var touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
                 {
+                    // Don't place cube if touching UI
+                    if (UnityEngine.EventSystems.EventSystem.current != null && 
+                        UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                    {
+                        return;
+                    }
                     TryPlaceCube(touch.position);
                 }
             }
@@ -178,6 +190,7 @@ namespace ApexCitadels.Demo
 
         private void OnPlaceCubeClicked()
         {
+            Debug.Log("[PersistentCubeDemo] Place Cube button clicked!");
             _isPlacementMode = true;
             UpdateStatus("Tap on a surface to place a cube...");
         }
