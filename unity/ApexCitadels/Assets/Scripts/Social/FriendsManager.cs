@@ -296,13 +296,16 @@ namespace ApexCitadels.Social
         /// <summary>
         /// Send a gift to a friend
         /// </summary>
-        public async Task<bool> SendGift(string toUserId, string giftType = "energy")
+        public Task<bool> SendGiftAsync(string toUserId, string giftType = "energy")
         {
             if (!CanSendGift)
             {
                 Debug.LogWarning("Daily gift limit reached");
-                return false;
+                return Task.FromResult(false);
             }
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendGift is a stub.");
+            return Task.FromResult(false);
+        }
 #else
         private void Start()
         {
@@ -345,347 +348,75 @@ namespace ApexCitadels.Social
             return Task.FromResult(false);
         }
 
-#if FIREBASE_ENABLED_NEVER_COMPILE
-            try
-            {
-                var callable = _functions.GetHttpsCallable("sendGift");
-                var data = new Dictionary<string, object>
-                {
-                    { "toUserId", toUserId },
-                    { "giftType", giftType }
-                };
-                var result = await callable.CallAsync(data);
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("success") && Convert.ToBoolean(response["success"]))
-                {
-                    _dailyGiftsSent++;
-                    return true;
-                }
-                
-                return false;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to send gift: {e.Message}");
-                return false;
-            }
+        public Task<bool> ClaimGift(string giftId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. ClaimGift is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> ClaimAllGifts()
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. ClaimAllGifts is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task LoadPendingRequests()
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadPendingRequests is a stub.");
+            return Task.CompletedTask;
+        }
+
+        public Task LoadPendingGifts()
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadPendingGifts is a stub.");
+            return Task.CompletedTask;
+        }
+
+        public Task LoadActivityFeed()
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadActivityFeed is a stub.");
+            return Task.CompletedTask;
+        }
+
+        public Task<List<Friend>> SearchPlayers(string query)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SearchPlayers is a stub.");
+            return Task.FromResult(new List<Friend>());
+        }
+
+        public Task<bool> BlockUser(string userId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. BlockUser is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> UnblockUser(string userId)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. UnblockUser is a stub.");
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> ReportUser(string userId, string reason)
+        {
+            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. ReportUser is a stub.");
+            return Task.FromResult(false);
+        }
 #endif
 
         /// <summary>
-        /// Claim a received gift
-        /// </summary>
-        public async Task<bool> ClaimGift(string giftId)
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("claimGift");
-                var data = new Dictionary<string, object> { { "giftId", giftId } };
-                var result = await callable.CallAsync(data);
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("success") && Convert.ToBoolean(response["success"]))
-                {
-                    _pendingGifts.RemoveAll(g => g.Id == giftId);
-                    OnPendingGiftsUpdated?.Invoke(_pendingGifts);
-                    return true;
-                }
-                
-                return false;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to claim gift: {e.Message}");
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Claim all pending gifts
-        /// </summary>
-        public async Task<int> ClaimAllGifts()
-        {
-            int claimed = 0;
-            foreach (var gift in _pendingGifts.ToArray())
-            {
-                if (await ClaimGift(gift.Id))
-                {
-                    claimed++;
-                }
-            }
-            return claimed;
-        }
-
-        /// <summary>
-        /// Like an activity
-        /// </summary>
-        public async Task<bool> LikeActivity(string activityId)
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("likeActivity");
-                var data = new Dictionary<string, object> { { "activityId", activityId } };
-                await callable.CallAsync(data);
-                
-                var activity = _activityFeed.Find(a => a.Id == activityId);
-                if (activity != null)
-                {
-                    activity.Likes++;
-                    activity.HasLiked = true;
-                    OnActivityFeedUpdated?.Invoke(_activityFeed);
-                }
-                
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to like activity: {e.Message}");
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Search for users to add as friends
-        /// </summary>
-        public async Task<List<Friend>> SearchUsers(string searchQuery)
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("searchUsers");
-                var data = new Dictionary<string, object> { { "query", searchQuery } };
-                var result = await callable.CallAsync(data);
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("users"))
-                {
-                    var usersJson = JsonConvert.SerializeObject(response["users"]);
-                    return JsonConvert.DeserializeObject<List<Friend>>(usersJson);
-                }
-                
-                return new List<Friend>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to search users: {e.Message}");
-                return new List<Friend>();
-            }
-        }
-
-        /// <summary>
-        /// Get friend leaderboard
-        /// </summary>
-        public async Task<List<Friend>> GetFriendLeaderboard(string metric = "level")
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("getFriendLeaderboard");
-                var data = new Dictionary<string, object> { { "metric", metric } };
-                var result = await callable.CallAsync(data);
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("leaderboard"))
-                {
-                    var leaderboardJson = JsonConvert.SerializeObject(response["leaderboard"]);
-                    return JsonConvert.DeserializeObject<List<Friend>>(leaderboardJson);
-                }
-                
-                return new List<Friend>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to get friend leaderboard: {e.Message}");
-                return new List<Friend>();
-            }
-        }
-
-        private async Task LoadPendingRequests()
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("getFriendRequests");
-                var result = await callable.CallAsync();
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("incoming"))
-                {
-                    var incomingJson = JsonConvert.SerializeObject(response["incoming"]);
-                    _incomingRequests = JsonConvert.DeserializeObject<List<FriendRequest>>(incomingJson);
-                }
-                
-                if (response.ContainsKey("outgoing"))
-                {
-                    var outgoingJson = JsonConvert.SerializeObject(response["outgoing"]);
-                    _outgoingRequests = JsonConvert.DeserializeObject<List<FriendRequest>>(outgoingJson);
-                }
-                
-                OnRequestsUpdated?.Invoke(_incomingRequests);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to load friend requests: {e.Message}");
-            }
-        }
-
-        private async Task LoadPendingGifts()
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("getPendingGifts");
-                var result = await callable.CallAsync();
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("gifts"))
-                {
-                    var giftsJson = JsonConvert.SerializeObject(response["gifts"]);
-                    _pendingGifts = JsonConvert.DeserializeObject<List<Gift>>(giftsJson);
-                    OnPendingGiftsUpdated?.Invoke(_pendingGifts);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to load pending gifts: {e.Message}");
-            }
-        }
-
-        private async Task LoadActivityFeed()
-        {
-            try
-            {
-                var callable = _functions.GetHttpsCallable("getActivityFeed");
-                var result = await callable.CallAsync();
-                
-                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
-                
-                if (response.ContainsKey("activities"))
-                {
-                    var activitiesJson = JsonConvert.SerializeObject(response["activities"]);
-                    _activityFeed = JsonConvert.DeserializeObject<List<ActivityItem>>(activitiesJson);
-                    OnActivityFeedUpdated?.Invoke(_activityFeed);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to load activity feed: {e.Message}");
-            }
-        }
-
-        private void SubscribeToFriendRequests()
-        {
-            var userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-            if (string.IsNullOrEmpty(userId)) return;
-
-            var query = _firestore.Collection("friend_requests")
-                .WhereEqualTo("toUserId", userId)
-                .WhereEqualTo("status", "pending");
-
-            query.Listen(snapshot =>
-            {
-                foreach (var change in snapshot.GetChanges())
-                {
-                    if (change.ChangeType == DocumentChange.Type.Added)
-                    {
-                        var data = change.Document.ToDictionary();
-                        var request = new FriendRequest
-                        {
-                            Id = change.Document.Id,
-                            FromUserId = data.GetValueOrDefault("fromUserId", "").ToString(),
-                            FromUserName = data.GetValueOrDefault("fromUserName", "Unknown").ToString(),
-                            FromUserLevel = Convert.ToInt32(data.GetValueOrDefault("fromUserLevel", 1))
-                        };
-
-                        if (!_incomingRequests.Exists(r => r.Id == request.Id))
-                        {
-                            _incomingRequests.Add(request);
-                            OnFriendRequestReceived?.Invoke(request);
-                            OnRequestsUpdated?.Invoke(_incomingRequests);
-                        }
-                    }
-                }
-            });
-        }
-
-        private void SubscribeToGifts()
-        {
-            var userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
-            if (string.IsNullOrEmpty(userId)) return;
-
-            var query = _firestore.Collection("gifts")
-                .WhereEqualTo("toUserId", userId)
-                .WhereEqualTo("claimed", false);
-
-            query.Listen(snapshot =>
-            {
-                foreach (var change in snapshot.GetChanges())
-                {
-                    if (change.ChangeType == DocumentChange.Type.Added)
-                    {
-                        var data = change.Document.ToDictionary();
-                        var gift = new Gift
-                        {
-                            Id = change.Document.Id,
-                            FromUserId = data.GetValueOrDefault("fromUserId", "").ToString(),
-                            FromUserName = data.GetValueOrDefault("fromUserName", "Unknown").ToString(),
-                            GiftType = data.GetValueOrDefault("giftType", "energy").ToString(),
-                            Amount = Convert.ToInt32(data.GetValueOrDefault("amount", 1))
-                        };
-
-                        if (!_pendingGifts.Exists(g => g.Id == gift.Id))
-                        {
-                            _pendingGifts.Add(gift);
-                            OnGiftReceived?.Invoke(gift);
-                            OnPendingGiftsUpdated?.Invoke(_pendingGifts);
-                        }
-                    }
-                }
-            });
-        }
-
-        private void UpdateOnlineStatuses()
-        {
-            // Update friend online statuses based on last seen
-            var now = DateTime.UtcNow;
-            foreach (var friend in _friends)
-            {
-                var timeSinceSeen = now - friend.LastSeen;
-                if (timeSinceSeen.TotalMinutes < 5)
-                {
-                    friend.Status = FriendStatus.Online;
-                    friend.IsOnline = true;
-                }
-                else if (timeSinceSeen.TotalMinutes < 30)
-                {
-                    friend.Status = FriendStatus.Away;
-                    friend.IsOnline = false;
-                }
-                else
-                {
-                    friend.Status = FriendStatus.Offline;
-                    friend.IsOnline = false;
-                }
-            }
-            OnFriendsListUpdated?.Invoke(_friends);
-        }
-
-        /// <summary>
-        /// Get online friends count
-        /// </summary>
-        public int GetOnlineFriendsCount()
-        {
-            return _friends.FindAll(f => f.IsOnline).Count;
-        }
-
-        /// <summary>
-        /// Check if a user is already a friend
+        /// Check if a user is a friend
         /// </summary>
         public bool IsFriend(string userId)
         {
             return _friends.Exists(f => f.UserId == userId);
+        }
+
+        /// <summary>
+        /// Get a friend by user ID
+        /// </summary>
+        public Friend GetFriend(string userId)
+        {
+            return _friends.Find(f => f.UserId == userId);
         }
 
         /// <summary>
