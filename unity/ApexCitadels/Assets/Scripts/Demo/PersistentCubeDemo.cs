@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using ApexCitadels.AR;
 using ApexCitadels.Backend;
 
@@ -16,7 +17,7 @@ namespace ApexCitadels.Demo
         [SerializeField] private Button _placeCubeButton;
         [SerializeField] private Button _loadCubesButton;
         [SerializeField] private Button _clearCubesButton;
-        [SerializeField] private Text _statusText;
+        [SerializeField] private TMP_Text _statusText;
 
         [Header("Prefab")]
         [SerializeField] private GameObject _cubePrefab;
@@ -66,39 +67,37 @@ namespace ApexCitadels.Demo
             var canvasGO = new GameObject("DemoCanvas_AutoCreated");
             _autoCanvas = canvasGO.AddComponent<Canvas>();
             _autoCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvasGO.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            _autoCanvas.sortingOrder = 100; // Make sure it's on top
+            var scaler = canvasGO.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
             canvasGO.AddComponent<GraphicRaycaster>();
 
-            // Find a font - try multiple options
-            Font font = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
-            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 24);
-            if (font == null) font = Font.CreateDynamicFontFromOSFont(Font.GetOSInstalledFontNames()[0], 24);
-
-            // Create Status Text at top
+            // Create Status Text at top using TextMeshPro
             var statusGO = new GameObject("StatusText");
             statusGO.transform.SetParent(canvasGO.transform, false);
-            _statusText = statusGO.AddComponent<Text>();
-            _statusText.font = font;
-            _statusText.fontSize = 24;
-            _statusText.alignment = TextAnchor.UpperCenter;
-            _statusText.color = Color.white;
-            _statusText.text = "Initializing...";
+            var tmpText = statusGO.AddComponent<TextMeshProUGUI>();
+            _statusText = tmpText;
+            tmpText.fontSize = 36;
+            tmpText.alignment = TextAlignmentOptions.Top;
+            tmpText.color = Color.white;
+            tmpText.text = "Initializing...";
             
             var statusRect = statusGO.GetComponent<RectTransform>();
             statusRect.anchorMin = new Vector2(0, 0.85f);
             statusRect.anchorMax = new Vector2(1, 1);
-            statusRect.offsetMin = Vector2.zero;
-            statusRect.offsetMax = Vector2.zero;
+            statusRect.offsetMin = new Vector2(20, 0);
+            statusRect.offsetMax = new Vector2(-20, -10);
 
             // Add background to status
             var statusBgGO = new GameObject("StatusBG");
-            statusBgGO.transform.SetParent(statusGO.transform, false);
-            statusBgGO.transform.SetAsFirstSibling();
+            statusBgGO.transform.SetParent(canvasGO.transform, false);
+            statusBgGO.transform.SetSiblingIndex(0); // Put behind text
             var statusBg = statusBgGO.AddComponent<Image>();
-            statusBg.color = new Color(0, 0, 0, 0.5f);
+            statusBg.color = new Color(0, 0, 0, 0.7f);
             var bgRect = statusBgGO.GetComponent<RectTransform>();
-            bgRect.anchorMin = Vector2.zero;
-            bgRect.anchorMax = Vector2.one;
+            bgRect.anchorMin = new Vector2(0, 0.85f);
+            bgRect.anchorMax = new Vector2(1, 1);
             bgRect.offsetMin = Vector2.zero;
             bgRect.offsetMax = Vector2.zero;
 
@@ -107,12 +106,12 @@ namespace ApexCitadels.Demo
             panelGO.transform.SetParent(canvasGO.transform, false);
             var panelRect = panelGO.AddComponent<RectTransform>();
             panelRect.anchorMin = new Vector2(0, 0);
-            panelRect.anchorMax = new Vector2(1, 0.15f);
+            panelRect.anchorMax = new Vector2(1, 0.12f);
             panelRect.offsetMin = Vector2.zero;
             panelRect.offsetMax = Vector2.zero;
 
             var panelBg = panelGO.AddComponent<Image>();
-            panelBg.color = new Color(0, 0, 0, 0.5f);
+            panelBg.color = new Color(0, 0, 0, 0.7f);
 
             var layout = panelGO.AddComponent<HorizontalLayoutGroup>();
             layout.spacing = 20;
@@ -120,11 +119,13 @@ namespace ApexCitadels.Demo
             layout.childAlignment = TextAnchor.MiddleCenter;
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = true;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
 
-            // Create buttons
-            _placeCubeButton = CreateButton(panelGO.transform, "Place Cube", new Color(0.2f, 0.6f, 1f));
-            _loadCubesButton = CreateButton(panelGO.transform, "Load Cubes", new Color(0.2f, 0.8f, 0.4f));
-            _clearCubesButton = CreateButton(panelGO.transform, "Clear All", new Color(0.9f, 0.3f, 0.3f));
+            // Create buttons with TextMeshPro
+            _placeCubeButton = CreateButton(panelGO.transform, "PLACE CUBE", new Color(0.2f, 0.6f, 1f));
+            _loadCubesButton = CreateButton(panelGO.transform, "LOAD CUBES", new Color(0.2f, 0.8f, 0.4f));
+            _clearCubesButton = CreateButton(panelGO.transform, "CLEAR ALL", new Color(0.9f, 0.3f, 0.3f));
 
             Debug.Log("[PersistentCubeDemo] UI created successfully!");
         }
@@ -139,25 +140,28 @@ namespace ApexCitadels.Demo
 
             var btn = btnGO.AddComponent<Button>();
             btn.targetGraphic = image;
+            
+            // Add color transition
+            var colors = btn.colors;
+            colors.highlightedColor = color * 1.2f;
+            colors.pressedColor = color * 0.8f;
+            btn.colors = colors;
 
-            // Find a font
-            Font font = UnityEngine.Resources.GetBuiltinResource<Font>("Arial.ttf");
-            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 20);
-            if (font == null) font = Font.CreateDynamicFontFromOSFont(Font.GetOSInstalledFontNames()[0], 20);
-
+            // Use TextMeshPro for button text
             var textGO = new GameObject("Text");
             textGO.transform.SetParent(btnGO.transform, false);
-            var btnText = textGO.AddComponent<Text>();
-            btnText.font = font;
+            var btnText = textGO.AddComponent<TextMeshProUGUI>();
             btnText.text = text;
-            btnText.fontSize = 20;
-            btnText.alignment = TextAnchor.MiddleCenter;
+            btnText.fontSize = 24;
+            btnText.alignment = TextAlignmentOptions.Center;
             btnText.color = Color.white;
+            btnText.fontStyle = FontStyles.Bold;
 
             var textRect = textGO.GetComponent<RectTransform>();
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
             textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
 
             return btn;
