@@ -184,6 +184,8 @@ namespace ApexCitadels.Notifications
             {
                 SchedulePushNotification(notification);
             }
+
+            Debug.Log($"[NotificationManager] New notification: {title}");
         }
 
         /// <summary>
@@ -192,10 +194,6 @@ namespace ApexCitadels.Notifications
         public void ShowLocalNotification(string title, string message, string relatedId = "")
         {
             AddNotification(NotificationType.System, title, message, relatedId);
-        }
-            }
-
-            Debug.Log($"[NotificationManager] New notification: {title}");
         }
 
         /// <summary>
