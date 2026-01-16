@@ -65,7 +65,7 @@ public class DesktopFallbackCamera : MonoBehaviour
     void DisableARGameObjects()
     {
         // Find and disable entire AR Session GameObject
-        var arSession = FindObjectOfType<UnityEngine.XR.ARFoundation.ARSession>(true);
+        var arSession = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARSession>(FindObjectsInactive.Include);
         if (arSession != null)
         {
             Debug.Log($"[DesktopFallback] Disabling AR Session GameObject: {arSession.gameObject.name}");
@@ -73,7 +73,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         }
         
         // Find and disable XR Origin / AR Session Origin
-        var xrOrigin = FindObjectOfType<Unity.XR.CoreUtils.XROrigin>(true);
+        var xrOrigin = FindFirstObjectByType<Unity.XR.CoreUtils.XROrigin>(FindObjectsInactive.Include);
         if (xrOrigin != null)
         {
             Debug.Log($"[DesktopFallback] Disabling XR Origin GameObject: {xrOrigin.gameObject.name}");
@@ -86,7 +86,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         Debug.Log("[DesktopFallback] Start called");
         
         // Disable any remaining cameras
-        Camera[] allCameras = FindObjectsOfType<Camera>();
+        Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
         Debug.Log($"[DesktopFallback] Found {allCameras.Length} cameras");
         foreach (var c in allCameras)
         {
@@ -101,7 +101,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         CreateDebugEnvironment();
         
         // Add a light if none exists
-        if (FindObjectOfType<Light>() == null)
+        if (FindFirstObjectByType<Light>() == null)
         {
             var lightGO = new GameObject("DebugLight");
             var light = lightGO.AddComponent<Light>();
@@ -114,7 +114,7 @@ public class DesktopFallbackCamera : MonoBehaviour
     void DisableARComponents()
     {
         // Disable AR Session
-        var arSession = FindObjectOfType<UnityEngine.XR.ARFoundation.ARSession>();
+        var arSession = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARSession>();
         if (arSession != null)
         {
             Debug.Log("[DesktopFallback] Disabling AR Session");
@@ -122,7 +122,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         }
         
         // Disable AR Camera Background
-        var arCamBg = FindObjectOfType<UnityEngine.XR.ARFoundation.ARCameraBackground>();
+        var arCamBg = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARCameraBackground>();
         if (arCamBg != null)
         {
             Debug.Log("[DesktopFallback] Disabling AR Camera Background");
@@ -130,7 +130,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         }
         
         // Disable AR Camera Manager
-        var arCamMgr = FindObjectOfType<UnityEngine.XR.ARFoundation.ARCameraManager>();
+        var arCamMgr = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARCameraManager>();
         if (arCamMgr != null)
         {
             Debug.Log("[DesktopFallback] Disabling AR Camera Manager");

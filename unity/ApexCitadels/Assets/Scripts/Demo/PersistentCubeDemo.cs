@@ -231,7 +231,7 @@ namespace ApexCitadels.Demo
             Camera cam = Camera.main;
             if (cam == null)
             {
-                cam = FindObjectOfType<Camera>();
+                cam = FindFirstObjectByType<Camera>();
             }
 
             // Check if SpatialAnchorManager exists

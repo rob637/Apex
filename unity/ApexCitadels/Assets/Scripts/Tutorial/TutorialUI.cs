@@ -540,7 +540,7 @@ namespace ApexCitadels.Tutorial
             if (byName != null) return byName;
 
             // Finally try to find in UI hierarchy
-            var allCanvases = FindObjectsOfType<Canvas>();
+            var allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
             foreach (var canvas in allCanvases)
             {
                 var found = FindChildByName(canvas.transform, name);

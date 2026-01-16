@@ -151,12 +151,12 @@ namespace ApexCitadels.AR
         {
             if (arSession == null)
             {
-                arSession = FindObjectOfType<ARSession>();
+                arSession = FindFirstObjectByType<ARSession>();
             }
 
             if (arCameraManager == null)
             {
-                arCameraManager = FindObjectOfType<ARCameraManager>();
+                arCameraManager = FindFirstObjectByType<ARCameraManager>();
             }
 
             if (arCamera == null && arCameraManager != null)
@@ -167,7 +167,7 @@ namespace ApexCitadels.AR
             if (fallbackCamera == null)
             {
                 // Find a camera tagged as fallback or create one
-                var cameras = FindObjectsOfType<Camera>();
+                var cameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
                 foreach (var cam in cameras)
                 {
                     if (cam != arCamera && cam.gameObject.name.Contains("Fallback"))

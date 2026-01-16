@@ -236,12 +236,12 @@ namespace ApexCitadels.AR
         {
             if (_planeManager != null)
             {
-                _planeManager.planesChanged += OnPlanesChanged;
+                _planeManager.trackablesChanged += OnPlanesChanged;
             }
 
             if (_anchorManager != null)
             {
-                _anchorManager.anchorsChanged += OnAnchorsChanged;
+                _anchorManager.trackablesChanged += OnAnchorsChanged;
             }
 
             ARSession.stateChanged += OnARSessionStateChanged;
@@ -251,12 +251,12 @@ namespace ApexCitadels.AR
         {
             if (_planeManager != null)
             {
-                _planeManager.planesChanged -= OnPlanesChanged;
+                _planeManager.trackablesChanged -= OnPlanesChanged;
             }
 
             if (_anchorManager != null)
             {
-                _anchorManager.anchorsChanged -= OnAnchorsChanged;
+                _anchorManager.trackablesChanged -= OnAnchorsChanged;
             }
 
             ARSession.stateChanged -= OnARSessionStateChanged;
@@ -278,7 +278,7 @@ namespace ApexCitadels.AR
             }
         }
 
-        private void OnPlanesChanged(ARPlanesChangedEventArgs args)
+        private void OnPlanesChanged(ARTrackablesChangedEventArgs<ARPlane> args)
         {
             if (args.added != null && args.added.Count > 0)
             {
@@ -292,7 +292,7 @@ namespace ApexCitadels.AR
             }
         }
 
-        private void OnAnchorsChanged(ARAnchorsChangedEventArgs args)
+        private void OnAnchorsChanged(ARTrackablesChangedEventArgs<ARAnchor> args)
         {
             if (args.removed != null)
             {
@@ -839,7 +839,7 @@ namespace ApexCitadels.AR
             Camera cam = Camera.main;
             if (cam == null)
             {
-                cam = FindObjectOfType<Camera>();
+                cam = FindFirstObjectByType<Camera>();
             }
             return cam;
         }
