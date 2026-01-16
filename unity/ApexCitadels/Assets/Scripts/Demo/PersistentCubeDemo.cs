@@ -8,10 +8,11 @@ namespace ApexCitadels.Demo
     /// <summary>
     /// Demo script for testing persistent AR cubes.
     /// Tap to place a cube, and it will be saved to the cloud.
+    /// Auto-creates UI if not assigned in Inspector.
     /// </summary>
     public class PersistentCubeDemo : MonoBehaviour
     {
-        [Header("UI")]
+        [Header("UI (Auto-created if not assigned)")]
         [SerializeField] private Button _placeCubeButton;
         [SerializeField] private Button _loadCubesButton;
         [SerializeField] private Button _clearCubesButton;
@@ -21,9 +22,16 @@ namespace ApexCitadels.Demo
         [SerializeField] private GameObject _cubePrefab;
 
         private bool _isPlacementMode = false;
+        private Canvas _autoCanvas;
 
         private void Start()
         {
+            // Auto-create UI if not assigned
+            if (_placeCubeButton == null || _statusText == null)
+            {
+                CreateUI();
+            }
+
             if (_placeCubeButton != null)
                 _placeCubeButton.onClick.AddListener(OnPlaceCubeClicked);
             
@@ -39,11 +47,110 @@ namespace ApexCitadels.Demo
             if (AnchorPersistenceService.Instance != null)
             {
                 AnchorPersistenceService.Instance.OnInitialized += OnServicesReady;
+                if (AnchorPersistenceService.Instance.IsInitialized)
+                {
+                    OnServicesReady();
+                }
             }
             else
             {
                 Invoke(nameof(OnServicesReady), 1f);
             }
+        }
+
+        private void CreateUI()
+        {
+            Debug.Log("[PersistentCubeDemo] Auto-creating UI...");
+
+            // Create Canvas
+            var canvasGO = new GameObject("DemoCanvas_AutoCreated");
+            _autoCanvas = canvasGO.AddComponent<Canvas>();
+            _autoCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasGO.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasGO.AddComponent<GraphicRaycaster>();
+
+            // Create Status Text at top
+            var statusGO = new GameObject("StatusText");
+            statusGO.transform.SetParent(canvasGO.transform, false);
+            _statusText = statusGO.AddComponent<Text>();
+            _statusText.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            _statusText.fontSize = 24;
+            _statusText.alignment = TextAnchor.UpperCenter;
+            _statusText.color = Color.white;
+            _statusText.text = "Initializing...";
+            
+            var statusRect = statusGO.GetComponent<RectTransform>();
+            statusRect.anchorMin = new Vector2(0, 0.85f);
+            statusRect.anchorMax = new Vector2(1, 1);
+            statusRect.offsetMin = Vector2.zero;
+            statusRect.offsetMax = Vector2.zero;
+
+            // Add background to status
+            var statusBgGO = new GameObject("StatusBG");
+            statusBgGO.transform.SetParent(statusGO.transform, false);
+            statusBgGO.transform.SetAsFirstSibling();
+            var statusBg = statusBgGO.AddComponent<Image>();
+            statusBg.color = new Color(0, 0, 0, 0.5f);
+            var bgRect = statusBgGO.GetComponent<RectTransform>();
+            bgRect.anchorMin = Vector2.zero;
+            bgRect.anchorMax = Vector2.one;
+            bgRect.offsetMin = Vector2.zero;
+            bgRect.offsetMax = Vector2.zero;
+
+            // Create button panel at bottom
+            var panelGO = new GameObject("ButtonPanel");
+            panelGO.transform.SetParent(canvasGO.transform, false);
+            var panelRect = panelGO.AddComponent<RectTransform>();
+            panelRect.anchorMin = new Vector2(0, 0);
+            panelRect.anchorMax = new Vector2(1, 0.15f);
+            panelRect.offsetMin = Vector2.zero;
+            panelRect.offsetMax = Vector2.zero;
+
+            var panelBg = panelGO.AddComponent<Image>();
+            panelBg.color = new Color(0, 0, 0, 0.5f);
+
+            var layout = panelGO.AddComponent<HorizontalLayoutGroup>();
+            layout.spacing = 20;
+            layout.padding = new RectOffset(20, 20, 10, 10);
+            layout.childAlignment = TextAnchor.MiddleCenter;
+            layout.childForceExpandWidth = true;
+            layout.childForceExpandHeight = true;
+
+            // Create buttons
+            _placeCubeButton = CreateButton(panelGO.transform, "Place Cube", new Color(0.2f, 0.6f, 1f));
+            _loadCubesButton = CreateButton(panelGO.transform, "Load Cubes", new Color(0.2f, 0.8f, 0.4f));
+            _clearCubesButton = CreateButton(panelGO.transform, "Clear All", new Color(0.9f, 0.3f, 0.3f));
+
+            Debug.Log("[PersistentCubeDemo] UI created successfully!");
+        }
+
+        private Button CreateButton(Transform parent, string text, Color color)
+        {
+            var btnGO = new GameObject(text.Replace(" ", "") + "Button");
+            btnGO.transform.SetParent(parent, false);
+
+            var image = btnGO.AddComponent<Image>();
+            image.color = color;
+
+            var btn = btnGO.AddComponent<Button>();
+            btn.targetGraphic = image;
+
+            var textGO = new GameObject("Text");
+            textGO.transform.SetParent(btnGO.transform, false);
+            var btnText = textGO.AddComponent<Text>();
+            btnText.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            btnText.text = text;
+            btnText.fontSize = 20;
+            btnText.alignment = TextAnchor.MiddleCenter;
+            btnText.color = Color.white;
+
+            var textRect = textGO.GetComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+
+            return btn;
         }
 
         private void OnServicesReady()
