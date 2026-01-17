@@ -282,10 +282,11 @@ namespace ApexCitadels.Building
                 {
                     // Get GPS coordinates for the position
                     double lat = 0, lon = 0, alt = 0;
-                    bool hasLocation = AR.SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(
-                        out lat, out lon, out alt) ?? false;
-                    
-                    if (!hasLocation)
+                    if (AR.SpatialAnchorManager.Instance != null)
+                    {
+                        AR.SpatialAnchorManager.Instance.GetCurrentGeospatialPose(out lat, out lon, out alt);
+                    }
+                    else
                     {
                         return false; // Cannot verify location
                     }
