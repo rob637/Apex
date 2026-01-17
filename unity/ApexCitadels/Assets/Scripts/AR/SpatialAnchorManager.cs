@@ -236,12 +236,12 @@ namespace ApexCitadels.AR
         {
             if (_planeManager != null)
             {
-                _planeManager.trackablesChanged += OnPlanesChanged;
+                _planeManager.planesChanged += OnPlanesChanged;
             }
 
             if (_anchorManager != null)
             {
-                _anchorManager.trackablesChanged += OnAnchorsChanged;
+                _anchorManager.anchorsChanged += OnAnchorsChanged;
             }
 
             ARSession.stateChanged += OnARSessionStateChanged;
@@ -251,12 +251,12 @@ namespace ApexCitadels.AR
         {
             if (_planeManager != null)
             {
-                _planeManager.trackablesChanged -= OnPlanesChanged;
+                _planeManager.planesChanged -= OnPlanesChanged;
             }
 
             if (_anchorManager != null)
             {
-                _anchorManager.trackablesChanged -= OnAnchorsChanged;
+                _anchorManager.anchorsChanged -= OnAnchorsChanged;
             }
 
             ARSession.stateChanged -= OnARSessionStateChanged;
@@ -278,7 +278,7 @@ namespace ApexCitadels.AR
             }
         }
 
-        private void OnPlanesChanged(ARTrackablesChangedEventArgs<ARPlane> args)
+        private void OnPlanesChanged(ARPlanesChangedEventArgs args)
         {
             if (args.added != null && args.added.Count > 0)
             {
@@ -292,7 +292,7 @@ namespace ApexCitadels.AR
             }
         }
 
-        private void OnAnchorsChanged(ARTrackablesChangedEventArgs<ARAnchor> args)
+        private void OnAnchorsChanged(ARAnchorsChangedEventArgs args)
         {
             if (args.removed != null)
             {
@@ -301,7 +301,7 @@ namespace ApexCitadels.AR
                     // Find and update managed anchor
                     foreach (var kvp in _anchors)
                     {
-                        if (kvp.Value.Anchor == anchor)
+                        if (kvp.Value.Anchor != null && kvp.Value.Anchor.trackableId == anchor.trackableId)
                         {
                             kvp.Value.TrackingState = AnchorTrackingState.Lost;
                             break;
@@ -316,7 +316,7 @@ namespace ApexCitadels.AR
                 {
                     foreach (var kvp in _anchors)
                     {
-                        if (kvp.Value.Anchor == anchor)
+                        if (kvp.Value.Anchor != null && kvp.Value.Anchor.trackableId == anchor.trackableId)
                         {
                             kvp.Value.LastUpdateTime = Time.time;
                             break;

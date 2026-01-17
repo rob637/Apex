@@ -347,7 +347,7 @@ namespace ApexCitadels.Debugging
                         Log($"Added {amount} gems. Total: {player.Gems}");
                         break;
                     case "xp":
-                        Player.PlayerManager.Instance.AddXP(amount);
+                        Player.PlayerManager.Instance.AwardExperience(amount);
                         Log($"Added {amount} XP. Level: {player.Level}");
                         break;
                     default:
@@ -408,7 +408,7 @@ namespace ApexCitadels.Debugging
 
             RegisterCommand("claim", args => {
                 Log("Claiming territory at current location...");
-                UI.GameUIController uiController = FindObjectOfType<UI.GameUIController>();
+                UI.GameUIController uiController = FindFirstObjectByType<UI.GameUIController>();
                 if (uiController != null)
                 {
                     // Trigger claim via UI

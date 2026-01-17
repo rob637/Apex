@@ -319,7 +319,7 @@ namespace ApexCitadels.Player
                 17020 => "Network error. Please check your connection.",
                 
                 // Rate limiting
-                17010 => "Too many attempts. Please try again later.",
+                17029 => "Too many attempts. Please try again later.",
                 
                 _ => "Authentication failed. Please try again."
             };

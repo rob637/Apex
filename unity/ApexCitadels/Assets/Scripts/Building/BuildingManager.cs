@@ -281,8 +281,14 @@ namespace ApexCitadels.Building
                 if (!string.IsNullOrEmpty(playerId))
                 {
                     // Get GPS coordinates for the position
-                    AR.SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(
-                        out double lat, out double lon, out double _);
+                    double lat = 0, lon = 0, alt = 0;
+                    bool hasLocation = AR.SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(
+                        out lat, out lon, out alt) ?? false;
+                    
+                    if (!hasLocation)
+                    {
+                        return false; // Cannot verify location
+                    }
                     
                     // Check if any owned territory contains this position
                     var territory = Territory.TerritoryManager.Instance?.GetTerritoryAtLocation(lat, lon);
