@@ -4,6 +4,7 @@ using TMPro;
 using ApexCitadels.Territory;
 using ApexCitadels.Building;
 using ApexCitadels.Player;
+using ApexCitadels.Combat;
 
 namespace ApexCitadels.UI
 {
@@ -182,10 +183,15 @@ namespace ApexCitadels.UI
         {
             ShowStatus("Claiming territory...");
 
-            // Get current GPS position
-            // TODO: Get real GPS from device
+            // Get current GPS position from AR system
             double latitude = 37.7749;
             double longitude = -122.4194;
+
+            if (AR.SpatialAnchorManager.Instance != null)
+            {
+                AR.SpatialAnchorManager.Instance.GetCurrentGeospatialPose(
+                    out latitude, out longitude, out double _);
+            }
 
             if (TerritoryManager.Instance != null)
             {
@@ -215,8 +221,42 @@ namespace ApexCitadels.UI
 
         private void OnAttackClicked()
         {
-            // TODO: Implement attack mode
-            ShowStatus("Select an enemy territory to attack!");
+            // Enter attack mode - highlight enemy territories
+            if (CombatManager.Instance != null && TerritoryManager.Instance != null)
+            {
+                // Get current GPS
+                double lat = 37.7749, lon = -122.4194;
+                if (AR.SpatialAnchorManager.Instance != null)
+                {
+                    AR.SpatialAnchorManager.Instance.GetCurrentGeospatialPose(out lat, out lon, out double _);
+                }
+                
+                // Find nearby enemy territory
+                var territory = TerritoryManager.Instance.GetTerritoryAtLocation(lat, lon);
+                var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+                
+                if (territory == null)
+                {
+                    ShowStatus("No territory here to attack!");
+                }
+                else if (territory.OwnerId == playerId)
+                {
+                    ShowStatus("You own this territory!");
+                }
+                else if (!CombatManager.Instance.IsRaidWindowOpen())
+                {
+                    ShowStatus("Raids only allowed 6PM-10PM!");
+                }
+                else
+                {
+                    ShowStatus($"Attacking {territory.Name}...");
+                    _ = CombatManager.Instance.StartAttack(territory);
+                }
+            }
+            else
+            {
+                ShowStatus("Combat system not ready!");
+            }
         }
 
         public void OnBlockTypeSelected(BlockType type)

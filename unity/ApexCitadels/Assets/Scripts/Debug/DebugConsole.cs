@@ -306,6 +306,7 @@ namespace ApexCitadels.Debugging
                 if (args.Length < 2)
                 {
                     Log("Usage: give <resource> <amount>");
+                    Log("Resources: stone, wood, metal, crystal, gems, xp");
                     return;
                 }
                 
@@ -316,8 +317,43 @@ namespace ApexCitadels.Debugging
                     return;
                 }
 
-                // TODO: Add resources to player
-                Log($"Gave {amount} {resource} (not implemented)");
+                var player = Player.PlayerManager.Instance?.CurrentPlayer;
+                if (player == null)
+                {
+                    Log("No player logged in");
+                    return;
+                }
+
+                switch (resource)
+                {
+                    case "stone":
+                        player.Stone += amount;
+                        Log($"Added {amount} stone. Total: {player.Stone}");
+                        break;
+                    case "wood":
+                        player.Wood += amount;
+                        Log($"Added {amount} wood. Total: {player.Wood}");
+                        break;
+                    case "metal":
+                        player.Metal += amount;
+                        Log($"Added {amount} metal. Total: {player.Metal}");
+                        break;
+                    case "crystal":
+                        player.Crystal += amount;
+                        Log($"Added {amount} crystal. Total: {player.Crystal}");
+                        break;
+                    case "gems":
+                        player.Gems += amount;
+                        Log($"Added {amount} gems. Total: {player.Gems}");
+                        break;
+                    case "xp":
+                        Player.PlayerManager.Instance.AddXP(amount);
+                        Log($"Added {amount} XP. Level: {player.Level}");
+                        break;
+                    default:
+                        Log($"Unknown resource: {resource}");
+                        break;
+                }
             });
 
             RegisterCommand("teleport", args => {

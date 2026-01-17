@@ -41,6 +41,8 @@ namespace ApexCitadels.Building
         private GameObject _placementPreview;
         private bool _isPlacementMode = false;
         private Dictionary<string, GameObject> _placedBlocks = new Dictionary<string, GameObject>();
+        private Dictionary<string, BuildingBlock> _blockData = new Dictionary<string, BuildingBlock>();
+        private Dictionary<string, List<BuildingBlock>> _blocksByTerritory = new Dictionary<string, List<BuildingBlock>>();
 
         // Prefab lookup
         private Dictionary<BlockType, GameObject> _blockPrefabLookup = new Dictionary<BlockType, GameObject>();
@@ -109,6 +111,29 @@ namespace ApexCitadels.Building
             }
 
             return available;
+        }
+
+        /// <summary>
+        /// Get all blocks in a specific territory
+        /// </summary>
+        public List<BuildingBlock> GetBlocksInTerritory(string territoryId)
+        {
+            if (string.IsNullOrEmpty(territoryId))
+                return new List<BuildingBlock>();
+
+            if (_blocksByTerritory.TryGetValue(territoryId, out var blocks))
+            {
+                return new List<BuildingBlock>(blocks);
+            }
+            return new List<BuildingBlock>();
+        }
+
+        /// <summary>
+        /// Get block data by ID
+        /// </summary>
+        public BuildingBlock GetBlock(string blockId)
+        {
+            return _blockData.TryGetValue(blockId, out var block) ? block : null;
         }
 
         #endregion
@@ -251,8 +276,27 @@ namespace ApexCitadels.Building
             BlockDefinition def = BlockDefinition.Get(_selectedBlockType);
             if (def != null && def.RequiresTerritory)
             {
-                // TODO: Check if position is within player's territory
-                // For now, allow placement anywhere
+                // Check if position is within player's territory
+                var playerId = Player.PlayerManager.Instance?.GetCurrentPlayerId();
+                if (!string.IsNullOrEmpty(playerId))
+                {
+                    // Get GPS coordinates for the position
+                    AR.SpatialAnchorManager.Instance?.GetCurrentGeospatialPose(
+                        out double lat, out double lon, out double _);
+                    
+                    // Check if any owned territory contains this position
+                    var territory = Territory.TerritoryManager.Instance?.GetTerritoryAtLocation(lat, lon);
+                    if (territory == null || territory.OwnerId != playerId)
+                    {
+                        return false; // Must be in owned territory
+                    }
+                    
+                    // Check territory level requirement
+                    if (territory.Level < def.MinTerritoryLevel)
+                    {
+                        return false; // Territory level too low
+                    }
+                }
             }
 
             return true;
@@ -302,13 +346,30 @@ namespace ApexCitadels.Building
                 return new PlacementResult(false, "Invalid placement location!");
             }
 
-            // Check resources (TODO: implement resource system)
+            // Check resources
             BlockDefinition def = BlockDefinition.Get(_selectedBlockType);
-            if (def != null)
+            if (def != null && def.ResourceCost > 0)
             {
-                // TODO: Check if player has enough resources
-                // if (!PlayerInventory.HasResources(def.ResourceCost))
-                //     return new PlacementResult(false, "Not enough resources!");
+                // Check if player has enough stone (primary building resource)
+                var player = Player.PlayerManager.Instance?.CurrentPlayer;
+                if (player == null || player.Stone < def.ResourceCost)
+                {
+                    return new PlacementResult(false, $"Not enough stone! Need {def.ResourceCost}, have {player?.Stone ?? 0}");
+                }
+                
+                // Deduct the resources
+                if (!Player.PlayerManager.Instance.SpendResource(Player.ResourceType.Stone, def.ResourceCost))
+                {
+                    return new PlacementResult(false, "Failed to spend resources!");
+                }
+            }
+
+            // Get GPS coordinates from AR system
+            double latitude = 0, longitude = 0, altitude = 0;
+            if (AR.SpatialAnchorManager.Instance != null)
+            {
+                AR.SpatialAnchorManager.Instance.GetCurrentGeospatialPose(
+                    out latitude, out longitude, out altitude);
             }
 
             // Create the block
@@ -316,7 +377,11 @@ namespace ApexCitadels.Building
             {
                 LocalPosition = position,
                 LocalRotation = _placementPreview.transform.rotation,
-                // TODO: Get GPS coordinates from AR system
+                Latitude = latitude,
+                Longitude = longitude,
+                Altitude = altitude,
+                OwnerId = Player.PlayerManager.Instance?.GetCurrentPlayerId(),
+                TerritoryId = Territory.TerritoryManager.Instance?.GetTerritoryAtLocation(latitude, longitude)?.Id
             };
 
             // Create visual
@@ -327,6 +392,17 @@ namespace ApexCitadels.Building
             blockObject.tag = "BuildingBlock";
 
             _placedBlocks[block.Id] = blockObject;
+            _blockData[block.Id] = block;
+            
+            // Track by territory
+            if (!string.IsNullOrEmpty(block.TerritoryId))
+            {
+                if (!_blocksByTerritory.ContainsKey(block.TerritoryId))
+                {
+                    _blocksByTerritory[block.TerritoryId] = new List<BuildingBlock>();
+                }
+                _blocksByTerritory[block.TerritoryId].Add(block);
+            }
 
             // Save to cloud
             await SaveBlockToCloud(block);

@@ -235,10 +235,25 @@ namespace ApexCitadels.Combat
         {
             int baseDefense = territory.Level * 10;
             
-            // TODO: Add bonus from defensive structures (walls, turrets)
-            // This would query BuildingManager for structures in the territory
+            // Add bonus from defensive structures
+            int structureBonus = 0;
+            if (Building.BuildingManager.Instance != null)
+            {
+                var blocks = Building.BuildingManager.Instance.GetBlocksInTerritory(territory.Id);
+                foreach (var block in blocks)
+                {
+                    structureBonus += block.Type switch
+                    {
+                        Building.BlockType.Wall => 5,      // Walls add +5 defense each
+                        Building.BlockType.Tower => 10,    // Towers add +10 defense
+                        Building.BlockType.Turret => 15,   // Turrets add +15 defense
+                        Building.BlockType.Gate => 3,      // Gates add +3 defense
+                        _ => 0
+                    };
+                }
+            }
 
-            return baseDefense;
+            return baseDefense + structureBonus;
         }
 
         #endregion
