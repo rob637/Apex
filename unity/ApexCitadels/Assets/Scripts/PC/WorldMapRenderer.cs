@@ -314,7 +314,7 @@ namespace ApexCitadels.PC
                 Debug.LogWarning("[WorldMap] Could not find any shader, using primitive default");
                 var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Material defaultMat = temp.GetComponent<Renderer>().sharedMaterial;
-                Object.Destroy(temp);
+                UnityEngine.Object.Destroy(temp);
                 Material mat = new Material(defaultMat);
                 mat.color = new Color(color.r, color.g, color.b, 0.5f);
                 return mat;
