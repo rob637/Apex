@@ -70,6 +70,8 @@ namespace ApexCitadels.PC.UI
             }
             Instance = this;
 
+            // Auto-create missing panels
+            CreateMissingPanels();
             InitializePanelMap();
         }
 
@@ -80,6 +82,132 @@ namespace ApexCitadels.PC.UI
 
             // Start with world map open
             OpenPanel(PCUIPanel.WorldMap);
+        }
+
+        /// <summary>
+        /// Creates placeholder panels for any that are not assigned
+        /// </summary>
+        private void CreateMissingPanels()
+        {
+            // Find or create canvas
+            Canvas canvas = FindFirstObjectByType<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("[PCUI] No Canvas found!");
+                return;
+            }
+
+            // Create panels that are null
+            if (mainMenuPanel == null)
+                mainMenuPanel = CreatePlaceholderPanel(canvas.transform, "MainMenu", "Main Menu", new Color(0.1f, 0.1f, 0.15f, 0.95f));
+            if (worldMapPanel == null)
+                worldMapPanel = CreatePlaceholderPanel(canvas.transform, "WorldMap", "World Map", new Color(0.05f, 0.1f, 0.05f, 0.9f));
+            if (territoryDetailPanel == null)
+                territoryDetailPanel = CreatePlaceholderPanel(canvas.transform, "TerritoryDetail", "Territory Details", new Color(0.1f, 0.1f, 0.1f, 0.95f));
+            if (alliancePanel == null)
+                alliancePanel = CreatePlaceholderPanel(canvas.transform, "Alliance", "Alliance", new Color(0.1f, 0.05f, 0.15f, 0.95f));
+            if (buildMenuPanel == null)
+                buildMenuPanel = CreatePlaceholderPanel(canvas.transform, "BuildMenu", "Build Menu", new Color(0.15f, 0.1f, 0.05f, 0.95f));
+            if (inventoryPanel == null)
+                inventoryPanel = CreatePlaceholderPanel(canvas.transform, "Inventory", "Inventory", new Color(0.1f, 0.1f, 0.05f, 0.95f));
+            if (statisticsPanel == null)
+                statisticsPanel = CreatePlaceholderPanel(canvas.transform, "Statistics", "Statistics", new Color(0.05f, 0.1f, 0.1f, 0.95f));
+            if (settingsPanel == null)
+                settingsPanel = CreatePlaceholderPanel(canvas.transform, "Settings", "Settings", new Color(0.1f, 0.1f, 0.1f, 0.95f));
+            if (chatPanel == null)
+                chatPanel = CreatePlaceholderPanel(canvas.transform, "Chat", "Chat", new Color(0.05f, 0.05f, 0.1f, 0.9f));
+
+            Debug.Log("[PCUI] Created placeholder panels for missing UI elements");
+        }
+
+        private GameObject CreatePlaceholderPanel(Transform parent, string name, string title, Color bgColor)
+        {
+            // Create panel
+            GameObject panel = new GameObject(name + "Panel");
+            panel.transform.SetParent(parent, false);
+
+            // Add RectTransform and stretch to fill
+            RectTransform rect = panel.AddComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.15f, 0.1f);
+            rect.anchorMax = new Vector2(0.85f, 0.9f);
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            // Add background image
+            UnityEngine.UI.Image bg = panel.AddComponent<UnityEngine.UI.Image>();
+            bg.color = bgColor;
+
+            // Create title
+            GameObject titleObj = new GameObject("Title");
+            titleObj.transform.SetParent(panel.transform, false);
+            RectTransform titleRect = titleObj.AddComponent<RectTransform>();
+            titleRect.anchorMin = new Vector2(0, 1);
+            titleRect.anchorMax = new Vector2(1, 1);
+            titleRect.pivot = new Vector2(0.5f, 1);
+            titleRect.sizeDelta = new Vector2(0, 60);
+            titleRect.anchoredPosition = new Vector2(0, -10);
+
+            TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
+            titleText.text = title;
+            titleText.fontSize = 36;
+            titleText.alignment = TextAlignmentOptions.Center;
+            titleText.color = Color.white;
+
+            // Create close button
+            GameObject closeBtn = new GameObject("CloseButton");
+            closeBtn.transform.SetParent(panel.transform, false);
+            RectTransform closeBtnRect = closeBtn.AddComponent<RectTransform>();
+            closeBtnRect.anchorMin = new Vector2(1, 1);
+            closeBtnRect.anchorMax = new Vector2(1, 1);
+            closeBtnRect.pivot = new Vector2(1, 1);
+            closeBtnRect.sizeDelta = new Vector2(50, 50);
+            closeBtnRect.anchoredPosition = new Vector2(-10, -10);
+
+            UnityEngine.UI.Image closeBtnImg = closeBtn.AddComponent<UnityEngine.UI.Image>();
+            closeBtnImg.color = new Color(0.8f, 0.2f, 0.2f, 1f);
+
+            Button closeButton = closeBtn.AddComponent<Button>();
+            closeButton.targetGraphic = closeBtnImg;
+
+            // Add X text
+            GameObject xText = new GameObject("X");
+            xText.transform.SetParent(closeBtn.transform, false);
+            RectTransform xRect = xText.AddComponent<RectTransform>();
+            xRect.anchorMin = Vector2.zero;
+            xRect.anchorMax = Vector2.one;
+            xRect.offsetMin = Vector2.zero;
+            xRect.offsetMax = Vector2.zero;
+
+            TextMeshProUGUI xTmp = xText.AddComponent<TextMeshProUGUI>();
+            xTmp.text = "X";
+            xTmp.fontSize = 28;
+            xTmp.alignment = TextAlignmentOptions.Center;
+            xTmp.color = Color.white;
+
+            // Create content area with placeholder text
+            GameObject content = new GameObject("Content");
+            content.transform.SetParent(panel.transform, false);
+            RectTransform contentRect = content.AddComponent<RectTransform>();
+            contentRect.anchorMin = new Vector2(0.05f, 0.1f);
+            contentRect.anchorMax = new Vector2(0.95f, 0.85f);
+            contentRect.offsetMin = Vector2.zero;
+            contentRect.offsetMax = Vector2.zero;
+
+            TextMeshProUGUI contentText = content.AddComponent<TextMeshProUGUI>();
+            contentText.text = $"[{title} Panel]\n\nThis is a placeholder panel.\nPress ESC to close or click the X button.\n\nKeyboard shortcuts:\n• B - Build Menu\n• Tab - Alliance\n• M - World Map\n• I - Inventory\n• Esc - Main Menu";
+            contentText.fontSize = 20;
+            contentText.alignment = TextAlignmentOptions.Center;
+            contentText.color = new Color(0.8f, 0.8f, 0.8f, 1f);
+
+            // Wire up close button
+            string panelName = name;
+            closeButton.onClick.AddListener(() => {
+                if (Enum.TryParse<PCUIPanel>(panelName, out PCUIPanel p))
+                    ClosePanel(p);
+            });
+
+            Debug.Log($"[PCUI] Created placeholder panel: {name}");
+            return panel;
         }
 
         private void Update()
