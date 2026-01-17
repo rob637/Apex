@@ -101,7 +101,7 @@ namespace ApexCitadels.PC.UI
             if (mainMenuPanel == null)
                 mainMenuPanel = CreatePlaceholderPanel(canvas.transform, "MainMenu", "Main Menu", new Color(0.1f, 0.1f, 0.15f, 0.95f));
             if (worldMapPanel == null)
-                worldMapPanel = CreatePlaceholderPanel(canvas.transform, "WorldMap", "World Map", new Color(0.05f, 0.1f, 0.05f, 0.9f));
+                worldMapPanel = CreateWorldMapHUD(canvas.transform); // Special minimal HUD for world map
             if (territoryDetailPanel == null)
                 territoryDetailPanel = CreatePlaceholderPanel(canvas.transform, "TerritoryDetail", "Territory Details", new Color(0.1f, 0.1f, 0.1f, 0.95f));
             if (alliancePanel == null)
@@ -194,7 +194,7 @@ namespace ApexCitadels.PC.UI
             contentRect.offsetMax = Vector2.zero;
 
             TextMeshProUGUI contentText = content.AddComponent<TextMeshProUGUI>();
-            contentText.text = $"[{title} Panel]\n\nThis is a placeholder panel.\nPress ESC to close or click the X button.\n\nKeyboard shortcuts:\n• B - Build Menu\n• Tab - Alliance\n• M - World Map\n• I - Inventory\n• Esc - Main Menu";
+            contentText.text = $"[{title} Panel]\n\nThis is a placeholder panel.\nPress ESC to close or click the X button.\n\nKeyboard shortcuts:\n• B - Build Menu\n• Tab - Alliance\n• M - World Map\n• I - Inventory\n• Esc - Close / Main Menu";
             contentText.fontSize = 20;
             contentText.alignment = TextAlignmentOptions.Center;
             contentText.color = new Color(0.8f, 0.8f, 0.8f, 1f);
@@ -207,6 +207,54 @@ namespace ApexCitadels.PC.UI
             });
 
             Debug.Log($"[PCUI] Created placeholder panel: {name}");
+            return panel;
+        }
+
+        /// <summary>
+        /// Creates a minimal/invisible HUD for World Map mode (no blocking panel)
+        /// </summary>
+        private GameObject CreateWorldMapHUD(Transform parent)
+        {
+            // Create an empty panel that doesn't block the view
+            GameObject panel = new GameObject("WorldMapHUD");
+            panel.transform.SetParent(parent, false);
+
+            RectTransform rect = panel.AddComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            // Small indicator at bottom showing current mode
+            GameObject indicator = new GameObject("ModeIndicator");
+            indicator.transform.SetParent(panel.transform, false);
+            RectTransform indRect = indicator.AddComponent<RectTransform>();
+            indRect.anchorMin = new Vector2(0.5f, 0);
+            indRect.anchorMax = new Vector2(0.5f, 0);
+            indRect.pivot = new Vector2(0.5f, 0);
+            indRect.sizeDelta = new Vector2(200, 30);
+            indRect.anchoredPosition = new Vector2(0, 10);
+
+            // Background
+            UnityEngine.UI.Image indBg = indicator.AddComponent<UnityEngine.UI.Image>();
+            indBg.color = new Color(0, 0, 0, 0.5f);
+
+            // Text
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(indicator.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+
+            TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
+            tmp.text = "World Map View";
+            tmp.fontSize = 16;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.color = Color.white;
+
+            Debug.Log("[PCUI] Created World Map HUD (minimal)");
             return panel;
         }
 
@@ -254,9 +302,19 @@ namespace ApexCitadels.PC.UI
 
             Debug.Log("[PCUI] Setting up input bindings...");
             
+            // ESC - Close current panel OR open main menu if on world map
             PCInputManager.Instance.OnOpenMenu += () => {
-                Debug.Log("[PCUI] ESC pressed - toggling MainMenu");
-                TogglePanel(PCUIPanel.MainMenu);
+                Debug.Log($"[PCUI] ESC pressed - current panel: {_currentPanel}");
+                if (_currentPanel != PCUIPanel.WorldMap && _currentPanel != PCUIPanel.None)
+                {
+                    // Close current panel, return to world map
+                    CloseCurrentPanel();
+                }
+                else
+                {
+                    // On world map, toggle main menu
+                    TogglePanel(PCUIPanel.MainMenu);
+                }
             };
             PCInputManager.Instance.OnOpenAlliancePanel += () => {
                 Debug.Log("[PCUI] TAB pressed - toggling Alliance");
@@ -294,17 +352,20 @@ namespace ApexCitadels.PC.UI
         #region Panel Management
 
         /// <summary>
-        /// Open a UI panel
+        /// Open a UI panel (auto-closes any currently open panel first)
         /// </summary>
         public void OpenPanel(PCUIPanel panel)
         {
             if (_currentPanel == panel) return;
 
-            // Close current panel (unless it's the base map)
-            if (_currentPanel != PCUIPanel.None && _currentPanel != PCUIPanel.WorldMap)
+            // Close current panel first (hide it)
+            if (_currentPanel != PCUIPanel.None)
             {
-                _panelHistory.Push(_currentPanel);
-                CloseCurrentPanel();
+                if (_panelMap.TryGetValue(_currentPanel, out GameObject currentObj) && currentObj != null)
+                {
+                    currentObj.SetActive(false);
+                    Debug.Log($"[PCUI] Auto-closed panel: {_currentPanel}");
+                }
             }
 
             // Open new panel
@@ -318,7 +379,7 @@ namespace ApexCitadels.PC.UI
         }
 
         /// <summary>
-        /// Close a specific panel
+        /// Close a specific panel and return to World Map
         /// </summary>
         public void ClosePanel(PCUIPanel panel)
         {
@@ -331,22 +392,14 @@ namespace ApexCitadels.PC.UI
                 if (_currentPanel == panel)
                 {
                     _currentPanel = PCUIPanel.None;
-
-                    // Return to previous panel if available
-                    if (_panelHistory.Count > 0)
-                    {
-                        OpenPanel(_panelHistory.Pop());
-                    }
-                    else
-                    {
-                        OpenPanel(PCUIPanel.WorldMap);
-                    }
+                    // Always return to World Map
+                    OpenPanel(PCUIPanel.WorldMap);
                 }
             }
         }
 
         /// <summary>
-        /// Toggle a panel on/off
+        /// Toggle a panel on/off. If same panel, close and go to World Map. If different, switch to it.
         /// </summary>
         public void TogglePanel(PCUIPanel panel)
         {
