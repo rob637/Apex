@@ -1,89 +1,423 @@
 # Apex Citadels: PC Hybrid Mode Design Document
 
-**Status:** Phase 2A Implementation Complete ✅  
+**Status:** Phase 2A Implementation In Progress 🔄  
 **Created:** January 17, 2026  
-**Updated:** January 18, 2026  
+**Updated:** January 17, 2026  
 **Priority:** Phase 2-3  
 
 ---
 
-## Implementation Progress
+## 🎯 MASTER IMPLEMENTATION CHECKLIST
 
-### ✅ Core PC Systems (Complete)
+This is the definitive checklist for getting both **PC** and **AR Mobile** clients fully operational.
 
-| Script | Description | Status |
-|--------|-------------|--------|
-| `PlatformManager.cs` | Platform detection & feature gating | ✅ Complete |
-| `PCCameraController.cs` | Multi-mode camera (WorldMap, Territory, FP, Cinematic) | ✅ Complete |
-| `PCInputManager.cs` | Keyboard/mouse input handling with rebinding | ✅ Complete |
-| `WorldMapRenderer.cs` | 3D world map with territory visualization | ✅ Complete |
-| `BaseEditor.cs` | PC-exclusive building editor with undo/redo | ✅ Complete |
-| `PCGameController.cs` | Main PC client state machine | ✅ Complete |
-| `PCSceneBootstrapper.cs` | Auto scene setup on load | ✅ Complete |
-| `PCTerritoryBridge.cs` | Territory data integration | ✅ Complete |
+### Legend
+- ✅ Complete and tested
+- 🔧 Code exists, needs integration/testing  
+- ⏳ Not started
+- 🔴 Blocked by dependency
 
-### ✅ PC UI Panels (Complete)
+---
 
-| Script | Description | Status |
-|--------|-------------|--------|
-| `PCUIManager.cs` | UI panel management | ✅ Complete |
-| `TerritoryDetailPanel.cs` | Territory info display | ✅ Complete |
-| `AlliancePanel.cs` | Alliance management with War Room | ✅ Complete |
-| `BuildMenuPanel.cs` | Building catalog with categories | ✅ Complete |
-| `StatisticsPanel.cs` | PC-exclusive analytics dashboard | ✅ Complete |
-| `BattleReplayPanel.cs` | Battle replay viewer UI | ✅ Complete |
-| `CraftingPanel.cs` | Crafting workshop UI | ✅ Complete |
-| `MarketPanel.cs` | Trading and economy UI | ✅ Complete |
+## PART A: PC CLIENT CHECKLIST
 
-### ✅ PC-Exclusive Features (Complete)
+### A1. Firebase Backend ✅ COMPLETE
 
-| Script | Description | Status |
-|--------|-------------|--------|
-| `BattleReplaySystem.cs` | Record/playback battle replays | ✅ Complete |
-| `CraftingSystem.cs` | PC crafting with quality system | ✅ Complete |
+| Task | Status | Notes |
+|------|--------|-------|
+| Firebase project created | ✅ | apex-citadels-dev |
+| Firestore database configured | ✅ | Collections: territories, players, alliances, etc. |
+| Firestore security rules deployed | ✅ | Read public, write via functions |
+| Firebase Hosting (admin) | ✅ | https://apex-citadels-dev.web.app |
+| Firebase Hosting (pc) | ✅ | https://apex-citadels-pc.web.app |
+| Cloud Functions deployed | ✅ | 20+ function modules |
+| Service account for admin | ✅ | For seeding/admin operations |
+| Test data seeded | ✅ | Vienna VA + SF territories |
 
-### ✅ Editor Tools (Complete)
+### A2. PC Unity Scripts 🔧 CODE COMPLETE - NEEDS SCENE
 
-| Script | Description | Status |
-|--------|-------------|--------|
-| `PCPrefabCreator.cs` | Create UI/world prefabs | ✅ Complete |
-| `PCSceneSetup.cs` | Scene setup wizard | ✅ Complete |
+| Script | Location | Status | Notes |
+|--------|----------|--------|-------|
+| `PlatformManager.cs` | PC/ | ✅ Ready | Static, no setup needed |
+| `PCCameraController.cs` | PC/ | 🔧 | 4 camera modes |
+| `PCInputManager.cs` | PC/ | 🔧 | WASD, mouse, key rebinding |
+| `WorldMapRenderer.cs` | PC/ | 🔧 | 3D territory visualization |
+| `BaseEditor.cs` | PC/ | 🔧 | Building placement, undo/redo |
+| `PCGameController.cs` | PC/ | 🔧 | Main state machine |
+| `PCSceneBootstrapper.cs` | PC/ | 🔧 | Auto scene setup |
+| `PCTerritoryBridge.cs` | PC/ | 🔧 | Firebase integration |
+| `BattleReplaySystem.cs` | PC/ | 🔧 | PC-exclusive replays |
+| `CraftingSystem.cs` | PC/ | 🔧 | PC-exclusive crafting |
 
-### ✅ WebGL Bridge (Complete)
+### A3. PC UI Panel Scripts 🔧 CODE COMPLETE - NEEDS PREFABS
 
-| Script | Description | Status |
-|--------|-------------|--------|
-| `WebGLBridge.cs` | C# bridge for JS-Unity communication | ✅ Complete |
-| `WebGLBridge.jslib` | JavaScript plugin for Unity | ✅ Complete |
-| `index.html` | PC hosting page with JS bridge | ✅ Complete |
+| Script | Location | Status | Notes |
+|--------|----------|--------|-------|
+| `PCUIManager.cs` | PC/UI/ | 🔧 | Panel management |
+| `TerritoryDetailPanel.cs` | PC/UI/ | 🔧 | Territory stats display |
+| `AlliancePanel.cs` | PC/UI/ | 🔧 | War Room & members |
+| `BuildMenuPanel.cs` | PC/UI/ | 🔧 | Building catalog |
+| `StatisticsPanel.cs` | PC/UI/ | 🔧 | Analytics dashboard |
+| `BattleReplayPanel.cs` | PC/UI/ | 🔧 | Replay viewer |
+| `CraftingPanel.cs` | PC/UI/ | 🔧 | Crafting workshop |
+| `MarketPanel.cs` | PC/UI/ | 🔧 | Trading interface |
 
-### 🔄 Remaining Tasks
+### A4. WebGL Bridge 🔧 PARTIAL - NEEDS FIREBASE SDK
 
-#### Unity Editor Tasks (Must do in Unity):
-1. **Create PCMain Scene**
-   - File → New Scene → Save as `Assets/Scenes/PCMain.unity`
-   - Run menu: `Apex/PC/Setup PC Scene (Full)`
-   - Run menu: `Apex/PC/Create All PC Prefabs`
-   
-2. **Wire Up Components**
-   - Select PCGameController in hierarchy
-   - Assign references: cameraController, inputManager, worldMapRenderer, baseEditor, uiManager
-   - Select PCUIManager and assign panel prefabs
-   
-3. **Add WebGL Bridge**
-   - Add empty GameObject named "WebGLBridge"
-   - Add `WebGLBridge.cs` component to it
+| Component | Status | Notes |
+|-----------|--------|-------|
+| `WebGLBridge.cs` | 🔧 | C# DllImport bindings exist |
+| `WebGLBridge.jslib` | 🔧 | Basic JS functions exist |
+| `WebGLBridgeComponent.cs` | ✅ | MonoBehaviour wrapper |
+| `FirebaseWebClient.cs` | 🔧 | REST API fallback |
+| Firebase JS SDK in jslib | ⏳ | Need to add auth/firestore |
 
-4. **Build WebGL**
-   - File → Build Settings → WebGL
-   - Player Settings → Enable gzip compression
-   - Build to `backend/hosting-pc/build/`
+### A5. Unity Editor Tools ✅ READY
 
-#### Testing Tasks:
-5. Test Firebase authentication flow
-6. Test all keyboard shortcuts (WASD, Tab, B, M, etc.)
-7. Test JS-Unity bridge communication
-8. Test territory selection and camera modes
+| Tool | Status | Notes |
+|------|--------|-------|
+| `PCPrefabCreator.cs` | ✅ | Menu: Apex/PC/Create All PC Prefabs |
+| `PCSceneSetup.cs` | ✅ | Menu: Apex/PC/Setup PC Scene |
+
+### A6. PC Scene ⏳ NOT CREATED (Unity Editor Required)
+
+| Task | Status | Instructions |
+|------|--------|--------------|
+| Create PCMain.unity | ⏳ | File → New Scene → Save as Assets/Scenes/PCMain.unity |
+| Run scene setup wizard | ⏳ | Menu: Apex → PC → Setup PC Scene (Full) |
+| Create UI prefabs | ⏳ | Menu: Apex → PC → Create All PC Prefabs |
+| Wire up references | ⏳ | Assign camera, input, UI manager refs |
+| Add WebGL bridge | ⏳ | Add WebGLBridge component to scene |
+
+### A7. WebGL Build ⏳ NOT BUILT (Unity Editor Required)
+
+| Task | Status | Instructions |
+|------|--------|--------------|
+| Switch to WebGL platform | ⏳ | File → Build Settings → WebGL |
+| Configure Player Settings | ⏳ | Compression: Gzip, Memory: 512MB |
+| Build | ⏳ | Output to backend/hosting-pc/build/ |
+| Deploy | ⏳ | firebase deploy --only hosting:pc |
+
+---
+
+## PART B: AR MOBILE CLIENT CHECKLIST
+
+### B1. Core AR Systems ✅ CODE COMPLETE
+
+| Script | Location | Status | Notes |
+|--------|----------|--------|-------|
+| `GameManager.cs` | Core/ | ✅ | Main initialization |
+| `TerritoryManager.cs` | Territory/ | ✅ | Territory control |
+| `BuildingManager.cs` | Building/ | ✅ | Block placement |
+| `PlayerManager.cs` | Player/ | ✅ | Player state |
+| `CombatManager.cs` | Combat/ | ✅ | Attack mechanics |
+| `AllianceManager.cs` | Alliance/ | ✅ | Team system |
+| `ResourceManager.cs` | Resources/ | ✅ | Resource gathering |
+| `SpatialAnchorManager.cs` | AR/ | ✅ | AR anchor persistence |
+
+### B2. Engagement Systems ✅ CODE COMPLETE
+
+| Script | Location | Status | Notes |
+|--------|----------|--------|-------|
+| `WorldEventManager.cs` | WorldEvents/ | ✅ | FOMO events |
+| `SeasonPassManager.cs` | SeasonPass/ | ✅ | 100-tier battle pass |
+| `FriendsManager.cs` | Social/ | ✅ | Social features |
+| `ChatManager.cs` | Chat/ | ✅ | Real-time chat |
+| `ReferralManager.cs` | Referrals/ | ✅ | Viral growth |
+| `AnalyticsManager.cs` | Analytics/ | ✅ | Event tracking |
+| `AntiCheatManager.cs` | AntiCheat/ | ✅ | Location validation |
+| `DailyRewardManager.cs` | DailyRewards/ | ✅ | Login streaks |
+| `AchievementManager.cs` | Achievements/ | ✅ | Progress tracking |
+| `LeaderboardManager.cs` | Leaderboard/ | ✅ | Rankings |
+
+### B3. Monetization & UX ✅ CODE COMPLETE
+
+| Script | Location | Status | Notes |
+|--------|----------|--------|-------|
+| `IAPManager.cs` | IAP/ | ✅ | In-app purchases |
+| `NotificationManager.cs` | Notifications/ | ✅ | Push notifications |
+| `TutorialManager.cs` | Tutorial/ | ✅ | Onboarding |
+| `LocalDataManager.cs` | Data/ | ✅ | Offline persistence |
+| `AudioManager.cs` | Audio/ | ✅ | SFX, music, ambient |
+| `LocalizationManager.cs` | Localization/ | ✅ | 15 languages |
+| `CosmeticsShopManager.cs` | Cosmetics/ | ✅ | Shop system |
+
+### B4. Compliance & Safety ✅ CODE COMPLETE
+
+| Script | Location | Status | Notes |
+|--------|----------|--------|-------|
+| `GDPRManager.cs` | Privacy/ | ✅ | Data export/deletion |
+| `ContentModerationManager.cs` | Moderation/ | ✅ | Profanity filter, reports |
+| `PerformanceMonitor.cs` | Monitoring/ | ✅ | FPS, memory, crashes |
+
+### B5. AR Scene Setup ⏳ (Unity Editor Required)
+
+| Task | Status | Instructions |
+|------|--------|--------------|
+| Create ARMain.unity (if not exists) | ⏳ | File → New Scene |
+| Add AR Session | ⏳ | GameObject → XR → AR Session |
+| Add XR Origin | ⏳ | GameObject → XR → XR Origin |
+| Create GameManager object | ⏳ | Add all manager scripts |
+| Create EngagementSystems object | ⏳ | Add engagement scripts |
+| Create UI Canvas | ⏳ | Add HUD controllers |
+| Configure AR camera | ⏳ | Set up Geospatial API |
+
+### B6. Mobile Build ⏳ (Unity Editor Required)
+
+| Platform | Status | Instructions |
+|----------|--------|--------------|
+| Android | ⏳ | Build Settings → Android, ARCore XR Plugin |
+| iOS | ⏳ | Build Settings → iOS, ARKit XR Plugin |
+
+---
+
+## PART C: SHARED BACKEND INTEGRATION
+
+### C1. Cloud Functions ✅ COMPLETE (20+ Modules)
+
+| Function Module | File | Status |
+|-----------------|------|--------|
+| Combat/Battles | combat.ts | ✅ |
+| Territory Control | territory.ts | ✅ |
+| Alliance Wars | alliance.ts | ✅ |
+| Blueprints | blueprint.ts | ✅ |
+| Protection System | protection.ts | ✅ |
+| Progression | progression.ts | ✅ |
+| World Events | world-events.ts | ✅ |
+| Season Pass | season-pass.ts | ✅ |
+| Friends/Social | friends.ts | ✅ |
+| Chat | chat.ts | ✅ |
+| Referrals | referrals.ts | ✅ |
+| Analytics | analytics.ts | ✅ |
+| Anti-cheat | anticheat.ts | ✅ |
+| IAP Validation | iap.ts | ✅ |
+| Notifications | notifications.ts | ✅ |
+| Moderation | moderation.ts | ✅ |
+| GDPR | gdpr.ts | ✅ |
+| Cosmetics | cosmetics.ts | ✅ |
+| Map Tiles | map-api.ts | ✅ |
+| World Seed | world-seed.ts | ✅ |
+
+### C2. Unity Service Implementations 🔧 INTERFACES DEFINED
+
+| Interface | File | Implementation Status |
+|-----------|------|----------------------|
+| `IBattleService` | ICloudFunctions.cs | ⏳ Need BattleService.cs |
+| `IProtectionService` | ICloudFunctions.cs | ⏳ Need ProtectionService.cs |
+| `IBlueprintService` | ICloudFunctions.cs | ⏳ Need BlueprintService.cs |
+| `IAllianceWarService` | ICloudFunctions.cs | ⏳ Need AllianceWarService.cs |
+| `ILocationService` | ICloudFunctions.cs | ⏳ Need LocationService.cs |
+
+---
+
+## PART D: STEP-BY-STEP INSTRUCTIONS
+
+### D1. PC Client - Complete Setup (Unity Editor)
+
+```
+STEP 1: Create PC Scene
+─────────────────────────────────────────────────────
+1. Open Unity Editor with ApexCitadels project
+2. File → New Scene
+3. Save As: Assets/Scenes/PCMain.unity
+4. Menu: Apex → PC → Setup PC Scene (Full)
+5. Menu: Apex → PC → Create All PC Prefabs
+
+STEP 2: Verify Scene Hierarchy
+─────────────────────────────────────────────────────
+After setup, you should have:
+├── PCGameController (with PCGameController.cs)
+├── Main Camera (with PCCameraController.cs)
+├── InputManager (with PCInputManager.cs)
+├── WorldMapRenderer (with WorldMapRenderer.cs)
+├── BaseEditor (with BaseEditor.cs)
+├── UIManager (with PCUIManager.cs)
+├── WebGLBridge (with WebGLBridge.cs)
+└── Canvas (with all UI panels)
+
+STEP 3: Wire Up References
+─────────────────────────────────────────────────────
+Select PCGameController and assign:
+- Camera Controller: Main Camera
+- Input Manager: InputManager
+- World Map Renderer: WorldMapRenderer
+- Base Editor: BaseEditor
+- UI Manager: UIManager
+
+Select PCUIManager and assign panel prefabs:
+- Territory Detail Panel
+- Alliance Panel
+- Build Menu Panel
+- Statistics Panel
+- Battle Replay Panel
+- Crafting Panel
+- Market Panel
+
+STEP 4: Configure Build Settings
+─────────────────────────────────────────────────────
+1. File → Build Settings
+2. Add Scene: Assets/Scenes/PCMain.unity
+3. Switch Platform → WebGL
+4. Player Settings:
+   - Company Name: ApexCitadels
+   - Product Name: Apex Citadels
+   - Compression Format: Gzip
+   - WebGL Memory Size: 512
+   - Enable WebGL 2.0: ✓
+
+STEP 5: Build WebGL
+─────────────────────────────────────────────────────
+1. File → Build Settings → Build
+2. Select folder: [project]/backend/hosting-pc/build/
+3. Wait for build (5-15 minutes)
+4. Verify output:
+   - build.data.gz
+   - build.framework.js.gz
+   - build.loader.js
+   - build.wasm.gz
+
+STEP 6: Deploy
+─────────────────────────────────────────────────────
+cd /workspaces/Apex/backend
+firebase deploy --only hosting:pc
+
+STEP 7: Test
+─────────────────────────────────────────────────────
+Open: https://apex-citadels-pc.web.app/build/
+```
+
+### D2. AR Mobile Client - Complete Setup (Unity Editor)
+
+```
+STEP 1: Create AR Scene (if not exists)
+─────────────────────────────────────────────────────
+1. Open Unity Editor with ApexCitadels project
+2. File → New Scene
+3. Save As: Assets/Scenes/ARMain.unity
+
+STEP 2: Add AR Foundation Components
+─────────────────────────────────────────────────────
+1. GameObject → XR → AR Session
+2. GameObject → XR → XR Origin (Mobile AR)
+3. On XR Origin, add components:
+   - AR Plane Manager
+   - AR Raycast Manager
+   - AR Anchor Manager
+
+STEP 3: Create GameManager Object
+─────────────────────────────────────────────────────
+1. Create empty GameObject named "GameManager"
+2. Add ALL these scripts:
+   - ApexCitadels.Core.GameManager
+   - ApexCitadels.Territory.TerritoryManager
+   - ApexCitadels.Building.BuildingManager
+   - ApexCitadels.Player.PlayerManager
+   - ApexCitadels.Combat.CombatManager
+   - ApexCitadels.Alliance.AllianceManager
+   - ApexCitadels.Resources.ResourceManager
+   - ApexCitadels.Notifications.NotificationManager
+   - ApexCitadels.Leaderboard.LeaderboardManager
+   - ApexCitadels.Achievements.AchievementManager
+   - ApexCitadels.DailyRewards.DailyRewardManager
+   - ApexCitadels.Privacy.GDPRManager
+   - ApexCitadels.Moderation.ContentModerationManager
+   - ApexCitadels.Cosmetics.CosmeticsShopManager
+   - ApexCitadels.Monitoring.PerformanceMonitor
+
+STEP 4: Create EngagementSystems Object
+─────────────────────────────────────────────────────
+1. Create empty GameObject named "EngagementSystems"
+2. Add these scripts:
+   - ApexCitadels.WorldEvents.WorldEventManager
+   - ApexCitadels.SeasonPass.SeasonPassManager
+   - ApexCitadels.Social.FriendsManager
+   - ApexCitadels.Chat.ChatManager
+   - ApexCitadels.Referrals.ReferralManager
+   - ApexCitadels.Analytics.AnalyticsManager
+   - ApexCitadels.AntiCheat.AntiCheatManager
+
+STEP 5: Create UI Canvas
+─────────────────────────────────────────────────────
+1. GameObject → UI → Canvas
+2. Set Canvas Scaler to "Scale With Screen Size"
+3. Add GameUIController.cs
+4. Add GameHUDController.cs
+5. Create HUD elements (see README.md for detailed layout)
+
+STEP 6: Configure ARCore Geospatial API
+─────────────────────────────────────────────────────
+1. Window → XR → ARCore Extensions
+2. Enable Geospatial
+3. Add API key from Google Cloud Console
+4. Add AREarthManager to XR Origin
+5. Add ARGeospatialCreator for anchor placement
+
+STEP 7: Configure Build Settings
+─────────────────────────────────────────────────────
+For Android:
+1. File → Build Settings → Android
+2. Player Settings:
+   - Minimum API Level: 26 (Android 8)
+   - Target API Level: 34
+   - Scripting Backend: IL2CPP
+   - ARM64 only
+3. XR Plug-in Management:
+   - Enable ARCore
+
+For iOS:
+1. File → Build Settings → iOS
+2. Player Settings:
+   - Target minimum iOS version: 14.0
+   - Camera Usage Description: "AR features"
+   - Location Usage Description: "Territory claiming"
+3. XR Plug-in Management:
+   - Enable ARKit
+
+STEP 8: Build
+─────────────────────────────────────────────────────
+Android: Build → APK or AAB
+iOS: Build → Xcode Project → Archive in Xcode
+```
+
+---
+
+## QUICK REFERENCE
+
+### Live URLs
+
+| Service | URL | Status |
+|---------|-----|--------|
+| Admin Dashboard | https://apex-citadels-dev.web.app | ✅ Live |
+| PC Client (Web) | https://apex-citadels-pc.web.app | 🔧 Placeholder |
+| PC Unity WebGL | https://apex-citadels-pc.web.app/build/ | ⏳ Needs build |
+| Firebase Console | https://console.firebase.google.com/project/apex-citadels-dev | ✅ Live |
+
+### Key File Locations
+
+| Purpose | Path |
+|---------|------|
+| PC Scripts | unity/ApexCitadels/Assets/Scripts/PC/ |
+| AR Scripts | unity/ApexCitadels/Assets/Scripts/AR/ |
+| Core Scripts | unity/ApexCitadels/Assets/Scripts/Core/ |
+| WebGL Bridge | unity/ApexCitadels/Assets/Scripts/PC/WebGL/ |
+| JS Plugin | unity/ApexCitadels/Assets/Plugins/WebGL/WebGLBridge.jslib |
+| Cloud Functions | backend/functions/src/ |
+| Admin Dashboard | admin-dashboard/src/ |
+| PC Hosting | backend/hosting-pc/ |
+
+### Firebase Configuration
+
+```javascript
+{
+  apiKey: "AIzaSyA7ljLJjxoq8VCqV1EGFpO5nhk56H0B6oo",
+  projectId: "apex-citadels-dev",
+  authDomain: "apex-citadels-dev.firebaseapp.com"
+}
+```
+
+---
+
+> **📋 IMPLEMENTATION CHECKLISTS:** See the **MASTER IMPLEMENTATION CHECKLIST** at the top of this document for detailed step-by-step instructions for both PC and AR Mobile platforms.
 
 ---
 
