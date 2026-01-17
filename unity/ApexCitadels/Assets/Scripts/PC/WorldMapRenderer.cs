@@ -301,36 +301,23 @@ namespace ApexCitadels.PC
 
         private Material CreateDefaultMaterial(Color color)
         {
-            // Try to find a shader - URP first, then Standard, then any built-in
-            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (shader == null) shader = Shader.Find("Universal Render Pipeline/Simple Lit");
-            if (shader == null) shader = Shader.Find("Standard");
-            if (shader == null) shader = Shader.Find("Unlit/Color");
-            if (shader == null) shader = Shader.Find("Sprites/Default");
+            // Always use primitive's default material as it's guaranteed to work
+            var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Material defaultMat = temp.GetComponent<Renderer>().sharedMaterial;
+            UnityEngine.Object.DestroyImmediate(temp);
             
-            // If still null, create a temporary object to get its default material
-            if (shader == null)
-            {
-                Debug.LogWarning("[WorldMap] Could not find any shader, using primitive default");
-                var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                Material defaultMat = temp.GetComponent<Renderer>().sharedMaterial;
-                UnityEngine.Object.Destroy(temp);
-                Material mat = new Material(defaultMat);
-                mat.color = new Color(color.r, color.g, color.b, 0.5f);
-                return mat;
-            }
+            Material mat = new Material(defaultMat);
+            Color finalColor = new Color(color.r, color.g, color.b, 1f);
             
-            Material material = new Material(shader);
-            Color finalColor = new Color(color.r, color.g, color.b, 0.5f);
+            // Try all common color properties
+            if (mat.HasProperty("_BaseColor"))
+                mat.SetColor("_BaseColor", finalColor);
+            if (mat.HasProperty("_Color"))
+                mat.SetColor("_Color", finalColor);
+            mat.color = finalColor;
             
-            // URP uses _BaseColor, Standard uses _Color
-            if (material.HasProperty("_BaseColor"))
-                material.SetColor("_BaseColor", finalColor);
-            if (material.HasProperty("_Color"))
-                material.SetColor("_Color", finalColor);
-            material.color = finalColor;
-                
-            return material;
+            Debug.Log($"[WorldMap] Created material with color {finalColor}, shader: {mat.shader.name}");
+            return mat;
         }
 
         #endregion
