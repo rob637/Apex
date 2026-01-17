@@ -59,6 +59,7 @@ namespace ApexCitadels.PC.UI
         private Stack<PCUIPanel> _panelHistory = new Stack<PCUIPanel>();
         private Dictionary<PCUIPanel, GameObject> _panelMap;
         private bool _isTooltipVisible;
+        private bool _inputBindingsSetup = false;
 
         private void Awake()
         {
@@ -79,6 +80,15 @@ namespace ApexCitadels.PC.UI
 
             // Start with world map open
             OpenPanel(PCUIPanel.WorldMap);
+        }
+
+        private void Update()
+        {
+            // Retry input bindings if not set up yet
+            if (!_inputBindingsSetup && PCInputManager.Instance != null)
+            {
+                SetupInputBindings();
+            }
         }
 
         private void InitializePanelMap()
@@ -106,13 +116,39 @@ namespace ApexCitadels.PC.UI
 
         private void SetupInputBindings()
         {
-            if (PCInputManager.Instance == null) return;
+            if (PCInputManager.Instance == null)
+            {
+                Debug.Log("[PCUI] PCInputManager not ready, will retry...");
+                return;
+            }
 
-            PCInputManager.Instance.OnOpenMenu += () => TogglePanel(PCUIPanel.MainMenu);
-            PCInputManager.Instance.OnOpenAlliancePanel += () => TogglePanel(PCUIPanel.Alliance);
-            PCInputManager.Instance.OnOpenBuildingMenu += () => TogglePanel(PCUIPanel.BuildMenu);
-            PCInputManager.Instance.OnOpenInventory += () => TogglePanel(PCUIPanel.Inventory);
-            PCInputManager.Instance.OnOpenWorldMap += () => OpenPanel(PCUIPanel.WorldMap);
+            if (_inputBindingsSetup) return;
+
+            Debug.Log("[PCUI] Setting up input bindings...");
+            
+            PCInputManager.Instance.OnOpenMenu += () => {
+                Debug.Log("[PCUI] ESC pressed - toggling MainMenu");
+                TogglePanel(PCUIPanel.MainMenu);
+            };
+            PCInputManager.Instance.OnOpenAlliancePanel += () => {
+                Debug.Log("[PCUI] TAB pressed - toggling Alliance");
+                TogglePanel(PCUIPanel.Alliance);
+            };
+            PCInputManager.Instance.OnOpenBuildingMenu += () => {
+                Debug.Log("[PCUI] B pressed - toggling BuildMenu");
+                TogglePanel(PCUIPanel.BuildMenu);
+            };
+            PCInputManager.Instance.OnOpenInventory += () => {
+                Debug.Log("[PCUI] I pressed - toggling Inventory");
+                TogglePanel(PCUIPanel.Inventory);
+            };
+            PCInputManager.Instance.OnOpenWorldMap += () => {
+                Debug.Log("[PCUI] M pressed - opening WorldMap");
+                OpenPanel(PCUIPanel.WorldMap);
+            };
+
+            _inputBindingsSetup = true;
+            Debug.Log("[PCUI] Input bindings setup complete!");
         }
 
         private void SetupButtonListeners()

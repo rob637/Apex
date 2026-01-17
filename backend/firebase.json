@@ -33,15 +33,24 @@
       "headers": [
         {
           "source": "**/*.wasm.gz",
-          "headers": [{ "key": "Content-Type", "value": "application/wasm" }]
+          "headers": [
+            { "key": "Content-Type", "value": "application/wasm" },
+            { "key": "Content-Encoding", "value": "gzip" }
+          ]
         },
         {
           "source": "**/*.js.gz",
-          "headers": [{ "key": "Content-Type", "value": "application/javascript" }]
+          "headers": [
+            { "key": "Content-Type", "value": "application/javascript" },
+            { "key": "Content-Encoding", "value": "gzip" }
+          ]
         },
         {
           "source": "**/*.data.gz",
-          "headers": [{ "key": "Content-Type", "value": "application/octet-stream" }]
+          "headers": [
+            { "key": "Content-Type", "value": "application/octet-stream" },
+            { "key": "Content-Encoding", "value": "gzip" }
+          ]
         }
       ]
     }

@@ -120,7 +120,7 @@ namespace ApexCitadels.PC
         /// <summary>
         /// Check if keyboard/mouse input is primary
         /// </summary>
-        public static bool HasKeyboardMouse => IsPC || IsEditor;
+        public static bool HasKeyboardMouse => IsPC || IsEditor || IsWebGL;
 
         /// <summary>
         /// Check if touch input is primary
