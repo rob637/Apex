@@ -348,6 +348,21 @@ namespace ApexCitadels.PC
         #region Quick Access
 
         /// <summary>
+        /// Select a territory (can be called from WebGL bridge)
+        /// </summary>
+        public void SelectTerritory(string territoryId)
+        {
+            if (string.IsNullOrEmpty(territoryId))
+            {
+                Debug.LogWarning("[PCGame] SelectTerritory called with null/empty ID");
+                return;
+            }
+
+            Debug.Log($"[PCGame] Selecting territory: {territoryId}");
+            ViewTerritory(territoryId);
+        }
+
+        /// <summary>
         /// Quick access to refresh the world map
         /// </summary>
         public void RefreshWorldMap()

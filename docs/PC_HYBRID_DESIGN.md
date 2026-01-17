@@ -49,13 +49,41 @@
 | `PCPrefabCreator.cs` | Create UI/world prefabs | ✅ Complete |
 | `PCSceneSetup.cs` | Scene setup wizard | ✅ Complete |
 
+### ✅ WebGL Bridge (Complete)
+
+| Script | Description | Status |
+|--------|-------------|--------|
+| `WebGLBridge.cs` | C# bridge for JS-Unity communication | ✅ Complete |
+| `WebGLBridge.jslib` | JavaScript plugin for Unity | ✅ Complete |
+| `index.html` | PC hosting page with JS bridge | ✅ Complete |
+
 ### 🔄 Remaining Tasks
 
-1. Run `Apex/PC/Setup PC Scene (Full)` in Unity Editor
-2. Run `Apex/PC/Create All PC Prefabs` for UI prefabs
-3. Assign prefabs to manager components in Inspector
-4. Test Firebase integration
-5. Create PC build configuration
+#### Unity Editor Tasks (Must do in Unity):
+1. **Create PCMain Scene**
+   - File → New Scene → Save as `Assets/Scenes/PCMain.unity`
+   - Run menu: `Apex/PC/Setup PC Scene (Full)`
+   - Run menu: `Apex/PC/Create All PC Prefabs`
+   
+2. **Wire Up Components**
+   - Select PCGameController in hierarchy
+   - Assign references: cameraController, inputManager, worldMapRenderer, baseEditor, uiManager
+   - Select PCUIManager and assign panel prefabs
+   
+3. **Add WebGL Bridge**
+   - Add empty GameObject named "WebGLBridge"
+   - Add `WebGLBridge.cs` component to it
+
+4. **Build WebGL**
+   - File → Build Settings → WebGL
+   - Player Settings → Enable gzip compression
+   - Build to `backend/hosting-pc/build/`
+
+#### Testing Tasks:
+5. Test Firebase authentication flow
+6. Test all keyboard shortcuts (WASD, Tab, B, M, etc.)
+7. Test JS-Unity bridge communication
+8. Test territory selection and camera modes
 
 ---
 

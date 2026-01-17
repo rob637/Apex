@@ -197,6 +197,21 @@ namespace ApexCitadels.PC.UI
         }
 
         /// <summary>
+        /// Toggle a panel by name (for WebGL bridge)
+        /// </summary>
+        public void TogglePanel(string panelName)
+        {
+            if (Enum.TryParse<PCUIPanel>(panelName, true, out PCUIPanel panel))
+            {
+                TogglePanel(panel);
+            }
+            else
+            {
+                Debug.LogWarning($"[PCUI] Unknown panel name: {panelName}");
+            }
+        }
+
+        /// <summary>
         /// Close the currently active panel
         /// </summary>
         public void CloseCurrentPanel()

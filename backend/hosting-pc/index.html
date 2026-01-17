@@ -129,6 +129,31 @@
             border-radius: 4px;
             color: #ff6b6b;
         }
+        
+        /* Toolbar styles */
+        #toolbar {
+            background: rgba(0,0,0,0.7);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        #toolbar button {
+            background: rgba(233, 69, 96, 0.3);
+            border: 1px solid rgba(233, 69, 96, 0.5);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+        
+        #toolbar button:hover {
+            background: rgba(233, 69, 96, 0.6);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -165,40 +190,170 @@
         <p class="status" id="status">Initializing...</p>
     </div>
 
+    <!-- Toolbar for quick actions when game is loaded -->
+    <div id="toolbar" style="display:none; position:fixed; top:10px; right:10px; z-index:1000;">
+        <button onclick="apexBridge.togglePanel('Alliance')" title="Alliance (Tab)">👥</button>
+        <button onclick="apexBridge.togglePanel('BuildMenu')" title="Build (B)">🏗️</button>
+        <button onclick="apexBridge.togglePanel('Statistics')" title="Statistics">📊</button>
+        <button onclick="apexBridge.togglePanel('Market')" title="Market">💰</button>
+        <button onclick="apexBridge.setCameraMode('worldmap')" title="World Map (M)">🗺️</button>
+        <button onclick="apexBridge.requestFullscreen()" title="Fullscreen">⛶</button>
+    </div>
+
     <script>
-        // Check if WebGL build exists
-        var buildUrl = "Build";
-        var loaderUrl = buildUrl + "/Build.loader.js";
-        
-        // Try to load the Unity build
-        var script = document.createElement("script");
-        script.src = loaderUrl;
-        script.onload = function() {
-            document.getElementById("placeholder-container").style.display = "none";
-            document.getElementById("loading").classList.add("active");
+        // ========================================
+        // Apex Citadels JS-Unity Bridge
+        // ========================================
+        var apexBridge = {
+            unityInstance: null,
+            gameReady: false,
             
-            createUnityInstance(document.querySelector("#unity-canvas"), {
-                dataUrl: buildUrl + "/Build.data",
-                frameworkUrl: buildUrl + "/Build.framework.js",
-                codeUrl: buildUrl + "/Build.wasm",
-                streamingAssetsUrl: "StreamingAssets",
-                companyName: "ApexCitadels",
-                productName: "Apex Citadels Command Center",
-                productVersion: "1.0",
-            }, function(progress) {
-                document.getElementById("progress-fill").style.width = (progress * 100) + "%";
-                document.getElementById("status").textContent = "Loading... " + Math.round(progress * 100) + "%";
-            }).then(function(unityInstance) {
-                document.getElementById("loading").classList.remove("active");
-                document.getElementById("unity-container").classList.add("active");
-            }).catch(function(message) {
-                alert("Failed to load: " + message);
-            });
+            // Initialize bridge when Unity is ready
+            init: function(instance) {
+                this.unityInstance = instance;
+                window.unityInstance = instance;
+                console.log('[ApexBridge] Initialized');
+            },
+            
+            // Send message to Unity
+            sendMessage: function(objectName, methodName, value) {
+                if (this.unityInstance) {
+                    this.unityInstance.SendMessage(objectName, methodName, value || '');
+                } else {
+                    console.warn('[ApexBridge] Unity not ready');
+                }
+            },
+            
+            // Toggle a UI panel
+            togglePanel: function(panelName) {
+                this.sendMessage('WebGLBridge', 'TogglePanel', panelName);
+            },
+            
+            // Set camera mode
+            setCameraMode: function(mode) {
+                this.sendMessage('WebGLBridge', 'SetCameraMode', mode);
+            },
+            
+            // Select a territory
+            selectTerritory: function(territoryId) {
+                this.sendMessage('WebGLBridge', 'SelectTerritoryFromWeb', territoryId);
+            },
+            
+            // Send login token
+            sendLoginToken: function(token) {
+                this.sendMessage('WebGLBridge', 'ReceiveLoginToken', token);
+            },
+            
+            // Execute a command
+            executeCommand: function(command) {
+                this.sendMessage('WebGLBridge', 'ExecuteCommand', JSON.stringify(command));
+            },
+            
+            // Request fullscreen
+            requestFullscreen: function() {
+                var canvas = document.querySelector('#unity-canvas');
+                if (canvas.requestFullscreen) {
+                    canvas.requestFullscreen();
+                } else if (canvas.webkitRequestFullscreen) {
+                    canvas.webkitRequestFullscreen();
+                }
+            }
         };
-        script.onerror = function() {
-            console.log("WebGL build not found - showing placeholder");
+        
+        // Callbacks from Unity
+        window.onUnityGameReady = function() {
+            apexBridge.gameReady = true;
+            document.getElementById('toolbar').style.display = 'block';
+            console.log('[ApexBridge] Game ready');
         };
-        document.body.appendChild(script);
+        
+        window.onTerritorySelected = function(territoryId) {
+            console.log('[ApexBridge] Territory selected:', territoryId);
+            // Update browser URL or external UI
+            history.replaceState(null, '', '?territory=' + territoryId);
+        };
+        
+        window.onPlayerStats = function(stats) {
+            console.log('[ApexBridge] Player stats:', stats);
+            // Could update external UI elements
+        };
+        
+        window.onUnityNotification = function(title, message) {
+            console.log('[ApexBridge] Notification:', title, message);
+            // Could show a toast notification
+        };
+        
+        // Listen for custom events
+        window.addEventListener('unityGameReady', function() {
+            // Check URL for territory param
+            var params = new URLSearchParams(window.location.search);
+            var territory = params.get('territory');
+            if (territory) {
+                setTimeout(function() {
+                    apexBridge.selectTerritory(territory);
+                }, 1000);
+            }
+        });
+        
+        // ========================================
+        // Unity WebGL Loader
+        // ========================================
+        var buildConfigs = [
+            { buildUrl: "build", loader: "build.loader.js", compressed: true },
+            { buildUrl: "Build", loader: "Build.loader.js", compressed: false }
+        ];
+        
+        var currentConfigIndex = 0;
+        
+        function tryLoadBuild() {
+            if (currentConfigIndex >= buildConfigs.length) {
+                console.log("WebGL build not found - showing placeholder");
+                return;
+            }
+            
+            var config = buildConfigs[currentConfigIndex];
+            var loaderUrl = config.buildUrl + "/" + config.loader;
+            
+            var script = document.createElement("script");
+            script.src = loaderUrl;
+            script.onload = function() {
+                document.getElementById("placeholder-container").style.display = "none";
+                document.getElementById("loading").classList.add("active");
+                
+                var suffix = config.compressed ? ".gz" : "";
+                var baseName = config.compressed ? "build" : "Build";
+                
+                createUnityInstance(document.querySelector("#unity-canvas"), {
+                    dataUrl: config.buildUrl + "/" + baseName + ".data" + suffix,
+                    frameworkUrl: config.buildUrl + "/" + baseName + ".framework.js" + suffix,
+                    codeUrl: config.buildUrl + "/" + baseName + ".wasm" + suffix,
+                    streamingAssetsUrl: config.buildUrl + "/StreamingAssets",
+                    companyName: "ApexCitadels",
+                    productName: "Apex Citadels Command Center",
+                    productVersion: "1.0",
+                }, function(progress) {
+                    document.getElementById("progress-fill").style.width = (progress * 100) + "%";
+                    document.getElementById("status").textContent = "Loading... " + Math.round(progress * 100) + "%";
+                }).then(function(unityInstance) {
+                    document.getElementById("loading").classList.remove("active");
+                    document.getElementById("unity-container").classList.add("active");
+                    
+                    // Initialize bridge
+                    apexBridge.init(unityInstance);
+                }).catch(function(message) {
+                    console.error("Failed to load Unity: " + message);
+                    document.getElementById("loading").classList.remove("active");
+                    document.getElementById("placeholder-container").style.display = "block";
+                });
+            };
+            script.onerror = function() {
+                currentConfigIndex++;
+                tryLoadBuild();
+            };
+            document.body.appendChild(script);
+        }
+        
+        tryLoadBuild();
     </script>
 </body>
 </html>

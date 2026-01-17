@@ -305,21 +305,28 @@ namespace ApexCitadels.PC
         
         private Material CreateDefaultMaterial(Color color)
         {
-            // Load material from Resources (this ensures shader is included in build)
-            if (_baseMaterial == null)
+            // Try to find a working URP shader
+            Shader urpShader = Shader.Find("Universal Render Pipeline/Lit");
+            if (urpShader == null)
+                urpShader = Shader.Find("Universal Render Pipeline/Simple Lit");
+            if (urpShader == null)
+                urpShader = Shader.Find("Sprites/Default"); // Fallback that always works
+            if (urpShader == null)
+                urpShader = Shader.Find("Standard"); // Built-in fallback
+            
+            Material mat;
+            if (urpShader != null)
             {
-                _baseMaterial = UnityEngine.Resources.Load<Material>("DefaultLit");
-                if (_baseMaterial == null)
-                {
-                    Debug.LogWarning("[WorldMap] DefaultLit material not found in Resources, using primitive default");
-                    var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    _baseMaterial = temp.GetComponent<Renderer>().sharedMaterial;
-                    UnityEngine.Object.DestroyImmediate(temp);
-                }
+                mat = new Material(urpShader);
+            }
+            else
+            {
+                // Last resort: copy from a primitive
+                var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                mat = new Material(temp.GetComponent<Renderer>().sharedMaterial);
+                UnityEngine.Object.DestroyImmediate(temp);
             }
             
-            // Create instance with color
-            Material mat = new Material(_baseMaterial);
             Color finalColor = new Color(color.r, color.g, color.b, 1f);
             
             // Try all common color properties
