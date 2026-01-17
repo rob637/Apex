@@ -120,9 +120,8 @@ namespace ApexCitadels.PC
             }
             else
             {
-                // Create a simple procedural material
-                renderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-                renderer.material.color = landColor;
+                // Create a simple procedural material using URP
+                renderer.material = CreateDefaultMaterial(landColor);
             }
         }
 
@@ -302,8 +301,20 @@ namespace ApexCitadels.PC
 
         private Material CreateDefaultMaterial(Color color)
         {
-            Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            mat.color = new Color(color.r, color.g, color.b, 0.5f);
+            // Try URP shader first, then fallbacks
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null) shader = Shader.Find("Universal Render Pipeline/Simple Lit");
+            if (shader == null) shader = Shader.Find("Standard");
+            
+            Material mat = new Material(shader);
+            Color finalColor = new Color(color.r, color.g, color.b, 0.5f);
+            
+            // URP uses _BaseColor, Standard uses _Color
+            if (mat.HasProperty("_BaseColor"))
+                mat.SetColor("_BaseColor", finalColor);
+            else
+                mat.color = finalColor;
+                
             return mat;
         }
 

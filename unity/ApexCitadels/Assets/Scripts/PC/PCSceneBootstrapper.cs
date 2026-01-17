@@ -237,14 +237,19 @@ namespace ApexCitadels.PC
             ground.transform.position = Vector3.zero;
             ground.transform.localScale = new Vector3(groundSize / 10f, 1, groundSize / 10f);
 
-            // Configure material
+            // Configure material with URP shader
             Renderer renderer = ground.GetComponent<Renderer>();
-            Material groundMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            if (groundMat == null)
-            {
-                groundMat = new Material(Shader.Find("Standard"));
-            }
-            groundMat.color = groundColor;
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit") 
+                         ?? Shader.Find("Universal Render Pipeline/Simple Lit")
+                         ?? Shader.Find("Standard");
+            Material groundMat = new Material(shader);
+            
+            // URP uses _BaseColor, Standard uses _Color
+            if (groundMat.HasProperty("_BaseColor"))
+                groundMat.SetColor("_BaseColor", groundColor);
+            else
+                groundMat.color = groundColor;
+                
             renderer.material = groundMat;
 
             // Make ground static
