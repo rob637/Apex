@@ -82,7 +82,11 @@ namespace Firebase.Firestore
         public Query WhereEqualTo(string field, object value) => this;
         public Query WhereLessThan(string field, object value) => this;
         public Query WhereGreaterThan(string field, object value) => this;
+        public Query WhereGreaterThanOrEqualTo(string field, object value) => this;
+        public Query WhereLessThanOrEqualTo(string field, object value) => this;
+        public Query WhereArrayContains(string field, object value) => this;
         public Query OrderBy(string field) => this;
+        public Query OrderByDescending(string field) => this;
         public Query Limit(int limit) => this;
         public System.Threading.Tasks.Task<QuerySnapshot> GetSnapshotAsync()
             => System.Threading.Tasks.Task.FromResult(new QuerySnapshot());
@@ -130,6 +134,7 @@ namespace Firebase.Firestore
     {
         public System.DateTime ToDateTime() => System.DateTime.UtcNow;
         public static Timestamp FromDateTime(System.DateTime dt) => new Timestamp();
+        public static Timestamp GetCurrentTimestamp() => new Timestamp();
     }
 }
 
