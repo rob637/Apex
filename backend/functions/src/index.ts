@@ -787,3 +787,6 @@ function toRadians(degrees: number): number {
 function isValidCoordinate(lat: number, lng: number): boolean {
   return lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
 }
+
+// Seed function (temporary, for initial data population)
+export { seedTerritories } from './seed-http';

@@ -19,11 +19,14 @@ namespace ApexCitadels.PC.WebGL
         public static FirebaseWebClient Instance { get; private set; }
 
         [Header("Firebase Configuration")]
-        [SerializeField] private string projectId = "apex-citadels";
+        [SerializeField] private string projectId = "apex-citadels-dev";
         [SerializeField] private string region = "us-central1";
-        [SerializeField] private bool useEmulator = false;
+        
+        [Header("Development Settings")]
+        [SerializeField] private bool useEmulator = false;  // Set to false for production
         [SerializeField] private string emulatorHost = "localhost";
         [SerializeField] private int emulatorPort = 5001;
+        [SerializeField] private int firestoreEmulatorPort = 8080;
 
         // Auth token (for authenticated calls)
         private string _authToken = null;
@@ -189,7 +192,7 @@ namespace ApexCitadels.PC.WebGL
         {
             // Use Firestore REST API directly for simple public reads
             string url = useEmulator
-                ? $"http://{emulatorHost}:8080/v1/projects/{projectId}/databases/(default)/documents/territories"
+                ? $"http://{emulatorHost}:{firestoreEmulatorPort}/v1/projects/{projectId}/databases/(default)/documents/territories"
                 : $"https://firestore.googleapis.com/v1/projects/{projectId}/databases/(default)/documents/territories";
 
             Debug.Log($"[FirebaseWebClient] Fetching territories from: {url}");

@@ -1,0 +1,12 @@
+{"users": [
+{
+  "localId": "0SWM7roPg8T3wFfeCm5FdboM6BB2",
+  "email": "rob@sagecg.com",
+  "emailVerified": false,
+  "passwordHash": "vpOOhlINrHtAWLVKikVVDgWVGAMHkks1MQjEFR28tZ55W0d2umoFl5fh/9r2rcmZTCNo5ET335fFHImML8Ufhg==",
+  "salt": "MXiuW6KekuRFBQ==",
+  "lastSignedInAt": "1768651047811",
+  "createdAt": "1768607400327",
+  "disabled": false,
+  "providerUserInfo": []
+}]}
