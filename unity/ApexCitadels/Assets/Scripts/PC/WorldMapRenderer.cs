@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Territory;
 using ApexCitadels.Map;
+using ApexCitadels.PC.WebGL;
 
 namespace ApexCitadels.PC
 {
@@ -59,6 +61,11 @@ namespace ApexCitadels.PC
         // Reference to camera for culling
         private PCCameraController _cameraController;
 
+        // Firebase client for real data
+        private FirebaseWebClient _firebaseClient;
+        private List<TerritorySnapshot> _cachedTerritories = new List<TerritorySnapshot>();
+        private bool _isLoadingTerritories = false;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -81,6 +88,60 @@ namespace ApexCitadels.PC
             {
                 PCInputManager.Instance.OnWorldClick += HandleWorldClick;
             }
+
+            // Initialize Firebase client
+            InitializeFirebaseClient();
+        }
+
+        private void InitializeFirebaseClient()
+        {
+            // Find or create FirebaseWebClient
+            _firebaseClient = FindObjectOfType<FirebaseWebClient>();
+            if (_firebaseClient == null)
+            {
+                var clientObj = new GameObject("FirebaseWebClient");
+                _firebaseClient = clientObj.AddComponent<FirebaseWebClient>();
+                Debug.Log("[WorldMap] Created FirebaseWebClient");
+            }
+
+            // Subscribe to territory updates
+            _firebaseClient.OnTerritoriesReceived += OnFirebaseTerritoriesReceived;
+
+            // Load initial territories
+            LoadTerritoriesFromFirebase();
+        }
+
+        private async void LoadTerritoriesFromFirebase()
+        {
+            if (_isLoadingTerritories) return;
+            _isLoadingTerritories = true;
+
+            try
+            {
+                Debug.Log("[WorldMap] Loading territories from Firebase...");
+                var territories = await _firebaseClient.GetAllTerritories();
+                Debug.Log($"[WorldMap] Loaded {territories.Count} territories from Firebase");
+
+                _cachedTerritories = territories;
+                RefreshVisibleTerritories();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[WorldMap] Failed to load territories: {ex.Message}");
+                // Fall back to mock data
+                Debug.Log("[WorldMap] Falling back to mock data");
+            }
+            finally
+            {
+                _isLoadingTerritories = false;
+            }
+        }
+
+        private void OnFirebaseTerritoriesReceived(List<TerritorySnapshot> territories)
+        {
+            Debug.Log($"[WorldMap] Received {territories.Count} territories from Firebase");
+            _cachedTerritories = territories;
+            RefreshVisibleTerritories();
         }
 
         private void Update()
@@ -99,6 +160,11 @@ namespace ApexCitadels.PC
             if (PCInputManager.Instance != null)
             {
                 PCInputManager.Instance.OnWorldClick -= HandleWorldClick;
+            }
+
+            if (_firebaseClient != null)
+            {
+                _firebaseClient.OnTerritoriesReceived -= OnFirebaseTerritoriesReceived;
             }
         }
 
@@ -532,33 +598,103 @@ namespace ApexCitadels.PC
         /// </summary>
         private List<Territory.Territory> GetTerritoriesInBounds(Bounds bounds)
         {
-            // TODO: Connect to TerritoryManager to get real data
-            // For now, return mock data for testing
-
             List<Territory.Territory> territories = new List<Territory.Territory>();
 
-            // Create some test territories
-            for (int x = -2; x <= 2; x++)
+            // Use Firebase data if available
+            if (_cachedTerritories != null && _cachedTerritories.Count > 0)
             {
-                for (int z = -2; z <= 2; z++)
+                Debug.Log($"[WorldMap] Using {_cachedTerritories.Count} territories from Firebase");
+                foreach (var snapshot in _cachedTerritories)
                 {
-                    if (x == 0 && z == 0) continue; // Skip center
-
                     var territory = new Territory.Territory
                     {
-                        Id = $"test_{x}_{z}",
-                        Name = $"Territory {x},{z}",
-                        CenterLatitude = x * 0.001,
-                        CenterLongitude = z * 0.001,
-                        RadiusMeters = 50f,
-                        OwnerId = (x + z) % 2 == 0 ? "player1" : "player2",
-                        Level = 1 + Math.Abs(x + z)
+                        Id = snapshot.id,
+                        TerritoryName = snapshot.name ?? $"Territory {snapshot.id}",
+                        CenterLatitude = snapshot.latitude,
+                        CenterLongitude = snapshot.longitude,
+                        RadiusMeters = snapshot.radius > 0 ? snapshot.radius : 100f,
+                        OwnerId = snapshot.ownerId,
+                        OwnerName = snapshot.ownerName,
+                        AllianceId = snapshot.allianceId,
+                        Level = snapshot.level > 0 ? snapshot.level : 1,
+                        IsContested = snapshot.isContested
                     };
                     territories.Add(territory);
                 }
+                return territories;
+            }
+
+            // Fall back to mock data for testing when no Firebase data
+            Debug.Log("[WorldMap] No Firebase data, using mock territories");
+            return GetMockTerritories();
+        }
+
+        /// <summary>
+        /// Generate mock territories for testing
+        /// </summary>
+        private List<Territory.Territory> GetMockTerritories()
+        {
+            List<Territory.Territory> territories = new List<Territory.Territory>();
+
+            // San Francisco area mock territories
+            var sfData = new[]
+            {
+                ("mock-sf-downtown", "SF Downtown", 37.7749, -122.4194, "test-user-1", "TestPlayer1", 3),
+                ("mock-sf-embarcadero", "Embarcadero", 37.7955, -122.3937, "test-user-2", "RivalPlayer", 2),
+                ("mock-sf-mission", "Mission District", 37.7599, -122.4148, (string)null, (string)null, 1),
+            };
+
+            // Vienna, VA area mock territories
+            var viennaData = new[]
+            {
+                ("mock-vienna-downtown", "Vienna Town Green", 38.9012, -77.2653, "test-user-1", "TestPlayer1", 3),
+                ("mock-vienna-metro", "Vienna Metro Station", 38.8779, -77.2711, "test-user-2", "RivalPlayer", 2),
+                ("mock-vienna-maple", "Maple Avenue", 38.9001, -77.2545, (string)null, (string)null, 2),
+                ("mock-tysons", "Tysons Corner", 38.9187, -77.2311, "test-user-2", "RivalPlayer", 4),
+                ("mock-wolftrap", "Wolf Trap", 38.9378, -77.2656, (string)null, (string)null, 2),
+                ("mock-meadowlark", "Meadowlark Gardens", 38.9394, -77.2803, "test-user-3", "AllianceMember", 1),
+                ("mock-oakton", "Oakton", 38.8809, -77.3006, (string)null, (string)null, 1),
+            };
+
+            foreach (var (id, name, lat, lng, ownerId, ownerName, level) in sfData)
+            {
+                territories.Add(new Territory.Territory
+                {
+                    Id = id,
+                    TerritoryName = name,
+                    CenterLatitude = lat,
+                    CenterLongitude = lng,
+                    RadiusMeters = 100f,
+                    OwnerId = ownerId,
+                    OwnerName = ownerName,
+                    Level = level
+                });
+            }
+
+            foreach (var (id, name, lat, lng, ownerId, ownerName, level) in viennaData)
+            {
+                territories.Add(new Territory.Territory
+                {
+                    Id = id,
+                    TerritoryName = name,
+                    CenterLatitude = lat,
+                    CenterLongitude = lng,
+                    RadiusMeters = 100f,
+                    OwnerId = ownerId,
+                    OwnerName = ownerName,
+                    Level = level
+                });
             }
 
             return territories;
+        }
+
+        /// <summary>
+        /// Reload territories from Firebase
+        /// </summary>
+        public void ReloadFromFirebase()
+        {
+            LoadTerritoriesFromFirebase();
         }
 
         #endregion

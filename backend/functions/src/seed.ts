@@ -69,6 +69,7 @@ const seedUsers: SeedUser[] = [
 ];
 
 const seedTerritories = [
+  // === San Francisco Test Area ===
   {
     id: 'territory-sf-downtown',
     name: 'SF Downtown',
@@ -107,10 +108,104 @@ const seedTerritories = [
     claimedAt: null,
     health: 100,
     maxHealth: 100
+  },
+  
+  // === Vienna, VA Test Area ===
+  {
+    id: 'territory-vienna-downtown',
+    name: 'Vienna Town Green',
+    latitude: 38.9012,
+    longitude: -77.2653,
+    radius: 100,
+    level: 3,
+    ownerId: 'test-user-1',
+    ownerName: 'TestPlayer1',
+    claimedAt: admin.firestore.Timestamp.now(),
+    health: 100,
+    maxHealth: 100
+  },
+  {
+    id: 'territory-vienna-metro',
+    name: 'Vienna Metro Station',
+    latitude: 38.8779,
+    longitude: -77.2711,
+    radius: 100,
+    level: 2,
+    ownerId: 'test-user-2',
+    ownerName: 'RivalPlayer',
+    claimedAt: admin.firestore.Timestamp.now(),
+    health: 90,
+    maxHealth: 100
+  },
+  {
+    id: 'territory-vienna-maple',
+    name: 'Maple Avenue',
+    latitude: 38.9001,
+    longitude: -77.2545,
+    radius: 100,
+    level: 2,
+    ownerId: null,
+    ownerName: null,
+    claimedAt: null,
+    health: 100,
+    maxHealth: 100
+  },
+  {
+    id: 'territory-tysons',
+    name: 'Tysons Corner',
+    latitude: 38.9187,
+    longitude: -77.2311,
+    radius: 150,
+    level: 4,
+    ownerId: 'test-user-2',
+    ownerName: 'RivalPlayer',
+    claimedAt: admin.firestore.Timestamp.now(),
+    health: 100,
+    maxHealth: 100
+  },
+  {
+    id: 'territory-wolftrap',
+    name: 'Wolf Trap',
+    latitude: 38.9378,
+    longitude: -77.2656,
+    radius: 120,
+    level: 2,
+    ownerId: null,
+    ownerName: null,
+    claimedAt: null,
+    health: 100,
+    maxHealth: 100
+  },
+  {
+    id: 'territory-meadowlark',
+    name: 'Meadowlark Gardens',
+    latitude: 38.9394,
+    longitude: -77.2803,
+    radius: 100,
+    level: 1,
+    ownerId: 'test-user-3',
+    ownerName: 'AllianceMember',
+    claimedAt: admin.firestore.Timestamp.now(),
+    health: 100,
+    maxHealth: 100
+  },
+  {
+    id: 'territory-oakton',
+    name: 'Oakton',
+    latitude: 38.8809,
+    longitude: -77.3006,
+    radius: 100,
+    level: 1,
+    ownerId: null,
+    ownerName: null,
+    claimedAt: null,
+    health: 100,
+    maxHealth: 100
   }
 ];
 
 const seedResourceNodes = [
+  // === San Francisco Resources ===
   {
     id: 'node-stone-1',
     type: 'StoneMine',
@@ -149,6 +244,58 @@ const seedResourceNodes = [
     longitude: -122.4100,
     currentAmount: 100,
     maxAmount: 100,
+    lastHarvestedAt: null
+  },
+  
+  // === Vienna, VA Resources ===
+  {
+    id: 'node-vienna-stone',
+    type: 'StoneMine',
+    name: 'Difficult Run Quarry',
+    latitude: 38.9150,
+    longitude: -77.2500,
+    currentAmount: 500,
+    maxAmount: 500,
+    lastHarvestedAt: null
+  },
+  {
+    id: 'node-vienna-wood',
+    type: 'Forest',
+    name: 'Nottoway Park Forest',
+    latitude: 38.8850,
+    longitude: -77.2850,
+    currentAmount: 450,
+    maxAmount: 450,
+    lastHarvestedAt: null
+  },
+  {
+    id: 'node-vienna-metal',
+    type: 'OreDeposit',
+    name: 'Tysons Industrial Ore',
+    latitude: 38.9220,
+    longitude: -77.2200,
+    currentAmount: 350,
+    maxAmount: 350,
+    lastHarvestedAt: null
+  },
+  {
+    id: 'node-vienna-crystal',
+    type: 'CrystalCave',
+    name: 'Wolf Trap Crystal Cave',
+    latitude: 38.9350,
+    longitude: -77.2700,
+    currentAmount: 120,
+    maxAmount: 120,
+    lastHarvestedAt: null
+  },
+  {
+    id: 'node-vienna-wood-2',
+    type: 'Forest',
+    name: 'Meadowlark Grove',
+    latitude: 38.9410,
+    longitude: -77.2780,
+    currentAmount: 300,
+    maxAmount: 300,
     lastHarvestedAt: null
   }
 ];
