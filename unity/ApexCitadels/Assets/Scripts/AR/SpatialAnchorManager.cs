@@ -313,7 +313,7 @@ namespace ApexCitadels.AR
                             found = true;
                             if (anchor.trackingState == TrackingState.Tracking)
                             {
-                                kvp.Value.TrackingState = AnchorTrackingState.Tracked;
+                                kvp.Value.TrackingState = AnchorTrackingState.Tracking;
                             }
                             else
                             {
