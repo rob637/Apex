@@ -103,7 +103,8 @@ namespace ApexCitadels.PC
 
         private void Update()
         {
-            if (!PlatformManager.IsPC && !PlatformManager.IsEditor)
+            // Allow camera control on PC, Editor, and WebGL
+            if (!PlatformManager.HasKeyboardMouse)
                 return;
 
             switch (_currentMode)

@@ -42,10 +42,10 @@ namespace ApexCitadels.PC
 
         private void Awake()
         {
-            // Only run on PC
-            if (!PlatformManager.IsPC && !PlatformManager.IsEditor)
+            // Only run on PC, WebGL, or Editor
+            if (!PlatformManager.HasKeyboardMouse)
             {
-                Debug.Log("[PCGame] Not running on PC, disabling PC controller");
+                Debug.Log("[PCGame] Not running on PC/WebGL, disabling PC controller");
                 gameObject.SetActive(false);
                 return;
             }

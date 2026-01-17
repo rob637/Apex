@@ -41,10 +41,10 @@ namespace ApexCitadels.PC
 
         private void Awake()
         {
-            // Check platform
-            if (!PlatformManager.IsPC && !PlatformManager.IsEditor)
+            // Check platform - PC, WebGL, or Editor
+            if (!PlatformManager.HasKeyboardMouse)
             {
-                Debug.LogWarning("[PCBootstrap] Not running on PC platform, redirecting to AR scene");
+                Debug.LogWarning("[PCBootstrap] Not running on PC/WebGL platform, redirecting to AR scene");
                 SceneManager.LoadScene("ARGameplay");
                 return;
             }
