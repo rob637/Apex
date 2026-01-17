@@ -308,7 +308,7 @@ namespace ApexCitadels.PC
             // Load material from Resources (this ensures shader is included in build)
             if (_baseMaterial == null)
             {
-                _baseMaterial = Resources.Load<Material>("DefaultLit");
+                _baseMaterial = UnityEngine.Resources.Load<Material>("DefaultLit");
                 if (_baseMaterial == null)
                 {
                     Debug.LogWarning("[WorldMap] DefaultLit material not found in Resources, using primitive default");
