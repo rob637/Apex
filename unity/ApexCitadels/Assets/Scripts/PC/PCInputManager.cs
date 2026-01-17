@@ -58,6 +58,7 @@ namespace ApexCitadels.PC
         private Vector3 _dragStartWorld;
         private float _lastClickTime;
         private Camera _mainCamera;
+        private bool _loggedPlatformInfo = false;
 
         private void Awake()
         {
@@ -69,17 +70,32 @@ namespace ApexCitadels.PC
             Instance = this;
 
             InitializeDefaultKeyBindings();
+            Debug.Log("[PCInput] PCInputManager initialized");
         }
 
         private void Start()
         {
             _mainCamera = Camera.main;
+            Debug.Log($"[PCInput] Start - enableInput: {enableInput}, HasKeyboardMouse: {PlatformManager.HasKeyboardMouse}");
         }
 
         private void Update()
         {
-            if (!enableInput || !PlatformManager.HasKeyboardMouse)
+            if (!_loggedPlatformInfo)
+            {
+                Debug.Log($"[PCInput] Platform: {PlatformManager.CurrentPlatform}, IsWebGL: {PlatformManager.IsWebGL}, HasKeyboardMouse: {PlatformManager.HasKeyboardMouse}");
+                _loggedPlatformInfo = true;
+            }
+
+            if (!enableInput)
+            {
                 return;
+            }
+            
+            if (!PlatformManager.HasKeyboardMouse)
+            {
+                return;
+            }
 
             HandleKeyboardInput();
             HandleMouseInput();
@@ -89,24 +105,48 @@ namespace ApexCitadels.PC
 
         private void HandleKeyboardInput()
         {
+            // Debug: Log any key press
+            if (Input.anyKeyDown)
+            {
+                Debug.Log($"[PCInput] Key pressed: {Input.inputString}");
+            }
+
             // Navigation keys
             if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("[PCInput] SPACE detected");
                 OnToggleMapTerritoryView?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Debug.Log("[PCInput] TAB detected");
                 OnOpenAlliancePanel?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.B))
+            {
+                Debug.Log("[PCInput] B detected");
                 OnOpenBuildingMenu?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.I))
+            {
+                Debug.Log("[PCInput] I detected");
                 OnOpenInventory?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.M))
+            {
+                Debug.Log("[PCInput] M detected");
                 OnOpenWorldMap?.Invoke();
+            }
 
             if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Debug.Log("[PCInput] ESC detected");
                 OnOpenMenu?.Invoke();
+            }
 
             // Building controls
             if (Input.GetKeyDown(KeyCode.Q))
