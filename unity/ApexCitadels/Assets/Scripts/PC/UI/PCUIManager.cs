@@ -236,18 +236,18 @@ namespace ApexCitadels.PC.UI
         }
 
         /// <summary>
-        /// Update resource display from a ResourceWallet
+        /// Update resource display from a PlayerProfile
         /// </summary>
-        public void UpdateResourceDisplay(ResourceWallet wallet)
+        public void UpdateResourceDisplay(Player.PlayerProfile profile)
         {
-            if (wallet == null) return;
+            if (profile == null) return;
 
             UpdateResourceDisplay(
-                wallet.GetResource(ResourceType.Stone),
-                wallet.GetResource(ResourceType.Wood),
-                wallet.GetResource(ResourceType.Metal),
-                wallet.GetResource(ResourceType.Crystal),
-                wallet.GetResource(ResourceType.ApexCoins)
+                profile.Stone,
+                profile.Wood,
+                profile.Metal,
+                profile.Crystal,
+                profile.Gems
             );
         }
 

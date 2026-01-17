@@ -845,7 +845,7 @@ namespace ApexCitadels.PC
     public class Outline : MonoBehaviour
     {
         // Placeholder - would need shader implementation
-        public bool enabled { get; set; }
+        public new bool enabled { get; set; }
     }
 
     /// <summary>
