@@ -7,7 +7,134 @@
 
 ---
 
-## 🎯 MASTER IMPLEMENTATION CHECKLIST
+## � WORLD-CLASS FEATURES CHECKLIST
+
+These are the elements that make Apex Citadels unforgettable — sticky, challenging, beautiful, and impossible to put down.
+
+### 🎨 AMAZING GRAPHICS & VISUALS
+
+| Feature | Platform | Status | Impact |
+|---------|----------|--------|--------|
+| **Stylized "Mythic Modern" Art Direction** | Both | ⏳ | Unique visual identity |
+| **Dynamic Weather System** | Both | ⏳ | Rain, snow, fog affects gameplay & mood |
+| **Day/Night Cycle** | Both | ⏳ | Real-time sync with actual world |
+| **Particle Effects (Magic, Fire, Combat)** | Both | ⏳ | Visceral, satisfying feedback |
+| **Shader Effects (Glow, Dissolve, Portals)** | Both | ⏳ | "Wow factor" moments |
+| **Cinematic Camera Modes** | PC | 🔧 | Dramatic replays & screenshots |
+| **AR Occlusion (Real objects hide virtual)** | Mobile | ⏳ | Believable AR integration |
+| **Skybox Environments** | PC | ⏳ | Blockade-generated fantasy skies |
+| **3D Building Models (50+ unique)** | Both | ⏳ | Meshy-generated variety |
+| **Character Animations (Idle, Combat, Emotes)** | Both | ⏳ | Mixamo rigged & expressive |
+| **VFX for Building/Upgrade/Destruction** | Both | ⏳ | Satisfying construction |
+| **UI Polish (Animations, Transitions, Sounds)** | Both | ⏳ | Buttery smooth feel |
+
+### 🎯 STICKY ENGAGEMENT (Can't Put It Down)
+
+| Feature | Platform | Status | Psychology |
+|---------|----------|--------|------------|
+| **Daily Login Rewards (30-day streak)** | Both | ✅ Script | Variable ratio schedule |
+| **Season Pass (100 tiers)** | Both | ✅ Script | Progression treadmill |
+| **Limited-Time World Events** | Both | ✅ Script | FOMO + community excitement |
+| **Push Notifications (Attack alerts)** | Mobile | ✅ Script | Re-engagement hooks |
+| **Alliance Chat & Social** | Both | ✅ Script | Social obligations |
+| **Leaderboards (Personal, Alliance, Regional)** | Both | ✅ Script | Competition drive |
+| **Achievement System (100+ badges)** | Both | ✅ Script | Completionist appeal |
+| **Referral Rewards** | Both | ✅ Script | Viral growth |
+| **"Your territory is under attack!"** | Both | ⏳ | Urgent call to action |
+| **Activity Feed ("X just took Y's territory")** | Both | ⏳ | Social proof, rivalry |
+| **Weekly Challenges** | Both | ⏳ | Fresh goals |
+| **Streak Multipliers** | Both | ⏳ | Loss aversion on breaks |
+
+### ⚔️ CHALLENGING & STRATEGIC (Skill Matters)
+
+| Feature | Platform | Status | Depth |
+|---------|----------|--------|-------|
+| **6 Troop Types with Counters** | Both | ✅ Designed | Rock-paper-scissors+ |
+| **Turn-Based Tactical Combat** | Both | ⏳ | Think, plan, execute |
+| **Building Placement Strategy** | Both | 🔧 Script | Defense layouts matter |
+| **Alliance War Coordination** | Both | ✅ Script | Team strategy |
+| **3-Strike Siege System** | Both | ✅ Script | Stakes without devastation |
+| **Resource Management** | Both | ✅ Script | Economy decisions |
+| **Troop Composition Planning** | Both | ⏳ | Pre-battle strategy |
+| **Terrain Bonuses (Hills, Water)** | Mobile | ⏳ | Real-world geography matters |
+| **Time Zone Strategy** | Both | ⏳ | Global warfare meta |
+| **Spy/Scout Mechanics** | Both | ⏳ | Information warfare |
+| **Ambush & Trap Systems** | Both | ⏳ | Defensive creativity |
+
+### 🎭 CREATIVE EXPRESSION (Make It Yours)
+
+| Feature | Platform | Status | Personalization |
+|---------|----------|--------|-----------------|
+| **Base Editor with Undo/Redo** | PC | 🔧 Script | Full creative control |
+| **50+ Building Types** | Both | ⏳ | Variety in design |
+| **Color/Material Customization** | Both | ⏳ | Personal aesthetics |
+| **Alliance Banners & Crests** | Both | ⏳ | Team identity |
+| **Blueprint System (Design→Place)** | Both | 🔧 Designed | Plan on PC, deploy in AR |
+| **Decoration Items (Non-combat)** | Both | ⏳ | Pure expression |
+| **Emotes & Taunts** | Both | ⏳ | Social fun |
+| **Profile Customization** | Both | ⏳ | Avatar, frames, titles |
+| **Screenshot/Share Mode** | Both | ⏳ | Social bragging |
+| **Citadel Naming** | Both | ⏳ | Personal attachment |
+
+### 🌍 REAL-WORLD INTEGRATION (Magic in YOUR World)
+
+| Feature | Platform | Status | Connection |
+|---------|----------|--------|------------|
+| **GPS Territory Claiming** | Mobile | ✅ Script | "I own my block" |
+| **Real Address Display** | Both | ⏳ | "123 Main Street" pride |
+| **Local Landmarks as Bonuses** | Both | ⏳ | Visit real POIs |
+| **Weather Sync (Real → Game)** | Both | ⏳ | Immersion |
+| **Neighborhood Rivalries** | Both | ⏳ | School vs school |
+| **Regional Leaderboards** | Both | ⏳ | City pride |
+| **AR Selfies with Citadel** | Mobile | ⏳ | Social sharing |
+| **Walking Distance Rewards** | Mobile | ✅ Script | Health gamification |
+| **Presence Detection (100% vs 50%)** | Mobile | ✅ Designed | Reward showing up |
+
+### 🔊 AUDIO EXCELLENCE
+
+| Feature | Platform | Status | Feel |
+|---------|----------|--------|------|
+| **Original Soundtrack (Epic/Ambient)** | Both | ⏳ | Suno-generated |
+| **Adaptive Music (Battle intensity)** | Both | ⏳ | Dynamic tension |
+| **3D Spatial Audio** | Both | ⏳ | Immersive positioning |
+| **Satisfying SFX (Build, Attack, Collect)** | Both | ⏳ | Feedback loops |
+| **Voice Lines (Troops, Commanders)** | Both | ⏳ | ElevenLabs generated |
+| **UI Sounds (Clicks, Success, Error)** | Both | ⏳ | Polish |
+| **Ambient Environmental Audio** | Both | ⏳ | World feels alive |
+
+### 📱 MOBILE-SPECIFIC (Android & iOS)
+
+| Feature | Platform | Status | Notes |
+|---------|----------|--------|-------|
+| **ARCore Support** | Android | ⏳ | Required for AR |
+| **ARKit Support** | iOS | ⏳ | Required for AR |
+| **Geospatial API (Cloud Anchors)** | Both | ⏳ | Persistent AR across devices |
+| **Offline Mode (Limited)** | Both | ✅ Script | Play without signal |
+| **Battery Optimization** | Both | ⏳ | 60min+ sessions |
+| **Haptic Feedback** | Both | ⏳ | Tactile response |
+| **Widget Support** | Both | ⏳ | Territory status at glance |
+| **App Clips / Instant Apps** | Both | ⏳ | Try before install |
+| **Face ID / Biometric Auth** | Both | ⏳ | Quick secure login |
+| **Portrait & Landscape** | Both | ⏳ | Flexible play |
+
+### 🖥️ PC-SPECIFIC (WebGL)
+
+| Feature | Platform | Status | Notes |
+|---------|----------|--------|-------|
+| **4 Camera Modes** | PC | 🔧 Script | WorldMap, Territory, FP, Cinematic |
+| **Keyboard Shortcuts (WASD, Tab, etc.)** | PC | 🔧 Script | Power user efficiency |
+| **Key Rebinding** | PC | 🔧 Script | Accessibility |
+| **Battle Replay System** | PC | 🔧 Script | Learn from losses |
+| **Advanced Crafting Workshop** | PC | 🔧 Script | Quality system |
+| **Statistics Dashboard** | PC | 🔧 Script | Analytics nerds |
+| **Market with Charts** | PC | 🔧 Script | Trading depth |
+| **Multi-Territory Management** | PC | 🔧 Script | Empire overview |
+| **Discord Integration** | PC | ⏳ | Rich presence |
+| **Streaming Mode** | PC | ⏳ | Hide sensitive info |
+
+---
+
+## �🎯 MASTER IMPLEMENTATION CHECKLIST
 
 This is the definitive checklist for getting both **PC** and **AR Mobile** clients fully operational.
 
