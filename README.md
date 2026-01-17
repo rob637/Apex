@@ -27,6 +27,32 @@ Fantasy aesthetics meet real-world locations — castles, towers, and magic in Y
 
 ## 🎮 The Core Loop
 
+### Dual-Platform Experience
+
+Play on **AR Mobile** for boots-on-ground action, or **PC** for strategic command:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│   📱 AR MOBILE (Field Ops)              🖥️ PC (Command Center)              │
+│   ─────────────────────────             ──────────────────────              │
+│   • Walk to discover resources          • View entire territory network     │
+│   • Claim territory in-person           • Design blueprints (place via AR)  │
+│   • Build in AR (see it in real world)  • Queue crafting jobs               │
+│   • Fight with 100% power               • Manage alliance wars              │
+│   • Quick 5-min sessions                • Watch battle replays              │
+│   • Place structures from blueprints    • Analyze statistics                │
+│   • Defend your citadels                • Trade in the market               │
+│                                                                             │
+│              ↓                                    ↓                         │
+│              └──────── SHARED FIREBASE BACKEND ────────┘                    │
+│                        (One world, two windows)                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### AR Mobile Loop
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                                                                 │
@@ -50,14 +76,36 @@ Fantasy aesthetics meet real-world locations — castles, towers, and magic in Y
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-| Phase | Action | Emotion |
-|-------|--------|---------|
-| **🗺️ Explore** | Walk around, find unclaimed spots | Curiosity |
-| **🚩 Claim** | Plant your flag, own real territory | Pride |
-| **⛏️ Gather** | Collect Stone, Wood, Iron, Crystal, Arcane Essence | Progression |
-| **🏗️ Build** | Place walls, towers, defenses | Creativity |
-| **⚔️ Battle** | Turn-based strategic combat | Tension |
-| **👑 Expand** | Take more territory, climb leaderboards | Ambition |
+### PC Command Loop
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                 │
+│   OVERVIEW (view all territories on world map)                  │
+│        ↓                                                        │
+│   PLAN (design blueprints, queue crafting)                      │
+│        ↓                                                        │
+│   ANALYZE (review battle replays, statistics)                   │
+│        ↓                                                        │
+│   COORDINATE (alliance chat, war strategy)                      │
+│        ↓                                                        │
+│   TRADE (buy/sell in market)                                    │
+│        ↓                                                        │
+│   PREPARE (load blueprints for next AR session)                 │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+| Phase | AR Mobile | PC Command |
+|-------|-----------|------------|
+| **🗺️ Explore** | Walk around, find unclaimed spots | View territory network, plan expansion |
+| **🚩 Claim** | Plant your flag, own real territory | N/A (must be in-person) |
+| **⛏️ Gather** | Collect Stone, Wood, Iron, Crystal, Arcane | Monitor resource income |
+| **🏗️ Build** | Place structures in AR | Design blueprints for later |
+| **⚔️ Battle** | Fight with 100% power | Watch replays, analyze tactics |
+| **👑 Expand** | Take more territory | Coordinate alliance strategy |
+| **🔧 Craft** | Quick crafts | Advanced crafting with quality system |
+| **💹 Trade** | Quick market access | Full market with graphs & history |
 
 ---
 
@@ -66,6 +114,7 @@ Fantasy aesthetics meet real-world locations — castles, towers, and magic in Y
 | Feature | Why It's Special |
 |---------|------------------|
 | **Real addresses matter** | "I own 123 Main Street" |
+| **Dual-platform play** | AR mobile for action, PC for strategy — same world |
 | **Physical presence rewarded** | 100% power in-person, 50% remote |
 | **Visible to everyone** | AR structures visible to all players |
 | **Local rivalries** | School vs school, neighborhood vs neighborhood |
@@ -73,6 +122,7 @@ Fantasy aesthetics meet real-world locations — castles, towers, and magic in Y
 | **Fair loss system** | 3 battles to lose territory, reclaim mechanic |
 | **Strategic combat** | Turn-based battles with 6 troop types |
 | **Seasonal competition** | 10-week seasons with regional control |
+| **Blueprint system** | Design on PC, place in AR — plan before you explore |
 
 ---
 
