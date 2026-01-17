@@ -60,6 +60,11 @@ namespace Firebase.Firestore
         public static FirebaseFirestore DefaultInstance => new FirebaseFirestore();
         public CollectionReference Collection(string path) => new CollectionReference();
     }
+
+    public class ListenerRegistration
+    {
+        public void Stop() { }
+    }
     
     public class CollectionReference : Query
     {
