@@ -772,17 +772,43 @@ namespace ApexCitadels.AR
 
         #region Geospatial (Stub)
 
+        // Mock location for testing
+        private double _mockLatitude = 37.7749;
+        private double _mockLongitude = -122.4194;
+        private double _mockAltitude = 0;
+        private bool _useMockLocation = true;
+
         /// <summary>
-        /// Get current geospatial pose (stub - returns dummy data)
+        /// Set mock location for testing (debug/desktop mode)
+        /// </summary>
+        public void SetMockLocation(double latitude, double longitude, double altitude)
+        {
+            _mockLatitude = latitude;
+            _mockLongitude = longitude;
+            _mockAltitude = altitude;
+            _useMockLocation = true;
+            Log($"Mock location set: ({latitude:F4}, {longitude:F4}, {altitude:F1})");
+        }
+
+        /// <summary>
+        /// Get current geospatial pose (stub - returns mock data in desktop mode)
         /// </summary>
         public void GetCurrentGeospatialPose(out double latitude, out double longitude, out double altitude)
         {
-            // Stub: Return dummy coordinates
-            latitude = 37.7749;
-            longitude = -122.4194;
-            altitude = 0;
+            if (_useMockLocation || IsDesktopMode)
+            {
+                latitude = _mockLatitude;
+                longitude = _mockLongitude;
+                altitude = _mockAltitude;
+                return;
+            }
+
+            // TODO: Real ARCore Geospatial API integration
+            latitude = _mockLatitude;
+            longitude = _mockLongitude;
+            altitude = _mockAltitude;
             
-            Log("STUB: Returning dummy GPS coordinates - import ARCore Extensions for real Geospatial");
+            Log("STUB: Using mock GPS coordinates - import ARCore Extensions for real Geospatial");
         }
 
         /// <summary>

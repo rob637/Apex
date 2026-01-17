@@ -154,6 +154,14 @@ namespace ApexCitadels.Territory
         }
 
         /// <summary>
+        /// Get all loaded territories
+        /// </summary>
+        public List<Territory> GetAllTerritories()
+        {
+            return new List<Territory>(_territories.Values);
+        }
+
+        /// <summary>
         /// Get all territories owned by a player
         /// </summary>
         public List<Territory> GetPlayerTerritories(string playerId)

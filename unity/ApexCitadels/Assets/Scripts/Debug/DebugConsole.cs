@@ -360,13 +360,111 @@ namespace ApexCitadels.Debugging
                 if (args.Length < 2)
                 {
                     Log("Usage: teleport <lat> <lon>");
+                    Log("Presets: sf, nyc, tokyo, london, sydney");
                     return;
                 }
 
-                if (double.TryParse(args[0], out double lat) && double.TryParse(args[1], out double lon))
+                double lat, lon;
+                
+                // Check for preset locations
+                string preset = args[0].ToLower();
+                switch (preset)
                 {
-                    Log($"Teleporting to ({lat}, {lon}) - not implemented");
+                    case "sf":
+                        lat = 37.7749; lon = -122.4194;
+                        break;
+                    case "nyc":
+                        lat = 40.7128; lon = -74.0060;
+                        break;
+                    case "tokyo":
+                        lat = 35.6762; lon = 139.6503;
+                        break;
+                    case "london":
+                        lat = 51.5074; lon = -0.1278;
+                        break;
+                    case "sydney":
+                        lat = -33.8688; lon = 151.2093;
+                        break;
+                    default:
+                        if (!double.TryParse(args[0], out lat) || !double.TryParse(args[1], out lon))
+                        {
+                            Log("Invalid coordinates");
+                            return;
+                        }
+                        break;
                 }
+
+                // Set mock GPS location in SpatialAnchorManager
+                if (AR.SpatialAnchorManager.Instance != null)
+                {
+                    AR.SpatialAnchorManager.Instance.SetMockLocation(lat, lon, 0);
+                    Log($"Teleported to ({lat:F4}, {lon:F4})");
+                }
+                else
+                {
+                    Log("SpatialAnchorManager not available");
+                }
+            });
+
+            RegisterCommand("claim", args => {
+                Log("Claiming territory at current location...");
+                UI.GameUIController uiController = FindObjectOfType<UI.GameUIController>();
+                if (uiController != null)
+                {
+                    // Trigger claim via UI
+                    Log("Use the Claim button in game UI");
+                }
+            });
+
+            RegisterCommand("territory", args => {
+                if (args.Length == 0)
+                {
+                    Log("Territory Subcommands: list, info, mine");
+                    return;
+                }
+
+                switch (args[0].ToLower())
+                {
+                    case "list":
+                        if (Territory.TerritoryManager.Instance != null)
+                        {
+                            var territories = Territory.TerritoryManager.Instance.GetAllTerritories();
+                            Log($"Total territories: {territories.Count}");
+                            foreach (var t in territories)
+                            {
+                                Log($"  {t.Name} (Lv{t.Level}) - Owner: {t.OwnerId ?? "None"}");
+                            }
+                        }
+                        break;
+
+                    case "mine":
+                        if (Territory.TerritoryManager.Instance != null)
+                        {
+                            var playerId = Player.PlayerManager.Instance?.GetCurrentPlayerId();
+                            var myTerritories = Territory.TerritoryManager.Instance.GetPlayerTerritories(playerId);
+                            Log($"Your territories: {myTerritories.Count}");
+                            foreach (var t in myTerritories)
+                            {
+                                Log($"  {t.Name} (Lv{t.Level}) at ({t.Latitude:F4}, {t.Longitude:F4})");
+                            }
+                        }
+                        break;
+
+                    default:
+                        Log($"Unknown territory subcommand: {args[0]}");
+                        break;
+                }
+            });
+
+            RegisterCommand("spawn", args => {
+                if (args.Length == 0)
+                {
+                    Log("Usage: spawn <type> - spawns test entities");
+                    Log("Types: enemy, resource, node");
+                    return;
+                }
+
+                Log($"Spawning {args[0]}... (test feature)");
             });
 
             RegisterCommand("ar", args => {
