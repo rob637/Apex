@@ -300,14 +300,26 @@ namespace ApexCitadels.PC
             }
         }
 
+        // Cache the base material loaded from Resources
+        private static Material _baseMaterial;
+        
         private Material CreateDefaultMaterial(Color color)
         {
-            // Always use primitive's default material as it's guaranteed to work
-            var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            Material defaultMat = temp.GetComponent<Renderer>().sharedMaterial;
-            UnityEngine.Object.DestroyImmediate(temp);
+            // Load material from Resources (this ensures shader is included in build)
+            if (_baseMaterial == null)
+            {
+                _baseMaterial = Resources.Load<Material>("DefaultLit");
+                if (_baseMaterial == null)
+                {
+                    Debug.LogWarning("[WorldMap] DefaultLit material not found in Resources, using primitive default");
+                    var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    _baseMaterial = temp.GetComponent<Renderer>().sharedMaterial;
+                    UnityEngine.Object.DestroyImmediate(temp);
+                }
+            }
             
-            Material mat = new Material(defaultMat);
+            // Create instance with color
+            Material mat = new Material(_baseMaterial);
             Color finalColor = new Color(color.r, color.g, color.b, 1f);
             
             // Try all common color properties
