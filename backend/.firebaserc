@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "apex-citadels-dev"
+  },
+  "targets": {
+    "apex-citadels-dev": {
+      "hosting": {
+        "admin": ["apex-citadels-dev"],
+        "pc": ["apex-citadels-pc"]
+      }
+    }
   }
 }
