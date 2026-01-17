@@ -1,0 +1,84 @@
+name: Admin Dashboard CI/CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'admin-dashboard/**'
+      - '.github/workflows/admin-dashboard.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'admin-dashboard/**'
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  build:
+    name: Build Dashboard
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: admin-dashboard/package-lock.json
+
+      - name: Install dependencies
+        working-directory: admin-dashboard
+        run: npm ci
+
+      - name: Create .env file
+        working-directory: admin-dashboard
+        run: |
+          cat << EOF > .env
+          VITE_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}
+          VITE_USE_EMULATORS=false
+          EOF
+
+      - name: Build
+        working-directory: admin-dashboard
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-build
+          path: admin-dashboard/dist/
+          retention-days: 7
+
+  deploy:
+    name: Deploy to Firebase Hosting
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dashboard-build
+          path: admin-dashboard/dist/
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          channelId: live
+          projectId: apex-citadels-dev
+          entryPoint: ./backend

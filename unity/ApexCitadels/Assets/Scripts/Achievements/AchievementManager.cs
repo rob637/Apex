@@ -4,6 +4,7 @@ using UnityEngine;
 using ApexCitadels.Player;
 using ApexCitadels.Territory;
 using ApexCitadels.Notifications;
+using Firebase.Firestore;
 
 namespace ApexCitadels.Achievements
 {
@@ -448,21 +449,196 @@ namespace ApexCitadels.Achievements
 
         #region Persistence
 
+        [Serializable]
+        private class AchievementProgressWrapper
+        {
+            public List<AchievementProgress> achievements;
+        }
+
+        [Serializable]
+        private class AchievementProgress
+        {
+            public string id;
+            public int currentValue;
+            public bool isUnlocked;
+            public string unlockedAt;
+        }
+
         private void LoadProgress()
         {
-            // Load from PlayerPrefs or Firebase
+            // First try local storage for immediate load
             string json = PlayerPrefs.GetString("achievements", "");
-            if (string.IsNullOrEmpty(json)) return;
+            if (!string.IsNullOrEmpty(json))
+            {
+                DeserializeProgress(json);
+            }
 
-            // TODO: Deserialize and merge with current achievements
-            Debug.Log("[AchievementManager] Progress loaded");
+            // Then sync with Firebase in background
+            SyncProgressFromCloud();
+        }
+
+        private void DeserializeProgress(string json)
+        {
+            try
+            {
+                var wrapper = JsonUtility.FromJson<AchievementProgressWrapper>(json);
+                if (wrapper?.achievements != null)
+                {
+                    foreach (var progress in wrapper.achievements)
+                    {
+                        if (_achievements.TryGetValue(progress.id, out var achievement))
+                        {
+                            achievement.CurrentValue = progress.currentValue;
+                            achievement.IsUnlocked = progress.isUnlocked;
+                            if (!string.IsNullOrEmpty(progress.unlockedAt) &&
+                                DateTime.TryParse(progress.unlockedAt, out var unlockedAt))
+                            {
+                                achievement.UnlockedAt = unlockedAt;
+                            }
+                        }
+                    }
+                    Debug.Log($"[AchievementManager] Loaded {wrapper.achievements.Count} achievement progresses");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AchievementManager] Failed to deserialize progress: {ex.Message}");
+            }
         }
 
         private void SaveProgress()
         {
-            // Save to PlayerPrefs or Firebase
-            // TODO: Serialize achievement progress
-            Debug.Log("[AchievementManager] Progress saved");
+            try
+            {
+                var wrapper = new AchievementProgressWrapper
+                {
+                    achievements = new List<AchievementProgress>()
+                };
+
+                foreach (var kvp in _achievements)
+                {
+                    var a = kvp.Value;
+                    if (a.CurrentValue > 0 || a.IsUnlocked)
+                    {
+                        wrapper.achievements.Add(new AchievementProgress
+                        {
+                            id = a.Id,
+                            currentValue = a.CurrentValue,
+                            isUnlocked = a.IsUnlocked,
+                            unlockedAt = a.IsUnlocked ? a.UnlockedAt.ToString("O") : ""
+                        });
+                    }
+                }
+
+                string json = JsonUtility.ToJson(wrapper);
+                PlayerPrefs.SetString("achievements", json);
+                PlayerPrefs.Save();
+                Debug.Log($"[AchievementManager] Saved {wrapper.achievements.Count} achievement progresses");
+
+                // Also sync to cloud
+                SyncProgressToCloud(wrapper);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AchievementManager] Failed to save progress: {ex.Message}");
+            }
+        }
+
+        private async void SyncProgressFromCloud()
+        {
+            var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+            if (string.IsNullOrEmpty(playerId)) return;
+
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("user_achievements").Document(playerId);
+                var snapshot = await docRef.GetSnapshotAsync();
+
+                if (snapshot.Exists)
+                {
+                    if (snapshot.TryGetValue("achievements", out List<object> achievementsList))
+                    {
+                        foreach (var obj in achievementsList)
+                        {
+                            if (obj is Dictionary<string, object> dict)
+                            {
+                                string id = dict["id"]?.ToString();
+                                if (_achievements.TryGetValue(id, out var achievement))
+                                {
+                                    int cloudValue = Convert.ToInt32(dict["currentValue"]);
+                                    bool cloudUnlocked = Convert.ToBoolean(dict["isUnlocked"]);
+
+                                    // Take the max progress
+                                    if (cloudValue > achievement.CurrentValue)
+                                    {
+                                        achievement.CurrentValue = cloudValue;
+                                    }
+
+                                    if (cloudUnlocked && !achievement.IsUnlocked)
+                                    {
+                                        achievement.IsUnlocked = true;
+                                        if (dict.TryGetValue("unlockedAt", out object unlockedAtObj) &&
+                                            unlockedAtObj is Timestamp ts)
+                                        {
+                                            achievement.UnlockedAt = ts.ToDateTime();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Debug.Log("[AchievementManager] Synced progress from cloud");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AchievementManager] Failed to sync from cloud: {ex.Message}");
+            }
+        }
+
+        private async void SyncProgressToCloud(AchievementProgressWrapper wrapper)
+        {
+            var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+            if (string.IsNullOrEmpty(playerId)) return;
+
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("user_achievements").Document(playerId);
+
+                var achievementData = new List<Dictionary<string, object>>();
+                foreach (var a in wrapper.achievements)
+                {
+                    var dict = new Dictionary<string, object>
+                    {
+                        { "id", a.id },
+                        { "currentValue", a.currentValue },
+                        { "isUnlocked", a.isUnlocked }
+                    };
+
+                    if (!string.IsNullOrEmpty(a.unlockedAt) && DateTime.TryParse(a.unlockedAt, out var dt))
+                    {
+                        dict["unlockedAt"] = Timestamp.FromDateTime(dt.ToUniversalTime());
+                    }
+
+                    achievementData.Add(dict);
+                }
+
+                await docRef.SetAsync(new Dictionary<string, object>
+                {
+                    { "playerId", playerId },
+                    { "achievements", achievementData },
+                    { "totalPoints", GetTotalPoints() },
+                    { "updatedAt", Timestamp.GetCurrentTimestamp() }
+                }, SetOptions.MergeAll);
+
+                Debug.Log("[AchievementManager] Synced progress to cloud");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AchievementManager] Failed to sync to cloud: {ex.Message}");
+            }
         }
 
         private void OnApplicationPause(bool pause)

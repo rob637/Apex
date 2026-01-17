@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Data;
+using Firebase.Firestore;
 
 namespace ApexCitadels.Backend
 {
@@ -190,15 +191,63 @@ namespace ApexCitadels.Backend
 
         #region Real-time Listeners
 
+        private ListenerRegistration _warListenerRegistration;
+
         /// <summary>
         /// Start listening for real-time war updates
         /// Call this when entering alliance war UI
         /// </summary>
         public void StartWarListener()
         {
+            if (_currentWar == null)
+            {
+                Debug.Log("[AllianceWarService] No active war to listen for");
+                return;
+            }
+
 #if FIREBASE_ENABLED
-            // TODO: Set up Firestore listener for war document
-            Debug.Log("[AllianceWarService] Starting war listener...");
+            try
+            {
+                StopWarListener(); // Clean up any existing listener
+
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("alliance_wars").Document(_currentWar.WarId);
+
+                _warListenerRegistration = docRef.Listen(snapshot =>
+                {
+                    if (snapshot.Exists)
+                    {
+                        var updatedWar = ParseWarFromSnapshot(snapshot);
+                        if (updatedWar != null)
+                        {
+                            var previousPhase = _currentWar.Phase;
+                            _currentWar = updatedWar;
+
+                            // Notify phase change
+                            if (previousPhase != updatedWar.Phase)
+                            {
+                                OnWarPhaseChanged?.Invoke(updatedWar);
+                            }
+
+                            // Notify score updates
+                            OnScoreUpdated?.Invoke(updatedWar.ChallengerId, updatedWar.ChallengerScore);
+                            OnScoreUpdated?.Invoke(updatedWar.DefenderId, updatedWar.DefenderScore);
+
+                            // Check if war ended
+                            if (updatedWar.Phase == WarPhase.Ended)
+                            {
+                                OnWarEnded?.Invoke(updatedWar);
+                            }
+                        }
+                    }
+                });
+
+                Debug.Log("[AllianceWarService] Started real-time war listener");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceWarService] Failed to start listener: {ex.Message}");
+            }
 #else
             Debug.Log("[STUB] StartWarListener - would connect to Firestore");
 #endif
@@ -211,11 +260,60 @@ namespace ApexCitadels.Backend
         public void StopWarListener()
         {
 #if FIREBASE_ENABLED
-            // TODO: Remove Firestore listener
-            Debug.Log("[AllianceWarService] Stopping war listener...");
+            if (_warListenerRegistration != null)
+            {
+                _warListenerRegistration.Stop();
+                _warListenerRegistration = null;
+                Debug.Log("[AllianceWarService] Stopped war listener");
+            }
 #else
             Debug.Log("[STUB] StopWarListener");
 #endif
+        }
+
+        private AllianceWar ParseWarFromSnapshot(DocumentSnapshot snapshot)
+        {
+            try
+            {
+                var war = new AllianceWar
+                {
+                    WarId = snapshot.GetValue<string>("warId"),
+                    ChallengerId = snapshot.GetValue<string>("challengerId"),
+                    ChallengerName = snapshot.GetValue<string>("challengerName"),
+                    DefenderId = snapshot.GetValue<string>("defenderId"),
+                    DefenderName = snapshot.GetValue<string>("defenderName"),
+                    ChallengerScore = snapshot.GetValue<int>("challengerScore"),
+                    DefenderScore = snapshot.GetValue<int>("defenderScore")
+                };
+
+                if (snapshot.TryGetValue("phase", out string phaseStr) &&
+                    Enum.TryParse(phaseStr, out WarPhase phase))
+                {
+                    war.Phase = phase;
+                }
+
+                if (snapshot.TryGetValue("phaseStartedAt", out Timestamp startedAt))
+                {
+                    war.PhaseStartedAt = startedAt.ToDateTime();
+                }
+
+                if (snapshot.TryGetValue("phaseEndsAt", out Timestamp endsAt))
+                {
+                    war.PhaseEndsAt = endsAt.ToDateTime();
+                }
+
+                return war;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceWarService] Failed to parse war: {ex.Message}");
+                return null;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            StopWarListener();
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Player;
+using Firebase.Firestore;
 
 namespace ApexCitadels.Alliance
 {
@@ -499,51 +500,228 @@ namespace ApexCitadels.Alliance
 
         #endregion
 
-        #region Cloud Operations (Stubs)
+        #region Cloud Operations
+
+        private FirebaseFirestore _db;
+
+        private FirebaseFirestore GetFirestore()
+        {
+            if (_db == null)
+            {
+                _db = FirebaseFirestore.DefaultInstance;
+            }
+            return _db;
+        }
 
         private async void LoadPlayerAlliance()
         {
-            await Task.Delay(100); // Simulate async
-            // TODO: Load from Firebase
-            // Firestore.collection("alliances").where("members", "array-contains", playerId)
-            Debug.Log("[AllianceManager] Alliance data loaded");
+            var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+            if (string.IsNullOrEmpty(playerId))
+            {
+                Debug.Log("[AllianceManager] No player logged in, skipping alliance load");
+                return;
+            }
+
+            try
+            {
+                var db = GetFirestore();
+                
+                // Query for alliances where this player is a member
+                var query = db.Collection("alliances")
+                    .WhereArrayContains("memberIds", playerId)
+                    .Limit(1);
+
+                var snapshot = await query.GetSnapshotAsync();
+
+                if (snapshot.Documents.Count() > 0)
+                {
+                    var doc = snapshot.Documents.First();
+                    _currentAlliance = Alliance.FromFirestore(doc);
+                    Debug.Log($"[AllianceManager] Loaded alliance: {_currentAlliance?.Name}");
+                    
+                    if (_currentAlliance != null)
+                    {
+                        OnAllianceJoined?.Invoke(_currentAlliance);
+                        
+                        // Also check for active wars
+                        await LoadActiveWar();
+                    }
+                }
+                else
+                {
+                    Debug.Log("[AllianceManager] Player is not in any alliance");
+                }
+
+                // Load pending invitations
+                await LoadPendingInvitations();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to load alliance: {ex.Message}");
+            }
+        }
+
+        private async Task LoadActiveWar()
+        {
+            if (_currentAlliance == null) return;
+
+            try
+            {
+                var db = GetFirestore();
+                
+                // Check if our alliance is in an active war (as attacker or defender)
+                var attackerQuery = db.Collection("alliance_wars")
+                    .WhereEqualTo("attackingAllianceId", _currentAlliance.Id)
+                    .WhereEqualTo("status", "Active")
+                    .Limit(1);
+
+                var attackerSnapshot = await attackerQuery.GetSnapshotAsync();
+                if (attackerSnapshot.Documents.Count() > 0)
+                {
+                    _activeWar = AllianceWar.FromFirestore(attackerSnapshot.Documents.First());
+                    OnWarStarted?.Invoke(_activeWar);
+                    return;
+                }
+
+                var defenderQuery = db.Collection("alliance_wars")
+                    .WhereEqualTo("defendingAllianceId", _currentAlliance.Id)
+                    .WhereEqualTo("status", "Active")
+                    .Limit(1);
+
+                var defenderSnapshot = await defenderQuery.GetSnapshotAsync();
+                if (defenderSnapshot.Documents.Count() > 0)
+                {
+                    _activeWar = AllianceWar.FromFirestore(defenderSnapshot.Documents.First());
+                    OnWarStarted?.Invoke(_activeWar);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to load active war: {ex.Message}");
+            }
+        }
+
+        private async Task LoadPendingInvitations()
+        {
+            var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+            if (string.IsNullOrEmpty(playerId)) return;
+
+            try
+            {
+                var db = GetFirestore();
+                
+                var query = db.Collection("alliance_invitations")
+                    .WhereEqualTo("inviteeId", playerId)
+                    .WhereEqualTo("accepted", false)
+                    .WhereEqualTo("declined", false);
+
+                var snapshot = await query.GetSnapshotAsync();
+
+                _pendingInvitations.Clear();
+                foreach (var doc in snapshot.Documents)
+                {
+                    var invitation = AllianceInvitation.FromFirestore(doc);
+                    if (invitation != null && invitation.IsPending)
+                    {
+                        _pendingInvitations.Add(invitation);
+                        OnInvitationReceived?.Invoke(invitation);
+                    }
+                }
+
+                Debug.Log($"[AllianceManager] Loaded {_pendingInvitations.Count} pending invitations");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to load invitations: {ex.Message}");
+            }
         }
 
         private async Task SaveAllianceToCloud(Alliance alliance)
         {
-            await Task.Delay(50);
-            // TODO: Firestore.collection("alliances").doc(alliance.Id).set(alliance)
-            Debug.Log($"[AllianceManager] Alliance {alliance.Name} saved to cloud");
+            try
+            {
+                var db = GetFirestore();
+                var docRef = db.Collection("alliances").Document(alliance.Id);
+                await docRef.SetAsync(alliance.ToFirestoreData());
+                Debug.Log($"[AllianceManager] Alliance {alliance.Name} saved to cloud");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to save alliance: {ex.Message}");
+            }
         }
 
         private async Task<Alliance> LoadAllianceFromCloud(string allianceId)
         {
-            await Task.Delay(50);
-            // TODO: Firestore.collection("alliances").doc(allianceId).get()
-            return null; // Placeholder
+            try
+            {
+                var db = GetFirestore();
+                var docRef = db.Collection("alliances").Document(allianceId);
+                var snapshot = await docRef.GetSnapshotAsync();
+
+                if (snapshot.Exists)
+                {
+                    return Alliance.FromFirestore(snapshot);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to load alliance {allianceId}: {ex.Message}");
+            }
+
+            return null;
         }
 
         private async Task SaveInvitationToCloud(AllianceInvitation invitation)
         {
-            await Task.Delay(50);
-            // TODO: Firestore.collection("invitations").doc(invitation.Id).set(invitation)
-            Debug.Log($"[AllianceManager] Invitation {invitation.Id} saved");
+            try
+            {
+                var db = GetFirestore();
+                var docRef = db.Collection("alliance_invitations").Document(invitation.Id);
+                await docRef.SetAsync(invitation.ToFirestoreData());
+                Debug.Log($"[AllianceManager] Invitation {invitation.Id} saved");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to save invitation: {ex.Message}");
+            }
         }
 
         private async Task SaveWarToCloud(AllianceWar war)
         {
-            await Task.Delay(50);
-            // TODO: Firestore.collection("wars").doc(war.Id).set(war)
-            Debug.Log($"[AllianceManager] War {war.Id} saved");
+            try
+            {
+                var db = GetFirestore();
+                var docRef = db.Collection("alliance_wars").Document(war.Id);
+                await docRef.SetAsync(war.ToFirestoreData());
+                Debug.Log($"[AllianceManager] War {war.Id} saved");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to save war: {ex.Message}");
+            }
         }
 
         private async Task DisbandAlliance()
         {
-            await Task.Delay(50);
-            // TODO: Delete from Firestore
-            Debug.Log($"[AllianceManager] Alliance {_currentAlliance?.Name} disbanded");
-            _currentAlliance = null;
-            OnAllianceLeft?.Invoke();
+            if (_currentAlliance == null) return;
+
+            try
+            {
+                var db = GetFirestore();
+                var docRef = db.Collection("alliances").Document(_currentAlliance.Id);
+                await docRef.DeleteAsync();
+                Debug.Log($"[AllianceManager] Alliance {_currentAlliance.Name} disbanded");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Failed to disband alliance: {ex.Message}");
+            }
+            finally
+            {
+                _currentAlliance = null;
+                OnAllianceLeft?.Invoke();
+            }
         }
 
         #endregion
@@ -553,11 +731,40 @@ namespace ApexCitadels.Alliance
         /// <summary>
         /// Search for alliances by name
         /// </summary>
-        public async Task<List<Alliance>> SearchAlliances(string query)
+        public async Task<List<Alliance>> SearchAlliances(string queryText)
         {
-            await Task.Delay(100);
-            // TODO: Firestore query with name filter
-            return new List<Alliance>();
+            var results = new List<Alliance>();
+
+            try
+            {
+                var db = GetFirestore();
+                
+                // Firestore doesn't support full-text search, so we search by prefix
+                // For better search, consider using Algolia or Firebase Extensions
+                var query = db.Collection("alliances")
+                    .WhereGreaterThanOrEqualTo("name", queryText)
+                    .WhereLessThanOrEqualTo("name", queryText + "\uf8ff")
+                    .Limit(20);
+
+                var snapshot = await query.GetSnapshotAsync();
+
+                foreach (var doc in snapshot.Documents)
+                {
+                    var alliance = Alliance.FromFirestore(doc);
+                    if (alliance != null)
+                    {
+                        results.Add(alliance);
+                    }
+                }
+
+                Debug.Log($"[AllianceManager] Search returned {results.Count} alliances");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Search failed: {ex.Message}");
+            }
+
+            return results;
         }
 
         /// <summary>
@@ -565,9 +772,35 @@ namespace ApexCitadels.Alliance
         /// </summary>
         public async Task<List<Alliance>> GetLeaderboard(int limit = 100)
         {
-            await Task.Delay(100);
-            // TODO: Firestore query ordered by AllTimeXP
-            return new List<Alliance>();
+            var results = new List<Alliance>();
+
+            try
+            {
+                var db = GetFirestore();
+                
+                var query = db.Collection("alliances")
+                    .OrderByDescending("allTimeXP")
+                    .Limit(limit);
+
+                var snapshot = await query.GetSnapshotAsync();
+
+                foreach (var doc in snapshot.Documents)
+                {
+                    var alliance = Alliance.FromFirestore(doc);
+                    if (alliance != null)
+                    {
+                        results.Add(alliance);
+                    }
+                }
+
+                Debug.Log($"[AllianceManager] Leaderboard loaded with {results.Count} alliances");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[AllianceManager] Leaderboard failed: {ex.Message}");
+            }
+
+            return results;
         }
 
         #endregion

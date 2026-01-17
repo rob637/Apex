@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Firebase.Firestore;
 
 namespace ApexCitadels.Alliance
 {
@@ -76,6 +77,122 @@ namespace ApexCitadels.Alliance
                                        permission == AlliancePermission.ViewAllianceChat,
                 _ => false
             };
+        }
+
+        /// <summary>
+        /// Convert alliance to Firestore-compatible dictionary
+        /// </summary>
+        public Dictionary<string, object> ToFirestoreData()
+        {
+            var membersList = new List<Dictionary<string, object>>();
+            foreach (var member in Members)
+            {
+                membersList.Add(new Dictionary<string, object>
+                {
+                    { "playerId", member.PlayerId },
+                    { "playerName", member.PlayerName },
+                    { "role", member.Role.ToString() },
+                    { "joinedAt", Timestamp.FromDateTime(member.JoinedAt.ToUniversalTime()) },
+                    { "contributedXP", member.ContributedXP },
+                    { "territoriesCaptured", member.TerritoriesCaptured },
+                    { "territoriesDefended", member.TerritoriesDefended },
+                    { "lastActive", Timestamp.FromDateTime(member.LastActive.ToUniversalTime()) }
+                });
+            }
+
+            return new Dictionary<string, object>
+            {
+                { "id", Id },
+                { "name", Name },
+                { "tag", Tag },
+                { "description", Description ?? "" },
+                { "leaderId", LeaderId },
+                { "leaderName", LeaderName },
+                { "createdAt", Timestamp.FromDateTime(CreatedAt.ToUniversalTime()) },
+                { "members", membersList },
+                { "memberIds", Members.ConvertAll(m => m.PlayerId) }, // For array-contains queries
+                { "maxMembers", MaxMembers },
+                { "totalTerritories", TotalTerritories },
+                { "totalAttacksWon", TotalAttacksWon },
+                { "totalDefensesWon", TotalDefensesWon },
+                { "weeklyXP", WeeklyXP },
+                { "allTimeXP", AllTimeXP },
+                { "isOpen", IsOpen },
+                { "minLevelToJoin", MinLevelToJoin }
+            };
+        }
+
+        /// <summary>
+        /// Create Alliance from Firestore document
+        /// </summary>
+        public static Alliance FromFirestore(DocumentSnapshot doc)
+        {
+            if (!doc.Exists) return null;
+
+            var alliance = new Alliance();
+            
+            alliance.Id = doc.GetValue<string>("id");
+            alliance.Name = doc.GetValue<string>("name");
+            alliance.Tag = doc.GetValue<string>("tag");
+            alliance.Description = doc.TryGetValue("description", out string desc) ? desc : "";
+            alliance.LeaderId = doc.GetValue<string>("leaderId");
+            alliance.LeaderName = doc.GetValue<string>("leaderName");
+            
+            if (doc.TryGetValue("createdAt", out Timestamp createdAt))
+            {
+                alliance.CreatedAt = createdAt.ToDateTime();
+            }
+
+            alliance.MaxMembers = doc.GetValue<int>("maxMembers");
+            alliance.TotalTerritories = doc.GetValue<int>("totalTerritories");
+            alliance.TotalAttacksWon = doc.GetValue<int>("totalAttacksWon");
+            alliance.TotalDefensesWon = doc.GetValue<int>("totalDefensesWon");
+            alliance.WeeklyXP = doc.GetValue<int>("weeklyXP");
+            alliance.AllTimeXP = doc.GetValue<int>("allTimeXP");
+            alliance.IsOpen = doc.GetValue<bool>("isOpen");
+            alliance.MinLevelToJoin = doc.GetValue<int>("minLevelToJoin");
+
+            // Parse members
+            if (doc.TryGetValue("members", out List<object> membersData))
+            {
+                alliance.Members.Clear();
+                foreach (var memberObj in membersData)
+                {
+                    if (memberObj is Dictionary<string, object> memberDict)
+                    {
+                        var member = new AllianceMember
+                        {
+                            PlayerId = memberDict["playerId"]?.ToString(),
+                            PlayerName = memberDict["playerName"]?.ToString(),
+                            ContributedXP = Convert.ToInt32(memberDict["contributedXP"]),
+                            TerritoriesCaptured = Convert.ToInt32(memberDict["territoriesCaptured"]),
+                            TerritoriesDefended = Convert.ToInt32(memberDict["territoriesDefended"])
+                        };
+
+                        if (memberDict.TryGetValue("role", out object roleObj) &&
+                            Enum.TryParse(roleObj.ToString(), out AllianceRole role))
+                        {
+                            member.Role = role;
+                        }
+
+                        if (memberDict.TryGetValue("joinedAt", out object joinedObj) && 
+                            joinedObj is Timestamp joinedTs)
+                        {
+                            member.JoinedAt = joinedTs.ToDateTime();
+                        }
+
+                        if (memberDict.TryGetValue("lastActive", out object activeObj) &&
+                            activeObj is Timestamp activeTs)
+                        {
+                            member.LastActive = activeTs.ToDateTime();
+                        }
+
+                        alliance.Members.Add(member);
+                    }
+                }
+            }
+
+            return alliance;
         }
     }
 
@@ -154,6 +271,56 @@ namespace ApexCitadels.Alliance
 
         public bool IsExpired => DateTime.UtcNow > ExpiresAt;
         public bool IsPending => !Accepted && !Declined && !IsExpired;
+
+        /// <summary>
+        /// Convert invitation to Firestore-compatible dictionary
+        /// </summary>
+        public Dictionary<string, object> ToFirestoreData()
+        {
+            return new Dictionary<string, object>
+            {
+                { "id", Id },
+                { "allianceId", AllianceId },
+                { "allianceName", AllianceName },
+                { "inviterId", InviterId },
+                { "inviterName", InviterName },
+                { "inviteeId", InviteeId },
+                { "createdAt", Timestamp.FromDateTime(CreatedAt.ToUniversalTime()) },
+                { "expiresAt", Timestamp.FromDateTime(ExpiresAt.ToUniversalTime()) },
+                { "accepted", Accepted },
+                { "declined", Declined }
+            };
+        }
+
+        /// <summary>
+        /// Create AllianceInvitation from Firestore document
+        /// </summary>
+        public static AllianceInvitation FromFirestore(DocumentSnapshot doc)
+        {
+            if (!doc.Exists) return null;
+
+            var invitation = new AllianceInvitation();
+            
+            invitation.Id = doc.GetValue<string>("id");
+            invitation.AllianceId = doc.GetValue<string>("allianceId");
+            invitation.AllianceName = doc.GetValue<string>("allianceName");
+            invitation.InviterId = doc.GetValue<string>("inviterId");
+            invitation.InviterName = doc.GetValue<string>("inviterName");
+            invitation.InviteeId = doc.GetValue<string>("inviteeId");
+            invitation.Accepted = doc.GetValue<bool>("accepted");
+            invitation.Declined = doc.GetValue<bool>("declined");
+
+            if (doc.TryGetValue("createdAt", out Timestamp createdAt))
+            {
+                invitation.CreatedAt = createdAt.ToDateTime();
+            }
+            if (doc.TryGetValue("expiresAt", out Timestamp expiresAt))
+            {
+                invitation.ExpiresAt = expiresAt.ToDateTime();
+            }
+
+            return invitation;
+        }
     }
 
     /// <summary>
@@ -196,6 +363,108 @@ namespace ApexCitadels.Alliance
         }
 
         public bool IsActive => Status == WarStatus.Active && DateTime.UtcNow < EndTime;
+
+        /// <summary>
+        /// Convert war to Firestore-compatible dictionary
+        /// </summary>
+        public Dictionary<string, object> ToFirestoreData()
+        {
+            var battlesList = new List<Dictionary<string, object>>();
+            foreach (var battle in Battles)
+            {
+                battlesList.Add(new Dictionary<string, object>
+                {
+                    { "territoryId", battle.TerritoryId },
+                    { "territoryName", battle.TerritoryName },
+                    { "attackerId", battle.AttackerId },
+                    { "defenderId", battle.DefenderId },
+                    { "pointsAwarded", battle.PointsAwarded },
+                    { "attackerWon", battle.AttackerWon },
+                    { "timestamp", Timestamp.FromDateTime(battle.Timestamp.ToUniversalTime()) }
+                });
+            }
+
+            return new Dictionary<string, object>
+            {
+                { "id", Id },
+                { "attackingAllianceId", AttackingAllianceId },
+                { "attackingAllianceName", AttackingAllianceName },
+                { "defendingAllianceId", DefendingAllianceId },
+                { "defendingAllianceName", DefendingAllianceName },
+                { "startTime", Timestamp.FromDateTime(StartTime.ToUniversalTime()) },
+                { "endTime", Timestamp.FromDateTime(EndTime.ToUniversalTime()) },
+                { "attackerScore", AttackerScore },
+                { "defenderScore", DefenderScore },
+                { "status", Status.ToString() },
+                { "winnerId", WinnerId ?? "" },
+                { "battles", battlesList }
+            };
+        }
+
+        /// <summary>
+        /// Create AllianceWar from Firestore document
+        /// </summary>
+        public static AllianceWar FromFirestore(DocumentSnapshot doc)
+        {
+            if (!doc.Exists) return null;
+
+            var war = new AllianceWar();
+            
+            war.Id = doc.GetValue<string>("id");
+            war.AttackingAllianceId = doc.GetValue<string>("attackingAllianceId");
+            war.AttackingAllianceName = doc.GetValue<string>("attackingAllianceName");
+            war.DefendingAllianceId = doc.GetValue<string>("defendingAllianceId");
+            war.DefendingAllianceName = doc.GetValue<string>("defendingAllianceName");
+            war.AttackerScore = doc.GetValue<int>("attackerScore");
+            war.DefenderScore = doc.GetValue<int>("defenderScore");
+            war.WinnerId = doc.TryGetValue("winnerId", out string winner) ? winner : null;
+
+            if (doc.TryGetValue("status", out string statusStr) &&
+                Enum.TryParse(statusStr, out WarStatus status))
+            {
+                war.Status = status;
+            }
+
+            if (doc.TryGetValue("startTime", out Timestamp startTime))
+            {
+                war.StartTime = startTime.ToDateTime();
+            }
+            if (doc.TryGetValue("endTime", out Timestamp endTime))
+            {
+                war.EndTime = endTime.ToDateTime();
+            }
+
+            // Parse battles
+            if (doc.TryGetValue("battles", out List<object> battlesData))
+            {
+                war.Battles.Clear();
+                foreach (var battleObj in battlesData)
+                {
+                    if (battleObj is Dictionary<string, object> battleDict)
+                    {
+                        var battle = new WarBattle
+                        {
+                            TerritoryId = battleDict["territoryId"]?.ToString(),
+                            TerritoryName = battleDict["territoryName"]?.ToString(),
+                            AttackerId = battleDict["attackerId"]?.ToString(),
+                            DefenderId = battleDict["defenderId"]?.ToString(),
+                            PointsAwarded = Convert.ToInt32(battleDict["pointsAwarded"]),
+                            AttackerWon = Convert.ToBoolean(battleDict["attackerWon"])
+                        };
+
+                        if (battleDict.TryGetValue("timestamp", out object tsObj) &&
+                            tsObj is Timestamp ts)
+                        {
+                            battle.Timestamp = ts.ToDateTime();
+                        }
+
+                        war.Battles.Add(battle);
+                    }
+                }
+            }
+
+            return war;
+        }
     }
 
     /// <summary>

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Territory;
+using ApexCitadels.Player;
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+using Firebase.Extensions;
+#endif
 
 namespace ApexCitadels.Building
 {
@@ -360,12 +365,46 @@ namespace ApexCitadels.Building
                 Destroy(blockObject);
                 _placedBlocks.Remove(blockId);
 
-                // TODO: Remove from cloud
-                await Task.Delay(100);
+                // Remove from cloud
+                await RemoveBlockFromCloud(blockId);
 
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Load all blocks in a territory from cloud
+        /// </summary>
+        public async Task LoadBlocksForTerritory(string territoryId)
+        {
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var query = db.Collection("buildings")
+                    .WhereEqualTo("territoryId", territoryId);
+                
+                var snapshot = await query.GetSnapshotAsync();
+                
+                foreach (var doc in snapshot.Documents)
+                {
+                    var block = BuildingBlock.FromFirestore(doc);
+                    if (block != null && !_placedBlocks.ContainsKey(block.Id))
+                    {
+                        PlaceBlockAt(block);
+                    }
+                }
+                
+                Debug.Log($"[BuildingManager] Loaded {snapshot.Count} blocks for territory {territoryId}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[BuildingManager] Failed to load blocks: {ex.Message}");
+            }
+#else
+            await Task.CompletedTask;
+#endif
         }
 
         private GameObject CreateBlockPrimitive(BlockType type)
@@ -433,10 +472,78 @@ namespace ApexCitadels.Building
 
         private async Task SaveBlockToCloud(BuildingBlock block)
         {
-            // TODO: Implement Firebase save
             Debug.Log($"[BuildingManager] Saving block {block.Id} to cloud...");
+            
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("buildings").Document(block.Id);
+                
+                string playerId = PlayerManager.Instance?.GetCurrentPlayerId() ?? "";
+                
+                await docRef.SetAsync(new Dictionary<string, object>
+                {
+                    { "type", (int)block.Type },
+                    { "ownerId", playerId },
+                    { "territoryId", block.TerritoryId ?? "" },
+                    { "localPosition", new Dictionary<string, object>
+                        {
+                            { "x", block.LocalPosition.x },
+                            { "y", block.LocalPosition.y },
+                            { "z", block.LocalPosition.z }
+                        }
+                    },
+                    { "localRotation", new Dictionary<string, object>
+                        {
+                            { "x", block.LocalRotation.x },
+                            { "y", block.LocalRotation.y },
+                            { "z", block.LocalRotation.z },
+                            { "w", block.LocalRotation.w }
+                        }
+                    },
+                    { "localScale", new Dictionary<string, object>
+                        {
+                            { "x", block.LocalScale.x },
+                            { "y", block.LocalScale.y },
+                            { "z", block.LocalScale.z }
+                        }
+                    },
+                    { "health", block.Health },
+                    { "maxHealth", block.MaxHealth },
+                    { "latitude", block.Latitude },
+                    { "longitude", block.Longitude },
+                    { "placedAt", Timestamp.FromDateTime(block.PlacedAt.ToUniversalTime()) }
+                }, SetOptions.MergeAll);
+                
+                Debug.Log("[BuildingManager] Block saved to Firestore");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[BuildingManager] Failed to save block: {ex.Message}");
+            }
+#else
             await Task.Delay(100);
-            Debug.Log("[BuildingManager] Block saved");
+            Debug.Log("[BuildingManager] Block saved (stub)");
+#endif
+        }
+
+        private async Task RemoveBlockFromCloud(string blockId)
+        {
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                await db.Collection("buildings").Document(blockId).DeleteAsync();
+                Debug.Log($"[BuildingManager] Block {blockId} removed from Firestore");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[BuildingManager] Failed to remove block: {ex.Message}");
+            }
+#else
+            await Task.CompletedTask;
+#endif
         }
 
         #endregion

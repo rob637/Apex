@@ -2,8 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Player;
 using ApexCitadels.Territory;
+using Firebase.Firestore;
+
+#if UNITY_ANDROID
+using Firebase.Messaging;
+#endif
 
 namespace ApexCitadels.Notifications
 {
@@ -318,15 +324,121 @@ namespace ApexCitadels.Notifications
         /// </summary>
         public async void RegisterForPushNotifications()
         {
-            await Task.Delay(100);
-            // TODO: Get FCM token and register with backend
-            // Firebase.Messaging.FirebaseMessaging.GetTokenAsync().ContinueWith(task => {
-            //     string token = task.Result;
-            //     // Send token to your server
-            // });
-            
-            Debug.Log("[NotificationManager] Registered for push notifications");
+#if UNITY_ANDROID && !UNITY_EDITOR
+            try
+            {
+                // Get FCM token
+                var tokenTask = FirebaseMessaging.GetTokenAsync();
+                await tokenTask;
+
+                if (tokenTask.IsFaulted)
+                {
+                    Debug.LogError($"[NotificationManager] Failed to get FCM token: {tokenTask.Exception}");
+                    return;
+                }
+
+                string fcmToken = tokenTask.Result;
+                Debug.Log($"[NotificationManager] FCM Token: {fcmToken.Substring(0, 20)}...");
+
+                // Register token with backend
+                var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+                if (!string.IsNullOrEmpty(playerId))
+                {
+                    var db = FirebaseFirestore.DefaultInstance;
+                    var docRef = db.Collection("fcm_tokens").Document(playerId);
+                    
+                    await docRef.SetAsync(new Dictionary<string, object>
+                    {
+                        { "playerId", playerId },
+                        { "token", fcmToken },
+                        { "platform", "android" },
+                        { "createdAt", Timestamp.GetCurrentTimestamp() },
+                        { "updatedAt", Timestamp.GetCurrentTimestamp() }
+                    }, SetOptions.MergeAll);
+
+                    Debug.Log("[NotificationManager] FCM token registered with backend");
+                }
+
+                // Subscribe to topics
+                await FirebaseMessaging.SubscribeAsync("game_updates");
+                Debug.Log("[NotificationManager] Subscribed to game_updates topic");
+
+                // Listen for messages
+                FirebaseMessaging.MessageReceived += OnFirebaseMessageReceived;
+                FirebaseMessaging.TokenReceived += OnTokenReceived;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[NotificationManager] FCM registration error: {ex.Message}");
+            }
+#else
+            await Task.CompletedTask;
+            Debug.Log("[NotificationManager] Push notifications only supported on Android");
+#endif
         }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        private void OnFirebaseMessageReceived(object sender, MessageReceivedEventArgs e)
+        {
+            Debug.Log($"[NotificationManager] FCM message received from: {e.Message.From}");
+
+            // Extract notification data
+            var data = e.Message.Data;
+            
+            string title = "Notification";
+            string body = "";
+            string type = "system";
+            string relatedId = "";
+
+            if (data.TryGetValue("title", out string titleValue))
+                title = titleValue;
+            if (data.TryGetValue("body", out string bodyValue))
+                body = bodyValue;
+            if (data.TryGetValue("type", out string typeValue))
+                type = typeValue;
+            if (data.TryGetValue("relatedId", out string relatedIdValue))
+                relatedId = relatedIdValue;
+
+            // Parse notification type
+            NotificationType notificationType = NotificationType.System;
+            if (Enum.TryParse(type, true, out NotificationType parsed))
+            {
+                notificationType = parsed;
+            }
+
+            // Add to in-game notifications (on main thread)
+            UnityMainThreadDispatcher.Instance.Enqueue(() =>
+            {
+                AddNotification(notificationType, title, body, relatedId);
+            });
+        }
+
+        private async void OnTokenReceived(object sender, TokenReceivedEventArgs e)
+        {
+            Debug.Log($"[NotificationManager] New FCM token received");
+            
+            // Update token on backend
+            var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
+            if (!string.IsNullOrEmpty(playerId))
+            {
+                try
+                {
+                    var db = FirebaseFirestore.DefaultInstance;
+                    var docRef = db.Collection("fcm_tokens").Document(playerId);
+                    
+                    await docRef.UpdateAsync(new Dictionary<string, object>
+                    {
+                        { "token", e.Token },
+                        { "updatedAt", Timestamp.GetCurrentTimestamp() }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[NotificationManager] Failed to update FCM token: {ex.Message}");
+                }
+            }
+        }
+#endif
 
         #endregion
 
@@ -411,20 +523,98 @@ namespace ApexCitadels.Notifications
 
         #region Storage
 
+        [Serializable]
+        private class NotificationListWrapper
+        {
+            public List<SerializableNotification> notifications;
+        }
+
+        [Serializable]
+        private class SerializableNotification
+        {
+            public string id;
+            public string type;
+            public string title;
+            public string message;
+            public string timestamp;
+            public bool isRead;
+            public string relatedId;
+        }
+
         private void LoadNotifications()
         {
-            // Load from PlayerPrefs or local storage
-            string json = PlayerPrefs.GetString("notifications", "[]");
-            // TODO: Deserialize
-            Debug.Log("[NotificationManager] Notifications loaded");
+            try
+            {
+                string json = PlayerPrefs.GetString("notifications", "");
+                if (!string.IsNullOrEmpty(json))
+                {
+                    var wrapper = JsonUtility.FromJson<NotificationListWrapper>(json);
+                    if (wrapper?.notifications != null)
+                    {
+                        _notifications.Clear();
+                        foreach (var sn in wrapper.notifications)
+                        {
+                            var notification = new GameNotification();
+                            notification.Id = sn.id;
+                            notification.Title = sn.title;
+                            notification.Message = sn.message;
+                            notification.IsRead = sn.isRead;
+                            notification.RelatedId = sn.relatedId;
+
+                            if (Enum.TryParse(sn.type, out NotificationType type))
+                            {
+                                notification.Type = type;
+                            }
+
+                            if (DateTime.TryParse(sn.timestamp, out DateTime ts))
+                            {
+                                notification.Timestamp = ts;
+                            }
+
+                            _notifications.Add(notification);
+                        }
+                    }
+                }
+                Debug.Log($"[NotificationManager] Loaded {_notifications.Count} notifications");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[NotificationManager] Failed to load notifications: {ex.Message}");
+            }
         }
 
         private void SaveNotifications()
         {
-            // Save to PlayerPrefs or local storage
-            // string json = JsonUtility.ToJson(new NotificationList { notifications = _notifications });
-            // PlayerPrefs.SetString("notifications", json);
-            Debug.Log("[NotificationManager] Notifications saved");
+            try
+            {
+                var wrapper = new NotificationListWrapper
+                {
+                    notifications = new List<SerializableNotification>()
+                };
+
+                foreach (var n in _notifications)
+                {
+                    wrapper.notifications.Add(new SerializableNotification
+                    {
+                        id = n.Id,
+                        type = n.Type.ToString(),
+                        title = n.Title,
+                        message = n.Message,
+                        timestamp = n.Timestamp.ToString("O"),
+                        isRead = n.IsRead,
+                        relatedId = n.RelatedId
+                    });
+                }
+
+                string json = JsonUtility.ToJson(wrapper);
+                PlayerPrefs.SetString("notifications", json);
+                PlayerPrefs.Save();
+                Debug.Log($"[NotificationManager] Saved {_notifications.Count} notifications");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[NotificationManager] Failed to save notifications: {ex.Message}");
+            }
         }
 
         private void OnApplicationPause(bool pauseStatus)

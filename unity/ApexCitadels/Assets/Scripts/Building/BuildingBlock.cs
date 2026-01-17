@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Firebase.Firestore;
 
 namespace ApexCitadels.Building
 {
@@ -107,6 +108,117 @@ namespace ApexCitadels.Building
         {
             Health -= damage;
             return Health <= 0;
+        }
+
+        /// <summary>
+        /// Convert block to Firestore-compatible dictionary
+        /// </summary>
+        public Dictionary<string, object> ToFirestoreData()
+        {
+            return new Dictionary<string, object>
+            {
+                { "id", Id },
+                { "type", Type.ToString() },
+                { "ownerId", OwnerId },
+                { "territoryId", TerritoryId },
+                { "latitude", Latitude },
+                { "longitude", Longitude },
+                { "altitude", Altitude },
+                { "localPosition", new Dictionary<string, object>
+                    {
+                        { "x", LocalPosition.x },
+                        { "y", LocalPosition.y },
+                        { "z", LocalPosition.z }
+                    }
+                },
+                { "localRotation", new Dictionary<string, object>
+                    {
+                        { "x", LocalRotation.x },
+                        { "y", LocalRotation.y },
+                        { "z", LocalRotation.z },
+                        { "w", LocalRotation.w }
+                    }
+                },
+                { "localScale", new Dictionary<string, object>
+                    {
+                        { "x", LocalScale.x },
+                        { "y", LocalScale.y },
+                        { "z", LocalScale.z }
+                    }
+                },
+                { "health", Health },
+                { "maxHealth", MaxHealth },
+                { "placedAt", Timestamp.FromDateTime(PlacedAt.ToUniversalTime()) }
+            };
+        }
+
+        /// <summary>
+        /// Create BuildingBlock from Firestore document
+        /// </summary>
+        public static BuildingBlock FromFirestore(DocumentSnapshot doc)
+        {
+            if (!doc.Exists) return null;
+
+            var block = new BuildingBlock();
+            
+            block.Id = doc.GetValue<string>("id");
+            
+            if (doc.TryGetValue("type", out string typeStr) && 
+                Enum.TryParse(typeStr, out BlockType blockType))
+            {
+                block.Type = blockType;
+            }
+
+            block.OwnerId = doc.GetValue<string>("ownerId");
+            block.TerritoryId = doc.GetValue<string>("territoryId");
+            
+            // Geospatial coordinates
+            block.Latitude = doc.GetValue<double>("latitude");
+            block.Longitude = doc.GetValue<double>("longitude");
+            block.Altitude = doc.GetValue<double>("altitude");
+
+            // Local position
+            if (doc.TryGetValue("localPosition", out Dictionary<string, object> posDict))
+            {
+                block.LocalPosition = new Vector3(
+                    Convert.ToSingle(posDict["x"]),
+                    Convert.ToSingle(posDict["y"]),
+                    Convert.ToSingle(posDict["z"])
+                );
+            }
+
+            // Local rotation
+            if (doc.TryGetValue("localRotation", out Dictionary<string, object> rotDict))
+            {
+                block.LocalRotation = new Quaternion(
+                    Convert.ToSingle(rotDict["x"]),
+                    Convert.ToSingle(rotDict["y"]),
+                    Convert.ToSingle(rotDict["z"]),
+                    Convert.ToSingle(rotDict["w"])
+                );
+            }
+
+            // Local scale
+            if (doc.TryGetValue("localScale", out Dictionary<string, object> scaleDict))
+            {
+                block.LocalScale = new Vector3(
+                    Convert.ToSingle(scaleDict["x"]),
+                    Convert.ToSingle(scaleDict["y"]),
+                    Convert.ToSingle(scaleDict["z"])
+                );
+            }
+
+            // Health
+            block.Health = doc.GetValue<int>("health");
+            block.MaxHealth = doc.GetValue<int>("maxHealth");
+
+            // Timestamp
+            if (doc.TryGetValue("placedAt", out Timestamp placedAt))
+            {
+                block.PlacedAt = placedAt.ToDateTime();
+            }
+
+            return block;
         }
     }
 
