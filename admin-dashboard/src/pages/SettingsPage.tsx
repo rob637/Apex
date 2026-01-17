@@ -9,13 +9,8 @@ import {
   Grid,
   Switch,
   FormControlLabel,
-  Divider,
   Alert,
   Slider,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
 } from '@mui/material';
 import {
   Save as SaveIcon,

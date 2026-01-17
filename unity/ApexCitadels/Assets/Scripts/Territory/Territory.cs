@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Territory
 {
@@ -124,5 +128,70 @@ namespace ApexCitadels.Territory
         {
             Health = Math.Min(Health + amount, MaxHealth);
         }
+
+#if FIREBASE_ENABLED
+        /// <summary>
+        /// Convert territory to Firestore-compatible dictionary
+        /// </summary>
+        public Dictionary<string, object> ToFirestoreData()
+        {
+            return new Dictionary<string, object>
+            {
+                { "ownerId", OwnerId },
+                { "ownerName", OwnerName ?? "" },
+                { "territoryName", TerritoryName ?? "" },
+                { "centerLatitude", CenterLatitude },
+                { "centerLongitude", CenterLongitude },
+                { "radiusMeters", RadiusMeters },
+                { "claimedAt", Timestamp.FromDateTime(ClaimedAt.ToUniversalTime()) },
+                { "lastDefendedAt", Timestamp.FromDateTime(LastDefendedAt.ToUniversalTime()) },
+                { "level", Level },
+                { "health", Health },
+                { "maxHealth", MaxHealth },
+                { "isContested", IsContested },
+                { "contestingPlayerId", ContestingPlayerId ?? "" },
+                { "allianceId", AllianceId ?? "" }
+            };
+        }
+
+        /// <summary>
+        /// Create territory from Firestore document snapshot
+        /// </summary>
+        public static Territory FromFirestore(DocumentSnapshot snapshot)
+        {
+            try
+            {
+                var territory = new Territory
+                {
+                    Id = snapshot.Id,
+                    OwnerId = snapshot.GetValue<string>("ownerId"),
+                    OwnerName = snapshot.GetValue<string>("ownerName") ?? "",
+                    TerritoryName = snapshot.GetValue<string>("territoryName") ?? "",
+                    CenterLatitude = snapshot.GetValue<double>("centerLatitude"),
+                    CenterLongitude = snapshot.GetValue<double>("centerLongitude"),
+                    RadiusMeters = (float)snapshot.GetValue<double>("radiusMeters"),
+                    Level = snapshot.TryGetValue<long>("level", out var level) ? (int)level : 1,
+                    Health = snapshot.TryGetValue<long>("health", out var health) ? (int)health : 100,
+                    MaxHealth = snapshot.TryGetValue<long>("maxHealth", out var maxHealth) ? (int)maxHealth : 100,
+                    IsContested = snapshot.TryGetValue<bool>("isContested", out var contested) && contested,
+                    ContestingPlayerId = snapshot.GetValue<string>("contestingPlayerId") ?? "",
+                    AllianceId = snapshot.GetValue<string>("allianceId") ?? ""
+                };
+
+                // Parse timestamps
+                if (snapshot.TryGetValue<Timestamp>("claimedAt", out var claimedAt))
+                    territory.ClaimedAt = claimedAt.ToDateTime();
+                if (snapshot.TryGetValue<Timestamp>("lastDefendedAt", out var lastDefended))
+                    territory.LastDefendedAt = lastDefended.ToDateTime();
+
+                return territory;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[Territory] Failed to parse from Firestore: {ex.Message}");
+                return null;
+            }
+        }
+#endif
     }
 }

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Player;
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+using Firebase.Extensions;
+#endif
 
 namespace ApexCitadels.Leaderboard
 {
@@ -172,12 +176,37 @@ namespace ApexCitadels.Leaderboard
         /// </summary>
         public async Task<int> GetPlayerRank(string playerId, LeaderboardType type)
         {
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                
+                // Get player's score
+                var playerDoc = await db.Collection("users").Document(playerId).GetSnapshotAsync();
+                if (!playerDoc.Exists) return -1;
+                
+                long playerScore = playerDoc.TryGetValue<long>("experience", out var score) ? score : 0;
+                
+                // Count how many players have higher scores
+                var query = db.Collection("users")
+                    .WhereGreaterThan("experience", playerScore);
+                var snapshot = await query.GetSnapshotAsync();
+                
+                int rank = snapshot.Count + 1;
+                _currentPlayerRank = rank;
+                OnPlayerRankUpdated?.Invoke(_currentPlayerRank);
+                
+                return rank;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[LeaderboardManager] Failed to get player rank: {ex.Message}");
+                return _currentPlayerRank;
+            }
+#else
             await Task.Delay(50);
-            // TODO: Query Firestore for player's rank
-            // Firestore.collection("leaderboards").doc(type).collection("entries")
-            //   .where("playerId", "==", playerId).get()
-            
             return _currentPlayerRank;
+#endif
         }
 
         /// <summary>
@@ -282,7 +311,7 @@ namespace ApexCitadels.Leaderboard
 
         #endregion
 
-        #region Cloud Operations (Stubs)
+        #region Cloud Operations
 
         private async Task<List<LeaderboardEntry>> LoadLeaderboardFromCloud(
             LeaderboardType type, 
@@ -290,38 +319,90 @@ namespace ApexCitadels.Leaderboard
             int limit,
             string region = "")
         {
-            await Task.Delay(100);
-            
-            // TODO: Query Firestore
-            // var query = Firestore.collection("leaderboards")
-            //     .doc(type.ToString())
-            //     .collection(category.ToString())
-            //     .orderBy("score", "desc")
-            //     .limit(limit);
-            // if (!string.IsNullOrEmpty(region))
-            //     query = query.where("region", "==", region);
-            // var snapshot = await query.get();
-
-            // Generate mock data for now
             var entries = new List<LeaderboardEntry>();
             string currentPlayerId = PlayerManager.Instance?.GetCurrentPlayerId() ?? "";
 
-            for (int i = 0; i < Math.Min(limit, 20); i++)
+#if FIREBASE_ENABLED
+            try
             {
-                bool isPlayer = (i == 7); // Place player at rank 8
-                entries.Add(new LeaderboardEntry
+                var db = FirebaseFirestore.DefaultInstance;
+                
+                // Build query based on category
+                string scoreField = category switch
                 {
-                    Rank = i + 1,
-                    PlayerId = isPlayer ? currentPlayerId : $"player_{i}",
-                    PlayerName = isPlayer ? 
-                        (PlayerManager.Instance?.CurrentPlayer?.DisplayName ?? "You") : 
-                        $"Player{i + 1}",
-                    AllianceTag = i < 5 ? "[TOP]" : "",
-                    Level = 50 - i,
-                    Score = 10000 - (i * 500),
-                    IsCurrentPlayer = isPlayer,
-                    RankChange = UnityEngine.Random.Range(-3, 4)
-                });
+                    LeaderboardCategory.TotalXP => "experience",
+                    LeaderboardCategory.TerritoriesOwned => "territoriesOwned",
+                    LeaderboardCategory.TerritoriesCaptured => "territoriesConquered",
+                    LeaderboardCategory.AttacksWon => "attacksWon",
+                    LeaderboardCategory.DefensesWon => "defensesWon",
+                    LeaderboardCategory.BuildingsPlaced => "buildingsPlaced",
+                    _ => "experience"
+                };
+                
+                Query query = db.Collection("users")
+                    .OrderByDescending(scoreField)
+                    .Limit(limit);
+                
+                // Add region filter for regional leaderboard
+                if (type == LeaderboardType.Regional && !string.IsNullOrEmpty(region))
+                {
+                    query = db.Collection("users")
+                        .WhereEqualTo("region", region)
+                        .OrderByDescending(scoreField)
+                        .Limit(limit);
+                }
+                
+                var snapshot = await query.GetSnapshotAsync();
+                
+                int rank = 1;
+                foreach (var doc in snapshot.Documents)
+                {
+                    long score = doc.TryGetValue<long>(scoreField, out var s) ? s : 0;
+                    
+                    entries.Add(new LeaderboardEntry
+                    {
+                        Rank = rank,
+                        PlayerId = doc.Id,
+                        PlayerName = doc.GetValue<string>("displayName") ?? "Unknown",
+                        AllianceTag = doc.GetValue<string>("allianceTag") ?? "",
+                        Level = doc.TryGetValue<long>("level", out var lvl) ? (int)lvl : 1,
+                        Score = score,
+                        Region = doc.GetValue<string>("region") ?? "",
+                        IsCurrentPlayer = doc.Id == currentPlayerId,
+                        RankChange = 0 // Would need to track previous ranks
+                    });
+                    rank++;
+                }
+                
+                Debug.Log($"[LeaderboardManager] Loaded {entries.Count} leaderboard entries from Firebase");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[LeaderboardManager] Failed to load leaderboard: {ex.Message}");
+                // Fall through to generate placeholder data
+            }
+#endif
+
+            // If no Firebase data, generate placeholder entries
+            if (entries.Count == 0)
+            {
+                for (int i = 0; i < Math.Min(limit, 10); i++)
+                {
+                    bool isPlayer = (i == 0 && !string.IsNullOrEmpty(currentPlayerId));
+                    entries.Add(new LeaderboardEntry
+                    {
+                        Rank = i + 1,
+                        PlayerId = isPlayer ? currentPlayerId : $"player_{i}",
+                        PlayerName = isPlayer ? 
+                            (PlayerManager.Instance?.CurrentPlayer?.DisplayName ?? "You") : 
+                            $"Player{i + 1}",
+                        AllianceTag = "",
+                        Level = 1,
+                        Score = 0,
+                        IsCurrentPlayer = isPlayer,
+                        RankChange = 0
+                    });
+                }
             }
 
             return entries;
@@ -329,20 +410,52 @@ namespace ApexCitadels.Leaderboard
 
         private async Task<List<LeaderboardEntry>> LoadLeaderboardRange(LeaderboardType type, int startRank, int endRank)
         {
-            await Task.Delay(50);
-            // TODO: Query Firestore with offset/limit
+#if FIREBASE_ENABLED
+            // Firestore doesn't support OFFSET, so we'd need to use cursor pagination
+            // For now, return empty - would implement with startAfter/endBefore
+            await Task.CompletedTask;
             return new List<LeaderboardEntry>();
+#else
+            await Task.Delay(50);
+            return new List<LeaderboardEntry>();
+#endif
         }
 
         private async Task SaveScoreToCloud(LeaderboardCategory category, LeaderboardEntry entry)
         {
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("users").Document(entry.PlayerId);
+                
+                // Update the relevant stat field
+                string fieldName = category switch
+                {
+                    LeaderboardCategory.TotalXP => "experience",
+                    LeaderboardCategory.TerritoriesOwned => "territoriesOwned",
+                    LeaderboardCategory.TerritoriesCaptured => "territoriesConquered",
+                    LeaderboardCategory.AttacksWon => "attacksWon",
+                    LeaderboardCategory.DefensesWon => "defensesWon",
+                    LeaderboardCategory.BuildingsPlaced => "buildingsPlaced",
+                    _ => "experience"
+                };
+                
+                await docRef.UpdateAsync(new Dictionary<string, object>
+                {
+                    { fieldName, entry.Score },
+                    { "lastActiveAt", FieldValue.ServerTimestamp }
+                });
+                
+                Debug.Log($"[LeaderboardManager] Score saved for {category}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[LeaderboardManager] Failed to save score: {ex.Message}");
+            }
+#else
             await Task.Delay(50);
-            // TODO: Firestore set with merge
-            // Firestore.collection("leaderboards")
-            //     .doc(category.ToString())
-            //     .collection("entries")
-            //     .doc(entry.PlayerId)
-            //     .set(entry, { merge: true });
+#endif
         }
 
         #endregion

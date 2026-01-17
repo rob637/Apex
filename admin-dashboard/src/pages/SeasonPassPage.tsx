@@ -12,10 +12,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
   LinearProgress,
   Table,
   TableBody,
@@ -24,8 +20,6 @@ import {
   TableHead,
   TableRow,
   IconButton,
-  Switch,
-  FormControlLabel,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -63,17 +57,6 @@ interface Season {
     premiumReward: string;
   }>;
 }
-
-const REWARD_TYPES = [
-  { value: 'gold', label: 'Gold' },
-  { value: 'gems', label: 'Gems' },
-  { value: 'xp', label: 'XP Boost' },
-  { value: 'skin', label: 'Skin' },
-  { value: 'emote', label: 'Emote' },
-  { value: 'banner', label: 'Banner' },
-  { value: 'title', label: 'Title' },
-  { value: 'boost', label: 'Resource Boost' },
-];
 
 export default function SeasonPassPage() {
   const [seasons, setSeasons] = useState<Season[]>([]);

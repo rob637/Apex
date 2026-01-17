@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Player
 {
@@ -13,6 +16,7 @@ namespace ApexCitadels.Player
         public string Id;
         public string DisplayName;
         public string Email;
+        public bool IsAnonymous;
         public DateTime CreatedAt;
         public DateTime LastLoginAt;
 
@@ -109,6 +113,94 @@ namespace ApexCitadels.Player
             Metal += metal;
             Crystal += crystal;
         }
+
+#if FIREBASE_ENABLED
+        /// <summary>
+        /// Convert profile to Firestore-compatible dictionary
+        /// </summary>
+        public Dictionary<string, object> ToFirestoreData()
+        {
+            return new Dictionary<string, object>
+            {
+                { "displayName", DisplayName },
+                { "email", Email ?? "" },
+                { "isAnonymous", IsAnonymous },
+                { "createdAt", Timestamp.FromDateTime(CreatedAt.ToUniversalTime()) },
+                { "lastLoginAt", Timestamp.FromDateTime(LastLoginAt.ToUniversalTime()) },
+                
+                // Stats
+                { "level", Level },
+                { "experience", Experience },
+                { "territoriesOwned", TerritoriesOwned },
+                { "territoriesConquered", TerritoresConquered },
+                { "territoriesLost", TerritoriesLost },
+                { "blocksPlaced", BlocksPlaced },
+                { "blocksDestroyed", BlocksDestroyed },
+                { "attacksWon", AttacksWon },
+                { "defensesWon", DefensesWon },
+                { "buildingsPlaced", BuildingsPlaced },
+                
+                // Resources
+                { "resources", new Dictionary<string, object>
+                    {
+                        { "stone", Stone },
+                        { "wood", Wood },
+                        { "metal", Metal },
+                        { "crystal", Crystal },
+                        { "gems", Gems }
+                    }
+                },
+                
+                // Alliance
+                { "allianceId", AllianceId ?? "" },
+                { "allianceName", AllianceName ?? "" }
+            };
+        }
+
+        /// <summary>
+        /// Create profile from Firestore document snapshot
+        /// </summary>
+        public static PlayerProfile FromFirestore(DocumentSnapshot snapshot)
+        {
+            var profile = new PlayerProfile
+            {
+                Id = snapshot.Id,
+                DisplayName = snapshot.GetValue<string>("displayName") ?? "Player",
+                Email = snapshot.GetValue<string>("email") ?? "",
+                IsAnonymous = snapshot.TryGetValue<bool>("isAnonymous", out var isAnon) && isAnon,
+                Level = snapshot.TryGetValue<long>("level", out var level) ? (int)level : 1,
+                Experience = snapshot.TryGetValue<long>("experience", out var exp) ? (int)exp : 0,
+                TerritoriesOwned = snapshot.TryGetValue<long>("territoriesOwned", out var terrOwned) ? (int)terrOwned : 0,
+                TerritoresConquered = snapshot.TryGetValue<long>("territoriesConquered", out var terrConq) ? (int)terrConq : 0,
+                TerritoriesLost = snapshot.TryGetValue<long>("territoriesLost", out var terrLost) ? (int)terrLost : 0,
+                BlocksPlaced = snapshot.TryGetValue<long>("blocksPlaced", out var blocksP) ? (int)blocksP : 0,
+                BlocksDestroyed = snapshot.TryGetValue<long>("blocksDestroyed", out var blocksD) ? (int)blocksD : 0,
+                AttacksWon = snapshot.TryGetValue<long>("attacksWon", out var attW) ? (int)attW : 0,
+                DefensesWon = snapshot.TryGetValue<long>("defensesWon", out var defW) ? (int)defW : 0,
+                BuildingsPlaced = snapshot.TryGetValue<long>("buildingsPlaced", out var bldgP) ? (int)bldgP : 0,
+                AllianceId = snapshot.GetValue<string>("allianceId") ?? "",
+                AllianceName = snapshot.GetValue<string>("allianceName") ?? ""
+            };
+
+            // Parse timestamps
+            if (snapshot.TryGetValue<Timestamp>("createdAt", out var createdAt))
+                profile.CreatedAt = createdAt.ToDateTime();
+            if (snapshot.TryGetValue<Timestamp>("lastLoginAt", out var lastLogin))
+                profile.LastLoginAt = lastLogin.ToDateTime();
+
+            // Parse resources
+            if (snapshot.TryGetValue<Dictionary<string, object>>("resources", out var resources))
+            {
+                if (resources.TryGetValue("stone", out var stone)) profile.Stone = Convert.ToInt32(stone);
+                if (resources.TryGetValue("wood", out var wood)) profile.Wood = Convert.ToInt32(wood);
+                if (resources.TryGetValue("metal", out var metal)) profile.Metal = Convert.ToInt32(metal);
+                if (resources.TryGetValue("crystal", out var crystal)) profile.Crystal = Convert.ToInt32(crystal);
+                if (resources.TryGetValue("gems", out var gems)) profile.Gems = Convert.ToInt32(gems);
+            }
+
+            return profile;
+        }
+#endif
     }
 
     /// <summary>

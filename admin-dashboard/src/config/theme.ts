@@ -116,12 +116,5 @@ export const theme = createTheme({
         },
       },
     },
-    MuiDataGrid: {
-      styleOverrides: {
-        root: {
-          border: 'none',
-        },
-      },
-    },
   },
 });

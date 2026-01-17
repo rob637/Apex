@@ -1,6 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine;
+#if FIREBASE_ENABLED
+using Firebase.Auth;
+using Firebase.Firestore;
+using Firebase.Extensions;
+#endif
 
 namespace ApexCitadels.Player
 {
@@ -14,6 +20,12 @@ namespace ApexCitadels.Player
         // Current player
         public PlayerProfile CurrentPlayer { get; private set; }
         public bool IsLoggedIn => CurrentPlayer != null;
+
+#if FIREBASE_ENABLED
+        private FirebaseAuth _auth;
+        private FirebaseFirestore _db;
+        private FirebaseUser _firebaseUser;
+#endif
 
         // Events
         public event Action<PlayerProfile> OnPlayerLoggedIn;
@@ -35,9 +47,43 @@ namespace ApexCitadels.Player
 
         private void Start()
         {
+#if FIREBASE_ENABLED
+            _auth = FirebaseAuth.DefaultInstance;
+            _db = FirebaseFirestore.DefaultInstance;
+            
+            // Listen for auth state changes
+            _auth.StateChanged += OnAuthStateChanged;
+#endif
             // Try to auto-login with saved credentials
             TryAutoLogin();
         }
+
+        private void OnDestroy()
+        {
+#if FIREBASE_ENABLED
+            if (_auth != null)
+            {
+                _auth.StateChanged -= OnAuthStateChanged;
+            }
+#endif
+        }
+
+#if FIREBASE_ENABLED
+        private void OnAuthStateChanged(object sender, EventArgs e)
+        {
+            if (_auth.CurrentUser != _firebaseUser)
+            {
+                bool signedIn = _auth.CurrentUser != null;
+                if (!signedIn && _firebaseUser != null)
+                {
+                    Debug.Log("[PlayerManager] User signed out");
+                    CurrentPlayer = null;
+                    OnPlayerLoggedOut?.Invoke();
+                }
+                _firebaseUser = _auth.CurrentUser;
+            }
+        }
+#endif
 
         #region Authentication
 
@@ -48,22 +94,47 @@ namespace ApexCitadels.Player
         {
             Debug.Log($"[PlayerManager] Attempting login for {email}...");
 
-            // TODO: Implement Firebase Authentication
-            // For now, create a mock login
-            await Task.Delay(500); // Simulate network delay
+#if FIREBASE_ENABLED
+            try
+            {
+                var authResult = await _auth.SignInWithEmailAndPasswordAsync(email, password);
+                _firebaseUser = authResult.User;
+                
+                Debug.Log($"[PlayerManager] Firebase Auth successful for {_firebaseUser.UserId}");
+                
+                // Load or create player profile from Firestore
+                await LoadOrCreatePlayerProfile(_firebaseUser);
+                
+                SaveLoginCredentials();
+                OnPlayerLoggedIn?.Invoke(CurrentPlayer);
 
-            // Mock success
+                Debug.Log($"[PlayerManager] Login successful! Player: {CurrentPlayer.DisplayName}");
+                return new LoginResult(true, "Login successful!");
+            }
+            catch (Firebase.FirebaseException ex)
+            {
+                Debug.LogError($"[PlayerManager] Firebase Auth failed: {ex.Message}");
+                return new LoginResult(false, GetAuthErrorMessage(ex.ErrorCode), ex.ErrorCode.ToString());
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[PlayerManager] Login failed: {ex.Message}");
+                return new LoginResult(false, "Login failed. Please try again.", "UNKNOWN");
+            }
+#else
+            // Fallback for non-Firebase builds (Editor testing without Firebase)
+            await Task.Delay(500);
             CurrentPlayer = new PlayerProfile
             {
+                Id = Guid.NewGuid().ToString(),
                 Email = email,
                 DisplayName = email.Split('@')[0]
             };
-
             SaveLoginCredentials();
             OnPlayerLoggedIn?.Invoke(CurrentPlayer);
-
-            Debug.Log($"[PlayerManager] Login successful! Player: {CurrentPlayer.DisplayName}");
+            Debug.Log($"[PlayerManager] Login successful (stub)! Player: {CurrentPlayer.DisplayName}");
             return new LoginResult(true, "Login successful!");
+#endif
         }
 
         /// <summary>
@@ -73,21 +144,59 @@ namespace ApexCitadels.Player
         {
             Debug.Log($"[PlayerManager] Registering new account for {email}...");
 
-            // TODO: Implement Firebase Registration
-            await Task.Delay(500);
+#if FIREBASE_ENABLED
+            try
+            {
+                var authResult = await _auth.CreateUserWithEmailAndPasswordAsync(email, password);
+                _firebaseUser = authResult.User;
+                
+                // Update display name in Firebase Auth
+                var profile = new UserProfile { DisplayName = displayName };
+                await _firebaseUser.UpdateUserProfileAsync(profile);
+                
+                Debug.Log($"[PlayerManager] Firebase registration successful for {_firebaseUser.UserId}");
+                
+                // Create new player profile
+                CurrentPlayer = new PlayerProfile
+                {
+                    Id = _firebaseUser.UserId,
+                    Email = email,
+                    DisplayName = displayName,
+                    CreatedAt = DateTime.UtcNow
+                };
+                
+                await SavePlayerToCloud();
+                SaveLoginCredentials();
+                OnPlayerLoggedIn?.Invoke(CurrentPlayer);
 
+                Debug.Log($"[PlayerManager] Registration successful! Player: {CurrentPlayer.DisplayName}");
+                return new LoginResult(true, "Account created!");
+            }
+            catch (Firebase.FirebaseException ex)
+            {
+                Debug.LogError($"[PlayerManager] Firebase registration failed: {ex.Message}");
+                return new LoginResult(false, GetAuthErrorMessage(ex.ErrorCode), ex.ErrorCode.ToString());
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[PlayerManager] Registration failed: {ex.Message}");
+                return new LoginResult(false, "Registration failed. Please try again.", "UNKNOWN");
+            }
+#else
+            await Task.Delay(500);
             CurrentPlayer = new PlayerProfile
             {
+                Id = Guid.NewGuid().ToString(),
                 Email = email,
-                DisplayName = displayName
+                DisplayName = displayName,
+                CreatedAt = DateTime.UtcNow
             };
-
             await SavePlayerToCloud();
             SaveLoginCredentials();
             OnPlayerLoggedIn?.Invoke(CurrentPlayer);
-
-            Debug.Log($"[PlayerManager] Registration successful! Player: {CurrentPlayer.DisplayName}");
+            Debug.Log($"[PlayerManager] Registration successful (stub)! Player: {CurrentPlayer.DisplayName}");
             return new LoginResult(true, "Account created!");
+#endif
         }
 
         /// <summary>
@@ -97,18 +206,39 @@ namespace ApexCitadels.Player
         {
             Debug.Log("[PlayerManager] Logging in as guest...");
 
-            // TODO: Implement Firebase Anonymous Auth
-            await Task.Delay(300);
+#if FIREBASE_ENABLED
+            try
+            {
+                var authResult = await _auth.SignInAnonymouslyAsync();
+                _firebaseUser = authResult.User;
+                
+                Debug.Log($"[PlayerManager] Anonymous auth successful for {_firebaseUser.UserId}");
+                
+                // Load or create player profile
+                await LoadOrCreatePlayerProfile(_firebaseUser, isAnonymous: true);
+                
+                OnPlayerLoggedIn?.Invoke(CurrentPlayer);
 
+                Debug.Log($"[PlayerManager] Guest login successful! Player: {CurrentPlayer.DisplayName}");
+                return new LoginResult(true, "Logged in as guest");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[PlayerManager] Anonymous auth failed: {ex.Message}");
+                return new LoginResult(false, "Guest login failed. Please try again.", "UNKNOWN");
+            }
+#else
+            await Task.Delay(300);
             CurrentPlayer = new PlayerProfile
             {
-                DisplayName = $"Guest_{UnityEngine.Random.Range(1000, 9999)}"
+                Id = Guid.NewGuid().ToString(),
+                DisplayName = $"Guest_{UnityEngine.Random.Range(1000, 9999)}",
+                CreatedAt = DateTime.UtcNow
             };
-
             OnPlayerLoggedIn?.Invoke(CurrentPlayer);
-
-            Debug.Log($"[PlayerManager] Guest login successful! Player: {CurrentPlayer.DisplayName}");
+            Debug.Log($"[PlayerManager] Guest login successful (stub)! Player: {CurrentPlayer.DisplayName}");
             return new LoginResult(true, "Logged in as guest");
+#endif
         }
 
         /// <summary>
@@ -118,6 +248,10 @@ namespace ApexCitadels.Player
         {
             Debug.Log("[PlayerManager] Logging out...");
 
+#if FIREBASE_ENABLED
+            _auth.SignOut();
+            _firebaseUser = null;
+#endif
             ClearLoginCredentials();
             CurrentPlayer = null;
             OnPlayerLoggedOut?.Invoke();
@@ -125,18 +259,92 @@ namespace ApexCitadels.Player
             Debug.Log("[PlayerManager] Logged out");
         }
 
+#if FIREBASE_ENABLED
+        private async Task LoadOrCreatePlayerProfile(FirebaseUser user, bool isAnonymous = false)
+        {
+            var docRef = _db.Collection("users").Document(user.UserId);
+            var snapshot = await docRef.GetSnapshotAsync();
+            
+            if (snapshot.Exists)
+            {
+                // Load existing profile
+                CurrentPlayer = PlayerProfile.FromFirestore(snapshot);
+                CurrentPlayer.LastLoginAt = DateTime.UtcNow;
+                
+                // Update last active timestamp
+                await docRef.UpdateAsync(new Dictionary<string, object>
+                {
+                    { "lastLoginAt", FieldValue.ServerTimestamp },
+                    { "lastActiveAt", FieldValue.ServerTimestamp }
+                });
+                
+                Debug.Log($"[PlayerManager] Loaded existing profile for {CurrentPlayer.DisplayName}");
+            }
+            else
+            {
+                // Create new profile
+                CurrentPlayer = new PlayerProfile
+                {
+                    Id = user.UserId,
+                    Email = user.Email ?? "",
+                    DisplayName = isAnonymous 
+                        ? $"Guest_{UnityEngine.Random.Range(1000, 9999)}" 
+                        : (user.DisplayName ?? user.Email?.Split('@')[0] ?? "Player"),
+                    IsAnonymous = isAnonymous,
+                    CreatedAt = DateTime.UtcNow,
+                    LastLoginAt = DateTime.UtcNow
+                };
+                
+                await SavePlayerToCloud();
+                Debug.Log($"[PlayerManager] Created new profile for {CurrentPlayer.DisplayName}");
+            }
+        }
+        
+        private string GetAuthErrorMessage(int errorCode)
+        {
+            // Firebase Auth error codes
+            return errorCode switch
+            {
+                // Email errors
+                17008 => "Invalid email address format.",
+                17011 => "No account found with this email.",
+                17009 => "Incorrect password.",
+                17026 => "Password must be at least 6 characters.",
+                
+                // Account errors  
+                17007 => "An account already exists with this email.",
+                17010 => "Account has been disabled.",
+                
+                // Network errors
+                17020 => "Network error. Please check your connection.",
+                
+                // Rate limiting
+                17010 => "Too many attempts. Please try again later.",
+                
+                _ => "Authentication failed. Please try again."
+            };
+        }
+#endif
+
         private void TryAutoLogin()
         {
-            // Check for saved login token
+#if FIREBASE_ENABLED
+            // Firebase Auth persists sessions automatically
+            if (_auth?.CurrentUser != null)
+            {
+                Debug.Log("[PlayerManager] Found existing Firebase session, restoring...");
+                _firebaseUser = _auth.CurrentUser;
+                _ = LoadOrCreatePlayerProfile(_firebaseUser, _firebaseUser.IsAnonymous);
+            }
+#else
+            // Check for saved login token (non-Firebase builds)
             string savedPlayerId = PlayerPrefs.GetString("SavedPlayerId", "");
             if (!string.IsNullOrEmpty(savedPlayerId))
             {
-                // TODO: Validate token with Firebase
                 Debug.Log("[PlayerManager] Found saved credentials, attempting auto-login...");
-                
-                // For now, just create a guest session
                 _ = LoginAsGuest();
             }
+#endif
         }
 
         private void SaveLoginCredentials()
@@ -394,20 +602,62 @@ namespace ApexCitadels.Player
 
             Debug.Log("[PlayerManager] Saving player data to cloud...");
             
-            // TODO: Implement Firebase save
+#if FIREBASE_ENABLED
+            try
+            {
+                var docRef = _db.Collection("users").Document(CurrentPlayer.Id);
+                var data = CurrentPlayer.ToFirestoreData();
+                data["lastActiveAt"] = FieldValue.ServerTimestamp;
+                
+                await docRef.SetAsync(data, SetOptions.MergeAll);
+                Debug.Log("[PlayerManager] Player data saved to Firestore");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[PlayerManager] Failed to save player data: {ex.Message}");
+            }
+#else
             await Task.Delay(100);
-
-            Debug.Log("[PlayerManager] Player data saved");
+            Debug.Log("[PlayerManager] Player data saved (stub)");
+#endif
         }
 
         private async Task LoadPlayerFromCloud(string playerId)
         {
             Debug.Log($"[PlayerManager] Loading player {playerId} from cloud...");
 
-            // TODO: Implement Firebase load
+#if FIREBASE_ENABLED
+            try
+            {
+                var docRef = _db.Collection("users").Document(playerId);
+                var snapshot = await docRef.GetSnapshotAsync();
+                
+                if (snapshot.Exists)
+                {
+                    CurrentPlayer = PlayerProfile.FromFirestore(snapshot);
+                    Debug.Log($"[PlayerManager] Player data loaded: {CurrentPlayer.DisplayName}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[PlayerManager] No player data found for {playerId}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[PlayerManager] Failed to load player data: {ex.Message}");
+            }
+#else
             await Task.Delay(100);
+            Debug.Log("[PlayerManager] Player data loaded (stub)");
+#endif
+        }
 
-            Debug.Log("[PlayerManager] Player data loaded");
+        /// <summary>
+        /// Force sync player data to cloud
+        /// </summary>
+        public async Task SyncToCloud()
+        {
+            await SavePlayerToCloud();
         }
 
         #endregion

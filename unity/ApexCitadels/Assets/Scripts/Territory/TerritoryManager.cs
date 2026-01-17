@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+using Firebase.Extensions;
+#endif
 
 namespace ApexCitadels.Territory
 {
@@ -374,25 +378,119 @@ namespace ApexCitadels.Territory
 
         private async void LoadNearbyTerritories()
         {
-            // TODO: Query Firebase for territories near current GPS location
             Debug.Log("[TerritoryManager] Loading nearby territories...");
             
-            // Placeholder: In real implementation, this queries Firestore
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                
+                // For initial load, get all territories (in production, would use geo-queries)
+                var snapshot = await db.Collection("territories").GetSnapshotAsync();
+                
+                foreach (var doc in snapshot.Documents)
+                {
+                    var territory = Territory.FromFirestore(doc);
+                    if (territory != null && !_territories.ContainsKey(territory.Id))
+                    {
+                        _territories[territory.Id] = territory;
+                        CreateTerritoryVisual(territory);
+                    }
+                }
+                
+                Debug.Log($"[TerritoryManager] Loaded {snapshot.Count} territories from Firebase");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[TerritoryManager] Failed to load territories: {ex.Message}");
+            }
+#else
             await Task.Delay(100);
-            
-            Debug.Log("[TerritoryManager] Territories loaded");
+            Debug.Log("[TerritoryManager] Territories loaded (stub)");
+#endif
+        }
+
+        /// <summary>
+        /// Load territories within a radius of a GPS location
+        /// </summary>
+        public async Task LoadTerritoriesNearLocation(double latitude, double longitude, float radiusMeters = 1000f)
+        {
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                
+                // Calculate bounding box for geo-query
+                double latDelta = radiusMeters / 111320.0;
+                double lonDelta = radiusMeters / (111320.0 * Math.Cos(latitude * Math.PI / 180));
+                
+                var query = db.Collection("territories")
+                    .WhereGreaterThan("centerLatitude", latitude - latDelta)
+                    .WhereLessThan("centerLatitude", latitude + latDelta);
+                
+                var snapshot = await query.GetSnapshotAsync();
+                
+                int loadedCount = 0;
+                foreach (var doc in snapshot.Documents)
+                {
+                    var lon = doc.GetValue<double>("centerLongitude");
+                    if (lon < longitude - lonDelta || lon > longitude + lonDelta)
+                        continue;
+                    
+                    var territory = Territory.FromFirestore(doc);
+                    if (territory != null)
+                    {
+                        if (!_territories.ContainsKey(territory.Id))
+                        {
+                            _territories[territory.Id] = territory;
+                            CreateTerritoryVisual(territory);
+                        }
+                        else
+                        {
+                            // Update existing territory data
+                            _territories[territory.Id] = territory;
+                            UpdateTerritoryVisual(territory);
+                        }
+                        loadedCount++;
+                    }
+                }
+                
+                Debug.Log($"[TerritoryManager] Loaded {loadedCount} nearby territories");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[TerritoryManager] Failed to load nearby territories: {ex.Message}");
+            }
+#else
+            await Task.Delay(100);
+#endif
         }
 
         private async Task<bool> SaveTerritoryToCloud(Territory territory)
         {
-            // TODO: Save to Firebase
             Debug.Log($"[TerritoryManager] Saving territory {territory.Id} to cloud...");
             
-            // Placeholder: In real implementation, this saves to Firestore
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("territories").Document(territory.Id);
+                
+                await docRef.SetAsync(territory.ToFirestoreData(), SetOptions.MergeAll);
+                
+                Debug.Log($"[TerritoryManager] Territory saved to Firestore");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[TerritoryManager] Failed to save territory: {ex.Message}");
+                return false;
+            }
+#else
             await Task.Delay(100);
-            
-            Debug.Log($"[TerritoryManager] Territory saved");
+            Debug.Log($"[TerritoryManager] Territory saved (stub)");
             return true;
+#endif
         }
 
         #endregion

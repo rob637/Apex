@@ -22,7 +22,6 @@ import {
   Search as SearchIcon,
   Refresh as RefreshIcon,
   Check as ApproveIcon,
-  Close as RejectIcon,
   Visibility as ViewIcon,
   Warning as WarningIcon,
   Report as ReportIcon,
@@ -34,7 +33,6 @@ import {
   doc,
   updateDoc,
   query,
-  where,
   orderBy,
   limit,
 } from 'firebase/firestore';

@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+using Firebase.Extensions;
+#endif
 
 namespace ApexCitadels.Resources
 {
@@ -243,6 +248,9 @@ namespace ApexCitadels.Resources
             // Award XP
             PlayerManager.Instance?.AwardExperience(harvestAmount / 5);
 
+            // Save node state to cloud
+            _ = SaveNodeToCloud(_selectedNode);
+
             Debug.Log($"[ResourceManager] Harvested {harvestAmount} {resourceType}");
             return (true, harvestAmount);
         }
@@ -275,20 +283,99 @@ namespace ApexCitadels.Resources
         /// </summary>
         public async void LoadNearbyNodes(double latitude, double longitude)
         {
-            await System.Threading.Tasks.Task.Delay(50);
-
-            // TODO: Load from Firebase
-            // For now, generate procedurally
-
             // Clear old distant nodes
             _nearbyNodes.RemoveAll(n => 
                 Territory.Territory.CalculateDistance(n.Latitude, n.Longitude, latitude, longitude) > nodeSpawnRadius * 2);
 
-            // Generate new nodes if needed
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                
+                // Query resource nodes within a rough bounding box
+                double latDelta = nodeSpawnRadius / 111320.0;
+                double lonDelta = nodeSpawnRadius / (111320.0 * Math.Cos(latitude * Math.PI / 180));
+                
+                var query = db.Collection("resource_nodes")
+                    .WhereGreaterThan("latitude", latitude - latDelta)
+                    .WhereLessThan("latitude", latitude + latDelta);
+                    
+                var snapshot = await query.GetSnapshotAsync();
+                
+                foreach (var doc in snapshot.Documents)
+                {
+                    // Skip if already loaded
+                    if (_nearbyNodes.Exists(n => n.Id == doc.Id))
+                        continue;
+                        
+                    var nodeLon = doc.GetValue<double>("longitude");
+                    if (nodeLon < longitude - lonDelta || nodeLon > longitude + lonDelta)
+                        continue;
+                    
+                    var node = new ResourceNode
+                    {
+                        Id = doc.Id,
+                        Name = doc.GetValue<string>("name") ?? "Resource Node",
+                        Type = (ResourceNodeType)doc.GetValue<long>("type"),
+                        Latitude = doc.GetValue<double>("latitude"),
+                        Longitude = nodeLon,
+                        CurrentAmount = (int)doc.GetValue<long>("currentAmount"),
+                        MaxAmount = (int)doc.GetValue<long>("maxAmount"),
+                        OwnerId = doc.GetValue<string>("ownerId") ?? "",
+                        TerritoryId = doc.GetValue<string>("territoryId") ?? ""
+                    };
+                    
+                    _nearbyNodes.Add(node);
+                    OnNodeDiscovered?.Invoke(node);
+                }
+                
+                Debug.Log($"[ResourceManager] Loaded {snapshot.Count} resource nodes from Firebase");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[ResourceManager] Failed to load nodes from Firebase: {ex.Message}");
+            }
+#endif
+
+            // Generate procedural nodes if needed (for areas with no server data)
             if (_nearbyNodes.Count < maxNodesPerArea / 2)
             {
                 GenerateNodes(latitude, longitude);
             }
+        }
+
+        /// <summary>
+        /// Save a resource node to Firebase (after harvesting, etc.)
+        /// </summary>
+        private async Task SaveNodeToCloud(ResourceNode node)
+        {
+#if FIREBASE_ENABLED
+            try
+            {
+                var db = FirebaseFirestore.DefaultInstance;
+                var docRef = db.Collection("resource_nodes").Document(node.Id);
+                
+                await docRef.SetAsync(new Dictionary<string, object>
+                {
+                    { "name", node.Name },
+                    { "type", (int)node.Type },
+                    { "latitude", node.Latitude },
+                    { "longitude", node.Longitude },
+                    { "currentAmount", node.CurrentAmount },
+                    { "maxAmount", node.MaxAmount },
+                    { "ownerId", node.OwnerId ?? "" },
+                    { "territoryId", node.TerritoryId ?? "" },
+                    { "lastHarvestTime", Timestamp.FromDateTime(node.LastHarvestTime.ToUniversalTime()) },
+                    { "regenerationTime", Timestamp.FromDateTime(node.RegenerationTime.ToUniversalTime()) }
+                }, SetOptions.MergeAll);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[ResourceManager] Failed to save node: {ex.Message}");
+            }
+#else
+            await Task.CompletedTask;
+#endif
         }
 
         private void GenerateNodes(double centerLat, double centerLon)
