@@ -276,26 +276,27 @@ namespace ApexCitadels.PC
             // Check current user's ownership
             string currentUserId = Core.GameManager.Instance?.UserId;
 
+            // Note: Use explicit null check for Unity objects, not ?? operator
             if (territory.IsContested)
             {
-                return contestedTerritoryMaterial ?? CreateDefaultMaterial(Color.yellow);
+                return contestedTerritoryMaterial != null ? contestedTerritoryMaterial : CreateDefaultMaterial(Color.yellow);
             }
             else if (territory.OwnerId == currentUserId)
             {
-                return ownedTerritoryMaterial ?? CreateDefaultMaterial(Color.green);
+                return ownedTerritoryMaterial != null ? ownedTerritoryMaterial : CreateDefaultMaterial(Color.green);
             }
             else if (!string.IsNullOrEmpty(territory.AllianceId))
             {
                 // Check if same alliance (would need alliance manager)
-                return allianceTerritoryMaterial ?? CreateDefaultMaterial(Color.blue);
+                return allianceTerritoryMaterial != null ? allianceTerritoryMaterial : CreateDefaultMaterial(Color.blue);
             }
             else if (!string.IsNullOrEmpty(territory.OwnerId))
             {
-                return enemyTerritoryMaterial ?? CreateDefaultMaterial(Color.red);
+                return enemyTerritoryMaterial != null ? enemyTerritoryMaterial : CreateDefaultMaterial(Color.red);
             }
             else
             {
-                return neutralTerritoryMaterial ?? CreateDefaultMaterial(Color.gray);
+                return neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(Color.gray);
             }
         }
 
