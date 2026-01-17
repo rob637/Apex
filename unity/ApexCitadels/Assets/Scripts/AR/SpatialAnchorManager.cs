@@ -113,6 +113,16 @@ namespace ApexCitadels.AR
             }
         }
 
+        private void Update()
+        {
+            if (!_isDesktopMode && _isInitialized)
+            {
+                // Poll for trackable changes (AR Foundation 6.0 compatible)
+                PollTrackableChanges();
+                UpdateAnchorTrackingStates();
+            }
+        }
+
         private void DetermineRunMode()
         {
             #if UNITY_EDITOR || UNITY_STANDALONE
@@ -234,32 +244,37 @@ namespace ApexCitadels.AR
 
         private void SubscribeToAREvents()
         {
-            if (_planeManager != null)
-            {
-                _planeManager.trackablesChanged += OnPlanesChanged;
-            }
-
-            if (_anchorManager != null)
-            {
-                _anchorManager.trackablesChanged += OnAnchorsChanged;
-            }
-
+            // AR Foundation 6.0: trackablesChanged is a read-only event property
+            // Subscribe via the event's Subscribe method or check for changes in Update
+            // For now, we'll use Update-based polling which is compatible with all versions
+            
             ARSession.stateChanged += OnARSessionStateChanged;
         }
 
         private void UnsubscribeFromAREvents()
         {
+            ARSession.stateChanged -= OnARSessionStateChanged;
+        }
+        
+        /// <summary>
+        /// Poll for plane/anchor changes (AR Foundation 6.0 compatible)
+        /// Call this from Update or use coroutine
+        /// </summary>
+        private void PollTrackableChanges()
+        {
+            // Check for new planes
             if (_planeManager != null)
             {
-                _planeManager.trackablesChanged -= OnPlanesChanged;
+                foreach (var plane in _planeManager.trackables)
+                {
+                    if (!_planesDetected && plane.trackingState == TrackingState.Tracking)
+                    {
+                        _planesDetected = true;
+                        OnPlaneDetected?.Invoke(plane);
+                        Log($"Plane detected: {plane.trackableId} ({plane.alignment})");
+                    }
+                }
             }
-
-            if (_anchorManager != null)
-            {
-                _anchorManager.trackablesChanged -= OnAnchorsChanged;
-            }
-
-            ARSession.stateChanged -= OnARSessionStateChanged;
         }
 
         private void OnARSessionStateChanged(ARSessionStateChangedEventArgs args)
@@ -278,49 +293,40 @@ namespace ApexCitadels.AR
             }
         }
 
-        private void OnPlanesChanged(ARTrackablesChangedEventArgs<ARPlane> args)
+        /// <summary>
+        /// Update anchor tracking states by polling (AR Foundation 6.0 compatible)
+        /// </summary>
+        private void UpdateAnchorTrackingStates()
         {
-            if (args.added != null && args.added.Count > 0)
+            if (_anchorManager == null) return;
+            
+            foreach (var kvp in _anchors)
             {
-                _planesDetected = true;
-                
-                foreach (var plane in args.added)
+                if (kvp.Value.Anchor != null)
                 {
-                    OnPlaneDetected?.Invoke(plane);
-                    Log($"Plane detected: {plane.trackableId} ({plane.alignment})");
-                }
-            }
-        }
-
-        private void OnAnchorsChanged(ARTrackablesChangedEventArgs<ARAnchor> args)
-        {
-            if (args.removed != null)
-            {
-                foreach (var anchor in args.removed)
-                {
-                    // Find and update managed anchor
-                    foreach (var kvp in _anchors)
+                    // Check if anchor is still being tracked
+                    bool found = false;
+                    foreach (var anchor in _anchorManager.trackables)
                     {
-                        if (kvp.Value.Anchor != null && kvp.Value.Anchor.trackableId == anchor.trackableId)
+                        if (anchor.trackableId == kvp.Value.Anchor.trackableId)
                         {
-                            kvp.Value.TrackingState = AnchorTrackingState.Lost;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (args.updated != null)
-            {
-                foreach (var anchor in args.updated)
-                {
-                    foreach (var kvp in _anchors)
-                    {
-                        if (kvp.Value.Anchor != null && kvp.Value.Anchor.trackableId == anchor.trackableId)
-                        {
+                            found = true;
+                            if (anchor.trackingState == TrackingState.Tracking)
+                            {
+                                kvp.Value.TrackingState = AnchorTrackingState.Tracked;
+                            }
+                            else
+                            {
+                                kvp.Value.TrackingState = AnchorTrackingState.Limited;
+                            }
                             kvp.Value.LastUpdateTime = Time.time;
                             break;
                         }
+                    }
+                    
+                    if (!found)
+                    {
+                        kvp.Value.TrackingState = AnchorTrackingState.Lost;
                     }
                 }
             }
