@@ -99,7 +99,12 @@ namespace Firebase.Firestore
         public bool Exists => false;
         public string Id => "";
         public T ConvertTo<T>() where T : new() => new T();
-        public object GetValue<T>(string field) => default(T);
+        public T GetValue<T>(string field) => default(T);
+        public bool TryGetValue<T>(string field, out T value)
+        {
+            value = default(T);
+            return false;
+        }
     }
     
     [System.AttributeUsage(System.AttributeTargets.Property)]
