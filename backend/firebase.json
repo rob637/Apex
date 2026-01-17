@@ -24,7 +24,7 @@
     },
     {
       "target": "pc",
-      "public": "hosting-pc",
+      "public": "hosting-pc/build",
       "ignore": [
         "firebase.json",
         "**/.*",
