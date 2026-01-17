@@ -71,10 +71,17 @@ namespace Firebase.Firestore
     {
         public string Id => System.Guid.NewGuid().ToString();
         public System.Threading.Tasks.Task SetAsync(object data) => System.Threading.Tasks.Task.CompletedTask;
+        public System.Threading.Tasks.Task SetAsync(object data, SetOptions options) => System.Threading.Tasks.Task.CompletedTask;
         public System.Threading.Tasks.Task<DocumentSnapshot> GetSnapshotAsync() 
             => System.Threading.Tasks.Task.FromResult(new DocumentSnapshot());
         public System.Threading.Tasks.Task DeleteAsync() => System.Threading.Tasks.Task.CompletedTask;
         public System.Threading.Tasks.Task UpdateAsync(string field, object value) => System.Threading.Tasks.Task.CompletedTask;
+    }
+
+    public class SetOptions
+    {
+        public static SetOptions MergeAll => new SetOptions();
+        public static SetOptions Overwrite => new SetOptions();
     }
     
     public class Query
