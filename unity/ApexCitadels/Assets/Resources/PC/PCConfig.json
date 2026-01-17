@@ -1,0 +1,54 @@
+{
+  "pc": {
+    "windowTitle": "Apex Citadels - Command Center",
+    "defaultResolution": {
+      "width": 1920,
+      "height": 1080,
+      "fullscreen": false
+    },
+    "graphics": {
+      "qualityLevel": 3,
+      "antiAliasing": 4,
+      "shadowDistance": 150,
+      "textureQuality": 0
+    },
+    "camera": {
+      "worldMapHeight": 100,
+      "worldMapAngle": 60,
+      "territoryHeight": 30,
+      "territoryAngle": 45,
+      "firstPersonHeight": 1.8,
+      "zoomSpeed": 5,
+      "panSpeed": 50,
+      "rotationSpeed": 100
+    },
+    "worldMap": {
+      "hexRadius": 50,
+      "visibleRadius": 10,
+      "loadRadius": 15,
+      "updateInterval": 5
+    },
+    "ui": {
+      "tooltipDelay": 0.5,
+      "panelAnimationSpeed": 0.3,
+      "notificationDuration": 5
+    },
+    "keybindings": {
+      "toggleBuildMode": "B",
+      "toggleMap": "M",
+      "toggleAlliance": "G",
+      "toggleCrafting": "C",
+      "toggleMarket": "T",
+      "toggleStatistics": "Tab",
+      "quickSave": "F5",
+      "quickLoad": "F9",
+      "screenshot": "F12",
+      "escape": "Escape"
+    }
+  },
+  "sync": {
+    "autoSyncInterval": 30,
+    "conflictResolution": "serverWins",
+    "offlineQueueSize": 100
+  }
+}

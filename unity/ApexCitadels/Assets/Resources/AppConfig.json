@@ -3,7 +3,8 @@
     "name": "ApexCitadels",
     "bundleIdentifier": {
       "android": "com.apexcitadels.game",
-      "ios": "com.apexcitadels.game"
+      "ios": "com.apexcitadels.game",
+      "windows": "com.apexcitadels.commandcenter"
     }
   },
   "firebase": {
@@ -12,7 +13,8 @@
     "messagingSenderId": "FILL_IN_FROM_FIREBASE_CONSOLE",
     "appId": {
       "android": "FILL_IN_FROM_FIREBASE_CONSOLE",
-      "ios": "FILL_IN_FROM_FIREBASE_CONSOLE"
+      "ios": "FILL_IN_FROM_FIREBASE_CONSOLE",
+      "windows": "FILL_IN_FROM_FIREBASE_CONSOLE"
     }
   },
   "arcore": {
@@ -29,5 +31,15 @@
       "functions": 5001
     },
     "productionMode": true
+  },
+  "platforms": {
+    "pc": {
+      "enabled": true,
+      "configPath": "PC/PCConfig"
+    },
+    "ar": {
+      "enabled": true,
+      "requiresGeospatial": true
+    }
   }
 }
