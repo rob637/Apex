@@ -1,15 +1,16 @@
 name: Unity Build
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'unity/ApexCitadels/**'
-      - '.github/workflows/unity-build.yml'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'unity/ApexCitadels/**'
+  # Disabled automatic builds - requires Unity license secrets
+  # push:
+  #   branches: [main, develop]
+  #   paths:
+  #     - 'unity/ApexCitadels/**'
+  #     - '.github/workflows/unity-build.yml'
+  # pull_request:
+  #   branches: [main]
+  #   paths:
+  #     - 'unity/ApexCitadels/**'
   workflow_dispatch:
     inputs:
       buildAndroid:
