@@ -182,35 +182,7 @@ namespace Firebase.Crashlytics
     }
 }
 
-namespace ApexCitadels.Backend
-{
-    /// <summary>
-    /// Stub FirebaseManager for when Firebase SDK is not installed
-    /// </summary>
-    public class FirebaseManager
-    {
-        private static FirebaseManager _instance;
-        public static FirebaseManager Instance => _instance ??= new FirebaseManager();
-
-        /// <summary>
-        /// Call a Firebase Cloud Function and deserialize the result
-        /// </summary>
-        public async System.Threading.Tasks.Task<T> CallFunction<T>(string functionName, System.Collections.Generic.Dictionary<string, object> data = null) where T : new()
-        {
-            UnityEngine.Debug.Log($"[STUB] CallFunction: {functionName}");
-            await System.Threading.Tasks.Task.Delay(100);
-            return new T();
-        }
-
-        /// <summary>
-        /// Call a Firebase Cloud Function with no return value
-        /// </summary>
-        public async System.Threading.Tasks.Task CallFunction(string functionName, System.Collections.Generic.Dictionary<string, object> data = null)
-        {
-            UnityEngine.Debug.Log($"[STUB] CallFunction: {functionName}");
-            await System.Threading.Tasks.Task.Delay(100);
-        }
-    }
-}
+// Note: FirebaseManager stub removed - the real FirebaseManager in Backend/ handles both
+// FIREBASE_ENABLED and non-FIREBASE_ENABLED cases internally
 
 #endif
