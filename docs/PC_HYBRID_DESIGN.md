@@ -1,8 +1,61 @@
 # Apex Citadels: PC Hybrid Mode Design Document
 
-**Status:** Future Phase (Post-AR Launch)  
+**Status:** Phase 2A Implementation Complete ✅  
 **Created:** January 17, 2026  
+**Updated:** January 18, 2026  
 **Priority:** Phase 2-3  
+
+---
+
+## Implementation Progress
+
+### ✅ Core PC Systems (Complete)
+
+| Script | Description | Status |
+|--------|-------------|--------|
+| `PlatformManager.cs` | Platform detection & feature gating | ✅ Complete |
+| `PCCameraController.cs` | Multi-mode camera (WorldMap, Territory, FP, Cinematic) | ✅ Complete |
+| `PCInputManager.cs` | Keyboard/mouse input handling with rebinding | ✅ Complete |
+| `WorldMapRenderer.cs` | 3D world map with territory visualization | ✅ Complete |
+| `BaseEditor.cs` | PC-exclusive building editor with undo/redo | ✅ Complete |
+| `PCGameController.cs` | Main PC client state machine | ✅ Complete |
+| `PCSceneBootstrapper.cs` | Auto scene setup on load | ✅ Complete |
+| `PCTerritoryBridge.cs` | Territory data integration | ✅ Complete |
+
+### ✅ PC UI Panels (Complete)
+
+| Script | Description | Status |
+|--------|-------------|--------|
+| `PCUIManager.cs` | UI panel management | ✅ Complete |
+| `TerritoryDetailPanel.cs` | Territory info display | ✅ Complete |
+| `AlliancePanel.cs` | Alliance management with War Room | ✅ Complete |
+| `BuildMenuPanel.cs` | Building catalog with categories | ✅ Complete |
+| `StatisticsPanel.cs` | PC-exclusive analytics dashboard | ✅ Complete |
+| `BattleReplayPanel.cs` | Battle replay viewer UI | ✅ Complete |
+| `CraftingPanel.cs` | Crafting workshop UI | ✅ Complete |
+| `MarketPanel.cs` | Trading and economy UI | ✅ Complete |
+
+### ✅ PC-Exclusive Features (Complete)
+
+| Script | Description | Status |
+|--------|-------------|--------|
+| `BattleReplaySystem.cs` | Record/playback battle replays | ✅ Complete |
+| `CraftingSystem.cs` | PC crafting with quality system | ✅ Complete |
+
+### ✅ Editor Tools (Complete)
+
+| Script | Description | Status |
+|--------|-------------|--------|
+| `PCPrefabCreator.cs` | Create UI/world prefabs | ✅ Complete |
+| `PCSceneSetup.cs` | Scene setup wizard | ✅ Complete |
+
+### 🔄 Remaining Tasks
+
+1. Run `Apex/PC/Setup PC Scene (Full)` in Unity Editor
+2. Run `Apex/PC/Create All PC Prefabs` for UI prefabs
+3. Assign prefabs to manager components in Inspector
+4. Test Firebase integration
+5. Create PC build configuration
 
 ---
 

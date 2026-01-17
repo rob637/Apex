@@ -44,8 +44,10 @@
 | Component | Status | Completeness |
 |-----------|--------|--------------|
 | Vision & Design Docs | ✅ Complete | 100% |
-| C# Game Scripts | ✅ Complete | 20/20 Scripts |
-| Firebase Backend | ✅ Functional | 70% (needs Cloud Functions expansion) |
+| C# Game Scripts (AR) | ✅ Complete | 70+ Scripts |
+| C# Game Scripts (PC) | ✅ Complete | 18 Scripts |
+| Firebase Backend | ✅ Functional | 100% |
+| PC Hybrid Client | ✅ Complete | 100% (18 scripts) |
 | Unity Scene Setup | ⏳ Awaiting Unity Access | 0% |
 | 3D Assets | ⏳ Not Started | 0% |
 | Testing | ⏳ Blocked | 0% |

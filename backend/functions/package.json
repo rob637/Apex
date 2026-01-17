@@ -14,7 +14,12 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src/**/*.ts --fix"
+    "lint": "eslint src/**/*.ts --fix",
+    "emulators": "npm run build && firebase emulators:start",
+    "emulators:debug": "npm run build && firebase emulators:start --debug",
+    "emulators:export": "firebase emulators:export ./emulator-data",
+    "emulators:import": "npm run build && firebase emulators:start --import=./emulator-data",
+    "seed": "npm run build && node lib/seed.js"
   },
   "engines": {
     "node": "22"

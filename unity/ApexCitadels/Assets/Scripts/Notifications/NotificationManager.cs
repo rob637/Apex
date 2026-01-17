@@ -5,9 +5,13 @@ using UnityEngine;
 using ApexCitadels.Core;
 using ApexCitadels.Player;
 using ApexCitadels.Territory;
-using Firebase.Firestore;
 
-#if UNITY_ANDROID
+#if FIREBASE_ENABLED
+using Firebase.Firestore;
+#endif
+
+// Firebase Messaging requires separate SDK - define FIREBASE_MESSAGING when installed
+#if FIREBASE_MESSAGING
 using Firebase.Messaging;
 #endif
 
@@ -324,7 +328,7 @@ namespace ApexCitadels.Notifications
         /// </summary>
         public async void RegisterForPushNotifications()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if FIREBASE_MESSAGING && FIREBASE_ENABLED && UNITY_ANDROID && !UNITY_EDITOR
             try
             {
                 // Get FCM token
@@ -373,11 +377,11 @@ namespace ApexCitadels.Notifications
             }
 #else
             await Task.CompletedTask;
-            Debug.Log("[NotificationManager] Push notifications only supported on Android");
+            Debug.Log("[NotificationManager] Push notifications require Firebase Messaging SDK on Android");
 #endif
         }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if FIREBASE_MESSAGING && FIREBASE_ENABLED && UNITY_ANDROID && !UNITY_EDITOR
         private void OnFirebaseMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             Debug.Log($"[NotificationManager] FCM message received from: {e.Message.From}");

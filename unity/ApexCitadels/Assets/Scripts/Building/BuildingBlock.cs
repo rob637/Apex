@@ -10,26 +10,58 @@ namespace ApexCitadels.Building
     /// </summary>
     public enum BlockType
     {
-        // Basic blocks
+        // Basic blocks (Foundations)
         Stone,
         Wood,
         Metal,
         Glass,
+        Foundation,
+
+        // Walls
+        Wall,
+        WallStone,
+        WallWood,
+        WallMetal,
+        WallReinforced,
+        Fence,
+        Gate,
 
         // Defensive structures
-        Wall,
-        Gate,
         Tower,
+        ArrowTower,
+        CannonTower,
+        MageTower,
         Turret,
+        Trap,
+        SpikeTrap,
+        Barricade,
+
+        // Production buildings
+        Mine,
+        Quarry,
+        Sawmill,
+        Forge,
+        CrystalExtractor,
+        StorageVault,
 
         // Decorative
         Flag,
         Banner,
         Torch,
+        Pillar,
+        Statue,
+        Garden,
+        Fountain,
 
         // Special
-        Beacon,      // Marks territory center
-        ResourceNode // Generates resources
+        Beacon,       // Marks territory center
+        ResourceNode, // Generates resources
+        CitadelCore,  // Territory claim structure
+        Portal,       // Fast travel point
+        AncientRelic, // Rare discovery
+
+        // Count marker (for iteration)
+        Count
     }
 
     /// <summary>
@@ -57,6 +89,20 @@ namespace ApexCitadels.Building
         public int Health;
         public int MaxHealth;
         public DateTime PlacedAt;
+
+        // World position property for PC editor (converts LocalPosition)
+        public Vector3 Position
+        {
+            get => LocalPosition;
+            set => LocalPosition = value;
+        }
+
+        // Rotation property for PC editor
+        public Quaternion Rotation
+        {
+            get => LocalRotation;
+            set => LocalRotation = value;
+        }
 
         public BuildingBlock()
         {

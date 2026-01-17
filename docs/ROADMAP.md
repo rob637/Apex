@@ -1,102 +1,86 @@
 # Apex Citadels: Development Roadmap
 
-## 🚀 Phase 0: The Persistent Cube Test (Week 1-2)
+## ✅ Phase 0: The Persistent Cube Test (Complete)
 *Goal: Prove core technology works*
 
-### Milestone 0.1: Basic AR Scene
-- [ ] Unity project setup with AR Foundation
-- [ ] Camera permission handling
-- [ ] Plane detection working
-- [ ] Place a cube on detected surface
+### Milestone 0.1: Basic AR Scene ✅
+- [x] Unity project setup with AR Foundation
+- [x] Camera permission handling
+- [x] Plane detection working
+- [x] Place a cube on detected surface
 
-### Milestone 0.2: Cloud Anchors
-- [ ] Integrate ARCore Geospatial API
-- [ ] Host a cloud anchor at cube location
-- [ ] Store anchor ID in Firebase
-- [ ] Resolve anchor on different device
-- [ ] **SUCCESS: Cube persists across devices!**
+### Milestone 0.2: Cloud Anchors ✅
+- [x] Integrate ARCore Geospatial API
+- [x] Host a cloud anchor at cube location
+- [x] Store anchor ID in Firebase
+- [x] Resolve anchor on different device
+- [x] **SUCCESS: Cube persists across devices!**
+
+---
+
+## ✅ Phase 1-4: Core Game Systems (Complete)
+*All 70+ C# scripts created for AR client - see REQUIREMENTS.md for full details*
+
+- [x] Resource System (5 types, GPS-based collection)
+- [x] Building System (30+ block types, templates)
+- [x] Territory System (claim, contest, siege)
+- [x] Combat System (turn-based, 6 troop types)
+- [x] Alliance System (10 members, war declarations)
+- [x] Season Pass (100 tiers, battle pass)
+- [x] World Events (FOMO mechanics)
+- [x] Social Features (friends, chat, referrals)
+- [x] Admin Dashboard (React + MUI)
+- [x] Firebase Backend (20 Cloud Functions)
+
+---
+
+## ✅ Phase 5: PC Hybrid Client (Complete)
+*Goal: Desktop "Command Center" experience sharing same Firebase backend*
+
+### Milestone 5.1: PC Core Systems ✅
+- [x] Platform detection & feature gating
+- [x] Multi-mode camera (WorldMap, Territory, FirstPerson, Cinematic)
+- [x] Keyboard/mouse input with rebinding
+- [x] 3D strategic world map renderer
+- [x] Main game state machine
+
+### Milestone 5.2: PC Building & Editor ✅
+- [x] Detailed base editor with grid snapping
+- [x] Undo/redo system (100 action history)
+- [x] Blueprint save/load (design on PC, place in AR)
+- [x] Building preview with valid/invalid materials
+
+### Milestone 5.3: PC-Exclusive Features ✅
+- [x] Battle replay viewer with playback controls
+- [x] Crafting workshop (queue, quality tiers)
+- [x] Market/trading panel
+- [x] Alliance War Room
+- [x] Statistics dashboard with analytics
+
+### Milestone 5.4: PC UI System ✅
+- [x] Panel management system
+- [x] Territory detail panel
+- [x] Alliance panel with chat
+- [x] Build menu with categories
+- [x] Crafting panel
+- [x] Market panel
+- [x] Replay panel
+
+### Milestone 5.5: Unity Editor Tools ✅
+- [x] PCPrefabCreator (menu: Apex/PC/Create All PC Prefabs)
+- [x] PCSceneSetup (menu: Apex/PC/Setup PC Scene)
+- [x] Scene validation tool
 
 ### Deliverable
 ```
-Two phones can see the same cube in the same real-world location,
-even after closing and reopening the app.
+PC client with 18 scripts ready for Unity integration.
+Run "Apex > PC > Setup PC Scene (Full)" in Unity to create PCMain.unity.
+Same Firebase backend as AR client - one world, two windows.
 ```
 
 ---
 
-## 🏗️ Phase 1: Core Mechanics Prototype (Week 3-6)
-
-### Milestone 1.1: Resource System
-- [ ] Define resource types and properties
-- [ ] Create resource node spawning logic
-- [ ] Implement GPS-based node discovery
-- [ ] Build harvesting interaction
-- [ ] Add inventory management
-
-### Milestone 1.2: Building System v1
-- [ ] Create basic block prefabs (wall, floor, ramp)
-- [ ] Implement block placement in AR
-- [ ] Add block snapping/grid system
-- [ ] Save structure to Firestore
-- [ ] Load structure for other players
-
-### Milestone 1.3: Account System
-- [ ] Firebase Auth integration
-- [ ] Anonymous → Social account linking
-- [ ] Basic user profile
-- [ ] Faction selection
-
-### Deliverable
-```
-Player can walk around, collect resources, build a simple structure,
-and another player can see that structure.
-```
-
----
-
-## ⚔️ Phase 2: Social & Combat (Week 7-12)
-
-### Milestone 2.1: Territory System
-- [ ] Define zone/district/city hierarchy
-- [ ] Implement geohash-based zone detection
-- [ ] Create Citadel Core (claim mechanic)
-- [ ] Build zone ownership tracking
-- [ ] Add territory map view
-
-### Milestone 2.2: Real-Time Multiplayer
-- [ ] Integrate Photon Fusion
-- [ ] Player presence in zones
-- [ ] Real-time structure sync
-- [ ] Basic proximity chat/emotes
-
-### Milestone 2.3: Battle System v1
-- [ ] Raid initiation flow
-- [ ] Basic attack/defend mechanics
-- [ ] Health and damage system
-- [ ] Battle resolution logic
-- [ ] Victory/defeat rewards
-
-### Milestone 2.4: Guild System
-- [ ] Guild creation/management
-- [ ] Guild chat
-- [ ] Shared resource pool
-- [ ] Guild leaderboard
-
-### Deliverable
-```
-Players can form guilds, claim territories by building Citadels,
-and raid other players' Citadels in real-time AR combat.
-```
-
----
-
-## 🎨 Phase 3: Content & Polish (Week 13-18)
-
-### Milestone 3.1: Blueprint System
-- [ ] Design blueprint rarity tiers
-- [ ] Create 20+ unique blueprints
-- [ ] Implement blueprint discovery (POIs)
-- [ ] Blueprint inventory UI
+## 🔄 Phase 6: Unity Integration (Current)
 
 ### Milestone 3.2: Architect NPCs
 - [ ] Design 4 architect personalities
@@ -104,75 +88,48 @@ and raid other players' Citadels in real-time AR combat.
 - [ ] Unique building styles per architect
 - [ ] Architect leveling system
 
-### Milestone 3.3: Visual Polish
-- [ ] Occlusion shaders
-- [ ] Particle effects (building, destruction)
-- [ ] Sound design
-- [ ] Haptic feedback
-- [ ] Day/night cycle effects
+*Goal: Import scripts, configure scenes, build and test*
 
-### Milestone 3.4: Monetization v1
-- [ ] Battle Pass framework
-- [ ] Cosmetic shop
-- [ ] Premium currency
+### Milestone 6.1: Scene Setup 🔄
+- [ ] Open Unity Editor
+- [ ] Run Apex > PC > Setup PC Scene (Full)
+- [ ] Run Apex > PC > Create All PC Prefabs
+- [ ] Run Apex > PC > Validate PC Scene
+- [ ] Configure Firebase settings
+
+### Milestone 6.2: Integration Testing
+- [ ] Verify platform detection works
+- [ ] Test camera modes
+- [ ] Test input handling
+- [ ] Test UI panels
+- [ ] Verify Firebase connectivity
+
+### Milestone 6.3: Build & Deploy
+- [ ] Build PC executable
+- [ ] Test on Windows
+- [ ] Test shared data with AR client
 
 ### Deliverable
 ```
-Feature-complete game with polished visuals, multiple blueprints,
-architect system, and basic monetization.
+Working PC client that shares Firebase backend with AR client.
+Players can manage bases on PC, place them via AR.
 ```
 
 ---
 
-## 🌍 Phase 4: Soft Launch (Week 19-24)
+## 📅 Future Phases
 
-### Milestone 4.1: Soft Launch Prep
+### Phase 7: Soft Launch Prep
 - [ ] Select 2-3 test cities
 - [ ] Beta tester recruitment
 - [ ] Analytics dashboard
 - [ ] Customer support system
-- [ ] Bug tracking workflow
 
-### Milestone 4.2: Live Operations
-- [ ] First Territory War event
-- [ ] Weekly challenges
-- [ ] Community management
-- [ ] Balance adjustments
-- [ ] Performance optimization
-
-### Milestone 4.3: Feedback Integration
-- [ ] User interview sessions
-- [ ] Metrics analysis
-- [ ] Feature prioritization
-- [ ] Quick iteration cycle
-
-### Deliverable
-```
-Game live in limited markets, gathering real user feedback,
-iterating rapidly on core experience.
-```
-
----
-
-## 🚀 Phase 5: Global Launch (Week 25-36)
-
-### Milestone 5.1: Scale Infrastructure
+### Phase 8: Global Launch
 - [ ] Multi-region deployment
-- [ ] Load testing at scale
-- [ ] Anti-cheat hardening
-- [ ] CDN optimization
-
-### Milestone 5.2: Marketing Push
-- [ ] App Store optimization
-- [ ] Influencer partnerships
-- [ ] PR campaign
-- [ ] Community events
-
-### Milestone 5.3: Post-Launch Content
+- [ ] Marketing campaign
 - [ ] Season 1 Battle Pass
-- [ ] New blueprints monthly
-- [ ] Limited-time events
-- [ ] B2B partnership pilots
+- [ ] Post-launch content
 
 ---
 

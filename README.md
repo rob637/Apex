@@ -183,6 +183,96 @@ SECURE ──────→ CONTESTED ──────→ VULNERABLE ──�
 - [x] Analytics & A/B testing
 - [x] Admin Dashboard (web)
 
+### Phase 5: "Command" ✅ *Complete* - PC Hybrid Client
+- [x] PC client architecture (same Firebase backend)
+- [x] Multi-mode camera system (WorldMap, Territory, FirstPerson, Cinematic)
+- [x] Keyboard/mouse input with rebinding
+- [x] 3D Strategic world map renderer
+- [x] Detailed base editor with undo/redo
+- [x] Blueprint designer (design on PC, place in AR)
+- [x] Battle replay viewer (PC-exclusive)
+- [x] Crafting workshop system (PC-exclusive)
+- [x] Market/trading panel
+- [x] Alliance War Room (PC-exclusive)
+- [x] Statistics dashboard (PC-exclusive)
+- [x] Unity Editor tools for PC scene setup
+
+**Success metric:** 40%+ of players use both AR and PC weekly
+
+---
+
+## 🖥️ PC Hybrid Client
+
+> **One World, Two Windows** - Same Firebase backend, different interfaces
+
+The PC client provides a "Command Center" experience while the AR mobile client is "Boots on Ground":
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SHARED WORLD (Firebase)                   │
+│  Territories • Buildings • Resources • Players • Alliances  │
+└─────────────────────────────────────────────────────────────┘
+        ▲                                       ▲
+        │                                       │
+┌───────┴───────┐                     ┌────────┴────────┐
+│   AR CLIENT   │                     │   PC CLIENT     │
+│    (Mobile)   │                     │   (Desktop)     │
+│ • GPS-locked  │                     │ • Free camera   │
+│ • Touch input │                     │ • KB/Mouse      │
+│ • On location │                     │ • From anywhere │
+└───────────────┘                     └─────────────────┘
+```
+
+### PC-Exclusive Features
+
+| Feature | Description |
+|---------|-------------|
+| **Base Editor** | Precise building placement with grid snapping, undo/redo, blueprints |
+| **Battle Replays** | Watch attack/defense replays with playback controls and analysis |
+| **Crafting Workshop** | Queue-based crafting with quality tiers (Normal→Legendary) |
+| **Market/Trading** | Buy/sell resources and items with other players |
+| **Alliance War Room** | Strategy planning, member coordination, war declarations |
+| **Statistics Dashboard** | Deep analytics, charts, performance tracking |
+| **Blueprint Designer** | Design structures on PC, place them in AR later |
+
+### PC Controls
+
+| Key | Action |
+|-----|--------|
+| WASD / Arrows | Camera movement |
+| Mouse | Look / Select |
+| Scroll | Zoom in/out |
+| Left Click | Select / Interact |
+| Right Click | Context menu |
+| Space | Toggle map/territory |
+| Tab | Alliance panel |
+| B | Building menu |
+| M | Full world map |
+| Esc | Menu / Cancel |
+
+### PC Scripts Created
+
+| Script | Description |
+|--------|-------------|
+| `PlatformManager.cs` | Platform detection & feature gating |
+| `PCCameraController.cs` | 4 camera modes with smooth transitions |
+| `PCInputManager.cs` | Keyboard/mouse with key rebinding |
+| `WorldMapRenderer.cs` | 3D strategic world map |
+| `BaseEditor.cs` | Building editor with undo/redo |
+| `PCGameController.cs` | Main PC state machine |
+| `BattleReplaySystem.cs` | Battle replay with playback controls |
+| `CraftingSystem.cs` | PC crafting with quality system |
+| `PCUIManager.cs` | Panel management |
+| `TerritoryDetailPanel.cs` | Territory stats display |
+| `AlliancePanel.cs` | War Room & member management |
+| `BuildMenuPanel.cs` | Building catalog |
+| `StatisticsPanel.cs` | Analytics dashboard |
+| `BattleReplayPanel.cs` | Replay viewer UI |
+| `CraftingPanel.cs` | Crafting workshop UI |
+| `MarketPanel.cs` | Trading interface |
+
+📖 **Full PC design:** [docs/PC_HYBRID_DESIGN.md](docs/PC_HYBRID_DESIGN.md)
+
 ---
 
 ## 📁 Project Structure
@@ -208,6 +298,17 @@ Apex/
 │       └── Scripts/
 │           ├── Core/             # GameManager, initialization
 │           ├── AR/               # Spatial anchor system
+│           ├── PC/               # 🖥️ PC Client (NEW)
+│           │   ├── PlatformManager.cs
+│           │   ├── PCCameraController.cs
+│           │   ├── PCInputManager.cs
+│           │   ├── WorldMapRenderer.cs
+│           │   ├── BaseEditor.cs
+│           │   ├── PCGameController.cs
+│           │   ├── BattleReplaySystem.cs
+│           │   ├── CraftingSystem.cs
+│           │   ├── UI/           # PC UI panels
+│           │   └── Editor/       # Unity Editor tools
 │           ├── Backend/          # Firebase integration
 │           ├── WorldEvents/      # FOMO event system
 │           ├── SeasonPass/       # Battle pass system
@@ -278,6 +379,7 @@ For detailed requirements, workplan, and Unity AI prompts, see:
 |----------|-------------|
 | **[docs/GAME_DESIGN.md](docs/GAME_DESIGN.md)** | 🎮 **Complete game design spec** - Territory, combat, siege, alliances, monetization, safety |
 | **[docs/REQUIREMENTS.md](docs/REQUIREMENTS.md)** | 🎯 **Master planning document** - Full requirements, workplan, 13 Unity AI prompts, testing strategy |
+| **[docs/PC_HYBRID_DESIGN.md](docs/PC_HYBRID_DESIGN.md)** | 🖥️ **PC client design** - Hybrid mode, PC features, cross-platform sync |
 | [docs/VISION.md](docs/VISION.md) | Product vision and strategy |
 | [docs/TECHNICAL_ARCHITECTURE.md](docs/TECHNICAL_ARCHITECTURE.md) | System design and tech stack |
 | [docs/CODE_ARCHITECTURE.md](docs/CODE_ARCHITECTURE.md) | Complete code structure guide |
@@ -286,7 +388,8 @@ For detailed requirements, workplan, and Unity AI prompts, see:
 | [admin-dashboard/README.md](admin-dashboard/README.md) | Admin dashboard setup guide |
 
 ### Current Status (January 2026)
-- ✅ **70+ C# Scripts** - All game systems coded and ready
+- ✅ **85+ C# Scripts** - All game systems + PC client coded and ready
+- ✅ **PC Hybrid Client** - 18 scripts for desktop gameplay
 - ✅ **Firebase Backend** - 100% complete with 20 Cloud Function modules
 - ✅ **Admin Dashboard** - Full React web dashboard with 10 pages
 - ✅ **50+ Firestore Indexes** - Optimized for all query patterns

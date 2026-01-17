@@ -1,0 +1,25 @@
+{
+  "name": "Apex Citadels Dev",
+  "forwardPorts": [4000, 5001, 5002, 8080, 9099, 9199],
+  "portsAttributes": {
+    "4000": {
+      "label": "Firebase Emulator UI",
+      "onAutoForward": "openBrowser"
+    },
+    "5001": {
+      "label": "Firebase Functions"
+    },
+    "5002": {
+      "label": "Firebase Hosting"
+    },
+    "8080": {
+      "label": "Firestore"
+    },
+    "9099": {
+      "label": "Firebase Auth"
+    },
+    "9199": {
+      "label": "Firebase Storage"
+    }
+  }
+}
