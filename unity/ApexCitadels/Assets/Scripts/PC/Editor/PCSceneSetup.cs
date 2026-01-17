@@ -223,10 +223,10 @@ namespace ApexCitadels.PC
             }
             
             // Add PCUIManager
-            var uiManager = canvasObj.AddComponent<PCUIManager>();
+            var uiManager = canvasObj.AddComponent<UI.PCUIManager>();
             
             // Event System
-            if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            if (Object.FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
             {
                 var eventSystem = new GameObject("EventSystem");
                 eventSystem.transform.SetParent(uiRoot.transform);
@@ -333,10 +333,10 @@ namespace ApexCitadels.PC
             CheckComponent<BaseEditor>("BaseEditor");
             CheckComponent<BattleReplaySystem>("BattleReplaySystem");
             CheckComponent<CraftingSystem>("CraftingSystem");
-            CheckComponent<PCUIManager>("PCUIManager");
+            CheckComponent<UI.PCUIManager>("PCUIManager");
             
             // Check Canvas
-            var canvas = Object.FindObjectOfType<Canvas>();
+            var canvas = Object.FindFirstObjectByType<Canvas>();
             if (canvas != null)
             {
                 Debug.Log("✓ Canvas found");
@@ -358,7 +358,7 @@ namespace ApexCitadels.PC
             }
             
             // Check EventSystem
-            var eventSystem = Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
+            var eventSystem = Object.FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>();
             if (eventSystem != null)
             {
                 Debug.Log("✓ EventSystem found");
@@ -373,7 +373,7 @@ namespace ApexCitadels.PC
         
         private static void CheckComponent<T>(string name) where T : Component
         {
-            var component = Object.FindObjectOfType<T>();
+            var component = Object.FindFirstObjectByType<T>();
             if (component != null)
             {
                 Debug.Log($"✓ {name} found");

@@ -110,7 +110,7 @@ namespace ApexCitadels.PC
                 // Load building count
                 if (_buildingManager != null)
                 {
-                    pcData.BuildingCount = _buildingManager.GetBlockCountInTerritory(territory.Id);
+                    pcData.BuildingCount = _buildingManager.GetBlocksInTerritory(territory.Id)?.Count ?? 0;
                 }
 
                 // Calculate stats
@@ -150,7 +150,7 @@ namespace ApexCitadels.PC
             // Load buildings
             if (_buildingManager != null)
             {
-                pcData.Buildings = await _buildingManager.LoadTerritoryBlocks(territoryId);
+                pcData.Buildings = _buildingManager.GetBlocksInTerritory(territoryId);
                 pcData.BuildingCount = pcData.Buildings?.Count ?? 0;
             }
 
@@ -283,7 +283,8 @@ namespace ApexCitadels.PC
             };
 
             // Save through building manager
-            bool success = await _buildingManager.PlaceBlock(block);
+            var placedObj = _buildingManager.PlaceBlockAt(block);
+            bool success = placedObj != null;
 
             if (success)
             {

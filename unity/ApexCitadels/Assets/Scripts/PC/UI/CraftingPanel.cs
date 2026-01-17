@@ -73,7 +73,7 @@ namespace ApexCitadels.PC.UI
         
         private void Awake()
         {
-            _craftingSystem = CraftingSystem.Instance ?? FindObjectOfType<CraftingSystem>();
+            _craftingSystem = CraftingSystem.Instance ?? FindFirstObjectByType<CraftingSystem>();
             _tabButtons = new Button[]
             {
                 materialsTabButton, defenseTabButton, offenseTabButton,

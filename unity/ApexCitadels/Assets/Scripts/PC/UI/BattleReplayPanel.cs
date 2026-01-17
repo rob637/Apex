@@ -86,7 +86,7 @@ namespace ApexCitadels.PC.UI
         
         private void Awake()
         {
-            _replaySystem = FindObjectOfType<BattleReplaySystem>();
+            _replaySystem = FindFirstObjectByType<BattleReplaySystem>();
             SetupEventHandlers();
         }
         

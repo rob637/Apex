@@ -405,10 +405,10 @@ namespace ApexCitadels.PC
             var bg = tooltip.AddComponent<Image>();
             bg.color = new Color(0.05f, 0.05f, 0.1f, 0.95f);
             
-            // Outline
-            var outline = tooltip.AddComponent<Outline>();
-            outline.effectColor = new Color(0.4f, 0.5f, 0.6f, 0.8f);
-            outline.effectDistance = new Vector2(1, 1);
+            // Shadow/Outline effect using Shadow component
+            var shadow = tooltip.AddComponent<Shadow>();
+            shadow.effectColor = new Color(0.4f, 0.5f, 0.6f, 0.8f);
+            shadow.effectDistance = new Vector2(1, 1);
             
             // Content
             var content = new GameObject("Content");
