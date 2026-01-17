@@ -9,12 +9,32 @@ import {
   Chip,
   Button,
   Grid,
+  Alert,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Tabs,
+  Tab,
+  Slider,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import {
   Search as SearchIcon,
   Refresh as RefreshIcon,
   Map as MapIcon,
+  AddLocation as SeedIcon,
+  Close as CloseIcon,
+  Edit as EditIcon,
+  Save as SaveIcon,
+  TableChart as TableIcon,
+  Public as GlobeIcon,
 } from '@mui/icons-material';
 import {
   collection,
@@ -22,8 +42,66 @@ import {
   query,
   orderBy,
   limit,
+  doc,
+  updateDoc,
 } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { db, app } from '../config/firebase';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icons in React-Leaflet
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+// Custom marker icons by level
+const createLevelIcon = (level: number, resourceType: string) => {
+  const color = resourceType === 'gold' ? '#f59e0b' : 
+                resourceType === 'wood' ? '#22c55e' : 
+                resourceType === 'stone' ? '#94a3b8' : '#8b5cf6';
+  const size = 20 + level * 4;
+  
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="
+      background: ${color};
+      border: 3px solid white;
+      border-radius: 50%;
+      width: ${size}px;
+      height: ${size}px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: ${10 + level}px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    ">${level}</div>`,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+  });
+};
+
+// Component to fit map bounds
+function FitBounds({ territories }: { territories: Territory[] }) {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (territories.length > 0) {
+      const bounds = L.latLngBounds(
+        territories.map(t => [t.latitude, t.longitude] as [number, number])
+      );
+      map.fitBounds(bounds, { padding: [50, 50] });
+    }
+  }, [territories, map]);
+  
+  return null;
+}
 
 interface Territory {
   id: string;
@@ -44,6 +122,13 @@ export default function TerritoriesPage() {
   const [territories, setTerritories] = useState<Territory[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [seeding, setSeeding] = useState(false);
+  const [seedResult, setSeedResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [viewMode, setViewMode] = useState<'table' | 'map'>('table');
+  const [selectedTerritory, setSelectedTerritory] = useState<Territory | null>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editedTerritory, setEditedTerritory] = useState<Territory | null>(null);
+  const [saving, setSaving] = useState(false);
   const [stats, setStats] = useState({
     total: 0,
     contested: 0,
@@ -95,6 +180,76 @@ export default function TerritoriesPage() {
       console.error('Error fetching territories:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const seedTestData = async () => {
+    setSeeding(true);
+    setSeedResult(null);
+    try {
+      const functions = getFunctions(app, 'us-central1');
+      const seedTerritories = httpsCallable(functions, 'seedTerritories');
+      const result = await seedTerritories();
+      const data = result.data as { success: boolean; message: string; count?: number };
+      
+      if (data.success) {
+        setSeedResult({ 
+          type: 'success', 
+          message: `${data.message} (${data.count} territories created)` 
+        });
+        // Refresh the list after seeding
+        await fetchTerritories();
+      } else {
+        setSeedResult({ type: 'error', message: data.message });
+      }
+    } catch (error: any) {
+      console.error('Error seeding territories:', error);
+      setSeedResult({ 
+        type: 'error', 
+        message: error.message || 'Failed to seed territories' 
+      });
+    } finally {
+      setSeeding(false);
+    }
+  };
+
+  const handleTerritoryClick = (territory: Territory) => {
+    setSelectedTerritory(territory);
+    setEditedTerritory({ ...territory });
+    setEditMode(false);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedTerritory(null);
+    setEditedTerritory(null);
+    setEditMode(false);
+  };
+
+  const handleSaveTerritory = async () => {
+    if (!editedTerritory || !selectedTerritory) return;
+    
+    setSaving(true);
+    try {
+      const territoryRef = doc(db, 'territories', selectedTerritory.id);
+      await updateDoc(territoryRef, {
+        name: editedTerritory.name,
+        level: editedTerritory.level,
+        resourceType: editedTerritory.resourceType,
+        resourceOutput: editedTerritory.resourceOutput,
+      });
+      
+      // Update local state
+      setTerritories(prev => 
+        prev.map(t => t.id === selectedTerritory.id ? editedTerritory : t)
+      );
+      setSelectedTerritory(editedTerritory);
+      setEditMode(false);
+      setSeedResult({ type: 'success', message: `Territory "${editedTerritory.name}" updated successfully` });
+    } catch (error: any) {
+      console.error('Error updating territory:', error);
+      setSeedResult({ type: 'error', message: error.message || 'Failed to update territory' });
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -220,14 +375,36 @@ export default function TerritoriesPage() {
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
           Territory Management
         </Typography>
-        <Button
-          variant="outlined"
-          startIcon={<RefreshIcon />}
-          onClick={fetchTerritories}
-        >
-          Refresh
-        </Button>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={seeding ? <CircularProgress size={20} color="inherit" /> : <SeedIcon />}
+            onClick={seedTestData}
+            disabled={seeding}
+          >
+            {seeding ? 'Seeding...' : 'Seed Test Data'}
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<RefreshIcon />}
+            onClick={fetchTerritories}
+          >
+            Refresh
+          </Button>
+        </Box>
       </Box>
+
+      {/* Seed Result Alert */}
+      {seedResult && (
+        <Alert 
+          severity={seedResult.type} 
+          onClose={() => setSeedResult(null)}
+          sx={{ mb: 3 }}
+        >
+          {seedResult.message}
+        </Alert>
+      )}
 
       {/* Stats */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -283,6 +460,14 @@ export default function TerritoriesPage() {
 
       <Card>
         <CardContent>
+          {/* View Mode Tabs */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Tabs value={viewMode} onChange={(_, v) => setViewMode(v)}>
+              <Tab icon={<TableIcon />} label="Table" value="table" />
+              <Tab icon={<GlobeIcon />} label="Map" value="map" />
+            </Tabs>
+          </Box>
+
           {/* Search */}
           <TextField
             placeholder="Search territories by name, geohash, or controller..."
@@ -299,31 +484,228 @@ export default function TerritoriesPage() {
             }}
           />
 
-          {/* Data Grid */}
-          <Box sx={{ height: 600, width: '100%' }}>
-            <DataGrid
-              rows={filteredTerritories}
-              columns={columns}
-              loading={loading}
-              pageSizeOptions={[25, 50, 100]}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 25 } },
-              }}
-              disableRowSelectionOnClick
-              sx={{
-                border: 'none',
-                '& .MuiDataGrid-cell': {
-                  borderColor: 'rgba(148, 163, 184, 0.1)',
-                },
-                '& .MuiDataGrid-columnHeaders': {
-                  backgroundColor: 'rgba(30, 41, 59, 0.5)',
-                  borderColor: 'rgba(148, 163, 184, 0.1)',
-                },
-              }}
-            />
-          </Box>
+          {/* Table View */}
+          {viewMode === 'table' && (
+            <Box sx={{ height: 600, width: '100%' }}>
+              <DataGrid
+                rows={filteredTerritories}
+                columns={columns}
+                loading={loading}
+                pageSizeOptions={[25, 50, 100]}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 25 } },
+                }}
+                onRowClick={(params) => handleTerritoryClick(params.row as Territory)}
+                sx={{
+                  border: 'none',
+                  cursor: 'pointer',
+                  '& .MuiDataGrid-cell': {
+                    borderColor: 'rgba(148, 163, 184, 0.1)',
+                  },
+                  '& .MuiDataGrid-columnHeaders': {
+                    backgroundColor: 'rgba(30, 41, 59, 0.5)',
+                    borderColor: 'rgba(148, 163, 184, 0.1)',
+                  },
+                  '& .MuiDataGrid-row:hover': {
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                  },
+                }}
+              />
+            </Box>
+          )}
+
+          {/* Map View */}
+          {viewMode === 'map' && (
+            <Box sx={{ height: 600, width: '100%', borderRadius: 2, overflow: 'hidden' }}>
+              {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <MapContainer
+                  center={[38.9, -77.26]}
+                  zoom={12}
+                  style={{ height: '100%', width: '100%' }}
+                >
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  <FitBounds territories={filteredTerritories} />
+                  {filteredTerritories.map((territory) => (
+                    <Marker
+                      key={territory.id}
+                      position={[territory.latitude, territory.longitude]}
+                      icon={createLevelIcon(territory.level, territory.resourceType)}
+                      eventHandlers={{
+                        click: () => handleTerritoryClick(territory),
+                      }}
+                    >
+                      <Popup>
+                        <Box sx={{ minWidth: 150 }}>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                            {territory.name}
+                          </Typography>
+                          <Typography variant="body2">Level: {territory.level}</Typography>
+                          <Typography variant="body2">Resource: {territory.resourceType}</Typography>
+                          <Typography variant="body2">Status: {territory.controllerName}</Typography>
+                          <Button
+                            size="small"
+                            onClick={() => handleTerritoryClick(territory)}
+                            sx={{ mt: 1 }}
+                          >
+                            View Details
+                          </Button>
+                        </Box>
+                      </Popup>
+                    </Marker>
+                  ))}
+                </MapContainer>
+              )}
+            </Box>
+          )}
         </CardContent>
       </Card>
+
+      {/* Territory Detail Dialog */}
+      <Dialog 
+        open={!!selectedTerritory} 
+        onClose={handleCloseDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        {selectedTerritory && editedTerritory && (
+          <>
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <MapIcon sx={{ color: 'primary.main' }} />
+                {editMode ? 'Edit Territory' : selectedTerritory.name}
+              </Box>
+              <Box>
+                {!editMode && (
+                  <IconButton onClick={() => setEditMode(true)} color="primary">
+                    <EditIcon />
+                  </IconButton>
+                )}
+                <IconButton onClick={handleCloseDialog}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+            </DialogTitle>
+            <DialogContent dividers>
+              {editMode ? (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, pt: 1 }}>
+                  <TextField
+                    label="Name"
+                    value={editedTerritory.name}
+                    onChange={(e) => setEditedTerritory({ ...editedTerritory, name: e.target.value })}
+                    fullWidth
+                  />
+                  <Box>
+                    <Typography gutterBottom>Level: {editedTerritory.level}</Typography>
+                    <Slider
+                      value={editedTerritory.level}
+                      onChange={(_, v) => setEditedTerritory({ ...editedTerritory, level: v as number })}
+                      min={1}
+                      max={10}
+                      marks
+                      valueLabelDisplay="auto"
+                    />
+                  </Box>
+                  <FormControl fullWidth>
+                    <InputLabel>Resource Type</InputLabel>
+                    <Select
+                      value={editedTerritory.resourceType}
+                      label="Resource Type"
+                      onChange={(e) => setEditedTerritory({ ...editedTerritory, resourceType: e.target.value })}
+                    >
+                      <MenuItem value="gold">Gold</MenuItem>
+                      <MenuItem value="wood">Wood</MenuItem>
+                      <MenuItem value="stone">Stone</MenuItem>
+                      <MenuItem value="crystal">Crystal</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    label="Resource Output per Hour"
+                    type="number"
+                    value={editedTerritory.resourceOutput}
+                    onChange={(e) => setEditedTerritory({ ...editedTerritory, resourceOutput: parseInt(e.target.value) || 0 })}
+                    fullWidth
+                  />
+                </Box>
+              ) : (
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="text.secondary">Level</Typography>
+                    <Typography variant="h6">{selectedTerritory.level}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="text.secondary">Status</Typography>
+                    <Typography variant="h6">{selectedTerritory.controllerName}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="text.secondary">Resource</Typography>
+                    <Chip 
+                      label={selectedTerritory.resourceType} 
+                      size="small"
+                      sx={{ 
+                        mt: 0.5,
+                        backgroundColor: selectedTerritory.resourceType === 'gold' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(34, 197, 94, 0.2)',
+                        color: selectedTerritory.resourceType === 'gold' ? '#f59e0b' : '#22c55e',
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="text.secondary">Output/hr</Typography>
+                    <Typography variant="h6">{selectedTerritory.resourceOutput}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="text.secondary">Total Battles</Typography>
+                    <Typography variant="h6">{selectedTerritory.totalBattles}</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2" color="text.secondary">Last Conquered</Typography>
+                    <Typography variant="h6">
+                      {selectedTerritory.lastConquered?.toLocaleDateString() || 'Never'}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body2" color="text.secondary">Location</Typography>
+                    <Typography variant="body1" sx={{ fontFamily: 'monospace' }}>
+                      {selectedTerritory.latitude.toFixed(6)}, {selectedTerritory.longitude.toFixed(6)}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                      Geohash: {selectedTerritory.geohash}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
+            </DialogContent>
+            <DialogActions>
+              {editMode ? (
+                <>
+                  <Button onClick={() => {
+                    setEditMode(false);
+                    setEditedTerritory({ ...selectedTerritory });
+                  }}>
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    startIcon={saving ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />}
+                    onClick={handleSaveTerritory}
+                    disabled={saving}
+                  >
+                    {saving ? 'Saving...' : 'Save Changes'}
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={handleCloseDialog}>Close</Button>
+              )}
+            </DialogActions>
+          </>
+        )}
+      </Dialog>
     </Box>
   );
 }

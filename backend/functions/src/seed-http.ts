@@ -1,6 +1,5 @@
 /**
- * One-time seed function for production data
- * Call via: curl https://us-central1-apex-citadels-dev.cloudfunctions.net/seedTerritories
+ * Seed function for test data - callable from Admin Dashboard
  */
 
 import * as functions from 'firebase-functions';
@@ -24,7 +23,13 @@ const territories = [
   { id: 'territory-oakton', name: 'Oakton', latitude: 38.8809, longitude: -77.3006, level: 1, ownerId: null, ownerName: null },
 ];
 
-export const seedTerritories = functions.https.onRequest(async (req, res) => {
+// Callable function - can be called from authenticated clients
+export const seedTerritories = functions.https.onCall(async (data, context) => {
+  // Optional: Check if user is an admin
+  // if (!context.auth?.token?.admin) {
+  //   throw new functions.https.HttpsError('permission-denied', 'Only admins can seed data');
+  // }
+  
   try {
     const batch = db.batch();
     
@@ -45,12 +50,12 @@ export const seedTerritories = functions.https.onRequest(async (req, res) => {
     
     await batch.commit();
     
-    res.json({
+    return {
       success: true,
       message: `Seeded ${territories.length} territories`,
-      territories: territories.map(t => ({ id: t.id, name: t.name, location: `${t.latitude}, ${t.longitude}` }))
-    });
+      count: territories.length,
+    };
   } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+    throw new functions.https.HttpsError('internal', error.message);
   }
 });

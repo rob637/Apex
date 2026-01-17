@@ -24,11 +24,21 @@
     },
     {
       "target": "pc",
-      "public": "hosting-pc/build/Build",
+      "public": "hosting-pc",
       "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "/unity",
+          "destination": "/build/index.html"
+        },
+        {
+          "source": "/unity/**",
+          "destination": "/build/index.html"
+        }
       ],
       "headers": [
         {
