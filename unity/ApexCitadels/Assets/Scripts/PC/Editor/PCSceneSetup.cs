@@ -78,30 +78,23 @@ namespace ApexCitadels.PC
             // Create PC Camera rig
             var cameraRig = new GameObject("PCCameraRig");
             
-            // Main camera
-            var camera = new GameObject("MainCamera");
-            camera.transform.SetParent(cameraRig.transform);
-            camera.tag = "MainCamera";
+            // Main camera - add directly to rig since PCCameraController uses GetComponent<Camera>()
+            cameraRig.tag = "MainCamera";
             
-            var cam = camera.AddComponent<Camera>();
+            var cam = cameraRig.AddComponent<Camera>();
             cam.clearFlags = CameraClearFlags.Skybox;
             cam.fieldOfView = 60f;
             cam.nearClipPlane = 0.1f;
             cam.farClipPlane = 2000f;
             
-            camera.AddComponent<AudioListener>();
+            cameraRig.AddComponent<AudioListener>();
             
             // Position for world map view
-            camera.transform.position = new Vector3(0, 100, -50);
-            camera.transform.rotation = Quaternion.Euler(60, 0, 0);
+            cameraRig.transform.position = new Vector3(0, 100, -50);
+            cameraRig.transform.rotation = Quaternion.Euler(60, 0, 0);
             
-            // Add PC Camera Controller
-            var controller = cameraRig.AddComponent<PCCameraController>();
-            
-            // Set camera reference via serialized field
-            var so = new SerializedObject(controller);
-            so.FindProperty("mainCamera").objectReferenceValue = cam;
-            so.ApplyModifiedPropertiesWithoutUndo();
+            // Add PC Camera Controller (it will find the Camera component automatically)
+            cameraRig.AddComponent<PCCameraController>();
             
             Debug.Log("[PCSceneSetup] Camera rig created");
         }
