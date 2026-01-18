@@ -282,7 +282,15 @@ namespace ApexCitadels.PC.UI
             Image iconBg = iconSection.AddComponent<Image>();
             iconBg.color = new Color(0, 0, 0, 0.3f);
             
-            TextMeshProUGUI iconText = iconSection.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject iconTextObj = new GameObject("Text");
+            iconTextObj.transform.SetParent(iconSection.transform, false);
+            RectTransform iconTextRect = iconTextObj.AddComponent<RectTransform>();
+            iconTextRect.anchorMin = Vector2.zero;
+            iconTextRect.anchorMax = Vector2.one;
+            iconTextRect.offsetMin = Vector2.zero;
+            iconTextRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI iconText = iconTextObj.AddComponent<TextMeshProUGUI>();
             iconText.text = "🔥";
             iconText.fontSize = 48;
             iconText.alignment = TextAlignmentOptions.Center;

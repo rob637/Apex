@@ -452,7 +452,15 @@ namespace ApexCitadels.PC.UI
             le.flexibleWidth = 1;
             le.preferredHeight = 35;
             
-            TextMeshProUGUI text = tabObj.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(tabObj.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = label;
             text.fontSize = 12;
             text.alignment = TextAlignmentOptions.Center;
