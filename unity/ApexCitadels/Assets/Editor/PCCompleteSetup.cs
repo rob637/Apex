@@ -196,6 +196,17 @@ namespace ApexCitadels.PC.Editor
             if (Object.FindFirstObjectByType<AchievementPanel>() != null) uiPanelCount++;
             if (Object.FindFirstObjectByType<SettingsPanel>() != null) uiPanelCount++;
             if (Object.FindFirstObjectByType<SocialHubPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<WeatherSystem>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<AuctionHousePanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<MailSystemPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<TournamentPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<CosmeticsPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<SpectatorModePanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<SiegeWarfarePanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<MountPetPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<BlueprintEditorPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<ReplaySystemPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<VIPPremiumPanel>() != null) uiPanelCount++;
             // Add more as needed...
             
             EditorGUILayout.LabelField("Core Systems:", EditorStyles.boldLabel);
@@ -212,7 +223,7 @@ namespace ApexCitadels.PC.Editor
             EditorGUILayout.LabelField("Essential UI:", EditorStyles.boldLabel);
             EditorGUILayout.LabelField($"  {(hasNotifications ? "✅" : "❌")} NotificationSystem");
             EditorGUILayout.LabelField($"  {(hasTutorial ? "✅" : "❌")} TutorialSystem");
-            EditorGUILayout.LabelField($"  UI Panels: {uiPanelCount}/17+ created");
+            EditorGUILayout.LabelField($"  UI Panels: {uiPanelCount}/29+ created");
         }
 
         public static void RunCompleteSetup()
@@ -772,6 +783,100 @@ namespace ApexCitadels.PC.Editor
                 var obj = new GameObject("AllianceWarRoom");
                 obj.AddComponent<AllianceWarRoom>();
                 Log("[Setup] Created AllianceWarRoom");
+            }
+            
+            // ========== WAVE 5 ENGAGEMENT SYSTEMS ==========
+            
+            // WeatherSystem - dynamic weather affecting gameplay
+            if (Object.FindFirstObjectByType<WeatherSystem>() == null)
+            {
+                var obj = new GameObject("WeatherSystem");
+                obj.AddComponent<WeatherSystem>();
+                Log("[Setup] Created WeatherSystem");
+            }
+            
+            // AuctionHousePanel - player marketplace
+            if (Object.FindFirstObjectByType<AuctionHousePanel>() == null)
+            {
+                var obj = new GameObject("AuctionHousePanel");
+                obj.AddComponent<AuctionHousePanel>();
+                Log("[Setup] Created AuctionHousePanel");
+            }
+            
+            // MailSystemPanel - in-game messaging
+            if (Object.FindFirstObjectByType<MailSystemPanel>() == null)
+            {
+                var obj = new GameObject("MailSystemPanel");
+                obj.AddComponent<MailSystemPanel>();
+                Log("[Setup] Created MailSystemPanel");
+            }
+            
+            // TournamentPanel - competitive tournaments
+            if (Object.FindFirstObjectByType<TournamentPanel>() == null)
+            {
+                var obj = new GameObject("TournamentPanel");
+                obj.AddComponent<TournamentPanel>();
+                Log("[Setup] Created TournamentPanel");
+            }
+            
+            // CosmeticsPanel - visual customization
+            if (Object.FindFirstObjectByType<CosmeticsPanel>() == null)
+            {
+                var obj = new GameObject("CosmeticsPanel");
+                obj.AddComponent<CosmeticsPanel>();
+                Log("[Setup] Created CosmeticsPanel");
+            }
+            
+            // SpectatorModePanel - watch live battles
+            if (Object.FindFirstObjectByType<SpectatorModePanel>() == null)
+            {
+                var obj = new GameObject("SpectatorModePanel");
+                obj.AddComponent<SpectatorModePanel>();
+                Log("[Setup] Created SpectatorModePanel");
+            }
+            
+            // ═══════════════════════════════════════════════════════════════════════════
+            // WAVE 6 SYSTEMS - Advanced Engagement Features
+            // ═══════════════════════════════════════════════════════════════════════════
+            
+            // SiegeWarfarePanel - large-scale castle siege battles
+            if (Object.FindFirstObjectByType<SiegeWarfarePanel>() == null)
+            {
+                var obj = new GameObject("SiegeWarfarePanel");
+                obj.AddComponent<SiegeWarfarePanel>();
+                Log("[Setup] Created SiegeWarfarePanel");
+            }
+            
+            // MountPetPanel - companion mounts and pets
+            if (Object.FindFirstObjectByType<MountPetPanel>() == null)
+            {
+                var obj = new GameObject("MountPetPanel");
+                obj.AddComponent<MountPetPanel>();
+                Log("[Setup] Created MountPetPanel");
+            }
+            
+            // BlueprintEditorPanel - citadel layout designer
+            if (Object.FindFirstObjectByType<BlueprintEditorPanel>() == null)
+            {
+                var obj = new GameObject("BlueprintEditorPanel");
+                obj.AddComponent<BlueprintEditorPanel>();
+                Log("[Setup] Created BlueprintEditorPanel");
+            }
+            
+            // ReplaySystemPanel - battle replay recording and playback
+            if (Object.FindFirstObjectByType<ReplaySystemPanel>() == null)
+            {
+                var obj = new GameObject("ReplaySystemPanel");
+                obj.AddComponent<ReplaySystemPanel>();
+                Log("[Setup] Created ReplaySystemPanel");
+            }
+            
+            // VIPPremiumPanel - premium subscriptions and VIP benefits
+            if (Object.FindFirstObjectByType<VIPPremiumPanel>() == null)
+            {
+                var obj = new GameObject("VIPPremiumPanel");
+                obj.AddComponent<VIPPremiumPanel>();
+                Log("[Setup] Created VIPPremiumPanel");
             }
             
             Log("[Setup] ✅ All managers and UI systems created");
