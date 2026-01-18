@@ -1071,8 +1071,29 @@ namespace ApexCitadels.PC.UI
 
         private void OnScreenshotClicked()
         {
+            // Screenshot using coroutine to capture at end of frame
+            StartCoroutine(CaptureScreenshotCoroutine());
+        }
+
+        private System.Collections.IEnumerator CaptureScreenshotCoroutine()
+        {
+            yield return new WaitForEndOfFrame();
+            
             string filename = $"Screenshot_{DateTime.Now:yyyyMMdd_HHmmss}.png";
-            UnityEngine.ScreenCapture.CaptureScreenshot(filename);
+            string path = System.IO.Path.Combine(Application.persistentDataPath, filename);
+            
+            // Capture screen to texture
+            Texture2D screenTex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            screenTex.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+            screenTex.Apply();
+            
+            // Encode and save
+            byte[] bytes = screenTex.EncodeToPNG();
+            System.IO.File.WriteAllBytes(path, bytes);
+            
+            // Cleanup
+            Destroy(screenTex);
+            
             NotificationSystem.Instance?.ShowSuccess($"Screenshot saved: {filename}");
             OnScreenshotTaken?.Invoke();
         }
