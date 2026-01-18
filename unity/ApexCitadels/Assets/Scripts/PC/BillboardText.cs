@@ -33,7 +33,8 @@ namespace ApexCitadels.PC
                 lookDirection.y = 0;
             }
             
-            if (lookDirection != Vector3.zero)
+            // Only rotate if we have a valid direction (avoid zero vector errors)
+            if (lookDirection.sqrMagnitude > 0.001f)
             {
                 transform.rotation = Quaternion.LookRotation(-lookDirection);
             }
