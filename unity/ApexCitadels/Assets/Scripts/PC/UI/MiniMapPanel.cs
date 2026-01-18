@@ -252,7 +252,7 @@ namespace ApexCitadels.PC.UI
             img.color = playerMarkerColor;
             
             // Add glow effect
-            UIUnityEngine.UI.Outline glow = _playerMarker.AddComponent<UnityEngine.UI.Outline>();
+            UnityEngine.UI.Outline glow = _playerMarker.AddComponent<UnityEngine.UI.Outline>();
             glow.effectColor = new Color(1f, 1f, 0f, 0.5f);
             glow.effectDistance = new Vector2(2, 2);
             
