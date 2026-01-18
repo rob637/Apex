@@ -535,6 +535,8 @@ namespace ApexCitadels.PC.UI
 
         private void CreateQuickMatchContent()
         {
+            if (_contentArea == null) return;
+            
             VerticalLayoutGroup vlayout = _contentArea.AddComponent<VerticalLayoutGroup>();
             vlayout.childAlignment = TextAnchor.UpperCenter;
             vlayout.childForceExpandHeight = false;
