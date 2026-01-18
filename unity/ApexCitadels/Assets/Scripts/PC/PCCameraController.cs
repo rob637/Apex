@@ -217,12 +217,12 @@ namespace ApexCitadels.PC
 
         private void InitializeWorldMapMode()
         {
-            // Position camera looking down at world at an angle (not straight down)
-            _targetPosition = new Vector3(0, worldMapHeight, -worldMapHeight * 0.5f);
+            // Position camera above and slightly behind origin, looking down at angle
+            _targetPosition = new Vector3(0, worldMapHeight, -100f);
             _targetZoom = worldMapHeight;
-            // Look down at 60 degrees instead of 90 - this lets you see the beacons
-            transform.rotation = Quaternion.Euler(60f, 0f, 0f);
             transform.position = _targetPosition;
+            // Look down at the map at 70 degrees
+            transform.rotation = Quaternion.Euler(70f, 0f, 0f);
             
             // Set sky color
             if (_camera != null)
@@ -238,11 +238,10 @@ namespace ApexCitadels.PC
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            // Pan in the direction the camera is facing (adjusted for the angled view)
-            Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
-            Vector3 right = new Vector3(transform.right.x, 0, transform.right.z).normalized;
-            Vector3 panDirection = (right * horizontal + forward * vertical).normalized;
-            _targetPosition += panDirection * worldMapPanSpeed * Time.deltaTime;
+            // Simple panning in world XZ plane
+            Vector3 panDirection = new Vector3(horizontal, 0, vertical);
+            _targetPosition.x += panDirection.x * worldMapPanSpeed * Time.deltaTime;
+            _targetPosition.z += panDirection.z * worldMapPanSpeed * Time.deltaTime;
 
             // Mouse scroll for zoom
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -250,22 +249,20 @@ namespace ApexCitadels.PC
             {
                 _targetZoom -= scroll * worldMapZoomSpeed * _targetZoom;
                 _targetZoom = Mathf.Clamp(_targetZoom, worldMapMinHeight, worldMapMaxHeight);
+                _targetPosition.y = _targetZoom;
             }
-            
-            // Update camera position based on zoom (maintain angled view)
-            _targetPosition.y = _targetZoom;
-            _targetPosition.z = -_targetZoom * 0.5f + _targetPosition.z - transform.position.z + _targetZoom * 0.5f;
-            
-            // Smoothly move camera
-            transform.position = Vector3.SmoothDamp(transform.position, _targetPosition, ref _velocity, smoothTime);
 
             // Middle mouse drag for panning
             if (Input.GetMouseButton(2))
             {
-                float mouseX = -Input.GetAxis("Mouse X") * worldMapPanSpeed * 0.5f;
-                float mouseY = -Input.GetAxis("Mouse Y") * worldMapPanSpeed * 0.5f;
-                _targetPosition += right * mouseX + forward * mouseY;
+                float mouseX = -Input.GetAxis("Mouse X") * worldMapPanSpeed * 0.3f;
+                float mouseY = -Input.GetAxis("Mouse Y") * worldMapPanSpeed * 0.3f;
+                _targetPosition.x += mouseX;
+                _targetPosition.z += mouseY;
             }
+            
+            // Smoothly move camera to target
+            transform.position = Vector3.SmoothDamp(transform.position, _targetPosition, ref _velocity, smoothTime);
 
             // Click to focus on territory (handled by input manager)
         }
