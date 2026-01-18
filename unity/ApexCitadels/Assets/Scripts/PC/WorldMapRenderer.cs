@@ -990,8 +990,15 @@ namespace ApexCitadels.PC
                 }
             }
             
-            // Tag for raycasting
-            gameObject.tag = "Territory";
+            // Tag for raycasting (skip if tag doesn't exist)
+            try
+            {
+                gameObject.tag = "Territory";
+            }
+            catch (UnityException)
+            {
+                // Tag not defined - that's okay, we'll use layer or name instead
+            }
         }
 
         public void UpdateData(Territory.Territory territory)
