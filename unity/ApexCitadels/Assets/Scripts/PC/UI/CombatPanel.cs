@@ -646,7 +646,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(_resultsPanel.transform, false);
             
             _resultsTitle = titleObj.AddComponent<TextMeshProUGUI>();
-            _resultsTitle.text = $\"{GameIcons.Trophy} VICTORY!\";
+            _resultsTitle.text = $"{GameIcons.Trophy} VICTORY!";
             _resultsTitle.fontSize = 36;
             _resultsTitle.fontStyle = FontStyles.Bold;
             _resultsTitle.alignment = TextAlignmentOptions.Center;
