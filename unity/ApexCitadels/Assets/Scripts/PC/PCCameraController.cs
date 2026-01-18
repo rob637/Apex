@@ -20,11 +20,11 @@ namespace ApexCitadels.PC
         [SerializeField] private PCCameraMode defaultMode = PCCameraMode.WorldMap;
 
         [Header("World Map Settings")]
-        [SerializeField] private float worldMapHeight = 200f;  // Start closer to see territories
-        [SerializeField] private float worldMapMinHeight = 50f;
-        [SerializeField] private float worldMapMaxHeight = 2000f;
-        [SerializeField] private float worldMapPanSpeed = 150f;
-        [SerializeField] private float worldMapZoomSpeed = 100f;
+        [SerializeField] private float worldMapHeight = 300f;  // Higher for better overview
+        [SerializeField] private float worldMapMinHeight = 80f;
+        [SerializeField] private float worldMapMaxHeight = 1500f;
+        [SerializeField] private float worldMapPanSpeed = 200f;
+        [SerializeField] private float worldMapZoomSpeed = 150f;
 
         [Header("Territory View Settings")]
         [SerializeField] private float territoryViewHeight = 50f;
@@ -238,37 +238,43 @@ namespace ApexCitadels.PC
 
         private void InitializeWorldMapMode()
         {
-            // Position camera above and slightly behind origin, looking down at angle
-            _targetPosition = new Vector3(0, worldMapHeight, -100f);
+            // Position camera above, looking down at strategic angle
+            _targetPosition = new Vector3(0, worldMapHeight, -worldMapHeight * 0.5f);
             _targetZoom = worldMapHeight;
             transform.position = _targetPosition;
-            // Look down at the map at 70 degrees
-            transform.rotation = Quaternion.Euler(70f, 0f, 0f);
+            // Look down at the map at 60 degrees for better perspective
+            transform.rotation = Quaternion.Euler(60f, 0f, 0f);
             
             // Set sky color
             if (_camera != null)
             {
                 _camera.clearFlags = CameraClearFlags.SolidColor;
-                _camera.backgroundColor = new Color(0.4f, 0.6f, 0.9f, 1f); // Light blue sky
+                _camera.backgroundColor = new Color(0.3f, 0.5f, 0.8f, 1f); // Nice sky blue
             }
         }
 
+        // Camera rotation state for world map
+        private float _worldMapPitch = 60f;  // Default looking down
+        private float _worldMapYaw = 0f;
+
         private void UpdateWorldMapMode()
         {
-            // WASD / Arrow keys for panning
+            // WASD / Arrow keys for panning (relative to camera facing)
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            // Simple panning in world XZ plane
-            Vector3 panDirection = new Vector3(horizontal, 0, vertical);
-            _targetPosition.x += panDirection.x * worldMapPanSpeed * Time.deltaTime;
-            _targetPosition.z += panDirection.z * worldMapPanSpeed * Time.deltaTime;
+            // Calculate forward/right based on camera yaw (ignore pitch for movement)
+            Vector3 forward = Quaternion.Euler(0, _worldMapYaw, 0) * Vector3.forward;
+            Vector3 right = Quaternion.Euler(0, _worldMapYaw, 0) * Vector3.right;
+            
+            Vector3 moveDir = (forward * vertical + right * horizontal).normalized;
+            _targetPosition += moveDir * worldMapPanSpeed * Time.deltaTime;
 
             // Mouse scroll for zoom
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (Mathf.Abs(scroll) > 0.01f)
             {
-                _targetZoom -= scroll * worldMapZoomSpeed * _targetZoom;
+                _targetZoom -= scroll * worldMapZoomSpeed * (_targetZoom * 0.01f);
                 _targetZoom = Mathf.Clamp(_targetZoom, worldMapMinHeight, worldMapMaxHeight);
                 _targetPosition.y = _targetZoom;
             }
@@ -278,8 +284,17 @@ namespace ApexCitadels.PC
             {
                 float mouseX = -Input.GetAxis("Mouse X") * worldMapPanSpeed * 0.3f;
                 float mouseY = -Input.GetAxis("Mouse Y") * worldMapPanSpeed * 0.3f;
-                _targetPosition.x += mouseX;
-                _targetPosition.z += mouseY;
+                _targetPosition += right * mouseX + forward * mouseY;
+            }
+            
+            // RIGHT MOUSE DRAG to rotate camera angle
+            if (Input.GetMouseButton(1))
+            {
+                _worldMapYaw += Input.GetAxis("Mouse X") * 2f;
+                _worldMapPitch -= Input.GetAxis("Mouse Y") * 2f;
+                _worldMapPitch = Mathf.Clamp(_worldMapPitch, 20f, 85f); // Limit pitch angle
+                
+                transform.rotation = Quaternion.Euler(_worldMapPitch, _worldMapYaw, 0f);
             }
             
             // Smoothly move camera to target
