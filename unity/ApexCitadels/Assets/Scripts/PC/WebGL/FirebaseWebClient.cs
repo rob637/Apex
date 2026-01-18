@@ -235,38 +235,48 @@ namespace ApexCitadels.PC.WebGL
 
             try
             {
-                // Find all document blocks
-                var documentPattern = @"""name"":\s*""([^""]+/territories/([^""]+))""[^}]*?""fields"":\s*\{([^}]+(?:\{[^}]*\}[^}]*)*)\}";
-                var matches = Regex.Matches(json, documentPattern, RegexOptions.Singleline);
+                // Split by document entries - look for territory IDs in the name field
+                // Pattern: "name": "projects/.../territories/TERRITORY_ID"
+                var docIdPattern = @"""name"":\s*""projects/[^""]+/territories/([^""]+)""";
+                var docMatches = Regex.Matches(json, docIdPattern);
+                
+                Debug.Log($"[FirebaseWebClient] Found {docMatches.Count} document matches");
 
-                Debug.Log($"[FirebaseWebClient] Found {matches.Count} document matches");
-
-                foreach (Match match in matches)
+                // For each document, find its section of the JSON and extract fields
+                for (int i = 0; i < docMatches.Count; i++)
                 {
-                    string docId = match.Groups[2].Value;
-                    string fieldsJson = match.Groups[3].Value;
+                    string docId = docMatches[i].Groups[1].Value;
+                    
+                    // Get the JSON section for this document (from this match to the next, or end)
+                    int startIndex = docMatches[i].Index;
+                    int endIndex = (i + 1 < docMatches.Count) ? docMatches[i + 1].Index : json.Length;
+                    string docSection = json.Substring(startIndex, endIndex - startIndex);
+
+                    // Extract latitude and longitude from this document section
+                    double lat = ExtractDoubleFromSection(docSection, "latitude") ?? 0;
+                    double lng = ExtractDoubleFromSection(docSection, "longitude") ?? 0;
+                    
+                    Debug.Log($"[FirebaseWebClient] Doc {docId}: lat={lat}, lng={lng}");
 
                     var territory = new TerritorySnapshot
                     {
                         id = docId,
-                        name = ExtractStringField(fieldsJson, "name") ?? 
-                               ExtractStringField(fieldsJson, "territoryName") ?? 
-                               docId,
-                        latitude = ExtractDoubleField(fieldsJson, "latitude") ?? 
-                                   ExtractDoubleField(fieldsJson, "centerLatitude") ?? 0,
-                        longitude = ExtractDoubleField(fieldsJson, "longitude") ?? 
-                                    ExtractDoubleField(fieldsJson, "centerLongitude") ?? 0,
-                        radius = (float)(ExtractDoubleField(fieldsJson, "radius") ?? 
-                                         ExtractDoubleField(fieldsJson, "radiusMeters") ?? 100),
-                        ownerId = ExtractStringField(fieldsJson, "ownerId") ?? "",
-                        ownerName = ExtractStringField(fieldsJson, "ownerName") ?? "Unknown",
-                        allianceId = ExtractStringField(fieldsJson, "allianceId"),
-                        allianceName = ExtractStringField(fieldsJson, "allianceName"),
-                        allianceTag = ExtractStringField(fieldsJson, "allianceTag"),
-                        level = ExtractIntField(fieldsJson, "level") ?? 1,
-                        isContested = ExtractBoolField(fieldsJson, "isContested") ?? false,
-                        defenseRating = ExtractIntField(fieldsJson, "defenseRating") ?? 0,
-                        totalBlocks = ExtractIntField(fieldsJson, "totalBlocks") ?? 0
+                        name = ExtractStringFromSection(docSection, "name") ?? docId,
+                        latitude = lat,
+                        longitude = lng,
+                        radius = (float)(ExtractDoubleFromSection(docSection, "radius") ?? 
+                                         ExtractDoubleFromSection(docSection, "radiusMeters") ?? 100),
+                        ownerId = ExtractStringFromSection(docSection, "ownerId") ?? 
+                                  ExtractStringFromSection(docSection, "controlledBy") ?? "",
+                        ownerName = ExtractStringFromSection(docSection, "ownerName") ?? 
+                                    ExtractStringFromSection(docSection, "controllerName") ?? "Unknown",
+                        allianceId = ExtractStringFromSection(docSection, "allianceId"),
+                        allianceName = ExtractStringFromSection(docSection, "allianceName"),
+                        allianceTag = ExtractStringFromSection(docSection, "allianceTag"),
+                        level = ExtractIntFromSection(docSection, "level") ?? 1,
+                        isContested = ExtractBoolFromSection(docSection, "isContested") ?? false,
+                        defenseRating = ExtractIntFromSection(docSection, "defenseRating") ?? 0,
+                        totalBlocks = ExtractIntFromSection(docSection, "totalBlocks") ?? 0
                     };
 
                     Debug.Log($"[FirebaseWebClient] Parsed territory: {territory.name} at ({territory.latitude}, {territory.longitude})");
@@ -335,6 +345,63 @@ namespace ApexCitadels.PC.WebGL
         {
             var pattern = $@"""{fieldName}"":\s*\{{\s*""booleanValue"":\s*(true|false)\s*\}}";
             var match = Regex.Match(json, pattern, RegexOptions.IgnoreCase);
+            if (match.Success)
+                return match.Groups[1].Value.ToLower() == "true";
+            return null;
+        }
+
+        // New simpler extraction methods that work on document sections
+        private string ExtractStringFromSection(string section, string fieldName)
+        {
+            // Match: "fieldName": { "stringValue": "value" } with possible whitespace/newlines
+            var pattern = $@"""{fieldName}""\s*:\s*\{{\s*""stringValue""\s*:\s*""([^""]*)""\s*\}}";
+            var match = Regex.Match(section, pattern, RegexOptions.Singleline);
+            return match.Success ? match.Groups[1].Value : null;
+        }
+
+        private double? ExtractDoubleFromSection(string section, string fieldName)
+        {
+            // Match: "fieldName": { "doubleValue": 123.45 } - handles negative numbers and whitespace
+            var pattern = $@"""{fieldName}""\s*:\s*\{{\s*""doubleValue""\s*:\s*(-?[\d.]+)\s*\}}";
+            var match = Regex.Match(section, pattern, RegexOptions.Singleline);
+            if (match.Success)
+            {
+                if (double.TryParse(match.Groups[1].Value, 
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, 
+                    out double val))
+                {
+                    return val;
+                }
+            }
+            
+            // Also try integerValue
+            pattern = $@"""{fieldName}""\s*:\s*\{{\s*""integerValue""\s*:\s*""?(-?[\d]+)""?\s*\}}";
+            match = Regex.Match(section, pattern, RegexOptions.Singleline);
+            if (match.Success)
+            {
+                if (double.TryParse(match.Groups[1].Value, out double val))
+                {
+                    return val;
+                }
+            }
+            
+            return null;
+        }
+
+        private int? ExtractIntFromSection(string section, string fieldName)
+        {
+            var pattern = $@"""{fieldName}""\s*:\s*\{{\s*""integerValue""\s*:\s*""?(-?[\d]+)""?\s*\}}";
+            var match = Regex.Match(section, pattern, RegexOptions.Singleline);
+            if (match.Success && int.TryParse(match.Groups[1].Value, out int val))
+                return val;
+            return null;
+        }
+
+        private bool? ExtractBoolFromSection(string section, string fieldName)
+        {
+            var pattern = $@"""{fieldName}""\s*:\s*\{{\s*""booleanValue""\s*:\s*(true|false)\s*\}}";
+            var match = Regex.Match(section, pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             if (match.Success)
                 return match.Groups[1].Value.ToLower() == "true";
             return null;
