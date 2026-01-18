@@ -208,13 +208,19 @@ namespace ApexCitadels.PC
             }
             else
             {
-                // Create a simple procedural material with a nice map-like green
-                Material mat = CreateDefaultMaterial(new Color(0.25f, 0.45f, 0.25f, 1f));
+                // Create a nicer map-like ground material
+                Material mat = CreateDefaultMaterial(new Color(0.18f, 0.32f, 0.18f, 1f)); // Dark green
                 if (mat != null)
                 {
                     renderer.material = mat;
                 }
-                // If mat is null, keep the primitive's default material
+            }
+            
+            // Set a nice sky color if no skybox
+            if (Camera.main != null && RenderSettings.skybox == null)
+            {
+                Camera.main.clearFlags = CameraClearFlags.SolidColor;
+                Camera.main.backgroundColor = new Color(0.4f, 0.6f, 0.9f, 1f); // Light blue sky
             }
         }
 
@@ -348,30 +354,67 @@ namespace ApexCitadels.PC
             Vector3 worldPos = GPSToWorldPosition(territory.CenterLatitude, territory.CenterLongitude);
             territoryObj.transform.position = worldPos;
 
-            // Create territory visualization - use a more visible marker
-            // Base platform (cylinder)
-            GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            cylinder.name = "Base";
-            cylinder.transform.parent = territoryObj.transform;
-            cylinder.transform.localPosition = Vector3.zero;
-
             // Make territories much more visible - minimum 20 units radius
             float radius = Mathf.Max(territory.RadiusMeters / 10f, 20f);
-            cylinder.transform.localScale = new Vector3(radius * 2, 1f, radius * 2);
+
+            // Create territory visualization - base platform (cylinder)
+            GameObject baseObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            baseObj.name = "Base";
+            baseObj.transform.parent = territoryObj.transform;
+            baseObj.transform.localPosition = Vector3.zero;
+            baseObj.transform.localScale = new Vector3(radius * 2, 1f, radius * 2);
 
             // Apply material based on ownership
-            Renderer baseRenderer = cylinder.GetComponent<Renderer>();
-            baseRenderer.material = GetTerritoryMaterial(territory);
+            Renderer baseRenderer = baseObj.GetComponent<Renderer>();
+            Material baseMat = GetTerritoryMaterial(territory);
+            baseRenderer.material = baseMat;
 
-            // Add a tall marker/beacon on top so it's visible from far away
+            // Add a tall marker/beacon tower
             GameObject beacon = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             beacon.name = "Beacon";
             beacon.transform.parent = territoryObj.transform;
-            beacon.transform.localPosition = new Vector3(0, 15f, 0);
-            beacon.transform.localScale = new Vector3(5f, 30f, 5f);
+            beacon.transform.localPosition = new Vector3(0, 20f, 0);
+            beacon.transform.localScale = new Vector3(4f, 40f, 4f);
+            beacon.GetComponent<Renderer>().material = baseMat;
+
+            // Add glowing top sphere
+            GameObject topSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            topSphere.name = "TopMarker";
+            topSphere.transform.parent = territoryObj.transform;
+            topSphere.transform.localPosition = new Vector3(0, 62f, 0);
+            topSphere.transform.localScale = new Vector3(8f, 8f, 8f);
+            topSphere.GetComponent<Renderer>().material = baseMat;
+
+            // Add floating label using TextMesh
+            GameObject labelObj = new GameObject("Label");
+            labelObj.transform.parent = territoryObj.transform;
+            labelObj.transform.localPosition = new Vector3(0, 75f, 0);
             
-            Renderer beaconRenderer = beacon.GetComponent<Renderer>();
-            beaconRenderer.material = GetTerritoryMaterial(territory);
+            TextMesh textMesh = labelObj.AddComponent<TextMesh>();
+            textMesh.text = territory.Name;
+            textMesh.fontSize = 48;
+            textMesh.characterSize = 1f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = Color.white;
+            textMesh.fontStyle = FontStyle.Bold;
+            
+            // Make label face camera (billboard script)
+            labelObj.AddComponent<BillboardText>();
+
+            // Add level indicator below name
+            GameObject levelObj = new GameObject("LevelLabel");
+            levelObj.transform.parent = territoryObj.transform;
+            levelObj.transform.localPosition = new Vector3(0, 68f, 0);
+            
+            TextMesh levelText = levelObj.AddComponent<TextMesh>();
+            levelText.text = $"Lv.{territory.Level}";
+            levelText.fontSize = 32;
+            levelText.characterSize = 0.8f;
+            levelText.anchor = TextAnchor.MiddleCenter;
+            levelText.alignment = TextAlignment.Center;
+            levelText.color = new Color(1f, 0.9f, 0.5f); // Gold color
+            levelObj.AddComponent<BillboardText>();
 
             // Add territory data component
             TerritoryVisual visual = territoryObj.AddComponent<TerritoryVisual>();
@@ -380,8 +423,8 @@ namespace ApexCitadels.PC
             // Add collider for clicking - make it big enough to click
             CapsuleCollider collider = territoryObj.AddComponent<CapsuleCollider>();
             collider.radius = radius;
-            collider.height = 40f;
-            collider.center = new Vector3(0, 15f, 0);
+            collider.height = 80f;
+            collider.center = new Vector3(0, 30f, 0);
 
             _territoryObjects[territory.Id] = territoryObj;
 
