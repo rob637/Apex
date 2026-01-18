@@ -87,8 +87,6 @@ namespace ApexCitadels.PC.Editor
         }
 
         private static void AssignMaterial(ref WorldMapRenderer target, string fieldName, string matName)
-
-        private static void AssignMaterial(ref WorldMapRenderer target, string fieldName, string matName)
         {
             SerializedObject so = new SerializedObject(target);
             SerializedProperty prop = so.FindProperty(fieldName);
