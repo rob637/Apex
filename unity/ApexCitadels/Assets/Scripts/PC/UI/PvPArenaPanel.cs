@@ -637,7 +637,15 @@ namespace ApexCitadels.PC.UI
             Button button = btn.AddComponent<Button>();
             button.onClick.AddListener(StartMatchmaking);
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = "⚔️ FIND MATCH";
             text.fontSize = 20;
             text.fontStyle = FontStyles.Bold;
@@ -972,7 +980,15 @@ namespace ApexCitadels.PC.UI
                 button.onClick.AddListener(() => onClick());
             }
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = label;
             text.fontSize = 11;
             text.fontStyle = FontStyles.Bold;

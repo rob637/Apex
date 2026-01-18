@@ -388,7 +388,15 @@ namespace ApexCitadels.PC.UI
             Button button = btn.AddComponent<Button>();
             button.onClick.AddListener(() => JoinEvent(evt));
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = evt.PlayerProgress > 0 ? "Continue" : "Join!";
             text.fontSize = 16;
             text.fontStyle = FontStyles.Bold;
@@ -872,7 +880,15 @@ namespace ApexCitadels.PC.UI
             Button button = btn.AddComponent<Button>();
             button.onClick.AddListener(() => onClick?.Invoke());
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = label;
             text.fontSize = 12;
             text.fontStyle = FontStyles.Bold;

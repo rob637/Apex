@@ -698,7 +698,15 @@ namespace ApexCitadels.PC.UI
             Button button = btn.AddComponent<Button>();
             button.onClick.AddListener(() => CollectResource(resource.Type));
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = "Collect";
             text.fontSize = 9;
             text.alignment = TextAlignmentOptions.Center;
@@ -875,7 +883,15 @@ namespace ApexCitadels.PC.UI
                 button.onClick.AddListener(() => CollectFromBuilding(building));
             }
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = "🎁 Collect";
             text.fontSize = 11;
             text.alignment = TextAlignmentOptions.Center;
@@ -997,7 +1013,15 @@ namespace ApexCitadels.PC.UI
             Button button = btn.AddComponent<Button>();
             button.onClick.AddListener(() => PurchaseBoost(cost));
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = $"🌟 {cost}";
             text.fontSize = 12;
             text.color = Color.black;
@@ -1080,7 +1104,15 @@ namespace ApexCitadels.PC.UI
                 button.onClick.AddListener(() => ExecuteTrade(from, to, fromAmount, toAmount));
             }
             
-            TextMeshProUGUI text = btn.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(btn.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = "Trade";
             text.fontSize = 11;
             text.alignment = TextAlignmentOptions.Center;
