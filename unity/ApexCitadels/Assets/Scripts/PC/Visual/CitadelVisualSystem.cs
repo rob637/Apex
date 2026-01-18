@@ -612,8 +612,13 @@ namespace ApexCitadels.PC.Visual
             Renderer renderer = obj.GetComponent<Renderer>();
             if (renderer != null)
             {
-                Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-                mat.color = color;
+                Shader shader = Shader.Find("Universal Render Pipeline/Lit") 
+                    ?? Shader.Find("Standard") 
+                    ?? Shader.Find("Mobile/Diffuse")
+                    ?? Shader.Find("Diffuse");
+                Material mat = new Material(shader);
+                if (mat.HasProperty("_Color")) mat.SetColor("_Color", color);
+                if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", color);
                 renderer.material = mat;
             }
         }
@@ -623,10 +628,18 @@ namespace ApexCitadels.PC.Visual
             Renderer renderer = obj.GetComponent<Renderer>();
             if (renderer != null)
             {
-                Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-                mat.color = color;
-                mat.EnableKeyword("_EMISSION");
-                mat.SetColor("_EmissionColor", color * intensity);
+                Shader shader = Shader.Find("Universal Render Pipeline/Lit") 
+                    ?? Shader.Find("Standard") 
+                    ?? Shader.Find("Mobile/Diffuse")
+                    ?? Shader.Find("Diffuse");
+                Material mat = new Material(shader);
+                if (mat.HasProperty("_Color")) mat.SetColor("_Color", color);
+                if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", color);
+                if (mat.HasProperty("_EmissionColor"))
+                {
+                    mat.EnableKeyword("_EMISSION");
+                    mat.SetColor("_EmissionColor", color * intensity);
+                }
                 renderer.material = mat;
             }
         }

@@ -1522,14 +1522,24 @@ namespace ApexCitadels.PC.UI
 
         public void Show()
         {
-            _panel.SetActive(true);
-            RefreshContent();
+            if (_panel != null)
+            {
+                _panel.SetActive(true);
+                RefreshContent();
+            }
         }
 
         public void Hide()
         {
-            _panel.SetActive(false);
-            CancelMatchmaking();
+            if (_panel != null)
+            {
+                _panel.SetActive(false);
+            }
+            // Only cancel matchmaking if we were actually searching
+            if (_isSearching)
+            {
+                CancelMatchmaking();
+            }
         }
 
         public void Toggle()

@@ -387,18 +387,43 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         private Material CreateTerrainMaterial()
         {
-            // Use URP Terrain Lit shader
-            Shader terrainShader = Shader.Find("Universal Render Pipeline/Terrain/Lit");
-            if (terrainShader == null)
+            // Try shaders in order of preference for WebGL compatibility
+            string[] shaderNames = {
+                "Universal Render Pipeline/Terrain/Lit",
+                "Nature/Terrain/Standard",
+                "Nature/Terrain/Diffuse",
+                "Mobile/Diffuse",
+                "Unlit/Color",
+                "Standard"
+            };
+
+            Shader terrainShader = null;
+            foreach (var shaderName in shaderNames)
             {
-                terrainShader = Shader.Find("Nature/Terrain/Standard");
+                terrainShader = Shader.Find(shaderName);
+                if (terrainShader != null)
+                {
+                    Debug.Log($"[TerrainVisual] Using terrain shader: {shaderName}");
+                    break;
+                }
             }
+
             if (terrainShader == null)
             {
-                terrainShader = Shader.Find("Standard");
+                Debug.LogWarning("[TerrainVisual] No suitable terrain shader found!");
+                terrainShader = Shader.Find("Diffuse");
             }
 
             Material mat = new Material(terrainShader);
+            // Set a base green color for the terrain
+            if (mat.HasProperty("_Color"))
+            {
+                mat.SetColor("_Color", new Color(0.3f, 0.5f, 0.2f));
+            }
+            if (mat.HasProperty("_BaseColor"))
+            {
+                mat.SetColor("_BaseColor", new Color(0.3f, 0.5f, 0.2f));
+            }
             return mat;
         }
 
@@ -427,20 +452,55 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         private Material CreateWaterMaterial()
         {
-            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (shader == null) shader = Shader.Find("Standard");
+            // Try shaders for water
+            string[] shaderNames = {
+                "Universal Render Pipeline/Lit",
+                "Standard",
+                "Legacy Shaders/Transparent/Diffuse",
+                "Mobile/Diffuse"
+            };
+
+            Shader shader = null;
+            foreach (var shaderName in shaderNames)
+            {
+                shader = Shader.Find(shaderName);
+                if (shader != null) break;
+            }
+            
+            if (shader == null) shader = Shader.Find("Diffuse");
             
             Material mat = new Material(shader);
-            mat.color = new Color(0.1f, 0.3f, 0.5f, 0.7f);
+            Color waterColor = new Color(0.1f, 0.3f, 0.5f, 0.7f);
             
-            // Enable transparency
-            mat.SetFloat("_Surface", 1); // Transparent
-            mat.SetFloat("_Blend", 0); // Alpha
-            mat.SetFloat("_AlphaClip", 0);
+            if (mat.HasProperty("_Color"))
+            {
+                mat.SetColor("_Color", waterColor);
+            }
+            if (mat.HasProperty("_BaseColor"))
+            {
+                mat.SetColor("_BaseColor", waterColor);
+            }
+            
+            // Try to enable transparency if the shader supports it
+            if (mat.HasProperty("_Surface"))
+            {
+                mat.SetFloat("_Surface", 1); // Transparent
+            }
+            if (mat.HasProperty("_Blend"))
+            {
+                mat.SetFloat("_Blend", 0); // Alpha
+            }
             
             // Metallic/smoothness for reflections
-            mat.SetFloat("_Metallic", 0.2f);
-            mat.SetFloat("_Smoothness", 0.9f);
+            if (mat.HasProperty("_Metallic"))
+            {
+                mat.SetFloat("_Metallic", 0.2f);
+            }
+            if (mat.HasProperty("_Smoothness") || mat.HasProperty("_Glossiness"))
+            {
+                mat.SetFloat("_Smoothness", 0.9f);
+                mat.SetFloat("_Glossiness", 0.9f);
+            }
             
             // Enable transparency rendering
             mat.renderQueue = 3000;
