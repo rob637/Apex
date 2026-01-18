@@ -693,7 +693,7 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show a notification message
         /// </summary>
-        public void ShowNotification(string message, NotificationType type = NotificationType.Info)
+        public void ShowNotification(string message, UINotificationType type = UINotificationType.Info)
         {
             Debug.Log($"[PCUI] Notification ({type}): {message}");
             // TODO: Implement notification UI
@@ -747,7 +747,7 @@ namespace ApexCitadels.PC.UI
     /// <summary>
     /// Notification types
     /// </summary>
-    public enum NotificationType
+    public enum UIUINotificationType
     {
         Info,
         Success,

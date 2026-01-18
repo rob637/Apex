@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using TerritoryData = ApexCitadels.Territory.Territory;
 
 namespace ApexCitadels.PC.UI
 {
@@ -34,7 +35,7 @@ namespace ApexCitadels.PC.UI
         private Dictionary<TroopType, int> _availableTroops = new Dictionary<TroopType, int>();
         
         // Battle state
-        private Territory _targetTerritory;
+        private TerritoryData _targetTerritory;
         private BattleSimulation _currentBattle;
         private bool _isBattleInProgress;
         
@@ -47,8 +48,8 @@ namespace ApexCitadels.PC.UI
         public static CombatPanel Instance { get; private set; }
         
         // Events
-        public event Action<Territory, BattleResult> OnBattleCompleted;
-        public event Action<Territory> OnAttackStarted;
+        public event Action<TerritoryData, BattleResult> OnBattleCompleted;
+        public event Action<TerritoryData> OnAttackStarted;
 
         private void Awake()
         {
@@ -936,7 +937,7 @@ namespace ApexCitadels.PC.UI
 
         #region Public API
 
-        public void Show(Territory target = null)
+        public void Show(TerritoryData target = null)
         {
             _targetTerritory = target;
             UpdateTargetInfo();
@@ -1017,7 +1018,7 @@ namespace ApexCitadels.PC.UI
 
     public class BattleSimulation
     {
-        public Territory Target;
+        public TerritoryData Target;
         public Dictionary<TroopType, int> AttackerTroops;
         public int DefenderStrength;
         public float Progress;

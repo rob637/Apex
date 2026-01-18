@@ -27,8 +27,8 @@ namespace ApexCitadels.PC.UI
         // Social data
         private List<Friend> _friends = new List<Friend>();
         private List<Friend> _pendingRequests = new List<Friend>();
-        private List<GuildMember> _guildMembers = new List<GuildMember>();
-        private GuildInfo _currentGuild;
+        private List<SocialGuildMember> _guildMembers = new List<SocialGuildMember>();
+        private SocialGuildInfo _currentGuild;
         private List<SocialActivity> _activityFeed = new List<SocialActivity>();
         
         public static SocialHubPanel Instance { get; private set; }
@@ -136,7 +136,7 @@ namespace ApexCitadels.PC.UI
             });
             
             // Guild
-            _currentGuild = new GuildInfo
+            _currentGuild = new SocialGuildInfo
             {
                 GuildId = "GUILD_001",
                 Name = "Knights of Valor",
@@ -157,7 +157,7 @@ namespace ApexCitadels.PC.UI
             };
             
             // Guild members (sample)
-            _guildMembers.Add(new GuildMember
+            _guildMembers.Add(new SocialGuildMember
             {
                 PlayerId = "GM001",
                 Name = "GrandMaster",
@@ -169,7 +169,7 @@ namespace ApexCitadels.PC.UI
                 JoinedAt = DateTime.Now.AddDays(-90)
             });
             
-            _guildMembers.Add(new GuildMember
+            _guildMembers.Add(new SocialGuildMember
             {
                 PlayerId = "GM002",
                 Name = "SirLancelot",
@@ -181,7 +181,7 @@ namespace ApexCitadels.PC.UI
                 JoinedAt = DateTime.Now.AddDays(-85)
             });
             
-            _guildMembers.Add(new GuildMember
+            _guildMembers.Add(new SocialGuildMember
             {
                 PlayerId = "GM003",
                 Name = "DragonSlayer",
@@ -195,7 +195,7 @@ namespace ApexCitadels.PC.UI
             
             for (int i = 4; i <= 10; i++)
             {
-                _guildMembers.Add(new GuildMember
+                _guildMembers.Add(new SocialGuildMember
                 {
                     PlayerId = $"GM00{i}",
                     Name = $"Knight{i}",
@@ -211,7 +211,7 @@ namespace ApexCitadels.PC.UI
             // Activity feed
             _activityFeed.Add(new SocialActivity
             {
-                Type = ActivityType.Achievement,
+                Type = SocialActivityType.Achievement,
                 PlayerName = "DragonSlayer",
                 Message = "earned achievement: Dragon Slayer",
                 Timestamp = DateTime.Now.AddMinutes(-5)
@@ -219,7 +219,7 @@ namespace ApexCitadels.PC.UI
             
             _activityFeed.Add(new SocialActivity
             {
-                Type = ActivityType.Battle,
+                Type = SocialActivityType.Battle,
                 PlayerName = "CrystalMage",
                 Message = "won a battle against ShadowKing",
                 Timestamp = DateTime.Now.AddMinutes(-15)
@@ -227,7 +227,7 @@ namespace ApexCitadels.PC.UI
             
             _activityFeed.Add(new SocialActivity
             {
-                Type = ActivityType.LevelUp,
+                Type = SocialActivityType.LevelUp,
                 PlayerName = "SteelWarrior",
                 Message = "reached level 52!",
                 Timestamp = DateTime.Now.AddMinutes(-30)
@@ -235,7 +235,7 @@ namespace ApexCitadels.PC.UI
             
             _activityFeed.Add(new SocialActivity
             {
-                Type = ActivityType.GuildEvent,
+                Type = SocialActivityType.GuildEvent,
                 PlayerName = "Knights of Valor",
                 Message = "captured Eastern Fortress!",
                 Timestamp = DateTime.Now.AddHours(-1)
@@ -243,7 +243,7 @@ namespace ApexCitadels.PC.UI
             
             _activityFeed.Add(new SocialActivity
             {
-                Type = ActivityType.Online,
+                Type = SocialActivityType.Online,
                 PlayerName = "DragonSlayer",
                 Message = "came online",
                 Timestamp = DateTime.Now.AddHours(-2)
@@ -588,7 +588,7 @@ namespace ApexCitadels.PC.UI
             CreateSectionLabel("👥 MEMBERS");
             
             // Sort by rank then power
-            List<GuildMember> sorted = new List<GuildMember>(_guildMembers);
+            List<SocialGuildMember> sorted = new List<SocialGuildMember>(_guildMembers);
             sorted.Sort((a, b) =>
             {
                 if (a.Rank != b.Rank) return a.Rank.CompareTo(b.Rank);
@@ -718,7 +718,7 @@ namespace ApexCitadels.PC.UI
             CreateText(item.transform, value, 11, TextAlignmentOptions.Center, Color.white);
         }
 
-        private void CreateGuildMemberCard(GuildMember member)
+        private void CreateGuildMemberCard(SocialGuildMember member)
         {
             GameObject card = new GameObject($"Member_{member.PlayerId}");
             card.transform.SetParent(_contentContainer.transform, false);
@@ -852,11 +852,11 @@ namespace ApexCitadels.PC.UI
             // Icon
             string icon = activity.Type switch
             {
-                ActivityType.Achievement => "🏆",
-                ActivityType.Battle => "⚔️",
-                ActivityType.LevelUp => "⬆️",
-                ActivityType.GuildEvent => "🏰",
-                ActivityType.Online => "🟢",
+                SocialActivityType.Achievement => "🏆",
+                SocialActivityType.Battle => "⚔️",
+                SocialActivityType.LevelUp => "⬆️",
+                SocialActivityType.GuildEvent => "🏰",
+                SocialActivityType.Online => "🟢",
                 _ => "📌"
             };
             CreateText(item.transform, icon, 16, TextAlignmentOptions.Center);
@@ -1132,7 +1132,7 @@ namespace ApexCitadels.PC.UI
             return _pendingRequests.Count;
         }
 
-        public GuildInfo GetCurrentGuild() => _currentGuild;
+        public SocialGuildInfo GetCurrentGuild() => _currentGuild;
 
         #endregion
     }
@@ -1163,7 +1163,7 @@ namespace ApexCitadels.PC.UI
         Member
     }
 
-    public enum ActivityType
+    public enum SocialSocialActivityType
     {
         Achievement,
         Battle,
@@ -1185,7 +1185,7 @@ namespace ApexCitadels.PC.UI
         public bool IsFavorite;
     }
 
-    public class GuildInfo
+    public class SocialSocialGuildInfo
     {
         public string GuildId;
         public string Name;
@@ -1205,7 +1205,7 @@ namespace ApexCitadels.PC.UI
         public List<string> Perks;
     }
 
-    public class GuildMember
+    public class SocialSocialGuildMember
     {
         public string PlayerId;
         public string Name;
@@ -1219,7 +1219,7 @@ namespace ApexCitadels.PC.UI
 
     public class SocialActivity
     {
-        public ActivityType Type;
+        public SocialSocialActivityType Type;
         public string PlayerName;
         public string Message;
         public DateTime Timestamp;

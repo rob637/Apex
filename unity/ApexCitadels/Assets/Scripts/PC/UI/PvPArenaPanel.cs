@@ -30,7 +30,7 @@ namespace ApexCitadels.PC.UI
         private List<RankedMatch> _recentMatches = new List<RankedMatch>();
         private List<ArenaOpponent> _matchmaking = new List<ArenaOpponent>();
         private List<Tournament> _tournaments = new List<Tournament>();
-        private List<LeaderboardEntry> _leaderboard = new List<LeaderboardEntry>();
+        private List<ArenaLeaderboardEntry> _leaderboard = new List<ArenaLeaderboardEntry>();
         
         // Matchmaking
         private bool _isSearching;
@@ -225,18 +225,18 @@ namespace ApexCitadels.PC.UI
             };
             
             // Leaderboard
-            _leaderboard = new List<LeaderboardEntry>
+            _leaderboard = new List<ArenaLeaderboardEntry>
             {
-                new LeaderboardEntry { Rank = 1, PlayerName = "GrandMaster", Rating = 2847, Wins = 892, Losses = 123, Rank_Title = ArenaRank.Grandmaster },
-                new LeaderboardEntry { Rank = 2, PlayerName = "LegendKing", Rating = 2756, Wins = 756, Losses = 145, Rank_Title = ArenaRank.Grandmaster },
-                new LeaderboardEntry { Rank = 3, PlayerName = "ChampionX", Rating = 2698, Wins = 623, Losses = 134, Rank_Title = ArenaRank.Grandmaster },
-                new LeaderboardEntry { Rank = 4, PlayerName = "EliteWarrior", Rating = 2634, Wins = 589, Losses = 156, Rank_Title = ArenaRank.Master },
-                new LeaderboardEntry { Rank = 5, PlayerName = "DragonLord", Rating = 2589, Wins = 534, Losses = 167, Rank_Title = ArenaRank.Master },
-                new LeaderboardEntry { Rank = 6, PlayerName = "StormBringer", Rating = 2534, Wins = 512, Losses = 178, Rank_Title = ArenaRank.Master },
-                new LeaderboardEntry { Rank = 7, PlayerName = "ShadowFury", Rating = 2478, Wins = 489, Losses = 189, Rank_Title = ArenaRank.Diamond1 },
-                new LeaderboardEntry { Rank = 8, PlayerName = "IronWill", Rating = 2423, Wins = 456, Losses = 201, Rank_Title = ArenaRank.Diamond1 },
-                new LeaderboardEntry { Rank = 9, PlayerName = "FlameHeart", Rating = 2367, Wins = 423, Losses = 212, Rank_Title = ArenaRank.Diamond2 },
-                new LeaderboardEntry { Rank = 10, PlayerName = "FrostKnight", Rating = 2312, Wins = 398, Losses = 223, Rank_Title = ArenaRank.Diamond2 }
+                new ArenaLeaderboardEntry { Rank = 1, PlayerName = "GrandMaster", Rating = 2847, Wins = 892, Losses = 123, Rank_Title = ArenaRank.Grandmaster },
+                new ArenaLeaderboardEntry { Rank = 2, PlayerName = "LegendKing", Rating = 2756, Wins = 756, Losses = 145, Rank_Title = ArenaRank.Grandmaster },
+                new ArenaLeaderboardEntry { Rank = 3, PlayerName = "ChampionX", Rating = 2698, Wins = 623, Losses = 134, Rank_Title = ArenaRank.Grandmaster },
+                new ArenaLeaderboardEntry { Rank = 4, PlayerName = "EliteWarrior", Rating = 2634, Wins = 589, Losses = 156, Rank_Title = ArenaRank.Master },
+                new ArenaLeaderboardEntry { Rank = 5, PlayerName = "DragonLord", Rating = 2589, Wins = 534, Losses = 167, Rank_Title = ArenaRank.Master },
+                new ArenaLeaderboardEntry { Rank = 6, PlayerName = "StormBringer", Rating = 2534, Wins = 512, Losses = 178, Rank_Title = ArenaRank.Master },
+                new ArenaLeaderboardEntry { Rank = 7, PlayerName = "ShadowFury", Rating = 2478, Wins = 489, Losses = 189, Rank_Title = ArenaRank.Diamond1 },
+                new ArenaLeaderboardEntry { Rank = 8, PlayerName = "IronWill", Rating = 2423, Wins = 456, Losses = 201, Rank_Title = ArenaRank.Diamond1 },
+                new ArenaLeaderboardEntry { Rank = 9, PlayerName = "FlameHeart", Rating = 2367, Wins = 423, Losses = 212, Rank_Title = ArenaRank.Diamond2 },
+                new ArenaLeaderboardEntry { Rank = 10, PlayerName = "FrostKnight", Rating = 2312, Wins = 398, Losses = 223, Rank_Title = ArenaRank.Diamond2 }
             };
             
             // Matchmaking pool
@@ -979,7 +979,7 @@ namespace ApexCitadels.PC.UI
             // Entries
             foreach (var entry in _leaderboard)
             {
-                CreateLeaderboardEntry(entry);
+                CreateArenaLeaderboardEntry(entry);
             }
             
             // Player's position
@@ -1009,7 +1009,7 @@ namespace ApexCitadels.PC.UI
             CreateLeaderboardCell(header.transform, "Win%", 80, TextAlignmentOptions.Center);
         }
 
-        private void CreateLeaderboardEntry(LeaderboardEntry entry)
+        private void CreateArenaLeaderboardEntry(ArenaLeaderboardEntry entry)
         {
             GameObject row = new GameObject($"Entry_{entry.Rank}");
             row.transform.SetParent(_contentArea.transform, false);
@@ -1601,7 +1601,7 @@ namespace ApexCitadels.PC.UI
         public int CurrentPosition;
     }
 
-    public class LeaderboardEntry
+    public class ArenaArenaLeaderboardEntry
     {
         public int Rank;
         public string PlayerName;

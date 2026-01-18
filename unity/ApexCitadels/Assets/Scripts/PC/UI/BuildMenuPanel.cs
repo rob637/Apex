@@ -38,9 +38,9 @@ namespace ApexCitadels.PC.UI
         public event Action OnPanelClosed;
 
         // State
-        private BuildingCategory _selectedCategory = BuildingCategory.Foundations;
+        private BuildMenuCategory _selectedCategory = BuildMenuCategory.Foundations;
         private BlockType _hoveredBuilding;
-        private Dictionary<BuildingCategory, List<BlockType>> _categoryBuildings;
+        private Dictionary<BuildMenuCategory, List<BlockType>> _categoryBuildings;
         private List<GameObject> _currentCards = new List<GameObject>();
 
         private void Awake()
@@ -57,28 +57,28 @@ namespace ApexCitadels.PC.UI
 
         private void InitializeCategoryData()
         {
-            _categoryBuildings = new Dictionary<BuildingCategory, List<BlockType>>
+            _categoryBuildings = new Dictionary<BuildMenuCategory, List<BlockType>>
             {
-                { BuildingCategory.Foundations, new List<BlockType>
+                { BuildMenuCategory.Foundations, new List<BlockType>
                     { BlockType.Stone, BlockType.Wood, BlockType.Metal, BlockType.Foundation }
                 },
-                { BuildingCategory.Walls, new List<BlockType>
+                { BuildMenuCategory.Walls, new List<BlockType>
                     { BlockType.WallStone, BlockType.WallWood, BlockType.WallMetal, BlockType.WallReinforced,
                       BlockType.Fence, BlockType.Gate }
                 },
-                { BuildingCategory.Defenses, new List<BlockType>
+                { BuildMenuCategory.Defenses, new List<BlockType>
                     { BlockType.Tower, BlockType.ArrowTower, BlockType.CannonTower, BlockType.MageTower,
                       BlockType.Trap, BlockType.SpikeTrap, BlockType.Barricade }
                 },
-                { BuildingCategory.Production, new List<BlockType>
+                { BuildMenuCategory.Production, new List<BlockType>
                     { BlockType.Mine, BlockType.Quarry, BlockType.Sawmill, BlockType.Forge,
                       BlockType.CrystalExtractor, BlockType.StorageVault }
                 },
-                { BuildingCategory.Decorative, new List<BlockType>
+                { BuildMenuCategory.Decorative, new List<BlockType>
                     { BlockType.Pillar, BlockType.Statue, BlockType.Flag, BlockType.Torch,
                       BlockType.Garden, BlockType.Fountain }
                 },
-                { BuildingCategory.Special, new List<BlockType>
+                { BuildMenuCategory.Special, new List<BlockType>
                     { BlockType.CitadelCore, BlockType.Portal, BlockType.Beacon, BlockType.AncientRelic }
                 }
             };
@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.UI
             }
 
             // Create category buttons
-            foreach (BuildingCategory category in Enum.GetValues(typeof(BuildingCategory)))
+            foreach (BuildMenuCategory category in Enum.GetValues(typeof(BuildMenuCategory)))
             {
                 GameObject buttonObj = Instantiate(categoryButtonPrefab, categoryContainer);
                 var text = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -117,28 +117,28 @@ namespace ApexCitadels.PC.UI
                 var button = buttonObj.GetComponent<Button>();
                 if (button != null)
                 {
-                    BuildingCategory cat = category; // Capture for closure
+                    BuildMenuCategory cat = category; // Capture for closure
                     button.onClick.AddListener(() => SelectCategory(cat));
                 }
             }
         }
 
-        private void SelectCategory(BuildingCategory category)
+        private void SelectCategory(BuildMenuCategory category)
         {
             _selectedCategory = category;
             RefreshBuildingGrid();
         }
 
-        private string GetCategoryDisplayName(BuildingCategory category)
+        private string GetCategoryDisplayName(BuildMenuCategory category)
         {
             return category switch
             {
-                BuildingCategory.Foundations => "📦 Foundations",
-                BuildingCategory.Walls => "🧱 Walls",
-                BuildingCategory.Defenses => "🗼 Defenses",
-                BuildingCategory.Production => "⚙️ Production",
-                BuildingCategory.Decorative => "🎨 Decorative",
-                BuildingCategory.Special => "⭐ Special",
+                BuildMenuCategory.Foundations => "📦 Foundations",
+                BuildMenuCategory.Walls => "🧱 Walls",
+                BuildMenuCategory.Defenses => "🗼 Defenses",
+                BuildMenuCategory.Production => "⚙️ Production",
+                BuildMenuCategory.Decorative => "🎨 Decorative",
+                BuildMenuCategory.Special => "⭐ Special",
                 _ => category.ToString()
             };
         }
@@ -403,7 +403,7 @@ namespace ApexCitadels.PC.UI
     /// <summary>
     /// Building categories for the menu
     /// </summary>
-    public enum BuildingCategory
+    public enum BuildMenuCategory
     {
         Foundations,
         Walls,
