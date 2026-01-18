@@ -803,9 +803,18 @@ namespace ApexCitadels.Editor
                 }
             }
             
-            // Assign to sprite asset
-            spriteAsset.spriteGlyphTable = glyphs;
-            spriteAsset.spriteCharacterTable = characters;
+            // Add to sprite asset tables (clear existing and add new items)
+            spriteAsset.spriteGlyphTable.Clear();
+            foreach (var glyph in glyphs)
+            {
+                spriteAsset.spriteGlyphTable.Add(glyph);
+            }
+            
+            spriteAsset.spriteCharacterTable.Clear();
+            foreach (var character in characters)
+            {
+                spriteAsset.spriteCharacterTable.Add(character);
+            }
             
             // Update hash table
             spriteAsset.UpdateLookupTables();
