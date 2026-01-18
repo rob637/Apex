@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -1612,9 +1613,6 @@ namespace ApexCitadels.PC.UI
     }
 
     #region Data Classes
-
-    // Using LINQ
-    using System.Linq;
 
     public enum GuildTab
     {
