@@ -137,7 +137,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Moderation | ✅ | Reports, bans |
 | Settings | ✅ | Feature toggles |
 
-### 🔄 IN-PROGRESS: PC Client (80%)
+### 🔄 IN-PROGRESS: PC Client (85%)
 
 | System | Scripts | Status | Quality |
 |--------|---------|--------|---------|
@@ -152,7 +152,8 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | **Combat Audio** | CombatAudioSFX (procedural placeholder sounds) | ✅ | Foundation |
 | **Base Editor** | BaseEditorPanel, EditorCameraController, BlockPlacementController | ✅ | **AAA Quality** |
 | **Resource System** | ResourceInventory (8 types, events, persistence) | ✅ | Production |
-| UI Panels | 8 panels created | ✅ | Functional |
+| **Troop Training** | TroopTrainingPanel, TrainingQueueManager, TroopManager, TroopQuickBar | ✅ | **AAA Quality** |
+| UI Panels | 9 panels created | ✅ | Functional |
 
 ### 🔄 IN-PROGRESS: AR Mobile (85%)
 
@@ -323,6 +324,29 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 - Status bar with grid/snap information
 - Tooltips on all interactive elements
 
+### PC Client - Troop Training System (✅ NEWLY COMPLETED)
+
+| Component | Files | Features |
+|-----------|-------|----------|
+| Training Panel | TroopTrainingPanel.cs (800+ lines) | Tabbed UI, troop cards, queue, army view |
+| Queue Manager | TrainingQueueManager.cs (450+ lines) | Persistent queue, offline progress, resource integration |
+| Troop Manager | TroopManager.cs (500+ lines) | Formations, deployments, army statistics |
+| Quick Bar | TroopQuickBar.cs (400+ lines) | HUD widget, F1-F6 hotkeys, progress display |
+| Integration | TroopTrainingIntegration.cs | Scene setup, component connections |
+
+**Troop Training Features:**
+- 6 troop types: Infantry, Archer, Cavalry, Siege, Mage, Guardian
+- Tabbed interface: Train, Army Overview, Upgrades, Formations
+- Troop cards showing attack/defense/health, costs, counters, training time
+- Training queue with progress bars and time remaining
+- Army overview with power calculations per troop type
+- F1-F6 hotkeys for instant training from any screen
+- Keyboard shortcuts (1-4 for tabs, T to toggle panel, Escape to close)
+- Offline progress calculation (training continues when game is closed)
+- Formation presets: Balanced, Offensive, Defensive
+- Rich tooltips with full troop information
+- Resource cost integration with ResourceInventory
+
 ---
 
 ## IN-PROGRESS WORK
@@ -382,7 +406,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Gap | Current | Target | Effort |
 |-----|---------|--------|--------|
 | **First-Person Mode** | None | Walk through citadel interior | 2-3 days |
-| **Troop Management** | Backend only | Train, upgrade, deploy UI | 1-2 days |
+| ~~Troop Management~~ | ~~Backend only~~ | ~~Train, upgrade, deploy UI~~ | ✅ **DONE** |
 | **UI Animations** | Static | Eased transitions, bounces | 1-2 days |
 | **Notification Toasts** | Basic | Animated, categorized | 1 day |
 | **Settings Panel** | None | Graphics, audio, controls | 1 day |
@@ -408,7 +432,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 |---|------|------|--------|
 | 1 | Combat System UI & VFX | 2-3 | ✅ **DONE** |
 | 2 | Base Editor Integration | 2-3 | ✅ **DONE** |
-| 3 | Troop Training UI | 1-2 | ⏳ Next |
+| 3 | Troop Training UI | 1-2 | ✅ **DONE** |
 | 4 | Resource Spending | 1 | ⏳ Next |
 | 5 | Battle Replay Viewer | 1-2 | ⏳ Next |
 
