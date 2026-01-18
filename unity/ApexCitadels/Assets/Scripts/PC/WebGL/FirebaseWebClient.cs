@@ -292,16 +292,31 @@ namespace ApexCitadels.PC.WebGL
         private double? ExtractDoubleField(string json, string fieldName)
         {
             // Match: "fieldName": { "doubleValue": 123.45 } or "integerValue": "123"
-            var doublePattern = $@"""{fieldName}"":\s*\{{\s*""doubleValue"":\s*([\d.-]+)\s*\}}";
-            var intPattern = $@"""{fieldName}"":\s*\{{\s*""integerValue"":\s*""?([\d-]+)""?\s*\}}";
+            // Note: doubleValue can be negative (e.g., longitude -77.2639)
+            var doublePattern = $@"""{fieldName}"":\s*\{{\s*""doubleValue"":\s*(-?[\d.]+)\s*\}}";
+            var intPattern = $@"""{fieldName}"":\s*\{{\s*""integerValue"":\s*""?(-?[\d]+)""?\s*\}}";
             
             var match = Regex.Match(json, doublePattern);
-            if (match.Success && double.TryParse(match.Groups[1].Value, out double dVal))
-                return dVal;
+            if (match.Success)
+            {
+                string valStr = match.Groups[1].Value;
+                if (double.TryParse(valStr, System.Globalization.NumberStyles.Float, 
+                    System.Globalization.CultureInfo.InvariantCulture, out double dVal))
+                {
+                    return dVal;
+                }
+            }
 
             match = Regex.Match(json, intPattern);
-            if (match.Success && double.TryParse(match.Groups[1].Value, out double iVal))
-                return iVal;
+            if (match.Success)
+            {
+                string valStr = match.Groups[1].Value;
+                if (double.TryParse(valStr, System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, out double iVal))
+                {
+                    return iVal;
+                }
+            }
 
             return null;
         }

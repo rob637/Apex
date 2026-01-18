@@ -280,13 +280,10 @@ namespace ApexCitadels.PC
         /// </summary>
         public void RefreshVisibleTerritories()
         {
-            if (_cameraController == null) return;
-
-            Bounds viewBounds = _cameraController.GetViewBounds();
-
-            // Get territories from TerritoryManager (if available)
-            // For now, use mock data
-            List<Territory.Territory> territories = GetTerritoriesInBounds(viewBounds);
+            // Get ALL territories (bypass camera bounds for now to ensure they render)
+            List<Territory.Territory> territories = GetAllTerritories();
+            
+            Debug.Log($"[WorldMap] RefreshVisibleTerritories: {territories.Count} territories to render");
 
             // Remove territories no longer visible
             List<string> toRemove = new List<string>();
@@ -693,9 +690,9 @@ namespace ApexCitadels.PC
         #region Data Helpers
 
         /// <summary>
-        /// Get territories within the specified bounds
+        /// Get ALL territories (no bounds filtering)
         /// </summary>
-        private List<Territory.Territory> GetTerritoriesInBounds(Bounds bounds)
+        private List<Territory.Territory> GetAllTerritories()
         {
             List<Territory.Territory> territories = new List<Territory.Territory>();
 
@@ -734,6 +731,15 @@ namespace ApexCitadels.PC
             // Fall back to mock data for testing when no Firebase data
             Debug.Log("[WorldMap] No Firebase data, using mock territories");
             return GetMockTerritories();
+        }
+
+        /// <summary>
+        /// Get territories within the specified bounds
+        /// </summary>
+        private List<Territory.Territory> GetTerritoriesInBounds(Bounds bounds)
+        {
+            // For now, just return all territories
+            return GetAllTerritories();
         }
 
         /// <summary>
