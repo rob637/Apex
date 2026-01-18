@@ -67,6 +67,11 @@ namespace ApexCitadels.Core
             if (Instance == null)
             {
                 Instance = this;
+                // Move to root before DontDestroyOnLoad (required by Unity)
+                if (transform.parent != null)
+                {
+                    transform.SetParent(null);
+                }
                 DontDestroyOnLoad(gameObject);
             }
             else

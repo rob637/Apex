@@ -94,6 +94,24 @@ namespace ApexCitadels.PC.Visual
 
         private void CreateScreenOverlay()
         {
+            // Find a valid transparent shader
+            Shader transparentShader = Shader.Find("Unlit/Transparent");
+            if (transparentShader == null)
+            {
+                transparentShader = Shader.Find("Sprites/Default");
+            }
+            if (transparentShader == null)
+            {
+                transparentShader = Shader.Find("UI/Default");
+            }
+            
+            // If no shader found, skip overlay creation to avoid yellow screen
+            if (transparentShader == null)
+            {
+                Debug.LogWarning("[PostProcess] Could not find transparent shader, skipping vignette overlay");
+                return;
+            }
+            
             // Create overlay camera for effects
             GameObject overlayCamObj = new GameObject("EffectsOverlayCamera");
             overlayCamObj.transform.SetParent(transform);
@@ -103,6 +121,7 @@ namespace ApexCitadels.PC.Visual
             overlayCam.cullingMask = 0; // Don't render anything
             overlayCam.depth = 100; // Render after main camera
             overlayCam.orthographic = true;
+            overlayCam.enabled = false; // Disable by default - enable only when needed
             
             // Create overlay quad in screen space
             overlayQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -114,19 +133,17 @@ namespace ApexCitadels.PC.Visual
             // Remove collider
             Destroy(overlayQuad.GetComponent<Collider>());
             
-            // Create vignette material
-            overlayMaterial = new Material(Shader.Find("Unlit/Transparent"));
-            if (overlayMaterial != null)
-            {
-                // Create vignette texture
-                Texture2D vignetteTex = CreateVignetteTexture(256);
-                overlayMaterial.mainTexture = vignetteTex;
-                overlayMaterial.color = new Color(0, 0, 0, vignetteIntensity);
-                overlayQuad.GetComponent<Renderer>().material = overlayMaterial;
-            }
+            // Create vignette material with verified shader
+            overlayMaterial = new Material(transparentShader);
+            // Create vignette texture
+            Texture2D vignetteTex = CreateVignetteTexture(256);
+            overlayMaterial.mainTexture = vignetteTex;
+            overlayMaterial.color = new Color(0, 0, 0, vignetteIntensity);
+            overlayQuad.GetComponent<Renderer>().material = overlayMaterial;
             
-            // Initially hide until needed
-            overlayQuad.SetActive(vignetteIntensity > 0.1f);
+            // Initially hide - vignette is subtle effect, not needed by default
+            overlayQuad.SetActive(false);
+            overlayCam.enabled = false;
         }
 
         private Texture2D CreateVignetteTexture(int size)

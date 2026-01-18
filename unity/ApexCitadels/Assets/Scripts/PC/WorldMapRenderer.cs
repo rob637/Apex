@@ -5,6 +5,7 @@ using UnityEngine;
 using ApexCitadels.Territory;
 using ApexCitadels.Map;
 using ApexCitadels.PC.WebGL;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC
 {
@@ -467,7 +468,8 @@ namespace ApexCitadels.PC
             levelObj.transform.localPosition = new Vector3(0, 105f, 0);
             
             TextMesh levelText = levelObj.AddComponent<TextMesh>();
-            levelText.text = $"★ Level {territory.Level} ★";
+            // Note: TextMesh doesn't support TMP sprites, using text stars
+            levelText.text = $"* Level {territory.Level} *";
             levelText.fontSize = 48;
             levelText.characterSize = 0.6f;
             levelText.anchor = TextAnchor.MiddleCenter;
@@ -483,7 +485,8 @@ namespace ApexCitadels.PC
                 ownerObj.transform.localPosition = new Vector3(0, 97f, 0);
                 
                 TextMesh ownerText = ownerObj.AddComponent<TextMesh>();
-                ownerText.text = $"👑 {territory.OwnerName}";
+                // Note: TextMesh doesn't support TMP sprites, using text crown
+                ownerText.text = $"[King] {territory.OwnerName}";
                 ownerText.fontSize = 36;
                 ownerText.characterSize = 0.5f;
                 ownerText.anchor = TextAnchor.MiddleCenter;

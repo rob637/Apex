@@ -341,7 +341,7 @@ namespace ApexCitadels.UI
 
         private void OnEventStarted(WorldEvent evt)
         {
-            ShowNotification($"🎉 Event Started: {evt.Name}!", NotificationType.Event);
+            ShowNotification($"{GameIcons.Party} Event Started: {evt.Name}!", NotificationType.Event);
             AnalyticsManager.Instance?.TrackEvent("event_notification_shown", 
                 new Dictionary<string, object> { { "event_id", evt.Id } });
         }
@@ -359,7 +359,7 @@ namespace ApexCitadels.UI
 
         private void OnSeasonLevelUp(int newLevel)
         {
-            ShowNotification($"🎖️ Season Pass Tier {newLevel}!", NotificationType.Achievement);
+            ShowNotification($"{GameIcons.Medal} Season Pass Tier {newLevel}!", NotificationType.Achievement);
             UpdateSeasonPassWidget();
         }
 
@@ -376,13 +376,13 @@ namespace ApexCitadels.UI
 
         private void OnFriendRequestReceived(FriendRequest request)
         {
-            ShowNotification($"👋 {request.SenderName} sent you a friend request!", NotificationType.Social);
+            ShowNotification($"{GameIcons.Handshake} {request.SenderName} sent you a friend request!", NotificationType.Social);
             UpdateSocialWidgets();
         }
 
         private void OnGiftReceived(Gift gift)
         {
-            ShowNotification($"🎁 You received a gift!", NotificationType.Gift);
+            ShowNotification($"{GameIcons.Gift} You received a gift!", NotificationType.Gift);
             UpdateSocialWidgets();
         }
 
@@ -395,7 +395,7 @@ namespace ApexCitadels.UI
         {
             if (!message.IsMine)
             {
-                ShowNotification($"💬 {message.SenderName}: {TruncateString(message.Content, 30)}", 
+                ShowNotification($"{GameIcons.Get(GameIcons.Icon.Chat)} {message.SenderName}: {TruncateString(message.Content, 30)}", 
                     NotificationType.Chat);
             }
             UpdateSocialWidgets();
@@ -403,7 +403,7 @@ namespace ApexCitadels.UI
 
         private void OnReferralMilestoneReached(ReferralMilestone milestone)
         {
-            ShowNotification($"🏆 Referral Milestone: {milestone.Description}!", NotificationType.Achievement);
+            ShowNotification($"{GameIcons.Trophy} Referral Milestone: {milestone.Description}!", NotificationType.Achievement);
         }
 
         #endregion

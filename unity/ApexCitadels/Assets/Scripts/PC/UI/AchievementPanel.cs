@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.UI
 {
@@ -58,54 +59,54 @@ namespace ApexCitadels.PC.UI
             // Combat Achievements
             _achievements.AddRange(new[]
             {
-                new Achievement { Id = "first_blood", Title = "First Blood", Description = "Win your first battle", Category = AchievementCategory.Combat, Tier = AchievementTier.Bronze, Points = 10, TargetAmount = 1, Icon = "⚔️", IsUnlocked = true },
-                new Achievement { Id = "warrior", Title = "Warrior", Description = "Win 10 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Bronze, Points = 25, TargetAmount = 10, CurrentAmount = 5, Icon = "🗡️" },
-                new Achievement { Id = "conqueror", Title = "Conqueror", Description = "Win 100 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 100, CurrentAmount = 5, Icon = "🏆" },
-                new Achievement { Id = "warlord", Title = "Warlord", Description = "Win 500 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 500, CurrentAmount = 5, Icon = "👑" },
-                new Achievement { Id = "legend", Title = "Legend of War", Description = "Win 1000 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Platinum, Points = 200, TargetAmount = 1000, CurrentAmount = 5, Icon = "⭐" },
-                new Achievement { Id = "perfect_victory", Title = "Perfect Victory", Description = "Win a battle with no losses", Category = AchievementCategory.Combat, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1, Icon = "💯" },
-                new Achievement { Id = "underdog", Title = "Underdog", Description = "Win against a higher level player", Category = AchievementCategory.Combat, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1, Icon = "🐕" }
+                new Achievement { Id = "first_blood", Title = "First Blood", Description = "Win your first battle", Category = AchievementCategory.Combat, Tier = AchievementTier.Bronze, Points = 10, TargetAmount = 1, Icon = GameIcons.Battle, IsUnlocked = true },
+                new Achievement { Id = "warrior", Title = "Warrior", Description = "Win 10 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Bronze, Points = 25, TargetAmount = 10, CurrentAmount = 5, Icon = GameIcons.Sword },
+                new Achievement { Id = "conqueror", Title = "Conqueror", Description = "Win 100 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 100, CurrentAmount = 5, Icon = GameIcons.Trophy },
+                new Achievement { Id = "warlord", Title = "Warlord", Description = "Win 500 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 500, CurrentAmount = 5, Icon = GameIcons.Crown },
+                new Achievement { Id = "legend", Title = "Legend of War", Description = "Win 1000 battles", Category = AchievementCategory.Combat, Tier = AchievementTier.Platinum, Points = 200, TargetAmount = 1000, CurrentAmount = 5, Icon = GameIcons.Star },
+                new Achievement { Id = "perfect_victory", Title = "Perfect Victory", Description = "Win a battle with no losses", Category = AchievementCategory.Combat, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1, Icon = GameIcons.Victory },
+                new Achievement { Id = "underdog", Title = "Underdog", Description = "Win against a higher level player", Category = AchievementCategory.Combat, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1, Icon = GameIcons.Shield }
             });
             
             // Territory Achievements
             _achievements.AddRange(new[]
             {
-                new Achievement { Id = "landowner", Title = "Landowner", Description = "Claim your first territory", Category = AchievementCategory.Territory, Tier = AchievementTier.Bronze, Points = 10, TargetAmount = 1, IsUnlocked = true, Icon = "🏠" },
-                new Achievement { Id = "landlord", Title = "Landlord", Description = "Control 5 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Bronze, Points = 25, TargetAmount = 5, CurrentAmount = 2, Icon = "🏘️" },
-                new Achievement { Id = "baron", Title = "Baron", Description = "Control 25 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Silver, Points = 75, TargetAmount = 25, CurrentAmount = 2, Icon = "🏰" },
-                new Achievement { Id = "duke", Title = "Duke", Description = "Control 100 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Gold, Points = 150, TargetAmount = 100, CurrentAmount = 2, Icon = "👑" },
-                new Achievement { Id = "emperor", Title = "Emperor", Description = "Control 500 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Platinum, Points = 300, TargetAmount = 500, CurrentAmount = 2, Icon = "🌍" },
-                new Achievement { Id = "explorer", Title = "Explorer", Description = "Visit 50 unique real-world locations", Category = AchievementCategory.Territory, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 50, CurrentAmount = 10, Icon = "🧭" }
+                new Achievement { Id = "landowner", Title = "Landowner", Description = "Claim your first territory", Category = AchievementCategory.Territory, Tier = AchievementTier.Bronze, Points = 10, TargetAmount = 1, IsUnlocked = true, Icon = GameIcons.Home },
+                new Achievement { Id = "landlord", Title = "Landlord", Description = "Control 5 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Bronze, Points = 25, TargetAmount = 5, CurrentAmount = 2, Icon = GameIcons.Territory },
+                new Achievement { Id = "baron", Title = "Baron", Description = "Control 25 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Silver, Points = 75, TargetAmount = 25, CurrentAmount = 2, Icon = GameIcons.Citadel },
+                new Achievement { Id = "duke", Title = "Duke", Description = "Control 100 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Gold, Points = 150, TargetAmount = 100, CurrentAmount = 2, Icon = GameIcons.Crown },
+                new Achievement { Id = "emperor", Title = "Emperor", Description = "Control 500 territories", Category = AchievementCategory.Territory, Tier = AchievementTier.Platinum, Points = 300, TargetAmount = 500, CurrentAmount = 2, Icon = GameIcons.Globe },
+                new Achievement { Id = "explorer", Title = "Explorer", Description = "Visit 50 unique real-world locations", Category = AchievementCategory.Territory, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 50, CurrentAmount = 10, Icon = GameIcons.Map }
             });
             
             // Building Achievements
             _achievements.AddRange(new[]
             {
-                new Achievement { Id = "builder", Title = "Builder", Description = "Place 10 buildings", Category = AchievementCategory.Building, Tier = AchievementTier.Bronze, Points = 15, TargetAmount = 10, CurrentAmount = 3, Icon = "🔨" },
-                new Achievement { Id = "architect", Title = "Architect", Description = "Place 100 buildings", Category = AchievementCategory.Building, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 100, CurrentAmount = 3, Icon = "📐" },
-                new Achievement { Id = "master_builder", Title = "Master Builder", Description = "Place 1000 buildings", Category = AchievementCategory.Building, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 1000, CurrentAmount = 3, Icon = "🏗️" },
-                new Achievement { Id = "max_citadel", Title = "Citadel Supreme", Description = "Upgrade a citadel to max level", Category = AchievementCategory.Building, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 1, Icon = "🏯" },
-                new Achievement { Id = "decorator", Title = "Decorator", Description = "Place 50 decorative items", Category = AchievementCategory.Building, Tier = AchievementTier.Bronze, Points = 20, TargetAmount = 50, CurrentAmount = 5, Icon = "🎨" }
+                new Achievement { Id = "builder", Title = "Builder", Description = "Place 10 buildings", Category = AchievementCategory.Building, Tier = AchievementTier.Bronze, Points = 15, TargetAmount = 10, CurrentAmount = 3, Icon = GameIcons.Hammer },
+                new Achievement { Id = "architect", Title = "Architect", Description = "Place 100 buildings", Category = AchievementCategory.Building, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 100, CurrentAmount = 3, Icon = GameIcons.Build },
+                new Achievement { Id = "master_builder", Title = "Master Builder", Description = "Place 1000 buildings", Category = AchievementCategory.Building, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 1000, CurrentAmount = 3, Icon = GameIcons.Build },
+                new Achievement { Id = "max_citadel", Title = "Citadel Supreme", Description = "Upgrade a citadel to max level", Category = AchievementCategory.Building, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 1, Icon = GameIcons.Citadel },
+                new Achievement { Id = "decorator", Title = "Decorator", Description = "Place 50 decorative items", Category = AchievementCategory.Building, Tier = AchievementTier.Bronze, Points = 20, TargetAmount = 50, CurrentAmount = 5, Icon = GameIcons.Paint }
             });
             
             // Social Achievements
             _achievements.AddRange(new[]
             {
-                new Achievement { Id = "friendly", Title = "Friendly", Description = "Join an alliance", Category = AchievementCategory.Social, Tier = AchievementTier.Bronze, Points = 10, TargetAmount = 1, Icon = "🤝" },
-                new Achievement { Id = "leader", Title = "Leader", Description = "Become alliance leader", Category = AchievementCategory.Social, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1, Icon = "👔" },
-                new Achievement { Id = "diplomat", Title = "Diplomat", Description = "Form 5 alliances", Category = AchievementCategory.Social, Tier = AchievementTier.Gold, Points = 75, TargetAmount = 5, Icon = "🕊️" },
-                new Achievement { Id = "chatty", Title = "Chatty", Description = "Send 100 chat messages", Category = AchievementCategory.Social, Tier = AchievementTier.Bronze, Points = 15, TargetAmount = 100, CurrentAmount = 25, Icon = "💬" },
-                new Achievement { Id = "helpful", Title = "Helpful", Description = "Donate 10000 resources to alliance", Category = AchievementCategory.Social, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 10000, CurrentAmount = 500, Icon = "🎁" }
+                new Achievement { Id = "friendly", Title = "Friendly", Description = "Join an alliance", Category = AchievementCategory.Social, Tier = AchievementTier.Bronze, Points = 10, TargetAmount = 1, Icon = GameIcons.Alliance },
+                new Achievement { Id = "leader", Title = "Leader", Description = "Become alliance leader", Category = AchievementCategory.Social, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1, Icon = GameIcons.Crown },
+                new Achievement { Id = "diplomat", Title = "Diplomat", Description = "Form 5 alliances", Category = AchievementCategory.Social, Tier = AchievementTier.Gold, Points = 75, TargetAmount = 5, Icon = GameIcons.Peace },
+                new Achievement { Id = "chatty", Title = "Chatty", Description = "Send 100 chat messages", Category = AchievementCategory.Social, Tier = AchievementTier.Bronze, Points = 15, TargetAmount = 100, CurrentAmount = 25, Icon = GameIcons.Chat },
+                new Achievement { Id = "helpful", Title = "Helpful", Description = "Donate 10000 resources to alliance", Category = AchievementCategory.Social, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 10000, CurrentAmount = 500, Icon = GameIcons.Gift }
             });
             
             // Collection Achievements
             _achievements.AddRange(new[]
             {
-                new Achievement { Id = "hoarder", Title = "Hoarder", Description = "Collect 100,000 total resources", Category = AchievementCategory.Collection, Tier = AchievementTier.Bronze, Points = 20, TargetAmount = 100000, CurrentAmount = 15000, Icon = "💰" },
-                new Achievement { Id = "millionaire", Title = "Millionaire", Description = "Collect 1,000,000 gold", Category = AchievementCategory.Collection, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 1000000, CurrentAmount = 50000, Icon = "🤑" },
-                new Achievement { Id = "army_builder", Title = "Army Builder", Description = "Train 1000 troops", Category = AchievementCategory.Collection, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1000, CurrentAmount = 190, Icon = "🎖️" },
-                new Achievement { Id = "season_veteran", Title = "Season Veteran", Description = "Complete 5 season passes", Category = AchievementCategory.Collection, Tier = AchievementTier.Platinum, Points = 200, TargetAmount = 5, Icon = "🏅" },
-                new Achievement { Id = "daily_devotee", Title = "Daily Devotee", Description = "Complete 100 daily quests", Category = AchievementCategory.Collection, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 100, CurrentAmount = 15, Icon = "📅" }
+                new Achievement { Id = "hoarder", Title = "Hoarder", Description = "Collect 100,000 total resources", Category = AchievementCategory.Collection, Tier = AchievementTier.Bronze, Points = 20, TargetAmount = 100000, CurrentAmount = 15000, Icon = GameIcons.Gold },
+                new Achievement { Id = "millionaire", Title = "Millionaire", Description = "Collect 1,000,000 gold", Category = AchievementCategory.Collection, Tier = AchievementTier.Gold, Points = 100, TargetAmount = 1000000, CurrentAmount = 50000, Icon = GameIcons.Gem },
+                new Achievement { Id = "army_builder", Title = "Army Builder", Description = "Train 1000 troops", Category = AchievementCategory.Collection, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 1000, CurrentAmount = 190, Icon = GameIcons.Medal },
+                new Achievement { Id = "season_veteran", Title = "Season Veteran", Description = "Complete 5 season passes", Category = AchievementCategory.Collection, Tier = AchievementTier.Platinum, Points = 200, TargetAmount = 5, Icon = GameIcons.Medal },
+                new Achievement { Id = "daily_devotee", Title = "Daily Devotee", Description = "Complete 100 daily quests", Category = AchievementCategory.Collection, Tier = AchievementTier.Silver, Points = 50, TargetAmount = 100, CurrentAmount = 15, Icon = GameIcons.Calendar }
             });
             
             // Calculate totals
@@ -174,7 +175,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "🏆 ACHIEVEMENTS";
+            title.text = $"{GameIcons.Trophy} ACHIEVEMENTS";
             title.fontSize = 28;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
@@ -267,11 +268,11 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 5;
             hlayout.padding = new RectOffset(20, 20, 0, 0);
             
-            CreateCategoryTab(tabs.transform, AchievementCategory.Combat, "⚔️ Combat");
-            CreateCategoryTab(tabs.transform, AchievementCategory.Territory, "🗺️ Territory");
-            CreateCategoryTab(tabs.transform, AchievementCategory.Building, "🏗️ Building");
-            CreateCategoryTab(tabs.transform, AchievementCategory.Social, "👥 Social");
-            CreateCategoryTab(tabs.transform, AchievementCategory.Collection, "📦 Collection");
+            CreateCategoryTab(tabs.transform, AchievementCategory.Combat, $"{GameIcons.Battle} Combat");
+            CreateCategoryTab(tabs.transform, AchievementCategory.Territory, $"{GameIcons.Map} Territory");
+            CreateCategoryTab(tabs.transform, AchievementCategory.Building, $"{GameIcons.Build} Building");
+            CreateCategoryTab(tabs.transform, AchievementCategory.Social, $"{GameIcons.Alliance} Social");
+            CreateCategoryTab(tabs.transform, AchievementCategory.Collection, $"{GameIcons.Chest} Collection");
         }
 
         private void CreateCategoryTab(Transform parent, AchievementCategory category, string label)
@@ -498,7 +499,7 @@ namespace ApexCitadels.PC.UI
             TextMeshProUGUI status = statusObj.AddComponent<TextMeshProUGUI>();
             if (ach.IsUnlocked)
             {
-                status.text = "✅ Unlocked!";
+                status.text = $"{GameIcons.Success} Unlocked!";
                 status.color = new Color(0.3f, 0.8f, 0.3f);
             }
             else
@@ -595,11 +596,11 @@ namespace ApexCitadels.PC.UI
         {
             return tier switch
             {
-                AchievementTier.Bronze => "🥉",
-                AchievementTier.Silver => "🥈",
-                AchievementTier.Gold => "🥇",
-                AchievementTier.Platinum => "💎",
-                _ => "🥉"
+                AchievementTier.Bronze => GameIcons.BronzeMedal,
+                AchievementTier.Silver => GameIcons.SilverMedal,
+                AchievementTier.Gold => GameIcons.GoldMedal,
+                AchievementTier.Platinum => GameIcons.Gem,
+                _ => GameIcons.BronzeMedal
             };
         }
 

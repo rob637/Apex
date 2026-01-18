@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 using TerritoryData = ApexCitadels.Territory.Territory;
 
 namespace ApexCitadels.PC.UI
@@ -150,7 +151,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "⚔️ ATTACK TERRITORY";
+            title.text = $"{GameIcons.Battle} ATTACK TERRITORY";
             title.fontSize = 28;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
@@ -565,7 +566,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(_battleSimulationPanel.transform, false);
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "⚔️ BATTLE IN PROGRESS ⚔️";
+            title.text = $"{GameIcons.Battle} BATTLE IN PROGRESS {GameIcons.Battle}";
             title.fontSize = 24;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
@@ -645,7 +646,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(_resultsPanel.transform, false);
             
             _resultsTitle = titleObj.AddComponent<TextMeshProUGUI>();
-            _resultsTitle.text = "🏆 VICTORY!";
+            _resultsTitle.text = $\"{GameIcons.Trophy} VICTORY!\";
             _resultsTitle.fontSize = 36;
             _resultsTitle.fontStyle = FontStyles.Bold;
             _resultsTitle.alignment = TextAlignmentOptions.Center;
@@ -891,7 +892,7 @@ namespace ApexCitadels.PC.UI
             
             if (victory)
             {
-                _resultsTitle.text = "🏆 VICTORY!";
+                _resultsTitle.text = $"{GameIcons.Trophy} VICTORY!";
                 _resultsTitle.color = victoryColor;
                 
                 int goldLoot = UnityEngine.Random.Range(200, 500);
@@ -899,8 +900,8 @@ namespace ApexCitadels.PC.UI
                 
                 _resultsStats.text = $"Troops Lost: {troopsLost}/{totalTroops}\n" +
                     $"Enemy Eliminated: ALL\n\n" +
-                    $"<color=#FFD700>💰 Gold Looted: +{goldLoot}</color>\n" +
-                    $"<color=#888888>🪨 Stone Looted: +{stoneLoot}</color>\n\n" +
+                    $"<color=#FFD700>{GameIcons.Gold} Gold Looted: +{goldLoot}</color>\n" +
+                    $"<color=#888888>{GameIcons.Stone} Stone Looted: +{stoneLoot}</color>\n\n" +
                     $"Territory captured!";
                 
                 // Grant rewards
@@ -912,7 +913,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                _resultsTitle.text = "💀 DEFEAT";
+                _resultsTitle.text = $"{GameIcons.Defeat} DEFEAT";
                 _resultsTitle.color = defeatColor;
                 
                 _resultsStats.text = $"Troops Lost: {troopsLost}/{totalTroops}\n" +

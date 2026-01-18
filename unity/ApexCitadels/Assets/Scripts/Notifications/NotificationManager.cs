@@ -88,19 +88,20 @@ namespace ApexCitadels.Notifications
 
         private static string GetIconForType(NotificationType type)
         {
+            // Use GameIcons system for proper sprite rendering
             return type switch
             {
-                NotificationType.TerritoryAttacked => "⚔️",
-                NotificationType.TerritoryLost => "💔",
-                NotificationType.TerritoryCaptured => "🏆",
-                NotificationType.AllianceInvitation => "✉️",
-                NotificationType.AllianceMessage => "💬",
-                NotificationType.WarStarted => "🔥",
-                NotificationType.WarEnded => "🏳️",
-                NotificationType.ResourcesCollected => "💰",
-                NotificationType.LevelUp => "⬆️",
-                NotificationType.Achievement => "🎖️",
-                _ => "📢"
+                NotificationType.TerritoryAttacked => UI.GameIcons.CrossedSwords,
+                NotificationType.TerritoryLost => UI.GameIcons.Alert,
+                NotificationType.TerritoryCaptured => UI.GameIcons.Trophy,
+                NotificationType.AllianceInvitation => UI.GameIcons.Mail,
+                NotificationType.AllianceMessage => UI.GameIcons.Chat,
+                NotificationType.WarStarted => UI.GameIcons.Get(UI.GameIcons.Icon.Fire),
+                NotificationType.WarEnded => UI.GameIcons.Flag,
+                NotificationType.ResourcesCollected => UI.GameIcons.Gold,
+                NotificationType.LevelUp => UI.GameIcons.Get(UI.GameIcons.Icon.Upgrade),
+                NotificationType.Achievement => UI.GameIcons.Medal,
+                _ => UI.GameIcons.Get(UI.GameIcons.Icon.Info)
             };
         }
     }

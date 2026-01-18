@@ -93,11 +93,8 @@ namespace ApexCitadels.PC.Editor
             window.minSize = new Vector2(450, 600);
         }
 
-        [MenuItem("Window/Apex Citadels/Scene Diagnostic", false, 20)]
-        public static void OpenDiagnostic()
-        {
-            PCSceneDiagnostic.ShowWindow();
-        }
+        // Note: Scene Diagnostic menu item is defined in PCSceneDiagnostic.cs
+        // Removed duplicate here to avoid Unity warning
 
         private void OnGUI()
         {
