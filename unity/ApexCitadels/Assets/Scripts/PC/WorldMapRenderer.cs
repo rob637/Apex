@@ -639,17 +639,37 @@ namespace ApexCitadels.PC
 
         #region Coordinate Conversion
 
+        // Reference point for centering the map (set to first loaded territory)
+        private double _refLatitude = 0;
+        private double _refLongitude = 0;
+        private bool _refPointSet = false;
+
+        /// <summary>
+        /// Set the reference point for coordinate conversion (centers map on this location)
+        /// </summary>
+        public void SetReferencePoint(double latitude, double longitude)
+        {
+            _refLatitude = latitude;
+            _refLongitude = longitude;
+            _refPointSet = true;
+            Debug.Log($"[WorldMap] Reference point set to ({latitude}, {longitude})");
+        }
+
         /// <summary>
         /// Convert GPS coordinates to Unity world position
         /// </summary>
         public Vector3 GPSToWorldPosition(double latitude, double longitude)
         {
-            // Using simple Mercator projection
-            // Reference point at (0,0) latitude/longitude maps to world origin
+            // Using simple Mercator projection, centered on reference point
             const double metersPerDegree = 111319.9;
+            const double scaleFactor = 0.1; // 1 Unity unit = 10 meters
 
-            float x = (float)(longitude * metersPerDegree / 10); // Scale down
-            float z = (float)(latitude * metersPerDegree / 10);  // Scale down
+            // Offset from reference point
+            double latOffset = latitude - _refLatitude;
+            double lonOffset = longitude - _refLongitude;
+
+            float x = (float)(lonOffset * metersPerDegree * scaleFactor);
+            float z = (float)(latOffset * metersPerDegree * scaleFactor);
 
             return new Vector3(x, 0, z);
         }
@@ -660,9 +680,10 @@ namespace ApexCitadels.PC
         public (double latitude, double longitude) WorldToGPSPosition(Vector3 worldPos)
         {
             const double metersPerDegree = 111319.9;
+            const double scaleFactor = 0.1;
 
-            double longitude = (worldPos.x * 10) / metersPerDegree;
-            double latitude = (worldPos.z * 10) / metersPerDegree;
+            double longitude = _refLongitude + (worldPos.x / scaleFactor) / metersPerDegree;
+            double latitude = _refLatitude + (worldPos.z / scaleFactor) / metersPerDegree;
 
             return (latitude, longitude);
         }
@@ -682,6 +703,14 @@ namespace ApexCitadels.PC
             if (_cachedTerritories != null && _cachedTerritories.Count > 0)
             {
                 Debug.Log($"[WorldMap] Using {_cachedTerritories.Count} territories from Firebase");
+                
+                // Set reference point to first territory (centers the map)
+                if (!_refPointSet && _cachedTerritories.Count > 0)
+                {
+                    var first = _cachedTerritories[0];
+                    SetReferencePoint(first.latitude, first.longitude);
+                }
+                
                 foreach (var snapshot in _cachedTerritories)
                 {
                     var territory = new Territory.Territory
