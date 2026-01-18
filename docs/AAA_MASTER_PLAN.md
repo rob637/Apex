@@ -479,6 +479,49 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | 3 | Geospatial Anchor Test | 2 | ⭐⭐⭐⭐⭐ |
 | 4 | Mobile Build & Test | 2-3 | ⭐⭐⭐⭐⭐ |
 
+### Phase 11: Fantasy Ground-Level View ⭐ NEW
+**Goal:** Seamless aerial-to-ground transition with fantasy-styled real-world rendering
+
+> **Core Concept:** "See your neighborhood transformed into a medieval kingdom"
+> - AR Mobile: Real camera feed with AR overlays (buildings you place)
+> - PC Aerial: Standard map tiles (satellite/streets)
+> - PC Ground: Fantasy-rendered version of real geography
+
+| # | Task | Days | Impact |
+|---|------|------|--------|
+| 1 | OSM Data Pipeline | 3-4 | ⭐⭐⭐⭐⭐ |
+| 2 | Procedural Building Generator | 4-5 | ⭐⭐⭐⭐⭐ |
+| 3 | Fantasy Road Renderer | 2-3 | ⭐⭐⭐⭐ |
+| 4 | Terrain from Elevation Data | 2-3 | ⭐⭐⭐⭐ |
+| 5 | LOD System (Aerial ↔ Ground) | 2-3 | ⭐⭐⭐⭐⭐ |
+| 6 | Player Citadel Integration | 2 | ⭐⭐⭐⭐⭐ |
+| 7 | First-Person Walking Mode | 2-3 | ⭐⭐⭐⭐ |
+
+**Technical Approach (Fantasy Hybrid):**
+```
+Real Data Sources:                Fantasy Rendering Output:
+─────────────────                 ────────────────────────
+• OSM road vectors      ────────▶ Medieval cobblestone paths
+• OSM building footprints ──────▶ Procedural castles/cottages/manors
+• OSM parks/greenspace  ────────▶ Enchanted forests with glowing flora
+• Mapbox elevation      ────────▶ Rolling fantasy hills
+• OSM water features    ────────▶ Magical rivers with custom shaders
+• Player-built structures ──────▶ Exactly as designed (AR ↔ PC sync)
+```
+
+**Building Classification Rules:**
+- Small footprint → Cottage/Peasant House
+- Medium footprint → Manor/Shop/Tavern
+- Large footprint → Castle/Fortress/Cathedral
+- Height data → Floor count → Mesh complexity
+
+**Why This Works:**
+1. Players recognize their neighborhood by road layout and landmarks
+2. Fantasy aesthetic fits game theme perfectly
+3. Sidesteps "uncanny valley" of imperfect realism
+4. Performant (stylized = lower poly than photorealistic)
+5. Player-built structures stand out as "theirs"
+
 ---
 
 ## TECHNICAL DEBT
