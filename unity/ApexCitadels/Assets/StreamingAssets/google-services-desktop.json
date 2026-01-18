@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "772054827230",
+    "project_id": "apex-citadels-dev",
+    "storage_bucket": "apex-citadels-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772054827230:android:6c6dc09518507a31af824f",
+        "android_client_info": {
+          "package_name": "com.apexcitadels.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772054827230-r6jib078t5300qoq22ls9nh81snsdj10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0Qeh80n0Vvl4hZ2s5ew1Evwvwz0_r6bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772054827230-r6jib078t5300qoq22ls9nh81snsdj10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
