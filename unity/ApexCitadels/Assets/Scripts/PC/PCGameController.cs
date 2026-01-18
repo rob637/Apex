@@ -293,11 +293,37 @@ namespace ApexCitadels.PC
         private void HandleTerritoryClicked(string territoryId)
         {
             _selectedTerritoryId = territoryId;
+            Debug.Log($"[PCGame] Territory clicked: {territoryId}");
 
             if (_currentState == PCClientState.WorldMap)
             {
-                // Show territory detail
-                ViewTerritory(territoryId);
+                // Show territory detail panel
+                OnTerritorySelected?.Invoke(territoryId);
+                
+                // Find the territory data and show in UI
+                if (worldMapRenderer != null && uiManager != null)
+                {
+                    var territories = worldMapRenderer.AllTerritories;
+                    var snapshot = territories.Find(t => t.id == territoryId);
+                    if (snapshot != null)
+                    {
+                        // Convert to Territory and show detail
+                        var territory = new Territory.Territory
+                        {
+                            Id = snapshot.id,
+                            TerritoryName = snapshot.name ?? $"Territory {snapshot.id}",
+                            CenterLatitude = snapshot.latitude,
+                            CenterLongitude = snapshot.longitude,
+                            RadiusMeters = snapshot.radius > 0 ? snapshot.radius : 100f,
+                            OwnerId = snapshot.ownerId,
+                            OwnerName = snapshot.ownerName,
+                            AllianceId = snapshot.allianceId,
+                            Level = snapshot.level > 0 ? snapshot.level : 1,
+                            IsContested = snapshot.isContested
+                        };
+                        uiManager.ShowTerritoryDetail(territory);
+                    }
+                }
             }
         }
 

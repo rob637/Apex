@@ -206,8 +206,8 @@ namespace ApexCitadels.PC
             _groundPlane.transform.localPosition = new Vector3(0, -1f, 0); // Below territories
             _groundPlane.transform.localScale = new Vector3(200, 1, 200); // 2000 x 2000 units
 
-            // Use MaterialHelper for reliable color material
-            Color groundColor = new Color(0.25f, 0.55f, 0.25f, 1f); // Bright green
+            // Use a nice terrain-like green color
+            Color groundColor = new Color(0.18f, 0.45f, 0.22f, 1f); // Forest green
             Material mat = MaterialHelper.CreateColorMaterial(groundColor);
             
             if (mat != null)
@@ -223,7 +223,8 @@ namespace ApexCitadels.PC
 
         private void SetupSkyAndCamera()
         {
-            Color skyBlue = new Color(0.5f, 0.7f, 1f, 1f);
+            // Nice gradient sky blue
+            Color skyBlue = new Color(0.4f, 0.6f, 0.9f, 1f);
             
             // Force sky color on main camera
             if (Camera.main != null)
@@ -240,7 +241,14 @@ namespace ApexCitadels.PC
                 cam.backgroundColor = skyBlue;
             }
             
-            // Disable skybox
+            // Setup better ambient lighting
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.7f, 0.8f, 1f);
+            RenderSettings.ambientEquatorColor = new Color(0.6f, 0.65f, 0.7f);
+            RenderSettings.ambientGroundColor = new Color(0.3f, 0.35f, 0.25f);
+            RenderSettings.ambientIntensity = 1.2f;
+            
+            // Disable skybox - solid color is more performant for WebGL
             RenderSettings.skybox = null;
         }
 
@@ -340,81 +348,135 @@ namespace ApexCitadels.PC
             Vector3 worldPos = GPSToWorldPosition(territory.CenterLatitude, territory.CenterLongitude);
             territoryObj.transform.position = worldPos;
 
-            // Make territories much more visible - minimum 20 units radius
-            float radius = Mathf.Max(territory.RadiusMeters / 10f, 20f);
-
-            // Create territory visualization - base platform (cylinder)
-            GameObject baseObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            baseObj.name = "Base";
-            baseObj.transform.parent = territoryObj.transform;
-            baseObj.transform.localPosition = Vector3.zero;
-            baseObj.transform.localScale = new Vector3(radius * 2, 1f, radius * 2);
-
-            // Apply material based on ownership
-            Renderer baseRenderer = baseObj.GetComponent<Renderer>();
+            // Get material based on ownership
             Material baseMat = GetTerritoryMaterial(territory);
-            baseRenderer.material = baseMat;
+            
+            // Make territories larger and more visible - minimum 25 units radius
+            float radius = Mathf.Max(territory.RadiusMeters / 8f, 25f);
 
-            // Add a tall marker/beacon tower
-            GameObject beacon = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            beacon.name = "Beacon";
-            beacon.transform.parent = territoryObj.transform;
-            beacon.transform.localPosition = new Vector3(0, 20f, 0);
-            beacon.transform.localScale = new Vector3(4f, 40f, 4f);
-            beacon.GetComponent<Renderer>().material = baseMat;
+            // === HEXAGONAL BASE PLATFORM ===
+            // Create a hexagonal platform using a cylinder (looks hex-ish when viewed from above)
+            GameObject baseObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            baseObj.name = "HexBase";
+            baseObj.transform.parent = territoryObj.transform;
+            baseObj.transform.localPosition = new Vector3(0, 1f, 0);
+            baseObj.transform.localScale = new Vector3(radius * 2.2f, 2f, radius * 2.2f);
+            baseObj.GetComponent<Renderer>().material = baseMat;
 
-            // Add glowing top sphere
+            // === INNER RING ===
+            GameObject innerRing = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            innerRing.name = "InnerRing";
+            innerRing.transform.parent = territoryObj.transform;
+            innerRing.transform.localPosition = new Vector3(0, 3f, 0);
+            innerRing.transform.localScale = new Vector3(radius * 1.6f, 1f, radius * 1.6f);
+            // Slightly brighter version
+            Material innerMat = MaterialHelper.CreateColorMaterial(baseMat.color * 1.2f);
+            innerRing.GetComponent<Renderer>().material = innerMat;
+
+            // === CITADEL TOWER (Central beacon) ===
+            GameObject tower = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            tower.name = "CitadelTower";
+            tower.transform.parent = territoryObj.transform;
+            tower.transform.localPosition = new Vector3(0, 30f, 0);
+            tower.transform.localScale = new Vector3(6f, 60f, 6f);
+            tower.GetComponent<Renderer>().material = baseMat;
+
+            // === TOP BEACON SPHERE ===
             GameObject topSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            topSphere.name = "TopMarker";
+            topSphere.name = "BeaconTop";
             topSphere.transform.parent = territoryObj.transform;
-            topSphere.transform.localPosition = new Vector3(0, 62f, 0);
-            topSphere.transform.localScale = new Vector3(8f, 8f, 8f);
-            topSphere.GetComponent<Renderer>().material = baseMat;
+            topSphere.transform.localPosition = new Vector3(0, 95f, 0);
+            topSphere.transform.localScale = new Vector3(12f, 12f, 12f);
+            // Glowing bright version
+            Material glowMat = MaterialHelper.CreateColorMaterial(baseMat.color * 1.5f);
+            topSphere.GetComponent<Renderer>().material = glowMat;
 
-            // Add floating label using TextMesh
-            GameObject labelObj = new GameObject("Label");
+            // === DEFENSE TOWERS (4 corners) ===
+            float towerOffset = radius * 0.7f;
+            Vector3[] towerPositions = {
+                new Vector3(towerOffset, 0, towerOffset),
+                new Vector3(-towerOffset, 0, towerOffset),
+                new Vector3(towerOffset, 0, -towerOffset),
+                new Vector3(-towerOffset, 0, -towerOffset)
+            };
+            
+            foreach (var pos in towerPositions)
+            {
+                GameObject defenseTower = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                defenseTower.name = "DefenseTower";
+                defenseTower.transform.parent = territoryObj.transform;
+                defenseTower.transform.localPosition = pos + new Vector3(0, 15f, 0);
+                defenseTower.transform.localScale = new Vector3(3f, 30f, 3f);
+                defenseTower.GetComponent<Renderer>().material = baseMat;
+                
+                // Small top on each defense tower
+                GameObject towerTop = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                towerTop.name = "TowerTop";
+                towerTop.transform.parent = defenseTower.transform;
+                towerTop.transform.localPosition = new Vector3(0, 0.6f, 0);
+                towerTop.transform.localScale = new Vector3(1.5f, 0.5f, 1.5f);
+                towerTop.GetComponent<Renderer>().material = glowMat;
+            }
+
+            // === TERRITORY NAME LABEL ===
+            GameObject labelObj = new GameObject("TerritoryLabel");
             labelObj.transform.parent = territoryObj.transform;
-            labelObj.transform.localPosition = new Vector3(0, 75f, 0);
+            labelObj.transform.localPosition = new Vector3(0, 115f, 0);
             
             TextMesh textMesh = labelObj.AddComponent<TextMesh>();
             textMesh.text = territory.Name;
-            textMesh.fontSize = 48;
-            textMesh.characterSize = 1f;
+            textMesh.fontSize = 64;
+            textMesh.characterSize = 0.8f;
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = Color.white;
             textMesh.fontStyle = FontStyle.Bold;
-            
-            // Make label face camera (billboard script)
             labelObj.AddComponent<BillboardText>();
 
-            // Add level indicator below name
-            GameObject levelObj = new GameObject("LevelLabel");
+            // === LEVEL BADGE ===
+            GameObject levelObj = new GameObject("LevelBadge");
             levelObj.transform.parent = territoryObj.transform;
-            levelObj.transform.localPosition = new Vector3(0, 68f, 0);
+            levelObj.transform.localPosition = new Vector3(0, 105f, 0);
             
             TextMesh levelText = levelObj.AddComponent<TextMesh>();
-            levelText.text = $"Lv.{territory.Level}";
-            levelText.fontSize = 32;
-            levelText.characterSize = 0.8f;
+            levelText.text = $"★ Level {territory.Level} ★";
+            levelText.fontSize = 48;
+            levelText.characterSize = 0.6f;
             levelText.anchor = TextAnchor.MiddleCenter;
             levelText.alignment = TextAlignment.Center;
-            levelText.color = new Color(1f, 0.9f, 0.5f); // Gold color
+            levelText.color = new Color(1f, 0.9f, 0.4f); // Gold color
             levelObj.AddComponent<BillboardText>();
+
+            // === OWNER NAME (if owned) ===
+            if (!string.IsNullOrEmpty(territory.OwnerName))
+            {
+                GameObject ownerObj = new GameObject("OwnerLabel");
+                ownerObj.transform.parent = territoryObj.transform;
+                ownerObj.transform.localPosition = new Vector3(0, 97f, 0);
+                
+                TextMesh ownerText = ownerObj.AddComponent<TextMesh>();
+                ownerText.text = $"👑 {territory.OwnerName}";
+                ownerText.fontSize = 36;
+                ownerText.characterSize = 0.5f;
+                ownerText.anchor = TextAnchor.MiddleCenter;
+                ownerText.alignment = TextAlignment.Center;
+                ownerText.color = new Color(0.9f, 0.9f, 1f);
+                ownerObj.AddComponent<BillboardText>();
+            }
 
             // Add territory data component
             TerritoryVisual visual = territoryObj.AddComponent<TerritoryVisual>();
             visual.Initialize(territory);
 
-            // Add collider for clicking - make it big enough to click
+            // Add collider for clicking - covers the whole territory area
             CapsuleCollider collider = territoryObj.AddComponent<CapsuleCollider>();
-            collider.radius = radius;
-            collider.height = 80f;
-            collider.center = new Vector3(0, 30f, 0);
+            collider.radius = radius * 1.2f;
+            collider.height = 120f;
+            collider.center = new Vector3(0, 50f, 0);
 
             _territoryObjects[territory.Id] = territoryObj;
 
-            Debug.Log($"[WorldMap] Created territory object: {territory.Name} at {worldPos}");
+            Debug.Log($"[WorldMap] Created territory: {territory.Name} at {worldPos} (radius={radius})");
         }
 
         private void UpdateTerritoryObject(Territory.Territory territory)
@@ -444,29 +506,36 @@ namespace ApexCitadels.PC
 
             Material mat = null;
             
-            // Use brighter colors that are clearly visible
-            // Note: Use explicit null check for Unity objects, not ?? operator
+            // Use vibrant, distinct colors for each type
             if (territory.IsContested)
             {
-                mat = contestedTerritoryMaterial != null ? contestedTerritoryMaterial : CreateDefaultMaterial(new Color(1f, 0.9f, 0.2f)); // Bright yellow
+                // Contested = Bright Orange/Yellow with pulsing effect potential
+                mat = contestedTerritoryMaterial != null ? contestedTerritoryMaterial 
+                    : CreateDefaultMaterial(new Color(1f, 0.7f, 0.1f)); // Orange
             }
             else if (territory.OwnerId == currentUserId)
             {
-                mat = ownedTerritoryMaterial != null ? ownedTerritoryMaterial : CreateDefaultMaterial(new Color(0.2f, 0.9f, 0.3f)); // Bright green
+                // Owned = Rich Emerald Green
+                mat = ownedTerritoryMaterial != null ? ownedTerritoryMaterial 
+                    : CreateDefaultMaterial(new Color(0.1f, 0.8f, 0.3f)); // Bright green
             }
             else if (!string.IsNullOrEmpty(territory.AllianceId))
             {
-                // Check if same alliance (would need alliance manager)
-                mat = allianceTerritoryMaterial != null ? allianceTerritoryMaterial : CreateDefaultMaterial(new Color(0.3f, 0.5f, 1f)); // Bright blue
+                // Alliance = Royal Blue
+                mat = allianceTerritoryMaterial != null ? allianceTerritoryMaterial 
+                    : CreateDefaultMaterial(new Color(0.2f, 0.4f, 0.95f)); // Bright blue
             }
             else if (!string.IsNullOrEmpty(territory.OwnerId))
             {
-                mat = enemyTerritoryMaterial != null ? enemyTerritoryMaterial : CreateDefaultMaterial(new Color(1f, 0.3f, 0.2f)); // Bright red
+                // Enemy = Crimson Red
+                mat = enemyTerritoryMaterial != null ? enemyTerritoryMaterial 
+                    : CreateDefaultMaterial(new Color(0.9f, 0.15f, 0.15f)); // Red
             }
             else
             {
-                // Neutral territories - use bright purple/magenta so they're visible
-                mat = neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(new Color(0.7f, 0.4f, 0.9f)); // Purple
+                // Neutral/Unclaimed = Silver/Gray with hint of purple
+                mat = neutralTerritoryMaterial != null ? neutralTerritoryMaterial 
+                    : CreateDefaultMaterial(new Color(0.55f, 0.5f, 0.65f)); // Purple-gray
             }
             
             return mat;
