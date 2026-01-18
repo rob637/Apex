@@ -502,6 +502,9 @@ namespace ApexCitadels.PC.UI
 
         private void RefreshContent()
         {
+            // Guard against null contentArea
+            if (_contentArea == null) return;
+            
             foreach (Transform child in _contentArea.transform)
             {
                 Destroy(child.gameObject);

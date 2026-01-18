@@ -721,7 +721,15 @@ namespace ApexCitadels.PC.UI
             Button btn = pin.AddComponent<Button>();
             btn.onClick.AddListener(() => ShowMarkerInfo(marker));
             
-            TextMeshProUGUI text = pin.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Icon");
+            textObj.transform.SetParent(pin.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = GetMarkerIcon(marker.Type);
             text.fontSize = 14;
             text.alignment = TextAlignmentOptions.Center;
