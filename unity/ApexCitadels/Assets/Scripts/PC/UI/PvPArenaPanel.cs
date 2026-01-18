@@ -1443,7 +1443,12 @@ namespace ApexCitadels.PC.UI
         private void CancelMatchmaking()
         {
             _isSearching = false;
-            RefreshContent();
+            
+            // Only refresh if content area exists
+            if (_contentArea != null)
+            {
+                RefreshContent();
+            }
             
             Debug.Log("[PvPArena] Cancelled matchmaking");
         }

@@ -676,9 +676,16 @@ namespace ApexCitadels.PC.UI
             Button btn = tile.AddComponent<Button>();
             btn.onClick.AddListener(() => SelectRegion(region));
             
-            // Region icon
+            // Region icon - text as child
             string icon = GetRegionIcon(region);
-            TextMeshProUGUI iconText = tile.AddComponent<TextMeshProUGUI>();
+            GameObject iconObj = new GameObject("Icon");
+            iconObj.transform.SetParent(tile.transform, false);
+            RectTransform iconRect = iconObj.AddComponent<RectTransform>();
+            iconRect.anchorMin = Vector2.zero;
+            iconRect.anchorMax = Vector2.one;
+            iconRect.offsetMin = Vector2.zero;
+            iconRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI iconText = iconObj.AddComponent<TextMeshProUGUI>();
             iconText.text = icon;
             iconText.fontSize = (int)(20 * _zoomLevel);
             iconText.alignment = TextAlignmentOptions.Center;

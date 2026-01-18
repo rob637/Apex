@@ -990,7 +990,16 @@ namespace ApexCitadels.PC.UI
             watchLE.preferredHeight = 35;
             Image watchBg = watchObj.AddComponent<Image>();
             watchBg.color = accentColor;
-            TextMeshProUGUI watchText = watchObj.AddComponent<TextMeshProUGUI>();
+            
+            // Text as child
+            GameObject watchTextObj = new GameObject("Text");
+            watchTextObj.transform.SetParent(watchObj.transform, false);
+            RectTransform watchTextRect = watchTextObj.AddComponent<RectTransform>();
+            watchTextRect.anchorMin = Vector2.zero;
+            watchTextRect.anchorMax = Vector2.one;
+            watchTextRect.offsetMin = Vector2.zero;
+            watchTextRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI watchText = watchTextObj.AddComponent<TextMeshProUGUI>();
             watchText.text = "WATCH";
             watchText.fontSize = 12;
             watchText.fontStyle = FontStyles.Bold;

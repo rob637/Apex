@@ -530,7 +530,15 @@ namespace ApexCitadels.PC.UI
             Image avatarBg = avatar.AddComponent<Image>();
             avatarBg.color = new Color(0.2f, 0.2f, 0.25f);
             
-            TextMeshProUGUI levelText = avatar.AddComponent<TextMeshProUGUI>();
+            // Level text as child
+            GameObject levelObj = new GameObject("Level");
+            levelObj.transform.SetParent(avatar.transform, false);
+            RectTransform levelRect = levelObj.AddComponent<RectTransform>();
+            levelRect.anchorMin = Vector2.zero;
+            levelRect.anchorMax = Vector2.one;
+            levelRect.offsetMin = Vector2.zero;
+            levelRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI levelText = levelObj.AddComponent<TextMeshProUGUI>();
             levelText.text = friend.Level.ToString();
             levelText.fontSize = 18;
             levelText.fontStyle = FontStyles.Bold;

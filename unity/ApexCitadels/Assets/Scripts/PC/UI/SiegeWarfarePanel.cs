@@ -512,10 +512,7 @@ namespace ApexCitadels.PC.UI
             bfLE.flexibleWidth = 1;
             bfLE.flexibleHeight = 1;
 
-            Image bfBg = bfPanel.AddComponent<Image>();
-            bfBg.color = new Color(0.15f, 0.18f, 0.15f);
-
-            // Add a raw image for potential render texture
+            // Use RawImage for battlefield view (for render texture later)
             RawImage bfView = bfPanel.AddComponent<RawImage>();
             bfView.color = new Color(0.2f, 0.25f, 0.2f);
 
