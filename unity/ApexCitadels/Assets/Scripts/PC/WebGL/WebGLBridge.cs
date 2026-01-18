@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace ApexCitadels.PC.WebGL
     /// <summary>
     /// Bridge for JavaScript-Unity communication in WebGL builds.
     /// Allows the web page to interact with the Unity game.
+    /// Includes Firebase SDK integration via the embedding HTML page.
     /// </summary>
     public class WebGLBridge : MonoBehaviour
     {
@@ -16,9 +18,14 @@ namespace ApexCitadels.PC.WebGL
         public event Action<string> OnLoginTokenReceived;
         public event Action<string> OnTerritorySelectedFromWeb;
         public event Action<string> OnCommandReceived;
+        public event Action<string> OnFirebaseReady;
+        public event Action<List<TerritorySnapshot>> OnTerritoriesReceived;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-        // Import JavaScript functions
+        // =====================================================
+        // JavaScript Imports - Unity → Browser
+        // =====================================================
+        
         [DllImport("__Internal")]
         private static extern void JS_SendGameReady();
 
@@ -36,6 +43,39 @@ namespace ApexCitadels.PC.WebGL
 
         [DllImport("__Internal")]
         private static extern void JS_RequestFullscreen();
+
+        // =====================================================
+        // Firebase Integration Imports
+        // =====================================================
+        
+        [DllImport("__Internal")]
+        private static extern int JS_IsFirebaseReady();
+
+        [DllImport("__Internal")]
+        private static extern string JS_GetFirebaseUserId();
+
+        [DllImport("__Internal")]
+        private static extern void JS_GetAllTerritories(string gameObjectName, string callbackMethod);
+
+        [DllImport("__Internal")]
+        private static extern void JS_GetTerritoriesInArea(
+            double north, double south, double east, double west, 
+            int maxResults, string gameObjectName, string callbackMethod);
+
+        [DllImport("__Internal")]
+        private static extern void JS_GetTerritory(string territoryId, string gameObjectName, string callbackMethod);
+
+        [DllImport("__Internal")]
+        private static extern string JS_GetCachedTerritories();
+
+        [DllImport("__Internal")]
+        private static extern void JS_SubscribeToTerritories(string gameObjectName, string callbackMethod);
+
+        [DllImport("__Internal")]
+        private static extern void JS_Log(string message);
+
+        [DllImport("__Internal")]
+        private static extern void JS_LogError(string message);
 #endif
 
         private void Awake()
@@ -131,6 +171,194 @@ namespace ApexCitadels.PC.WebGL
 #else
             return null;
 #endif
+        }
+
+        #endregion
+
+        #region Firebase Integration (via JS SDK)
+
+        /// <summary>
+        /// Check if Firebase JS SDK is initialized and ready
+        /// </summary>
+        public bool IsFirebaseReady()
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            return JS_IsFirebaseReady() == 1;
+#else
+            return false;
+#endif
+        }
+
+        /// <summary>
+        /// Get the current Firebase user ID
+        /// </summary>
+        public string GetFirebaseUserId()
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            return JS_GetFirebaseUserId();
+#else
+            return null;
+#endif
+        }
+
+        /// <summary>
+        /// Request all territories from Firebase (async via callback)
+        /// </summary>
+        public void RequestAllTerritories()
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            JS_GetAllTerritories(gameObject.name, "OnTerritoriesJsonReceived");
+            Debug.Log("[WebGLBridge] Requesting all territories from Firebase JS SDK");
+#else
+            Debug.Log("[WebGLBridge] Firebase not available outside WebGL");
+#endif
+        }
+
+        /// <summary>
+        /// Request territories in a geographic bounding box (async via callback)
+        /// </summary>
+        public void RequestTerritoriesInArea(double north, double south, double east, double west, int maxResults = 100)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            JS_GetTerritoriesInArea(north, south, east, west, maxResults, gameObject.name, "OnTerritoriesJsonReceived");
+            Debug.Log($"[WebGLBridge] Requesting territories in area: N{north} S{south} E{east} W{west}");
+#endif
+        }
+
+        /// <summary>
+        /// Request a single territory by ID (async via callback)
+        /// </summary>
+        public void RequestTerritory(string territoryId)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            JS_GetTerritory(territoryId, gameObject.name, "OnTerritoryJsonReceived");
+#endif
+        }
+
+        /// <summary>
+        /// Get cached territories (synchronous, from pre-loaded data)
+        /// </summary>
+        public List<TerritorySnapshot> GetCachedTerritories()
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            try
+            {
+                string json = JS_GetCachedTerritories();
+                if (!string.IsNullOrEmpty(json) && json != "[]")
+                {
+                    return ParseTerritoriesJson(json);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[WebGLBridge] Error getting cached territories: {e.Message}");
+            }
+#endif
+            return new List<TerritorySnapshot>();
+        }
+
+        /// <summary>
+        /// Subscribe to real-time territory updates
+        /// </summary>
+        public void SubscribeToTerritoryUpdates()
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            JS_SubscribeToTerritories(gameObject.name, "OnTerritoryUpdateReceived");
+            Debug.Log("[WebGLBridge] Subscribed to real-time territory updates");
+#endif
+        }
+
+        /// <summary>
+        /// Log to browser console
+        /// </summary>
+        public void LogToBrowser(string message)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            JS_Log(message);
+#else
+            Debug.Log(message);
+#endif
+        }
+
+        /// <summary>
+        /// Log error to browser console
+        /// </summary>
+        public void LogErrorToBrowser(string message)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            JS_LogError(message);
+#else
+            Debug.LogError(message);
+#endif
+        }
+
+        #endregion
+
+        #region Firebase Callbacks (called from JavaScript via SendMessage)
+
+        /// <summary>
+        /// Called from JavaScript when Firebase is ready
+        /// </summary>
+        public void OnFirebaseReadyCallback(string userId)
+        {
+            Debug.Log($"[WebGLBridge] Firebase ready! User: {userId}");
+            OnFirebaseReady?.Invoke(userId);
+            
+            // Auto-load territories when Firebase is ready
+            RequestAllTerritories();
+        }
+
+        /// <summary>
+        /// Called from JavaScript with territories JSON
+        /// </summary>
+        public void OnTerritoriesJsonReceived(string json)
+        {
+            Debug.Log($"[WebGLBridge] Received territories JSON ({json.Length} chars)");
+            try
+            {
+                var territories = ParseTerritoriesJson(json);
+                Debug.Log($"[WebGLBridge] Parsed {territories.Count} territories");
+                OnTerritoriesReceived?.Invoke(territories);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[WebGLBridge] Error parsing territories: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Called from JavaScript with single territory JSON
+        /// </summary>
+        public void OnTerritoryJsonReceived(string json)
+        {
+            Debug.Log($"[WebGLBridge] Received territory JSON");
+            // Single territory callback - you can add specific handling here
+        }
+
+        /// <summary>
+        /// Called from JavaScript with real-time territory updates
+        /// </summary>
+        public void OnTerritoryUpdateReceived(string changesJson)
+        {
+            Debug.Log($"[WebGLBridge] Received territory update");
+            // Handle real-time updates - parse and forward to WorldMapRenderer
+        }
+
+        private List<TerritorySnapshot> ParseTerritoriesJson(string json)
+        {
+            var territories = new List<TerritorySnapshot>();
+            
+            // Unity's JsonUtility can't parse arrays directly, so we use wrapper or manual parse
+            // For now, use simple approach with wrapper
+            string wrappedJson = "{\"items\":" + json + "}";
+            var wrapper = JsonUtility.FromJson<TerritoryListWrapper>(wrappedJson);
+            
+            if (wrapper?.items != null)
+            {
+                territories.AddRange(wrapper.items);
+            }
+            
+            return territories;
         }
 
         #endregion
@@ -262,5 +490,14 @@ namespace ApexCitadels.PC.WebGL
         public string type;
         public string action;
         public string payload;
+    }
+
+    /// <summary>
+    /// Wrapper for JSON array parsing
+    /// </summary>
+    [Serializable]
+    public class TerritoryListWrapper
+    {
+        public TerritorySnapshot[] items;
     }
 }

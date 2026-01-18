@@ -488,15 +488,16 @@ This is the definitive checklist for getting both **PC** and **AR Mobile** clien
 | `CraftingPanel.cs` | PC/UI/ | 🔧 | Crafting workshop |
 | `MarketPanel.cs` | PC/UI/ | 🔧 | Trading interface |
 
-### A4. WebGL Bridge 🔧 PARTIAL - NEEDS FIREBASE SDK
+### A4. WebGL Bridge ✅ CODE COMPLETE - NEEDS REBUILD
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| `WebGLBridge.cs` | 🔧 | C# DllImport bindings exist |
-| `WebGLBridge.jslib` | 🔧 | Basic JS functions exist |
+| `WebGLBridge.cs` | ✅ | C# DllImport bindings + Firebase callbacks |
+| `WebGLBridge.jslib` | ✅ | Full JS functions + Firebase SDK calls |
 | `WebGLBridgeComponent.cs` | ✅ | MonoBehaviour wrapper |
-| `FirebaseWebClient.cs` | 🔧 | REST API fallback |
-| Firebase JS SDK in jslib | ⏳ | Need to add auth/firestore |
+| `FirebaseWebClient.cs` | ✅ | REST API fallback + WebGL bridge integration |
+| Firebase JS SDK in index.html | ✅ | Auth + Firestore initialized |
+| Shader fixes | ✅ | WebGL-safe material creation |
 
 ### A5. Unity Editor Tools ✅ READY
 
@@ -515,14 +516,16 @@ This is the definitive checklist for getting both **PC** and **AR Mobile** clien
 | Wire up references | ⏳ | Assign camera, input, UI manager refs |
 | Add WebGL bridge | ⏳ | Add WebGLBridge component to scene |
 
-### A7. WebGL Build ⏳ NOT BUILT (Unity Editor Required)
+### A7. WebGL Build 🔧 DEPLOYED - NEEDS REBUILD FOR SHADER FIX
 
 | Task | Status | Instructions |
 |------|--------|--------------|
-| Switch to WebGL platform | ⏳ | File → Build Settings → WebGL |
-| Configure Player Settings | ⏳ | Compression: Gzip, Memory: 512MB |
-| Build | ⏳ | Output to backend/hosting-pc/build/ |
-| Deploy | ⏳ | firebase deploy --only hosting:pc |
+| Switch to WebGL platform | ✅ | File → Build Settings → WebGL |
+| Configure Player Settings | ✅ | Compression: Disabled (Firebase Hosting issue), Memory: 512MB |
+| Build | 🔧 | Output to backend/hosting-pc/build/ - **REBUILD NEEDED for shader fix** |
+| Deploy | ✅ | firebase deploy --only hosting:pc |
+
+**Note:** Current build has shader errors. After pulling latest code, rebuild WebGL in Unity.
 
 ---
 
@@ -814,8 +817,8 @@ iOS: Build → Xcode Project → Archive in Xcode
 | Service | URL | Status |
 |---------|-----|--------|
 | Admin Dashboard | https://apex-citadels-dev.web.app | ✅ Live |
-| PC Client (Web) | https://apex-citadels-pc.web.app | 🔧 Placeholder |
-| PC Unity WebGL | https://apex-citadels-pc.web.app/build/ | ⏳ Needs build |
+| PC Client (Web) | https://apex-citadels-pc.web.app | ✅ Player view with map |
+| PC Unity WebGL | https://apex-citadels-pc.web.app/build/ | 🔧 Deployed, needs rebuild for shader fix |
 | Firebase Console | https://console.firebase.google.com/project/apex-citadels-dev | ✅ Live |
 
 ### Key File Locations

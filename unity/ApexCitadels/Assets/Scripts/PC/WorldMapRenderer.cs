@@ -186,8 +186,13 @@ namespace ApexCitadels.PC
             }
             else
             {
-                // Create a simple procedural material using URP
-                renderer.material = CreateDefaultMaterial(landColor);
+                // Create a simple procedural material
+                Material mat = CreateDefaultMaterial(landColor);
+                if (mat != null)
+                {
+                    renderer.material = mat;
+                }
+                // If mat is null, keep the primitive's default material
             }
         }
 
@@ -226,8 +231,30 @@ namespace ApexCitadels.PC
             lr.SetPositions(new Vector3[] { start, end });
             lr.startWidth = gridLineWidth;
             lr.endWidth = gridLineWidth;
-            lr.material = new Material(Shader.Find("Sprites/Default"));
-            lr.material.color = new Color(0.5f, 0.5f, 0.5f, 0.3f);
+            
+            // Use safe material creation for WebGL compatibility
+            lr.material = CreateSafeLineMaterial(new Color(0.5f, 0.5f, 0.5f, 0.3f));
+        }
+
+        private Material CreateSafeLineMaterial(Color color)
+        {
+            // For LineRenderer, use the default material which is always available
+            Material mat = new Material(Shader.Find("Hidden/Internal-Colored"));
+            if (mat == null || mat.shader == null)
+            {
+                // Fallback: create from a primitive's material
+                var temp = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                mat = new Material(temp.GetComponent<Renderer>().sharedMaterial);
+                DestroyImmediate(temp);
+            }
+            if (mat != null)
+            {
+                mat.color = color;
+                // Enable transparency
+                mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            }
+            return mat;
         }
 
         #endregion
@@ -342,55 +369,92 @@ namespace ApexCitadels.PC
             // Check current user's ownership
             string currentUserId = Core.GameManager.Instance?.UserId;
 
+            Material mat = null;
+            
             // Note: Use explicit null check for Unity objects, not ?? operator
             if (territory.IsContested)
             {
-                return contestedTerritoryMaterial != null ? contestedTerritoryMaterial : CreateDefaultMaterial(Color.yellow);
+                mat = contestedTerritoryMaterial != null ? contestedTerritoryMaterial : CreateDefaultMaterial(Color.yellow);
             }
             else if (territory.OwnerId == currentUserId)
             {
-                return ownedTerritoryMaterial != null ? ownedTerritoryMaterial : CreateDefaultMaterial(Color.green);
+                mat = ownedTerritoryMaterial != null ? ownedTerritoryMaterial : CreateDefaultMaterial(Color.green);
             }
             else if (!string.IsNullOrEmpty(territory.AllianceId))
             {
                 // Check if same alliance (would need alliance manager)
-                return allianceTerritoryMaterial != null ? allianceTerritoryMaterial : CreateDefaultMaterial(Color.blue);
+                mat = allianceTerritoryMaterial != null ? allianceTerritoryMaterial : CreateDefaultMaterial(Color.blue);
             }
             else if (!string.IsNullOrEmpty(territory.OwnerId))
             {
-                return enemyTerritoryMaterial != null ? enemyTerritoryMaterial : CreateDefaultMaterial(Color.red);
+                mat = enemyTerritoryMaterial != null ? enemyTerritoryMaterial : CreateDefaultMaterial(Color.red);
             }
             else
             {
-                return neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(Color.gray);
+                mat = neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(Color.gray);
             }
+            
+            // Final fallback - if still null, use cached base material
+            if (mat == null && _cachedBaseMaterial != null)
+            {
+                mat = new Material(_cachedBaseMaterial);
+            }
+            
+            return mat;
         }
 
         // Cache the base material loaded from Resources
-        private static Material _baseMaterial;
+        private static Material _cachedBaseMaterial;
         
         private Material CreateDefaultMaterial(Color color)
         {
-            // Try to find a working URP shader
-            Shader urpShader = Shader.Find("Universal Render Pipeline/Lit");
-            if (urpShader == null)
-                urpShader = Shader.Find("Universal Render Pipeline/Simple Lit");
-            if (urpShader == null)
-                urpShader = Shader.Find("Sprites/Default"); // Fallback that always works
-            if (urpShader == null)
-                urpShader = Shader.Find("Standard"); // Built-in fallback
+            Material mat = null;
             
-            Material mat;
-            if (urpShader != null)
+            // FIRST: Try to get material from a primitive (most reliable in WebGL)
+            // This guarantees we get a shader that's included in the build
+            if (_cachedBaseMaterial == null)
             {
-                mat = new Material(urpShader);
+                var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                if (temp != null && temp.GetComponent<Renderer>() != null)
+                {
+                    _cachedBaseMaterial = temp.GetComponent<Renderer>().sharedMaterial;
+                }
+                DestroyImmediate(temp);
+            }
+            
+            if (_cachedBaseMaterial != null && _cachedBaseMaterial.shader != null)
+            {
+                mat = new Material(_cachedBaseMaterial);
             }
             else
             {
-                // Last resort: copy from a primitive
-                var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                mat = new Material(temp.GetComponent<Renderer>().sharedMaterial);
-                UnityEngine.Object.DestroyImmediate(temp);
+                // Try shader names as fallback
+                string[] shaderNames = new string[]
+                {
+                    "Universal Render Pipeline/Lit",
+                    "Universal Render Pipeline/Simple Lit",
+                    "Standard",
+                    "Diffuse",
+                    "Sprites/Default",
+                    "UI/Default"
+                };
+                
+                foreach (string shaderName in shaderNames)
+                {
+                    Shader shader = Shader.Find(shaderName);
+                    if (shader != null)
+                    {
+                        mat = new Material(shader);
+                        break;
+                    }
+                }
+            }
+            
+            // If still null, we have a serious problem - log and return null
+            if (mat == null)
+            {
+                Debug.LogError("[WorldMap] CRITICAL: Could not create any material! No shaders available.");
+                return null;
             }
             
             Color finalColor = new Color(color.r, color.g, color.b, 1f);
@@ -402,7 +466,7 @@ namespace ApexCitadels.PC
                 mat.SetColor("_Color", finalColor);
             mat.color = finalColor;
             
-            Debug.Log($"[WorldMap] Created material with color {finalColor}, shader: {mat.shader.name}");
+            Debug.Log($"[WorldMap] Created material with color {finalColor}, shader: {mat.shader?.name ?? "NULL"}");
             return mat;
         }
 

@@ -3,11 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | Apex Citadels</title>
+    <title>Apex Citadels | PC Client</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      /* Loading overlay with Firebase status */
+      #firebase-status {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.8);
+        color: #0f0;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        z-index: 10000;
+        transition: opacity 0.5s;
+      }
+      #firebase-status.error { color: #f00; }
+      #firebase-status.success { color: #0f0; }
+      #firebase-status.hidden { opacity: 0; pointer-events: none; }
+    </style>
   </head>
   <body>
+    <div id="firebase-status">⏳ Initializing Firebase...</div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -23,6 +43,192 @@
         <div id="unity-build-title">Apex Citadels</div>
       </div>
     </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js';
+      import { getFirestore, collection, getDocs, doc, getDoc, onSnapshot, query, orderBy, where, limit } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+      import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js';
+
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyA7ljLJjxoq8VCqV1EGFpO5nhk56H0B6oo",
+        authDomain: "apex-citadels-dev.firebaseapp.com",
+        projectId: "apex-citadels-dev",
+        storageBucket: "apex-citadels-dev.firebasestorage.app",
+        messagingSenderId: "481378482117",
+        appId: "1:481378482117:web:da8b7c0c8e0c5f0f9b9f9a"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      // Status element
+      const statusEl = document.getElementById('firebase-status');
+      function setStatus(msg, type = 'info') {
+        statusEl.textContent = msg;
+        statusEl.className = type;
+        console.log(`[Firebase] ${msg}`);
+      }
+
+      // Store territories for Unity access
+      window.firebaseData = {
+        territories: [],
+        user: null,
+        isReady: false
+      };
+
+      // Unity instance reference (set when Unity loads)
+      window.unityInstance = null;
+
+      // =====================================================
+      // Firebase API for Unity (called from WebGLBridge.jslib)
+      // =====================================================
+
+      // Get all territories
+      window.firebaseGetTerritories = async function() {
+        try {
+          const q = query(collection(db, 'territories'), orderBy('level', 'desc'));
+          const snapshot = await getDocs(q);
+          const territories = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          window.firebaseData.territories = territories;
+          console.log(`[Firebase] Loaded ${territories.length} territories`);
+          return JSON.stringify(territories);
+        } catch (error) {
+          console.error('[Firebase] Error loading territories:', error);
+          return JSON.stringify([]);
+        }
+      };
+
+      // Get territories in bounding box
+      window.firebaseGetTerritoriesInArea = async function(north, south, east, west, maxResults = 100) {
+        try {
+          // Firestore doesn't support compound geo queries well, so we filter client-side
+          const q = query(collection(db, 'territories'), limit(maxResults));
+          const snapshot = await getDocs(q);
+          const territories = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(t => 
+              t.latitude && t.longitude &&
+              t.latitude <= north && t.latitude >= south &&
+              t.longitude <= east && t.longitude >= west
+            );
+          console.log(`[Firebase] Found ${territories.length} territories in area`);
+          return JSON.stringify(territories);
+        } catch (error) {
+          console.error('[Firebase] Error:', error);
+          return JSON.stringify([]);
+        }
+      };
+
+      // Get single territory
+      window.firebaseGetTerritory = async function(territoryId) {
+        try {
+          const docRef = doc(db, 'territories', territoryId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            return JSON.stringify({ id: docSnap.id, ...docSnap.data() });
+          }
+          return JSON.stringify(null);
+        } catch (error) {
+          console.error('[Firebase] Error:', error);
+          return JSON.stringify(null);
+        }
+      };
+
+      // Get current user ID
+      window.firebaseGetUserId = function() {
+        return window.firebaseData.user?.uid || '';
+      };
+
+      // Subscribe to real-time territory updates
+      window.firebaseSubscribeTerritories = function(callbackName) {
+        const q = query(collection(db, 'territories'));
+        return onSnapshot(q, (snapshot) => {
+          const changes = [];
+          snapshot.docChanges().forEach((change) => {
+            changes.push({
+              type: change.type,
+              id: change.doc.id,
+              data: change.doc.data()
+            });
+          });
+          // Call Unity callback if provided (safely)
+          if (window.unityInstance && callbackName) {
+            try {
+              window.unityInstance.SendMessage('FirebaseWebClient', callbackName, JSON.stringify(changes));
+            } catch (e) {
+              console.warn('[JS] Failed to send territory changes to Unity:', e);
+            }
+          }
+        });
+      };
+
+      // =====================================================
+      // Initialize Auth & Load Data
+      // =====================================================
+
+      setStatus('🔐 Authenticating...', 'info');
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          window.firebaseData.user = user;
+          setStatus(`✅ Firebase ready (User: ${user.uid.slice(0,8)}...)`, 'success');
+          
+          // Pre-load territories
+          await window.firebaseGetTerritories();
+          
+          window.firebaseData.isReady = true;
+          
+          // Notify Unity if it's ready
+          if (window.unityInstance) {
+            window.unityInstance.SendMessage('FirebaseWebClient', 'OnFirebaseReady', user.uid);
+          }
+          
+          // Hide status after 3 seconds
+          setTimeout(() => statusEl.classList.add('hidden'), 3000);
+        } else {
+          // Sign in anonymously
+          try {
+            await signInAnonymously(auth);
+            setStatus('🔐 Signed in anonymously', 'info');
+          } catch (error) {
+            setStatus(`❌ Auth error: ${error.message}`, 'error');
+          }
+        }
+      });
+
+      // Event handlers for Unity->JS communication
+      window.addEventListener('unityGameReady', () => {
+        console.log('[JS] Unity game is ready');
+        if (window.firebaseData.isReady && window.unityInstance) {
+          // Try to send to Unity, but don't crash if the object doesn't exist
+          try {
+            window.unityInstance.SendMessage('FirebaseWebClient', 'OnFirebaseReady', window.firebaseData.user?.uid || '');
+          } catch (e) {
+            console.warn('[JS] FirebaseWebClient not found in Unity scene - this is OK if using REST API fallback');
+          }
+        }
+      });
+
+      // Helper to safely send messages to Unity
+      window.safeSendToUnity = function(objectName, methodName, value) {
+        if (window.unityInstance) {
+          try {
+            window.unityInstance.SendMessage(objectName, methodName, value);
+          } catch (e) {
+            console.warn(`[JS] Failed to send to ${objectName}.${methodName}:`, e);
+          }
+        }
+      };
+
+    </script>
+
     <script>
       var canvas = document.querySelector("#unity-canvas");
 
@@ -115,11 +321,25 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
+              }).then((instance) => {
+                // Store the Unity instance globally for Firebase to use
+                window.unityInstance = instance;
+                console.log('[JS] Unity instance stored globally');
+                
                 document.querySelector("#unity-loading-bar").style.display = "none";
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  unityInstance.SetFullscreen(1);
+                  instance.SetFullscreen(1);
                 };
+                
+                // Notify that Unity is ready
+                if (window.firebaseData && window.firebaseData.isReady) {
+                  console.log('[JS] Firebase already ready, notifying Unity...');
+                  try {
+                    instance.SendMessage('FirebaseWebClient', 'OnFirebaseReady', window.firebaseData.user?.uid || '');
+                  } catch (e) {
+                    console.warn('[JS] FirebaseWebClient not found yet - Unity will use REST fallback');
+                  }
+                }
 
               }).catch((message) => {
                 alert(message);
