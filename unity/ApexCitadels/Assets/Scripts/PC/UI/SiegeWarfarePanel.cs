@@ -559,10 +559,10 @@ namespace ApexCitadels.PC.UI
             Image mmBg = mmObj.AddComponent<Image>();
             mmBg.color = new Color(0.1f, 0.12f, 0.1f, 0.9f);
 
-            // Border
-            Outline mmOutline = mmObj.AddComponent<Outline>();
-            mmOutline.effectColor = new Color(0.4f, 0.3f, 0.2f);
-            mmOutline.effectDistance = new Vector2(2, -2);
+            // Border - using shadow as outline effect
+            Shadow mmShadow = mmObj.AddComponent<Shadow>();
+            mmShadow.effectColor = new Color(0.4f, 0.3f, 0.2f);
+            mmShadow.effectDistance = new Vector2(2, -2);
         }
 
         private void CreateUnitPanel(Transform parent)
@@ -1118,9 +1118,8 @@ namespace ApexCitadels.PC.UI
         {
             if (NotificationSystem.Instance != null)
             {
-                NotificationSystem.Instance.ShowNotification(
-                    $"⚔️ SIEGE STARTED: {siege.targetCitadelName}",
-                    3f
+                NotificationSystem.Instance.ShowInfo(
+                    $"⚔️ SIEGE STARTED: {siege.targetCitadelName}"
                 );
             }
         }

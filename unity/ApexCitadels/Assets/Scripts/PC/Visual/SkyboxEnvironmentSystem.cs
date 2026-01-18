@@ -149,7 +149,7 @@ namespace ApexCitadels.PC.Visual
             
             foreach (var name in skyboxNames)
             {
-                Texture2D tex = Resources.Load<Texture2D>($"PC/Skyboxes/{name}");
+                Texture2D tex = UnityEngine.Resources.Load<Texture2D>($"PC/Skyboxes/{name}");
                 if (tex != null) return tex;
             }
 

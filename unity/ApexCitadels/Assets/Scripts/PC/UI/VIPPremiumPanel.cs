@@ -795,10 +795,10 @@ namespace ApexCitadels.PC.UI
             Image cardBg = cardObj.AddComponent<Image>();
             cardBg.color = tier.tierColor * 0.15f;
 
-            // Border
-            Outline cardOutline = cardObj.AddComponent<Outline>();
-            cardOutline.effectColor = tier.tierColor;
-            cardOutline.effectDistance = new Vector2(2, -2);
+            // Border - using shadow as outline effect
+            Shadow cardShadow = cardObj.AddComponent<Shadow>();
+            cardShadow.effectColor = tier.tierColor;
+            cardShadow.effectDistance = new Vector2(2, -2);
 
             VerticalLayoutGroup cardLayout = cardObj.AddComponent<VerticalLayoutGroup>();
             cardLayout.padding = new RectOffset(10, 10, 10, 10);

@@ -1072,7 +1072,7 @@ namespace ApexCitadels.PC.UI
         private void OnScreenshotClicked()
         {
             string filename = $"Screenshot_{DateTime.Now:yyyyMMdd_HHmmss}.png";
-            ScreenCapture.CaptureScreenshot(filename);
+            UnityEngine.ScreenCapture.CaptureScreenshot(filename);
             NotificationSystem.Instance?.ShowSuccess($"Screenshot saved: {filename}");
             OnScreenshotTaken?.Invoke();
         }

@@ -1111,7 +1111,6 @@ namespace ApexCitadels.PC.UI
             return rarity switch
             {
                 ItemRarity.Common => new Color(0.7f, 0.7f, 0.7f),
-                ItemRarity.Uncommon => new Color(0.3f, 0.9f, 0.3f),
                 ItemRarity.Rare => new Color(0.3f, 0.5f, 0.9f),
                 ItemRarity.Epic => new Color(0.7f, 0.3f, 0.9f),
                 ItemRarity.Legendary => new Color(1f, 0.6f, 0.1f),

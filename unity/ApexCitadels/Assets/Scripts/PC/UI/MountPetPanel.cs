@@ -900,10 +900,10 @@ namespace ApexCitadels.PC.UI
             Image cardBg = cardObj.AddComponent<Image>();
             cardBg.color = new Color(0.15f, 0.18f, 0.15f);
 
-            // Border
-            Outline cardOutline = cardObj.AddComponent<Outline>();
-            cardOutline.effectColor = rarityColor;
-            cardOutline.effectDistance = new Vector2(2, -2);
+            // Border - using shadow as outline effect
+            Shadow cardShadow = cardObj.AddComponent<Shadow>();
+            cardShadow.effectColor = rarityColor;
+            cardShadow.effectDistance = new Vector2(2, -2);
 
             Button cardBtn = cardObj.AddComponent<Button>();
             cardBtn.onClick.AddListener(() => SelectCompanion(companion));

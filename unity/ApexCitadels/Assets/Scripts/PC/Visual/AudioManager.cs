@@ -120,7 +120,7 @@ namespace ApexCitadels.PC.Visual
         private void LoadAudioClips()
         {
             // Load all SFX from Resources/Audio/SFX
-            AudioClip[] clips = Resources.LoadAll<AudioClip>("Audio/SFX");
+            AudioClip[] clips = UnityEngine.Resources.LoadAll<AudioClip>("Audio/SFX");
             foreach (var clip in clips)
             {
                 string key = clip.name.Replace("SFX-", "");
@@ -128,7 +128,7 @@ namespace ApexCitadels.PC.Visual
             }
 
             // Load music
-            AudioClip[] music = Resources.LoadAll<AudioClip>("Audio/Music");
+            AudioClip[] music = UnityEngine.Resources.LoadAll<AudioClip>("Audio/Music");
             foreach (var clip in music)
             {
                 musicCache[clip.name] = clip;
