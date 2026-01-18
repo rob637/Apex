@@ -2,7 +2,28 @@
 
 This document provides a systematic checklist for setting up the PCMain scene correctly.
 
-## Quick Start
+## ⚡ ONE-CLICK SETUP (Recommended)
+
+**This is all you need to do:**
+
+1. Open Unity
+2. Go to menu: **Window → Apex Citadels → One-Click Setup (Recommended)**
+3. Click **"Yes, Set Up Everything"**
+4. Done! Press Play to test.
+
+That's it. The script automatically:
+- Creates the PCMain.unity scene
+- Sets up the camera with correct position and settings
+- Creates a Directional Light for proper lighting
+- Configures ambient/render settings
+- Creates all required manager objects
+- Sets up the UI Canvas
+- Wires up all references
+- Saves the scene to Build Settings
+
+---
+
+## Quick Start (Alternative)
 
 1. Open Unity
 2. Open scene: `Assets/Scenes/PCMain.unity` (or create it)

@@ -84,6 +84,10 @@ namespace ApexCitadels.PC
         {
             _cameraController = PCCameraController.Instance;
             
+            // CRITICAL: Initialize material helper and ensure lighting exists
+            MaterialHelper.Initialize();
+            MaterialHelper.EnsureLighting();
+            
             // Find or create territories container
             if (territoriesContainer == null)
             {
@@ -102,6 +106,8 @@ namespace ApexCitadels.PC
             }
             
             CreateGroundPlane();
+            SetupSkyAndCamera();
+            
             if (showGridLines)
                 CreateGridLines();
 
@@ -197,31 +203,45 @@ namespace ApexCitadels.PC
             _groundPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _groundPlane.name = "WorldMapGround";
             _groundPlane.transform.parent = transform;
-            _groundPlane.transform.localPosition = new Vector3(0, -0.5f, 0); // Slightly below territories
-            _groundPlane.transform.localScale = new Vector3(500, 1, 500); // Much larger: 5000 x 5000 units
+            _groundPlane.transform.localPosition = new Vector3(0, -1f, 0); // Below territories
+            _groundPlane.transform.localScale = new Vector3(200, 1, 200); // 2000 x 2000 units
 
-            // Apply material
-            Renderer renderer = _groundPlane.GetComponent<Renderer>();
-            if (groundMaterial != null)
+            // Use MaterialHelper for reliable color material
+            Color groundColor = new Color(0.25f, 0.55f, 0.25f, 1f); // Bright green
+            Material mat = MaterialHelper.CreateColorMaterial(groundColor);
+            
+            if (mat != null)
             {
-                renderer.material = groundMaterial;
+                _groundPlane.GetComponent<Renderer>().material = mat;
+                Debug.Log($"[WorldMap] Ground plane created with shader: {mat.shader.name}");
             }
             else
             {
-                // Create a nicer map-like ground material
-                Material mat = CreateDefaultMaterial(new Color(0.18f, 0.32f, 0.18f, 1f)); // Dark green
-                if (mat != null)
-                {
-                    renderer.material = mat;
-                }
+                Debug.LogError("[WorldMap] Failed to create ground material!");
             }
+        }
+
+        private void SetupSkyAndCamera()
+        {
+            Color skyBlue = new Color(0.5f, 0.7f, 1f, 1f);
             
-            // Set a nice sky color if no skybox
-            if (Camera.main != null && RenderSettings.skybox == null)
+            // Force sky color on main camera
+            if (Camera.main != null)
             {
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
-                Camera.main.backgroundColor = new Color(0.4f, 0.6f, 0.9f, 1f); // Light blue sky
+                Camera.main.backgroundColor = skyBlue;
+                Debug.Log("[WorldMap] Camera background set to blue sky");
             }
+            
+            // Also set on all cameras
+            foreach (Camera cam in Camera.allCameras)
+            {
+                cam.clearFlags = CameraClearFlags.SolidColor;
+                cam.backgroundColor = skyBlue;
+            }
+            
+            // Disable skybox
+            RenderSettings.skybox = null;
         }
 
         private void CreateGridLines()
@@ -260,42 +280,8 @@ namespace ApexCitadels.PC
             lr.startWidth = gridLineWidth;
             lr.endWidth = gridLineWidth;
             
-            // Use safe material creation for WebGL compatibility
-            lr.material = CreateSafeLineMaterial(new Color(0.5f, 0.5f, 0.5f, 0.3f));
-        }
-
-        private Material CreateSafeLineMaterial(Color color)
-        {
-            // For LineRenderer, use the default material which is always available
-            Material mat = null;
-            Shader shader = Shader.Find("Hidden/Internal-Colored");
-            if (shader != null)
-            {
-                mat = new Material(shader);
-            }
-
-            if (mat == null || mat.shader == null)
-            {
-                // Fallback: create from a primitive's material
-                var temp = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                if (temp != null)
-                {
-                    Renderer r = temp.GetComponent<Renderer>();
-                    if (r != null && r.sharedMaterial != null)
-                    {
-                        mat = new Material(r.sharedMaterial);
-                    }
-                    DestroyImmediate(temp);
-                }
-            }
-            if (mat != null)
-            {
-                mat.color = color;
-                // Enable transparency
-                mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            }
-            return mat;
+            // Use MaterialHelper for reliable line material
+            lr.material = MaterialHelper.CreateLineMaterial(new Color(0.5f, 0.5f, 0.5f, 0.3f));
         }
 
         #endregion
@@ -458,27 +444,29 @@ namespace ApexCitadels.PC
 
             Material mat = null;
             
+            // Use brighter colors that are clearly visible
             // Note: Use explicit null check for Unity objects, not ?? operator
             if (territory.IsContested)
             {
-                mat = contestedTerritoryMaterial != null ? contestedTerritoryMaterial : CreateDefaultMaterial(Color.yellow);
+                mat = contestedTerritoryMaterial != null ? contestedTerritoryMaterial : CreateDefaultMaterial(new Color(1f, 0.9f, 0.2f)); // Bright yellow
             }
             else if (territory.OwnerId == currentUserId)
             {
-                mat = ownedTerritoryMaterial != null ? ownedTerritoryMaterial : CreateDefaultMaterial(Color.green);
+                mat = ownedTerritoryMaterial != null ? ownedTerritoryMaterial : CreateDefaultMaterial(new Color(0.2f, 0.9f, 0.3f)); // Bright green
             }
             else if (!string.IsNullOrEmpty(territory.AllianceId))
             {
                 // Check if same alliance (would need alliance manager)
-                mat = allianceTerritoryMaterial != null ? allianceTerritoryMaterial : CreateDefaultMaterial(Color.blue);
+                mat = allianceTerritoryMaterial != null ? allianceTerritoryMaterial : CreateDefaultMaterial(new Color(0.3f, 0.5f, 1f)); // Bright blue
             }
             else if (!string.IsNullOrEmpty(territory.OwnerId))
             {
-                mat = enemyTerritoryMaterial != null ? enemyTerritoryMaterial : CreateDefaultMaterial(Color.red);
+                mat = enemyTerritoryMaterial != null ? enemyTerritoryMaterial : CreateDefaultMaterial(new Color(1f, 0.3f, 0.2f)); // Bright red
             }
             else
             {
-                mat = neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(Color.gray);
+                // Neutral territories - use bright purple/magenta so they're visible
+                mat = neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(new Color(0.7f, 0.4f, 0.9f)); // Purple
             }
             
             // Final fallback - if still null, use cached base material
@@ -490,70 +478,23 @@ namespace ApexCitadels.PC
             return mat;
         }
 
-        // Cache the base material loaded from Resources
-        private static Material _cachedBaseMaterial;
-        
+        /// <summary>
+        /// Create a material with the given color. Uses MaterialHelper for reliable URP/WebGL compatibility.
+        /// </summary>
         private Material CreateDefaultMaterial(Color color)
         {
-            Material mat = null;
+            // Use the centralized MaterialHelper
+            Material mat = MaterialHelper.CreateColorMaterial(color);
             
-            // FIRST: Try to get material from a primitive (most reliable in WebGL)
-            // This guarantees we get a shader that's included in the build
-            if (_cachedBaseMaterial == null)
+            if (mat == null)
             {
-                var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                if (temp != null && temp.GetComponent<Renderer>() != null)
-                {
-                    _cachedBaseMaterial = temp.GetComponent<Renderer>().sharedMaterial;
-                }
-                DestroyImmediate(temp);
-            }
-            
-            if (_cachedBaseMaterial != null && _cachedBaseMaterial.shader != null)
-            {
-                mat = new Material(_cachedBaseMaterial);
+                Debug.LogError($"[WorldMap] Failed to create material for color {color}");
             }
             else
             {
-                // Try shader names as fallback
-                string[] shaderNames = new string[]
-                {
-                    "Universal Render Pipeline/Lit",
-                    "Universal Render Pipeline/Simple Lit",
-                    "Standard",
-                    "Diffuse",
-                    "Sprites/Default",
-                    "UI/Default"
-                };
-                
-                foreach (string shaderName in shaderNames)
-                {
-                    Shader shader = Shader.Find(shaderName);
-                    if (shader != null)
-                    {
-                        mat = new Material(shader);
-                        break;
-                    }
-                }
+                Debug.Log($"[WorldMap] Created material: color={color}, shader={mat.shader?.name}");
             }
             
-            // If still null, we have a serious problem - log and return null
-            if (mat == null)
-            {
-                Debug.LogError("[WorldMap] CRITICAL: Could not create any material! No shaders available.");
-                return null;
-            }
-            
-            Color finalColor = new Color(color.r, color.g, color.b, 1f);
-            
-            // Try all common color properties
-            if (mat.HasProperty("_BaseColor"))
-                mat.SetColor("_BaseColor", finalColor);
-            if (mat.HasProperty("_Color"))
-                mat.SetColor("_Color", finalColor);
-            mat.color = finalColor;
-            
-            Debug.Log($"[WorldMap] Created material with color {finalColor}, shader: {mat.shader?.name ?? "NULL"}");
             return mat;
         }
 
