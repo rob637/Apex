@@ -252,6 +252,14 @@ namespace ApexCitadels.PC
             var gameController = new GameObject("PCGameController");
             gameController.transform.SetParent(managersRoot.transform);
             gameController.AddComponent<PCGameController>();
+
+            // Game Manager (Required Core System)
+            if (GameObject.FindFirstObjectByType<ApexCitadels.Core.GameManager>() == null)
+            {
+                var gameManager = new GameObject("GameManager");
+                gameManager.transform.SetParent(managersRoot.transform);
+                gameManager.AddComponent<ApexCitadels.Core.GameManager>();
+            }
             
             // Input Manager
             var inputManager = new GameObject("PCInputManager");

@@ -99,6 +99,14 @@ namespace ApexCitadels.PC
         {
             Debug.Log("[PCBootstrap] Creating core systems...");
 
+            // Ensure GameManager exists (Critical dependency)
+            if (FindFirstObjectByType<GameManager>() == null)
+            {
+                Debug.Log("[PCBootstrap] Creating GameManager...");
+                GameObject gmObj = new GameObject("GameManager");
+                gmObj.AddComponent<GameManager>();
+            }
+
             // PC Game Controller
             if (gameController == null)
             {
@@ -180,27 +188,34 @@ namespace ApexCitadels.PC
             Debug.Log("[PCBootstrap] Creating lighting...");
 
             // Check for existing directional light
+            Light sunLight = null;
             Light existingLight = FindFirstObjectByType<Light>();
+            
             if (existingLight != null && existingLight.type == LightType.Directional)
             {
-                // Configure existing light
-                existingLight.color = sunColor;
-                existingLight.intensity = sunIntensity;
-                return;
+                // Use existing light
+                sunLight = existingLight;
+                sunLight.color = sunColor;
+                sunLight.intensity = sunIntensity;
+            }
+            else
+            {
+                // Create sun light
+                GameObject sunObj = new GameObject("Sun");
+                sunLight = sunObj.AddComponent<Light>();
+                sunLight.type = LightType.Directional;
+                sunLight.color = sunColor;
+                sunLight.intensity = sunIntensity;
+                sunLight.shadows = LightShadows.Soft;
+                sunLight.shadowStrength = 0.8f;
+                sunObj.transform.rotation = Quaternion.Euler(50f, -30f, 0);
             }
 
-            // Create sun light
-            GameObject sunObj = new GameObject("Sun");
-            Light sun = sunObj.AddComponent<Light>();
-            sun.type = LightType.Directional;
-            sun.color = sunColor;
-            sun.intensity = sunIntensity;
-            sun.shadows = LightShadows.Soft;
-            sun.shadowStrength = 0.8f;
-            sunObj.transform.rotation = Quaternion.Euler(50f, -30f, 0);
-            
-            // Add Day/Night cycle
-            sunObj.AddComponent<DayNightCycle>();
+            // Ensure Day/Night cycle script is attached
+            if (sunLight.GetComponent<DayNightCycle>() == null)
+            {
+                sunLight.gameObject.AddComponent<DayNightCycle>();
+            }
 
             // Add ambient light adjustment
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
