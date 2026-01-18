@@ -42,6 +42,9 @@ namespace ApexCitadels.PC
         [SerializeField] private GameObject eventMarkerPrefab;
         [SerializeField] private float markerHoverHeight = 5f;
 
+        [Header("Containers")]
+        [SerializeField] private Transform territoriesContainer;
+
         // Events
         public event Action<string> OnTerritoryClicked;
         public event Action<string> OnTerritoryHovered;
@@ -80,6 +83,24 @@ namespace ApexCitadels.PC
         private void Start()
         {
             _cameraController = PCCameraController.Instance;
+            
+            // Find or create territories container
+            if (territoriesContainer == null)
+            {
+                var existing = GameObject.Find("Territories");
+                if (existing != null)
+                {
+                    territoriesContainer = existing.transform;
+                    Debug.Log("[WorldMap] Found existing Territories container");
+                }
+                else
+                {
+                    var container = new GameObject("Territories");
+                    territoriesContainer = container.transform;
+                    Debug.Log("[WorldMap] Created new Territories container");
+                }
+            }
+            
             CreateGroundPlane();
             if (showGridLines)
                 CreateGridLines();
@@ -321,7 +342,7 @@ namespace ApexCitadels.PC
         private void CreateTerritoryObject(Territory.Territory territory)
         {
             GameObject territoryObj = new GameObject($"Territory_{territory.Id}");
-            territoryObj.transform.parent = transform;
+            territoryObj.transform.parent = territoriesContainer;
 
             // Convert GPS to world position
             Vector3 worldPos = GPSToWorldPosition(territory.CenterLatitude, territory.CenterLongitude);
