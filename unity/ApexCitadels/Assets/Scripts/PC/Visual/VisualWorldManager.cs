@@ -51,6 +51,12 @@ namespace ApexCitadels.PC.Visual
             Debug.Log("  APEX CITADELS - VISUAL WORLD MANAGER STARTING");
             Debug.Log("═══════════════════════════════════════════════════════════════════════");
 
+            // FIRST: Disable any old flat ground
+            DisableFlatGround();
+            
+            // Configure camera for 3D world
+            ConfigureCamera();
+
             InitializeVisualSystems();
             
             // Subscribe to territory updates

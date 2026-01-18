@@ -53,16 +53,35 @@ namespace ApexCitadels.PC
 
         private void Start()
         {
-            SetupProceduralSky();
-            SetupEnhancedGround();
-            SetupFog();
+            // Check if new visual systems are present - if so, skip legacy ground plane
+            bool hasNewVisualSystem = FindAnyObjectByType<Visual.TerrainVisualSystem>() != null 
+                                   || FindAnyObjectByType<Visual.VisualWorldManager>() != null;
             
-            if (enableAmbientParticles)
+            if (!hasNewVisualSystem)
             {
-                CreateAmbientParticles();
+                SetupProceduralSky();
+                SetupEnhancedGround();
+                SetupFog();
+                
+                if (enableAmbientParticles)
+                {
+                    CreateAmbientParticles();
+                }
+                
+                Debug.Log("[VisualEnhancements] Visual enhancements initialized (legacy mode)");
             }
-            
-            Debug.Log("[VisualEnhancements] Visual enhancements initialized");
+            else
+            {
+                // New visual system handles everything - disable this
+                Debug.Log("[VisualEnhancements] New VisualWorldManager detected - skipping legacy visuals");
+                
+                // Destroy old ground plane if it exists
+                var oldGround = GameObject.Find("GroundPlane");
+                if (oldGround != null)
+                {
+                    Destroy(oldGround);
+                }
+            }
         }
 
         /// <summary>
