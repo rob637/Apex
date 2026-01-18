@@ -7,6 +7,9 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using ApexCitadels.PC;
+using ApexCitadels.PC.UI;
+using ApexCitadels.PC.WebGL;
 
 namespace ApexCitadels.PC.Editor
 {
@@ -168,8 +171,8 @@ namespace ApexCitadels.PC.Editor
             bool hasLight = Object.FindFirstObjectByType<Light>() != null;
             bool hasGameController = Object.FindFirstObjectByType<PCGameController>() != null;
             bool hasWorldMap = Object.FindFirstObjectByType<WorldMapRenderer>() != null;
-            bool hasUIManager = Object.FindFirstObjectByType<ApexCitadels.PC.UI.PCUIManager>() != null;
-            bool hasFirebase = Object.FindFirstObjectByType<ApexCitadels.PC.WebGL.FirebaseWebClient>() != null;
+            bool hasUIManager = Object.FindFirstObjectByType<PCUIManager>() != null;
+            bool hasFirebase = Object.FindFirstObjectByType<FirebaseWebClient>() != null;
             
             EditorGUILayout.LabelField($"  {(hasScene ? "✅" : "❌")} PCMain.unity scene");
             EditorGUILayout.LabelField($"  {(hasCamera ? "✅" : "❌")} Main Camera");
@@ -453,18 +456,18 @@ namespace ApexCitadels.PC.Editor
             }
             
             // FirebaseWebClient
-            if (Object.FindFirstObjectByType<ApexCitadels.PC.WebGL.FirebaseWebClient>() == null)
+            if (Object.FindFirstObjectByType<FirebaseWebClient>() == null)
             {
                 var obj = new GameObject("FirebaseWebClient");
-                obj.AddComponent<ApexCitadels.PC.WebGL.FirebaseWebClient>();
+                obj.AddComponent<FirebaseWebClient>();
                 Log("[Setup] Created FirebaseWebClient");
             }
             
             // WebGLBridge
-            if (Object.FindFirstObjectByType<ApexCitadels.PC.WebGL.WebGLBridgeComponent>() == null)
+            if (Object.FindFirstObjectByType<WebGLBridgeComponent>() == null)
             {
                 var obj = new GameObject("WebGLBridge");
-                obj.AddComponent<ApexCitadels.PC.WebGL.WebGLBridgeComponent>();
+                obj.AddComponent<WebGLBridgeComponent>();
                 Log("[Setup] Created WebGLBridge");
             }
             
@@ -510,9 +513,9 @@ namespace ApexCitadels.PC.Editor
             }
             
             // PCUIManager
-            if (canvas.GetComponent<ApexCitadels.PC.UI.PCUIManager>() == null)
+            if (canvas.GetComponent<PCUIManager>() == null)
             {
-                canvas.gameObject.AddComponent<ApexCitadels.PC.UI.PCUIManager>();
+                canvas.gameObject.AddComponent<PCUIManager>();
                 Log("[Setup] Added PCUIManager to Canvas");
             }
             
@@ -612,7 +615,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -250));
             
             // Add script
-            panel.AddComponent<ApexCitadels.PC.UI.TerritoryDetailPanel>();
+            panel.AddComponent<TerritoryDetailPanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -632,7 +635,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelButton(panel.transform, "WarRoomButton", "War Room", new Vector2(0, -200));
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -280));
             
-            panel.AddComponent<ApexCitadels.PC.UI.AlliancePanel>();
+            panel.AddComponent<AlliancePanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -653,7 +656,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelButton(panel.transform, "DecorativeButton", "Decorative", new Vector2(0, -235));
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -310));
             
-            panel.AddComponent<ApexCitadels.PC.UI.BuildMenuPanel>();
+            panel.AddComponent<BuildMenuPanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -673,7 +676,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelText(panel.transform, "DefensesWon", "Defenses Won: 0", 16, new Vector2(150, -90));
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -240));
             
-            panel.AddComponent<ApexCitadels.PC.UI.StatisticsPanel>();
+            panel.AddComponent<StatisticsPanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -693,7 +696,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelButton(panel.transform, "SpeedButton", "2x Speed", new Vector2(100, -200));
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -280));
             
-            panel.AddComponent<ApexCitadels.PC.UI.BattleReplayPanel>();
+            panel.AddComponent<BattleReplayPanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -712,7 +715,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelButton(panel.transform, "CraftButton", "Craft", new Vector2(0, -250));
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -310));
             
-            panel.AddComponent<ApexCitadels.PC.UI.CraftingPanel>();
+            panel.AddComponent<CraftingPanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -732,7 +735,7 @@ namespace ApexCitadels.PC.Editor
             AddPanelButton(panel.transform, "HistoryTab", "History", new Vector2(100, -100));
             AddPanelButton(panel.transform, "CloseButton", "Close", new Vector2(0, -300));
             
-            panel.AddComponent<ApexCitadels.PC.UI.MarketPanel>();
+            panel.AddComponent<MarketPanel>();
             
             PrefabUtility.SaveAsPrefabAsset(panel, prefabPath);
             Object.DestroyImmediate(panel);
@@ -777,7 +780,7 @@ namespace ApexCitadels.PC.Editor
             
             var text = titleObj.AddComponent<Text>();
             text.text = title;
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            text.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             text.fontSize = 24;
             text.fontStyle = FontStyle.Bold;
             text.alignment = TextAnchor.MiddleCenter;
@@ -797,7 +800,7 @@ namespace ApexCitadels.PC.Editor
             
             var text = textObj.AddComponent<Text>();
             text.text = content;
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            text.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             text.fontSize = fontSize;
             text.alignment = TextAnchor.MiddleCenter;
             text.color = Color.white;
@@ -834,7 +837,7 @@ namespace ApexCitadels.PC.Editor
             
             var text = textObj.AddComponent<Text>();
             text.text = label;
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            text.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             text.fontSize = 16;
             text.alignment = TextAnchor.MiddleCenter;
             text.color = Color.white;
@@ -849,7 +852,7 @@ namespace ApexCitadels.PC.Editor
             var inputManager = Object.FindFirstObjectByType<PCInputManager>();
             var worldMapRenderer = Object.FindFirstObjectByType<WorldMapRenderer>();
             var baseEditor = Object.FindFirstObjectByType<BaseEditor>();
-            var uiManager = Object.FindFirstObjectByType<ApexCitadels.PC.UI.PCUIManager>();
+            var uiManager = Object.FindFirstObjectByType<PCUIManager>();
             
             // Wire PCGameController
             if (gameController != null)

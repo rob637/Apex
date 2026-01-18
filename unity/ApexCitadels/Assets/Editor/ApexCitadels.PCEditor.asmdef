@@ -1,0 +1,20 @@
+{
+    "name": "ApexCitadels.PCEditor",
+    "rootNamespace": "ApexCitadels.PC.Editor",
+    "references": [
+        "ApexCitadels.Core",
+        "ApexCitadels.PC",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

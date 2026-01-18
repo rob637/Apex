@@ -2,15 +2,17 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-/// <summary>
-/// Bridge for JavaScript-Unity communication in WebGL builds.
-/// Allows the web page to interact with the Unity game.
-/// Add this component to a GameObject named "WebGLBridge" in your scene.
-/// </summary>
-[AddComponentMenu("Apex Citadels/PC/WebGL Bridge")]
-public class WebGLBridgeComponent : MonoBehaviour
+namespace ApexCitadels.PC.WebGL
 {
-    public static WebGLBridgeComponent Instance { get; private set; }
+    /// <summary>
+    /// Bridge for JavaScript-Unity communication in WebGL builds.
+    /// Allows the web page to interact with the Unity game.
+    /// Add this component to a GameObject named "WebGLBridge" in your scene.
+    /// </summary>
+    [AddComponentMenu("Apex Citadels/PC/WebGL Bridge")]
+    public class WebGLBridgeComponent : MonoBehaviour
+    {
+        public static WebGLBridgeComponent Instance { get; private set; }
 
     // Events for Unity-side listeners
     public event Action<string> OnLoginTokenReceived;
@@ -111,9 +113,9 @@ public class WebGLBridgeComponent : MonoBehaviour
         OnTerritorySelectedFromWeb?.Invoke(territoryId);
 
         // Forward to PC game controller
-        if (ApexCitadels.PC.PCGameController.Instance != null)
+        if (PCGameController.Instance != null)
         {
-            ApexCitadels.PC.PCGameController.Instance.SelectTerritory(territoryId);
+            PCGameController.Instance.SelectTerritory(territoryId);
         }
     }
 
@@ -127,33 +129,34 @@ public class WebGLBridgeComponent : MonoBehaviour
     {
         Debug.Log($"[WebGLBridge] Toggle panel: {panelName}");
         
-        if (ApexCitadels.PC.UI.PCUIManager.Instance != null)
+        if (UI.PCUIManager.Instance != null)
         {
-            ApexCitadels.PC.UI.PCUIManager.Instance.TogglePanel(panelName);
+            UI.PCUIManager.Instance.TogglePanel(panelName);
         }
     }
 
     public void SetCameraMode(string mode)
     {
-        if (ApexCitadels.PC.PCCameraController.Instance == null) return;
+        if (PCCameraController.Instance == null) return;
 
         switch (mode.ToLower())
         {
             case "worldmap":
-                ApexCitadels.PC.PCCameraController.Instance.EnterWorldMapMode();
+                PCCameraController.Instance.EnterWorldMapMode();
                 break;
             case "territory":
-                ApexCitadels.PC.PCCameraController.Instance.EnterTerritoryMode(
-                    ApexCitadels.PC.PCGameController.Instance?.SelectedTerritoryId);
+                PCCameraController.Instance.EnterTerritoryMode(
+                    PCGameController.Instance?.SelectedTerritoryId);
                 break;
             case "firstperson":
-                ApexCitadels.PC.PCCameraController.Instance.EnterFirstPersonMode();
+                PCCameraController.Instance.EnterFirstPersonMode();
                 break;
             case "cinematic":
-                ApexCitadels.PC.PCCameraController.Instance.EnterCinematicMode();
+                PCCameraController.Instance.EnterCinematicMode();
                 break;
         }
     }
 
     #endregion
+}
 }

@@ -1,6 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using ApexCitadels.PC;
+using ApexCitadels.PC.UI;
+using ApexCitadels.PC.WebGL;
 
 namespace ApexCitadels.PC.Editor
 {
@@ -208,7 +211,7 @@ namespace ApexCitadels.PC.Editor
             EditorGUILayout.LabelField($"  PCInputManager: {(inputManager != null ? "✅ Found" : "❌ Not Found")}");
             
             // PCUIManager
-            var uiManager = FindFirstObjectByType<ApexCitadels.PC.UI.PCUIManager>();
+            var uiManager = FindFirstObjectByType<PCUIManager>();
             EditorGUILayout.LabelField($"  PCUIManager: {(uiManager != null ? "✅ Found" : "❌ Not Found")}");
         }
 
