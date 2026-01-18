@@ -137,7 +137,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Moderation | ✅ | Reports, bans |
 | Settings | ✅ | Feature toggles |
 
-### 🔄 IN-PROGRESS: PC Client (90%)
+### 🔄 IN-PROGRESS: PC Client (95%)
 
 | System | Scripts | Status | Quality |
 |--------|---------|--------|---------|
@@ -154,6 +154,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | **Resource System** | ResourceInventory (8 types, events, persistence) | ✅ | Production |
 | **Troop Training** | TroopTrainingPanel, TrainingQueueManager, TroopManager, TroopQuickBar | ✅ | **AAA Quality** |
 | **Economy System** | ResourceSpendingManager, ResourceHUD, InsufficientResourcesPopup | ✅ | **AAA Quality** |
+| **Battle Replay** | BattleRecorder, ReplayCameraController, ReplayHighlightSystem | ✅ | **AAA Quality** |
 | UI Panels | 10 panels created | ✅ | Functional |
 
 ### 🔄 IN-PROGRESS: AR Mobile (85%)
@@ -370,6 +371,32 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 - Extension methods for easy spending from any system
 - Debug keys: F9 to add resources, F10 to reset
 
+### PC Client - Battle Replay System (✅ NEWLY COMPLETED)
+
+| Component | Files | Features |
+|-----------|-------|----------|
+| Battle Recorder | BattleRecorder.cs (902 lines) | Combat capture, unit tracking, highlight detection |
+| Camera Controller | ReplayCameraController.cs (775 lines) | Free-look, follow, birds-eye, cinematic modes |
+| Highlight System | ReplayHighlightSystem.cs (702 lines) | Auto slow-mo, kill streaks, screen effects |
+| Enhanced Timeline | ReplayTimelineEnhanced.cs (722 lines) | Event markers, mini-map, highlight navigation |
+| Integration | ReplaySystemIntegration.cs (595 lines) | Unified API, keyboard shortcuts |
+| Core Playback | BattleReplaySystem.cs (1,212 lines) | Event processing, unit animation, Firebase |
+| Replay Browser | BattleReplayPanel.cs (633 lines) | List replays, filters, playback controls |
+
+**Battle Replay Features:**
+- **Automatic Recording:** CombatPanel battles automatically recorded
+- **Camera Modes:** Free-look (WASD), Follow unit, Birds-eye, Cinematic auto-tour
+- **Highlight Detection:** Multi-kills, critical hits, building destroyed, special abilities
+- **Auto Slow-Mo:** Triggers on epic moments (triple kills, big damage)
+- **Kill Streak Popups:** "DOUBLE KILL!", "TRIPLE KILL!", etc.
+- **Visual Timeline:** Colored markers for deaths/abilities, click to seek
+- **Mini-Map:** Shows unit/building positions during replay
+- **Keyboard Shortcuts:** Space (play/pause), R (restart), Z/X/C (speed), V (cinematic)
+- **Screenshot Capture:** F12 saves screenshot with timestamp
+- **Local Persistence:** Stores last 50 replays in PlayerPrefs
+- **Firebase Sync:** Replays saved to cloud for sharing
+- **Analysis Panel:** Damage breakdown, DPS calculations, heatmaps
+
 ---
 
 ## IN-PROGRESS WORK
@@ -448,7 +475,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 
 ## PRIORITIZED ROADMAP
 
-### Phase 6: Core Gameplay Loop (Current Sprint)
+### Phase 6: Core Gameplay Loop ✅ COMPLETE
 **Goal:** Make the PC client feel like a GAME, not a tech demo
 
 | # | Task | Days | Status |
@@ -457,9 +484,9 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | 2 | Base Editor Integration | 2-3 | ✅ **DONE** |
 | 3 | Troop Training UI | 1-2 | ✅ **DONE** |
 | 4 | Resource Spending | 1 | ✅ **DONE** |
-| 5 | Battle Replay Viewer | 1-2 | ⏳ Next |
+| 5 | Battle Replay Viewer | 1-2 | ✅ **DONE** |
 
-### Phase 7: Visual Excellence
+### Phase 7: Visual Excellence (Current Sprint)
 **Goal:** Screenshots that make people say "I need to play this"
 
 | # | Task | Days | Impact |
