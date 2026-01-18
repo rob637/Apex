@@ -39,16 +39,23 @@ namespace ApexCitadels.PC.Editor
             var uiManager = Object.FindFirstObjectByType<PCUIManager>();
             if (uiManager != null)
             {
-                // Assign Generic Prefabs if slots are empty, 
-                // but PCUIManager has a "CreateMissingPanels" function that runs at runtime,
-                // so we mainly need to ensure it exists.
-                Debug.Log("[AutoWire] PCUIManager found. It will auto-generate panels on Play.");
+                AssignAsset(uiManager, "mainMenuPanel", "Assets/Prefabs/PC/MainMenuPanel.prefab");
+                AssignAsset(uiManager, "territoryDetailPanel", "Assets/Prefabs/PC/TerritoryDetailPanel.prefab");
+                AssignAsset(uiManager, "alliancePanel", "Assets/Prefabs/PC/AlliancePanel.prefab");
+                AssignAsset(uiManager, "buildMenuPanel", "Assets/Prefabs/PC/BuildMenuPanel.prefab");
+                AssignAsset(uiManager, "inventoryPanel", "Assets/Prefabs/PC/InventoryPanel.prefab");
+                AssignAsset(uiManager, "statisticsPanel", "Assets/Prefabs/PC/StatisticsPanel.prefab");
+                AssignAsset(uiManager, "settingsPanel", "Assets/Prefabs/PC/SettingsPanel.prefab");
+                AssignAsset(uiManager, "chatPanel", "Assets/Prefabs/PC/ChatPanel.prefab");
+                
+                EditorUtility.SetDirty(uiManager);
+                Debug.Log("[AutoWire] Configured PCUIManager with Panel Prefabs");
             }
 
             Debug.Log("--- Auto-Wire Complete ---");
         }
 
-        private static void AssignAsset(ref WorldMapRenderer target, string fieldName, string updatePath)
+        private static void AssignAsset(Object target, string fieldName, string updatePath)
         {
             SerializedObject so = new SerializedObject(target);
             SerializedProperty prop = so.FindProperty(fieldName);
@@ -59,6 +66,7 @@ namespace ApexCitadels.PC.Editor
                 if (prefab != null)
                 {
                     prop.objectReferenceValue = prefab;
+                    // Important: Apply changes immediately
                     so.ApplyModifiedProperties();
                 }
                 else
@@ -66,7 +74,19 @@ namespace ApexCitadels.PC.Editor
                     Debug.LogWarning($"[AutoWire] Could not find prefab at {updatePath}");
                 }
             }
+            else
+            {
+                Debug.LogWarning($"[AutoWire] Could not find field {fieldName} on {target.name}");
+            }
         }
+
+        private static void AssignAsset(ref WorldMapRenderer target, string fieldName, string updatePath)
+        {
+             // Backward compatibility wrapper or just remove if we replace usage
+             AssignAsset((Object)target, fieldName, updatePath);
+        }
+
+        private static void AssignMaterial(ref WorldMapRenderer target, string fieldName, string matName)
 
         private static void AssignMaterial(ref WorldMapRenderer target, string fieldName, string matName)
         {

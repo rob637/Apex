@@ -33,15 +33,57 @@ namespace ApexCitadels.PC
             CreateTerritoryMarkerPrefab();
             CreateBuildingPreviewPrefab();
             CreateUIButtonPrefab();
-            CreatePanelPrefab();
             CreateListItemPrefab();
             CreateTooltipPrefab();
             CreateMinimapMarkerPrefab();
+            
+            // Create UI Panels
+            GameObject basePanel = CreatePanelPrefab();
+            CreateSpecificPanel(basePanel, "MainMenuPanel", "Main Menu", new Color(0.1f, 0.1f, 0.15f, 0.95f));
+            CreateSpecificPanel(basePanel, "TerritoryDetailPanel", "Territory Details", new Color(0.1f, 0.1f, 0.1f, 0.95f));
+            CreateSpecificPanel(basePanel, "AlliancePanel", "Alliance", new Color(0.1f, 0.05f, 0.15f, 0.95f));
+            CreateSpecificPanel(basePanel, "BuildMenuPanel", "Build Menu", new Color(0.15f, 0.1f, 0.05f, 0.95f));
+            CreateSpecificPanel(basePanel, "InventoryPanel", "Inventory", new Color(0.1f, 0.1f, 0.05f, 0.95f));
+            CreateSpecificPanel(basePanel, "StatisticsPanel", "Statistics", new Color(0.05f, 0.1f, 0.1f, 0.95f));
+            CreateSpecificPanel(basePanel, "SettingsPanel", "Settings", new Color(0.1f, 0.1f, 0.1f, 0.95f));
+            CreateSpecificPanel(basePanel, "ChatPanel", "Chat", new Color(0.05f, 0.05f, 0.1f, 0.9f));
+            
+            // Cleanup temp
+            Object.DestroyImmediate(basePanel);
             
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             
             Debug.Log("[PCPrefabCreator] All PC prefabs created successfully!");
+        }
+
+        private static void CreateSpecificPanel(GameObject basePanelPrefab, string name, string title, Color color)
+        {
+            // Instantiate base
+            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(basePanelPrefab);
+            instance.name = name;
+            
+            // Customize
+            var bg = instance.GetComponent<Image>();
+            if (bg) bg.color = color;
+            
+            var titleObj = instance.transform.Find("Title/Text");
+            if (titleObj)
+            {
+                var tmp = titleObj.GetComponent<TextMeshProUGUI>();
+                if (tmp) tmp.text = title;
+            }
+            
+            // Add specific scripts based on name
+            if (name == "TerritoryDetailPanel") instance.AddComponent<ApexCitadels.PC.UI.TerritoryDetailPanel>();
+            if (name == "BuildMenuPanel") instance.AddComponent<ApexCitadels.PC.UI.BuildMenuPanel>();
+            if (name == "AlliancePanel") instance.AddComponent<ApexCitadels.PC.UI.AlliancePanel>();
+            // Add others as needed...
+
+            // Save as new prefab
+            string path = $"{PREFAB_PATH}/{name}.prefab";
+            PrefabUtility.SaveAsPrefabAsset(instance, path);
+            Object.DestroyImmediate(instance);
         }
         
         [MenuItem("Apex/PC/Create PC Materials")]

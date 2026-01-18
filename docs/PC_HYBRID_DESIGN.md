@@ -1,8 +1,8 @@
 # Apex Citadels: PC Hybrid Mode Design Document
 
-**Status:** Phase 2A Implementation In Progress 🔄  
+**Status:** Phase 2A Complete / Phase 2B In Progress 🔧  
 **Created:** January 17, 2026  
-**Updated:** January 17, 2026  
+**Updated:** January 18, 2026  
 **Priority:** Phase 2-3  
 
 ---
@@ -506,26 +506,26 @@ This is the definitive checklist for getting both **PC** and **AR Mobile** clien
 | `PCPrefabCreator.cs` | ✅ | Menu: Apex/PC/Create All PC Prefabs |
 | `PCSceneSetup.cs` | ✅ | Menu: Apex/PC/Setup PC Scene |
 
-### A6. PC Scene ⏳ NOT CREATED (Unity Editor Required)
+### A6. PC Scene ✅ COMPLETE
 
 | Task | Status | Instructions |
 |------|--------|--------------|
-| Create PCMain.unity | ⏳ | File → New Scene → Save as Assets/Scenes/PCMain.unity |
-| Run scene setup wizard | ⏳ | Menu: Apex → PC → Setup PC Scene (Full) |
-| Create UI prefabs | ⏳ | Menu: Apex → PC → Create All PC Prefabs |
-| Wire up references | ⏳ | Assign camera, input, UI manager refs |
-| Add WebGL bridge | ⏳ | Add WebGLBridge component to scene |
+| Create PCMain.unity | ✅ | File → New Scene → Save as Assets/Scenes/PCMain.unity |
+| Run scene setup wizard | ✅ | Menu: Apex → PC → Setup PC Scene (Full) |
+| Create UI prefabs | ✅ | Menu: Apex → PC → Create All PC Prefabs |
+| Wire up references | ✅ | Menu: Apex → PC → Auto-Wire Scene References |
+| Add WebGL bridge | ✅ | Added automatically by scene setup |
 
-### A7. WebGL Build 🔧 DEPLOYED - NEEDS REBUILD FOR SHADER FIX
+### A7. WebGL Build ✅ DEPLOYED
 
 | Task | Status | Instructions |
 |------|--------|--------------|
 | Switch to WebGL platform | ✅ | File → Build Settings → WebGL |
 | Configure Player Settings | ✅ | Compression: Disabled (Firebase Hosting issue), Memory: 512MB |
-| Build | 🔧 | Output to backend/hosting-pc/build/ - **REBUILD NEEDED for shader fix** |
+| Build | ✅ | Output to backend/hosting-pc/build/ |
 | Deploy | ✅ | firebase deploy --only hosting:pc |
 
-**Note:** Current build has shader errors. After pulling latest code, rebuild WebGL in Unity.
+**Note:** Current build is live at https://apex-citadels-pc.web.app/
 
 ---
 
