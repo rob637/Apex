@@ -1182,7 +1182,9 @@ namespace ApexCitadels.PC.UI
         Swiss
     }
 
-    public enum TournamentStatus
+    // Note: TournamentStatus enum is defined in PvPArenaPanel.cs
+    // Using TournamentPanelStatus to avoid conflict
+    public enum TournamentPanelStatus
     {
         Registration,
         InProgress,
@@ -1190,13 +1192,15 @@ namespace ApexCitadels.PC.UI
         Cancelled
     }
 
-    public class Tournament
+    // Note: Tournament class is defined in PvPArenaPanel.cs
+    // Using TournamentInfo to avoid conflict
+    public class TournamentInfo
     {
         public string Id;
         public string Name;
         public string Description;
         public TournamentType Type;
-        public TournamentStatus Status;
+        public TournamentPanelStatus Status;
         public int PrizePool;
         public int EntryFee;
         public int MaxParticipants;

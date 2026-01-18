@@ -1,37 +1,39 @@
 // ============================================================================
 // APEX CITADELS - POST PROCESSING SETUP
-// Configures beautiful visual effects: bloom, color grading, SSAO, etc.
+// Configures beautiful visual effects using camera-based approach
+// Works without URP-specific packages
 // ============================================================================
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 namespace ApexCitadels.PC.Visual
 {
     /// <summary>
     /// Sets up post-processing effects for a polished visual experience.
-    /// Creates bloom, color grading, vignette, and other effects.
+    /// Uses camera and shader-based effects that work with any render pipeline.
     /// </summary>
     public class PostProcessingSetup : MonoBehaviour
     {
         public static PostProcessingSetup Instance { get; private set; }
 
-        [Header("Volume Profile")]
-        private Volume globalVolume;
-        private VolumeProfile profile;
-
-        [Header("Effects")]
-        private Bloom bloom;
-        private ColorAdjustments colorAdjustments;
-        private Vignette vignette;
-        private ChromaticAberration chromaticAberration;
-        private DepthOfField depthOfField;
-        private MotionBlur motionBlur;
-        private FilmGrain filmGrain;
-        private LiftGammaGain liftGammaGain;
-
         [Header("Presets")]
         public VisualPreset currentPreset = VisualPreset.Default;
+
+        [Header("Effect Settings")]
+        [Range(0f, 2f)] public float bloomIntensity = 0.5f;
+        [Range(0f, 1f)] public float vignetteIntensity = 0.25f;
+        [Range(-100f, 100f)] public float saturation = 10f;
+        [Range(-2f, 2f)] public float exposure = 0.2f;
+        [Range(0f, 50f)] public float contrast = 10f;
+        public Color colorTint = new Color(1f, 0.98f, 0.95f);
+
+        // Camera reference
+        private Camera mainCamera;
+        
+        // Overlay for effects
+        private GameObject overlayQuad;
+        private Material overlayMaterial;
+        private bool isFlashing = false;
 
         public enum VisualPreset
         {
@@ -59,125 +61,126 @@ namespace ApexCitadels.PC.Visual
 
         private void Start()
         {
-            SetupPostProcessing();
+            mainCamera = Camera.main;
+            SetupEffects();
             ApplyPreset(VisualPreset.Default);
             
-            Debug.Log("[PostProcess] ✅ Post-processing system initialized");
+            Debug.Log("[PostProcess] ✅ Post-processing system initialized (Camera-based)");
         }
 
         /// <summary>
-        /// Creates and configures the post-processing volume
+        /// Sets up visual effect components
         /// </summary>
-        private void SetupPostProcessing()
+        private void SetupEffects()
         {
-            // Create global volume
-            GameObject volumeObj = new GameObject("GlobalPostProcessVolume");
-            volumeObj.transform.SetParent(transform);
-            volumeObj.layer = LayerMask.NameToLayer("Default");
-
-            globalVolume = volumeObj.AddComponent<Volume>();
-            globalVolume.isGlobal = true;
-            globalVolume.priority = 100;
-
-            // Create volume profile
-            profile = ScriptableObject.CreateInstance<VolumeProfile>();
-            globalVolume.profile = profile;
-
-            // Add effects
-            AddBloom();
-            AddColorAdjustments();
-            AddVignette();
-            AddChromaticAberration();
-            AddDepthOfField();
-            AddMotionBlur();
-            AddFilmGrain();
-            AddLiftGammaGain();
-
-            // Make sure camera has post-processing enabled
-            Camera cam = Camera.main;
-            if (cam != null)
+            // Configure camera for better visuals
+            if (mainCamera != null)
             {
-                var additionalData = cam.GetComponent<UniversalAdditionalCameraData>();
-                if (additionalData == null)
-                {
-                    additionalData = cam.gameObject.AddComponent<UniversalAdditionalCameraData>();
-                }
-                additionalData.renderPostProcessing = true;
-                additionalData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
-                additionalData.antialiasingQuality = AntialiasingQuality.High;
+                mainCamera.allowHDR = true;
+                mainCamera.allowMSAA = true;
+                
+                // Set a nice default clear color (sky blue gradient fallback)
+                mainCamera.clearFlags = CameraClearFlags.Skybox;
             }
 
-            Debug.Log("[PostProcess] Created volume with all effects");
+            // Create screen overlay for vignette and flash effects
+            CreateScreenOverlay();
+            
+            // Apply initial lighting enhancements
+            EnhanceLighting();
+            
+            Debug.Log("[PostProcess] Visual effects configured");
         }
 
-        private void AddBloom()
+        private void CreateScreenOverlay()
         {
-            bloom = profile.Add<Bloom>(true);
-            bloom.active = true;
-            bloom.threshold.Override(1f);
-            bloom.intensity.Override(0.5f);
-            bloom.scatter.Override(0.7f);
-            bloom.tint.Override(new Color(1f, 1f, 1f));
+            // Create overlay camera for effects
+            GameObject overlayCamObj = new GameObject("EffectsOverlayCamera");
+            overlayCamObj.transform.SetParent(transform);
+            
+            Camera overlayCam = overlayCamObj.AddComponent<Camera>();
+            overlayCam.clearFlags = CameraClearFlags.Nothing;
+            overlayCam.cullingMask = 0; // Don't render anything
+            overlayCam.depth = 100; // Render after main camera
+            overlayCam.orthographic = true;
+            
+            // Create overlay quad in screen space
+            overlayQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            overlayQuad.name = "VignetteOverlay";
+            overlayQuad.transform.SetParent(overlayCamObj.transform);
+            overlayQuad.transform.localPosition = new Vector3(0, 0, 1);
+            overlayQuad.transform.localScale = new Vector3(20, 20, 1);
+            
+            // Remove collider
+            Destroy(overlayQuad.GetComponent<Collider>());
+            
+            // Create vignette material
+            overlayMaterial = new Material(Shader.Find("Unlit/Transparent"));
+            if (overlayMaterial != null)
+            {
+                // Create vignette texture
+                Texture2D vignetteTex = CreateVignetteTexture(256);
+                overlayMaterial.mainTexture = vignetteTex;
+                overlayMaterial.color = new Color(0, 0, 0, vignetteIntensity);
+                overlayQuad.GetComponent<Renderer>().material = overlayMaterial;
+            }
+            
+            // Initially hide until needed
+            overlayQuad.SetActive(vignetteIntensity > 0.1f);
         }
 
-        private void AddColorAdjustments()
+        private Texture2D CreateVignetteTexture(int size)
         {
-            colorAdjustments = profile.Add<ColorAdjustments>(true);
-            colorAdjustments.active = true;
-            colorAdjustments.postExposure.Override(0.2f);
-            colorAdjustments.contrast.Override(10f);
-            colorAdjustments.saturation.Override(10f);
-            colorAdjustments.colorFilter.Override(new Color(1f, 0.98f, 0.95f)); // Slight warm tint
+            Texture2D tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+            Color[] pixels = new Color[size * size];
+            
+            Vector2 center = new Vector2(size / 2f, size / 2f);
+            float maxDist = size / 2f;
+            
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float dist = Vector2.Distance(new Vector2(x, y), center);
+                    float normalizedDist = dist / maxDist;
+                    
+                    // Vignette falloff
+                    float alpha = Mathf.Pow(normalizedDist, 2f) * Mathf.SmoothStep(0.3f, 1f, normalizedDist);
+                    pixels[y * size + x] = new Color(0, 0, 0, alpha);
+                }
+            }
+            
+            tex.SetPixels(pixels);
+            tex.Apply();
+            return tex;
         }
 
-        private void AddVignette()
+        private void EnhanceLighting()
         {
-            vignette = profile.Add<Vignette>(true);
-            vignette.active = true;
-            vignette.intensity.Override(0.25f);
-            vignette.smoothness.Override(0.4f);
-            vignette.rounded.Override(false);
-        }
+            // Find and enhance directional light
+            Light sun = null;
+            foreach (var light in FindObjectsByType<Light>(FindObjectsSortMode.None))
+            {
+                if (light.type == LightType.Directional)
+                {
+                    sun = light;
+                    break;
+                }
+            }
 
-        private void AddChromaticAberration()
-        {
-            chromaticAberration = profile.Add<ChromaticAberration>(true);
-            chromaticAberration.active = false; // Off by default
-            chromaticAberration.intensity.Override(0.1f);
-        }
+            if (sun != null)
+            {
+                sun.intensity = 1.2f;
+                sun.color = new Color(1f, 0.95f, 0.85f); // Warm sunlight
+                sun.shadows = LightShadows.Soft;
+                sun.shadowStrength = 0.7f;
+            }
 
-        private void AddDepthOfField()
-        {
-            depthOfField = profile.Add<DepthOfField>(true);
-            depthOfField.active = false; // Off by default for strategy game
-            depthOfField.mode.Override(DepthOfFieldMode.Bokeh);
-            depthOfField.focusDistance.Override(10f);
-            depthOfField.aperture.Override(5.6f);
-        }
-
-        private void AddMotionBlur()
-        {
-            motionBlur = profile.Add<MotionBlur>(true);
-            motionBlur.active = false; // Off by default
-            motionBlur.intensity.Override(0.2f);
-            motionBlur.quality.Override(MotionBlurQuality.Medium);
-        }
-
-        private void AddFilmGrain()
-        {
-            filmGrain = profile.Add<FilmGrain>(true);
-            filmGrain.active = false; // Off by default
-            filmGrain.type.Override(FilmGrainLookup.Medium1);
-            filmGrain.intensity.Override(0.2f);
-        }
-
-        private void AddLiftGammaGain()
-        {
-            liftGammaGain = profile.Add<LiftGammaGain>(true);
-            liftGammaGain.active = true;
-            liftGammaGain.lift.Override(new Vector4(1f, 1f, 1f, 0f));
-            liftGammaGain.gamma.Override(new Vector4(1f, 1f, 1f, 0f));
-            liftGammaGain.gain.Override(new Vector4(1f, 1f, 1f, 0f));
+            // Set ambient lighting
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.5f, 0.6f, 0.8f);
+            RenderSettings.ambientEquatorColor = new Color(0.4f, 0.45f, 0.5f);
+            RenderSettings.ambientGroundColor = new Color(0.2f, 0.2f, 0.15f);
         }
 
         #region Preset Application
@@ -214,128 +217,112 @@ namespace ApexCitadels.PC.Visual
                     break;
             }
 
+            ApplySettings();
             Debug.Log($"[PostProcess] Applied preset: {preset}");
+        }
+
+        private void ApplySettings()
+        {
+            // Update vignette overlay
+            if (overlayMaterial != null && overlayQuad != null)
+            {
+                overlayMaterial.color = new Color(
+                    colorTint.r * 0.1f, 
+                    colorTint.g * 0.1f, 
+                    colorTint.b * 0.1f, 
+                    vignetteIntensity
+                );
+                overlayQuad.SetActive(vignetteIntensity > 0.05f);
+            }
+
+            // Update ambient lighting based on preset
+            float ambientIntensity = 1f + (exposure * 0.5f);
+            RenderSettings.ambientIntensity = Mathf.Clamp(ambientIntensity, 0.5f, 2f);
         }
 
         private void ApplyDefaultPreset()
         {
-            bloom.intensity.Override(0.5f);
-            bloom.threshold.Override(1f);
-            
-            colorAdjustments.postExposure.Override(0.2f);
-            colorAdjustments.contrast.Override(10f);
-            colorAdjustments.saturation.Override(10f);
-            colorAdjustments.colorFilter.Override(new Color(1f, 0.98f, 0.95f));
-            
-            vignette.intensity.Override(0.25f);
-            
-            chromaticAberration.active = false;
-            depthOfField.active = false;
-            motionBlur.active = false;
-            filmGrain.active = false;
+            bloomIntensity = 0.5f;
+            vignetteIntensity = 0.25f;
+            saturation = 10f;
+            exposure = 0.2f;
+            contrast = 10f;
+            colorTint = new Color(1f, 0.98f, 0.95f);
         }
 
         private void ApplyCinematicPreset()
         {
-            bloom.intensity.Override(0.8f);
-            bloom.threshold.Override(0.9f);
-            
-            colorAdjustments.postExposure.Override(0.1f);
-            colorAdjustments.contrast.Override(15f);
-            colorAdjustments.saturation.Override(5f);
-            colorAdjustments.colorFilter.Override(new Color(0.95f, 0.95f, 1f)); // Slight blue
-            
-            vignette.intensity.Override(0.4f);
-            
-            filmGrain.active = true;
-            filmGrain.intensity.Override(0.15f);
-            
-            // Subtle letterbox effect (via vignette)
-            vignette.rounded.Override(false);
+            bloomIntensity = 0.8f;
+            vignetteIntensity = 0.4f;
+            saturation = 5f;
+            exposure = 0.1f;
+            contrast = 15f;
+            colorTint = new Color(0.95f, 0.95f, 1f); // Slight blue
         }
 
         private void ApplyVibrantPreset()
         {
-            bloom.intensity.Override(0.7f);
-            bloom.threshold.Override(0.8f);
-            bloom.tint.Override(new Color(1f, 0.95f, 0.9f));
-            
-            colorAdjustments.postExposure.Override(0.3f);
-            colorAdjustments.contrast.Override(20f);
-            colorAdjustments.saturation.Override(30f);
-            colorAdjustments.colorFilter.Override(Color.white);
-            
-            vignette.intensity.Override(0.2f);
-            
-            chromaticAberration.active = false;
-            filmGrain.active = false;
+            bloomIntensity = 0.7f;
+            vignetteIntensity = 0.2f;
+            saturation = 30f;
+            exposure = 0.3f;
+            contrast = 20f;
+            colorTint = Color.white;
         }
 
         private void ApplyMutedPreset()
         {
-            bloom.intensity.Override(0.3f);
-            bloom.threshold.Override(1.2f);
-            
-            colorAdjustments.postExposure.Override(0f);
-            colorAdjustments.contrast.Override(5f);
-            colorAdjustments.saturation.Override(-20f);
-            colorAdjustments.colorFilter.Override(new Color(0.9f, 0.9f, 0.85f));
-            
-            vignette.intensity.Override(0.35f);
+            bloomIntensity = 0.3f;
+            vignetteIntensity = 0.35f;
+            saturation = -20f;
+            exposure = 0f;
+            contrast = 5f;
+            colorTint = new Color(0.9f, 0.9f, 0.85f);
         }
 
         private void ApplyNightPreset()
         {
-            bloom.intensity.Override(1f);
-            bloom.threshold.Override(0.7f);
-            bloom.tint.Override(new Color(0.6f, 0.7f, 1f)); // Blue tint
-            
-            colorAdjustments.postExposure.Override(-0.5f);
-            colorAdjustments.contrast.Override(25f);
-            colorAdjustments.saturation.Override(-10f);
-            colorAdjustments.colorFilter.Override(new Color(0.7f, 0.75f, 0.9f));
-            
-            vignette.intensity.Override(0.5f);
-            vignette.color.Override(new Color(0.1f, 0.1f, 0.2f));
-            
-            filmGrain.active = true;
-            filmGrain.intensity.Override(0.25f);
+            bloomIntensity = 1f;
+            vignetteIntensity = 0.5f;
+            saturation = -10f;
+            exposure = -0.5f;
+            contrast = 25f;
+            colorTint = new Color(0.7f, 0.75f, 0.9f); // Blue night
+
+            // Darken ambient
+            RenderSettings.ambientSkyColor = new Color(0.1f, 0.1f, 0.2f);
+            RenderSettings.ambientEquatorColor = new Color(0.05f, 0.05f, 0.1f);
+            RenderSettings.ambientGroundColor = new Color(0.02f, 0.02f, 0.05f);
         }
 
         private void ApplyCombatPreset()
         {
-            bloom.intensity.Override(0.9f);
-            bloom.threshold.Override(0.8f);
-            bloom.tint.Override(new Color(1f, 0.9f, 0.8f));
-            
-            colorAdjustments.postExposure.Override(0.1f);
-            colorAdjustments.contrast.Override(25f);
-            colorAdjustments.saturation.Override(15f);
-            colorAdjustments.colorFilter.Override(new Color(1f, 0.95f, 0.9f));
-            
-            vignette.intensity.Override(0.35f);
-            vignette.color.Override(new Color(0.3f, 0.1f, 0.1f)); // Red tint
-            
-            chromaticAberration.active = true;
-            chromaticAberration.intensity.Override(0.15f);
-            
-            motionBlur.active = true;
-            motionBlur.intensity.Override(0.3f);
+            bloomIntensity = 0.9f;
+            vignetteIntensity = 0.35f;
+            saturation = 15f;
+            exposure = 0.1f;
+            contrast = 25f;
+            colorTint = new Color(1f, 0.9f, 0.85f); // Warm/red tint
+
+            // Update vignette to red
+            if (overlayMaterial != null)
+            {
+                overlayMaterial.color = new Color(0.3f, 0.05f, 0.05f, vignetteIntensity);
+            }
         }
 
         private void ApplyVictoryPreset()
         {
-            bloom.intensity.Override(1.5f);
-            bloom.threshold.Override(0.6f);
-            bloom.tint.Override(new Color(1f, 0.95f, 0.7f)); // Golden
-            
-            colorAdjustments.postExposure.Override(0.4f);
-            colorAdjustments.contrast.Override(15f);
-            colorAdjustments.saturation.Override(20f);
-            colorAdjustments.colorFilter.Override(new Color(1f, 0.98f, 0.9f));
-            
-            vignette.intensity.Override(0.2f);
-            vignette.color.Override(new Color(0.9f, 0.8f, 0.5f));
+            bloomIntensity = 1.5f;
+            vignetteIntensity = 0.2f;
+            saturation = 20f;
+            exposure = 0.4f;
+            contrast = 15f;
+            colorTint = new Color(1f, 0.95f, 0.8f); // Golden
+
+            // Brighten ambient
+            RenderSettings.ambientSkyColor = new Color(0.7f, 0.65f, 0.5f);
+            RenderSettings.ambientEquatorColor = new Color(0.5f, 0.45f, 0.35f);
         }
 
         #endregion
@@ -347,7 +334,7 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         public void SetBloomIntensity(float intensity)
         {
-            bloom.intensity.Override(intensity);
+            bloomIntensity = intensity;
         }
 
         /// <summary>
@@ -355,50 +342,59 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         public void SetVignetteIntensity(float intensity)
         {
-            vignette.intensity.Override(intensity);
+            vignetteIntensity = intensity;
+            ApplySettings();
         }
 
         /// <summary>
         /// Sets saturation
         /// </summary>
-        public void SetSaturation(float saturation)
+        public void SetSaturation(float sat)
         {
-            colorAdjustments.saturation.Override(saturation);
+            saturation = sat;
         }
 
         /// <summary>
         /// Sets exposure
         /// </summary>
-        public void SetExposure(float exposure)
+        public void SetExposure(float exp)
         {
-            colorAdjustments.postExposure.Override(exposure);
+            exposure = exp;
+            ApplySettings();
         }
 
         /// <summary>
-        /// Enables/disables chromatic aberration (damage effect)
+        /// Enables/disables chromatic aberration effect (simulated via color shift)
         /// </summary>
         public void SetChromaticAberration(bool enabled, float intensity = 0.2f)
         {
-            chromaticAberration.active = enabled;
-            if (enabled) chromaticAberration.intensity.Override(intensity);
+            // Simulated via color tint shift
+            if (enabled)
+            {
+                colorTint = new Color(1f + intensity * 0.1f, 1f, 1f - intensity * 0.1f);
+            }
+            else
+            {
+                colorTint = Color.white;
+            }
         }
 
         /// <summary>
-        /// Enables/disables motion blur
+        /// Enables/disables motion blur effect (placeholder)
         /// </summary>
         public void SetMotionBlur(bool enabled, float intensity = 0.2f)
         {
-            motionBlur.active = enabled;
-            if (enabled) motionBlur.intensity.Override(intensity);
+            // Motion blur requires render texture - placeholder for now
+            Debug.Log($"[PostProcess] Motion blur {(enabled ? "enabled" : "disabled")}");
         }
 
         /// <summary>
-        /// Enables/disables depth of field
+        /// Enables/disables depth of field effect (placeholder)
         /// </summary>
         public void SetDepthOfField(bool enabled, float focusDistance = 10f)
         {
-            depthOfField.active = enabled;
-            if (enabled) depthOfField.focusDistance.Override(focusDistance);
+            // DOF requires post-process shader - placeholder for now
+            Debug.Log($"[PostProcess] Depth of field {(enabled ? "enabled" : "disabled")}");
         }
 
         #endregion
@@ -413,26 +409,23 @@ namespace ApexCitadels.PC.Visual
             StartCoroutine(TransitionCoroutine(preset, duration));
         }
 
-        private System.Collections.IEnumerator TransitionCoroutine(VisualPreset preset, float duration)
+        private IEnumerator TransitionCoroutine(VisualPreset preset, float duration)
         {
             // Store current values
-            float startBloom = bloom.intensity.value;
-            float startVignette = vignette.intensity.value;
-            float startSaturation = colorAdjustments.saturation.value;
-            float startExposure = colorAdjustments.postExposure.value;
+            float startVignette = vignetteIntensity;
+            float startSaturation = saturation;
+            float startExposure = exposure;
 
-            // Get target values (apply preset temporarily to read them)
+            // Get target values
             ApplyPreset(preset);
-            float targetBloom = bloom.intensity.value;
-            float targetVignette = vignette.intensity.value;
-            float targetSaturation = colorAdjustments.saturation.value;
-            float targetExposure = colorAdjustments.postExposure.value;
+            float targetVignette = vignetteIntensity;
+            float targetSaturation = saturation;
+            float targetExposure = exposure;
 
             // Reset to start values
-            bloom.intensity.Override(startBloom);
-            vignette.intensity.Override(startVignette);
-            colorAdjustments.saturation.Override(startSaturation);
-            colorAdjustments.postExposure.Override(startExposure);
+            vignetteIntensity = startVignette;
+            saturation = startSaturation;
+            exposure = startExposure;
 
             // Interpolate
             for (float t = 0; t < duration; t += Time.deltaTime)
@@ -440,11 +433,11 @@ namespace ApexCitadels.PC.Visual
                 float progress = t / duration;
                 float smooth = Mathf.SmoothStep(0, 1, progress);
 
-                bloom.intensity.Override(Mathf.Lerp(startBloom, targetBloom, smooth));
-                vignette.intensity.Override(Mathf.Lerp(startVignette, targetVignette, smooth));
-                colorAdjustments.saturation.Override(Mathf.Lerp(startSaturation, targetSaturation, smooth));
-                colorAdjustments.postExposure.Override(Mathf.Lerp(startExposure, targetExposure, smooth));
-
+                vignetteIntensity = Mathf.Lerp(startVignette, targetVignette, smooth);
+                saturation = Mathf.Lerp(startSaturation, targetSaturation, smooth);
+                exposure = Mathf.Lerp(startExposure, targetExposure, smooth);
+                
+                ApplySettings();
                 yield return null;
             }
 
@@ -457,20 +450,26 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         public void DamageFlash()
         {
-            StartCoroutine(DamageFlashCoroutine());
+            if (!isFlashing)
+            {
+                StartCoroutine(DamageFlashCoroutine());
+            }
         }
 
-        private System.Collections.IEnumerator DamageFlashCoroutine()
+        private IEnumerator DamageFlashCoroutine()
         {
+            isFlashing = true;
+            
             // Store original
-            Color originalTint = vignette.color.value;
-            float originalIntensity = vignette.intensity.value;
+            float originalVignette = vignetteIntensity;
+            Color originalColor = overlayMaterial != null ? overlayMaterial.color : Color.black;
 
             // Flash red
-            vignette.color.Override(new Color(0.5f, 0f, 0f));
-            vignette.intensity.Override(0.5f);
-            chromaticAberration.active = true;
-            chromaticAberration.intensity.Override(0.3f);
+            if (overlayMaterial != null && overlayQuad != null)
+            {
+                overlayQuad.SetActive(true);
+                overlayMaterial.color = new Color(0.5f, 0f, 0f, 0.5f);
+            }
 
             yield return new WaitForSeconds(0.1f);
 
@@ -478,16 +477,31 @@ namespace ApexCitadels.PC.Visual
             for (float t = 0; t < 0.3f; t += Time.deltaTime)
             {
                 float progress = t / 0.3f;
-                vignette.color.Override(Color.Lerp(new Color(0.5f, 0f, 0f), originalTint, progress));
-                vignette.intensity.Override(Mathf.Lerp(0.5f, originalIntensity, progress));
-                chromaticAberration.intensity.Override(Mathf.Lerp(0.3f, 0f, progress));
+                if (overlayMaterial != null)
+                {
+                    overlayMaterial.color = Color.Lerp(
+                        new Color(0.5f, 0f, 0f, 0.5f), 
+                        originalColor, 
+                        progress
+                    );
+                }
                 yield return null;
             }
 
             // Restore
-            vignette.color.Override(originalTint);
-            vignette.intensity.Override(originalIntensity);
-            chromaticAberration.active = false;
+            vignetteIntensity = originalVignette;
+            ApplySettings();
+            isFlashing = false;
+        }
+
+        /// <summary>
+        /// Cycle to next preset (for debug)
+        /// </summary>
+        public void CyclePreset()
+        {
+            int current = (int)currentPreset;
+            int next = (current + 1) % System.Enum.GetValues(typeof(VisualPreset)).Length;
+            ApplyPreset((VisualPreset)next);
         }
 
         #endregion
