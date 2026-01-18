@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using ApexCitadels.PC;
 using ApexCitadels.PC.UI;
 using ApexCitadels.PC.WebGL;
+using ApexCitadels.PC.Visual;
 
 namespace ApexCitadels.PC.Editor
 {
@@ -877,6 +878,16 @@ namespace ApexCitadels.PC.Editor
                 var obj = new GameObject("VIPPremiumPanel");
                 obj.AddComponent<VIPPremiumPanel>();
                 Log("[Setup] Created VIPPremiumPanel");
+            }
+            
+            // ===== VISUAL SYSTEMS =====
+            
+            // VisualWorldManager - master controller for all visual systems
+            if (Object.FindFirstObjectByType<VisualWorldManager>() == null)
+            {
+                var obj = new GameObject("VisualWorldManager");
+                obj.AddComponent<VisualWorldManager>();
+                Log("[Setup] Created VisualWorldManager (terrain, skybox, citadels, audio, post-processing)");
             }
             
             Log("[Setup] ✅ All managers and UI systems created");
