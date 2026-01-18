@@ -137,7 +137,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Moderation | ✅ | Reports, bans |
 | Settings | ✅ | Feature toggles |
 
-### 🔄 IN-PROGRESS: PC Client (70%)
+### 🔄 IN-PROGRESS: PC Client (75%)
 
 | System | Scripts | Status | Quality |
 |--------|---------|--------|---------|
@@ -148,6 +148,8 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | **Real-World Map** | GeoCoordinates, MapTileProvider, RealWorldMapRenderer | ✅ | **Foundation** |
 | Fantasy Terrain | ProceduralTerrain, AtmosphericLighting | ✅ | Good |
 | Visual Effects | AAAVisualEffects, TerritoryEffects | ✅ | Foundation |
+| **Combat VFX** | CombatVFX, DamageNumbers, CombatCameraEffects | ✅ | **AAA Quality** |
+| **Combat Audio** | CombatAudioSFX (procedural placeholder sounds) | ✅ | Foundation |
 | UI Panels | 8 panels created | ✅ | Functional |
 
 ### 🔄 IN-PROGRESS: AR Mobile (85%)
@@ -287,6 +289,16 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Territory Effects | TerritoryEffects.cs | ✅ |
 | Environmental Props | EnvironmentalProps.cs | ✅ |
 
+### PC Client - Combat VFX System (✅ NEWLY COMPLETED)
+
+| Component | Files | Features |
+|-----------|-------|----------|
+| Particle Effects | CombatVFX.cs | Explosions, impacts, projectiles, shields, auras |
+| Damage Numbers | DamageNumbers.cs | Floating text, crits, heals, combos, kills |
+| Camera Effects | CombatCameraEffects.cs | Shake, flash, slow-mo, chromatic aberration |
+| Audio SFX | CombatAudioSFX.cs | 25+ procedural sounds (sword, arrow, explosion, victory) |
+| Integration | CombatEffectsIntegration.cs | Central coordinator for all combat effects |
+
 ---
 
 ## IN-PROGRESS WORK
@@ -319,6 +331,9 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Ambient particles | Medium | ✅ Done |
 | Territory auras | Medium | ✅ Done |
 | God rays | Low | ✅ Done |
+| **Combat VFX** | High | ✅ **DONE** |
+| **Damage Numbers** | High | ✅ **DONE** |
+| **Combat Camera Effects** | High | ✅ **DONE** |
 | **Shader-based effects** | High | ⏳ TODO |
 | **Building detail LOD** | High | ⏳ TODO |
 | **Water reflections** | Medium | ⏳ TODO |
@@ -332,9 +347,9 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 
 | Gap | Current | Target | Effort |
 |-----|---------|--------|--------|
-| **Combat System** | Scripts exist, no UI | Full battle simulation with VFX | 2-3 days |
+| ~~Combat System~~ | ~~Scripts exist, no UI~~ | ~~Full battle simulation with VFX~~ | ✅ **DONE** |
 | **Base Editor** | Script exists, not integrated | Drag-drop building with preview | 2-3 days |
-| **Audio** | None | Music, SFX, ambient, voice | 3-5 days |
+| **Audio System** | Combat SFX done | Music, ambient, full SFX library | 2-3 days |
 | **Real Map Quality** | Basic tiles | Fantasy-styled real geography | 2-3 days |
 | **Loading/Transitions** | Instant/jarring | Smooth animated transitions | 1-2 days |
 
