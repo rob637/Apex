@@ -1,103 +1,95 @@
 # 🎮 Apex Citadels PC Client - Progress Assessment
 
-**Assessment Date:** January 18, 2026  
-**Status:** FOUNDATION COMPLETE - WORLD-CLASS FEATURES NEEDED
+**Assessment Date:** January 18, 2026 (Updated)  
+**Status:** MAJOR UI SYSTEMS COMPLETE - COMBAT & CONTENT NEEDED
 
 ---
 
 ## 📊 CURRENT STATE VS WORLD-CLASS TARGET
 
-### What We Have Now (5% of World-Class)
+### What We Have Now (~25% of World-Class) ⬆️ From 5%
 
 | Feature | Status | Quality |
 |---------|--------|---------|
-| Scene loads | ✅ | Basic |
+| Scene loads | ✅ | Working |
 | Firebase connection | ✅ | Working |
-| 10 territories visible | ✅ | Basic gray markers |
-| Resource HUD | ✅ | Simple text |
-| Camera exists | ✅ | No modes working |
-| Ground plane | ✅ | Flat green |
-| Sky | ✅ | Solid color |
+| 10 territories visible | ✅ | With citadel structures |
+| **Resource HUD** | ✅ | Full TopBarHUD with Gold/Energy/Gems |
+| **Camera Controls** | ✅ | WASD + zoom + rotate working |
+| **Day/Night Cycle** | ✅ | Full gradient system |
+| **Visual Enhancements** | ✅ | Fog, particles, glow |
+| **Resource System** | ✅ | Tick-based generation |
+| **Territory Feedback** | ✅ | Hover/click/pulse effects |
+| **Activity Feed** | ✅ | Real-time event log |
+| **Leaderboard** | ✅ | Multi-category rankings |
+| **Season Pass** | ✅ | 100-tier Battle Pass |
+| **Chat Panel** | ✅ | World/Alliance/Private |
+| **Daily Rewards** | ✅ | 7-day calendar with streaks |
+| **MiniMap** | ✅ | Territory overview with pings |
+| **Quick Action Bar** | ✅ | 6-slot hotbar with cooldowns |
 
 ### What "World-Class" Means (500+ Hours Target)
 
 The design doc promises:
 - **Minecraft-style exploration** (walk through your citadel in first person)
-- **Fortnite-style social** (alliance hall, emotes, season pass)
+- **Fortnite-style social** (alliance hall, emotes, season pass) ✅ PARTIALLY DONE
 - **Pokémon GO-style real-world magic** (but strategic from PC)
 
 ---
 
-## 🚨 CRITICAL GAP ANALYSIS
+## 🚨 UPDATED GAP ANALYSIS
 
-### TIER 1: ESSENTIAL (Makes it a Game, not a Demo)
+### ✅ TIER 1: ESSENTIAL (COMPLETED!)
 
-| Feature | Current | Needed | Impact |
-|---------|---------|--------|--------|
-| **Working UI Panels** | Code exists, not wired | Click territory → see stats, upgrade | ⭐⭐⭐⭐⭐ |
-| **4 Camera Modes** | Only world map | WorldMap, Territory, FirstPerson, Cinematic | ⭐⭐⭐⭐⭐ |
-| **Day/Night Cycle** | Script exists | Actually see day/night change | ⭐⭐⭐⭐ |
-| **Building Interaction** | None | Click building → options | ⭐⭐⭐⭐⭐ |
-| **Resource Collection** | Display only | Timed generation, collection button | ⭐⭐⭐⭐ |
-| **Keyboard Controls** | Partial | Full WASD, Tab, E, shortcuts | ⭐⭐⭐⭐ |
+| Feature | Status | Notes |
+|---------|--------|-------|
+| **Working UI Panels** | ✅ DONE | All engagement panels created |
+| **Camera Controls** | ✅ DONE | WASD + mouse working |
+| **Day/Night Cycle** | ✅ DONE | Full gradient system |
+| **Resource System** | ✅ DONE | Tick generation + UI |
+| **Keyboard Controls** | ✅ DONE | L, P, R, T, 1-6 shortcuts |
 
-### TIER 2: VISUAL POLISH (Makes it Beautiful)
-
-| Feature | Current | Needed | Impact |
-|---------|---------|--------|--------|
-| **Skybox** | Solid color | Dynamic fantasy skybox | ⭐⭐⭐⭐ |
-| **Ground Texture** | Flat material | Terrain with grass/roads | ⭐⭐⭐⭐ |
-| **Territory Models** | Gray cylinders | Actual citadel 3D models | ⭐⭐⭐⭐⭐ |
-| **Particle Effects** | None | Glow, fire, magic | ⭐⭐⭐⭐ |
-| **UI Animations** | None | Smooth transitions | ⭐⭐⭐ |
-| **Water/Fog** | None | Atmospheric effects | ⭐⭐⭐ |
-
-### TIER 3: GAMEPLAY DEPTH (Makes it Addictive)
+### 🔄 TIER 2: VISUAL POLISH (IN PROGRESS)
 
 | Feature | Current | Needed | Impact |
 |---------|---------|--------|--------|
-| **Combat Preview** | None | See troops, simulate attack | ⭐⭐⭐⭐⭐ |
+| **Skybox** | ✅ Procedural gradient | Dynamic clouds | ⭐⭐⭐ |
+| **Ground Texture** | ⬜ Flat green | Terrain with grass/roads | ⭐⭐⭐⭐ |
+| **Territory Models** | ✅ Citadel structures | More variety/detail | ⭐⭐⭐⭐ |
+| **Particle Effects** | ✅ Ambient particles | More VFX | ⭐⭐⭐ |
+| **UI Animations** | ⬜ None | Smooth transitions | ⭐⭐⭐ |
+
+### ❗ TIER 3: GAMEPLAY DEPTH (CRITICAL NEXT)
+
+| Feature | Current | Needed | Impact |
+|---------|---------|--------|--------|
+| **Combat System** | ⬜ None | Attack troops, simulate battles | ⭐⭐⭐⭐⭐ |
 | **Base Editor** | Script exists | Drag-drop building placement | ⭐⭐⭐⭐⭐ |
-| **Crafting System** | Script exists | Full UI, quality system | ⭐⭐⭐⭐ |
-| **Daily Quests** | None | 3 daily objectives | ⭐⭐⭐⭐ |
-| **Season Pass** | Backend exists | Visual progress track | ⭐⭐⭐⭐ |
-| **Battle Replays** | Script exists | Playback UI | ⭐⭐⭐⭐ |
+| **First-Person Mode** | ⬜ None | Walk through citadel | ⭐⭐⭐⭐ |
+| **Troop Management** | ⬜ None | Train, upgrade, deploy | ⭐⭐⭐⭐⭐ |
+| **Crafting System** | Script exists | Full UI integration | ⭐⭐⭐⭐ |
 
-### TIER 4: SOCIAL & ENGAGEMENT (Makes it Sticky)
+### ✅ TIER 4: SOCIAL & ENGAGEMENT (MOSTLY DONE!)
 
-| Feature | Current | Needed | Impact |
-|---------|---------|--------|--------|
-| **Alliance Chat** | None | Real-time messaging | ⭐⭐⭐⭐⭐ |
-| **Leaderboards** | None | Visual rankings | ⭐⭐⭐⭐ |
-| **Activity Feed** | None | "X attacked Y" notifications | ⭐⭐⭐⭐ |
-| **Friend System** | None | Add/view friends | ⭐⭐⭐ |
-| **Achievements** | Backend exists | Trophy display | ⭐⭐⭐ |
+| Feature | Status | Notes |
+|---------|--------|-------|
+| **Alliance Chat** | ✅ DONE | ChatPanel with channels |
+| **Leaderboards** | ✅ DONE | 4 category rankings |
+| **Activity Feed** | ✅ DONE | Real-time events |
+| **Season Pass** | ✅ DONE | 100-tier progression |
+| **Daily Rewards** | ✅ DONE | 7-day calendar |
 
 ---
 
-## 🎯 IMMEDIATE PRIORITY PUNCH LIST
-
-### This Session - Make It LOOK Like a Game
-
-1. **Procedural Skybox** - Fantasy sky with clouds
-2. **Better Ground** - Textured terrain with subtle grid
-3. **Glowing Citadels** - Add emissive materials, beacons
-4. **Camera Controls** - Smooth pan/zoom/rotate
-5. **Click → Panel** - Territory click opens detail panel
+## 🎯 REMAINING PRIORITY PUNCH LIST
 
 ### Next Session - Make It PLAY Like a Game
 
-1. **First-Person Mode** - Walk through your citadel
-2. **Building Placement** - Drag walls/towers
-3. **Resource Ticking** - Watch resources grow
-4. **Day/Night Cycle** - Time of day changes lighting
-5. **Basic Combat** - Attack button → result
-
-### Following Sessions - Make It ADDICTIVE
-
-1. **Daily Login Rewards**
-2. **Season Pass Progress**
-3. **Crafting Workshop**
+1. **Combat System** - Attack territory → troop battle simulation
+2. **Troop Training** - Barracks UI, train soldiers
+3. **Building Placement** - Drag walls/towers into citadel
+4. **First-Person Mode** - Walk through your citadel
+5. **Resource Spending** - Use resources to build/train
 4. **Alliance War Room**
 5. **Battle Replay Viewer**
 
