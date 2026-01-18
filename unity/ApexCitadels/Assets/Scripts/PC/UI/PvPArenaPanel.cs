@@ -339,7 +339,7 @@ namespace ApexCitadels.PC.UI
             Image bg = card.AddComponent<Image>();
             bg.color = GetRankColor(_playerStats.Rank) * 0.3f;
             
-            UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = GetRankColor(_playerStats.Rank);
             outline.effectDistance = new Vector2(2, 2);
             
@@ -578,7 +578,7 @@ namespace ApexCitadels.PC.UI
             
             if (mode == _selectedMode)
             {
-                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = accentColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
@@ -765,7 +765,7 @@ namespace ApexCitadels.PC.UI
             
             if (isCurrent)
             {
-                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = rankColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
@@ -864,7 +864,7 @@ namespace ApexCitadels.PC.UI
             
             if (tournament.IsRegistered)
             {
-                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = new Color(0.3f, 0.8f, 0.3f);
                 outline.effectDistance = new Vector2(1, 1);
             }
@@ -1085,7 +1085,7 @@ namespace ApexCitadels.PC.UI
             Image bg = playerRow.AddComponent<Image>();
             bg.color = new Color(accentColor.r * 0.2f, accentColor.g * 0.2f, accentColor.b * 0.2f);
             
-            UnityEngine.UI.Outline outline = playerRow.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = playerRow.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = accentColor;
             outline.effectDistance = new Vector2(1, 1);
             
@@ -1269,7 +1269,7 @@ namespace ApexCitadels.PC.UI
             
             if (claimed)
             {
-                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = new Color(0.3f, 0.8f, 0.3f);
                 outline.effectDistance = new Vector2(1, 1);
             }

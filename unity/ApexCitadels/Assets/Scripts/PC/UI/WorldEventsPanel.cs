@@ -758,7 +758,7 @@ namespace ApexCitadels.PC.UI
             Image bg = item.AddComponent<Image>();
             bg.color = new Color(0.1f, 0.12f, 0.18f);
             
-            UnityEngine.UI.Outline outline = item.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = item.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = rarityColor;
             outline.effectDistance = new Vector2(2, 2);
             

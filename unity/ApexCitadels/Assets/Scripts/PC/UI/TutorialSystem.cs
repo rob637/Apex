@@ -115,7 +115,7 @@ namespace ApexCitadels.PC.UI
             Image img = _highlightBox.AddComponent<Image>();
             img.color = Color.clear;
             
-            UnityEngine.UI.Outline outline = _highlightBox.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = _highlightBox.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = highlightColor;
             outline.effectDistance = new Vector2(3, 3);
             
@@ -135,7 +135,7 @@ namespace ApexCitadels.PC.UI
             bg.color = tooltipBgColor;
             
             // Border
-            Outline border = _tooltipBox.AddComponent<Outline>();
+            UnityEngine.UI.Outline border = _tooltipBox.AddComponent<UnityEngine.UI.Outline>();
             border.effectColor = highlightColor;
             border.effectDistance = new Vector2(2, 2);
             
@@ -721,12 +721,12 @@ namespace ApexCitadels.PC.UI
 
     public class HighlightPulse : MonoBehaviour
     {
-        private Outline _outline;
+        private UnityEngine.UI.Outline _outline;
         private float _time;
         
         void Start()
         {
-            _outline = GetComponent<Outline>();
+            _outline = GetComponent<UnityEngine.UI.Outline>();
         }
         
         void Update()

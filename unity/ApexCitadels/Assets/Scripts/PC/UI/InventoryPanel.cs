@@ -603,7 +603,7 @@ namespace ApexCitadels.PC.UI
             
             if (isSelected || item.Rarity >= ItemRarity.Rare)
             {
-                UnityEngine.UI.Outline outline = slot.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = slot.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = rarityColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
@@ -749,7 +749,7 @@ namespace ApexCitadels.PC.UI
             Image iconBg = icon.AddComponent<Image>();
             iconBg.color = new Color(rarityColor.r * 0.3f, rarityColor.g * 0.3f, rarityColor.b * 0.3f);
             
-            Outline iconOutline = icon.AddComponent<Outline>();
+            UnityEngine.UI.Outline iconOutline = icon.AddComponent<UnityEngine.UI.Outline>();
             iconOutline.effectColor = rarityColor;
             iconOutline.effectDistance = new Vector2(2, 2);
             
@@ -1104,7 +1104,7 @@ namespace ApexCitadels.PC.UI
             
             if (NotificationSystem.Instance != null)
             {
-                NotificationSystem.Instance.ShowResourceGained(ResourceType.Gold, totalGold);
+                NotificationSystem.Instance.ShowResourceGained("Gold", totalGold);
             }
             
             Debug.Log($"[Inventory] Sold {actualQty}x {item.Name} for {totalGold} gold");
@@ -1160,7 +1160,7 @@ namespace ApexCitadels.PC.UI
                 
                 if (NotificationSystem.Instance != null)
                 {
-                    NotificationSystem.Instance.ShowResourceGained(ResourceType.Gold, totalGold);
+                    NotificationSystem.Instance.ShowResourceGained("Gold", totalGold);
                     NotificationSystem.Instance.ShowSuccess($"Sold {itemsSold} common items!");
                 }
             }

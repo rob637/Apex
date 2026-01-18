@@ -216,8 +216,8 @@ namespace ApexCitadels.PC
         /// </summary>
         public void SetSensitivity(float sensitivity)
         {
-            panSpeed = Mathf.Clamp(sensitivity * 20f, 5f, 50f);
-            rotationSpeed = Mathf.Clamp(sensitivity * 100f, 20f, 200f);
+            worldMapPanSpeed = Mathf.Clamp(sensitivity * 150f, 50f, 300f);
+            territoryOrbitSpeed = Mathf.Clamp(sensitivity * 2f, 0.5f, 5f);
             Debug.Log($"[PCCamera] Sensitivity set to {sensitivity:F2}");
         }
 
@@ -226,9 +226,11 @@ namespace ApexCitadels.PC
         /// </summary>
         public void SetEdgePanning(bool enabled)
         {
-            enableEdgePanning = enabled;
+            _edgePanningEnabled = enabled;
             Debug.Log($"[PCCamera] Edge panning: {enabled}");
         }
+
+        private bool _edgePanningEnabled = true;
 
         #endregion
 

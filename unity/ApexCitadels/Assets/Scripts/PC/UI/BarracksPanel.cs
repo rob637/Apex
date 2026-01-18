@@ -553,8 +553,8 @@ namespace ApexCitadels.PC.UI
                 // Check resources
                 if (PCResourceSystem.Instance != null)
                 {
-                    int gold = PCResourceSystem.Instance.GetResource(ResourceType.Gold);
-                    int stone = PCResourceSystem.Instance.GetResource(ResourceType.Stone);
+                    int gold = (int)PCResourceSystem.Instance.GetResource(ResourceType.Gold);
+                    int stone = (int)PCResourceSystem.Instance.GetResource(ResourceType.Stone);
                     
                     if (gold < def.GoldCost || stone < def.StoneCost)
                     {

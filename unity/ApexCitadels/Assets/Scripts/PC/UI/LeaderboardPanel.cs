@@ -115,7 +115,7 @@ namespace ApexCitadels.PC.UI
             bg.color = new Color(0.1f, 0.1f, 0.15f, 0.95f);
             
             // Outline
-            UIUnityEngine.UI.Outline outline = _panel.AddComponent<UIOutline>();
+            UnityEngine.UI.Outline outline = _panel.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = new Color(0.3f, 0.5f, 0.8f, 0.8f);
             outline.effectDistance = new Vector2(2, 2);
             

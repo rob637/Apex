@@ -422,7 +422,7 @@ namespace ApexCitadels.PC.UI
             
             if (isCurrent)
             {
-                UnityEngine.UI.Outline outline = dayObj.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = dayObj.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = goldColor;
                 outline.effectDistance = new Vector2(2, 2);
             }

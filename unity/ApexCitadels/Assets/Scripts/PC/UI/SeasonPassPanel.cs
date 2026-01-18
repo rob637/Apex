@@ -426,7 +426,7 @@ namespace ApexCitadels.PC.UI
             // Outline for premium
             if (isPremium)
             {
-                UIUnityEngine.UI.Outline outline = slotObj.AddComponent<UIOutline>();
+                UnityEngine.UI.Outline outline = slotObj.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = premiumTrackColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
@@ -547,7 +547,7 @@ namespace ApexCitadels.PC.UI
             btn.onClick.AddListener(UpgradeToPremium);
             
             // Gradient/shine effect via outline
-            UIUnityEngine.UI.Outline outline = btnObj.AddComponent<UIOutline>();
+            UnityEngine.UI.Outline outline = btnObj.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = Color.white;
             outline.effectDistance = new Vector2(1, 1);
             

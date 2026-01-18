@@ -303,7 +303,7 @@ namespace ApexCitadels.PC.UI
             
             if (isSelected)
             {
-                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = rarityColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
@@ -498,7 +498,7 @@ namespace ApexCitadels.PC.UI
             Image portraitBg = portrait.AddComponent<Image>();
             portraitBg.color = new Color(rarityColor.r * 0.3f, rarityColor.g * 0.3f, rarityColor.b * 0.3f);
             
-            Outline portraitOutline = portrait.AddComponent<Outline>();
+            UnityEngine.UI.Outline portraitOutline = portrait.AddComponent<UnityEngine.UI.Outline>();
             portraitOutline.effectColor = rarityColor;
             portraitOutline.effectDistance = new Vector2(3, 3);
             

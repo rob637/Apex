@@ -229,7 +229,7 @@ namespace ApexCitadels.PC.UI
             Image bg = emblem.AddComponent<Image>();
             bg.color = new Color(accentColor.r * 0.3f, accentColor.g * 0.3f, accentColor.b * 0.3f);
             
-            UnityEngine.UI.Outline outline = emblem.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = emblem.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = accentColor;
             outline.effectDistance = new Vector2(2, 2);
             
@@ -569,7 +569,7 @@ namespace ApexCitadels.PC.UI
             Image bg = preview.AddComponent<Image>();
             bg.color = new Color(0.1f, 0.08f, 0.05f);
             
-            UnityEngine.UI.Outline outline = preview.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = preview.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = goldColor;
             outline.effectDistance = new Vector2(1, 1);
             
@@ -825,7 +825,7 @@ namespace ApexCitadels.PC.UI
             
             if (evt.IsJoined)
             {
-                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = accentColor;
                 outline.effectDistance = new Vector2(1, 1);
             }
@@ -964,7 +964,7 @@ namespace ApexCitadels.PC.UI
             Image bg = itemObj.AddComponent<Image>();
             bg.color = new Color(rarityColor.r * 0.2f, rarityColor.g * 0.2f, rarityColor.b * 0.2f);
             
-            UnityEngine.UI.Outline outline = itemObj.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = itemObj.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = rarityColor;
             outline.effectDistance = new Vector2(1, 1);
             
@@ -1520,7 +1520,7 @@ namespace ApexCitadels.PC.UI
             
             if (NotificationSystem.Instance != null)
             {
-                NotificationSystem.Instance.ShowResourceGained(ResourceType.Gold, -amount);
+                NotificationSystem.Instance.ShowResourceGained("Gold", -amount);
                 NotificationSystem.Instance.ShowSuccess($"Donated {amount:N0} Gold to guild!");
             }
         }

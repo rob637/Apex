@@ -45,6 +45,7 @@ namespace ApexCitadels.PC
         private float _wood;
         private float _iron;
         private float _crystal;
+        private float _apexCoins; // Premium currency
         
         // Pending (uncollected) resources
         private float _pendingGold;
