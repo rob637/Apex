@@ -42,24 +42,45 @@
       ],
       "headers": [
         {
-          "source": "**/*.wasm.gz",
+          "source": "**/build.wasm.gz",
           "headers": [
             { "key": "Content-Type", "value": "application/wasm" },
-            { "key": "Content-Encoding", "value": "gzip" }
+            { "key": "content-encoding", "value": "gzip" }
           ]
         },
         {
-          "source": "**/*.js.gz",
+          "source": "**/build.framework.js.gz",
           "headers": [
             { "key": "Content-Type", "value": "application/javascript" },
-            { "key": "Content-Encoding", "value": "gzip" }
+            { "key": "content-encoding", "value": "gzip" }
           ]
         },
         {
-          "source": "**/*.data.gz",
+          "source": "**/build.data.gz",
           "headers": [
             { "key": "Content-Type", "value": "application/octet-stream" },
-            { "key": "Content-Encoding", "value": "gzip" }
+            { "key": "content-encoding", "value": "gzip" }
+          ]
+        },
+        {
+          "source": "build/Build/build.wasm.gz",
+          "headers": [
+            { "key": "Content-Type", "value": "application/wasm" },
+            { "key": "content-encoding", "value": "gzip" }
+          ]
+        },
+        {
+          "source": "build/Build/build.framework.js.gz",
+          "headers": [
+            { "key": "Content-Type", "value": "application/javascript" },
+            { "key": "content-encoding", "value": "gzip" }
+          ]
+        },
+        {
+          "source": "build/Build/build.data.gz",
+          "headers": [
+            { "key": "Content-Type", "value": "application/octet-stream" },
+            { "key": "content-encoding", "value": "gzip" }
           ]
         }
       ]
