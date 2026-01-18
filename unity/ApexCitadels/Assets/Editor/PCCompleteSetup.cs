@@ -59,6 +59,16 @@ namespace ApexCitadels.PC.Editor
         [MenuItem("Window/Apex Citadels/🚀 ONE-CLICK SETUP (Start Here!)", false, 0)]
         public static void OneClickSetup()
         {
+            // Prevent running during play mode
+            if (EditorApplication.isPlaying)
+            {
+                EditorUtility.DisplayDialog("⚠️ Stop Play Mode First",
+                    "Please stop Play mode before running setup.\n\n" +
+                    "Click the Play button (or press Ctrl+P) to stop.",
+                    "OK");
+                return;
+            }
+            
             setupLog.Clear();
             
             if (EditorUtility.DisplayDialog("🏰 Apex Citadels - Complete PC Setup",
@@ -229,11 +239,23 @@ namespace ApexCitadels.PC.Editor
 
         public static void RunCompleteSetup()
         {
+            // Prevent running during play mode
+            if (EditorApplication.isPlaying)
+            {
+                EditorUtility.DisplayDialog("Cannot Run During Play Mode",
+                    "Please stop Play mode first, then run the setup.",
+                    "OK");
+                return;
+            }
+            
             setupLog.Clear();
             
             Log("═══════════════════════════════════════════════════════════");
             Log("  APEX CITADELS - COMPLETE PC SETUP STARTING");
             Log("═══════════════════════════════════════════════════════════");
+            
+            // Ensure Territory tag exists
+            EnsureTagExists("Territory");
 
             try
             {
@@ -1420,6 +1442,38 @@ namespace ApexCitadels.PC.Editor
             Log("[Setup] ✅ Current scene fixed - remember to save!");
             EditorUtility.DisplayDialog("Scene Fixed", 
                 "Current scene has been fixed.\nRemember to save! (Ctrl+S)", "OK");
+        }
+
+        /// <summary>
+        /// Ensures a tag exists in the TagManager. Creates it if it doesn't exist.
+        /// </summary>
+        private static void EnsureTagExists(string tagName)
+        {
+            // Get TagManager asset
+            SerializedObject tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset")[0]);
+            SerializedProperty tagsProp = tagManager.FindProperty("tags");
+
+            // Check if tag already exists
+            bool found = false;
+            for (int i = 0; i < tagsProp.arraySize; i++)
+            {
+                SerializedProperty t = tagsProp.GetArrayElementAtIndex(i);
+                if (t.stringValue.Equals(tagName))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            // Add tag if not found
+            if (!found)
+            {
+                tagsProp.InsertArrayElementAtIndex(0);
+                SerializedProperty newTag = tagsProp.GetArrayElementAtIndex(0);
+                newTag.stringValue = tagName;
+                tagManager.ApplyModifiedProperties();
+                Log($"[Setup] Created tag: {tagName}");
+            }
         }
     }
 }
