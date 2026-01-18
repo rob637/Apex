@@ -1,13 +1,37 @@
 # Apex Citadels: PC Hybrid Mode Design Document
 
-**Status:** Phase 2A Complete / Phase 2B In Progress 🔧  
+**Status:** ✅ CODESPACE PREP COMPLETE - READY FOR UNITY ONE-CLICK SETUP  
 **Created:** January 17, 2026  
 **Updated:** January 18, 2026  
 **Priority:** Phase 2-3  
 
 ---
 
-## � WORLD-CLASS FEATURES CHECKLIST
+## 🚀 QUICK START (NEW DEVELOPERS)
+
+**All code is complete in Codespaces! To set up the PC scene in Unity:**
+
+1. **Pull latest from Git:** `git pull` (on your local machine with Unity)
+2. Open Unity with the ApexCitadels project
+3. Go to menu: **Window → Apex Citadels → 🚀 ONE-CLICK SETUP (Start Here!)**
+4. Click "Set Up Everything"
+5. Press **Play** to test!
+
+That's it! The one-click setup handles:
+- ✅ Scene creation (PCMain.unity)
+- ✅ Camera with blue sky, correct position, PCCameraController
+- ✅ Directional Light with DayNightCycle
+- ✅ Render/Ambient settings configured
+- ✅ All managers (PCGameController, WorldMapRenderer, etc.)
+- ✅ UI Canvas with PCUIManager
+- ✅ All 7 UI Panel prefabs auto-created
+- ✅ Firebase integration (FirebaseWebClient)
+- ✅ WebGL build settings configured
+- ✅ Scene saved to Build Settings
+
+---
+
+## 🏆 WORLD-CLASS FEATURES CHECKLIST
 
 These are the elements that make Apex Citadels unforgettable — sticky, challenging, beautiful, and impossible to put down.
 
@@ -460,61 +484,75 @@ This is the definitive checklist for getting both **PC** and **AR Mobile** clien
 | Service account for admin | ✅ | For seeding/admin operations |
 | Test data seeded | ✅ | Vienna VA + SF territories |
 
-### A2. PC Unity Scripts 🔧 CODE COMPLETE - NEEDS SCENE
+### A2. PC Unity Scripts ✅ CODE COMPLETE
 
 | Script | Location | Status | Notes |
 |--------|----------|--------|-------|
-| `PlatformManager.cs` | PC/ | ✅ Ready | Static, no setup needed |
-| `PCCameraController.cs` | PC/ | 🔧 | 4 camera modes |
-| `PCInputManager.cs` | PC/ | 🔧 | WASD, mouse, key rebinding |
-| `WorldMapRenderer.cs` | PC/ | 🔧 | 3D territory visualization |
-| `BaseEditor.cs` | PC/ | 🔧 | Building placement, undo/redo |
-| `PCGameController.cs` | PC/ | 🔧 | Main state machine |
-| `PCSceneBootstrapper.cs` | PC/ | 🔧 | Auto scene setup |
-| `PCTerritoryBridge.cs` | PC/ | 🔧 | Firebase integration |
-| `BattleReplaySystem.cs` | PC/ | 🔧 | PC-exclusive replays |
-| `CraftingSystem.cs` | PC/ | 🔧 | PC-exclusive crafting |
+| `PlatformManager.cs` | PC/ | ✅ | Static, platform detection |
+| `PCCameraController.cs` | PC/ | ✅ | 4 camera modes (WorldMap, Territory, FP, Cinematic) |
+| `PCInputManager.cs` | PC/ | ✅ | WASD, mouse, key rebinding |
+| `WorldMapRenderer.cs` | PC/ | ✅ | 3D territory visualization + Firebase data |
+| `BaseEditor.cs` | PC/ | ✅ | Building placement, undo/redo, blueprints |
+| `PCGameController.cs` | PC/ | ✅ | Main state machine, system wiring |
+| `PCSceneBootstrapper.cs` | PC/ | ✅ | Auto scene setup |
+| `PCTerritoryBridge.cs` | PC/ | ✅ | Firebase integration |
+| `BattleReplaySystem.cs` | PC/ | ✅ | PC-exclusive replays (1200+ lines) |
+| `CraftingSystem.cs` | PC/ | ✅ | PC-exclusive crafting (850+ lines) |
+| `DayNightCycle.cs` | PC/ | ✅ | Day/night lighting system |
+| `MaterialHelper.cs` | PC/ | ✅ | WebGL-safe material creation |
 
-### A3. PC UI Panel Scripts 🔧 CODE COMPLETE - NEEDS PREFABS
+### A3. PC UI Panel Scripts ✅ CODE COMPLETE
 
 | Script | Location | Status | Notes |
 |--------|----------|--------|-------|
-| `PCUIManager.cs` | PC/UI/ | 🔧 | Panel management |
-| `TerritoryDetailPanel.cs` | PC/UI/ | 🔧 | Territory stats display |
-| `AlliancePanel.cs` | PC/UI/ | 🔧 | War Room & members |
-| `BuildMenuPanel.cs` | PC/UI/ | 🔧 | Building catalog |
-| `StatisticsPanel.cs` | PC/UI/ | 🔧 | Analytics dashboard |
-| `BattleReplayPanel.cs` | PC/UI/ | 🔧 | Replay viewer |
-| `CraftingPanel.cs` | PC/UI/ | 🔧 | Crafting workshop |
-| `MarketPanel.cs` | PC/UI/ | 🔧 | Trading interface |
+| `PCUIManager.cs` | PC/UI/ | ✅ | Panel management (600+ lines) |
+| `TerritoryDetailPanel.cs` | PC/UI/ | ✅ | Territory stats display (400+ lines) |
+| `AlliancePanel.cs` | PC/UI/ | ✅ | War Room & members |
+| `BuildMenuPanel.cs` | PC/UI/ | ✅ | Building catalog |
+| `StatisticsPanel.cs` | PC/UI/ | ✅ | Analytics dashboard |
+| `BattleReplayPanel.cs` | PC/UI/ | ✅ | Replay viewer |
+| `CraftingPanel.cs` | PC/UI/ | ✅ | Crafting workshop |
+| `MarketPanel.cs` | PC/UI/ | ✅ | Trading interface |
 
-### A4. WebGL Bridge ✅ CODE COMPLETE - NEEDS REBUILD
+### A4. WebGL Bridge ✅ CODE COMPLETE
 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | `WebGLBridge.cs` | ✅ | C# DllImport bindings + Firebase callbacks |
-| `WebGLBridge.jslib` | ✅ | Full JS functions + Firebase SDK calls |
+| `WebGLBridge.jslib` | ✅ | Full JS functions + Firebase SDK calls (230 lines) |
 | `WebGLBridgeComponent.cs` | ✅ | MonoBehaviour wrapper |
-| `FirebaseWebClient.cs` | ✅ | REST API fallback + WebGL bridge integration |
+| `FirebaseWebClient.cs` | ✅ | REST API fallback + WebGL bridge integration (493 lines) |
 | Firebase JS SDK in index.html | ✅ | Auth + Firestore initialized |
 | Shader fixes | ✅ | WebGL-safe material creation |
 
-### A5. Unity Editor Tools ✅ READY
+### A5. Unity Editor Tools ✅ COMPLETE
 
 | Tool | Status | Notes |
 |------|--------|-------|
-| `PCPrefabCreator.cs` | ✅ | Menu: Apex/PC/Create All PC Prefabs |
-| `PCSceneSetup.cs` | ✅ | Menu: Apex/PC/Setup PC Scene |
+| `PCCompleteSetup.cs` | ✅ | **ONE-CLICK SETUP** - Does everything automatically (1011 lines) |
+| `PCSceneDiagnostic.cs` | ✅ | Diagnoses and fixes scene issues (312 lines) |
+| `MaterialHelper.cs` | ✅ | URP/WebGL compatible material creation (276 lines) |
 
-### A6. PC Scene ✅ COMPLETE
+### A6. PC Scene ✅ ONE-CLICK SETUP AVAILABLE
+
+**🚀 RECOMMENDED: Use the ONE-CLICK SETUP**
 
 | Task | Status | Instructions |
 |------|--------|--------------|
-| Create PCMain.unity | ✅ | File → New Scene → Save as Assets/Scenes/PCMain.unity |
-| Run scene setup wizard | ✅ | Menu: Apex → PC → Setup PC Scene (Full) |
-| Create UI prefabs | ✅ | Menu: Apex → PC → Create All PC Prefabs |
-| Wire up references | ✅ | Menu: Apex → PC → Auto-Wire Scene References |
-| Add WebGL bridge | ✅ | Added automatically by scene setup |
+| **ONE-CLICK SETUP** | ✅ | Menu: **Window → Apex Citadels → 🚀 ONE-CLICK SETUP** |
+
+This automatically does ALL of the following:
+- Creates PCMain.unity scene
+- Camera with blue sky, correct position, PCCameraController
+- Directional Light with DayNightCycle
+- Render/Ambient settings configured
+- All managers (PCGameController, WorldMapRenderer, etc.)
+- UI Canvas with PCUIManager
+- UI Panel prefabs (Territory, Alliance, Build, Stats, Replay, Crafting, Market)
+- WebGL build settings configured
+- Scene saved to Build Settings
+
+After running ONE-CLICK SETUP, just press **Play** to test!
 
 ### A7. WebGL Build ✅ DEPLOYED
 
