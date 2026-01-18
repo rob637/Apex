@@ -133,9 +133,9 @@ namespace ApexCitadels.PC.UI
             rect.offsetMin = Vector2.zero;
             rect.offsetMax = Vector2.zero;
 
-            // Add background image
+            // Add background image (SEMI-TRANSPARENT DARK)
             UnityEngine.UI.Image bg = panel.AddComponent<UnityEngine.UI.Image>();
-            bg.color = bgColor;
+            bg.color = new Color(0, 0, 0, 0.85f); // Darker and more opaque for popups
 
             // Create title
             GameObject titleObj = new GameObject("Title");
@@ -224,6 +224,9 @@ namespace ApexCitadels.PC.UI
             rect.anchorMax = Vector2.one;
             rect.offsetMin = Vector2.zero;
             rect.offsetMax = Vector2.zero;
+            
+            // Important: Make sure this panel does NOT have an image that blocks raycasts
+            // We only want the children (indicators) to be visible
 
             // Small indicator at bottom showing current mode
             GameObject indicator = new GameObject("ModeIndicator");
