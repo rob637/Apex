@@ -4,6 +4,7 @@ using UnityEngine;
 using ApexCitadels.Player;
 using ApexCitadels.Territory;
 using ApexCitadels.Notifications;
+using ApexCitadels.UI;
 using Firebase.Firestore;
 
 namespace ApexCitadels.Achievements
@@ -71,14 +72,14 @@ namespace ApexCitadels.Achievements
         {
             return category switch
             {
-                AchievementCategory.Territory => "🏰",
-                AchievementCategory.Building => "🏗️",
-                AchievementCategory.Combat => "⚔️",
-                AchievementCategory.Social => "🤝",
-                AchievementCategory.Resources => "💎",
-                AchievementCategory.Exploration => "🗺️",
-                AchievementCategory.Milestones => "🏆",
-                _ => "⭐"
+                AchievementCategory.Territory => GameIcons.Citadel,
+                AchievementCategory.Building => GameIcons.Build,
+                AchievementCategory.Combat => GameIcons.Battle,
+                AchievementCategory.Social => GameIcons.Alliance,
+                AchievementCategory.Resources => GameIcons.Gem,
+                AchievementCategory.Exploration => GameIcons.Map,
+                AchievementCategory.Milestones => GameIcons.Trophy,
+                _ => GameIcons.Star
             };
         }
     }

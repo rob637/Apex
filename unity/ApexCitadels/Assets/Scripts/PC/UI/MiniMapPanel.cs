@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 using UIOutline = UnityEngine.UI.Outline;
 
 namespace ApexCitadels.PC.UI
@@ -175,7 +176,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(titleBar.transform, false);
             
             TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
-            titleText.text = "🗺️ MAP";
+            titleText.text = $"{GameIcons.Map} MAP";
             titleText.fontSize = 14;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Left;

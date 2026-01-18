@@ -542,18 +542,18 @@ namespace ApexCitadels.UI
             if (_initialized) return;
             _initialized = true;
             
-            // Try to load sprite asset from Resources
-            _spriteAsset = Resources.Load<TMP_SpriteAsset>("UI/GameIconsSpriteAsset");
+            // Try to load sprite asset from Resources (use full path to avoid namespace conflict)
+            _spriteAsset = UnityEngine.Resources.Load<TMP_SpriteAsset>("UI/GameIconsSpriteAsset");
             
             if (_spriteAsset == null)
             {
                 // Try alternative paths
-                _spriteAsset = Resources.Load<TMP_SpriteAsset>("Fonts/GameIconsSpriteAsset");
+                _spriteAsset = UnityEngine.Resources.Load<TMP_SpriteAsset>("Fonts/GameIconsSpriteAsset");
             }
             
             if (_spriteAsset == null)
             {
-                _spriteAsset = Resources.Load<TMP_SpriteAsset>("GameIconsSpriteAsset");
+                _spriteAsset = UnityEngine.Resources.Load<TMP_SpriteAsset>("GameIconsSpriteAsset");
             }
             
             if (_spriteAsset != null)

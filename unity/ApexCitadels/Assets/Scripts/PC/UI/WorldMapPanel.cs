@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.UI
 {
@@ -322,7 +323,7 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(10, 10, 15, 15);
             
             // Header
-            CreateText(sidebar.transform, "🗺️ WORLD MAP", 18, TextAlignmentOptions.Center, accentColor);
+            CreateText(sidebar.transform, $"{GameIcons.Map} WORLD MAP", 18, TextAlignmentOptions.Center, accentColor);
             
             // Exploration progress
             CreateExplorationProgress(sidebar.transform);

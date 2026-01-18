@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.UI
 {
@@ -392,7 +393,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "EXP_004",
                 Name = "Empire Logistics",
                 Description = "+2 maximum territories. -20% troop travel time.",
-                Icon = "🗺️",
+                Icon = GameIcons.Map,
                 Branch = TechBranch.Expansion,
                 Tier = 4,
                 State = TechState.Locked,
@@ -560,11 +561,11 @@ namespace ApexCitadels.PC.UI
             tabsHL.childForceExpandWidth = true;
             tabsHL.spacing = 5;
             
-            CreateBranchTab(tabs.transform, TechBranch.Military, "⚔️ Military");
-            CreateBranchTab(tabs.transform, TechBranch.Economy, "💰 Economy");
-            CreateBranchTab(tabs.transform, TechBranch.Defense, "🛡️ Defense");
-            CreateBranchTab(tabs.transform, TechBranch.Expansion, "🗺️ Expansion");
-            CreateBranchTab(tabs.transform, TechBranch.Alliance, "🤝 Alliance");
+            CreateBranchTab(tabs.transform, TechBranch.Military, $"{GameIcons.Battle} Military");
+            CreateBranchTab(tabs.transform, TechBranch.Economy, $"{GameIcons.Gold} Economy");
+            CreateBranchTab(tabs.transform, TechBranch.Defense, $"{GameIcons.Shield} Defense");
+            CreateBranchTab(tabs.transform, TechBranch.Expansion, $"{GameIcons.Map} Expansion");
+            CreateBranchTab(tabs.transform, TechBranch.Alliance, $"{GameIcons.Alliance} Alliance");
         }
 
         private void CreateBranchTab(Transform parent, TechBranch branch, string label)

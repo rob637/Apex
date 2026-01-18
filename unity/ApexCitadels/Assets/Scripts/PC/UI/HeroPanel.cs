@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.UI
 {
@@ -901,14 +902,14 @@ namespace ApexCitadels.PC.UI
             {
                 CreateText(parent, $"Currently deployed at: {_selectedHero.DeployedTerritory}", 14, TextAlignmentOptions.Center, new Color(0.4f, 0.8f, 0.4f));
                 
-                CreateActionButton(parent, "📍 Recall Hero", "Free", RecallHero, new Color(0.6f, 0.4f, 0.2f));
+                CreateActionButton(parent, $"{GameIcons.Flag} Recall Hero", "Free", RecallHero, new Color(0.6f, 0.4f, 0.2f));
             }
             else
             {
                 CreateText(parent, "Select a territory to deploy this hero:", 14, TextAlignmentOptions.Center, new Color(0.7f, 0.7f, 0.7f));
             }
             
-            CreateSectionLabel(parent, "🗺️ AVAILABLE TERRITORIES");
+            CreateSectionLabel(parent, $"{GameIcons.Map} AVAILABLE TERRITORIES");
             
             // Sample territories
             CreateTerritoryOption(parent, "Northern Fortress", false);
