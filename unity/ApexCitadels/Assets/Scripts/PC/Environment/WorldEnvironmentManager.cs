@@ -20,14 +20,19 @@ namespace ApexCitadels.PC.Environment
         [SerializeField] private bool enableTerrain = true;
         [SerializeField] private bool enableAtmosphere = true;
         [SerializeField] private bool enableEnhancedTerritories = true;
+        [SerializeField] private bool enableAAAEffects = true;
+        [SerializeField] private bool enableEnvironmentalProps = true;
+        [SerializeField] private bool enableTerritoryEffects = true;
 
         [Header("Demo Settings")]
         [SerializeField] private bool createDemoTerritories = true;
-        [SerializeField] private int demoTerritoryCount = 20;
+        [SerializeField] private int demoTerritoryCount = 25;
 
         // References
         private ProceduralTerrain _terrain;
         private AtmosphericLighting _atmosphere;
+        private AAAVisualEffects _aaaEffects;
+        private EnvironmentalProps _props;
         private List<EnhancedTerritoryVisual> _territories = new List<EnhancedTerritoryVisual>();
 
         private void Awake()
@@ -56,7 +61,7 @@ namespace ApexCitadels.PC.Environment
             if (enableTerrain)
             {
                 CreateTerrain();
-                yield return null; // Wait a frame for terrain to generate
+                yield return new WaitForSeconds(0.1f); // Wait for terrain to generate
             }
 
             // Step 2: Setup atmospheric lighting
@@ -66,7 +71,21 @@ namespace ApexCitadels.PC.Environment
                 yield return null;
             }
 
-            // Step 3: Create demo territories if enabled
+            // Step 3: Create AAA visual effects (post-processing, particles, etc.)
+            if (enableAAAEffects)
+            {
+                CreateAAAEffects();
+                yield return null;
+            }
+
+            // Step 4: Create environmental props (trees, rocks, etc.)
+            if (enableEnvironmentalProps)
+            {
+                CreateEnvironmentalProps();
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            // Step 5: Create demo territories if enabled
             if (createDemoTerritories)
             {
                 CreateDemoTerritories();
@@ -106,6 +125,38 @@ namespace ApexCitadels.PC.Environment
                 atmosObj.transform.parent = transform;
                 _atmosphere = atmosObj.AddComponent<AtmosphericLighting>();
                 Debug.Log("[Environment] Created atmospheric lighting");
+            }
+        }
+
+        /// <summary>
+        /// Create AAA visual effects system
+        /// </summary>
+        private void CreateAAAEffects()
+        {
+            _aaaEffects = FindFirstObjectByType<AAAVisualEffects>();
+            
+            if (_aaaEffects == null)
+            {
+                GameObject effectsObj = new GameObject("AAAVisualEffects");
+                effectsObj.transform.parent = transform;
+                _aaaEffects = effectsObj.AddComponent<AAAVisualEffects>();
+                Debug.Log("[Environment] Created AAA visual effects");
+            }
+        }
+
+        /// <summary>
+        /// Create environmental props (trees, rocks, etc.)
+        /// </summary>
+        private void CreateEnvironmentalProps()
+        {
+            _props = FindFirstObjectByType<EnvironmentalProps>();
+            
+            if (_props == null)
+            {
+                GameObject propsObj = new GameObject("EnvironmentalProps");
+                propsObj.transform.parent = transform;
+                _props = propsObj.AddComponent<EnvironmentalProps>();
+                Debug.Log("[Environment] Created environmental props");
             }
         }
 
@@ -187,6 +238,13 @@ namespace ApexCitadels.PC.Environment
                     visual.Ownership = TerritoryOwnership.Neutral;
 
                 visual.BuildVisual();
+                
+                // Add territory effects for visual flair
+                if (enableTerritoryEffects)
+                {
+                    territoryObj.AddComponent<TerritoryEffects>();
+                }
+                
                 _territories.Add(visual);
             }
 
@@ -201,6 +259,12 @@ namespace ApexCitadels.PC.Environment
             if (_atmosphere != null)
             {
                 _atmosphere.SetTimeOfDay(time);
+            }
+            
+            // Update post-processing for time of day
+            if (_aaaEffects != null)
+            {
+                _aaaEffects.SetTimeOfDayEffects(time);
             }
         }
 
