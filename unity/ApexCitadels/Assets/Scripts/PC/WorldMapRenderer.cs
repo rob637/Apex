@@ -197,8 +197,8 @@ namespace ApexCitadels.PC
             _groundPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _groundPlane.name = "WorldMapGround";
             _groundPlane.transform.parent = transform;
-            _groundPlane.transform.localPosition = Vector3.zero;
-            _groundPlane.transform.localScale = new Vector3(1000, 1, 1000);
+            _groundPlane.transform.localPosition = new Vector3(0, -0.5f, 0); // Slightly below territories
+            _groundPlane.transform.localScale = new Vector3(500, 1, 500); // Much larger: 5000 x 5000 units
 
             // Apply material
             Renderer renderer = _groundPlane.GetComponent<Renderer>();
@@ -208,8 +208,8 @@ namespace ApexCitadels.PC
             }
             else
             {
-                // Create a simple procedural material
-                Material mat = CreateDefaultMaterial(landColor);
+                // Create a simple procedural material with a nice map-like green
+                Material mat = CreateDefaultMaterial(new Color(0.25f, 0.45f, 0.25f, 1f));
                 if (mat != null)
                 {
                     renderer.material = mat;
@@ -348,28 +348,40 @@ namespace ApexCitadels.PC
             Vector3 worldPos = GPSToWorldPosition(territory.CenterLatitude, territory.CenterLongitude);
             territoryObj.transform.position = worldPos;
 
-            // Create territory visualization
-            // Use a cylinder to represent territory area
+            // Create territory visualization - use a more visible marker
+            // Base platform (cylinder)
             GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            cylinder.name = "Base";
             cylinder.transform.parent = territoryObj.transform;
             cylinder.transform.localPosition = Vector3.zero;
 
-            // Scale based on territory radius
-            float radius = territory.RadiusMeters / 10f; // Scale down for visualization
-            cylinder.transform.localScale = new Vector3(radius * 2, 0.5f, radius * 2);
+            // Make territories much more visible - minimum 20 units radius
+            float radius = Mathf.Max(territory.RadiusMeters / 10f, 20f);
+            cylinder.transform.localScale = new Vector3(radius * 2, 1f, radius * 2);
 
             // Apply material based on ownership
-            Renderer renderer = cylinder.GetComponent<Renderer>();
-            renderer.material = GetTerritoryMaterial(territory);
+            Renderer baseRenderer = cylinder.GetComponent<Renderer>();
+            baseRenderer.material = GetTerritoryMaterial(territory);
+
+            // Add a tall marker/beacon on top so it's visible from far away
+            GameObject beacon = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            beacon.name = "Beacon";
+            beacon.transform.parent = territoryObj.transform;
+            beacon.transform.localPosition = new Vector3(0, 15f, 0);
+            beacon.transform.localScale = new Vector3(5f, 30f, 5f);
+            
+            Renderer beaconRenderer = beacon.GetComponent<Renderer>();
+            beaconRenderer.material = GetTerritoryMaterial(territory);
 
             // Add territory data component
             TerritoryVisual visual = territoryObj.AddComponent<TerritoryVisual>();
             visual.Initialize(territory);
 
-            // Add collider for clicking
+            // Add collider for clicking - make it big enough to click
             CapsuleCollider collider = territoryObj.AddComponent<CapsuleCollider>();
             collider.radius = radius;
-            collider.height = 2f;
+            collider.height = 40f;
+            collider.center = new Vector3(0, 15f, 0);
 
             _territoryObjects[territory.Id] = territoryObj;
 
