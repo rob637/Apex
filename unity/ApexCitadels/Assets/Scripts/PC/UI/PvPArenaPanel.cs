@@ -1096,9 +1096,9 @@ namespace ApexCitadels.PC.UI
         {
             return rank switch
             {
-                1 => "🥇",
-                2 => "🥈",
-                3 => "🥉",
+                1 => GameIcons.GoldMedal,
+                2 => GameIcons.SilverMedal,
+                3 => GameIcons.BronzeMedal,
                 _ => $"#{rank}"
             };
         }
@@ -1374,14 +1374,14 @@ namespace ApexCitadels.PC.UI
         {
             return rank switch
             {
-                ArenaRank.Bronze => "🥉",
-                ArenaRank.Silver => "🥈",
-                ArenaRank.Gold => "🥇",
-                ArenaRank.Platinum1 or ArenaRank.Platinum2 => "💎",
-                ArenaRank.Diamond1 or ArenaRank.Diamond2 => "💠",
-                ArenaRank.Master => "👑",
-                ArenaRank.Grandmaster => "🏆",
-                _ => "⚔️"
+                ArenaRank.Bronze => GameIcons.BronzeMedal,
+                ArenaRank.Silver => GameIcons.SilverMedal,
+                ArenaRank.Gold => GameIcons.GoldMedal,
+                ArenaRank.Platinum1 or ArenaRank.Platinum2 => GameIcons.Gems,
+                ArenaRank.Diamond1 or ArenaRank.Diamond2 => GameIcons.Gems,
+                ArenaRank.Master => GameIcons.Crown,
+                ArenaRank.Grandmaster => GameIcons.Trophy,
+                _ => GameIcons.CrossedSwords
             };
         }
 

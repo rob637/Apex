@@ -407,9 +407,9 @@ namespace ApexCitadels.PC.UI
         {
             return rank switch
             {
-                1 => "🥇",
-                2 => "🥈",
-                3 => "🥉",
+                1 => GameIcons.GoldMedal,
+                2 => GameIcons.SilverMedal,
+                3 => GameIcons.BronzeMedal,
                 _ => $"#{rank}"
             };
         }

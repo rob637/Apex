@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.UI
 {
@@ -544,9 +545,9 @@ namespace ApexCitadels.PC.UI
             // Rank
             string rankIcon = rank switch
             {
-                1 => "🥇",
-                2 => "🥈",
-                3 => "🥉",
+                1 => GameIcons.GoldMedal,
+                2 => GameIcons.SilverMedal,
+                3 => GameIcons.BronzeMedal,
                 _ => $"#{rank}"
             };
             GameObject rankObj = CreateText(item.transform, rankIcon, rank <= 3 ? 20 : 14, TextAlignmentOptions.Center);

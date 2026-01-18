@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.UI
 {
@@ -484,7 +485,7 @@ namespace ApexCitadels.PC.UI
             GameObject breakdownObj = new GameObject("Breakdown");
             breakdownObj.transform.SetParent(prizeContainer.transform, false);
             TextMeshProUGUI breakdown = breakdownObj.AddComponent<TextMeshProUGUI>();
-            breakdown.text = "🥇 50% | 🥈 30% | 🥉 20%";
+            breakdown.text = $"{GameIcons.GoldMedal} 50% | {GameIcons.SilverMedal} 30% | {GameIcons.BronzeMedal} 20%";
             breakdown.fontSize = 11;
             breakdown.color = new Color(0.5f, 0.5f, 0.5f);
             breakdown.alignment = TextAlignmentOptions.Center;

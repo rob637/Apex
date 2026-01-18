@@ -241,12 +241,12 @@ namespace ApexCitadels.PC.UI
 
         private void UpdateSummary()
         {
-            _summaryText.text = $"<color=#FFD700>🏆 {_totalPoints} Points</color>  |  " +
-                $"<color=#88FF88>✅ {_unlockedCount}/{_achievements.Count} Unlocked</color>  |  " +
-                $"<color=#CD7F32>🥉 Bronze: {CountTier(AchievementTier.Bronze)}</color>  " +
-                $"<color=#C0C0C0>🥈 Silver: {CountTier(AchievementTier.Silver)}</color>  " +
-                $"<color=#FFD700>🥇 Gold: {CountTier(AchievementTier.Gold)}</color>  " +
-                $"<color=#E5E4E2>💎 Platinum: {CountTier(AchievementTier.Platinum)}</color>";
+            _summaryText.text = $"<color=#FFD700>{GameIcons.Trophy} {_totalPoints} Points</color>  |  " +
+                $"<color=#88FF88>{GameIcons.Success} {_unlockedCount}/{_achievements.Count} Unlocked</color>  |  " +
+                $"<color=#CD7F32>{GameIcons.BronzeMedal} Bronze: {CountTier(AchievementTier.Bronze)}</color>  " +
+                $"<color=#C0C0C0>{GameIcons.SilverMedal} Silver: {CountTier(AchievementTier.Silver)}</color>  " +
+                $"<color=#FFD700>{GameIcons.GoldMedal} Gold: {CountTier(AchievementTier.Gold)}</color>  " +
+                $"<color=#E5E4E2>{GameIcons.Gems} Platinum: {CountTier(AchievementTier.Platinum)}</color>";
         }
 
         private int CountTier(AchievementTier tier)
