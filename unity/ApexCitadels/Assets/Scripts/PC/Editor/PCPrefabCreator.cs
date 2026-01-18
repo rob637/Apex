@@ -369,8 +369,7 @@ namespace ApexCitadels.PC
             contentRect.offsetMin = new Vector2(10, 10);
             contentRect.offsetMax = new Vector2(-10, -60);
             
-            SavePrefab(panel, "UI/PCPanel");
-            Object.DestroyImmediate(panel);
+            return panel;
         }
         
         private static void CreateListItemPrefab()
