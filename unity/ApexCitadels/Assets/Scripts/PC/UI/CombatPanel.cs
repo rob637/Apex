@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.PC.Combat;
 using TerritoryData = ApexCitadels.Territory.Territory;
 
 namespace ApexCitadels.PC.UI
@@ -824,38 +825,142 @@ namespace ApexCitadels.PC.UI
             int defensePower = _targetTerritory?.Level * 50 ?? 250;
             float winChance = (float)attackPower / (attackPower + defensePower);
             
+            // Get effects integration
+            var effects = CombatEffectsIntegration.Instance;
+            
+            // Battle start effects
+            effects?.OnBattleStart();
+            
             // Log start
             AddBattleLog("⚔️ Battle begins!");
             AddBattleLog($"Your army ({GetTotalSelectedTroops()} troops) advances...");
             yield return new WaitForSeconds(0.5f);
             
+            // Charge effect
+            effects?.OnCharge(Vector3.zero);
+            
             // Simulate phases
             string[] phases = { "Opening Volley", "Melee Clash", "Siege Phase", "Final Push" };
+            int phaseIndex = 0;
             foreach (string phase in phases)
             {
                 AddBattleLog($"\n--- {phase} ---");
                 yield return new WaitForSeconds(0.3f);
                 
-                // Random battle events
+                // Random battle events with VFX
                 int events = UnityEngine.Random.Range(2, 5);
                 for (int i = 0; i < events; i++)
                 {
-                    AddBattleLog(GenerateBattleEvent());
+                    var (message, eventType) = GenerateBattleEventWithType(phaseIndex);
+                    AddBattleLog(message);
+                    
+                    // Trigger appropriate VFX based on event type
+                    TriggerBattleEventVFX(eventType, effects);
+                    
                     elapsed += duration / (phases.Length * events);
                     if (_battleProgressBar != null)
                         _battleProgressBar.value = elapsed / duration;
                     yield return new WaitForSeconds(0.4f);
                 }
+                phaseIndex++;
             }
             
             // Determine outcome
             bool victory = UnityEngine.Random.value < winChance;
             
             AddBattleLog(victory ? "\n🏆 VICTORY!" : "\n💀 DEFEAT!");
+            
+            // Outcome effects
+            if (victory)
+            {
+                effects?.OnVictory(Vector3.zero);
+            }
+            else
+            {
+                effects?.OnDefeat(Vector3.zero);
+            }
+            
             yield return new WaitForSeconds(1f);
             
             // Show results
             ShowBattleResults(victory, attackPower, defensePower);
+        }
+        
+        private void TriggerBattleEventVFX(BattleEventType eventType, CombatEffectsIntegration effects)
+        {
+            if (effects == null) return;
+            
+            // Random position variation for VFX
+            Vector3 pos = new Vector3(UnityEngine.Random.Range(-5f, 5f), 0, UnityEngine.Random.Range(-5f, 5f));
+            int damage = UnityEngine.Random.Range(10, 50);
+            bool crit = UnityEngine.Random.value < 0.15f;
+            
+            switch (eventType)
+            {
+                case BattleEventType.MeleeClash:
+                    effects.OnMeleeAttack(pos, damage, crit);
+                    break;
+                case BattleEventType.ArcherVolley:
+                    effects.OnRangedAttack(pos + Vector3.back * 10f, pos, damage, crit);
+                    break;
+                case BattleEventType.CavalryCharge:
+                    effects.OnCharge(pos);
+                    break;
+                case BattleEventType.SiegeWeapon:
+                    effects.OnSiegeAttack(pos + Vector3.back * 15f, pos, damage * 3);
+                    break;
+                case BattleEventType.DefenseHold:
+                    effects.OnAttackBlocked(pos);
+                    break;
+                case BattleEventType.FireAttack:
+                    effects.OnMagicAttack(pos + Vector3.back * 8f, pos, damage, new Color(1f, 0.4f, 0.1f));
+                    break;
+                case BattleEventType.Breakthrough:
+                    effects.VFX?.PlayExplosion(pos, ExplosionSize.Medium);
+                    effects.CameraEffects?.Shake(0.3f);
+                    break;
+                case BattleEventType.Retreat:
+                    effects.OnUnitKilled(pos, "Enemy Unit", 15);
+                    break;
+                case BattleEventType.Advance:
+                    effects.OnBuff(pos, "ADVANCE!");
+                    break;
+            }
+        }
+        
+        private (string message, BattleEventType type) GenerateBattleEventWithType(int phase)
+        {
+            // Phase-appropriate events
+            var events = phase switch
+            {
+                0 => new[] { // Opening Volley
+                    ("🏹 Archers rain arrows on the walls!", BattleEventType.ArcherVolley),
+                    ("🔥 Fire arrows ignite the towers!", BattleEventType.FireAttack),
+                    ("💣 Siege weapons launch their payload!", BattleEventType.SiegeWeapon),
+                    ("🛡️ Defenders raise their shields!", BattleEventType.DefenseHold),
+                },
+                1 => new[] { // Melee Clash
+                    ("🗡️ Infantry clashes with defenders!", BattleEventType.MeleeClash),
+                    ("⚔️ Elite troops cut through enemy ranks!", BattleEventType.MeleeClash),
+                    ("🛡️ Defenders hold the line!", BattleEventType.DefenseHold),
+                    ("⚡ Your troops break through!", BattleEventType.Breakthrough),
+                },
+                2 => new[] { // Siege Phase
+                    ("💣 Siege weapons breach the wall!", BattleEventType.SiegeWeapon),
+                    ("💥 Battering ram breaks through!", BattleEventType.Breakthrough),
+                    ("🔥 Flaming projectiles rain down!", BattleEventType.FireAttack),
+                    ("🗡️ Close quarters combat ensues!", BattleEventType.MeleeClash),
+                },
+                _ => new[] { // Final Push
+                    ("🐴 Cavalry charges through the gate!", BattleEventType.CavalryCharge),
+                    ("⚔️ Elite troops lead the final assault!", BattleEventType.MeleeClash),
+                    ("🏃 Enemy troops retreat!", BattleEventType.Retreat),
+                    ("⚡ Your troops advance!", BattleEventType.Advance),
+                    ("🏆 Victory is within reach!", BattleEventType.Advance),
+                }
+            };
+            
+            return events[UnityEngine.Random.Range(0, events.Length)];
         }
 
         private void AddBattleLog(string message)
@@ -863,27 +968,19 @@ namespace ApexCitadels.PC.UI
             _battleLogText.text += message + "\n";
         }
 
+        // Keep old method for backward compatibility
         private string GenerateBattleEvent()
         {
-            string[] events = {
-                "🗡️ Infantry clashes with defenders!",
-                "🏹 Archers rain arrows on the walls!",
-                "🐴 Cavalry charges through the gate!",
-                "💣 Siege weapons breach the wall!",
-                "⚔️ Elite troops cut through enemy ranks!",
-                "🛡️ Defenders hold the line!",
-                "🔥 Fire arrows ignite the towers!",
-                "💥 Battering ram breaks through!",
-                "🏃 Enemy troops retreat!",
-                "⚡ Your troops advance!"
-            };
-            return events[UnityEngine.Random.Range(0, events.Length)];
+            var (message, _) = GenerateBattleEventWithType(UnityEngine.Random.Range(0, 4));
+            return message;
         }
 
         private void ShowBattleResults(bool victory, int attackPower, int defensePower)
         {
             _battleSimulationPanel.SetActive(false);
             _resultsPanel.SetActive(true);
+            
+            var effects = CombatEffectsIntegration.Instance;
             
             int totalTroops = GetTotalSelectedTroops();
             int troopsLost = victory ? 
@@ -910,6 +1007,10 @@ namespace ApexCitadels.PC.UI
                     PCResourceSystem.Instance.AddResource(ResourceType.Gold, goldLoot);
                     PCResourceSystem.Instance.AddResource(ResourceType.Stone, stoneLoot);
                 }
+                
+                // Play resource gain effects
+                effects?.OnResourceGain(Vector3.zero, "Gold", goldLoot);
+                effects?.AudioSFX?.PlayCoins();
             }
             else
             {
@@ -1033,5 +1134,18 @@ namespace ApexCitadels.PC.UI
         public int TroopsLost;
         public int GoldLooted;
         public int StoneLooted;
+    }
+
+    public enum BattleEventType
+    {
+        MeleeClash,
+        ArcherVolley,
+        CavalryCharge,
+        SiegeWeapon,
+        DefenseHold,
+        FireAttack,
+        Breakthrough,
+        Retreat,
+        Advance
     }
 }
