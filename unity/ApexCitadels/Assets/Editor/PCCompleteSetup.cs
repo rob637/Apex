@@ -173,7 +173,32 @@ namespace ApexCitadels.PC.Editor
             bool hasWorldMap = Object.FindFirstObjectByType<WorldMapRenderer>() != null;
             bool hasUIManager = Object.FindFirstObjectByType<PCUIManager>() != null;
             bool hasFirebase = Object.FindFirstObjectByType<FirebaseWebClient>() != null;
+            bool hasNotifications = Object.FindFirstObjectByType<NotificationSystem>() != null;
+            bool hasTutorial = Object.FindFirstObjectByType<TutorialSystem>() != null;
+            bool hasResourceSystem = Object.FindFirstObjectByType<PCResourceSystem>() != null;
             
+            // Count total UI panels
+            int uiPanelCount = 0;
+            if (Object.FindFirstObjectByType<TopBarHUD>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<MiniMapPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<ChatPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<LeaderboardPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<SeasonPassPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<InventoryPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<HeroPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<CombatPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<GuildManagementPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<PvPArenaPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<WorldMapPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<DiplomacyPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<TechTreePanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<QuestPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<AchievementPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<SettingsPanel>() != null) uiPanelCount++;
+            if (Object.FindFirstObjectByType<SocialHubPanel>() != null) uiPanelCount++;
+            // Add more as needed...
+            
+            EditorGUILayout.LabelField("Core Systems:", EditorStyles.boldLabel);
             EditorGUILayout.LabelField($"  {(hasScene ? "✅" : "❌")} PCMain.unity scene");
             EditorGUILayout.LabelField($"  {(hasCamera ? "✅" : "❌")} Main Camera");
             EditorGUILayout.LabelField($"  {(hasLight ? "✅" : "❌")} Directional Light");
@@ -181,6 +206,13 @@ namespace ApexCitadels.PC.Editor
             EditorGUILayout.LabelField($"  {(hasWorldMap ? "✅" : "❌")} WorldMapRenderer");
             EditorGUILayout.LabelField($"  {(hasUIManager ? "✅" : "❌")} PCUIManager");
             EditorGUILayout.LabelField($"  {(hasFirebase ? "✅" : "❌")} FirebaseWebClient");
+            EditorGUILayout.LabelField($"  {(hasResourceSystem ? "✅" : "❌")} PCResourceSystem");
+            
+            EditorGUILayout.Space(5);
+            EditorGUILayout.LabelField("Essential UI:", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"  {(hasNotifications ? "✅" : "❌")} NotificationSystem");
+            EditorGUILayout.LabelField($"  {(hasTutorial ? "✅" : "❌")} TutorialSystem");
+            EditorGUILayout.LabelField($"  UI Panels: {uiPanelCount}/17+ created");
         }
 
         public static void RunCompleteSetup()
@@ -561,7 +593,188 @@ namespace ApexCitadels.PC.Editor
                 Log("[Setup] Created QuickActionBar");
             }
             
-            Log("[Setup] ✅ Managers created");
+            // ========== ADDITIONAL ENGAGEMENT SYSTEMS ==========
+            // All these panels self-create their UI programmatically
+            
+            // NotificationSystem - toast notifications and alerts
+            if (Object.FindFirstObjectByType<NotificationSystem>() == null)
+            {
+                var obj = new GameObject("NotificationSystem");
+                obj.AddComponent<NotificationSystem>();
+                Log("[Setup] Created NotificationSystem");
+            }
+            
+            // TutorialSystem - guided onboarding
+            if (Object.FindFirstObjectByType<TutorialSystem>() == null)
+            {
+                var obj = new GameObject("TutorialSystem");
+                obj.AddComponent<TutorialSystem>();
+                Log("[Setup] Created TutorialSystem");
+            }
+            
+            // AchievementPanel - achievements and progression
+            if (Object.FindFirstObjectByType<AchievementPanel>() == null)
+            {
+                var obj = new GameObject("AchievementPanel");
+                obj.AddComponent<AchievementPanel>();
+                Log("[Setup] Created AchievementPanel");
+            }
+            
+            // QuestPanel - quests and missions
+            if (Object.FindFirstObjectByType<QuestPanel>() == null)
+            {
+                var obj = new GameObject("QuestPanel");
+                obj.AddComponent<QuestPanel>();
+                Log("[Setup] Created QuestPanel");
+            }
+            
+            // HeroPanel - hero management and skills
+            if (Object.FindFirstObjectByType<HeroPanel>() == null)
+            {
+                var obj = new GameObject("HeroPanel");
+                obj.AddComponent<HeroPanel>();
+                Log("[Setup] Created HeroPanel");
+            }
+            
+            // TechTreePanel - research and technology
+            if (Object.FindFirstObjectByType<TechTreePanel>() == null)
+            {
+                var obj = new GameObject("TechTreePanel");
+                obj.AddComponent<TechTreePanel>();
+                Log("[Setup] Created TechTreePanel");
+            }
+            
+            // PlayerProfilePanel - player stats and customization
+            if (Object.FindFirstObjectByType<PlayerProfilePanel>() == null)
+            {
+                var obj = new GameObject("PlayerProfilePanel");
+                obj.AddComponent<PlayerProfilePanel>();
+                Log("[Setup] Created PlayerProfilePanel");
+            }
+            
+            // SettingsPanel - game settings
+            if (Object.FindFirstObjectByType<SettingsPanel>() == null)
+            {
+                var obj = new GameObject("SettingsPanel");
+                obj.AddComponent<SettingsPanel>();
+                Log("[Setup] Created SettingsPanel");
+            }
+            
+            // WorldEventsPanel - server-wide events
+            if (Object.FindFirstObjectByType<WorldEventsPanel>() == null)
+            {
+                var obj = new GameObject("WorldEventsPanel");
+                obj.AddComponent<WorldEventsPanel>();
+                Log("[Setup] Created WorldEventsPanel");
+            }
+            
+            // ========== WAVE 3 & 4 SYSTEMS ==========
+            
+            // InventoryPanel - items and equipment
+            if (Object.FindFirstObjectByType<InventoryPanel>() == null)
+            {
+                var obj = new GameObject("InventoryPanel");
+                obj.AddComponent<InventoryPanel>();
+                Log("[Setup] Created InventoryPanel");
+            }
+            
+            // PvPArenaPanel - competitive PvP matchmaking
+            if (Object.FindFirstObjectByType<PvPArenaPanel>() == null)
+            {
+                var obj = new GameObject("PvPArenaPanel");
+                obj.AddComponent<PvPArenaPanel>();
+                Log("[Setup] Created PvPArenaPanel");
+            }
+            
+            // GuildManagementPanel - guild management
+            if (Object.FindFirstObjectByType<GuildManagementPanel>() == null)
+            {
+                var obj = new GameObject("GuildManagementPanel");
+                obj.AddComponent<GuildManagementPanel>();
+                Log("[Setup] Created GuildManagementPanel");
+            }
+            
+            // BuildingUpgradePanel - building upgrades
+            if (Object.FindFirstObjectByType<BuildingUpgradePanel>() == null)
+            {
+                var obj = new GameObject("BuildingUpgradePanel");
+                obj.AddComponent<BuildingUpgradePanel>();
+                Log("[Setup] Created BuildingUpgradePanel");
+            }
+            
+            // WorldMapPanel - strategic world view
+            if (Object.FindFirstObjectByType<WorldMapPanel>() == null)
+            {
+                var obj = new GameObject("WorldMapPanel");
+                obj.AddComponent<WorldMapPanel>();
+                Log("[Setup] Created WorldMapPanel");
+            }
+            
+            // ResourceCollectionPanel - resource gathering
+            if (Object.FindFirstObjectByType<ResourceCollectionPanel>() == null)
+            {
+                var obj = new GameObject("ResourceCollectionPanel");
+                obj.AddComponent<ResourceCollectionPanel>();
+                Log("[Setup] Created ResourceCollectionPanel");
+            }
+            
+            // DailyChallengesPanel - daily challenges
+            if (Object.FindFirstObjectByType<DailyChallengesPanel>() == null)
+            {
+                var obj = new GameObject("DailyChallengesPanel");
+                obj.AddComponent<DailyChallengesPanel>();
+                Log("[Setup] Created DailyChallengesPanel");
+            }
+            
+            // SpyIntelligencePanel - espionage system
+            if (Object.FindFirstObjectByType<SpyIntelligencePanel>() == null)
+            {
+                var obj = new GameObject("SpyIntelligencePanel");
+                obj.AddComponent<SpyIntelligencePanel>();
+                Log("[Setup] Created SpyIntelligencePanel");
+            }
+            
+            // BarracksPanel - troop training
+            if (Object.FindFirstObjectByType<BarracksPanel>() == null)
+            {
+                var obj = new GameObject("BarracksPanel");
+                obj.AddComponent<BarracksPanel>();
+                Log("[Setup] Created BarracksPanel");
+            }
+            
+            // CombatPanel - attack interface
+            if (Object.FindFirstObjectByType<CombatPanel>() == null)
+            {
+                var obj = new GameObject("CombatPanel");
+                obj.AddComponent<CombatPanel>();
+                Log("[Setup] Created CombatPanel");
+            }
+            
+            // DiplomacyPanel - alliances and treaties
+            if (Object.FindFirstObjectByType<DiplomacyPanel>() == null)
+            {
+                var obj = new GameObject("DiplomacyPanel");
+                obj.AddComponent<DiplomacyPanel>();
+                Log("[Setup] Created DiplomacyPanel");
+            }
+            
+            // SocialHubPanel - social features
+            if (Object.FindFirstObjectByType<SocialHubPanel>() == null)
+            {
+                var obj = new GameObject("SocialHubPanel");
+                obj.AddComponent<SocialHubPanel>();
+                Log("[Setup] Created SocialHubPanel");
+            }
+            
+            // AllianceWarRoom - alliance strategic planning
+            if (Object.FindFirstObjectByType<AllianceWarRoom>() == null)
+            {
+                var obj = new GameObject("AllianceWarRoom");
+                obj.AddComponent<AllianceWarRoom>();
+                Log("[Setup] Created AllianceWarRoom");
+            }
+            
+            Log("[Setup] ✅ All managers and UI systems created");
         }
 
         private static void SetupUI()
