@@ -148,6 +148,30 @@ namespace ApexCitadels.PC
                 OnOpenMenu?.Invoke();
             }
 
+            // Engagement Panel Shortcuts (World-Class Feature Access)
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Debug.Log("[PCInput] L detected - Leaderboard");
+                if (ApexCitadels.PC.UI.LeaderboardPanel.Instance != null)
+                    ApexCitadels.PC.UI.LeaderboardPanel.Instance.Toggle();
+            }
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                Debug.Log("[PCInput] P detected - Season Pass");
+                if (ApexCitadels.PC.UI.SeasonPassPanel.Instance != null)
+                    ApexCitadels.PC.UI.SeasonPassPanel.Instance.Toggle();
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log("[PCInput] R detected - Daily Rewards");
+                if (ApexCitadels.PC.UI.DailyRewardsUI.Instance != null)
+                    ApexCitadels.PC.UI.DailyRewardsUI.Instance.Toggle();
+            }
+
+            // T is handled by ChatPanel itself for chat focus
+
             // Building controls
             if (Input.GetKeyDown(KeyCode.Q))
                 OnRotateBuildingLeft?.Invoke();

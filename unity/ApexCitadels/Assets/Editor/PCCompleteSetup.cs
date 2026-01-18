@@ -494,6 +494,57 @@ namespace ApexCitadels.PC.Editor
                 Log("[Setup] Created PCResourceSystem");
             }
             
+            // Engagement UI Systems (self-create their own UI)
+            // These are critical for the "world-class" 500+ hour gameplay experience
+            
+            // ActivityFeedPanel - real-time game events feed
+            if (Object.FindFirstObjectByType<ActivityFeedPanel>() == null)
+            {
+                var obj = new GameObject("ActivityFeedPanel");
+                obj.AddComponent<ActivityFeedPanel>();
+                Log("[Setup] Created ActivityFeedPanel");
+            }
+            
+            // LeaderboardPanel - competitive rankings
+            if (Object.FindFirstObjectByType<LeaderboardPanel>() == null)
+            {
+                var obj = new GameObject("LeaderboardPanel");
+                obj.AddComponent<LeaderboardPanel>();
+                Log("[Setup] Created LeaderboardPanel");
+            }
+            
+            // SeasonPassPanel - 100-tier battle pass progression
+            if (Object.FindFirstObjectByType<SeasonPassPanel>() == null)
+            {
+                var obj = new GameObject("SeasonPassPanel");
+                obj.AddComponent<SeasonPassPanel>();
+                Log("[Setup] Created SeasonPassPanel");
+            }
+            
+            // ChatPanel - world/alliance/private chat
+            if (Object.FindFirstObjectByType<ChatPanel>() == null)
+            {
+                var obj = new GameObject("ChatPanel");
+                obj.AddComponent<ChatPanel>();
+                Log("[Setup] Created ChatPanel");
+            }
+            
+            // DailyRewardsUI - 7-day login rewards
+            if (Object.FindFirstObjectByType<DailyRewardsUI>() == null)
+            {
+                var obj = new GameObject("DailyRewardsUI");
+                obj.AddComponent<DailyRewardsUI>();
+                Log("[Setup] Created DailyRewardsUI");
+            }
+            
+            // TopBarHUD - always-visible resource bar and quick access
+            if (Object.FindFirstObjectByType<TopBarHUD>() == null)
+            {
+                var obj = new GameObject("TopBarHUD");
+                obj.AddComponent<TopBarHUD>();
+                Log("[Setup] Created TopBarHUD");
+            }
+            
             Log("[Setup] ✅ Managers created");
         }
 
