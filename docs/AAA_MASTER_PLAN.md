@@ -137,7 +137,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Moderation | ✅ | Reports, bans |
 | Settings | ✅ | Feature toggles |
 
-### 🔄 IN-PROGRESS: PC Client (85%)
+### 🔄 IN-PROGRESS: PC Client (90%)
 
 | System | Scripts | Status | Quality |
 |--------|---------|--------|---------|
@@ -153,7 +153,8 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | **Base Editor** | BaseEditorPanel, EditorCameraController, BlockPlacementController | ✅ | **AAA Quality** |
 | **Resource System** | ResourceInventory (8 types, events, persistence) | ✅ | Production |
 | **Troop Training** | TroopTrainingPanel, TrainingQueueManager, TroopManager, TroopQuickBar | ✅ | **AAA Quality** |
-| UI Panels | 9 panels created | ✅ | Functional |
+| **Economy System** | ResourceSpendingManager, ResourceHUD, InsufficientResourcesPopup | ✅ | **AAA Quality** |
+| UI Panels | 10 panels created | ✅ | Functional |
 
 ### 🔄 IN-PROGRESS: AR Mobile (85%)
 
@@ -347,6 +348,28 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 - Rich tooltips with full troop information
 - Resource cost integration with ResourceInventory
 
+### PC Client - Economy System (✅ NEWLY COMPLETED)
+
+| Component | Files | Features |
+|-----------|-------|----------|
+| Spending Manager | ResourceSpendingManager.cs (600+ lines) | 9 resource types, generation, transactions, persistence |
+| Resource HUD | ResourceHUD.cs (400+ lines) | Animated top bar, change popups, tooltips |
+| Insufficient Popup | InsufficientResourcesPopup.cs (350+ lines) | Missing resources display, shop shortcut |
+| Integration | EconomyIntegration.cs (200+ lines) | Extension methods, debug keys, auto-setup |
+
+**Economy System Features:**
+- 9 resource types: Stone, Wood, Iron, Crystal, ArcaneEssence, Gems, Gold, Food, Energy
+- Passive resource generation with configurable rates per minute
+- Offline generation calculation (capped at 8 hours)
+- Transaction history with rollback support
+- Animated HUD with floating +/- popups on resource changes
+- Capacity bars showing fill percentage
+- Tooltips with generation rate information
+- Insufficient resources popup auto-shows on failed purchases
+- Shop shortcut for IAP integration
+- Extension methods for easy spending from any system
+- Debug keys: F9 to add resources, F10 to reset
+
 ---
 
 ## IN-PROGRESS WORK
@@ -433,7 +456,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | 1 | Combat System UI & VFX | 2-3 | ✅ **DONE** |
 | 2 | Base Editor Integration | 2-3 | ✅ **DONE** |
 | 3 | Troop Training UI | 1-2 | ✅ **DONE** |
-| 4 | Resource Spending | 1 | ⏳ Next |
+| 4 | Resource Spending | 1 | ✅ **DONE** |
 | 5 | Battle Replay Viewer | 1-2 | ⏳ Next |
 
 ### Phase 7: Visual Excellence
