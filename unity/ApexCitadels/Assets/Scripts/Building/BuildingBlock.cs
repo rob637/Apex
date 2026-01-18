@@ -7,58 +7,89 @@ namespace ApexCitadels.Building
 {
     /// <summary>
     /// Types of building blocks available to players
+    /// Organized by category for editor palette
     /// </summary>
     public enum BlockType
     {
-        // Basic blocks (Foundations)
+        // ============ BASIC BLOCKS ============
         Stone,
         Wood,
         Metal,
         Glass,
+        Brick,
+        Concrete,
         Foundation,
 
-        // Walls
+        // ============ WALLS ============
         Wall,
         WallStone,
         WallWood,
         WallMetal,
         WallReinforced,
+        WallCorner,
+        WallGate,
+        WallWindow,
+        Battlement,
         Fence,
         Gate,
 
-        // Defensive structures
+        // ============ DEFENSE ============
         Tower,
-        ArrowTower,
-        CannonTower,
-        MageTower,
+        TowerArcher,
+        TowerCannon,
+        TowerMage,
         Turret,
         Trap,
+        TrapFire,
+        TrapPit,
         SpikeTrap,
+        Spikes,
         Barricade,
+        Moat,
 
-        // Production buildings
+        // ============ PRODUCTION ============
         Mine,
         Quarry,
         Sawmill,
+        Foundry,
         Forge,
+        Farm,
+        Generator,
         CrystalExtractor,
-        StorageVault,
+        ResourceNode,
 
-        // Decorative
+        // ============ MILITARY ============
+        Barracks,
+        Armory,
+        TrainingGround,
+        Workshop,
+        Stable,
+
+        // ============ STORAGE ============
+        Storage,
+        StorageVault,
+        Warehouse,
+        Treasury,
+        Silo,
+
+        // ============ DECORATIVE ============
         Flag,
         Banner,
         Torch,
+        Lamp,
         Pillar,
         Statue,
         Garden,
         Fountain,
+        Beacon,
 
-        // Special
-        Beacon,       // Marks territory center
-        ResourceNode, // Generates resources
-        CitadelCore,  // Territory claim structure
-        Portal,       // Fast travel point
-        AncientRelic, // Rare discovery
+        // ============ SPECIAL ============
+        CommandCenter,
+        CitadelCore,
+        Portal,
+        Shrine,
+        Altar,
+        AncientRelic,
 
         // Count marker (for iteration)
         Count
