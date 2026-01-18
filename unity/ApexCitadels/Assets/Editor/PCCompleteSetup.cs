@@ -486,6 +486,14 @@ namespace ApexCitadels.PC.Editor
                 Log("[Setup] Created VisualEnhancements");
             }
             
+            // PCResourceSystem - for resource ticking and management
+            if (Object.FindFirstObjectByType<PCResourceSystem>() == null)
+            {
+                var obj = new GameObject("PCResourceSystem");
+                obj.AddComponent<PCResourceSystem>();
+                Log("[Setup] Created PCResourceSystem");
+            }
+            
             Log("[Setup] ✅ Managers created");
         }
 

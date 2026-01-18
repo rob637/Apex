@@ -717,6 +717,28 @@ namespace ApexCitadels.PC
         }
 
         /// <summary>
+        /// Handle territory click from TerritoryVisual component
+        /// </summary>
+        public void HandleTerritoryClick(string territoryId)
+        {
+            Debug.Log($"[WorldMap] Territory clicked via TerritoryVisual: {territoryId}");
+            SelectTerritory(territoryId);
+            OnTerritoryClicked?.Invoke(territoryId);
+        }
+
+        /// <summary>
+        /// Handle territory hover from TerritoryVisual component
+        /// </summary>
+        public void HandleTerritoryHover(string territoryId)
+        {
+            if (_hoveredTerritoryId != territoryId)
+            {
+                _hoveredTerritoryId = territoryId;
+                OnTerritoryHovered?.Invoke(territoryId);
+            }
+        }
+
+        /// <summary>
         /// Select a territory
         /// </summary>
         public void SelectTerritory(string territoryId)
@@ -929,72 +951,100 @@ namespace ApexCitadels.PC
         public string TerritoryId { get; private set; }
         public string TerritoryName { get; private set; }
         public string OwnerId { get; private set; }
+        public string OwnerName { get; private set; }
         public int Level { get; private set; }
+        public int TerritoryLevel => Level;
 
         private bool _isSelected;
         private bool _isHovered;
-        private Renderer _renderer;
-        private Color _baseColor;
+        private Renderer[] _renderers;
+        private Color[] _baseColors;
+        private TerritoryInteractionFeedback _feedback;
+
+        private void Awake()
+        {
+            // Add interaction feedback component
+            _feedback = GetComponent<TerritoryInteractionFeedback>();
+            if (_feedback == null)
+            {
+                _feedback = gameObject.AddComponent<TerritoryInteractionFeedback>();
+            }
+        }
 
         public void Initialize(Territory.Territory territory)
         {
             TerritoryId = territory.Id;
             TerritoryName = territory.Name;
             OwnerId = territory.OwnerId;
+            OwnerName = territory.OwnerName;
             Level = territory.Level;
 
-            _renderer = GetComponentInChildren<Renderer>();
-            if (_renderer != null)
+            // Get all renderers and store base colors
+            _renderers = GetComponentsInChildren<Renderer>();
+            _baseColors = new Color[_renderers.Length];
+            for (int i = 0; i < _renderers.Length; i++)
             {
-                _baseColor = _renderer.material.color;
+                if (_renderers[i].material != null)
+                {
+                    _baseColors[i] = _renderers[i].material.color;
+                }
             }
+            
+            // Tag for raycasting
+            gameObject.tag = "Territory";
         }
 
         public void UpdateData(Territory.Territory territory)
         {
             TerritoryName = territory.Name;
             OwnerId = territory.OwnerId;
+            OwnerName = territory.OwnerName;
             Level = territory.Level;
         }
 
         public void SetSelected(bool selected)
         {
             _isSelected = selected;
-            UpdateVisual();
+            
+            if (selected)
+            {
+                _feedback?.OnSelect();
+            }
+            else
+            {
+                _feedback?.OnDeselect();
+            }
         }
 
         public void SetHovered(bool hovered)
         {
             _isHovered = hovered;
-            UpdateVisual();
-        }
-
-        private void UpdateVisual()
-        {
-            if (_renderer == null) return;
-
-            if (_isSelected)
+            
+            if (hovered)
             {
-                _renderer.material.color = Color.white;
-            }
-            else if (_isHovered)
-            {
-                _renderer.material.color = _baseColor * 1.3f;
+                _feedback?.OnHoverEnter();
             }
             else
             {
-                _renderer.material.color = _baseColor;
+                _feedback?.OnHoverExit();
             }
         }
 
         private void OnMouseEnter()
         {
             SetHovered(true);
+            WorldMapRenderer.Instance?.HandleTerritoryHover(TerritoryId);
         }
 
         private void OnMouseExit()
         {
             SetHovered(false);
+        }
+
+        private void OnMouseDown()
+        {
+            // Notify world map renderer of click
+            WorldMapRenderer.Instance?.HandleTerritoryClick(TerritoryId);
         }
     }
 }
