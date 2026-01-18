@@ -197,7 +197,15 @@ namespace ApexCitadels.PC.UI
             Image levelBg = levelBadge.AddComponent<Image>();
             levelBg.color = accentColor;
             
-            TextMeshProUGUI levelText = levelBadge.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(levelBadge.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI levelText = textObj.AddComponent<TextMeshProUGUI>();
             levelText.text = _profile.Level.ToString();
             levelText.fontSize = 16;
             levelText.fontStyle = FontStyles.Bold;

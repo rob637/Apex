@@ -404,7 +404,15 @@ namespace ApexCitadels.PC.UI
             Image bg = summary.AddComponent<Image>();
             bg.color = new Color(0.1f, 0.12f, 0.1f, 0.8f);
             
-            _progressSummaryText = summary.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(summary.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            _progressSummaryText = textObj.AddComponent<TextMeshProUGUI>();
             _progressSummaryText.fontSize = 14;
             _progressSummaryText.alignment = TextAlignmentOptions.Center;
             UpdateProgressSummary();

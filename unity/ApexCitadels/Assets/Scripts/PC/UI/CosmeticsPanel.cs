@@ -198,7 +198,16 @@ namespace ApexCitadels.PC.UI
             buyBg.color = new Color(0.3f, 0.6f, 0.3f);
             Button buyBtn = buyObj.AddComponent<Button>();
             buyBtn.onClick.AddListener(OnBuyGemsClicked);
-            TextMeshProUGUI buyText = buyObj.AddComponent<TextMeshProUGUI>();
+            
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(buyObj.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI buyText = textObj.AddComponent<TextMeshProUGUI>();
             buyText.text = "+";
             buyText.fontSize = 18;
             buyText.fontStyle = FontStyles.Bold;

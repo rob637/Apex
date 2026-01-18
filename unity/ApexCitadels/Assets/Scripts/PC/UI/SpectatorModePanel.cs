@@ -197,7 +197,15 @@ namespace ApexCitadels.PC.UI
             Image liveBg = liveObj.AddComponent<Image>();
             liveBg.color = liveColor;
             
-            TextMeshProUGUI liveText = liveObj.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(liveObj.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI liveText = textObj.AddComponent<TextMeshProUGUI>();
             liveText.text = "🔴 LIVE";
             liveText.fontSize = 14;
             liveText.fontStyle = FontStyles.Bold;

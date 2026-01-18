@@ -533,7 +533,15 @@ namespace ApexCitadels.PC.UI
             Image statusBg = statusObj.AddComponent<Image>();
             statusBg.color = new Color(0, 0, 0, 0.7f);
 
-            battleStatus = statusObj.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(statusObj.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            battleStatus = textObj.AddComponent<TextMeshProUGUI>();
             battleStatus.text = "Select a siege to view battlefield";
             battleStatus.fontSize = 18;
             battleStatus.alignment = TextAlignmentOptions.Center;

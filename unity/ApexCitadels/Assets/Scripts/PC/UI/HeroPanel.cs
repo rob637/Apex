@@ -327,7 +327,15 @@ namespace ApexCitadels.PC.UI
             Image portraitBg = portrait.AddComponent<Image>();
             portraitBg.color = new Color(0.15f, 0.15f, 0.2f);
             
-            TextMeshProUGUI portraitText = portrait.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(portrait.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI portraitText = textObj.AddComponent<TextMeshProUGUI>();
             portraitText.text = hero.Portrait;
             portraitText.fontSize = 32;
             portraitText.alignment = TextAlignmentOptions.Center;

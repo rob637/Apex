@@ -233,7 +233,15 @@ namespace ApexCitadels.PC.UI
             outline.effectColor = accentColor;
             outline.effectDistance = new Vector2(2, 2);
             
-            TextMeshProUGUI text = emblem.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(emblem.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             text.text = _guild.Emblem;
             text.fontSize = 40;
             text.alignment = TextAlignmentOptions.Center;

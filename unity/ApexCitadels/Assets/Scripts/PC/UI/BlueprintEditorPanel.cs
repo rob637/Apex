@@ -616,7 +616,15 @@ namespace ApexCitadels.PC.UI
             Image nameBg = nameOverlay.AddComponent<Image>();
             nameBg.color = new Color(0, 0, 0, 0.6f);
 
-            blueprintNameText = nameOverlay.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject textObj = new GameObject("Text");
+            textObj.transform.SetParent(nameOverlay.transform, false);
+            RectTransform textRect = textObj.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
+            blueprintNameText = textObj.AddComponent<TextMeshProUGUI>();
             blueprintNameText.text = "New Blueprint";
             blueprintNameText.fontSize = 16;
             blueprintNameText.fontStyle = FontStyles.Bold;
@@ -637,7 +645,15 @@ namespace ApexCitadels.PC.UI
             Image statsBg = statsOverlay.AddComponent<Image>();
             statsBg.color = new Color(0, 0, 0, 0.6f);
 
-            statsText = statsOverlay.AddComponent<TextMeshProUGUI>();
+            // Text as child
+            GameObject statsTextObj = new GameObject("Text");
+            statsTextObj.transform.SetParent(statsOverlay.transform, false);
+            RectTransform statsTextRect = statsTextObj.AddComponent<RectTransform>();
+            statsTextRect.anchorMin = Vector2.zero;
+            statsTextRect.anchorMax = Vector2.one;
+            statsTextRect.offsetMin = Vector2.zero;
+            statsTextRect.offsetMax = Vector2.zero;
+            statsText = statsTextObj.AddComponent<TextMeshProUGUI>();
             statsText.text = "Buildings: 0 | Cost: 0 | Defense: 0 | Production: 0";
             statsText.fontSize = 14;
             statsText.alignment = TextAlignmentOptions.Center;
