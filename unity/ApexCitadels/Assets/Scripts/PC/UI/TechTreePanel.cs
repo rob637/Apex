@@ -699,7 +699,7 @@ namespace ApexCitadels.PC.UI
             Image bg = node.AddComponent<Image>();
             bg.color = new Color(nodeColor.r * 0.3f, nodeColor.g * 0.3f, nodeColor.b * 0.3f);
             
-            Outline outline = node.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = node.AddComponent<Outline>();
             outline.effectColor = nodeColor;
             outline.effectDistance = new Vector2(2, 2);
             

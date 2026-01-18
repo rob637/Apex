@@ -636,7 +636,7 @@ namespace ApexCitadels.PC.UI
             bool isSelected = _selectedRegion?.RegionId == region.RegionId;
             if (isSelected)
             {
-                Outline outline = tile.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = tile.AddComponent<Outline>();
                 outline.effectColor = goldColor;
                 outline.effectDistance = new Vector2(3, 3);
             }

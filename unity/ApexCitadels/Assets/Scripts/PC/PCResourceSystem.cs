@@ -238,6 +238,50 @@ namespace ApexCitadels.PC
         }
 
         /// <summary>
+        /// Get current amount of a specific resource
+        /// </summary>
+        public float GetResource(ResourceType type)
+        {
+            return type switch
+            {
+                ResourceType.Gold => _gold,
+                ResourceType.Stone => _stone,
+                ResourceType.Wood => _wood,
+                ResourceType.Iron => _iron,
+                ResourceType.Crystal => _crystal,
+                ResourceType.ApexCoins => _apexCoins,
+                _ => 0f
+            };
+        }
+
+        /// <summary>
+        /// Spend a single resource type (returns false if insufficient)
+        /// </summary>
+        public bool SpendResource(ResourceType type, int amount)
+        {
+            if (GetResource(type) < amount)
+            {
+                Debug.Log($"[Resources] Insufficient {type}!");
+                return false;
+            }
+
+            switch (type)
+            {
+                case ResourceType.Gold: _gold -= amount; break;
+                case ResourceType.Stone: _stone -= amount; break;
+                case ResourceType.Wood: _wood -= amount; break;
+                case ResourceType.Iron: _iron -= amount; break;
+                case ResourceType.Crystal: _crystal -= amount; break;
+                case ResourceType.ApexCoins: _apexCoins -= amount; break;
+            }
+
+            OnResourceSpent?.Invoke(type, amount);
+            OnResourcesUpdated?.Invoke();
+            UpdateUI();
+            return true;
+        }
+
+        /// <summary>
         /// Spend resources (returns false if insufficient)
         /// </summary>
         public bool SpendResources(int gold = 0, int stone = 0, int wood = 0, int iron = 0, int crystal = 0)

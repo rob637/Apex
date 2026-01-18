@@ -467,7 +467,7 @@ namespace ApexCitadels.PC.UI
             Image bg = card.AddComponent<Image>();
             bg.color = new Color(statusColor.r * 0.2f, statusColor.g * 0.2f, statusColor.b * 0.2f);
             
-            Outline outline = card.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
             outline.effectColor = statusColor;
             outline.effectDistance = new Vector2(1, 1);
             
@@ -738,7 +738,7 @@ namespace ApexCitadels.PC.UI
             
             if (!msg.IsRead)
             {
-                Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
                 outline.effectColor = typeColor;
                 outline.effectDistance = new Vector2(1, 1);
             }

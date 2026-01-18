@@ -435,7 +435,7 @@ namespace ApexCitadels.PC
             // Notify UI
             PC.UI.PCUIManager.Instance?.ShowNotification(
                 $"Territory {territory.Name} is under attack!",
-                PC.UI.NotificationType.Combat
+                PC.UI.UIUINotificationType.Combat
             );
         }
 

@@ -645,7 +645,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public void LoadClipFromResources(string category, string id, string resourcePath)
         {
-            AudioClip clip = Resources.Load<AudioClip>(resourcePath);
+            AudioClip clip = UnityEngine.Resources.Load<AudioClip>(resourcePath);
             if (clip != null)
             {
                 switch (category.ToLower())

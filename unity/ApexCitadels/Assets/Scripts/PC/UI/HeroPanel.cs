@@ -303,7 +303,7 @@ namespace ApexCitadels.PC.UI
             
             if (isSelected)
             {
-                Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
                 outline.effectColor = rarityColor;
                 outline.effectDistance = new Vector2(2, 2);
             }

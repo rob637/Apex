@@ -489,7 +489,7 @@ namespace ApexCitadels.PC.UI
             bg.color = rarity == "empty" ? new Color(0.15f, 0.15f, 0.2f) : new Color(0.1f, 0.1f, 0.15f);
             
             // Border
-            Outline outline = slot.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = slot.AddComponent<Outline>();
             outline.effectColor = rarityColor;
             outline.effectDistance = new Vector2(2, 2);
             
@@ -626,7 +626,7 @@ namespace ApexCitadels.PC.UI
             Image bg = item.AddComponent<Image>();
             bg.color = unlocked ? new Color(0.15f, 0.15f, 0.2f) : new Color(0.1f, 0.1f, 0.1f, 0.5f);
             
-            Outline outline = item.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = item.AddComponent<Outline>();
             outline.effectColor = equipped ? Color.white : frameColor;
             outline.effectDistance = new Vector2(3, 3);
             

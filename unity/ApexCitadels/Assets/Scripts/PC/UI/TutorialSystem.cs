@@ -115,7 +115,7 @@ namespace ApexCitadels.PC.UI
             Image img = _highlightBox.AddComponent<Image>();
             img.color = Color.clear;
             
-            Outline outline = _highlightBox.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = _highlightBox.AddComponent<Outline>();
             outline.effectColor = highlightColor;
             outline.effectDistance = new Vector2(3, 3);
             

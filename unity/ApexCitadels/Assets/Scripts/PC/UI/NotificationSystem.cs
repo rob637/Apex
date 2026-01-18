@@ -520,6 +520,9 @@ namespace ApexCitadels.PC.UI
         {
             ShowToast($"+{amount:N0} {resource}", NotificationType.Resource, "Resources Collected");
         }
+
+        // Alias for ShowResourceGain
+        public void ShowResourceGained(string resource, int amount) => ShowResourceGain(resource, amount);
         
         public void ShowResourceSpent(string resource, int amount)
         {

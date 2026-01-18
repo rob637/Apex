@@ -378,7 +378,7 @@ namespace ApexCitadels.PC
                 $"Welcome to Apex Citadels!\n" +
                 $"Running on {platform}\n" +
                 $"Use WASD to pan, scroll to zoom, click territories to view.",
-                NotificationType.Info
+                UINotificationType.Info
             );
         }
 

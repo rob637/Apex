@@ -211,6 +211,25 @@ namespace ApexCitadels.PC
             }
         }
 
+        /// <summary>
+        /// Set camera sensitivity for user preferences
+        /// </summary>
+        public void SetSensitivity(float sensitivity)
+        {
+            panSpeed = Mathf.Clamp(sensitivity * 20f, 5f, 50f);
+            rotationSpeed = Mathf.Clamp(sensitivity * 100f, 20f, 200f);
+            Debug.Log($"[PCCamera] Sensitivity set to {sensitivity:F2}");
+        }
+
+        /// <summary>
+        /// Enable/disable edge panning feature
+        /// </summary>
+        public void SetEdgePanning(bool enabled)
+        {
+            enableEdgePanning = enabled;
+            Debug.Log($"[PCCamera] Edge panning: {enabled}");
+        }
+
         #endregion
 
         #region World Map Mode

@@ -519,7 +519,7 @@ namespace ApexCitadels.PC.UI
             Image bg = queueItem.AddComponent<Image>();
             bg.color = new Color(0.1f, 0.12f, 0.08f);
             
-            Outline outline = queueItem.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = queueItem.AddComponent<Outline>();
             outline.effectColor = upgradeColor;
             outline.effectDistance = new Vector2(1, 1);
             
@@ -708,7 +708,7 @@ namespace ApexCitadels.PC.UI
             
             if (isSelected || isMaxLevel)
             {
-                Outline outline = card.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = card.AddComponent<Outline>();
                 outline.effectColor = isMaxLevel ? maxLevelColor : accentColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
@@ -1049,7 +1049,7 @@ namespace ApexCitadels.PC.UI
             Image bg = maxInfo.AddComponent<Image>();
             bg.color = new Color(maxLevelColor.r * 0.2f, maxLevelColor.g * 0.2f, maxLevelColor.b * 0.2f);
             
-            Outline outline = maxInfo.AddComponent<Outline>();
+            UnityEngine.UI.Outline outline = maxInfo.AddComponent<Outline>();
             outline.effectColor = maxLevelColor;
             outline.effectDistance = new Vector2(2, 2);
             

@@ -603,7 +603,7 @@ namespace ApexCitadels.PC.UI
             
             if (isSelected || item.Rarity >= ItemRarity.Rare)
             {
-                Outline outline = slot.AddComponent<Outline>();
+                UnityEngine.UI.Outline outline = slot.AddComponent<Outline>();
                 outline.effectColor = rarityColor;
                 outline.effectDistance = new Vector2(2, 2);
             }
