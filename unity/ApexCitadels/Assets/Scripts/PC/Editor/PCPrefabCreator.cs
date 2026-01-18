@@ -59,15 +59,16 @@ namespace ApexCitadels.PC
 
         private static void CreateSpecificPanel(GameObject basePanelPrefab, string name, string title, Color color)
         {
-            // Instantiate base
-            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(basePanelPrefab);
+            // Instantiate base (regular Instantiate because basePanelPrefab is a scene object, not a disk asset)
+            GameObject instance = Object.Instantiate(basePanelPrefab);
             instance.name = name;
             
             // Customize
             var bg = instance.GetComponent<Image>();
             if (bg) bg.color = color;
             
-            var titleObj = instance.transform.Find("Title/Text");
+            // Find title (Path: Header -> Title)
+            var titleObj = instance.transform.Find("Header/Title");
             if (titleObj)
             {
                 var tmp = titleObj.GetComponent<TextMeshProUGUI>();
@@ -78,7 +79,10 @@ namespace ApexCitadels.PC
             if (name == "TerritoryDetailPanel") instance.AddComponent<ApexCitadels.PC.UI.TerritoryDetailPanel>();
             if (name == "BuildMenuPanel") instance.AddComponent<ApexCitadels.PC.UI.BuildMenuPanel>();
             if (name == "AlliancePanel") instance.AddComponent<ApexCitadels.PC.UI.AlliancePanel>();
-            // Add others as needed...
+            
+            // Add CanvasGroup if missing (useful for fading)
+            if (instance.GetComponent<CanvasGroup>() == null)
+                instance.AddComponent<CanvasGroup>();
 
             // Save as new prefab
             string path = $"{PREFAB_PATH}/{name}.prefab";
