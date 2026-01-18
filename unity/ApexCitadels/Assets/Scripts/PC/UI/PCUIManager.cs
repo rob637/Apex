@@ -103,7 +103,7 @@ namespace ApexCitadels.PC.UI
             if (worldMapPanel == null)
                 worldMapPanel = CreateWorldMapHUD(canvas.transform); // Special minimal HUD for world map
             if (territoryDetailPanel == null)
-                territoryDetailPanel = CreatePlaceholderPanel(canvas.transform, "TerritoryDetail", "Territory Details", new Color(0.1f, 0.1f, 0.1f, 0.95f));
+                territoryDetailPanel = CreateTerritoryDetailPanel(canvas.transform);
             if (alliancePanel == null)
                 alliancePanel = CreatePlaceholderPanel(canvas.transform, "Alliance", "Alliance", new Color(0.1f, 0.05f, 0.15f, 0.95f));
             if (buildMenuPanel == null)
@@ -258,6 +258,159 @@ namespace ApexCitadels.PC.UI
             tmp.color = Color.white;
 
             Debug.Log("[PCUI] Created World Map HUD (minimal)");
+            return panel;
+        }
+
+        /// <summary>
+        /// Creates a functional Territory Detail panel with TerritoryDetailPanel component
+        /// </summary>
+        private GameObject CreateTerritoryDetailPanel(Transform parent)
+        {
+            GameObject panel = new GameObject("TerritoryDetailPanel");
+            panel.transform.SetParent(parent, false);
+
+            RectTransform rect = panel.AddComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.6f, 0.1f); // Right side of screen
+            rect.anchorMax = new Vector2(0.98f, 0.9f);
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            // Background
+            UnityEngine.UI.Image bg = panel.AddComponent<UnityEngine.UI.Image>();
+            bg.color = new Color(0.05f, 0.08f, 0.12f, 0.95f);
+
+            // Create header area
+            GameObject header = new GameObject("Header");
+            header.transform.SetParent(panel.transform, false);
+            RectTransform headerRect = header.AddComponent<RectTransform>();
+            headerRect.anchorMin = new Vector2(0, 0.85f);
+            headerRect.anchorMax = new Vector2(1, 1f);
+            headerRect.offsetMin = new Vector2(10, 5);
+            headerRect.offsetMax = new Vector2(-10, -5);
+
+            // Territory Name
+            GameObject nameObj = new GameObject("TerritoryName");
+            nameObj.transform.SetParent(header.transform, false);
+            RectTransform nameRect = nameObj.AddComponent<RectTransform>();
+            nameRect.anchorMin = new Vector2(0, 0.5f);
+            nameRect.anchorMax = new Vector2(0.8f, 1f);
+            nameRect.offsetMin = Vector2.zero;
+            nameRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI nameText = nameObj.AddComponent<TextMeshProUGUI>();
+            nameText.text = "Territory Name";
+            nameText.fontSize = 32;
+            nameText.fontStyle = FontStyles.Bold;
+            nameText.color = Color.white;
+
+            // Level
+            GameObject levelObj = new GameObject("Level");
+            levelObj.transform.SetParent(header.transform, false);
+            RectTransform levelRect = levelObj.AddComponent<RectTransform>();
+            levelRect.anchorMin = new Vector2(0, 0);
+            levelRect.anchorMax = new Vector2(0.5f, 0.5f);
+            levelRect.offsetMin = Vector2.zero;
+            levelRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI levelText = levelObj.AddComponent<TextMeshProUGUI>();
+            levelText.text = "Level 1";
+            levelText.fontSize = 20;
+            levelText.color = new Color(1f, 0.9f, 0.4f);
+
+            // Close button
+            GameObject closeBtn = new GameObject("CloseButton");
+            closeBtn.transform.SetParent(header.transform, false);
+            RectTransform closeBtnRect = closeBtn.AddComponent<RectTransform>();
+            closeBtnRect.anchorMin = new Vector2(0.9f, 0.6f);
+            closeBtnRect.anchorMax = new Vector2(1f, 1f);
+            closeBtnRect.offsetMin = Vector2.zero;
+            closeBtnRect.offsetMax = Vector2.zero;
+            UnityEngine.UI.Image closeBtnImg = closeBtn.AddComponent<UnityEngine.UI.Image>();
+            closeBtnImg.color = new Color(0.8f, 0.2f, 0.2f);
+            Button closeButton = closeBtn.AddComponent<Button>();
+            closeButton.targetGraphic = closeBtnImg;
+            closeButton.onClick.AddListener(() => ClosePanel(PCUIPanel.TerritoryDetail));
+
+            GameObject xText = new GameObject("X");
+            xText.transform.SetParent(closeBtn.transform, false);
+            RectTransform xRect = xText.AddComponent<RectTransform>();
+            xRect.anchorMin = Vector2.zero;
+            xRect.anchorMax = Vector2.one;
+            xRect.offsetMin = Vector2.zero;
+            xRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI xTmp = xText.AddComponent<TextMeshProUGUI>();
+            xTmp.text = "X";
+            xTmp.fontSize = 24;
+            xTmp.alignment = TextAlignmentOptions.Center;
+            xTmp.color = Color.white;
+
+            // Content area
+            GameObject content = new GameObject("Content");
+            content.transform.SetParent(panel.transform, false);
+            RectTransform contentRect = content.AddComponent<RectTransform>();
+            contentRect.anchorMin = new Vector2(0.05f, 0.1f);
+            contentRect.anchorMax = new Vector2(0.95f, 0.83f);
+            contentRect.offsetMin = Vector2.zero;
+            contentRect.offsetMax = Vector2.zero;
+
+            // Info text that will be updated
+            GameObject infoObj = new GameObject("InfoText");
+            infoObj.transform.SetParent(content.transform, false);
+            RectTransform infoRect = infoObj.AddComponent<RectTransform>();
+            infoRect.anchorMin = Vector2.zero;
+            infoRect.anchorMax = Vector2.one;
+            infoRect.offsetMin = Vector2.zero;
+            infoRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI infoText = infoObj.AddComponent<TextMeshProUGUI>();
+            infoText.text = "Select a territory to view details.\n\nClick on any citadel on the map.";
+            infoText.fontSize = 18;
+            infoText.alignment = TextAlignmentOptions.TopLeft;
+            infoText.color = new Color(0.85f, 0.85f, 0.85f);
+
+            // Action buttons row
+            GameObject buttons = new GameObject("ActionButtons");
+            buttons.transform.SetParent(panel.transform, false);
+            RectTransform buttonsRect = buttons.AddComponent<RectTransform>();
+            buttonsRect.anchorMin = new Vector2(0.05f, 0.02f);
+            buttonsRect.anchorMax = new Vector2(0.95f, 0.09f);
+            buttonsRect.offsetMin = Vector2.zero;
+            buttonsRect.offsetMax = Vector2.zero;
+
+            // Create action buttons
+            string[] buttonNames = { "Attack", "Defend", "Build", "Upgrade" };
+            float buttonWidth = 1f / buttonNames.Length;
+            for (int i = 0; i < buttonNames.Length; i++)
+            {
+                GameObject btnObj = new GameObject(buttonNames[i] + "Button");
+                btnObj.transform.SetParent(buttons.transform, false);
+                RectTransform btnRect = btnObj.AddComponent<RectTransform>();
+                btnRect.anchorMin = new Vector2(i * buttonWidth + 0.01f, 0);
+                btnRect.anchorMax = new Vector2((i + 1) * buttonWidth - 0.01f, 1);
+                btnRect.offsetMin = Vector2.zero;
+                btnRect.offsetMax = Vector2.zero;
+
+                UnityEngine.UI.Image btnImg = btnObj.AddComponent<UnityEngine.UI.Image>();
+                btnImg.color = new Color(0.2f, 0.35f, 0.5f);
+                Button btn = btnObj.AddComponent<Button>();
+                btn.targetGraphic = btnImg;
+
+                GameObject btnTextObj = new GameObject("Text");
+                btnTextObj.transform.SetParent(btnObj.transform, false);
+                RectTransform btnTextRect = btnTextObj.AddComponent<RectTransform>();
+                btnTextRect.anchorMin = Vector2.zero;
+                btnTextRect.anchorMax = Vector2.one;
+                btnTextRect.offsetMin = Vector2.zero;
+                btnTextRect.offsetMax = Vector2.zero;
+                TextMeshProUGUI btnText = btnTextObj.AddComponent<TextMeshProUGUI>();
+                btnText.text = buttonNames[i];
+                btnText.fontSize = 16;
+                btnText.alignment = TextAlignmentOptions.Center;
+                btnText.color = Color.white;
+            }
+
+            // Add TerritoryDetailPanel component and wire references
+            TerritoryDetailPanel detailPanel = panel.AddComponent<TerritoryDetailPanel>();
+            // Wire up serialized fields via reflection or let the component find them
+            
+            Debug.Log("[PCUI] Created Territory Detail Panel with full layout");
             return panel;
         }
 

@@ -478,6 +478,14 @@ namespace ApexCitadels.PC.Editor
                 Log("[Setup] Created Territories container");
             }
             
+            // VisualEnhancements - for skybox, particles, glow effects
+            if (Object.FindFirstObjectByType<VisualEnhancements>() == null)
+            {
+                var obj = new GameObject("VisualEnhancements");
+                obj.AddComponent<VisualEnhancements>();
+                Log("[Setup] Created VisualEnhancements");
+            }
+            
             Log("[Setup] ✅ Managers created");
         }
 

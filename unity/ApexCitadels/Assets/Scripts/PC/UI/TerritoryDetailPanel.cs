@@ -66,10 +66,41 @@ namespace ApexCitadels.PC.UI
         // State
         private Territory.Territory _currentTerritory;
         private List<ActivityLogEntry> _activityLog = new List<ActivityLogEntry>();
+        
+        // Dynamic components found at runtime
+        private TextMeshProUGUI _dynamicNameText;
+        private TextMeshProUGUI _dynamicLevelText;
+        private TextMeshProUGUI _dynamicInfoText;
 
         private void Awake()
         {
+            FindDynamicComponents();
             SetupButtonListeners();
+        }
+
+        /// <summary>
+        /// Find UI components if not assigned (for dynamically created panels)
+        /// </summary>
+        private void FindDynamicComponents()
+        {
+            if (territoryNameText == null)
+            {
+                var nameObj = transform.Find("Header/TerritoryName");
+                if (nameObj != null)
+                    _dynamicNameText = nameObj.GetComponent<TextMeshProUGUI>();
+            }
+            
+            if (levelText == null)
+            {
+                var levelObj = transform.Find("Header/Level");
+                if (levelObj != null)
+                    _dynamicLevelText = levelObj.GetComponent<TextMeshProUGUI>();
+            }
+            
+            // Find info text in content
+            var infoObj = transform.Find("Content/InfoText");
+            if (infoObj != null)
+                _dynamicInfoText = infoObj.GetComponent<TextMeshProUGUI>();
         }
 
         private void SetupButtonListeners()
@@ -106,17 +137,57 @@ namespace ApexCitadels.PC.UI
         {
             if (_currentTerritory == null) return;
 
-            // Header
-            if (territoryNameText != null)
-                territoryNameText.text = _currentTerritory.Name;
-            if (levelText != null)
-                levelText.text = $"Level {_currentTerritory.Level}";
+            Debug.Log($"[TerritoryPanel] Displaying territory: {_currentTerritory.Name}");
+
+            // Header - use serialized or dynamic
+            TextMeshProUGUI nameDisplay = territoryNameText ?? _dynamicNameText;
+            TextMeshProUGUI levelDisplay = levelText ?? _dynamicLevelText;
+            
+            if (nameDisplay != null)
+                nameDisplay.text = _currentTerritory.Name;
+            if (levelDisplay != null)
+                levelDisplay.text = $"★ Level {_currentTerritory.Level}";
+
+            // Update dynamic info text with comprehensive territory data
+            if (_dynamicInfoText != null)
+            {
+                string ownerInfo = string.IsNullOrEmpty(_currentTerritory.OwnerName) 
+                    ? "Unclaimed" 
+                    : $"Owner: {_currentTerritory.OwnerName}";
+                    
+                string healthInfo = $"Health: {_currentTerritory.Health}/{_currentTerritory.MaxHealth}";
+                float healthPercent = (float)_currentTerritory.Health / Mathf.Max(1, _currentTerritory.MaxHealth) * 100f;
+                
+                string stateInfo = _currentTerritory.IsContested ? "⚔️ CONTESTED" : "🛡️ Secure";
+                
+                string allianceInfo = string.IsNullOrEmpty(_currentTerritory.AllianceId) 
+                    ? "No Alliance" 
+                    : $"Alliance: {_currentTerritory.AllianceId}";
+                
+                string locationInfo = $"Location: {_currentTerritory.CenterLatitude:F4}, {_currentTerritory.CenterLongitude:F4}";
+                string radiusInfo = $"Radius: {_currentTerritory.RadiusMeters}m";
+                
+                _dynamicInfoText.text = $@"<b>{ownerInfo}</b>
+{stateInfo}
+
+<color=#88ff88>{healthInfo}</color> ({healthPercent:F0}%)
+
+{allianceInfo}
+{locationInfo}
+{radiusInfo}
+
+<color=#aaaaaa>Buildings: {_currentTerritory.CurrentBlocks}/{_currentTerritory.MaxBlocks}
+Troops Stationed: {_currentTerritory.DefenseStrength}
+Income Rate: +{_currentTerritory.Level * 10}/hr</color>
+
+<color=#ffff88>Click a button below to interact!</color>";
+            }
 
             // Health
             UpdateHealthDisplay();
 
             // Stats
-            UpdateStatsDisplay();
+            UpdateStatsDisplay();;
 
             // Action buttons
             UpdateActionButtons();

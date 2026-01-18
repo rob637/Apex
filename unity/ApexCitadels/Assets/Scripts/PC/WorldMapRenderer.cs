@@ -181,6 +181,34 @@ namespace ApexCitadels.PC
             }
 
             UpdateHoveredTerritory();
+            
+            // Direct click detection as fallback (in case PCInputManager is not wired)
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Don't click if over UI
+                if (UnityEngine.EventSystems.EventSystem.current != null && 
+                    UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }
+                
+                Debug.Log("[WorldMap] Direct click detected");
+                
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit, 10000f))
+                {
+                    Debug.Log($"[WorldMap] Raycast hit: {hit.collider.gameObject.name}");
+                    
+                    TerritoryVisual visual = hit.collider.GetComponent<TerritoryVisual>() ?? 
+                                              hit.collider.GetComponentInParent<TerritoryVisual>();
+                    if (visual != null)
+                    {
+                        Debug.Log($"[WorldMap] Territory clicked: {visual.TerritoryId}");
+                        SelectTerritory(visual.TerritoryId);
+                        OnTerritoryClicked?.Invoke(visual.TerritoryId);
+                    }
+                }
+            }
         }
 
         private void OnDestroy()
