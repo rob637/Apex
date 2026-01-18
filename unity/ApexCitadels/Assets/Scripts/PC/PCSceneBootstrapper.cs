@@ -198,6 +198,9 @@ namespace ApexCitadels.PC
             sun.shadows = LightShadows.Soft;
             sun.shadowStrength = 0.8f;
             sunObj.transform.rotation = Quaternion.Euler(50f, -30f, 0);
+            
+            // Add Day/Night cycle
+            sunObj.AddComponent<DayNightCycle>();
 
             // Add ambient light adjustment
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
@@ -241,8 +244,19 @@ namespace ApexCitadels.PC
             Renderer renderer = ground.GetComponent<Renderer>();
             Shader shader = Shader.Find("Universal Render Pipeline/Lit") 
                          ?? Shader.Find("Universal Render Pipeline/Simple Lit")
-                         ?? Shader.Find("Standard");
-            Material groundMat = new Material(shader);
+                         ?? Shader.Find("Standard")
+                         ?? Shader.Find("Sprites/Default");
+            
+            Material groundMat;
+            if (shader != null)
+            {
+                groundMat = new Material(shader);
+            }
+            else
+            {
+                // Fallback prevents null shader exception
+                groundMat = new Material(renderer.sharedMaterial); 
+            }
             
             // URP uses _BaseColor, Standard uses _Color
             if (groundMat.HasProperty("_BaseColor"))

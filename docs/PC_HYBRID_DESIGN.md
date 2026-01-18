@@ -810,6 +810,54 @@ iOS: Build → Xcode Project → Archive in Xcode
 
 ---
 
+## PART E: CODESPACE ↔ LOCAL WORKFLOW
+
+Since Unity Editor cannot run in Codespaces, we use a Git-based workflow to sync changes between the cloud environment (Code/Backend) and your local machine (Unity Editor/Builds).
+
+### E1. From Codespace to Local (Update Logic)
+*Use this when you've written C# scripts or cloud functions in Codespace and need to apply them in Unity.*
+
+1. **CODESPACE:** Save all changes.
+2. **CODESPACE:** Commit and push:
+   ```bash
+   git add .
+   git commit -m "Dev: Updated scripts from Codespace"
+   git push
+   ```
+3. **LOCAL MACHINE:** Pull changes:
+   ```bash
+   git pull
+   ```
+4. **LOCAL MACHINE:** Open Unity Editor. It will auto-compile the new scripts.
+
+### E2. From Local to Codespace (Sync Build/Scene)
+*Use this when you've edited scenes, prefabs, or built the WebGL client locally.*
+
+1. **LOCAL MACHINE:** Build WebGL (if needed):
+   - File → Build Settings → Build
+   - Target: `backend/hosting-pc/build`
+2. **LOCAL MACHINE:** Commit and push:
+   ```bash
+   git add .
+   # Ensure you add the build folder contents
+   git commit -m "Dev: Updated Unity Scene/Build from Local"
+   git push
+   ```
+3. **CODESPACE:** Pull changes:
+   ```bash
+   git pull
+   ```
+4. **CODESPACE:** Deploy (if build was updated):
+   ```bash
+   firebase deploy --only hosting:pc
+   ```
+
+### E3. Troubleshooting Sync
+- **Merge Conflicts:** If you edited the same file on both ends, resolve conflicts in VS Code (Codespace) usually, or locally if it's a Unity binary helper file.
+- **Meta Files:** Always commit `.meta` files that Unity generates. Never ignore them.
+
+---
+
 ## QUICK REFERENCE
 
 ### Live URLs

@@ -367,8 +367,22 @@ namespace ApexCitadels.Territory
                 return enemyTerritoryMaterial;
             }
 
-            // Fallback: create basic material
-            Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            // Fallback: create basic material with safe shader lookup
+            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null) shader = Shader.Find("Standard");
+            if (shader == null) shader = Shader.Find("Sprites/Default");
+            
+            Material mat;
+            if (shader != null) {
+                mat = new Material(shader);
+            } else {
+                // If all else fails, try to use a default material from a primitive
+                // preventing the ArgumentNullException
+                GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                mat = new Material(temp.GetComponent<Renderer>().sharedMaterial);
+                Destroy(temp);
+            }
+
             if (territory.OwnerId == _currentPlayerId)
             {
                 mat.color = new Color(0, 1, 0, 0.3f); // Green for owned

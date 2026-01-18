@@ -779,8 +779,14 @@ namespace ApexCitadels.PC
             }
             else
             {
-                lr.material = new Material(Shader.Find("Sprites/Default"));
-                lr.material.color = gridColor;
+                Shader s = Shader.Find("Sprites/Default");
+                if (s == null) s = Shader.Find("Standard"); 
+                
+                if (s != null)
+                {
+                    lr.material = new Material(s);
+                    lr.material.color = gridColor;
+                }
             }
         }
 

@@ -390,10 +390,20 @@ namespace ApexCitadels.WorldSeed
             var renderer = obj.GetComponent<Renderer>();
             if (renderer != null)
             {
-                renderer.material = new Material(Shader.Find("Standard"));
-                renderer.material.color = undiscoveredColor;
+                Shader s = Shader.Find("Standard") ?? Shader.Find("Universal Render Pipeline/Lit");
+                if (s != null)
+                    renderer.material = new Material(s);
+                else if (renderer.sharedMaterial != null)
+                    renderer.material = new Material(renderer.sharedMaterial); // Fallback
+                    
+                if (renderer.material.HasProperty("_Color"))
+                    renderer.material.color = undiscoveredColor;
+                else if (renderer.material.HasProperty("_BaseColor"))
+                    renderer.material.SetColor("_BaseColor", undiscoveredColor);
+                    
                 renderer.material.EnableKeyword("_EMISSION");
-                renderer.material.SetColor("_EmissionColor", undiscoveredColor * 0.5f);
+                if (renderer.material.HasProperty("_EmissionColor"))
+                    renderer.material.SetColor("_EmissionColor", undiscoveredColor * 0.5f);
             }
 
             return obj;
@@ -413,7 +423,11 @@ namespace ApexCitadels.WorldSeed
             line.endWidth = 0.1f;
 
             Color color = _discoveredSeeds.Contains(seed.id) ? discoveredColor : undiscoveredColor;
-            line.material = new Material(Shader.Find("Sprites/Default"));
+            
+            Shader s = Shader.Find("Sprites/Default") ?? Shader.Find("Standard");
+            if (s != null)
+                line.material = new Material(s);
+            
             line.startColor = color;
             line.endColor = new Color(color.r, color.g, color.b, 0f);
         }

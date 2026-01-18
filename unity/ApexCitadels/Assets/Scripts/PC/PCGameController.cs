@@ -183,6 +183,7 @@ namespace ApexCitadels.PC
             {
                 inputManager.OnToggleMapTerritoryView += HandleToggleView;
                 inputManager.OnOpenMenu += HandleOpenMenu;
+                inputManager.OnCycleCameraMode += HandleCycleCameraMode;
             }
 
             // Base editor
@@ -223,6 +224,18 @@ namespace ApexCitadels.PC
                 case PCClientState.Cinematic:
                     cameraController?.EnterCinematicMode();
                     break;
+            }
+        }
+
+        private void HandleCycleCameraMode()
+        {
+            if (_currentState == PCClientState.Cinematic)
+            {
+                SetState(PCClientState.WorldMap);
+            }
+            else
+            {
+                SetState(PCClientState.Cinematic);
             }
         }
 

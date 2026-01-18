@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.PC.WebGL;
 
 namespace ApexCitadels.PC
 {
@@ -428,23 +430,41 @@ namespace ApexCitadels.PC
 
         private Vector3[] GenerateCinematicPath()
         {
-            // Generate a circular tour path
+            // Try to get territories from WorldMapRenderer
+            if (WorldMapRenderer.Instance != null && WorldMapRenderer.Instance.AllTerritories != null && WorldMapRenderer.Instance.AllTerritories.Count > 0)
+            {
+                var territories = WorldMapRenderer.Instance.AllTerritories;
+                int count = Mathf.Min(territories.Count, 10);
+                Vector3[] path = new Vector3[count];
+
+                for (int i = 0; i < count; i++)
+                {
+                    var t = territories[i];
+                    Vector3 worldPos = WorldMapRenderer.Instance.GPSToWorldPosition(t.latitude, t.longitude);
+                    worldPos.y += 50f; // Height above territory
+                    path[i] = worldPos;
+                }
+                
+                return path;
+            }
+
+            // Generate a circular tour path (Fallback)
             int numPoints = 8;
-            Vector3[] path = new Vector3[numPoints];
+            Vector3[] circularPath = new Vector3[numPoints];
             float radius = 100f;
             float height = 50f;
 
             for (int i = 0; i < numPoints; i++)
             {
                 float angle = (i / (float)numPoints) * Mathf.PI * 2;
-                path[i] = new Vector3(
+                circularPath[i] = new Vector3(
                     Mathf.Cos(angle) * radius,
                     height,
                     Mathf.Sin(angle) * radius
                 );
             }
 
-            return path;
+            return circularPath;
         }
 
         #endregion

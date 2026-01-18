@@ -64,6 +64,7 @@ namespace ApexCitadels.PC
         // Firebase client for real data
         private FirebaseWebClient _firebaseClient;
         private List<TerritorySnapshot> _cachedTerritories = new List<TerritorySnapshot>();
+        public List<TerritorySnapshot> AllTerritories => _cachedTerritories;
         private bool _isLoadingTerritories = false;
 
         private void Awake()
@@ -239,13 +240,26 @@ namespace ApexCitadels.PC
         private Material CreateSafeLineMaterial(Color color)
         {
             // For LineRenderer, use the default material which is always available
-            Material mat = new Material(Shader.Find("Hidden/Internal-Colored"));
+            Material mat = null;
+            Shader shader = Shader.Find("Hidden/Internal-Colored");
+            if (shader != null)
+            {
+                mat = new Material(shader);
+            }
+
             if (mat == null || mat.shader == null)
             {
                 // Fallback: create from a primitive's material
                 var temp = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                mat = new Material(temp.GetComponent<Renderer>().sharedMaterial);
-                DestroyImmediate(temp);
+                if (temp != null)
+                {
+                    Renderer r = temp.GetComponent<Renderer>();
+                    if (r != null && r.sharedMaterial != null)
+                    {
+                        mat = new Material(r.sharedMaterial);
+                    }
+                    DestroyImmediate(temp);
+                }
             }
             if (mat != null)
             {
