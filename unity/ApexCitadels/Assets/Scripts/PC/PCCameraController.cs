@@ -20,11 +20,11 @@ namespace ApexCitadels.PC
         [SerializeField] private PCCameraMode defaultMode = PCCameraMode.WorldMap;
 
         [Header("World Map Settings")]
-        [SerializeField] private float worldMapHeight = 500f;
-        [SerializeField] private float worldMapMinHeight = 100f;
+        [SerializeField] private float worldMapHeight = 200f;  // Start closer to see territories
+        [SerializeField] private float worldMapMinHeight = 50f;
         [SerializeField] private float worldMapMaxHeight = 2000f;
-        [SerializeField] private float worldMapPanSpeed = 100f;
-        [SerializeField] private float worldMapZoomSpeed = 50f;
+        [SerializeField] private float worldMapPanSpeed = 150f;
+        [SerializeField] private float worldMapZoomSpeed = 100f;
 
         [Header("Territory View Settings")]
         [SerializeField] private float territoryViewHeight = 50f;
@@ -95,7 +95,7 @@ namespace ApexCitadels.PC
             // Setup camera defaults
             _camera.clearFlags = CameraClearFlags.Skybox;
             _camera.nearClipPlane = 0.3f;
-            _camera.farClipPlane = 5000f;
+            _camera.farClipPlane = 10000f;  // Far enough to see distant territories
         }
 
         private void Start()
