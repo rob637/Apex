@@ -53,7 +53,7 @@ namespace ApexCitadels.PC.UI
                 int min = Mathf.FloorToInt((DayNightCycle.Instance.CurrentHour - hour) * 60);
                 string ampm = hour >= 12 ? "PM" : "AM";
                 int displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-                _timeText.text = $"{UI.GameIcons.Get(UI.GameIcons.Icon.Clock)} {displayHour}:{min:00} {ampm}";
+                _timeText.text = $"{GameIcons.Clock} {displayHour}:{min:00} {ampm}";
             }
         }
 
@@ -113,13 +113,13 @@ namespace ApexCitadels.PC.UI
         {
             // Use GameIcons for proper sprite rendering
             // Gold
-            _goldText = CreateResourceItem(UI.GameIcons.Gold, "0", new Color(1f, 0.85f, 0f));
+            _goldText = CreateResourceItem(GameIcons.Gold, "0", new Color(1f, 0.85f, 0f));
             
             // Crystal  
-            _crystalText = CreateResourceItem(UI.GameIcons.Gems, "0", new Color(0.3f, 0.8f, 1f));
+            _crystalText = CreateResourceItem(GameIcons.Gems, "0", new Color(0.3f, 0.8f, 1f));
             
             // ApexCoins (premium)
-            _apexCoinsText = CreateResourceItem(UI.GameIcons.ApexCoins, "0", new Color(0.8f, 0.3f, 0.9f));
+            _apexCoinsText = CreateResourceItem(GameIcons.ApexCoins, "0", new Color(0.8f, 0.3f, 0.9f));
         }
 
         private TextMeshProUGUI CreateResourceItem(string icon, string value, Color color)
@@ -187,7 +187,7 @@ namespace ApexCitadels.PC.UI
             levelObj.transform.SetParent(center.transform, false);
             
             _playerLevelText = levelObj.AddComponent<TextMeshProUGUI>();
-            _playerLevelText.text = $"{UI.GameIcons.StarFilled} Level 1";
+            _playerLevelText.text = $"{GameIcons.StarFilled} Level 1";
             _playerLevelText.fontSize = 18;
             _playerLevelText.fontStyle = FontStyles.Bold;
             _playerLevelText.alignment = TextAlignmentOptions.Center;
@@ -201,7 +201,7 @@ namespace ApexCitadels.PC.UI
             timeObj.transform.SetParent(center.transform, false);
             
             _timeText = timeObj.AddComponent<TextMeshProUGUI>();
-            _timeText.text = $"{UI.GameIcons.Get(UI.GameIcons.Icon.Clock)} 12:00 PM";
+            _timeText.text = $"{GameIcons.Clock} 12:00 PM";
             _timeText.fontSize = 14;
             _timeText.alignment = TextAlignmentOptions.Center;
             _timeText.color = new Color(0.7f, 0.7f, 0.7f);
