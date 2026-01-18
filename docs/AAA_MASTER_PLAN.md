@@ -137,7 +137,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Moderation | ✅ | Reports, bans |
 | Settings | ✅ | Feature toggles |
 
-### 🔄 IN-PROGRESS: PC Client (75%)
+### 🔄 IN-PROGRESS: PC Client (80%)
 
 | System | Scripts | Status | Quality |
 |--------|---------|--------|---------|
@@ -150,6 +150,8 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Visual Effects | AAAVisualEffects, TerritoryEffects | ✅ | Foundation |
 | **Combat VFX** | CombatVFX, DamageNumbers, CombatCameraEffects | ✅ | **AAA Quality** |
 | **Combat Audio** | CombatAudioSFX (procedural placeholder sounds) | ✅ | Foundation |
+| **Base Editor** | BaseEditorPanel, EditorCameraController, BlockPlacementController | ✅ | **AAA Quality** |
+| **Resource System** | ResourceInventory (8 types, events, persistence) | ✅ | Production |
 | UI Panels | 8 panels created | ✅ | Functional |
 
 ### 🔄 IN-PROGRESS: AR Mobile (85%)
@@ -299,6 +301,28 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Audio SFX | CombatAudioSFX.cs | 25+ procedural sounds (sword, arrow, explosion, victory) |
 | Integration | CombatEffectsIntegration.cs | Central coordinator for all combat effects |
 
+### PC Client - Base Editor System (✅ NEWLY COMPLETED)
+
+| Component | Files | Features |
+|-----------|-------|----------|
+| Editor UI Panel | BaseEditorPanel.cs (1400+ lines) | Block palette, categories, tools, properties, templates |
+| Camera Controller | EditorCameraController.cs | Orbit, pan, zoom, edge scrolling, focus, view presets |
+| Placement System | BlockPlacementController.cs | Preview, snapping, multi-placement, validation, effects |
+| Resource System | ResourceInventory.cs | 8 types, capacity, events, persistence |
+| Block Types | BuildingBlock.cs | 80+ block types across 8 categories |
+| Integration | BaseEditorIntegration.cs | Connects all editor components |
+
+**Base Editor Features:**
+- 8 category tabs (Basic, Walls, Defense, Production, Military, Storage, Decoration, Special)
+- 50+ block types with emoji icons, costs, and descriptions
+- Tool palette (Select, Place, Move, Rotate, Delete, Copy, Multi-Select, Measure)
+- Keyboard shortcuts (1-8 for categories, V/P/M/R/X for tools, Q/E for rotation)
+- Resource display with live updates
+- Properties panel with rotation/scale controls
+- Quick templates horizontal scroll panel
+- Status bar with grid/snap information
+- Tooltips on all interactive elements
+
 ---
 
 ## IN-PROGRESS WORK
@@ -348,7 +372,7 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 | Gap | Current | Target | Effort |
 |-----|---------|--------|--------|
 | ~~Combat System~~ | ~~Scripts exist, no UI~~ | ~~Full battle simulation with VFX~~ | ✅ **DONE** |
-| **Base Editor** | Script exists, not integrated | Drag-drop building with preview | 2-3 days |
+| ~~Base Editor~~ | ~~Script exists, not integrated~~ | ~~Drag-drop building with preview~~ | ✅ **DONE** |
 | **Audio System** | Combat SFX done | Music, ambient, full SFX library | 2-3 days |
 | **Real Map Quality** | Basic tiles | Fantasy-styled real geography | 2-3 days |
 | **Loading/Transitions** | Instant/jarring | Smooth animated transitions | 1-2 days |
@@ -380,13 +404,13 @@ To match games like **Chronicles Medieval, Ascent, Blackwell**, we need:
 ### Phase 6: Core Gameplay Loop (Current Sprint)
 **Goal:** Make the PC client feel like a GAME, not a tech demo
 
-| # | Task | Days | Impact |
+| # | Task | Days | Status |
 |---|------|------|--------|
-| 1 | Combat System UI & VFX | 2-3 | ⭐⭐⭐⭐⭐ |
-| 2 | Base Editor Integration | 2-3 | ⭐⭐⭐⭐⭐ |
-| 3 | Troop Training UI | 1-2 | ⭐⭐⭐⭐ |
-| 4 | Resource Spending | 1 | ⭐⭐⭐⭐ |
-| 5 | Battle Replay Viewer | 1-2 | ⭐⭐⭐ |
+| 1 | Combat System UI & VFX | 2-3 | ✅ **DONE** |
+| 2 | Base Editor Integration | 2-3 | ✅ **DONE** |
+| 3 | Troop Training UI | 1-2 | ⏳ Next |
+| 4 | Resource Spending | 1 | ⏳ Next |
+| 5 | Battle Replay Viewer | 1-2 | ⏳ Next |
 
 ### Phase 7: Visual Excellence
 **Goal:** Screenshots that make people say "I need to play this"
