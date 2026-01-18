@@ -54,15 +54,15 @@ namespace ApexCitadels.PC.UI
         private Button _spectateButton;
         
         // State
-        private List<Tournament> _tournaments = new List<Tournament>();
-        private List<Tournament> _filteredTournaments = new List<Tournament>();
-        private Tournament _selectedTournament;
+        private List<TournamentInfo> _tournaments = new List<TournamentInfo>();
+        private List<TournamentInfo> _filteredTournaments = new List<TournamentInfo>();
+        private TournamentInfo _selectedTournament;
         private TournamentMatch _selectedMatch;
         
         public static TournamentPanel Instance { get; private set; }
         
         // Events
-        public event Action<Tournament> OnTournamentRegistered;
+        public event Action<TournamentInfo> OnTournamentRegistered;
         public event Action<TournamentMatch> OnMatchStarted;
         public event Action<TournamentMatch> OnMatchCompleted;
 
@@ -576,12 +576,12 @@ namespace ApexCitadels.PC.UI
         private void GenerateSampleTournaments()
         {
             // Active tournaments
-            _tournaments.Add(new Tournament
+            _tournaments.Add(new TournamentInfo
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Grand Champion's Cup",
                 Type = TournamentType.SingleElimination,
-                Status = TournamentStatus.InProgress,
+                Status = TournamentPanelStatus.InProgress,
                 PrizePool = 50000,
                 EntryFee = 500,
                 MaxParticipants = 64,
@@ -591,12 +591,12 @@ namespace ApexCitadels.PC.UI
                 Description = "The most prestigious tournament of the season. Only the strongest will survive!"
             });
             
-            _tournaments.Add(new Tournament
+            _tournaments.Add(new TournamentInfo
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Weekly Warrior Clash",
                 Type = TournamentType.SingleElimination,
-                Status = TournamentStatus.InProgress,
+                Status = TournamentPanelStatus.InProgress,
                 PrizePool = 10000,
                 EntryFee = 100,
                 MaxParticipants = 32,
@@ -607,12 +607,12 @@ namespace ApexCitadels.PC.UI
             });
             
             // Upcoming
-            _tournaments.Add(new Tournament
+            _tournaments.Add(new TournamentInfo
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Beginner's Battle",
                 Type = TournamentType.SingleElimination,
-                Status = TournamentStatus.Registration,
+                Status = TournamentPanelStatus.Registration,
                 PrizePool = 5000,
                 EntryFee = 50,
                 MaxParticipants = 16,
@@ -621,12 +621,12 @@ namespace ApexCitadels.PC.UI
                 Description = "Perfect for newcomers! Level cap: 20"
             });
             
-            _tournaments.Add(new Tournament
+            _tournaments.Add(new TournamentInfo
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Alliance Wars Championship",
                 Type = TournamentType.DoubleElimination,
-                Status = TournamentStatus.Registration,
+                Status = TournamentPanelStatus.Registration,
                 PrizePool = 100000,
                 EntryFee = 1000,
                 MaxParticipants = 128,
@@ -636,12 +636,12 @@ namespace ApexCitadels.PC.UI
             });
             
             // Completed
-            _tournaments.Add(new Tournament
+            _tournaments.Add(new TournamentInfo
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Spring Showdown 2024",
                 Type = TournamentType.SingleElimination,
-                Status = TournamentStatus.Completed,
+                Status = TournamentPanelStatus.Completed,
                 PrizePool = 75000,
                 EntryFee = 750,
                 MaxParticipants = 64,
@@ -652,13 +652,13 @@ namespace ApexCitadels.PC.UI
             });
             
             // Generate sample brackets for active tournaments
-            foreach (var t in _tournaments.Where(t => t.Status == TournamentStatus.InProgress))
+            foreach (var t in _tournaments.Where(t => t.Status == TournamentPanelStatus.InProgress))
             {
                 GenerateSampleBracket(t);
             }
         }
 
-        private void GenerateSampleBracket(Tournament tournament)
+        private void GenerateSampleBracket(TournamentInfo tournament)
         {
             tournament.Matches = new List<TournamentMatch>();
             
@@ -770,9 +770,9 @@ namespace ApexCitadels.PC.UI
             
             _filteredTournaments = _currentTab switch
             {
-                TournamentViewTab.Active => _tournaments.Where(t => t.Status == TournamentStatus.InProgress).ToList(),
-                TournamentViewTab.Upcoming => _tournaments.Where(t => t.Status == TournamentStatus.Registration).ToList(),
-                TournamentViewTab.History => _tournaments.Where(t => t.Status == TournamentStatus.Completed).ToList(),
+                TournamentViewTab.Active => _tournaments.Where(t => t.Status == TournamentPanelStatus.InProgress).ToList(),
+                TournamentViewTab.Upcoming => _tournaments.Where(t => t.Status == TournamentPanelStatus.Registration).ToList(),
+                TournamentViewTab.History => _tournaments.Where(t => t.Status == TournamentPanelStatus.Completed).ToList(),
                 TournamentViewTab.MyMatches => _tournaments.Where(t => t.IsRegistered).ToList(),
                 _ => _tournaments
             };
@@ -783,7 +783,7 @@ namespace ApexCitadels.PC.UI
             }
         }
 
-        private void CreateTournamentRow(Tournament tournament)
+        private void CreateTournamentRow(TournamentInfo tournament)
         {
             GameObject row = new GameObject($"Tournament_{tournament.Id}");
             row.transform.SetParent(_tournamentListContainer.transform, false);
@@ -852,10 +852,10 @@ namespace ApexCitadels.PC.UI
             TextMeshProUGUI time = timeRow.AddComponent<TextMeshProUGUI>();
             time.text = GetTimeDisplay(tournament);
             time.fontSize = 10;
-            time.color = tournament.Status == TournamentStatus.InProgress ? winColor : new Color(0.5f, 0.5f, 0.5f);
+            time.color = tournament.Status == TournamentPanelStatus.InProgress ? winColor : new Color(0.5f, 0.5f, 0.5f);
         }
 
-        private void SelectTournament(Tournament tournament)
+        private void SelectTournament(TournamentInfo tournament)
         {
             _selectedTournament = tournament;
             
@@ -865,14 +865,14 @@ namespace ApexCitadels.PC.UI
             _participantCount.text = $"👥 {tournament.CurrentParticipants}/{tournament.MaxParticipants}";
             
             // Update buttons
-            _registerButton.interactable = tournament.Status == TournamentStatus.Registration && !tournament.IsRegistered;
-            _spectateButton.interactable = tournament.Status == TournamentStatus.InProgress;
+            _registerButton.interactable = tournament.Status == TournamentPanelStatus.Registration && !tournament.IsRegistered;
+            _spectateButton.interactable = tournament.Status == TournamentPanelStatus.InProgress;
             
             // Update bracket
             RefreshBracket(tournament);
         }
 
-        private void RefreshBracket(Tournament tournament)
+        private void RefreshBracket(TournamentInfo tournament)
         {
             // Clear existing bracket
             foreach (Transform child in _bracketContainer.transform)
@@ -892,7 +892,7 @@ namespace ApexCitadels.PC.UI
                 phRect.offsetMax = Vector2.zero;
                 
                 TextMeshProUGUI ph = phObj.AddComponent<TextMeshProUGUI>();
-                ph.text = tournament.Status == TournamentStatus.Registration 
+                ph.text = tournament.Status == TournamentPanelStatus.Registration 
                     ? "🏆\n\nBracket will be generated when tournament starts" 
                     : "🏆\n\nNo bracket data available";
                 ph.fontSize = 14;
@@ -1098,25 +1098,25 @@ namespace ApexCitadels.PC.UI
 
         #region Helpers
 
-        private string GetStatusIcon(TournamentStatus status)
+        private string GetStatusIcon(TournamentPanelStatus status)
         {
             return status switch
             {
-                TournamentStatus.Registration => "📅",
-                TournamentStatus.InProgress => "🔴",
-                TournamentStatus.Completed => "✅",
-                TournamentStatus.Cancelled => "❌",
+                TournamentPanelStatus.Registration => "📅",
+                TournamentPanelStatus.InProgress => "🔴",
+                TournamentPanelStatus.Completed => "✅",
+                TournamentPanelStatus.Cancelled => "❌",
                 _ => "❓"
             };
         }
 
-        private string GetTimeDisplay(Tournament tournament)
+        private string GetTimeDisplay(TournamentInfo tournament)
         {
             return tournament.Status switch
             {
-                TournamentStatus.Registration => $"Starts: {FormatTimeUntil(tournament.StartTime)}",
-                TournamentStatus.InProgress => $"Round {tournament.CurrentRound} in progress",
-                TournamentStatus.Completed => $"Winner: {tournament.Winner}",
+                TournamentPanelStatus.Registration => $"Starts: {FormatTimeUntil(tournament.StartTime)}",
+                TournamentPanelStatus.InProgress => $"Round {tournament.CurrentRound} in progress",
+                TournamentPanelStatus.Completed => $"Winner: {tournament.Winner}",
                 _ => ""
             };
         }
