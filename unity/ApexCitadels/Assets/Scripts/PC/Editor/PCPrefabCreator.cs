@@ -293,7 +293,7 @@ namespace ApexCitadels.PC
             Object.DestroyImmediate(button);
         }
         
-        private static void CreatePanelPrefab()
+        private static GameObject CreatePanelPrefab()
         {
             var panel = new GameObject("PCPanel");
             var rect = panel.AddComponent<RectTransform>();
