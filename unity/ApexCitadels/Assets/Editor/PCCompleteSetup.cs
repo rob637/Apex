@@ -545,6 +545,22 @@ namespace ApexCitadels.PC.Editor
                 Log("[Setup] Created TopBarHUD");
             }
             
+            // MiniMapPanel - strategic overview
+            if (Object.FindFirstObjectByType<MiniMapPanel>() == null)
+            {
+                var obj = new GameObject("MiniMapPanel");
+                obj.AddComponent<MiniMapPanel>();
+                Log("[Setup] Created MiniMapPanel");
+            }
+            
+            // QuickActionBar - combat/building hotbar
+            if (Object.FindFirstObjectByType<QuickActionBar>() == null)
+            {
+                var obj = new GameObject("QuickActionBar");
+                obj.AddComponent<QuickActionBar>();
+                Log("[Setup] Created QuickActionBar");
+            }
+            
             Log("[Setup] ✅ Managers created");
         }
 
