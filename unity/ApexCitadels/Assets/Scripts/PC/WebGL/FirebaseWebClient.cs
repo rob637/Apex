@@ -293,10 +293,11 @@ namespace ApexCitadels.PC.WebGL
         {
             // Match: "fieldName": { "doubleValue": 123.45 } or "integerValue": "123"
             // Note: doubleValue can be negative (e.g., longitude -77.2639)
+            // Using [\s\S]* to match across newlines since JSON may be pretty-printed
             var doublePattern = $@"""{fieldName}"":\s*\{{\s*""doubleValue"":\s*(-?[\d.]+)\s*\}}";
             var intPattern = $@"""{fieldName}"":\s*\{{\s*""integerValue"":\s*""?(-?[\d]+)""?\s*\}}";
             
-            var match = Regex.Match(json, doublePattern);
+            var match = Regex.Match(json, doublePattern, RegexOptions.Singleline);
             if (match.Success)
             {
                 string valStr = match.Groups[1].Value;
@@ -307,7 +308,7 @@ namespace ApexCitadels.PC.WebGL
                 }
             }
 
-            match = Regex.Match(json, intPattern);
+            match = Regex.Match(json, intPattern, RegexOptions.Singleline);
             if (match.Success)
             {
                 string valStr = match.Groups[1].Value;
