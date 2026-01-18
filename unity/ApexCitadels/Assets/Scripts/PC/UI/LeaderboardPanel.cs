@@ -382,7 +382,7 @@ namespace ApexCitadels.PC.UI
             CreateText(row.transform, entry.PlayerName, 14, 0, Color.white, false, true);
             
             // Score
-            CreateText(row.transform, FormatScore(entry.Score), 14, 80, goldColor, false, TextAlignmentOptions.Right);
+            CreateText(row.transform, FormatScore(entry.Score), 14, 80, goldColor, false, false, TextAlignmentOptions.Right);
         }
 
         private void CreateText(Transform parent, string text, int fontSize, float width, Color color, bool bold = false, bool flexible = false, TextAlignmentOptions align = TextAlignmentOptions.Left)
