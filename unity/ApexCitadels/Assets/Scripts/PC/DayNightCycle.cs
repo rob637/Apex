@@ -9,6 +9,8 @@ namespace ApexCitadels.PC
     /// </summary>
     public class DayNightCycle : MonoBehaviour
     {
+        public static DayNightCycle Instance { get; private set; }
+        
         [Header("Time Settings")]
         [SerializeField] private bool syncWithRealTime = true;
         [SerializeField] private float timeScale = 1f; // Game hours per real second (when not syncing)
@@ -46,6 +48,16 @@ namespace ApexCitadels.PC
         public float NormalizedTime => _currentHour / 24f; // 0-1
         public bool IsDay => _currentHour >= 6f && _currentHour < 18f;
         public bool IsNight => !IsDay;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
 
         private void Start()
         {

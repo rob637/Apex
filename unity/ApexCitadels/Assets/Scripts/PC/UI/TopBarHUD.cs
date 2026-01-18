@@ -14,8 +14,8 @@ namespace ApexCitadels.PC.UI
         // UI Elements
         private GameObject _hudBar;
         private TextMeshProUGUI _goldText;
-        private TextMeshProUGUI _energyText;
-        private TextMeshProUGUI _gemsText;
+        private TextMeshProUGUI _crystalText;
+        private TextMeshProUGUI _apexCoinsText;
         private TextMeshProUGUI _playerLevelText;
         private TextMeshProUGUI _timeText;
         
@@ -113,11 +113,11 @@ namespace ApexCitadels.PC.UI
             // Gold
             _goldText = CreateResourceItem("💰", "0", new Color(1f, 0.85f, 0f));
             
-            // Energy  
-            _energyText = CreateResourceItem("⚡", "100", new Color(0.3f, 0.8f, 1f));
+            // Crystal  
+            _crystalText = CreateResourceItem("💎", "0", new Color(0.3f, 0.8f, 1f));
             
-            // Gems
-            _gemsText = CreateResourceItem("💎", "0", new Color(0.8f, 0.3f, 0.9f));
+            // ApexCoins (premium)
+            _apexCoinsText = CreateResourceItem("🪙", "0", new Color(0.8f, 0.3f, 0.9f));
         }
 
         private TextMeshProUGUI CreateResourceItem(string icon, string value, Color color)
@@ -301,11 +301,11 @@ namespace ApexCitadels.PC.UI
                 case ResourceType.Gold:
                     if (_goldText != null) _goldText.text = FormatNumber(newVal);
                     break;
-                case ResourceType.Energy:
-                    if (_energyText != null) _energyText.text = FormatNumber(newVal);
+                case ResourceType.Crystal:
+                    if (_crystalText != null) _crystalText.text = FormatNumber(newVal);
                     break;
-                case ResourceType.Gems:
-                    if (_gemsText != null) _gemsText.text = FormatNumber(newVal);
+                case ResourceType.ApexCoins:
+                    if (_apexCoinsText != null) _apexCoinsText.text = FormatNumber(newVal);
                     break;
             }
         }

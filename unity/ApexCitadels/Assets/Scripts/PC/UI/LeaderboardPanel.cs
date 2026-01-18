@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UIOutline = UnityEngine.UI.Outline;
 
 namespace ApexCitadels.PC.UI
 {
@@ -114,7 +115,7 @@ namespace ApexCitadels.PC.UI
             bg.color = new Color(0.1f, 0.1f, 0.15f, 0.95f);
             
             // Outline
-            Outline outline = _panel.AddComponent<Outline>();
+            UIOutline outline = _panel.AddComponent<UIOutline>();
             outline.effectColor = new Color(0.3f, 0.5f, 0.8f, 0.8f);
             outline.effectDistance = new Vector2(2, 2);
             

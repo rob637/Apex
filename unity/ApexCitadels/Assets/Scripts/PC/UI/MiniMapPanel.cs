@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UIOutline = UnityEngine.UI.Outline;
 
 namespace ApexCitadels.PC.UI
 {
@@ -133,7 +134,7 @@ namespace ApexCitadels.PC.UI
             frameBg.color = new Color(0.1f, 0.1f, 0.15f, 0.9f);
             
             // Outline
-            Outline outline = _panel.AddComponent<Outline>();
+            UIOutline outline = _panel.AddComponent<UIOutline>();
             outline.effectColor = new Color(0.3f, 0.5f, 0.7f, 0.8f);
             outline.effectDistance = new Vector2(2, 2);
             
@@ -251,7 +252,7 @@ namespace ApexCitadels.PC.UI
             img.color = playerMarkerColor;
             
             // Add glow effect
-            Outline glow = _playerMarker.AddComponent<Outline>();
+            UIOutline glow = _playerMarker.AddComponent<UIOutline>();
             glow.effectColor = new Color(1f, 1f, 0f, 0.5f);
             glow.effectDistance = new Vector2(2, 2);
             

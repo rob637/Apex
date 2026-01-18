@@ -69,6 +69,7 @@ namespace ApexCitadels.PC
         public event Action<ResourceType, float> OnResourceSpent;
         public event Action OnResourcesUpdated;
         public event Action OnTick;
+        public event Action<ResourceType, int, int> OnResourceChanged; // type, oldValue, newValue
 
         // Properties
         public int Gold => Mathf.FloorToInt(_gold);
@@ -189,9 +190,9 @@ namespace ApexCitadels.PC
                     foreach (var territory in territories)
                     {
                         // Check if we own this territory (simplified - would check against user ID)
-                        if (!string.IsNullOrEmpty(territory.OwnerId))
+                        if (!string.IsNullOrEmpty(territory.ownerId))
                         {
-                            bonus += territory.Level * 0.1f;
+                            bonus += territory.level * 0.1f;
                         }
                     }
                 }

@@ -176,8 +176,7 @@ namespace ApexCitadels.PC.UI
 {locationInfo}
 {radiusInfo}
 
-<color=#aaaaaa>Buildings: {_currentTerritory.CurrentBlocks}/{_currentTerritory.MaxBlocks}
-Troops Stationed: {_currentTerritory.DefenseStrength}
+<color=#aaaaaa>Level: {_currentTerritory.Level}
 Income Rate: +{_currentTerritory.Level * 10}/hr</color>
 
 <color=#ffff88>Click a button below to interact!</color>";

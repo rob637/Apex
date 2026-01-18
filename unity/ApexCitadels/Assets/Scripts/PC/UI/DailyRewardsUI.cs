@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace ApexCitadels.PC
+namespace ApexCitadels.PC.UI
 {
     /// <summary>
     /// Daily Login Rewards System for PC client.
@@ -41,6 +41,18 @@ namespace ApexCitadels.PC
         // Events
         public event Action<DailyReward> OnRewardClaimed;
         public event Action OnStreakLost;
+        
+        public static DailyRewardsUI Instance { get; private set; }
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -168,6 +180,24 @@ namespace ApexCitadels.PC
             if (rewardsPanel != null)
             {
                 rewardsPanel.SetActive(false);
+            }
+        }
+        
+        /// <summary>
+        /// Toggle the daily rewards panel visibility
+        /// </summary>
+        public void Toggle()
+        {
+            if (rewardsPanel != null)
+            {
+                if (rewardsPanel.activeSelf)
+                    Hide();
+                else
+                    Show();
+            }
+            else
+            {
+                Show();
             }
         }
 
