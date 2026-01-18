@@ -300,7 +300,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
         /// <summary>
         /// Add an activity log entry
         /// </summary>
-        public void AddActivityEntry(string message, ActivityType type = ActivityType.Info)
+        public void AddActivityEntry(string message, TerritoryActivityType type = TerritoryActivityType.Info)
         {
             _activityLog.Insert(0, new ActivityLogEntry { Message = message, Type = type, Time = DateTime.Now });
 
@@ -313,14 +313,14 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             RefreshActivityLog();
         }
 
-        private Color GetActivityColor(ActivityType type)
+        private Color GetActivityColor(TerritoryActivityType type)
         {
             return type switch
             {
-                ActivityType.Combat => new Color(1f, 0.3f, 0.3f),
-                ActivityType.Build => new Color(0.3f, 0.8f, 0.3f),
-                ActivityType.Resource => new Color(0.9f, 0.7f, 0.2f),
-                ActivityType.Defense => new Color(0.3f, 0.6f, 1f),
+                TerritoryActivityType.Combat => new Color(1f, 0.3f, 0.3f),
+                TerritoryActivityType.Build => new Color(0.3f, 0.8f, 0.3f),
+                TerritoryActivityType.Resource => new Color(0.9f, 0.7f, 0.2f),
+                TerritoryActivityType.Defense => new Color(0.3f, 0.6f, 1f),
                 _ => Color.white
             };
         }
@@ -378,7 +378,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             if (upgradeInfoPanel != null)
                 upgradeInfoPanel.SetActive(false);
 
-            AddActivityEntry($"Upgraded to Level {_currentTerritory.Level + 1}", ActivityType.Build);
+            AddActivityEntry($"Upgraded to Level {_currentTerritory.Level + 1}", TerritoryActivityType.Build);
         }
 
         #endregion
@@ -444,14 +444,14 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
     public class ActivityLogEntry
     {
         public string Message;
-        public ActivityType Type;
+        public TerritoryActivityType Type;
         public DateTime Time;
     }
 
     /// <summary>
-    /// Activity types for log coloring
+    /// Activity types for territory log coloring
     /// </summary>
-    public enum ActivityType
+    public enum TerritoryActivityType
     {
         Info,
         Combat,
