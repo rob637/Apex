@@ -250,11 +250,11 @@ namespace ApexCitadels.PC
             }
             
             // Ensure ambient light
-            if (UnityEngine.Rendering.RenderSettings.ambientIntensity < 0.1f)
+            if (RenderSettings.ambientIntensity < 0.1f)
             {
-                UnityEngine.Rendering.RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-                UnityEngine.Rendering.RenderSettings.ambientLight = new Color(0.5f, 0.5f, 0.5f);
-                UnityEngine.Rendering.RenderSettings.ambientIntensity = 1f;
+                RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+                RenderSettings.ambientLight = new Color(0.5f, 0.5f, 0.5f);
+                RenderSettings.ambientIntensity = 1f;
                 Debug.Log("[MaterialHelper] Set ambient lighting");
             }
         }

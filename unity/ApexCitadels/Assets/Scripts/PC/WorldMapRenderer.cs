@@ -469,12 +469,6 @@ namespace ApexCitadels.PC
                 mat = neutralTerritoryMaterial != null ? neutralTerritoryMaterial : CreateDefaultMaterial(new Color(0.7f, 0.4f, 0.9f)); // Purple
             }
             
-            // Final fallback - if still null, use cached base material
-            if (mat == null && _cachedBaseMaterial != null)
-            {
-                mat = new Material(_cachedBaseMaterial);
-            }
-            
             return mat;
         }
 
