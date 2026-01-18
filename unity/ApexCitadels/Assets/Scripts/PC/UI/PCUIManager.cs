@@ -747,7 +747,7 @@ namespace ApexCitadels.PC.UI
     /// <summary>
     /// Notification types
     /// </summary>
-    public enum UIUINotificationType
+    public enum UINotificationType
     {
         Info,
         Success,

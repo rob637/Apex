@@ -1601,7 +1601,7 @@ namespace ApexCitadels.PC.UI
         public int CurrentPosition;
     }
 
-    public class ArenaArenaLeaderboardEntry
+    public class ArenaLeaderboardEntry
     {
         public int Rank;
         public string PlayerName;

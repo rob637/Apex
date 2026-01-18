@@ -1163,7 +1163,7 @@ namespace ApexCitadels.PC.UI
         Member
     }
 
-    public enum SocialSocialActivityType
+    public enum SocialActivityType
     {
         Achievement,
         Battle,
@@ -1185,7 +1185,7 @@ namespace ApexCitadels.PC.UI
         public bool IsFavorite;
     }
 
-    public class SocialSocialGuildInfo
+    public class SocialGuildInfo
     {
         public string GuildId;
         public string Name;
@@ -1205,7 +1205,7 @@ namespace ApexCitadels.PC.UI
         public List<string> Perks;
     }
 
-    public class SocialSocialGuildMember
+    public class SocialGuildMember
     {
         public string PlayerId;
         public string Name;
@@ -1219,7 +1219,7 @@ namespace ApexCitadels.PC.UI
 
     public class SocialActivity
     {
-        public SocialSocialActivityType Type;
+        public SocialActivityType Type;
         public string PlayerName;
         public string Message;
         public DateTime Timestamp;
