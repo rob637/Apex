@@ -58,7 +58,7 @@ namespace ApexCitadels.PC.Editor
             Camera mainCam = Camera.main;
             if (mainCam == null)
             {
-                EditorGUILayout.HelpBox("❌ No Main Camera found! Tag a camera as 'MainCamera'.", MessageType.Error);
+                EditorGUILayout.HelpBox("❌ No Main Camera found! Tag a camera as 'MainCamera'.", UnityEditor.MessageType.Error);
                 if (GUILayout.Button("Create Main Camera"))
                 {
                     CreateMainCamera();
@@ -76,7 +76,7 @@ namespace ApexCitadels.PC.Editor
             }
             else
             {
-                EditorGUILayout.HelpBox($"⚠️ Clear Flags is '{mainCam.clearFlags}' (should be SolidColor for consistent sky)", MessageType.Warning);
+                EditorGUILayout.HelpBox($"⚠️ Clear Flags is '{mainCam.clearFlags}' (should be SolidColor for consistent sky)", UnityEditor.MessageType.Warning);
             }
             
             // Check position
@@ -85,7 +85,7 @@ namespace ApexCitadels.PC.Editor
             
             if (mainCam.transform.position.y < 50)
             {
-                EditorGUILayout.HelpBox("⚠️ Camera Y position is low. For world map, try Y=200", MessageType.Warning);
+                EditorGUILayout.HelpBox("⚠️ Camera Y position is low. For world map, try Y=200", UnityEditor.MessageType.Warning);
             }
             
             // Check for PCCameraController
@@ -96,7 +96,7 @@ namespace ApexCitadels.PC.Editor
             }
             else
             {
-                EditorGUILayout.HelpBox("❌ Missing PCCameraController script", MessageType.Error);
+                EditorGUILayout.HelpBox("❌ Missing PCCameraController script", UnityEditor.MessageType.Error);
                 if (GUILayout.Button("Add PCCameraController"))
                 {
                     mainCam.gameObject.AddComponent<PCCameraController>();
@@ -122,7 +122,7 @@ namespace ApexCitadels.PC.Editor
             
             if (directionalLight == null)
             {
-                EditorGUILayout.HelpBox("❌ No Directional Light found! Objects will appear unlit/dark.", MessageType.Error);
+                EditorGUILayout.HelpBox("❌ No Directional Light found! Objects will appear unlit/dark.", UnityEditor.MessageType.Error);
                 if (GUILayout.Button("Create Directional Light (Sun)"))
                 {
                     CreateDirectionalLight();
@@ -136,7 +136,7 @@ namespace ApexCitadels.PC.Editor
             
             if (directionalLight.intensity < 0.5f)
             {
-                EditorGUILayout.HelpBox("⚠️ Light intensity is very low. Try 1.0 or higher.", MessageType.Warning);
+                EditorGUILayout.HelpBox("⚠️ Light intensity is very low. Try 1.0 or higher.", UnityEditor.MessageType.Warning);
             }
             
             // Check ambient
@@ -151,7 +151,7 @@ namespace ApexCitadels.PC.Editor
             var pipelineAsset = GraphicsSettings.currentRenderPipeline;
             if (pipelineAsset == null)
             {
-                EditorGUILayout.HelpBox("⚠️ No Render Pipeline Asset set (using Built-in Renderer)", MessageType.Warning);
+                EditorGUILayout.HelpBox("⚠️ No Render Pipeline Asset set (using Built-in Renderer)", UnityEditor.MessageType.Warning);
             }
             else
             {
@@ -164,7 +164,7 @@ namespace ApexCitadels.PC.Editor
                 if (pipelineType.Contains("Universal"))
                 {
                     EditorGUILayout.LabelField("  ✅ Using Universal Render Pipeline (URP)");
-                    EditorGUILayout.HelpBox("URP requires URP-compatible shaders. Use 'Universal Render Pipeline/Lit' or 'Universal Render Pipeline/Simple Lit' for materials.", MessageType.Info);
+                    EditorGUILayout.HelpBox("URP requires URP-compatible shaders. Use 'Universal Render Pipeline/Lit' or 'Universal Render Pipeline/Simple Lit' for materials.", UnityEditor.MessageType.Info);
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace ApexCitadels.PC.Editor
             
             if (urpLit == null && urpSimpleLit == null)
             {
-                EditorGUILayout.HelpBox("❌ URP shaders not found! Make sure URP package is installed.", MessageType.Error);
+                EditorGUILayout.HelpBox("❌ URP shaders not found! Make sure URP package is installed.", UnityEditor.MessageType.Error);
             }
         }
 

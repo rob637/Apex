@@ -101,7 +101,7 @@ namespace ApexCitadels.PC.Editor
             EditorGUILayout.HelpBox(
                 "This tool creates and configures the entire PC scene.\n" +
                 "Just click the green button - everything else is automatic!",
-                MessageType.Info);
+                UnityEditor.MessageType.Info);
             
             EditorGUILayout.Space();
             
