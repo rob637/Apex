@@ -333,27 +333,39 @@ namespace ApexCitadels.Map
         {
             if (config == null || !config.IsValid)
             {
-                ApexLogger.LogWarning("[Mapbox] Cannot load tiles - no valid configuration", ApexLogger.LogCategory.Map);
+                Debug.LogError("[Mapbox] Cannot load tiles - no valid configuration");
                 yield break;
             }
             
             int loaded = 0;
+            int failed = 0;
             int total = _tiles.Count;
+            
+            Debug.Log($"[Mapbox] Starting to load {total} tiles...");
             
             foreach (var kvp in _tiles)
             {
                 if (!kvp.Value.IsLoading && kvp.Value.Texture == null)
                 {
                     yield return StartCoroutine(LoadTile(kvp.Key, kvp.Value));
-                    loaded++;
                     
-                    // Small delay to avoid hammering the API
-                    if (loaded % 4 == 0)
-                        yield return new WaitForSeconds(0.1f);
+                    if (kvp.Value.Texture != null)
+                        loaded++;
+                    else
+                        failed++;
+                    
+                    // Progress update every 10 tiles
+                    if ((loaded + failed) % 10 == 0)
+                    {
+                        Debug.Log($"[Mapbox] Progress: {loaded} loaded, {failed} failed of {total}");
+                    }
+                    
+                    // Very small delay to avoid rate limiting
+                    yield return null; // Just wait one frame
                 }
             }
             
-            ApexLogger.Log($"[Mapbox] Loaded {loaded} tiles", ApexLogger.LogCategory.Map);
+            Debug.Log($"[Mapbox] COMPLETE: {loaded} tiles loaded, {failed} failed out of {total}");
             OnMapLoaded?.Invoke();
         }
         
@@ -418,7 +430,7 @@ namespace ApexCitadels.Map
                 }
                 else
                 {
-                    ApexLogger.LogWarning($"[Mapbox] Failed to load tile {key}: {www.error}", ApexLogger.LogCategory.Map);
+                    Debug.LogError($"[Mapbox] FAILED to load tile {key}: {www.error} (HTTP {www.responseCode})");
                 }
             }
             
