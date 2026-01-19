@@ -408,49 +408,84 @@ namespace ApexCitadels.Editor
 
         private void FixAllIssues()
         {
-            bool fixedSomething = false;
+            Debug.Log("[Setup] Starting Fix All Issues...");
             
-            // Create folders if missing
-            if (!_hasModelsFolder)
+            // Step 1: Create folders if missing
+            CreateFoldersIfMissing();
+            
+            // Step 2: Force Unity to reimport all model files (creates .meta files)
+            Debug.Log("[Setup] Forcing Unity AssetDatabase refresh...");
+            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            
+            // Step 3: Create or get GameAssetDatabase
+            var db = FindAssetDatabase();
+            if (db == null)
             {
-                Directory.CreateDirectory("Assets/Art/Models/Buildings");
-                Directory.CreateDirectory("Assets/Art/Models/Towers");
-                Directory.CreateDirectory("Assets/Art/Models/Walls");
-                Directory.CreateDirectory("Assets/Art/Models/Foundations");
-                Directory.CreateDirectory("Assets/Art/Models/Roofs");
-                fixedSomething = true;
+                db = CreateGameAssetDatabase();
             }
             
-            if (!_hasSFXFolder)
+            // Step 4: Refresh all assets in the database
+            if (db != null)
             {
-                Directory.CreateDirectory("Assets/Audio/SFX");
-                fixedSomething = true;
+                Debug.Log("[Setup] Refreshing asset database with model files...");
+                EditorApplication.ExecuteMenuItem("Apex Citadels/Assets/Quick Refresh All Assets");
             }
             
-            if (!_hasAnimationsFolder)
+            // Step 5: Add PCSceneBootstrapper if missing
+            if (!_hasPCSceneBootstrapper)
             {
-                Directory.CreateDirectory("Assets/Animations/Mixamo");
-                fixedSomething = true;
+                AddPCSceneBootstrapper();
             }
             
-            if (fixedSomething)
+            // Step 6: Generate libraries if missing
+            if (!_hasCombatSFXLibrary)
             {
-                AssetDatabase.Refresh();
-                Debug.Log("[Setup] Created missing folders");
+                Debug.Log("[Setup] Generating CombatSFXLibrary...");
+                try { EditorApplication.ExecuteMenuItem("Apex Citadels/Assets/Quick Generate SFX Library"); }
+                catch { Debug.Log("[Setup] SFX Library generator not available"); }
             }
             
-            // Suggest running full setup
-            if (!_hasGameAssetDatabase || !_hasCombatSFXLibrary)
+            Debug.Log("[Setup] Fix All Issues complete! Refreshing status...");
+            _needsRefresh = true;
+        }
+
+        private void CreateFoldersIfMissing()
+        {
+            string[] folders = new[]
             {
-                if (EditorUtility.DisplayDialog("Run Full Setup?",
-                    "Some components need to be created. Would you like to run the Full Asset Setup?",
-                    "Yes, Run Setup", "Cancel"))
+                "Assets/Art/Models/Buildings",
+                "Assets/Art/Models/Towers",
+                "Assets/Art/Models/Walls",
+                "Assets/Art/Models/Foundations",
+                "Assets/Art/Models/Roofs",
+                "Assets/Audio/SFX",
+                "Assets/Animations/Mixamo",
+                "Assets/Resources"
+            };
+
+            foreach (var folder in folders)
+            {
+                if (!Directory.Exists(folder))
                 {
-                    EditorApplication.ExecuteMenuItem("Apex Citadels/★ Quick Start/Full Asset Setup Wizard");
+                    Directory.CreateDirectory(folder);
+                    Debug.Log($"[Setup] Created folder: {folder}");
                 }
             }
+        }
+
+        private GameAssetDatabase CreateGameAssetDatabase()
+        {
+            string resourcesPath = "Assets/Resources";
+            if (!Directory.Exists(resourcesPath))
+                Directory.CreateDirectory(resourcesPath);
+
+            var db = ScriptableObject.CreateInstance<GameAssetDatabase>();
+            string dbPath = "Assets/Resources/GameAssetDatabase.asset";
+            AssetDatabase.CreateAsset(db, dbPath);
+            AssetDatabase.SaveAssets();
             
-            _needsRefresh = true;
+            Debug.Log($"[Setup] Created GameAssetDatabase at {dbPath}");
+            return db;
         }
     }
 }

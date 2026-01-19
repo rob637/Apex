@@ -256,6 +256,15 @@ namespace ApexCitadels.PC.Editor
 
             try
             {
+                EditorUtility.DisplayProgressBar("PC Setup", "Refreshing Unity assets...", 0.02f);
+                // Force Unity to import any new model files (creates .meta files)
+                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+                
+                EditorUtility.DisplayProgressBar("PC Setup", "Loading asset database...", 0.04f);
+                // Refresh the GameAssetDatabase with models
+                try { EditorApplication.ExecuteMenuItem("Apex Citadels/Assets/Quick Refresh All Assets"); }
+                catch { Log("[Setup] Asset database refresh skipped"); }
+                
                 EditorUtility.DisplayProgressBar("PC Setup", "Creating scene...", 0.05f);
                 CreateOrOpenScene();
                 
@@ -484,6 +493,14 @@ namespace ApexCitadels.PC.Editor
         private static void SetupManagers()
         {
             Log("[Setup] Step 5: Setting up managers...");
+            
+            // PCSceneBootstrapper - REQUIRED - Must be first
+            if (Object.FindFirstObjectByType<PCSceneBootstrapper>() == null)
+            {
+                var obj = new GameObject("PCSceneBootstrapper");
+                obj.AddComponent<PCSceneBootstrapper>();
+                Log("[Setup] Created PCSceneBootstrapper");
+            }
             
             // PCGameController
             if (Object.FindFirstObjectByType<PCGameController>() == null)
