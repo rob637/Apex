@@ -257,8 +257,8 @@ namespace ApexCitadels.PC.UI
             SaveProgress();
             UpdateUI();
             
-            ApexLogger.Log(ApexLogger.LogCategory.UI, $"[DailyRewards] Claimed Day {_currentDayInCycle}! Streak: {_currentStreak}x (Multiplier: {multiplier:F1}x)");
-            ApexLogger.Log(ApexLogger.LogCategory.Economy, $"[DailyRewards] Rewards: {bonusGold}g, {bonusStone}s, {bonusWood}w, {bonusIron}i, {bonusCrystal}c)");
+            ApexLogger.Log($"[DailyRewards] Claimed Day {_currentDayInCycle}! Streak: {_currentStreak}x (Multiplier: {multiplier:F1}x, ApexLogger.LogCategory.UI)");
+            ApexLogger.Log($"[DailyRewards] Rewards: {bonusGold}g, {bonusStone}s, {bonusWood}w, {bonusIron}i, {bonusCrystal}c, ApexLogger.LogCategory.Economy)");
             
             OnRewardClaimed?.Invoke(reward);
             
@@ -546,7 +546,7 @@ namespace ApexCitadels.PC.UI
 
         private void ShowClaimCelebration(DailyReward reward)
         {
-            ApexLogger.Log(ApexLogger.LogCategory.UI, $"[DailyRewards] 🎉 CELEBRATION! {reward.Description}");
+            ApexLogger.Log($"[DailyRewards] 🎉 CELEBRATION! {reward.Description}", ApexLogger.LogCategory.UI);
             
             // Play celebration particles
             if (celebrationParticles != null)

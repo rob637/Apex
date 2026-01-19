@@ -792,7 +792,7 @@ namespace ApexCitadels.PC.UI
         private void ScoutTerritory()
         {
             // TODO: Implement scouting - spend gold to reveal enemy composition
-            ApexLogger.Log(ApexLogger.LogCategory.UI, "[Combat] Scouting territory...");
+            ApexLogger.Log("[Combat] Scouting territory...", ApexLogger.LogCategory.UI);
         }
 
         private void LaunchAttack()
@@ -802,7 +802,7 @@ namespace ApexCitadels.PC.UI
             int totalTroops = GetTotalSelectedTroops();
             if (totalTroops == 0)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.UI, "[Combat] Select troops first!");
+                ApexLogger.Log("[Combat] Select troops first!", ApexLogger.LogCategory.UI);
                 return;
             }
             

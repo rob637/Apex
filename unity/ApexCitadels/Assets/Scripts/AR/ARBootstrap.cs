@@ -67,7 +67,7 @@ namespace ApexCitadels.AR
             ShowLoading("Initializing...");
             SetProgress(0f);
             
-            ApexLogger.Log(ApexLogger.LogCategory.AR, "[ARBootstrap] Starting AR initialization sequence");
+            ApexLogger.Log("[ARBootstrap] Starting AR initialization sequence", ApexLogger.LogCategory.AR);
 
             // Step 1: Check if running on mobile or desktop
             bool isMobile = Application.isMobilePlatform;
@@ -89,7 +89,7 @@ namespace ApexCitadels.AR
                     mockGPSProvider = mockGO.AddComponent<MockGPSProvider>();
                 }
                 
-                ApexLogger.Log(ApexLogger.LogCategory.AR, "[ARBootstrap] Mock GPS provider activated");
+                ApexLogger.Log("[ARBootstrap] Mock GPS provider activated", ApexLogger.LogCategory.AR);
                 yield return new WaitForSeconds(0.3f);
             }
 
@@ -116,7 +116,7 @@ namespace ApexCitadels.AR
                     if (!permissionsGranted)
                     {
                         UpdateStatus("Permissions required!");
-                        ApexLogger.LogWarning(ApexLogger.LogCategory.AR, "[ARBootstrap] Permissions not granted");
+                        ApexLogger.LogWarning("[ARBootstrap] Permissions not granted", ApexLogger.LogCategory.AR);
                         // Continue anyway - features will be limited
                     }
                 }
@@ -145,7 +145,7 @@ namespace ApexCitadels.AR
                 
                 if (ARSession.state != ARSessionState.SessionTracking)
                 {
-                    ApexLogger.LogWarning(ApexLogger.LogCategory.AR, "[ARBootstrap] AR session failed to start");
+                    ApexLogger.LogWarning("[ARBootstrap] AR session failed to start", ApexLogger.LogCategory.AR);
                 }
             }
 
@@ -196,7 +196,7 @@ namespace ApexCitadels.AR
             HideLoading();
             initializationComplete = true;
             
-            ApexLogger.Log(ApexLogger.LogCategory.AR, "[ARBootstrap] AR initialization complete!");
+            ApexLogger.Log("[ARBootstrap] AR initialization complete!", ApexLogger.LogCategory.AR);
         }
 
         #region Loading UI
@@ -224,7 +224,7 @@ namespace ApexCitadels.AR
             {
                 loadingStatusText.text = message;
             }
-            ApexLogger.Log(ApexLogger.LogCategory.AR, $"[ARBootstrap] {message}");
+            ApexLogger.Log($"[ARBootstrap] {message}", ApexLogger.LogCategory.AR);
         }
 
         private void SetProgress(float progress)

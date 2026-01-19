@@ -67,7 +67,7 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         public void GenerateAllProps()
         {
-            ApexLogger.Log("Generating environmental props...", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log("Generating environmental props...", ApexLogger.LogCategory.General);
             
             ClearExisting();
             
@@ -76,7 +76,7 @@ namespace ApexCitadels.PC.Environment
             GenerateRocks();
             GenerateGrassPatches();
             
-            ApexLogger.Log($"Generated {_trees.Count} trees, {_rocks.Count} rocks", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log($"Generated {_trees.Count} trees, {_rocks.Count} rocks", ApexLogger.LogCategory.General);
         }
 
         private void ClearExisting()

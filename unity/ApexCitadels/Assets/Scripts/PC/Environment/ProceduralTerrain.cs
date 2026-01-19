@@ -80,7 +80,7 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         public void GenerateTerrain()
         {
-            ApexLogger.Log("Generating procedural terrain...", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log("Generating procedural terrain...", ApexLogger.LogCategory.General);
             
             // Clean up existing
             if (_terrainObject != null) Destroy(_terrainObject);
@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.Environment
                 CreateGridOverlay();
             }
 
-            ApexLogger.Log("Terrain generation complete!", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log("Terrain generation complete!", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace ApexCitadels.PC.Environment
             // Set layer for raycasting
             _terrainObject.layer = LayerMask.NameToLayer("Default");
 
-            ApexLogger.LogVerbose($"Created mesh with {vertices.Length} vertices", ApexLogger.LogCategory.Environment);
+            ApexLogger.LogVerbose($"Created mesh with {vertices.Length} vertices", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace ApexCitadels.PC.Environment
             
             _waterObject.GetComponent<Renderer>().material = waterMat;
             
-            ApexLogger.LogVerbose("Water plane created", ApexLogger.LogCategory.Environment);
+            ApexLogger.LogVerbose("Water plane created", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace ApexCitadels.PC.Environment
                 lr.useWorldSpace = true;
             }
 
-            ApexLogger.LogVerbose("Grid overlay created", ApexLogger.LogCategory.Environment);
+            ApexLogger.LogVerbose("Grid overlay created", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

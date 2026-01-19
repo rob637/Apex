@@ -79,7 +79,7 @@ namespace ApexCitadels.BuildingTemplates
             RegisterTemplate(CreateTurretNest());
             RegisterTemplate(CreateTowerComplex());
 
-            ApexLogger.Log(ApexLogger.LogCategory.Building, $"Loaded {_templates.Count} default templates");
+            ApexLogger.Log($"Loaded {_templates.Count} default templates", ApexLogger.LogCategory.Building);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace ApexCitadels.BuildingTemplates
             }
             catch (Exception e)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Building, $"Failed to load templates: {e.Message}");
+                ApexLogger.LogError($"Failed to load templates: {e.Message}", ApexLogger.LogCategory.Building);
             }
         }
 
@@ -212,7 +212,7 @@ namespace ApexCitadels.BuildingTemplates
             var template = GetTemplate(templateId);
             if (template == null)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Building, $"Template not found: {templateId}");
+                ApexLogger.LogError($"Template not found: {templateId}", ApexLogger.LogCategory.Building);
                 return null;
             }
 

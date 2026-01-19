@@ -56,7 +56,7 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         private IEnumerator InitializeEnvironment()
         {
-            ApexLogger.Log("Starting AAA environment initialization...", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log("Starting AAA environment initialization...", ApexLogger.LogCategory.General);
 
             // Step 1: Create terrain
             if (enableTerrain)
@@ -93,7 +93,7 @@ namespace ApexCitadels.PC.Environment
                 yield return null;
             }
 
-            ApexLogger.Log("AAA environment initialization complete!", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log("AAA environment initialization complete!", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace ApexCitadels.PC.Environment
                 GameObject terrainObj = new GameObject("ProceduralTerrainSystem");
                 terrainObj.transform.parent = transform;
                 _terrain = terrainObj.AddComponent<ProceduralTerrain>();
-                ApexLogger.Log("Created procedural terrain", ApexLogger.LogCategory.Environment);
+                ApexLogger.Log("Created procedural terrain", ApexLogger.LogCategory.General);
             }
         }
 
@@ -125,7 +125,7 @@ namespace ApexCitadels.PC.Environment
                 GameObject atmosObj = new GameObject("AtmosphericLighting");
                 atmosObj.transform.parent = transform;
                 _atmosphere = atmosObj.AddComponent<AtmosphericLighting>();
-                ApexLogger.Log("Created atmospheric lighting", ApexLogger.LogCategory.Environment);
+                ApexLogger.Log("Created atmospheric lighting", ApexLogger.LogCategory.General);
             }
         }
 
@@ -141,7 +141,7 @@ namespace ApexCitadels.PC.Environment
                 GameObject effectsObj = new GameObject("AAAVisualEffects");
                 effectsObj.transform.parent = transform;
                 _aaaEffects = effectsObj.AddComponent<AAAVisualEffects>();
-                ApexLogger.Log("Created AAA visual effects", ApexLogger.LogCategory.Environment);
+                ApexLogger.Log("Created AAA visual effects", ApexLogger.LogCategory.General);
             }
         }
 
@@ -157,7 +157,7 @@ namespace ApexCitadels.PC.Environment
                 GameObject propsObj = new GameObject("EnvironmentalProps");
                 propsObj.transform.parent = transform;
                 _props = propsObj.AddComponent<EnvironmentalProps>();
-                ApexLogger.Log("Created environmental props", ApexLogger.LogCategory.Environment);
+                ApexLogger.Log("Created environmental props", ApexLogger.LogCategory.General);
             }
         }
 
@@ -166,7 +166,7 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         private void CreateDemoTerritories()
         {
-            ApexLogger.Log($"Creating {demoTerritoryCount} demo territories...", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log($"Creating {demoTerritoryCount} demo territories...", ApexLogger.LogCategory.General);
 
             // Clear existing demo territories
             foreach (var territory in _territories)
@@ -249,7 +249,7 @@ namespace ApexCitadels.PC.Environment
                 _territories.Add(visual);
             }
 
-            ApexLogger.Log($"Created {_territories.Count} demo territories", ApexLogger.LogCategory.Environment);
+            ApexLogger.Log($"Created {_territories.Count} demo territories", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

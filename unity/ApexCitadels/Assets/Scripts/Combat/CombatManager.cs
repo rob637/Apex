@@ -97,7 +97,7 @@ namespace ApexCitadels.Combat
             string currentPlayerId = PlayerManager.Instance?.GetCurrentPlayerId() ?? "";
             if (target.OwnerId == currentPlayerId)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.Combat, "[CombatManager] Cannot attack your own territory!");
+                ApexLogger.Log("[CombatManager] Cannot attack your own territory!", ApexLogger.LogCategory.Combat);
                 return false;
             }
 
@@ -108,7 +108,7 @@ namespace ApexCitadels.Combat
             _inCombat = true;
             OnCombatStarted?.Invoke();
 
-            ApexLogger.Log(ApexLogger.LogCategory.Combat, $"[CombatManager] Started attack on territory {target.Id}");
+            ApexLogger.Log($"[CombatManager] Started attack on territory {target.Id}", ApexLogger.LogCategory.Combat);
             return true;
         }
 
@@ -120,7 +120,7 @@ namespace ApexCitadels.Combat
             _currentTarget = null;
             _inCombat = false;
             OnCombatEnded?.Invoke();
-            ApexLogger.Log(ApexLogger.LogCategory.Combat, "[CombatManager] Attack stopped");
+            ApexLogger.Log("[CombatManager] Attack stopped", ApexLogger.LogCategory.Combat);
         }
 
         /// <summary>

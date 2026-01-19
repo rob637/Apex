@@ -373,7 +373,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             if (_currentTerritory == null || !CanAffordUpgrade()) return;
 
             int nextLevel = _currentTerritory.Level + 1;
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryDetail] Upgrading territory {_currentTerritory.Id} to level {nextLevel}");
+            ApexLogger.Log($"[TerritoryDetail] Upgrading territory {_currentTerritory.Id} to level {nextLevel}", ApexLogger.LogCategory.Territory);
 
             // Deduct upgrade cost
             var cost = GetUpgradeCost(nextLevel);
@@ -387,7 +387,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             
             if (success)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryDetail] Territory upgraded to level {nextLevel}");
+                ApexLogger.Log($"[TerritoryDetail] Territory upgraded to level {nextLevel}", ApexLogger.LogCategory.Territory);
                 AddActivityEntry($"Upgraded to Level {nextLevel}", TerritoryActivityType.Build);
                 
                 // Refresh display
@@ -396,7 +396,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.Territory, "[TerritoryDetail] Upgrade failed!");
+                ApexLogger.LogWarning("[TerritoryDetail] Upgrade failed!", ApexLogger.LogCategory.Territory);
             }
 
             // Hide upgrade panel

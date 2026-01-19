@@ -116,7 +116,7 @@ namespace ApexCitadels.AR
                 {
                     var loc = savedLocations[i];
                     SetLocation(loc.Latitude, loc.Longitude);
-                    ApexLogger.Log(ApexLogger.LogCategory.AR, $"[MockGPS] Teleported to: {loc.Name}");
+                    ApexLogger.Log($"[MockGPS] Teleported to: {loc.Name}", ApexLogger.LogCategory.AR);
                 }
             }
 
@@ -167,7 +167,7 @@ namespace ApexCitadels.AR
         public void SaveCurrentLocation(string name)
         {
             savedLocations.Add(new SavedLocation(name, latitude, longitude));
-            ApexLogger.Log(ApexLogger.LogCategory.AR, $"[MockGPS] Saved location: {name} at {latitude}, {longitude}");
+            ApexLogger.Log($"[MockGPS] Saved location: {name} at {latitude}, {longitude}", ApexLogger.LogCategory.AR);
         }
 
         /// <summary>

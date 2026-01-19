@@ -104,11 +104,11 @@ namespace ApexCitadels.AR
 
         private IEnumerator InitializeGeospatial()
         {
-            ApexLogger.Log(ApexLogger.LogCategory.AR, "[GeospatialManager] Initializing Geospatial API...");
+            ApexLogger.Log("[GeospatialManager] Initializing Geospatial API...", ApexLogger.LogCategory.AR);
             
             // Check if ARCore Extensions are available
             #if !ARCORE_EXTENSIONS_ENABLED
-            ApexLogger.LogWarning(ApexLogger.LogCategory.AR, "[GeospatialManager] ARCore Extensions not enabled. Running in simulation mode.");
+            ApexLogger.LogWarning("[GeospatialManager] ARCore Extensions not enabled. Running in simulation mode.", ApexLogger.LogCategory.AR);
             isGeospatialSupported = false;
             StartSimulationMode();
             yield break;
@@ -124,12 +124,12 @@ namespace ApexCitadels.AR
             if (availability.Result == VpsAvailability.Available)
             {
                 isGeospatialSupported = true;
-                ApexLogger.Log(ApexLogger.LogCategory.AR, "[GeospatialManager] Geospatial API supported!");
+                ApexLogger.Log("[GeospatialManager] Geospatial API supported!", ApexLogger.LogCategory.AR);
                 StartLocalization();
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.AR, $"[GeospatialManager] Geospatial not available: {availability.Result}");
+                ApexLogger.LogWarning($"[GeospatialManager] Geospatial not available: {availability.Result}", ApexLogger.LogCategory.AR);
                 isGeospatialSupported = false;
                 OnError?.Invoke("Geospatial API not available in this location");
             }
@@ -140,12 +140,12 @@ namespace ApexCitadels.AR
         {
             isLocalizing = true;
             localizationStartTime = Time.time;
-            ApexLogger.Log(ApexLogger.LogCategory.AR, "[GeospatialManager] Starting localization...");
+            ApexLogger.Log("[GeospatialManager] Starting localization...", ApexLogger.LogCategory.AR);
         }
 
         private void StartSimulationMode()
         {
-            ApexLogger.Log(ApexLogger.LogCategory.AR, "[GeospatialManager] Running in GPS simulation mode");
+            ApexLogger.Log("[GeospatialManager] Running in GPS simulation mode", ApexLogger.LogCategory.AR);
             
             // Use mock GPS data for testing
             currentPosition = new GeospatialPosition
@@ -191,7 +191,7 @@ namespace ApexCitadels.AR
                 {
                     isGeospatialReady = true;
                     isLocalizing = false;
-                    ApexLogger.Log(ApexLogger.LogCategory.AR, "[GeospatialManager] Geospatial localization complete!");
+                    ApexLogger.Log("[GeospatialManager] Geospatial localization complete!", ApexLogger.LogCategory.AR);
                     OnGeospatialReady?.Invoke();
                 }
                 
@@ -201,7 +201,7 @@ namespace ApexCitadels.AR
             {
                 // Lost tracking
                 isGeospatialReady = false;
-                ApexLogger.LogWarning(ApexLogger.LogCategory.AR, "[GeospatialManager] Geospatial tracking lost");
+                ApexLogger.LogWarning("[GeospatialManager] Geospatial tracking lost", ApexLogger.LogCategory.AR);
                 OnGeospatialLost?.Invoke();
             }
             
@@ -269,8 +269,7 @@ namespace ApexCitadels.AR
                 return;
             }
             
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, 
-                $"[GeospatialManager] Claiming territory at {currentPosition.Latitude}, {currentPosition.Longitude}");
+            ApexLogger.Log($"[GeospatialManager] Claiming territory at {currentPosition.Latitude}, {currentPosition.Longitude}", ApexLogger.LogCategory.Territory);
             
             var result = await TerritoryManager.Instance.TryClaimTerritory(
                 currentPosition.Latitude, 
@@ -279,7 +278,7 @@ namespace ApexCitadels.AR
             
             if (result.Success)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.Territory, "[GeospatialManager] Territory claimed successfully!");
+                ApexLogger.Log("[GeospatialManager] Territory claimed successfully!", ApexLogger.LogCategory.Territory);
                 // Place visual anchor
                 PlaceGeospatialAnchor(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Altitude, "territory_marker");
             }
@@ -348,10 +347,10 @@ namespace ApexCitadels.AR
                     Anchor = anchor.gameObject
                 });
                 
-                ApexLogger.Log(ApexLogger.LogCategory.AR, $"[GeospatialManager] Placed anchor at {latitude}, {longitude}");
+                ApexLogger.Log($"[GeospatialManager] Placed anchor at {latitude}, {longitude}", ApexLogger.LogCategory.AR);
             }
             #else
-            ApexLogger.Log(ApexLogger.LogCategory.AR, $"[GeospatialManager] (Simulation) Would place anchor at {latitude}, {longitude}");
+            ApexLogger.Log($"[GeospatialManager] (Simulation, ApexLogger.LogCategory.AR) Would place anchor at {latitude}, {longitude}");
             #endif
         }
 

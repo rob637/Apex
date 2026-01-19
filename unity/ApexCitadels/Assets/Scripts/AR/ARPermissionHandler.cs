@@ -124,7 +124,7 @@ namespace ApexCitadels.AR
             }
 
             // All permissions granted!
-            ApexLogger.Log(ApexLogger.LogCategory.AR, "[Permissions] All required permissions granted");
+            ApexLogger.Log("[Permissions] All required permissions granted", ApexLogger.LogCategory.AR);
             OnAllPermissionsGranted?.Invoke();
             callback?.Invoke(true);
         }
@@ -162,7 +162,7 @@ namespace ApexCitadels.AR
         {
             if (isRequestingPermission)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.AR, "[Permissions] Already requesting a permission");
+                ApexLogger.LogWarning("[Permissions] Already requesting a permission", ApexLogger.LogCategory.AR);
                 return;
             }
 
@@ -207,7 +207,7 @@ namespace ApexCitadels.AR
                     break;
             }
 
-            ApexLogger.Log(ApexLogger.LogCategory.AR, $"[Permissions] Showing request UI for: {type}");
+            ApexLogger.Log($"[Permissions] Showing request UI for: {type}", ApexLogger.LogCategory.AR);
         }
 
         private void OnGrantPermissionClicked()
@@ -227,7 +227,7 @@ namespace ApexCitadels.AR
                 permissionPanel.SetActive(false);
             }
 
-            ApexLogger.LogWarning(ApexLogger.LogCategory.AR, $"[Permissions] User skipped: {currentPermissionRequest}");
+            ApexLogger.LogWarning($"[Permissions] User skipped: {currentPermissionRequest}", ApexLogger.LogCategory.AR);
             OnPermissionDenied?.Invoke(currentPermissionRequest);
             
             isRequestingPermission = false;
@@ -253,7 +253,7 @@ namespace ApexCitadels.AR
 
         private void OnPermissionResult(bool granted)
         {
-            ApexLogger.Log(ApexLogger.LogCategory.AR, $"[Permissions] {currentPermissionRequest} result: {(granted ? "GRANTED" : "DENIED")}");
+            ApexLogger.Log($"[Permissions] {currentPermissionRequest} result: {(granted ? "GRANTED" : "DENIED", ApexLogger.LogCategory.AR)}");
             
             if (!granted)
             {
@@ -266,7 +266,7 @@ namespace ApexCitadels.AR
 
         private void OnPermissionDeniedPermanently()
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.AR, $"[Permissions] {currentPermissionRequest} denied permanently. User must enable in settings.");
+            ApexLogger.LogWarning($"[Permissions] {currentPermissionRequest} denied permanently. User must enable in settings.", ApexLogger.LogCategory.AR);
             
             // Show dialog directing user to app settings
             ShowOpenSettingsDialog();
@@ -282,7 +282,7 @@ namespace ApexCitadels.AR
         private void ShowOpenSettingsDialog()
         {
             // TODO: Show a dialog with button to open app settings
-            ApexLogger.Log(ApexLogger.LogCategory.UI, "[Permissions] Would show 'Open Settings' dialog");
+            ApexLogger.Log("[Permissions] Would show 'Open Settings' dialog", ApexLogger.LogCategory.UI);
             
             #if UNITY_ANDROID && !UNITY_EDITOR
             // Open Android app settings
@@ -299,7 +299,7 @@ namespace ApexCitadels.AR
             }
             catch (Exception e)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.AR, $"[Permissions] Failed to open settings: {e.Message}");
+                ApexLogger.LogError($"[Permissions] Failed to open settings: {e.Message}", ApexLogger.LogCategory.AR);
             }
             #endif
         }

@@ -89,7 +89,7 @@ namespace ApexCitadels.Building
         {
             _selectedBlockType = type;
             OnBlockSelected?.Invoke(type);
-            ApexLogger.Log(ApexLogger.LogCategory.Core, $"[BuildingManager] Selected block: {type}");
+            ApexLogger.Log($"[BuildingManager] Selected block: {type}", ApexLogger.LogCategory.Building);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace ApexCitadels.Building
         {
             _isPlacementMode = true;
             CreatePlacementPreview();
-            ApexLogger.Log(ApexLogger.LogCategory.Core, "[BuildingManager] Entered placement mode");
+            ApexLogger.Log("[BuildingManager] Entered placement mode", ApexLogger.LogCategory.Building);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace ApexCitadels.Building
         {
             _isPlacementMode = false;
             DestroyPlacementPreview();
-            ApexLogger.Log(ApexLogger.LogCategory.Core, "[BuildingManager] Exited placement mode");
+            ApexLogger.Log("[BuildingManager] Exited placement mode", ApexLogger.LogCategory.Building);
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace ApexCitadels.Building
             // Fire event
             OnBlockPlaced?.Invoke(block);
 
-            ApexLogger.Log(ApexLogger.LogCategory.Core, $"[BuildingManager] Placed {_selectedBlockType} at {position}");
+            ApexLogger.Log($"[BuildingManager] Placed {_selectedBlockType} at {position}", ApexLogger.LogCategory.Building);
             return new PlacementResult(true, "Block placed!", block);
         }
 
@@ -481,11 +481,11 @@ namespace ApexCitadels.Building
                     }
                 }
                 
-                ApexLogger.Log(ApexLogger.LogCategory.Core, $"[BuildingManager] Loaded {snapshot.Count} blocks for territory {territoryId}");
+                ApexLogger.Log($"[BuildingManager] Loaded {snapshot.Count} blocks for territory {territoryId}", ApexLogger.LogCategory.Building);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.Core, $"[BuildingManager] Failed to load blocks: {ex.Message}");
+                ApexLogger.LogWarning($"[BuildingManager] Failed to load blocks: {ex.Message}", ApexLogger.LogCategory.Building);
             }
 #else
             await Task.CompletedTask;
@@ -557,7 +557,7 @@ namespace ApexCitadels.Building
 
         private async Task SaveBlockToCloud(BuildingBlock block)
         {
-            ApexLogger.Log(ApexLogger.LogCategory.Core, $"[BuildingManager] Saving block {block.Id} to cloud...");
+            ApexLogger.Log($"[BuildingManager] Saving block {block.Id} to cloud...", ApexLogger.LogCategory.Building);
             
 #if FIREBASE_ENABLED
             try
@@ -601,15 +601,15 @@ namespace ApexCitadels.Building
                     { "placedAt", Timestamp.FromDateTime(block.PlacedAt.ToUniversalTime()) }
                 }, SetOptions.MergeAll);
                 
-                ApexLogger.Log(ApexLogger.LogCategory.Core, "[BuildingManager] Block saved to Firestore");
+                ApexLogger.Log("[BuildingManager] Block saved to Firestore", ApexLogger.LogCategory.Building);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Core, $"[BuildingManager] Failed to save block: {ex.Message}");
+                ApexLogger.LogError($"[BuildingManager] Failed to save block: {ex.Message}", ApexLogger.LogCategory.Building);
             }
 #else
             await Task.Delay(100);
-            ApexLogger.Log(ApexLogger.LogCategory.Core, "[BuildingManager] Block saved (stub)");
+            ApexLogger.Log("[BuildingManager] Block saved (stub, ApexLogger.LogCategory.Building)");
 #endif
         }
 
@@ -620,11 +620,11 @@ namespace ApexCitadels.Building
             {
                 var db = FirebaseFirestore.DefaultInstance;
                 await db.Collection("buildings").Document(blockId).DeleteAsync();
-                ApexLogger.Log(ApexLogger.LogCategory.Core, $"[BuildingManager] Block {blockId} removed from Firestore");
+                ApexLogger.Log($"[BuildingManager] Block {blockId} removed from Firestore", ApexLogger.LogCategory.Building);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.Core, $"[BuildingManager] Failed to remove block: {ex.Message}");
+                ApexLogger.LogWarning($"[BuildingManager] Failed to remove block: {ex.Message}", ApexLogger.LogCategory.Building);
             }
 #else
             await Task.CompletedTask;

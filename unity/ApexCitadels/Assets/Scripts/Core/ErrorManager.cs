@@ -537,6 +537,10 @@ namespace ApexCitadels.UI
                     }
 
                     ShowToastInternal($"{operationName} failed, retrying... ({attempt}/{maxRetries})", ErrorSeverity.Warning);
+                }
+                
+                if (attempt < maxRetries)
+                {
                     yield return new WaitForSecondsRealtime(retryDelay);
                 }
             }

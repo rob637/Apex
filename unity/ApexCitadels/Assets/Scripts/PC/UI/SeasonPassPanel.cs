@@ -77,7 +77,7 @@ namespace ApexCitadels.PC.UI
                 _currentXP -= xpPerTier;
                 _currentTier++;
                 OnTierUp?.Invoke(_currentTier);
-                ApexLogger.Log(ApexLogger.LogCategory.UI, $"[SeasonPass] Tier up! Now tier {_currentTier}");
+                ApexLogger.Log($"[SeasonPass] Tier up! Now tier {_currentTier}", ApexLogger.LogCategory.UI);
             }
             
             SaveProgress();
@@ -118,7 +118,7 @@ namespace ApexCitadels.PC.UI
             _hasPremium = true;
             SaveProgress();
             RefreshDisplay();
-            ApexLogger.Log(ApexLogger.LogCategory.UI, "[SeasonPass] Upgraded to Premium!");
+            ApexLogger.Log("[SeasonPass] Upgraded to Premium!", ApexLogger.LogCategory.UI);
         }
 
         public void Show()
@@ -642,7 +642,7 @@ namespace ApexCitadels.PC.UI
 
         private void GrantReward(SeasonReward reward)
         {
-            ApexLogger.Log(ApexLogger.LogCategory.UI, $"[SeasonPass] Granted reward: {reward.Name} x{reward.Amount}");
+            ApexLogger.Log($"[SeasonPass] Granted reward: {reward.Name} x{reward.Amount}", ApexLogger.LogCategory.UI);
             
             // Grant to resource system if available
             if (PCResourceSystem.Instance != null && reward.Type == RewardType.Resource)

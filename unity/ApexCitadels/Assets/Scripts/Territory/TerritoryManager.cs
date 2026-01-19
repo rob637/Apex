@@ -66,7 +66,7 @@ namespace ApexCitadels.Territory
         /// </summary>
         public async Task<ClaimResult> TryClaimTerritory(double latitude, double longitude)
         {
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Attempting to claim at {latitude}, {longitude}");
+            ApexLogger.Log($"[TerritoryManager] Attempting to claim at {latitude}, {longitude}", ApexLogger.LogCategory.Territory);
 
             // Check if player has reached max territories
             int playerTerritoryCount = GetPlayerTerritoryCount(_currentPlayerId);
@@ -115,7 +115,7 @@ namespace ApexCitadels.Territory
             // Fire event
             OnTerritoryClaimed?.Invoke(newTerritory);
 
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Territory claimed! ID: {newTerritory.Id}");
+            ApexLogger.Log($"[TerritoryManager] Territory claimed! ID: {newTerritory.Id}", ApexLogger.LogCategory.Territory);
             return new ClaimResult(true, "Territory claimed!", newTerritory);
         }
 
@@ -401,7 +401,7 @@ namespace ApexCitadels.Territory
 
         private async void LoadNearbyTerritories()
         {
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, "[TerritoryManager] Loading nearby territories...");
+            ApexLogger.Log("[TerritoryManager] Loading nearby territories...", ApexLogger.LogCategory.Territory);
             
 #if FIREBASE_ENABLED
             try
@@ -421,15 +421,15 @@ namespace ApexCitadels.Territory
                     }
                 }
                 
-                ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Loaded {snapshot.Count} territories from Firebase");
+                ApexLogger.Log($"[TerritoryManager] Loaded {snapshot.Count} territories from Firebase", ApexLogger.LogCategory.Territory);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Failed to load territories: {ex.Message}");
+                ApexLogger.LogWarning($"[TerritoryManager] Failed to load territories: {ex.Message}", ApexLogger.LogCategory.Territory);
             }
 #else
             await Task.Delay(100);
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, "[TerritoryManager] Territories loaded (stub)");
+            ApexLogger.Log("[TerritoryManager] Territories loaded (stub, ApexLogger.LogCategory.Territory)");
 #endif
         }
 
@@ -478,11 +478,11 @@ namespace ApexCitadels.Territory
                     }
                 }
                 
-                ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Loaded {loadedCount} nearby territories");
+                ApexLogger.Log($"[TerritoryManager] Loaded {loadedCount} nearby territories", ApexLogger.LogCategory.Territory);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Failed to load nearby territories: {ex.Message}");
+                ApexLogger.LogWarning($"[TerritoryManager] Failed to load nearby territories: {ex.Message}", ApexLogger.LogCategory.Territory);
             }
 #else
             await Task.Delay(100);
@@ -491,7 +491,7 @@ namespace ApexCitadels.Territory
 
         private async Task<bool> SaveTerritoryToCloud(Territory territory)
         {
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Saving territory {territory.Id} to cloud...");
+            ApexLogger.Log($"[TerritoryManager] Saving territory {territory.Id} to cloud...", ApexLogger.LogCategory.Territory);
             
 #if FIREBASE_ENABLED
             try
@@ -501,17 +501,17 @@ namespace ApexCitadels.Territory
                 
                 await docRef.SetAsync(territory.ToFirestoreData(), SetOptions.MergeAll);
                 
-                ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Territory saved to Firestore");
+                ApexLogger.Log($"[TerritoryManager] Territory saved to Firestore", ApexLogger.LogCategory.Territory);
                 return true;
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Failed to save territory: {ex.Message}");
+                ApexLogger.LogError($"[TerritoryManager] Failed to save territory: {ex.Message}", ApexLogger.LogCategory.Territory);
                 return false;
             }
 #else
             await Task.Delay(100);
-            ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryManager] Territory saved (stub)");
+            ApexLogger.Log($"[TerritoryManager] Territory saved (stub, ApexLogger.LogCategory.Territory)");
             return true;
 #endif
         }

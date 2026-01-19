@@ -181,7 +181,7 @@ namespace ApexCitadels.Cosmetics
 #if FIREBASE_ENABLED
             _functions = FirebaseFunctions.DefaultInstance;
 #else
-            ApexLogger.LogWarning(ApexLogger.LogCategory.Economy, "Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Economy);
 #endif
             SetupButtons();
             CreateCategoryTabs();
@@ -246,7 +246,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Failed to open shop: {ex.Message}");
+                ApexLogger.LogError($"Failed to open shop: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
             finally
             {
@@ -289,7 +289,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Failed to refresh balance: {ex.Message}");
+                ApexLogger.LogError($"Failed to refresh balance: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
         }
 
@@ -349,7 +349,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Failed to refresh catalog: {ex.Message}");
+                ApexLogger.LogError($"Failed to refresh catalog: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
         }
 
@@ -416,7 +416,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Failed to refresh user cosmetics: {ex.Message}");
+                ApexLogger.LogError($"Failed to refresh user cosmetics: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
         }
 
@@ -765,7 +765,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Purchase failed: {ex.Message}");
+                ApexLogger.LogError($"Purchase failed: {ex.Message}", ApexLogger.LogCategory.Economy);
                 ShowMessage("Purchase failed. Please try again.");
             }
             finally
@@ -824,7 +824,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Equip failed: {ex.Message}");
+                ApexLogger.LogError($"Equip failed: {ex.Message}", ApexLogger.LogCategory.Economy);
                 ShowMessage("Failed to equip item.");
             }
             finally
@@ -871,7 +871,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Unequip failed: {ex.Message}");
+                ApexLogger.LogError($"Unequip failed: {ex.Message}", ApexLogger.LogCategory.Economy);
                 ShowMessage("Failed to unequip item.");
             }
             finally
@@ -920,7 +920,7 @@ namespace ApexCitadels.Cosmetics
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Toggle favorite failed: {ex.Message}");
+                ApexLogger.LogError($"Toggle favorite failed: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
         }
 
@@ -994,7 +994,7 @@ namespace ApexCitadels.Cosmetics
         private void ShowMessage(string message)
         {
             // Integrate with your notification system
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, message);
+            ApexLogger.LogVerbose(message, ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>

@@ -130,13 +130,13 @@ namespace ApexCitadels.PC.UI
             // Validate
             if (activeQueue.Count >= maxQueueSize)
             {
-                ApexLogger.LogWarning("Queue is full!", ApexLogger.LogCategory.Army);
+                ApexLogger.LogWarning("Queue is full!", ApexLogger.LogCategory.Combat);
                 return false;
             }
 
             if (count <= 0 || count > maxBatchSize)
             {
-                ApexLogger.LogWarning($"Invalid count: {count}", ApexLogger.LogCategory.Army);
+                ApexLogger.LogWarning($"Invalid count: {count}", ApexLogger.LogCategory.Combat);
                 return false;
             }
 
@@ -146,7 +146,7 @@ namespace ApexCitadels.PC.UI
                 var cost = TroopConfig.GetTotalTrainingCost(type, count);
                 if (!TryDeductResources(cost))
                 {
-                    ApexLogger.LogWarning("Insufficient resources!", ApexLogger.LogCategory.Army);
+                    ApexLogger.LogWarning("Insufficient resources!", ApexLogger.LogCategory.Combat);
                     return false;
                 }
             }
@@ -169,7 +169,7 @@ namespace ApexCitadels.PC.UI
             OnTrainingStarted?.Invoke(item);
             OnQueueChanged?.Invoke();
 
-            ApexLogger.Log($"Queued {count} {type} ({item.TotalTimeSeconds}s total)", ApexLogger.LogCategory.Army);
+            ApexLogger.Log($"Queued {count} {type} ({item.TotalTimeSeconds}s total)", ApexLogger.LogCategory.Combat);
             return true;
         }
 
@@ -195,7 +195,7 @@ namespace ApexCitadels.PC.UI
             OnTrainingCancelled?.Invoke(item);
             OnQueueChanged?.Invoke();
 
-            ApexLogger.Log($"Cancelled {item.Type} training", ApexLogger.LogCategory.Army);
+            ApexLogger.Log($"Cancelled {item.Type} training", ApexLogger.LogCategory.Combat);
             return true;
         }
 
@@ -223,7 +223,7 @@ namespace ApexCitadels.PC.UI
             activeQueue.Remove(item);
             OnQueueChanged?.Invoke();
 
-            ApexLogger.Log($"Completed training: {item.Count} {item.Type}", ApexLogger.LogCategory.Army);
+            ApexLogger.Log($"Completed training: {item.Count} {item.Type}", ApexLogger.LogCategory.Combat);
         }
 
         #endregion
@@ -234,7 +234,7 @@ namespace ApexCitadels.PC.UI
         {
             if (ResourceInventory.Instance == null)
             {
-                ApexLogger.LogWarning("ResourceInventory not found - skipping deduction", ApexLogger.LogCategory.Army);
+                ApexLogger.LogWarning("ResourceInventory not found - skipping deduction", ApexLogger.LogCategory.Combat);
                 return true; // Allow training without resource check in dev
             }
 
@@ -270,7 +270,7 @@ namespace ApexCitadels.PC.UI
             ResourceInventory.Instance.AddResource(ResourceType.ArcaneEssence, Mathf.FloorToInt(cost.ArcaneEssence * ratio), "Training refund");
             ResourceInventory.Instance.AddResource(ResourceType.Gems, Mathf.FloorToInt(cost.Gems * ratio), "Training refund");
 
-            ApexLogger.Log($"Refunded {ratio:P0} of resources", ApexLogger.LogCategory.Army);
+            ApexLogger.Log($"Refunded {ratio:P0} of resources", ApexLogger.LogCategory.Combat);
         }
 
         #endregion
@@ -411,11 +411,11 @@ namespace ApexCitadels.PC.UI
                 lastSaveTime = Time.time;
                 isDirty = false;
 
-                ApexLogger.LogVerbose("Saved to storage", ApexLogger.LogCategory.Army);
+                ApexLogger.LogVerbose("Saved to storage", ApexLogger.LogCategory.Combat);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError($"Save failed: {ex.Message}", ApexLogger.LogCategory.Army);
+                ApexLogger.LogError($"Save failed: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
         }
 
@@ -476,11 +476,11 @@ namespace ApexCitadels.PC.UI
                     }
                 }
 
-                ApexLogger.Log($"Loaded from storage - {GetTotalArmySize()} troops, {activeQueue.Count} in queue", ApexLogger.LogCategory.Army);
+                ApexLogger.Log($"Loaded from storage - {GetTotalArmySize()} troops, {activeQueue.Count} in queue", ApexLogger.LogCategory.Combat);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError($"Load failed: {ex.Message}", ApexLogger.LogCategory.Army);
+                ApexLogger.LogError($"Load failed: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
         }
 

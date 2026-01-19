@@ -189,7 +189,7 @@ namespace ApexCitadels.Territory
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Territory, $"Failed to parse from Firestore: {ex.Message}");
+                ApexLogger.LogError($"Failed to parse from Firestore: {ex.Message}", ApexLogger.LogCategory.Territory);
                 return null;
             }
         }

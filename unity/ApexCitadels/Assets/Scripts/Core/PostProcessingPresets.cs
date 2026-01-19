@@ -206,6 +206,7 @@ namespace ApexCitadels.Core
 
         private void InitializeVolume()
         {
+#if UNITY_PIPELINE_URP
             if (globalVolume == null)
             {
                 globalVolume = GetComponent<Volume>();
@@ -217,6 +218,7 @@ namespace ApexCitadels.Core
                 globalVolume.isGlobal = true;
                 globalVolume.priority = 100;
             }
+#endif
         }
 
         private void ApplyPresetImmediate(ScenePreset preset)
@@ -278,9 +280,11 @@ namespace ApexCitadels.Core
 
         private void ApplySettings(PostProcessingSettings settings, float weight)
         {
-            if (settings == null || globalVolume == null) return;
+            if (settings == null) return;
 
 #if UNITY_PIPELINE_URP
+            if (globalVolume == null) return;
+            
             // Get or create profile
             if (globalVolume.profile == null)
             {

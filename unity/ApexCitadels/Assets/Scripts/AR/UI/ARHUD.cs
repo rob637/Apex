@@ -250,7 +250,7 @@ namespace ApexCitadels.AR.UI
                     break;
             }
 
-            ApexLogger.Log(ApexLogger.LogCategory.UI, $"[ARHUD] State changed to: {state}");
+            ApexLogger.Log($"[ARHUD] State changed to: {state}", ApexLogger.LogCategory.UI);
         }
 
         #endregion

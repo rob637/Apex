@@ -340,7 +340,7 @@ namespace ApexCitadels.PC.Economy
 
         private void OpenShop()
         {
-            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Opening IAP store...");
+            ApexLogger.Log("Opening IAP store...", ApexLogger.LogCategory.Economy);
             
             // Find and open the IAP store UI
             var storeUI = UnityEngine.Object.FindObjectOfType<IAPStoreUI>();
@@ -350,7 +350,7 @@ namespace ApexCitadels.PC.Economy
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.Economy, "IAPStoreUI not found in scene!");
+                ApexLogger.LogWarning("IAPStoreUI not found in scene!", ApexLogger.LogCategory.Economy);
             }
             
             Hide();

@@ -107,7 +107,7 @@ namespace ApexCitadels.Alliance
             // Save to Firebase
             await SaveAllianceToCloud(_currentAlliance);
 
-            ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Created alliance: {name} [{tag}]");
+            ApexLogger.Log($"[AllianceManager] Created alliance: {name} [{tag}]", ApexLogger.LogCategory.General);
             OnAllianceJoined?.Invoke(_currentAlliance);
 
             return (true, $"Alliance '{name}' created successfully!");
@@ -165,7 +165,7 @@ namespace ApexCitadels.Alliance
             // Save to cloud
             await SaveAllianceToCloud(alliance);
 
-            ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Joined alliance: {alliance.Name}");
+            ApexLogger.Log($"[AllianceManager] Joined alliance: {alliance.Name}", ApexLogger.LogCategory.General);
             OnAllianceJoined?.Invoke(_currentAlliance);
 
             return (true, $"Joined '{alliance.Name}' successfully!");
@@ -247,7 +247,7 @@ namespace ApexCitadels.Alliance
             // Save invitation to cloud
             await SaveInvitationToCloud(invitation);
 
-            ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Sent invitation to {inviteeName}");
+            ApexLogger.Log($"[AllianceManager] Sent invitation to {inviteeName}", ApexLogger.LogCategory.General);
             return (true, $"Invitation sent to {inviteeName}!");
         }
 
@@ -524,7 +524,7 @@ namespace ApexCitadels.Alliance
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
             if (string.IsNullOrEmpty(playerId))
             {
-                ApexLogger.Log(ApexLogger.LogCategory.Player, "[AllianceManager] No player logged in, skipping alliance load");
+                ApexLogger.Log("[AllianceManager] No player logged in, skipping alliance load", ApexLogger.LogCategory.General);
                 return;
             }
 
@@ -544,7 +544,7 @@ namespace ApexCitadels.Alliance
                 {
                     var doc = snapshot.Documents.First();
                     _currentAlliance = Alliance.FromFirestore(doc);
-                    ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Loaded alliance: {_currentAlliance?.Name}");
+                    ApexLogger.Log($"[AllianceManager] Loaded alliance: {_currentAlliance?.Name}", ApexLogger.LogCategory.General);
                     
                     if (_currentAlliance != null)
                     {
@@ -556,7 +556,7 @@ namespace ApexCitadels.Alliance
                 }
                 else
                 {
-                    ApexLogger.Log(ApexLogger.LogCategory.Player, "[AllianceManager] Player is not in any alliance");
+                    ApexLogger.Log("[AllianceManager] Player is not in any alliance", ApexLogger.LogCategory.General);
                 }
 #endif
                 // Load pending invitations
@@ -564,7 +564,7 @@ namespace ApexCitadels.Alliance
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to load alliance: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to load alliance: {ex.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -606,7 +606,7 @@ namespace ApexCitadels.Alliance
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to load active war: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to load active war: {ex.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -638,11 +638,11 @@ namespace ApexCitadels.Alliance
                     }
                 }
 #endif
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Loaded {_pendingInvitations.Count} pending invitations");
+                ApexLogger.Log($"[AllianceManager] Loaded {_pendingInvitations.Count} pending invitations", ApexLogger.LogCategory.General);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to load invitations: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to load invitations: {ex.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -654,12 +654,12 @@ namespace ApexCitadels.Alliance
                 var db = GetFirestore();
                 var docRef = db.Collection("alliances").Document(alliance.Id);
                 await docRef.SetAsync(alliance.ToFirestoreData());
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Alliance {alliance.Name} saved to cloud");
+                ApexLogger.Log($"[AllianceManager] Alliance {alliance.Name} saved to cloud", ApexLogger.LogCategory.General);
 #endif
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to save alliance: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to save alliance: {ex.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -680,7 +680,7 @@ namespace ApexCitadels.Alliance
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to load alliance {allianceId}: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to load alliance {allianceId}: {ex.Message}", ApexLogger.LogCategory.General);
             }
 
             return null;
@@ -694,12 +694,12 @@ namespace ApexCitadels.Alliance
                 var db = GetFirestore();
                 var docRef = db.Collection("alliance_invitations").Document(invitation.Id);
                 await docRef.SetAsync(invitation.ToFirestoreData());
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Invitation {invitation.Id} saved");
+                ApexLogger.Log($"[AllianceManager] Invitation {invitation.Id} saved", ApexLogger.LogCategory.General);
 #endif
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to save invitation: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to save invitation: {ex.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -711,12 +711,12 @@ namespace ApexCitadels.Alliance
                 var db = GetFirestore();
                 var docRef = db.Collection("alliance_wars").Document(war.Id);
                 await docRef.SetAsync(war.ToFirestoreData());
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] War {war.Id} saved");
+                ApexLogger.Log($"[AllianceManager] War {war.Id} saved", ApexLogger.LogCategory.General);
 #endif
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to save war: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to save war: {ex.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -730,12 +730,12 @@ namespace ApexCitadels.Alliance
                 var db = GetFirestore();
                 var docRef = db.Collection("alliances").Document(_currentAlliance.Id);
                 await docRef.DeleteAsync();
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Alliance {_currentAlliance.Name} disbanded");
+                ApexLogger.Log($"[AllianceManager] Alliance {_currentAlliance.Name} disbanded", ApexLogger.LogCategory.General);
 #endif
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Failed to disband alliance: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Failed to disband alliance: {ex.Message}", ApexLogger.LogCategory.General);
             }
             finally
             {
@@ -778,12 +778,12 @@ namespace ApexCitadels.Alliance
                     }
                 }
 
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Search returned {results.Count} alliances");
+                ApexLogger.Log($"[AllianceManager] Search returned {results.Count} alliances", ApexLogger.LogCategory.General);
 #endif
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Search failed: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Search failed: {ex.Message}", ApexLogger.LogCategory.General);
             }
 
             return results;
@@ -816,12 +816,12 @@ namespace ApexCitadels.Alliance
                     }
                 }
 
-                ApexLogger.Log(ApexLogger.LogCategory.Player, $"[AllianceManager] Leaderboard loaded with {results.Count} alliances");
+                ApexLogger.Log($"[AllianceManager] Leaderboard loaded with {results.Count} alliances", ApexLogger.LogCategory.General);
 #endif
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"[AllianceManager] Leaderboard failed: {ex.Message}");
+                ApexLogger.LogError($"[AllianceManager] Leaderboard failed: {ex.Message}", ApexLogger.LogCategory.General);
             }
 
             return results;

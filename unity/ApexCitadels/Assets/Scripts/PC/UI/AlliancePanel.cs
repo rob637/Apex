@@ -140,11 +140,11 @@ namespace ApexCitadels.PC.UI
             if (alliance != null)
             {
                 _currentAllianceId = alliance.Id;
-                ApexLogger.Log(ApexLogger.LogCategory.UI, $"[AlliancePanel] Refreshing data for alliance: {alliance.Name}");
+                ApexLogger.Log($"[AlliancePanel] Refreshing data for alliance: {alliance.Name}", ApexLogger.LogCategory.UI);
             }
             else
             {
-                ApexLogger.Log(ApexLogger.LogCategory.UI, "[AlliancePanel] No alliance - showing placeholder data");
+                ApexLogger.Log("[AlliancePanel] No alliance - showing placeholder data", ApexLogger.LogCategory.UI);
             }
             
             RefreshOverview();
@@ -197,7 +197,7 @@ namespace ApexCitadels.PC.UI
             else
             {
                 // Placeholder data when not in alliance
-                ApexLogger.Log(ApexLogger.LogCategory.UI, "[AlliancePanel] No alliance members to display");
+                ApexLogger.Log("[AlliancePanel] No alliance members to display", ApexLogger.LogCategory.UI);
             }
         }
 
@@ -254,7 +254,7 @@ namespace ApexCitadels.PC.UI
                     string timeRemaining = activeWar.TimeRemaining.ToString(@"hh\:mm\:ss");
                     warStatusText.text = $"WAR: vs {activeWar.DefenderName}\nScore: {activeWar.AttackerScore} - {activeWar.DefenderScore}\nTime: {timeRemaining}";
                 }
-                ApexLogger.Log(ApexLogger.LogCategory.UI, $"[AlliancePanel] Displaying active war vs {activeWar.DefenderName}");
+                ApexLogger.Log($"[AlliancePanel] Displaying active war vs {activeWar.DefenderName}", ApexLogger.LogCategory.UI);
             }
             else
             {

@@ -356,7 +356,7 @@ namespace ApexCitadels.PC.Economy
                         }
                     }
 
-                    ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, $"Calculated {minutes:F1} minutes of offline generation");
+                    ApexLogger.LogVerbose($"Calculated {minutes:F1} minutes of offline generation", ApexLogger.LogCategory.Economy);
                 }
             }
         }
@@ -665,11 +665,11 @@ namespace ApexCitadels.PC.Economy
                 lastSaveTime = Time.time;
                 isDirty = false;
 
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, "Saved resources");
+                ApexLogger.LogVerbose("Saved resources", ApexLogger.LogCategory.Economy);
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Save failed: {ex.Message}");
+                ApexLogger.LogError($"Save failed: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
         }
 
@@ -693,7 +693,7 @@ namespace ApexCitadels.PC.Economy
                         }
 
                         OnResourcesLoaded?.Invoke();
-                        ApexLogger.Log(ApexLogger.LogCategory.Economy, "Loaded resources from storage");
+                        ApexLogger.Log("Loaded resources from storage", ApexLogger.LogCategory.Economy);
                         return;
                     }
                 }
@@ -703,7 +703,7 @@ namespace ApexCitadels.PC.Economy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Load failed: {ex.Message}");
+                ApexLogger.LogError($"Load failed: {ex.Message}", ApexLogger.LogCategory.Economy);
                 SetStartingResources();
             }
         }
@@ -721,7 +721,7 @@ namespace ApexCitadels.PC.Economy
             resources[ResourceType.Energy] = startEnergy;
 
             OnResourcesLoaded?.Invoke();
-            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Set starting resources");
+            ApexLogger.Log("Set starting resources", ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>
