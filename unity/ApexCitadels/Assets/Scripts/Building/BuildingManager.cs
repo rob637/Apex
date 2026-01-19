@@ -366,7 +366,7 @@ namespace ApexCitadels.Building
                 }
                 
                 // Deduct the resources
-                if (!Player.PlayerManager.Instance.SpendResource(Player.ResourceType.Stone, def.ResourceCost))
+                if (!Player.PlayerManager.Instance.SpendResource(ResourceType.Stone, def.ResourceCost))
                 {
                     return new PlacementResult(false, "Failed to spend resources!");
                 }
