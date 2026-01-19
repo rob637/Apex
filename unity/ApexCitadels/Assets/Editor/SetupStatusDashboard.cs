@@ -456,12 +456,26 @@ namespace ApexCitadels.Editor
                 AddPCSceneBootstrapper();
             }
             
-            // Step 6: Generate libraries if missing
+            // Step 6: Generate ALL libraries if missing
             if (!_hasCombatSFXLibrary)
             {
                 Debug.Log("[Setup] Generating CombatSFXLibrary...");
                 try { EditorApplication.ExecuteMenuItem("Apex Citadels/Assets/Quick Generate SFX Library"); }
                 catch { Debug.Log("[Setup] SFX Library generator not available"); }
+            }
+            
+            if (!_hasUISoundLibrary)
+            {
+                Debug.Log("[Setup] Generating UISoundLibrary...");
+                try { EditorApplication.ExecuteMenuItem("Apex Citadels/Assets/Quick Generate UI Sounds"); }
+                catch { Debug.Log("[Setup] UI Sound generator not available"); }
+            }
+            
+            if (!_hasAnimatorController)
+            {
+                Debug.Log("[Setup] Generating AnimatorController...");
+                try { EditorApplication.ExecuteMenuItem("Apex Citadels/Assets/Quick Generate Humanoid Controller"); }
+                catch { Debug.Log("[Setup] Animation generator not available"); }
             }
             
             Debug.Log("[Setup] Fix All Issues complete! Refreshing status...");
