@@ -269,7 +269,23 @@ namespace ApexCitadels.Editor
                     spriteData.Add(meta);
                 }
                 
-                importer.spritesheet = spriteData.ToArray();
+                // Use SerializedObject to set spritesheet data (avoids deprecated API)
+                var serializedImporter = new SerializedObject(importer);
+                var spriteSheetProperty = serializedImporter.FindProperty("m_SpriteSheet.m_Sprites");
+                spriteSheetProperty.ClearArray();
+                
+                for (int i = 0; i < spriteData.Count; i++)
+                {
+                    spriteSheetProperty.InsertArrayElementAtIndex(i);
+                    var element = spriteSheetProperty.GetArrayElementAtIndex(i);
+                    element.FindPropertyRelative("m_Name").stringValue = spriteData[i].name;
+                    element.FindPropertyRelative("m_Rect").rectValue = spriteData[i].rect;
+                    element.FindPropertyRelative("m_Pivot").vector2Value = spriteData[i].pivot;
+                    element.FindPropertyRelative("m_Alignment").intValue = spriteData[i].alignment;
+                    element.FindPropertyRelative("m_Border").vector4Value = Vector4.zero;
+                }
+                
+                serializedImporter.ApplyModifiedPropertiesWithoutUndo();
                 importer.SaveAndReimport();
             }
             

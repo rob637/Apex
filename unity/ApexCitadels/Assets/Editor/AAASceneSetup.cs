@@ -1,13 +1,13 @@
 // ============================================================================
 // APEX CITADELS - AAA SCENE SETUP WIZARD
 // One-click setup for PC scene with all required components
+// Compatible with Unity 6 and URP 17+
 // ============================================================================
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using System.IO;
 
 namespace ApexCitadels.Editor
@@ -43,7 +43,7 @@ namespace ApexCitadels.Editor
                 "This will set up the current scene with all AAA features:\n\n" +
                 "- HDR Skybox with Day/Night Cycle\n" +
                 "- Real-world Map Tiles (OpenStreetMap)\n" +
-                "- Post-processing (Bloom, Color Grading)\n" +
+                "- Post-processing Volume\n" +
                 "- Atmospheric Lighting\n" +
                 "- Audio System\n" +
                 "- Complete UI\n\n" +
@@ -70,7 +70,7 @@ namespace ApexCitadels.Editor
             GUILayout.Label("Features to Setup:", EditorStyles.boldLabel);
             setupSkybox = EditorGUILayout.Toggle("HDR Skybox + Day/Night", setupSkybox);
             setupLighting = EditorGUILayout.Toggle("Atmospheric Lighting", setupLighting);
-            setupPostProcessing = EditorGUILayout.Toggle("Post-Processing", setupPostProcessing);
+            setupPostProcessing = EditorGUILayout.Toggle("Post-Processing Volume", setupPostProcessing);
             setupMapSystem = EditorGUILayout.Toggle("Real-World Map Tiles", setupMapSystem);
             setupCamera = EditorGUILayout.Toggle("Camera Controllers", setupCamera);
             setupUI = EditorGUILayout.Toggle("UI System", setupUI);
@@ -105,7 +105,8 @@ namespace ApexCitadels.Editor
             GUILayout.Space(10);
 
             EditorGUILayout.HelpBox(
-                "After setup, enter Play Mode to see the real-world map tiles loading.",
+                "After setup, enter Play Mode to see the real-world map tiles loading.\n" +
+                "For post-processing, assign the DefaultVolumeProfile asset to the Global Volume.",
                 MessageType.Info);
 
             GUILayout.Space(10);
@@ -350,55 +351,50 @@ namespace ApexCitadels.Editor
             volume.isGlobal = true;
             Undo.RegisterCreatedObjectUndo(volumeObj, "Create Global Volume");
 
-            // Create volume profile
-            VolumeProfile profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            // Try to find existing volume profile in project
+            VolumeProfile profile = null;
+            
+            // Look for DefaultVolumeProfile first
+            string[] profileGuids = AssetDatabase.FindAssets("DefaultVolumeProfile t:VolumeProfile");
+            if (profileGuids.Length > 0)
+            {
+                string profilePath = AssetDatabase.GUIDToAssetPath(profileGuids[0]);
+                profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(profilePath);
+                Debug.Log("[AAA Setup] Found existing DefaultVolumeProfile");
+            }
+            
+            // If no profile found, look for any VolumeProfile
+            if (profile == null)
+            {
+                profileGuids = AssetDatabase.FindAssets("t:VolumeProfile");
+                if (profileGuids.Length > 0)
+                {
+                    string profilePath = AssetDatabase.GUIDToAssetPath(profileGuids[0]);
+                    profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(profilePath);
+                    Debug.Log($"[AAA Setup] Using existing VolumeProfile: {profilePath}");
+                }
+            }
 
-            // Add Bloom - Unity 6 URP API
-            var bloom = profile.Add<Bloom>(false);
-            bloom.active = true;
-            bloom.threshold.value = 0.9f;
-            bloom.threshold.overrideState = true;
-            bloom.intensity.value = 0.5f;
-            bloom.intensity.overrideState = true;
-            bloom.scatter.value = 0.7f;
-            bloom.scatter.overrideState = true;
+            // If still no profile, create a basic one
+            if (profile == null)
+            {
+                profile = ScriptableObject.CreateInstance<VolumeProfile>();
+                
+                // Save profile - effects will need to be added manually in the inspector
+                string settingsDir = "Assets/Settings";
+                if (!Directory.Exists(settingsDir))
+                    Directory.CreateDirectory(settingsDir);
 
-            // Add Color Adjustments
-            var colorAdj = profile.Add<ColorAdjustments>(false);
-            colorAdj.active = true;
-            colorAdj.postExposure.value = 0.5f;
-            colorAdj.postExposure.overrideState = true;
-            colorAdj.contrast.value = 10f;
-            colorAdj.contrast.overrideState = true;
-            colorAdj.saturation.value = 10f;
-            colorAdj.saturation.overrideState = true;
-
-            // Add Vignette
-            var vignette = profile.Add<Vignette>(false);
-            vignette.active = true;
-            vignette.intensity.value = 0.25f;
-            vignette.intensity.overrideState = true;
-            vignette.smoothness.value = 0.5f;
-            vignette.smoothness.overrideState = true;
-
-            // Add Tonemapping
-            var tonemapping = profile.Add<Tonemapping>(false);
-            tonemapping.active = true;
-            tonemapping.mode.value = TonemappingMode.ACES;
-            tonemapping.mode.overrideState = true;
-
-            // Save profile
-            string settingsDir = "Assets/Settings";
-            if (!Directory.Exists(settingsDir))
-                Directory.CreateDirectory(settingsDir);
-
-            string profilePath = "Assets/Settings/PostProcessing_AAA.asset";
-            AssetDatabase.CreateAsset(profile, profilePath);
-            AssetDatabase.SaveAssets();
+                string newProfilePath = "Assets/Settings/PostProcessing_AAA.asset";
+                AssetDatabase.CreateAsset(profile, newProfilePath);
+                AssetDatabase.SaveAssets();
+                
+                Debug.Log("[AAA Setup] Created new VolumeProfile at: " + newProfilePath);
+                Debug.Log("[AAA Setup] Add post-processing effects via the Volume component inspector");
+            }
 
             volume.profile = profile;
-
-            Debug.Log("[AAA Setup] Created post-processing volume with AAA settings");
+            Debug.Log("[AAA Setup] Created post-processing Global Volume");
         }
 
         #endregion
@@ -465,14 +461,8 @@ namespace ApexCitadels.Editor
                 mainCam.gameObject.AddComponent<PC.PCCameraController>();
             }
 
-            // Enable post-processing on the camera via URP extension method
-            var additionalData = mainCam.GetUniversalAdditionalCameraData();
-            if (additionalData != null)
-            {
-                additionalData.renderPostProcessing = true;
-            }
-
-            Debug.Log("[AAA Setup] Configured main camera with HDR and post-processing");
+            Debug.Log("[AAA Setup] Configured main camera with HDR");
+            Debug.Log("[AAA Setup] Enable post-processing in the Camera's URP settings if needed");
         }
 
         #endregion
