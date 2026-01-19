@@ -233,7 +233,7 @@ namespace ApexCitadels.PC.GeoMapping
                     Debug.Log($"[MapTileProvider] Fetching: {url}");
                 }
 
-                using (var request = UnityWebRequestTexture.GetTexture(url))
+                using (var request = UnityWebRequest.Get(url))
                 {
                     request.timeout = (int)config.RequestTimeoutSeconds;
                     
@@ -249,7 +249,9 @@ namespace ApexCitadels.PC.GeoMapping
 
                     if (request.result == UnityWebRequest.Result.Success)
                     {
-                        var texture = DownloadHandlerTexture.GetContent(request);
+                        // Create texture from raw bytes
+                        var texture = new Texture2D(256, 256, TextureFormat.RGB24, false);
+                        texture.LoadImage(request.downloadHandler.data);
                         texture.wrapMode = TextureWrapMode.Clamp;
                         texture.filterMode = FilterMode.Bilinear;
 

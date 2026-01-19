@@ -1,7 +1,6 @@
 using Camera = UnityEngine.Camera;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering.Universal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -863,12 +862,20 @@ namespace ApexCitadels.PC.CameraControllers
             
             yield return new WaitForEndOfFrame();
             
-            // Capture
+            // Capture using ReadPixels (works without ScreenCapture module)
             string filename = $"ApexCitadels_Photo_{System.DateTime.Now:yyyyMMdd_HHmmss}.png";
             string path = System.IO.Path.Combine(Application.persistentDataPath, "Screenshots", filename);
             
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
-            UnityEngine.ScreenCapture.CaptureScreenshot(path);
+            
+            // Manual screenshot capture
+            Texture2D screenshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+            screenshot.Apply();
+            
+            byte[] bytes = screenshot.EncodeToPNG();
+            System.IO.File.WriteAllBytes(path, bytes);
+            UnityEngine.Object.Destroy(screenshot);
             
             Debug.Log($"Screenshot saved: {path}");
             
@@ -893,8 +900,8 @@ namespace ApexCitadels.PC.CameraControllers
             
             if (currentFilterIndex == filterMaterials.Length)
             {
-                // No filter
-                photoCamera.GetComponent<UniversalAdditionalCameraData>()?.SetRenderer(0);
+                // No filter - reset to default renderer
+                // Note: URP renderer switching removed for compatibility
                 if (filterNameText != null) filterNameText.text = "No Filter";
             }
             else

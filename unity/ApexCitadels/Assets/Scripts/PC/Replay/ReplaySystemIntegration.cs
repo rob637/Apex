@@ -470,6 +470,13 @@ namespace ApexCitadels.PC.Replay
         /// </summary>
         public void TakeScreenshot()
         {
+            StartCoroutine(CaptureScreenshotCoroutine());
+        }
+        
+        private System.Collections.IEnumerator CaptureScreenshotCoroutine()
+        {
+            yield return new WaitForEndOfFrame();
+            
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             string filename = $"BattleReplay_{timestamp}.png";
             
@@ -478,7 +485,14 @@ namespace ApexCitadels.PC.Replay
             // Ensure directory exists
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
             
-            UnityEngine.ScreenCapture.CaptureScreenshot(path);
+            // Manual screenshot capture (works without ScreenCapture module)
+            Texture2D screenshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+            screenshot.Apply();
+            
+            byte[] bytes = screenshot.EncodeToPNG();
+            System.IO.File.WriteAllBytes(path, bytes);
+            UnityEngine.Object.Destroy(screenshot);
             
             Debug.Log($"[ReplayIntegration] Screenshot saved: {path}");
             OnScreenshotTaken?.Invoke(path);
