@@ -269,6 +269,7 @@ namespace ApexCitadels.Cosmetics
         {
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("getCurrencyBalance");
                 var result = await function.CallAsync();
                 var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
@@ -283,6 +284,7 @@ namespace ApexCitadels.Cosmetics
 
                 UpdateBalanceDisplay();
                 OnBalanceChanged?.Invoke(_balance);
+#endif
             }
             catch (Exception ex)
             {
@@ -297,6 +299,7 @@ namespace ApexCitadels.Cosmetics
         {
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("getShopCatalog");
                 var data = new Dictionary<string, object>
                 {
@@ -341,6 +344,7 @@ namespace ApexCitadels.Cosmetics
 
                     UpdateRotationDisplay();
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -355,6 +359,7 @@ namespace ApexCitadels.Cosmetics
         {
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("getUserCosmetics");
                 var result = await function.CallAsync();
                 var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
@@ -406,6 +411,7 @@ namespace ApexCitadels.Cosmetics
                     item.IsEquipped = _equippedItems.GetValueOrDefault(item.Category) == item.Id;
                     item.IsFavorite = _favorites.Contains(item.Id);
                 }
+#endif
             }
             catch (Exception ex)
             {

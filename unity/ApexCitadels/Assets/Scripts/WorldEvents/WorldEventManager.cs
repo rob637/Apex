@@ -426,6 +426,7 @@ namespace ApexCitadels.WorldEvents
                 evt.EventType = eventType;
             }
 
+#if FIREBASE_ENABLED
             if (data.TryGetValue("startTime", out var startTime) && startTime is Timestamp startTs)
             {
                 evt.StartTime = startTs.ToDateTime();
@@ -435,6 +436,7 @@ namespace ApexCitadels.WorldEvents
             {
                 evt.EndTime = endTs.ToDateTime();
             }
+#endif
 
             if (data.TryGetValue("rewards", out var rewards) && rewards is Dictionary<string, object> rewardsDict)
             {

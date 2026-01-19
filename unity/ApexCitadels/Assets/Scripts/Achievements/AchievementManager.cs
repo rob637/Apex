@@ -553,6 +553,7 @@ namespace ApexCitadels.Achievements
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
             if (string.IsNullOrEmpty(playerId)) return;
 
+#if FIREBASE_ENABLED
             try
             {
                 var db = FirebaseFirestore.DefaultInstance;
@@ -599,6 +600,7 @@ namespace ApexCitadels.Achievements
             {
                 Debug.LogError($"[AchievementManager] Failed to sync from cloud: {ex.Message}");
             }
+#endif
         }
 
         private async void SyncProgressToCloud(AchievementProgressWrapper wrapper)
@@ -606,6 +608,7 @@ namespace ApexCitadels.Achievements
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
             if (string.IsNullOrEmpty(playerId)) return;
 
+#if FIREBASE_ENABLED
             try
             {
                 var db = FirebaseFirestore.DefaultInstance;
@@ -643,6 +646,7 @@ namespace ApexCitadels.Achievements
             {
                 Debug.LogError($"[AchievementManager] Failed to sync to cloud: {ex.Message}");
             }
+#endif
         }
 
         private void OnApplicationPause(bool pause)

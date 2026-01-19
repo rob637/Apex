@@ -605,6 +605,7 @@ namespace ApexCitadels.Tutorial
 
             try
             {
+#if FIREBASE_ENABLED
                 // Call server to grant rewards
                 var callable = _functions.GetHttpsCallable("grantTutorialRewards");
                 var data = new Dictionary<string, object>
@@ -614,6 +615,7 @@ namespace ApexCitadels.Tutorial
                 };
 
                 await callable.CallAsync(data);
+#endif
 
                 Log($"Granted rewards for step {step.Id}");
 
@@ -708,6 +710,7 @@ namespace ApexCitadels.Tutorial
         {
             try
             {
+#if FIREBASE_ENABLED
                 var callable = _functions.GetHttpsCallable("updateTutorialProgress");
                 var data = new Dictionary<string, object>
                 {
@@ -719,6 +722,7 @@ namespace ApexCitadels.Tutorial
 
                 await callable.CallAsync(data);
                 Log("Progress synced to server");
+#endif
             }
             catch (Exception e)
             {

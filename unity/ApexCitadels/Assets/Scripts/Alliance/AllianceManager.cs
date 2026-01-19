@@ -529,6 +529,7 @@ namespace ApexCitadels.Alliance
 
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 
                 // Query for alliances where this player is a member
@@ -556,7 +557,7 @@ namespace ApexCitadels.Alliance
                 {
                     Debug.Log("[AllianceManager] Player is not in any alliance");
                 }
-
+#endif
                 // Load pending invitations
                 await LoadPendingInvitations();
             }
@@ -572,6 +573,7 @@ namespace ApexCitadels.Alliance
 
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 
                 // Check if our alliance is in an active war (as attacker or defender)
@@ -599,6 +601,7 @@ namespace ApexCitadels.Alliance
                     _activeWar = AllianceWar.FromFirestore(defenderSnapshot.Documents.First());
                     OnWarStarted?.Invoke(_activeWar);
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -613,6 +616,7 @@ namespace ApexCitadels.Alliance
 
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 
                 var query = db.Collection("alliance_invitations")
@@ -632,7 +636,7 @@ namespace ApexCitadels.Alliance
                         OnInvitationReceived?.Invoke(invitation);
                     }
                 }
-
+#endif
                 Debug.Log($"[AllianceManager] Loaded {_pendingInvitations.Count} pending invitations");
             }
             catch (Exception ex)
@@ -645,10 +649,12 @@ namespace ApexCitadels.Alliance
         {
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 var docRef = db.Collection("alliances").Document(alliance.Id);
                 await docRef.SetAsync(alliance.ToFirestoreData());
                 Debug.Log($"[AllianceManager] Alliance {alliance.Name} saved to cloud");
+#endif
             }
             catch (Exception ex)
             {
@@ -660,6 +666,7 @@ namespace ApexCitadels.Alliance
         {
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 var docRef = db.Collection("alliances").Document(allianceId);
                 var snapshot = await docRef.GetSnapshotAsync();
@@ -668,6 +675,7 @@ namespace ApexCitadels.Alliance
                 {
                     return Alliance.FromFirestore(snapshot);
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -681,10 +689,12 @@ namespace ApexCitadels.Alliance
         {
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 var docRef = db.Collection("alliance_invitations").Document(invitation.Id);
                 await docRef.SetAsync(invitation.ToFirestoreData());
                 Debug.Log($"[AllianceManager] Invitation {invitation.Id} saved");
+#endif
             }
             catch (Exception ex)
             {
@@ -696,10 +706,12 @@ namespace ApexCitadels.Alliance
         {
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 var docRef = db.Collection("alliance_wars").Document(war.Id);
                 await docRef.SetAsync(war.ToFirestoreData());
                 Debug.Log($"[AllianceManager] War {war.Id} saved");
+#endif
             }
             catch (Exception ex)
             {
@@ -713,10 +725,12 @@ namespace ApexCitadels.Alliance
 
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 var docRef = db.Collection("alliances").Document(_currentAlliance.Id);
                 await docRef.DeleteAsync();
                 Debug.Log($"[AllianceManager] Alliance {_currentAlliance.Name} disbanded");
+#endif
             }
             catch (Exception ex)
             {
@@ -742,6 +756,7 @@ namespace ApexCitadels.Alliance
 
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 
                 // Firestore doesn't support full-text search, so we search by prefix
@@ -763,6 +778,7 @@ namespace ApexCitadels.Alliance
                 }
 
                 Debug.Log($"[AllianceManager] Search returned {results.Count} alliances");
+#endif
             }
             catch (Exception ex)
             {
@@ -781,6 +797,7 @@ namespace ApexCitadels.Alliance
 
             try
             {
+#if FIREBASE_ENABLED
                 var db = GetFirestore();
                 
                 var query = db.Collection("alliances")
@@ -799,6 +816,7 @@ namespace ApexCitadels.Alliance
                 }
 
                 Debug.Log($"[AllianceManager] Leaderboard loaded with {results.Count} alliances");
+#endif
             }
             catch (Exception ex)
             {

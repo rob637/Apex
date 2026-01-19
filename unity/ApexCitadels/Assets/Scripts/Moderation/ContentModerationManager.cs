@@ -416,6 +416,7 @@ namespace ApexCitadels.Moderation
         {
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("reportContent");
                 var data = new Dictionary<string, object>
                 {
@@ -439,6 +440,9 @@ namespace ApexCitadels.Moderation
 
                 OnReportSubmitted?.Invoke(reportResult);
                 return reportResult;
+#else
+                return new ReportResult { Success = false, Message = "Firebase disabled" };
+#endif
             }
             catch (Exception ex)
             {
@@ -458,6 +462,7 @@ namespace ApexCitadels.Moderation
         {
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("appealBan");
                 var data = new Dictionary<string, object>
                 {
@@ -469,6 +474,9 @@ namespace ApexCitadels.Moderation
                 var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(result.Data.ToString());
 
                 return (bool)response.GetValueOrDefault("success", false);
+#else
+                return false;
+#endif
             }
             catch (Exception ex)
             {
