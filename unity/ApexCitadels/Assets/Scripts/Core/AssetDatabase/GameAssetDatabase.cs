@@ -68,16 +68,42 @@ namespace ApexCitadels.Core.Assets
             return entry?.Prefab ?? entry?.Model;
         }
 
+        public BuildingModelEntry GetBuilding(string buildingId)
+        {
+            return BuildingModels.Find(b => b.Id == buildingId || b.Name.Contains(buildingId));
+        }
+
+        public BuildingModelEntry GetRandomBuilding(BuildingCategory category)
+        {
+            var matches = BuildingModels.FindAll(b => b.Category == category);
+            if (matches.Count == 0) return null;
+            return matches[UnityEngine.Random.Range(0, matches.Count)];
+        }
+
         public GameObject GetTowerModel(string towerId)
         {
             var entry = TowerModels.Find(t => t.Id == towerId || t.Name.Contains(towerId));
             return entry?.Prefab ?? entry?.Model;
         }
 
+        public TowerModelEntry GetRandomTower(TowerType type)
+        {
+            var matches = TowerModels.FindAll(t => t.Type == type);
+            if (matches.Count == 0) return null;
+            return matches[UnityEngine.Random.Range(0, matches.Count)];
+        }
+
         public GameObject GetWallModel(string wallId)
         {
             var entry = WallModels.Find(w => w.Id == wallId || w.Name.Contains(wallId));
             return entry?.Prefab ?? entry?.Model;
+        }
+
+        public WallModelEntry GetWall(WallType type, WallMaterial material)
+        {
+            var entry = WallModels.Find(w => w.Type == type && w.WallMaterial == material);
+            if (entry == null) entry = WallModels.Find(w => w.Type == type);
+            return entry;
         }
 
         public List<BuildingModelEntry> GetBuildingsByCategory(BuildingCategory category)

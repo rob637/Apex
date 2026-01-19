@@ -52,7 +52,7 @@ namespace ApexCitadels.PC.Buildings
         {
             if (assetDatabase == null)
             {
-                assetDatabase = Resources.Load<GameAssetDatabase>("GameAssetDatabase");
+                assetDatabase = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
             }
             
             if (assetDatabase == null)
@@ -257,9 +257,8 @@ namespace ApexCitadels.PC.Buildings
             baseObj.transform.localScale = new Vector3(3f, 5f, 3f);
             baseObj.transform.localPosition = new Vector3(0, 2.5f, 0);
             
-            // Top
-            var top = GameObject.CreatePrimitive(PrimitiveType.Cone);
-            if (top == null) top = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            // Top (Unity doesn't have Cone primitive, use scaled cylinder)
+            var top = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             top.transform.SetParent(tower.transform);
             top.transform.localScale = new Vector3(4f, 2f, 4f);
             top.transform.localPosition = new Vector3(0, 6f, 0);
@@ -329,7 +328,7 @@ namespace ApexCitadels.PC.Buildings
                 bool hasAny = false;
                 foreach (var building in assetDatabase.BuildingModels)
                 {
-                    if (building.Category == cat)
+                    if (building.Category.Equals(cat))
                     {
                         hasAny = true;
                         break;
