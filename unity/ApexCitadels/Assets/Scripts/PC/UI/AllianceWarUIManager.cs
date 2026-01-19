@@ -501,6 +501,9 @@ namespace ApexCitadels.PC.UI
     
     [Serializable]
     public class WarUIData
+    {
+        public string id;
+        public WarStatus status;
         public DateTime startTime;
         public DateTime endTime;
         public WarAlliance allianceA;
