@@ -143,9 +143,9 @@ namespace ApexCitadels.Editor
                 _buildingCount = db.BuildingModels?.Count ?? 0;
                 _towerCount = db.TowerModels?.Count ?? 0;
                 _wallCount = db.WallModels?.Count ?? 0;
-                _sfxCount = db.SFXClips?.Count ?? 0;
-                _animationCount = db.AnimationClips?.Count ?? 0;
-                _skyboxCount = db.SkyboxTextures?.Count ?? 0;
+                _sfxCount = db.SFX?.AllClips?.Count ?? 0;
+                _animationCount = db.Animations?.AllClips?.Count ?? 0;
+                _skyboxCount = db.Skyboxes?.Count ?? 0;
             }
             
             // Count files in folders
@@ -374,7 +374,7 @@ namespace ApexCitadels.Editor
         private GameAssetDatabase FindAssetDatabase()
         {
             // Try Resources first
-            var db = Resources.Load<GameAssetDatabase>("GameAssetDatabase");
+            var db = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
             if (db != null) return db;
             
             // Search project
