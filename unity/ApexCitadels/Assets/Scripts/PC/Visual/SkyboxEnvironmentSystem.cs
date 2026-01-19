@@ -100,19 +100,35 @@ namespace ApexCitadels.PC.Visual
             if (skyTexture != null)
             {
                 // Use loaded texture as panoramic skybox
+                // Try multiple shader names for compatibility
                 Shader panoramicShader = Shader.Find("Skybox/Panoramic");
+                if (panoramicShader == null)
+                    panoramicShader = Shader.Find("Skybox/Cubemap");
+                if (panoramicShader == null)
+                    panoramicShader = Shader.Find("Universal Render Pipeline/Unlit");
+                    
                 if (panoramicShader != null)
                 {
                     skyboxMaterial = new Material(panoramicShader);
                     skyboxMaterial.SetTexture("_MainTex", skyTexture);
-                    skyboxMaterial.SetFloat("_Exposure", 1.2f);
+                    if (skyboxMaterial.HasProperty("_Exposure"))
+                        skyboxMaterial.SetFloat("_Exposure", 1.2f);
+                    
                     RenderSettings.skybox = skyboxMaterial;
-                    Debug.Log($"[Skybox] ✓ Loaded panoramic skybox: {skyTexture.name} ({skyTexture.width}x{skyTexture.height})");
+                    
+                    // CRITICAL: Set camera to use skybox!
+                    if (Camera.main != null)
+                    {
+                        Camera.main.clearFlags = CameraClearFlags.Skybox;
+                        Debug.Log("[Skybox] Set camera clear flags to Skybox");
+                    }
+                    
+                    Debug.Log($"[Skybox] ✓ Loaded panoramic skybox: {skyTexture.name} ({skyTexture.width}x{skyTexture.height}) with shader {panoramicShader.name}");
                     return;
                 }
                 else
                 {
-                    Debug.LogWarning("[Skybox] Skybox/Panoramic shader not found!");
+                    Debug.LogWarning("[Skybox] No compatible skybox shader found!");
                 }
             }
 
@@ -134,10 +150,17 @@ namespace ApexCitadels.PC.Visual
                 skyboxMaterial.SetFloat("_Exposure", 1.3f);
                 
                 RenderSettings.skybox = skyboxMaterial;
+                
+                // Set camera to use skybox
+                if (Camera.main != null)
+                {
+                    Camera.main.clearFlags = CameraClearFlags.Skybox;
+                }
             }
             else
             {
                 // Ultimate fallback: solid color
+                Debug.LogWarning("[Skybox] No skybox shaders available, using solid color");
                 RenderSettings.skybox = null;
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
                 Camera.main.backgroundColor = daySkyColor;
