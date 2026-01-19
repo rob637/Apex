@@ -149,17 +149,18 @@ namespace ApexCitadels.Map
         /// </summary>
         private void DestroyConflictingTerrain()
         {
-            // List of objects to destroy
+            // List of objects to destroy - includes other map systems
             string[] conflictingNames = { 
                 "GridOverlay", "FantasyTerrain", "ProceduralTerrain", 
                 "WorldTerrain", "TerrainMesh", "WaterPlane", "GroundPlane",
-                "ProceduralTerrainSystem"  // Also catch the terrain system by name
+                "ProceduralTerrainSystem", "GeoMapSystem", "RealWorldMap",
+                "MapTiles", "Tiles"  // Old tile containers
             };
             
             foreach (var name in conflictingNames)
             {
                 var obj = GameObject.Find(name);
-                if (obj != null)
+                if (obj != null && obj != gameObject && !obj.transform.IsChildOf(transform))
                 {
                     Debug.Log($"[Mapbox] Destroying conflicting object: {name}");
                     Destroy(obj);

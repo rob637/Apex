@@ -125,6 +125,22 @@ namespace ApexCitadels.PC.Environment
                 Debug.Log("[WorldEnv] Destroying FantasyTerrain for Mapbox mode");
                 Destroy(fantasyTerrain);
             }
+            
+            // Destroy GeoMapSystem (RealWorldMapRenderer) - conflicts with MapboxTileRenderer
+            var geoMapSystem = GameObject.Find("GeoMapSystem");
+            if (geoMapSystem != null)
+            {
+                Debug.Log("[WorldEnv] Destroying GeoMapSystem for Mapbox mode");
+                Destroy(geoMapSystem);
+            }
+            
+            // Also disable any RealWorldMapRenderer components
+            var realWorldMapRenderer = FindFirstObjectByType<GeoMapping.RealWorldMapRenderer>();
+            if (realWorldMapRenderer != null)
+            {
+                Debug.Log("[WorldEnv] Destroying RealWorldMapRenderer for Mapbox mode");
+                Destroy(realWorldMapRenderer.gameObject);
+            }
         }
 
         /// <summary>
