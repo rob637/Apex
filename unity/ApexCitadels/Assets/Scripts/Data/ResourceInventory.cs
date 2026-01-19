@@ -186,7 +186,7 @@ namespace ApexCitadels.Data
         /// <summary>
         /// Check if player can afford a list of costs
         /// </summary>
-        public bool CanAfford(List<ResourceCost> costs)
+        public bool CanAfford(List<ResourceCostItem> costs)
         {
             if (costs == null) return true;
 
@@ -299,7 +299,7 @@ namespace ApexCitadels.Data
         /// <summary>
         /// Spend multiple resources at once
         /// </summary>
-        public bool SpendResources(List<ResourceCost> costs, string reason = "")
+        public bool SpendResources(List<ResourceCostItem> costs, string reason = "")
         {
             if (!CanAfford(costs)) return false;
 

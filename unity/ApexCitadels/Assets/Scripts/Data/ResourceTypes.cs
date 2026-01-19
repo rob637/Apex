@@ -28,6 +28,22 @@ namespace ApexCitadels.Data
     }
 
     /// <summary>
+    /// Simple resource cost item with Type and Amount - used for list-based operations
+    /// </summary>
+    [Serializable]
+    public struct ResourceCostItem
+    {
+        public ResourceType Type;
+        public int Amount;
+
+        public ResourceCostItem(ResourceType type, int amount)
+        {
+            Type = type;
+            Amount = amount;
+        }
+    }
+
+    /// <summary>
     /// Resource amounts - used for costs, rewards, etc.
     /// </summary>
     [Serializable]
@@ -108,6 +124,21 @@ namespace ApexCitadels.Data
             Crystal += cost.Crystal;
             ArcaneEssence += cost.ArcaneEssence;
             Gems += cost.Gems;
+        }
+
+        /// <summary>
+        /// Convert to list of ResourceCostItem (only non-zero amounts)
+        /// </summary>
+        public List<ResourceCostItem> ToList()
+        {
+            var list = new List<ResourceCostItem>();
+            if (Stone > 0) list.Add(new ResourceCostItem(ResourceType.Stone, Stone));
+            if (Wood > 0) list.Add(new ResourceCostItem(ResourceType.Wood, Wood));
+            if (Iron > 0) list.Add(new ResourceCostItem(ResourceType.Iron, Iron));
+            if (Crystal > 0) list.Add(new ResourceCostItem(ResourceType.Crystal, Crystal));
+            if (ArcaneEssence > 0) list.Add(new ResourceCostItem(ResourceType.ArcaneEssence, ArcaneEssence));
+            if (Gems > 0) list.Add(new ResourceCostItem(ResourceType.Gems, Gems));
+            return list;
         }
 
         public static ResourceCost operator +(ResourceCost a, ResourceCost b)
