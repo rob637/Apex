@@ -436,8 +436,8 @@ namespace ApexCitadels.PC.Visual
                 }
             }
 
-            // Apply sky color to procedural skybox
-            if (skyboxMaterial != null && skyboxMaterial.HasProperty("_SkyTint"))
+            // Apply sky color to procedural skybox ONLY (not to texture-based panoramic skybox)
+            if (skyboxMaterial != null && skyboxMaterial.HasProperty("_SkyTint") && !skyboxMaterial.HasProperty("_MainTex"))
             {
                 skyboxMaterial.SetColor("_SkyTint", targetSkyColor);
             }

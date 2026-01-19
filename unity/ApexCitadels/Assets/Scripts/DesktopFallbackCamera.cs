@@ -30,9 +30,19 @@ public class DesktopFallbackCamera : MonoBehaviour
         // Tag as MainCamera so Camera.main works
         gameObject.tag = "MainCamera";
         
-        // Force camera settings
-        cam.clearFlags = CameraClearFlags.SolidColor;
-        cam.backgroundColor = new Color(0.2f, 0.3f, 0.4f); // Blue-grey sky
+        // Only set solid color if no skybox system is active
+        var skyboxSystem = FindFirstObjectByType<PC.Visual.SkyboxEnvironmentSystem>();
+        if (skyboxSystem == null || !skyboxSystem.gameObject.activeInHierarchy)
+        {
+            cam.clearFlags = CameraClearFlags.SolidColor;
+            cam.backgroundColor = new Color(0.2f, 0.3f, 0.4f); // Blue-grey sky
+        }
+        else
+        {
+            cam.clearFlags = CameraClearFlags.Skybox;
+            Debug.Log("[DesktopFallback] SkyboxEnvironmentSystem active - using Skybox clear flags");
+        }
+        
         cam.cullingMask = -1; // Everything
         cam.depth = 100; // Render on top of other cameras
         cam.enabled = true;
