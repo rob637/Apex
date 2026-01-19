@@ -805,7 +805,7 @@ namespace ApexCitadels.PC
                 WeatherType.Fog => "🌫️ Fog",
                 WeatherType.Snow => "❄️ Snow",
                 WeatherType.Sandstorm => "🏜️ Sandstorm",
-                WeatherType.Heatwave => "🔥 Heatwave",
+                WeatherType.Heatwave => "[*] Heatwave",
                 _ => "Unknown"
             };
         }

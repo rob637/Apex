@@ -303,7 +303,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "📜 QUESTS & MISSIONS";
+            title.text = "[S] QUESTS & MISSIONS";
             title.fontSize = 28;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
@@ -555,11 +555,11 @@ namespace ApexCitadels.PC.UI
             TextMeshProUGUI icon = iconObj.AddComponent<TextMeshProUGUI>();
             
             if (quest.IsLocked)
-                icon.text = "🔒";
+                icon.text = "[L]";
             else if (quest.IsClaimed)
-                icon.text = "✅";
+                icon.text = "[OK]";
             else if (quest.IsCompleted)
-                icon.text = "🎁";
+                icon.text = "[?]";
             else
                 icon.text = "⏳";
             
@@ -679,10 +679,10 @@ namespace ApexCitadels.PC.UI
             
             TextMeshProUGUI rewardText = rewardTextObj.AddComponent<TextMeshProUGUI>();
             string rewards = "";
-            if (quest.RewardGold > 0) rewards += $"💰{quest.RewardGold} ";
-            if (quest.RewardCrystal > 0) rewards += $"💎{quest.RewardCrystal} ";
-            if (quest.RewardApexCoins > 0) rewards += $"🪙{quest.RewardApexCoins} ";
-            if (quest.RewardXP > 0) rewards += $"⭐{quest.RewardXP}";
+            if (quest.RewardGold > 0) rewards += $"[$]{quest.RewardGold} ";
+            if (quest.RewardCrystal > 0) rewards += $"[G]{quest.RewardCrystal} ";
+            if (quest.RewardApexCoins > 0) rewards += $"[$]{quest.RewardApexCoins} ";
+            if (quest.RewardXP > 0) rewards += $"[*]{quest.RewardXP}";
             rewardText.text = rewards;
             rewardText.fontSize = 11;
             rewardText.alignment = TextAlignmentOptions.Center;

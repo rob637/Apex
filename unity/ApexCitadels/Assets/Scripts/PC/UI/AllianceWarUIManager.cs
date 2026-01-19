@@ -218,7 +218,7 @@ namespace ApexCitadels.PC.UI
                 
                 // Announce change
                 string announcement = contested 
-                    ? $"⚔️ {territory.name} is under attack!"
+                    ? $"[!] {territory.name} is under attack!"
                     : $"🏴 {territory.name} captured!";
                 AddChatMessage("War", announcement, true);
             }
@@ -253,8 +253,8 @@ namespace ApexCitadels.PC.UI
             return status switch
             {
                 WarStatus.Preparation => "⏳ PREPARATION PHASE",
-                WarStatus.InProgress => "⚔️ WAR IN PROGRESS",
-                WarStatus.Concluded => "🏆 WAR CONCLUDED",
+                WarStatus.InProgress => "[!] WAR IN PROGRESS",
+                WarStatus.Concluded => "[T] WAR CONCLUDED",
                 _ => "UNKNOWN"
             };
         }
@@ -801,7 +801,7 @@ namespace ApexCitadels.PC.UI
             
             if (resultTitleText != null)
             {
-                resultTitleText.text = victory ? "🏆 VICTORY!" : "DEFEAT";
+                resultTitleText.text = victory ? "[T] VICTORY!" : "DEFEAT";
                 resultTitleText.color = victory ? new Color(1f, 0.84f, 0f) : new Color(0.6f, 0.2f, 0.2f);
             }
             

@@ -81,16 +81,16 @@ namespace ApexCitadels.PC.UI
                 Backstory = "A noble knight who rose through the ranks through valor and honor.",
                 Skills = new List<HeroSkill>
                 {
-                    new HeroSkill { SkillId = "SK_001", Name = "Shield Wall", Description = "+30% defense for nearby troops", Icon = "🛡️", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = true },
-                    new HeroSkill { SkillId = "SK_002", Name = "Rally Cry", Description = "+20% attack for 10 seconds", Icon = "📣", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 60 },
+                    new HeroSkill { SkillId = "SK_001", Name = "Shield Wall", Description = "+30% defense for nearby troops", Icon = "[D]", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = true },
+                    new HeroSkill { SkillId = "SK_002", Name = "Rally Cry", Description = "+20% attack for 10 seconds", Icon = "[!]", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 60 },
                     new HeroSkill { SkillId = "SK_003", Name = "Charge", Description = "Lead cavalry in devastating charge", Icon = "🐴", Level = 0, MaxLevel = 5, IsUnlocked = false, UnlockLevel = 20 },
-                    new HeroSkill { SkillId = "SK_004", Name = "Fortress", Description = "+50% territory defense", Icon = "🏰", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 30 }
+                    new HeroSkill { SkillId = "SK_004", Name = "Fortress", Description = "+50% territory defense", Icon = "[C]", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 30 }
                 },
                 Equipment = new HeroEquipment
                 {
-                    Weapon = new EquipmentItem { Name = "Crusader's Blade", Rarity = "Epic", Icon = "⚔️", BonusAttack = 45, BonusDefense = 15 },
-                    Armor = new EquipmentItem { Name = "Plate Armor", Rarity = "Rare", Icon = "🛡️", BonusDefense = 60, BonusHealth = 200 },
-                    Accessory = new EquipmentItem { Name = "Commander's Medal", Rarity = "Epic", Icon = "🎖️", BonusLeadership = 25 }
+                    Weapon = new EquipmentItem { Name = "Crusader's Blade", Rarity = "Epic", Icon = "[!]", BonusAttack = 45, BonusDefense = 15 },
+                    Armor = new EquipmentItem { Name = "Plate Armor", Rarity = "Rare", Icon = "[D]", BonusDefense = 60, BonusHealth = 200 },
+                    Accessory = new EquipmentItem { Name = "Commander's Medal", Rarity = "Epic", Icon = "[M]", BonusLeadership = 25 }
                 }
             });
             
@@ -110,7 +110,7 @@ namespace ApexCitadels.PC.UI
                 Defense = 90,
                 Speed = 180,
                 Leadership = 80,
-                Portrait = "🗡️",
+                Portrait = "[W]",
                 IsDeployed = false,
                 Backstory = "A legendary assassin who can strike from the shadows and vanish without a trace.",
                 Skills = new List<HeroSkill>
@@ -118,11 +118,11 @@ namespace ApexCitadels.PC.UI
                     new HeroSkill { SkillId = "SK_011", Name = "Shadowstrike", Description = "Critical hit deals 3x damage", Icon = "🌙", Level = 4, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 45 },
                     new HeroSkill { SkillId = "SK_012", Name = "Vanish", Description = "Become invisible for 15 seconds", Icon = "👻", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 90 },
                     new HeroSkill { SkillId = "SK_013", Name = "Poison Blade", Description = "+50% damage over time", Icon = "☠️", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = true },
-                    new HeroSkill { SkillId = "SK_014", Name = "Death Mark", Description = "Mark enemy for instant kill", Icon = "💀", Level = 1, MaxLevel = 3, IsUnlocked = true, IsPassive = false, Cooldown = 180 }
+                    new HeroSkill { SkillId = "SK_014", Name = "Death Mark", Description = "Mark enemy for instant kill", Icon = "[X]", Level = 1, MaxLevel = 3, IsUnlocked = true, IsPassive = false, Cooldown = 180 }
                 },
                 Equipment = new HeroEquipment
                 {
-                    Weapon = new EquipmentItem { Name = "Nightfall Daggers", Rarity = "Legendary", Icon = "🗡️", BonusAttack = 85, BonusSpeed = 20 },
+                    Weapon = new EquipmentItem { Name = "Nightfall Daggers", Rarity = "Legendary", Icon = "[W]", BonusAttack = 85, BonusSpeed = 20 },
                     Armor = new EquipmentItem { Name = "Shadow Cloak", Rarity = "Epic", Icon = "🧥", BonusSpeed = 30, BonusDefense = 25 },
                     Accessory = new EquipmentItem { Name = "Ring of Shadows", Rarity = "Legendary", Icon = "💍", BonusAttack = 25, BonusSpeed = 15 }
                 }
@@ -150,10 +150,10 @@ namespace ApexCitadels.PC.UI
                 Backstory = "An ancient mage who has mastered the elemental arts and commands fearsome magical power.",
                 Skills = new List<HeroSkill>
                 {
-                    new HeroSkill { SkillId = "SK_021", Name = "Fireball", Description = "AOE fire damage to enemies", Icon = "🔥", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 30 },
+                    new HeroSkill { SkillId = "SK_021", Name = "Fireball", Description = "AOE fire damage to enemies", Icon = "[*]", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 30 },
                     new HeroSkill { SkillId = "SK_022", Name = "Ice Shield", Description = "+40% defense, slows attackers", Icon = "❄️", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 60 },
-                    new HeroSkill { SkillId = "SK_023", Name = "Lightning Storm", Description = "Massive AOE damage", Icon = "⚡", Level = 1, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 120 },
-                    new HeroSkill { SkillId = "SK_024", Name = "Arcane Mastery", Description = "+25% all magic damage", Icon = "✨", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 25, IsPassive = true }
+                    new HeroSkill { SkillId = "SK_023", Name = "Lightning Storm", Description = "Massive AOE damage", Icon = "[!]", Level = 1, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 120 },
+                    new HeroSkill { SkillId = "SK_024", Name = "Arcane Mastery", Description = "+25% all magic damage", Icon = "[*]", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 25, IsPassive = true }
                 },
                 Equipment = new HeroEquipment
                 {
@@ -179,19 +179,19 @@ namespace ApexCitadels.PC.UI
                 Defense = 150,
                 Speed = 70,
                 Leadership = 100,
-                Portrait = "🪓",
+                Portrait = "[L]",
                 IsDeployed = false,
                 Backstory = "A brutal warrior from the northern wastes who revels in combat.",
                 Skills = new List<HeroSkill>
                 {
                     new HeroSkill { SkillId = "SK_031", Name = "Rage", Description = "+50% attack, -20% defense", Icon = "😤", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 45 },
-                    new HeroSkill { SkillId = "SK_032", Name = "Cleave", Description = "Attack hits multiple enemies", Icon = "🪓", Level = 1, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 20 },
+                    new HeroSkill { SkillId = "SK_032", Name = "Cleave", Description = "Attack hits multiple enemies", Icon = "[L]", Level = 1, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 20 },
                     new HeroSkill { SkillId = "SK_033", Name = "War Cry", Description = "Fear nearby enemies", Icon = "😱", Level = 0, MaxLevel = 5, IsUnlocked = false, UnlockLevel = 15 },
                     new HeroSkill { SkillId = "SK_034", Name = "Bloodlust", Description = "Heal on kill", Icon = "🩸", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 25, IsPassive = true }
                 },
                 Equipment = new HeroEquipment
                 {
-                    Weapon = new EquipmentItem { Name = "Battle Axe", Rarity = "Rare", Icon = "🪓", BonusAttack = 40 },
+                    Weapon = new EquipmentItem { Name = "Battle Axe", Rarity = "Rare", Icon = "[L]", BonusAttack = 40 },
                     Armor = new EquipmentItem { Name = "Fur Armor", Rarity = "Common", Icon = "🦺", BonusDefense = 35, BonusHealth = 100 }
                 }
             });
@@ -264,7 +264,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup vlayout = header.AddComponent<VerticalLayoutGroup>();
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(header.transform, "⚔️ YOUR HEROES", 18, TextAlignmentOptions.Center, accentColor);
+            CreateText(header.transform, "[!] YOUR HEROES", 18, TextAlignmentOptions.Center, accentColor);
             CreateText(header.transform, $"{_heroes.Count}/{_maxHeroSlots} slots", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
         }
 
@@ -360,7 +360,7 @@ namespace ApexCitadels.PC.UI
             // Status
             if (hero.IsDeployed)
             {
-                CreateText(info.transform, $"📍 {hero.DeployedTerritory}", 8, TextAlignmentOptions.Left, new Color(0.4f, 0.7f, 0.4f));
+                CreateText(info.transform, $"[*] {hero.DeployedTerritory}", 8, TextAlignmentOptions.Left, new Color(0.4f, 0.7f, 0.4f));
             }
             
             // Stats mini
@@ -370,8 +370,8 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup statsVL = stats.AddComponent<VerticalLayoutGroup>();
             statsVL.childAlignment = TextAnchor.MiddleRight;
             
-            CreateText(stats.transform, $"⚔️{hero.Attack + (hero.Equipment.Weapon?.BonusAttack ?? 0)}", 10, TextAlignmentOptions.Right, new Color(0.9f, 0.5f, 0.5f));
-            CreateText(stats.transform, $"🛡️{hero.Defense + (hero.Equipment.Armor?.BonusDefense ?? 0)}", 10, TextAlignmentOptions.Right, new Color(0.5f, 0.7f, 0.9f));
+            CreateText(stats.transform, $"[!]{hero.Attack + (hero.Equipment.Weapon?.BonusAttack ?? 0)}", 10, TextAlignmentOptions.Right, new Color(0.9f, 0.5f, 0.5f));
+            CreateText(stats.transform, $"[D]{hero.Defense + (hero.Equipment.Armor?.BonusDefense ?? 0)}", 10, TextAlignmentOptions.Right, new Color(0.5f, 0.7f, 0.9f));
             CreateText(stats.transform, $"❤️{hero.Health}", 10, TextAlignmentOptions.Right, new Color(0.5f, 0.9f, 0.5f));
         }
 
@@ -553,9 +553,9 @@ namespace ApexCitadels.PC.UI
             int totalAtk = _selectedHero.Attack + (_selectedHero.Equipment.Weapon?.BonusAttack ?? 0);
             int totalDef = _selectedHero.Defense + (_selectedHero.Equipment.Armor?.BonusDefense ?? 0);
             
-            CreateText(stats.transform, $"⚔️ {totalAtk}", 16, TextAlignmentOptions.Right, new Color(0.9f, 0.5f, 0.5f));
-            CreateText(stats.transform, $"🛡️ {totalDef}", 16, TextAlignmentOptions.Right, new Color(0.5f, 0.7f, 0.9f));
-            CreateText(stats.transform, $"⚡ {_selectedHero.Speed}", 16, TextAlignmentOptions.Right, new Color(0.9f, 0.9f, 0.5f));
+            CreateText(stats.transform, $"[!] {totalAtk}", 16, TextAlignmentOptions.Right, new Color(0.9f, 0.5f, 0.5f));
+            CreateText(stats.transform, $"[D] {totalDef}", 16, TextAlignmentOptions.Right, new Color(0.5f, 0.7f, 0.9f));
+            CreateText(stats.transform, $"[!] {_selectedHero.Speed}", 16, TextAlignmentOptions.Right, new Color(0.9f, 0.9f, 0.5f));
             CreateText(stats.transform, $"👑 {_selectedHero.Leadership}", 16, TextAlignmentOptions.Right, goldColor);
         }
 
@@ -612,10 +612,10 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateDetailTab(tabs.transform, HeroTab.Overview, "📊 Overview");
-            CreateDetailTab(tabs.transform, HeroTab.Skills, "⚡ Skills");
-            CreateDetailTab(tabs.transform, HeroTab.Equipment, "⚔️ Equipment");
-            CreateDetailTab(tabs.transform, HeroTab.Deploy, "📍 Deploy");
+            CreateDetailTab(tabs.transform, HeroTab.Overview, "[#] Overview");
+            CreateDetailTab(tabs.transform, HeroTab.Skills, "[!] Skills");
+            CreateDetailTab(tabs.transform, HeroTab.Equipment, "[!] Equipment");
+            CreateDetailTab(tabs.transform, HeroTab.Deploy, "[*] Deploy");
         }
 
         private void CreateDetailTab(Transform parent, HeroTab tab, string label)
@@ -691,11 +691,11 @@ namespace ApexCitadels.PC.UI
         private void CreateOverviewContent(Transform parent)
         {
             // Backstory
-            CreateSectionLabel(parent, "📜 BACKSTORY");
+            CreateSectionLabel(parent, "[S] BACKSTORY");
             CreateText(parent, _selectedHero.Backstory, 12, TextAlignmentOptions.Left, new Color(0.8f, 0.8f, 0.8f));
             
             // All stats
-            CreateSectionLabel(parent, "📊 STATISTICS");
+            CreateSectionLabel(parent, "[#] STATISTICS");
             
             GameObject stats = new GameObject("Stats");
             stats.transform.SetParent(parent, false);
@@ -707,14 +707,14 @@ namespace ApexCitadels.PC.UI
             grid.constraintCount = 3;
             
             CreateStatItem(stats.transform, "❤️ Health", $"{_selectedHero.Health:N0} / {_selectedHero.MaxHealth:N0}");
-            CreateStatItem(stats.transform, "⚔️ Attack", $"{_selectedHero.Attack}");
-            CreateStatItem(stats.transform, "🛡️ Defense", $"{_selectedHero.Defense}");
-            CreateStatItem(stats.transform, "⚡ Speed", $"{_selectedHero.Speed}");
+            CreateStatItem(stats.transform, "[!] Attack", $"{_selectedHero.Attack}");
+            CreateStatItem(stats.transform, "[D] Defense", $"{_selectedHero.Defense}");
+            CreateStatItem(stats.transform, "[!] Speed", $"{_selectedHero.Speed}");
             CreateStatItem(stats.transform, "👑 Leadership", $"{_selectedHero.Leadership}");
-            CreateStatItem(stats.transform, "⭐ Level", $"{_selectedHero.Level}");
+            CreateStatItem(stats.transform, "[*] Level", $"{_selectedHero.Level}");
             
             // Action buttons
-            CreateSectionLabel(parent, "⚡ ACTIONS");
+            CreateSectionLabel(parent, "[!] ACTIONS");
             
             GameObject actions = new GameObject("Actions");
             actions.transform.SetParent(parent, false);
@@ -725,7 +725,7 @@ namespace ApexCitadels.PC.UI
             
             CreateActionButton(actions.transform, "⬆️ Level Up", "1000 Gold", LevelUpHero, accentColor);
             CreateActionButton(actions.transform, "❤️ Heal", "500 Gold", HealHero, new Color(0.3f, 0.7f, 0.3f));
-            CreateActionButton(actions.transform, "🔄 Reset Skills", "2000 Gold", ResetSkills, new Color(0.7f, 0.5f, 0.2f));
+            CreateActionButton(actions.transform, "[R] Reset Skills", "2000 Gold", ResetSkills, new Color(0.7f, 0.5f, 0.2f));
         }
 
         private void CreateStatItem(Transform parent, string label, string value)
@@ -817,13 +817,13 @@ namespace ApexCitadels.PC.UI
 
         private void CreateEquipmentContent(Transform parent)
         {
-            CreateSectionLabel(parent, "⚔️ EQUIPPED ITEMS");
+            CreateSectionLabel(parent, "[!] EQUIPPED ITEMS");
             
-            CreateEquipmentSlot(parent, "Weapon", _selectedHero.Equipment.Weapon, "🗡️");
-            CreateEquipmentSlot(parent, "Armor", _selectedHero.Equipment.Armor, "🛡️");
+            CreateEquipmentSlot(parent, "Weapon", _selectedHero.Equipment.Weapon, "[W]");
+            CreateEquipmentSlot(parent, "Armor", _selectedHero.Equipment.Armor, "[D]");
             CreateEquipmentSlot(parent, "Accessory", _selectedHero.Equipment.Accessory, "💍");
             
-            CreateSectionLabel(parent, "📊 EQUIPMENT BONUSES");
+            CreateSectionLabel(parent, "[#] EQUIPMENT BONUSES");
             
             GameObject bonuses = new GameObject("Bonuses");
             bonuses.transform.SetParent(parent, false);
@@ -935,7 +935,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 15;
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
-            CreateText(option.transform, "🏰", 20, TextAlignmentOptions.Center);
+            CreateText(option.transform, "[C]", 20, TextAlignmentOptions.Center);
             
             GameObject info = new GameObject("Info");
             info.transform.SetParent(option.transform, false);

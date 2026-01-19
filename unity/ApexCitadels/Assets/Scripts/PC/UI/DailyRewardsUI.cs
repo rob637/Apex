@@ -397,7 +397,7 @@ namespace ApexCitadels.PC.UI
             else if (isToday)
                 statusText.text = "★";
             else if (locked)
-                statusText.text = "🔒";
+                statusText.text = "[L]";
             else
                 statusText.text = "";
             statusText.fontSize = 18;
@@ -446,7 +446,7 @@ namespace ApexCitadels.PC.UI
             titleRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "🎁 DAILY REWARDS";
+            titleText.text = "[?] DAILY REWARDS";
             titleText.fontSize = 32;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;
@@ -546,7 +546,7 @@ namespace ApexCitadels.PC.UI
 
         private void ShowClaimCelebration(DailyReward reward)
         {
-            ApexLogger.Log($"[DailyRewards] 🎉 CELEBRATION! {reward.Description}", ApexLogger.LogCategory.UI);
+            ApexLogger.Log($"[DailyRewards] [!] CELEBRATION! {reward.Description}", ApexLogger.LogCategory.UI);
             
             // Play celebration particles
             if (celebrationParticles != null)

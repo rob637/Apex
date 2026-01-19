@@ -131,7 +131,7 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(10, 10, 10, 10);
             
             // Header
-            CreateSectionHeader(cardsSection.transform, "⚔️ BARRACKS - Train Your Army", true);
+            CreateSectionHeader(cardsSection.transform, "[!] BARRACKS - Train Your Army", true);
             
             // Troop cards
             foreach (TroopType type in Enum.GetValues(typeof(TroopType)))
@@ -254,7 +254,7 @@ namespace ApexCitadels.PC.UI
             costObj.transform.SetParent(infoObj.transform, false);
             
             TextMeshProUGUI costText = costObj.AddComponent<TextMeshProUGUI>();
-            costText.text = $"💰{def.GoldCost} 🪨{def.StoneCost} ⏱️{def.TrainingTime}s";
+            costText.text = $"[$]{def.GoldCost} [Q]{def.StoneCost} ⏱️{def.TrainingTime}s";
             costText.fontSize = 11;
             costText.color = goldColor;
             
@@ -368,7 +368,7 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(10, 10, 10, 10);
             
             // Header
-            CreateSectionHeader(queueSection.transform, "📋 Training Queue");
+            CreateSectionHeader(queueSection.transform, "[T] Training Queue");
             
             // Queue status
             GameObject statusObj = new GameObject("QueueStatus");
@@ -419,7 +419,7 @@ namespace ApexCitadels.PC.UI
             clearTxt.transform.SetParent(clearBtn.transform, false);
             
             TextMeshProUGUI clearText = clearTxt.AddComponent<TextMeshProUGUI>();
-            clearText.text = "🗑️ Clear Queue";
+            clearText.text = "[D] Clear Queue";
             clearText.fontSize = 14;
             clearText.alignment = TextAlignmentOptions.Center;
             
@@ -501,7 +501,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(overview.transform, false);
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "🏰 Total Army";
+            title.text = "[C] Total Army";
             title.fontSize = 16;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
@@ -773,7 +773,7 @@ namespace ApexCitadels.PC.UI
                 TroopType.Infantry => new TroopDefinition
                 {
                     Name = "Infantry",
-                    Icon = "🗡️",
+                    Icon = "[W]",
                     Attack = 10,
                     Defense = 15,
                     Speed = 5,
@@ -784,7 +784,7 @@ namespace ApexCitadels.PC.UI
                 TroopType.Archer => new TroopDefinition
                 {
                     Name = "Archer",
-                    Icon = "🏹",
+                    Icon = "[A]",
                     Attack = 15,
                     Defense = 5,
                     Speed = 6,
@@ -817,7 +817,7 @@ namespace ApexCitadels.PC.UI
                 TroopType.Elite => new TroopDefinition
                 {
                     Name = "Elite Guard",
-                    Icon = "⚔️",
+                    Icon = "[!]",
                     Attack = 30,
                     Defense = 25,
                     Speed = 7,

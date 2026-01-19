@@ -396,7 +396,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateLayerButtons(Transform parent)
         {
-            CreateSectionHeader(parent, "📊 MAP LAYERS");
+            CreateSectionHeader(parent, "[#] MAP LAYERS");
             
             GameObject layers = new GameObject("Layers");
             layers.transform.SetParent(parent, false);
@@ -407,8 +407,8 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 5;
             
             CreateLayerButton(layers.transform, MapLayer.Political, "🏳️ Political");
-            CreateLayerButton(layers.transform, MapLayer.Resources, "💎 Resources");
-            CreateLayerButton(layers.transform, MapLayer.Military, "⚔️ Military");
+            CreateLayerButton(layers.transform, MapLayer.Resources, "[G] Resources");
+            CreateLayerButton(layers.transform, MapLayer.Military, "[!] Military");
             CreateLayerButton(layers.transform, MapLayer.Trade, "🏪 Trade Routes");
         }
 
@@ -494,7 +494,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateQuickActions(Transform parent)
         {
-            CreateSectionHeader(parent, "⚡ QUICK ACTIONS");
+            CreateSectionHeader(parent, "[!] QUICK ACTIONS");
             
             GameObject actions = new GameObject("QuickActions");
             actions.transform.SetParent(parent, false);
@@ -506,7 +506,7 @@ namespace ApexCitadels.PC.UI
             
             CreateActionButton(actions.transform, "🏠 Go to Home", () => GoToHome());
             CreateActionButton(actions.transform, "🔭 Scout Region", () => ScoutSelectedRegion());
-            CreateActionButton(actions.transform, "📍 Set Waypoint", () => SetWaypoint());
+            CreateActionButton(actions.transform, "[*] Set Waypoint", () => SetWaypoint());
         }
 
         private void CreateActionButton(Transform parent, string label, Action onClick)
@@ -539,7 +539,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateLegend(Transform parent)
         {
-            CreateSectionHeader(parent, "📋 LEGEND");
+            CreateSectionHeader(parent, "[T] LEGEND");
             
             GameObject legend = new GameObject("Legend");
             legend.transform.SetParent(parent, false);
@@ -841,7 +841,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 10;
             vlayout.padding = new RectOffset(15, 15, 20, 20);
             
-            CreateText(info.transform, "🔒 UNEXPLORED", 14, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(info.transform, "[L] UNEXPLORED", 14, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(info.transform, "Send scouts to reveal this region", 11, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
             
             // Scout button
@@ -877,7 +877,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateRegionStats()
         {
-            CreateSectionHeader(_infoPanel.transform, "📊 STATISTICS");
+            CreateSectionHeader(_infoPanel.transform, "[#] STATISTICS");
             
             GameObject stats = new GameObject("Stats");
             stats.transform.SetParent(_infoPanel.transform, false);
@@ -888,14 +888,14 @@ namespace ApexCitadels.PC.UI
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.constraintCount = 2;
             
-            CreateStatCell(stats.transform, "⭐ Level", _selectedRegion.Level.ToString());
-            CreateStatCell(stats.transform, "⚔️ Power", $"{(_selectedRegion.Power / 1000f):F1}K");
-            CreateStatCell(stats.transform, "🛡️ Garrison", $"{_selectedRegion.Garrison:N0}");
-            CreateStatCell(stats.transform, "📍 Position", $"({_selectedRegion.GridX}, {_selectedRegion.GridY})");
+            CreateStatCell(stats.transform, "[*] Level", _selectedRegion.Level.ToString());
+            CreateStatCell(stats.transform, "[!] Power", $"{(_selectedRegion.Power / 1000f):F1}K");
+            CreateStatCell(stats.transform, "[D] Garrison", $"{_selectedRegion.Garrison:N0}");
+            CreateStatCell(stats.transform, "[*] Position", $"({_selectedRegion.GridX}, {_selectedRegion.GridY})");
             
             if (!string.IsNullOrEmpty(_selectedRegion.ProductionBonus))
             {
-                CreateText(_infoPanel.transform, $"✨ Bonus: {_selectedRegion.ProductionBonus}", 11, TextAlignmentOptions.Center, goldColor);
+                CreateText(_infoPanel.transform, $"[*] Bonus: {_selectedRegion.ProductionBonus}", 11, TextAlignmentOptions.Center, goldColor);
             }
         }
 
@@ -917,7 +917,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateResourcesInfo()
         {
-            CreateSectionHeader(_infoPanel.transform, "💎 RESOURCES");
+            CreateSectionHeader(_infoPanel.transform, "[G] RESOURCES");
             
             GameObject resources = new GameObject("Resources");
             resources.transform.SetParent(_infoPanel.transform, false);
@@ -973,8 +973,8 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 3;
             vlayout.padding = new RectOffset(10, 10, 10, 10);
             
-            CreateText(reportInfo.transform, $"⚔️ Troops: {report.TroopEstimate}", 11, TextAlignmentOptions.Center, Color.white);
-            CreateText(reportInfo.transform, $"🛡️ Defense: {report.DefenseRating}", 11, TextAlignmentOptions.Center, Color.white);
+            CreateText(reportInfo.transform, $"[!] Troops: {report.TroopEstimate}", 11, TextAlignmentOptions.Center, Color.white);
+            CreateText(reportInfo.transform, $"[D] Defense: {report.DefenseRating}", 11, TextAlignmentOptions.Center, Color.white);
             CreateText(reportInfo.transform, report.Notes, 9, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(reportInfo.transform, $"📅 {GetTimeAgo(report.Timestamp)}", 9, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
         }
@@ -995,7 +995,7 @@ namespace ApexCitadels.PC.UI
             {
                 case OwnerType.Player:
                     CreateActionButtonLarge(actions.transform, "🏠 View Details", () => ViewRegionDetails(_selectedRegion), accentColor);
-                    CreateActionButtonLarge(actions.transform, "🛡️ Reinforce", () => ReinforceRegion(_selectedRegion), allyColor);
+                    CreateActionButtonLarge(actions.transform, "[D] Reinforce", () => ReinforceRegion(_selectedRegion), allyColor);
                     break;
                     
                 case OwnerType.Ally:
@@ -1004,12 +1004,12 @@ namespace ApexCitadels.PC.UI
                     break;
                     
                 case OwnerType.Enemy:
-                    CreateActionButtonLarge(actions.transform, "⚔️ ATTACK", () => AttackRegion(_selectedRegion), enemyColor);
+                    CreateActionButtonLarge(actions.transform, "[!] ATTACK", () => AttackRegion(_selectedRegion), enemyColor);
                     CreateActionButtonLarge(actions.transform, "🔭 Scout Again", () => ScoutRegion(_selectedRegion), new Color(0.4f, 0.4f, 0.5f));
                     break;
                     
                 case OwnerType.Neutral:
-                    CreateActionButtonLarge(actions.transform, "⚔️ Capture", () => CaptureRegion(_selectedRegion), accentColor);
+                    CreateActionButtonLarge(actions.transform, "[!] Capture", () => CaptureRegion(_selectedRegion), accentColor);
                     CreateActionButtonLarge(actions.transform, "🔭 Scout", () => ScoutRegion(_selectedRegion), new Color(0.4f, 0.4f, 0.5f));
                     break;
             }
@@ -1109,14 +1109,14 @@ namespace ApexCitadels.PC.UI
             
             return region.Type switch
             {
-                RegionType.Citadel => "🏰",
+                RegionType.Citadel => "[C]",
                 RegionType.Fortress => "🏯",
                 RegionType.Outpost => "🏕️",
                 RegionType.Port => "⚓",
-                RegionType.ResourceNode => "⛏️",
-                RegionType.Wonder => "🏛️",
+                RegionType.ResourceNode => "[M]",
+                RegionType.Wonder => "[R]",
                 RegionType.Wilderness => "🌲",
-                _ => "📍"
+                _ => "[*]"
             };
         }
 
@@ -1126,9 +1126,9 @@ namespace ApexCitadels.PC.UI
             {
                 MarkerType.Boss => "👹",
                 MarkerType.Trade => "🏪",
-                MarkerType.Battle => "⚔️",
-                MarkerType.Treasure => "💎",
-                _ => "📍"
+                MarkerType.Battle => "[!]",
+                MarkerType.Treasure => "[G]",
+                _ => "[*]"
             };
         }
 
@@ -1148,12 +1148,12 @@ namespace ApexCitadels.PC.UI
         {
             return resource switch
             {
-                ResourceType.Gold => "💰",
-                ResourceType.Stone => "🪨",
-                ResourceType.Wood => "🪵",
-                ResourceType.Iron => "⚙️",
-                ResourceType.Crystal => "💎",
-                _ => "📦"
+                ResourceType.Gold => "[$]",
+                ResourceType.Stone => "[Q]",
+                ResourceType.Wood => "[W]",
+                ResourceType.Iron => "[P]",
+                ResourceType.Crystal => "[G]",
+                _ => "[B]"
             };
         }
 

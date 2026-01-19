@@ -181,7 +181,7 @@ namespace ApexCitadels.PC.UI
             iconRect.anchorMax = Vector2.one;
             
             TextMeshProUGUI iconText = icon.AddComponent<TextMeshProUGUI>();
-            iconText.text = "⚔️";
+            iconText.text = "[P]";
             iconText.fontSize = 40;
             iconText.alignment = TextAlignmentOptions.Center;
             
@@ -266,7 +266,7 @@ namespace ApexCitadels.PC.UI
             xp.alignment = TextAlignmentOptions.Center;
             
             // Alliance
-            CreateText(info.transform, $"🛡️ {_profile.AllianceName} • {_profile.AllianceRank}", 12, TextAlignmentOptions.Left, new Color(0.7f, 0.7f, 0.8f));
+            CreateText(info.transform, $"[A] {_profile.AllianceName} - {_profile.AllianceRank}", 12, TextAlignmentOptions.Left, new Color(0.7f, 0.7f, 0.8f));
         }
 
         private void CreateCloseButton(Transform parent)
@@ -311,11 +311,11 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateTab(tabs.transform, ProfileTab.Overview, "📊 Overview");
-            CreateTab(tabs.transform, ProfileTab.Statistics, "📈 Statistics");
-            CreateTab(tabs.transform, ProfileTab.Inventory, "🎒 Inventory");
-            CreateTab(tabs.transform, ProfileTab.Titles, "🏆 Titles");
-            CreateTab(tabs.transform, ProfileTab.History, "📜 History");
+            CreateTab(tabs.transform, ProfileTab.Overview, "Overview");
+            CreateTab(tabs.transform, ProfileTab.Statistics, "Statistics");
+            CreateTab(tabs.transform, ProfileTab.Inventory, "Inventory");
+            CreateTab(tabs.transform, ProfileTab.Titles, "Titles");
+            CreateTab(tabs.transform, ProfileTab.History, "History");
         }
 
         private void CreateTab(Transform parent, ProfileTab tab, string label)
@@ -401,7 +401,7 @@ namespace ApexCitadels.PC.UI
         private void CreateOverviewContent()
         {
             // Quick stats grid
-            CreateSectionHeader("⚔️ Combat Overview");
+            CreateSectionHeader("Combat Overview");
             
             GameObject statsGrid = new GameObject("StatsGrid");
             statsGrid.transform.SetParent(_contentContainer.transform, false);
@@ -414,15 +414,15 @@ namespace ApexCitadels.PC.UI
             float winRate = _profile.TotalBattles > 0 ? (float)_profile.BattlesWon / _profile.TotalBattles * 100 : 0;
             float kd = _profile.TotalTroopsLost > 0 ? (float)_profile.TotalTroopsKilled / _profile.TotalTroopsLost : 0;
             
-            CreateStatCard(statsGrid.transform, "⚔️ Total Battles", _profile.TotalBattles.ToString("N0"));
-            CreateStatCard(statsGrid.transform, "🏆 Win Rate", $"{winRate:F1}%");
-            CreateStatCard(statsGrid.transform, "⚡ K/D Ratio", $"{kd:F2}");
-            CreateStatCard(statsGrid.transform, "🏰 Territories", $"{_profile.TerritoriesCaptured:N0} captured");
+            CreateStatCard(statsGrid.transform, "Total Battles", _profile.TotalBattles.ToString("N0"));
+            CreateStatCard(statsGrid.transform, "Win Rate", $"{winRate:F1}%");
+            CreateStatCard(statsGrid.transform, "K/D Ratio", $"{kd:F2}");
+            CreateStatCard(statsGrid.transform, "Territories", $"{_profile.TerritoriesCaptured:N0} captured");
             CreateStatCard(statsGrid.transform, "📅 Play Time", $"{(int)_profile.TotalPlayTime.TotalHours}h {_profile.TotalPlayTime.Minutes}m");
-            CreateStatCard(statsGrid.transform, "✅ Quests", $"{_profile.QuestsCompleted} completed");
+            CreateStatCard(statsGrid.transform, "[OK] Quests", $"{_profile.QuestsCompleted} completed");
             
             // Recent activity
-            CreateSectionHeader("📋 Recent Activity");
+            CreateSectionHeader("[T] Recent Activity");
             
             CreateActivityItem("Won battle in Northlands (+250 XP)");
             CreateActivityItem("Completed quest: Train 50 Archers");
@@ -432,7 +432,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateStatisticsContent()
         {
-            CreateSectionHeader("⚔️ Combat Statistics");
+            CreateSectionHeader("Combat Statistics");
             
             CreateStatRow("Total Battles", _profile.TotalBattles.ToString("N0"));
             CreateStatRow("Battles Won", _profile.BattlesWon.ToString("N0"));
@@ -441,21 +441,21 @@ namespace ApexCitadels.PC.UI
             CreateStatRow("Troops Lost", _profile.TotalTroopsLost.ToString("N0"));
             CreateStatRow("Enemy Troops Killed", _profile.TotalTroopsKilled.ToString("N0"));
             
-            CreateSectionHeader("🏰 Territory Statistics");
+            CreateSectionHeader("Territory Statistics");
             
             CreateStatRow("Territories Captured", _profile.TerritoriesCaptured.ToString("N0"));
             CreateStatRow("Territories Lost", _profile.TerritoriesLost.ToString("N0"));
             CreateStatRow("Current Territories", "5");
             CreateStatRow("Highest Territory Count", "12");
             
-            CreateSectionHeader("💰 Economy Statistics");
+            CreateSectionHeader("Economy Statistics");
             
             CreateStatRow("Total Resources Gathered", _profile.ResourcesGathered.ToString("N0"));
             CreateStatRow("Buildings Built", _profile.BuildingsBuilt.ToString("N0"));
             CreateStatRow("Gold Spent", "1,250,000");
             CreateStatRow("Trades Completed", "89");
             
-            CreateSectionHeader("🎯 Progression Statistics");
+            CreateSectionHeader("Progression Statistics");
             
             CreateStatRow("Quests Completed", _profile.QuestsCompleted.ToString("N0"));
             CreateStatRow("Achievements Unlocked", $"{_profile.AchievementsUnlocked}/75");
@@ -465,7 +465,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateInventoryContent()
         {
-            CreateSectionHeader("🎒 Items (24/50)");
+            CreateSectionHeader("[I] Items (24/50)");
             
             GameObject inventoryGrid = new GameObject("InventoryGrid");
             inventoryGrid.transform.SetParent(_contentContainer.transform, false);
@@ -479,14 +479,14 @@ namespace ApexCitadels.PC.UI
             grid.childAlignment = TextAnchor.UpperLeft;
             
             // Sample inventory items
-            CreateInventorySlot(inventoryGrid.transform, "⚔️", "Legendary Sword", "rare", 1);
-            CreateInventorySlot(inventoryGrid.transform, "🛡️", "Golden Shield", "epic", 1);
-            CreateInventorySlot(inventoryGrid.transform, "💎", "Crystal Gems", "common", 150);
-            CreateInventorySlot(inventoryGrid.transform, "📜", "XP Scroll", "uncommon", 5);
-            CreateInventorySlot(inventoryGrid.transform, "🧪", "Speed Potion", "common", 12);
-            CreateInventorySlot(inventoryGrid.transform, "🎁", "Mystery Box", "rare", 3);
-            CreateInventorySlot(inventoryGrid.transform, "🏆", "Trophy", "epic", 1);
-            CreateInventorySlot(inventoryGrid.transform, "💰", "Gold Chest", "legendary", 2);
+            CreateInventorySlot(inventoryGrid.transform, "[W]", "Legendary Sword", "rare", 1);
+            CreateInventorySlot(inventoryGrid.transform, "[S]", "Golden Shield", "epic", 1);
+            CreateInventorySlot(inventoryGrid.transform, "[G]", "Crystal Gems", "common", 150);
+            CreateInventorySlot(inventoryGrid.transform, "[X]", "XP Scroll", "uncommon", 5);
+            CreateInventorySlot(inventoryGrid.transform, "[P]", "Speed Potion", "common", 12);
+            CreateInventorySlot(inventoryGrid.transform, "[?]", "Mystery Box", "rare", 3);
+            CreateInventorySlot(inventoryGrid.transform, "[T]", "Trophy", "epic", 1);
+            CreateInventorySlot(inventoryGrid.transform, "[$]", "Gold Chest", "legendary", 2);
             
             // Empty slots
             for (int i = 0; i < 8; i++)
@@ -566,7 +566,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateTitlesContent()
         {
-            CreateSectionHeader("🏆 Unlocked Titles (12/35)");
+            CreateSectionHeader("Unlocked Titles (12/35)");
             
             CreateTitleItem("The Conqueror", "Capture 50 territories", true, true);
             CreateTitleItem("Battle Hardened", "Win 100 battles", true, false);
@@ -574,7 +574,7 @@ namespace ApexCitadels.PC.UI
             CreateTitleItem("Alliance Champion", "Win 10 alliance wars", true, false);
             CreateTitleItem("Strategic Genius", "Win 50 battles without losses", true, false);
             
-            CreateSectionHeader("🔒 Locked Titles");
+            CreateSectionHeader("Locked Titles");
             
             CreateTitleItem("Legendary Commander", "Reach level 50", false, false);
             CreateTitleItem("Apex Predator", "Hold 20 territories at once", false, false);
@@ -620,7 +620,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
             // Status icon
-            string statusIcon = unlocked ? (equipped ? "✅" : "✓") : "🔒";
+            string statusIcon = unlocked ? (equipped ? "[OK]" : "✓") : "[L]";
             CreateText(item.transform, statusIcon, 20, TextAlignmentOptions.Center);
             
             // Title info
@@ -685,7 +685,7 @@ namespace ApexCitadels.PC.UI
                 lockRect.anchorMax = Vector2.one;
                 
                 TextMeshProUGUI lockText = lockObj.AddComponent<TextMeshProUGUI>();
-                lockText.text = "🔒";
+                lockText.text = "[L]";
                 lockText.fontSize = 24;
                 lockText.alignment = TextAlignmentOptions.Center;
             }
@@ -693,21 +693,21 @@ namespace ApexCitadels.PC.UI
 
         private void CreateHistoryContent()
         {
-            CreateSectionHeader("📜 Battle History (Last 20)");
+            CreateSectionHeader("Battle History (Last 20)");
             
-            CreateHistoryItem("Today 14:32", "⚔️ Victory", "Attacked Northlands", "+250 XP, +1500 Gold");
-            CreateHistoryItem("Today 12:15", "⚔️ Victory", "Defended Iron Mines", "+180 XP");
-            CreateHistoryItem("Yesterday 18:45", "❌ Defeat", "Attacked Golden Plains", "-50 Troops");
-            CreateHistoryItem("Yesterday 16:20", "⚔️ Victory", "Attacked Stone Quarry", "+200 XP, +2000 Stone");
-            CreateHistoryItem("Yesterday 11:00", "⚔️ Victory", "Alliance War - West Front", "+500 XP");
-            CreateHistoryItem("2 days ago", "⚔️ Victory", "Captured Crystal Cave", "+350 XP, Crystal Mine");
-            CreateHistoryItem("2 days ago", "❌ Defeat", "Defended Forest Camp", "Territory Lost");
+            CreateHistoryItem("Today 14:32", "[WIN] Victory", "Attacked Northlands", "+250 XP, +1500 Gold");
+            CreateHistoryItem("Today 12:15", "[WIN] Victory", "Defended Iron Mines", "+180 XP");
+            CreateHistoryItem("Yesterday 18:45", "[LOSS] Defeat", "Attacked Golden Plains", "-50 Troops");
+            CreateHistoryItem("Yesterday 16:20", "[WIN] Victory", "Attacked Stone Quarry", "+200 XP, +2000 Stone");
+            CreateHistoryItem("Yesterday 11:00", "[WIN] Victory", "Alliance War - West Front", "+500 XP");
+            CreateHistoryItem("2 days ago", "[WIN] Victory", "Captured Crystal Cave", "+350 XP, Crystal Mine");
+            CreateHistoryItem("2 days ago", "[LOSS] Defeat", "Defended Forest Camp", "Territory Lost");
             
-            CreateSectionHeader("🏆 Achievement History");
+            CreateSectionHeader("Achievement History");
             
-            CreateHistoryItem("Today", "🏆 Unlocked", "Battle Veteran", "Win 200 battles");
-            CreateHistoryItem("Yesterday", "🏆 Unlocked", "Resource Collector II", "Gather 500,000 resources");
-            CreateHistoryItem("3 days ago", "🏆 Unlocked", "Squad Leader", "Train 1000 troops");
+            CreateHistoryItem("Today", "[!] Unlocked", "Battle Veteran", "Win 200 battles");
+            CreateHistoryItem("Yesterday", "[!] Unlocked", "Resource Collector II", "Gather 500,000 resources");
+            CreateHistoryItem("3 days ago", "[!] Unlocked", "Squad Leader", "Train 1000 troops");
         }
 
         private void CreateHistoryItem(string time, string type, string action, string result)

@@ -251,7 +251,7 @@ namespace ApexCitadels.PC.UI
             title.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "🏛️ DIPLOMACY";
+            titleText.text = "[R] DIPLOMACY";
             titleText.fontSize = 28;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;
@@ -320,8 +320,8 @@ namespace ApexCitadels.PC.UI
             CreateStatItem(stats.transform, "😊", "Friendly", friendly.ToString(), new Color(0.5f, 0.8f, 0.5f));
             CreateStatItem(stats.transform, "😐", "Neutral", neutral.ToString(), neutralColor);
             CreateStatItem(stats.transform, "😠", "Hostile", hostile.ToString(), hostileColor);
-            CreateStatItem(stats.transform, "⚔️", "At War", atWar.ToString(), warColor);
-            CreateStatItem(stats.transform, "📜", "Treaties", _activeTreaties.Count.ToString(), accentColor);
+            CreateStatItem(stats.transform, "[!]", "At War", atWar.ToString(), warColor);
+            CreateStatItem(stats.transform, "[S]", "Treaties", _activeTreaties.Count.ToString(), accentColor);
             CreateStatItem(stats.transform, "📨", "Pending", _pendingTreaties.Count.ToString(), new Color(0.9f, 0.7f, 0.2f));
         }
 
@@ -352,8 +352,8 @@ namespace ApexCitadels.PC.UI
             
             int unreadCount = _messages.FindAll(m => !m.IsRead).Count;
             
-            CreateTab(tabs.transform, DiplomacyTab.Relations, "👥 Relations");
-            CreateTab(tabs.transform, DiplomacyTab.Treaties, $"📜 Treaties ({_activeTreaties.Count})");
+            CreateTab(tabs.transform, DiplomacyTab.Relations, "[P] Relations");
+            CreateTab(tabs.transform, DiplomacyTab.Treaties, $"[S] Treaties ({_activeTreaties.Count})");
             CreateTab(tabs.transform, DiplomacyTab.Pending, $"⏳ Pending ({_pendingTreaties.Count})");
             CreateTab(tabs.transform, DiplomacyTab.Messages, unreadCount > 0 ? $"📨 Messages ({unreadCount})" : "📨 Messages");
             CreateTab(tabs.transform, DiplomacyTab.History, "📖 History");
@@ -511,7 +511,7 @@ namespace ApexCitadels.PC.UI
             
             if (!string.IsNullOrEmpty(relation.AllianceName))
             {
-                CreateText(info.transform, $"⚔️ {relation.AllianceName}", 11, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.8f));
+                CreateText(info.transform, $"[!] {relation.AllianceName}", 11, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.8f));
             }
             
             CreateText(info.transform, $"Power: {relation.PowerLevel:N0}", 11, TextAlignmentOptions.Left, new Color(0.8f, 0.8f, 0.8f));
@@ -530,12 +530,12 @@ namespace ApexCitadels.PC.UI
             
             if (relation.TotalTradesCompleted > 0)
             {
-                CreateText(stats.transform, $"📦 {relation.TotalTradesCompleted} trades", 10, TextAlignmentOptions.Right, new Color(0.6f, 0.6f, 0.6f));
+                CreateText(stats.transform, $"[B] {relation.TotalTradesCompleted} trades", 10, TextAlignmentOptions.Right, new Color(0.6f, 0.6f, 0.6f));
             }
             
             if (relation.BattlesWon > 0 || relation.BattlesLost > 0)
             {
-                CreateText(stats.transform, $"⚔️ {relation.BattlesWon}W / {relation.BattlesLost}L", 10, TextAlignmentOptions.Right, new Color(0.6f, 0.6f, 0.6f));
+                CreateText(stats.transform, $"[!] {relation.BattlesWon}W / {relation.BattlesLost}L", 10, TextAlignmentOptions.Right, new Color(0.6f, 0.6f, 0.6f));
             }
             
             // Actions
@@ -602,13 +602,13 @@ namespace ApexCitadels.PC.UI
                     CreateSmallButton(actions.transform, "📨 Message", () => SendMessage(relation), accentColor);
                     break;
                 case RelationStatus.Hostile:
-                    CreateSmallButton(actions.transform, "⚔️ War", () => DeclareWar(relation), warColor);
-                    CreateSmallButton(actions.transform, "📜 Treaty", () => ProposeTreaty(relation), accentColor);
+                    CreateSmallButton(actions.transform, "[!] War", () => DeclareWar(relation), warColor);
+                    CreateSmallButton(actions.transform, "[S] Treaty", () => ProposeTreaty(relation), accentColor);
                     break;
                 case RelationStatus.Friendly:
                 case RelationStatus.Neutral:
-                    CreateSmallButton(actions.transform, "📜 Treaty", () => ProposeTreaty(relation), accentColor);
-                    CreateSmallButton(actions.transform, "📦 Trade", () => ProposeTrade(relation), new Color(0.8f, 0.6f, 0.2f));
+                    CreateSmallButton(actions.transform, "[S] Treaty", () => ProposeTreaty(relation), accentColor);
+                    CreateSmallButton(actions.transform, "[B] Trade", () => ProposeTrade(relation), new Color(0.8f, 0.6f, 0.2f));
                     break;
             }
         }
@@ -677,7 +677,7 @@ namespace ApexCitadels.PC.UI
             CreateText(info.transform, $"<b>{treaty.Type}</b>", 15, TextAlignmentOptions.Left, typeColor);
             CreateText(info.transform, $"{directionStr}{treaty.PartnerName}", 12, TextAlignmentOptions.Left, Color.white);
             CreateText(info.transform, treaty.Terms, 10, TextAlignmentOptions.Left, new Color(0.7f, 0.7f, 0.7f));
-            CreateText(info.transform, $"✨ {treaty.Benefits}", 10, TextAlignmentOptions.Left, new Color(0.5f, 0.8f, 0.5f));
+            CreateText(info.transform, $"[*] {treaty.Benefits}", 10, TextAlignmentOptions.Left, new Color(0.5f, 0.8f, 0.5f));
             
             // Duration/Status
             GameObject status = new GameObject("Status");
@@ -793,16 +793,16 @@ namespace ApexCitadels.PC.UI
             
             // Actions
             CreateSmallButton(card.transform, "📖 Read", () => ReadMessage(msg), accentColor);
-            CreateSmallButton(card.transform, "↩️ Reply", () => ReplyToMessage(msg), new Color(0.4f, 0.4f, 0.5f));
+            CreateSmallButton(card.transform, "[U] Reply", () => ReplyToMessage(msg), new Color(0.4f, 0.4f, 0.5f));
         }
 
         private void CreateHistoryContent()
         {
-            CreateText(_contentContainer.transform, "📜 Diplomatic History", 16, TextAlignmentOptions.Center, accentColor);
+            CreateText(_contentContainer.transform, "[S] Diplomatic History", 16, TextAlignmentOptions.Center, accentColor);
             
             // Recent events
-            CreateHistoryItem("⚔️ War declared by ShadowKing", DateTime.Now.AddDays(-2), warColor);
-            CreateHistoryItem("📜 Trade Agreement signed with MerchantPrince", DateTime.Now.AddDays(-3), allyColor);
+            CreateHistoryItem("[!] War declared by ShadowKing", DateTime.Now.AddDays(-2), warColor);
+            CreateHistoryItem("[S] Trade Agreement signed with MerchantPrince", DateTime.Now.AddDays(-3), allyColor);
             CreateHistoryItem("🤝 Alliance formed with DragonSlayer", DateTime.Now.AddDays(-7), accentColor);
             CreateHistoryItem("☮️ Peace treaty ended with IronFist", DateTime.Now.AddDays(-10), neutralColor);
         }
@@ -894,7 +894,7 @@ namespace ApexCitadels.PC.UI
                 RelationStatus.Friendly => "😊",
                 RelationStatus.Neutral => "😐",
                 RelationStatus.Hostile => "😠",
-                RelationStatus.AtWar => "⚔️",
+                RelationStatus.AtWar => "[!]",
                 _ => "❓"
             };
         }
@@ -916,12 +916,12 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                TreatyType.MutualDefense => "🛡️",
-                TreatyType.TradeAgreement => "📦",
+                TreatyType.MutualDefense => "[D]",
+                TreatyType.TradeAgreement => "[B]",
                 TreatyType.NonAggression => "☮️",
                 TreatyType.Alliance => "🤝",
                 TreatyType.Vassalage => "👑",
-                _ => "📜"
+                _ => "[S]"
             };
         }
 
@@ -941,9 +941,9 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                MessageType.Threat => "⚠️",
-                MessageType.TradeOffer => "📦",
-                MessageType.Coordination => "🎯",
+                MessageType.Threat => "[!]",
+                MessageType.TradeOffer => "[B]",
+                MessageType.Coordination => "[+]",
                 MessageType.PeaceOffer => "☮️",
                 _ => "📨"
             };

@@ -304,7 +304,7 @@ namespace ApexCitadels.PC.UI
             title.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "👥 SOCIAL HUB";
+            titleText.text = "[P] SOCIAL HUB";
             titleText.fontSize = 28;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;
@@ -353,8 +353,8 @@ namespace ApexCitadels.PC.UI
             
             int onlineCount = _friends.FindAll(f => f.Status == OnlineStatus.Online).Count;
             
-            CreateTab(tabs.transform, SocialTab.Friends, $"👥 Friends ({onlineCount}/{_friends.Count})");
-            CreateTab(tabs.transform, SocialTab.Guild, $"⚔️ Guild ({_currentGuild?.MemberCount ?? 0})");
+            CreateTab(tabs.transform, SocialTab.Friends, $"[P] Friends ({onlineCount}/{_friends.Count})");
+            CreateTab(tabs.transform, SocialTab.Guild, $"[!] Guild ({_currentGuild?.MemberCount ?? 0})");
             CreateTab(tabs.transform, SocialTab.Requests, $"📬 Requests ({_pendingRequests.Count})");
             CreateTab(tabs.transform, SocialTab.Activity, "📰 Activity");
             CreateTab(tabs.transform, SocialTab.Search, "🔍 Search");
@@ -556,12 +556,12 @@ namespace ApexCitadels.PC.UI
             infoVL.childAlignment = TextAnchor.MiddleLeft;
             infoVL.spacing = 2;
             
-            string favoriteIcon = friend.IsFavorite ? "⭐ " : "";
+            string favoriteIcon = friend.IsFavorite ? "[*] " : "";
             CreateText(info.transform, $"{favoriteIcon}<b>{friend.Name}</b>", 14, TextAlignmentOptions.Left, Color.white);
             
             if (!string.IsNullOrEmpty(friend.AllianceName))
             {
-                CreateText(info.transform, $"⚔️ {friend.AllianceName}", 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.7f));
+                CreateText(info.transform, $"[!] {friend.AllianceName}", 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.7f));
             }
             
             if (friend.Status == OnlineStatus.Online && !string.IsNullOrEmpty(friend.CurrentActivity))
@@ -575,7 +575,7 @@ namespace ApexCitadels.PC.UI
             }
             
             // Power
-            CreateText(card.transform, $"⚡{friend.PowerLevel:N0}", 11, TextAlignmentOptions.Right, new Color(0.8f, 0.7f, 0.4f));
+            CreateText(card.transform, $"[!]{friend.PowerLevel:N0}", 11, TextAlignmentOptions.Right, new Color(0.8f, 0.7f, 0.4f));
             
             // Actions
             GameObject actions = new GameObject("Actions");
@@ -588,7 +588,7 @@ namespace ApexCitadels.PC.UI
             if (friend.Status == OnlineStatus.Online)
             {
                 CreateSmallButton(actions.transform, "💬", () => OpenChat(friend), accentColor);
-                CreateSmallButton(actions.transform, "⚔️", () => InviteToBattle(friend), new Color(0.7f, 0.4f, 0.3f));
+                CreateSmallButton(actions.transform, "[!]", () => InviteToBattle(friend), new Color(0.7f, 0.4f, 0.3f));
             }
             else
             {
@@ -611,7 +611,7 @@ namespace ApexCitadels.PC.UI
             CreateGuildStats();
             
             // Members list
-            CreateSectionLabel("👥 MEMBERS");
+            CreateSectionLabel("[P] MEMBERS");
             
             // Sort by rank then power
             List<SocialGuildMember> sorted = new List<SocialGuildMember>(_guildMembers);
@@ -676,7 +676,7 @@ namespace ApexCitadels.PC.UI
             emblemBg.color = new Color(0.2f, 0.25f, 0.35f);
             
             TextMeshProUGUI emblemText = emblem.AddComponent<TextMeshProUGUI>();
-            emblemText.text = "⚔️";
+            emblemText.text = "[!]";
             emblemText.fontSize = 32;
             emblemText.alignment = TextAlignmentOptions.Center;
             
@@ -702,9 +702,9 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup statsVL = stats.AddComponent<VerticalLayoutGroup>();
             statsVL.childAlignment = TextAnchor.MiddleRight;
             
-            CreateText(stats.transform, $"👥 {_currentGuild.MemberCount}/{_currentGuild.MaxMembers}", 12, TextAlignmentOptions.Right, Color.white);
-            CreateText(stats.transform, $"⚡ {_currentGuild.TotalPower:N0}", 12, TextAlignmentOptions.Right, new Color(0.8f, 0.7f, 0.4f));
-            CreateText(stats.transform, $"🏰 {_currentGuild.TerritoryCount} territories", 11, TextAlignmentOptions.Right, accentColor);
+            CreateText(stats.transform, $"[P] {_currentGuild.MemberCount}/{_currentGuild.MaxMembers}", 12, TextAlignmentOptions.Right, Color.white);
+            CreateText(stats.transform, $"[!] {_currentGuild.TotalPower:N0}", 12, TextAlignmentOptions.Right, new Color(0.8f, 0.7f, 0.4f));
+            CreateText(stats.transform, $"[C] {_currentGuild.TerritoryCount} territories", 11, TextAlignmentOptions.Right, accentColor);
         }
 
         private void CreateGuildStats()
@@ -720,9 +720,9 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 10;
             
-            CreateGuildStatItem(stats.transform, "📈 XP", $"{_currentGuild.Experience:N0}/{_currentGuild.ExperienceToNext:N0}");
-            CreateGuildStatItem(stats.transform, "🎁 Perks", string.Join(", ", _currentGuild.Perks));
-            CreateGuildStatItem(stats.transform, "📊 Weekly", $"{_currentGuild.WeeklyContribution:N0}");
+            CreateGuildStatItem(stats.transform, "[+] XP", $"{_currentGuild.Experience:N0}/{_currentGuild.ExperienceToNext:N0}");
+            CreateGuildStatItem(stats.transform, "[?] Perks", string.Join(", ", _currentGuild.Perks));
+            CreateGuildStatItem(stats.transform, "[#] Weekly", $"{_currentGuild.WeeklyContribution:N0}");
         }
 
         private void CreateGuildStatItem(Transform parent, string label, string value)
@@ -764,8 +764,8 @@ namespace ApexCitadels.PC.UI
             string rankIcon = member.Rank switch
             {
                 GuildRank.Leader => "👑",
-                GuildRank.Officer => "⭐",
-                GuildRank.Veteran => "🎖️",
+                GuildRank.Officer => "[*]",
+                GuildRank.Veteran => "[M]",
                 _ => "👤"
             };
             CreateText(card.transform, rankIcon, 18, TextAlignmentOptions.Center);
@@ -775,10 +775,10 @@ namespace ApexCitadels.PC.UI
             nameObj.AddComponent<LayoutElement>().flexibleWidth = 1;
             
             // Power
-            CreateText(card.transform, $"⚡{member.PowerLevel:N0}", 10, TextAlignmentOptions.Right, new Color(0.8f, 0.7f, 0.4f));
+            CreateText(card.transform, $"[!]{member.PowerLevel:N0}", 10, TextAlignmentOptions.Right, new Color(0.8f, 0.7f, 0.4f));
             
             // Contribution
-            CreateText(card.transform, $"📊{member.WeeklyContribution:N0}", 10, TextAlignmentOptions.Right, accentColor);
+            CreateText(card.transform, $"[#]{member.WeeklyContribution:N0}", 10, TextAlignmentOptions.Right, accentColor);
             
             // Last active
             bool isOnline = (DateTime.Now - member.LastActive).TotalMinutes < 5;
@@ -878,10 +878,10 @@ namespace ApexCitadels.PC.UI
             // Icon
             string icon = activity.Type switch
             {
-                SocialActivityType.Achievement => "🏆",
-                SocialActivityType.Battle => "⚔️",
+                SocialActivityType.Achievement => "[T]",
+                SocialActivityType.Battle => "[!]",
                 SocialActivityType.LevelUp => "⬆️",
-                SocialActivityType.GuildEvent => "🏰",
+                SocialActivityType.GuildEvent => "[C]",
                 SocialActivityType.Online => "🟢",
                 _ => "📌"
             };
@@ -937,7 +937,7 @@ namespace ApexCitadels.PC.UI
             codeHL.spacing = 15;
             
             CreateText(codeDisplay.transform, "APEX-1234-ABCD-5678", 18, TextAlignmentOptions.Center, goldColor);
-            CreateSmallButton(codeDisplay.transform, "📋 Copy", () => CopyFriendCode(), accentColor);
+            CreateSmallButton(codeDisplay.transform, "[T] Copy", () => CopyFriendCode(), accentColor);
         }
 
         #region UI Helpers

@@ -46,15 +46,15 @@ namespace ApexCitadels.PC.Economy
         // Resource icons and colors
         private readonly Dictionary<ResourceType, string> resourceIcons = new Dictionary<ResourceType, string>
         {
-            { ResourceType.Stone, "🪨" },
-            { ResourceType.Wood, "🪵" },
+            { ResourceType.Stone, "[Q]" },
+            { ResourceType.Wood, "[W]" },
             { ResourceType.Iron, "🔩" },
-            { ResourceType.Crystal, "💎" },
-            { ResourceType.ArcaneEssence, "✨" },
+            { ResourceType.Crystal, "[G]" },
+            { ResourceType.ArcaneEssence, "[*]" },
             { ResourceType.Gems, "💠" },
-            { ResourceType.Gold, "🪙" },
+            { ResourceType.Gold, "[$]" },
             { ResourceType.Food, "🍖" },
-            { ResourceType.Energy, "⚡" }
+            { ResourceType.Energy, "[!]" }
         };
 
         private readonly Dictionary<ResourceType, Color> resourceColors = new Dictionary<ResourceType, Color>

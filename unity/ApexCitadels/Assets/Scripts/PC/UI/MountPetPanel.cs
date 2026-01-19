@@ -246,7 +246,7 @@ namespace ApexCitadels.PC.UI
             GameObject iconObj = new GameObject("Icon");
             iconObj.transform.SetParent(headerObj.transform, false);
             TextMeshProUGUI iconTMP = iconObj.AddComponent<TextMeshProUGUI>();
-            iconTMP.text = "🐎";
+            iconTMP.text = "[H]";
             iconTMP.fontSize = 32;
             iconTMP.alignment = TextAlignmentOptions.Center;
             LayoutElement iconLE = iconObj.AddComponent<LayoutElement>();
@@ -267,7 +267,7 @@ namespace ApexCitadels.PC.UI
             GameObject currencyObj = new GameObject("Currency");
             currencyObj.transform.SetParent(headerObj.transform, false);
             TextMeshProUGUI currencyTMP = currencyObj.AddComponent<TextMeshProUGUI>();
-            currencyTMP.text = "🦴 1,250 | 🌟 50";
+            currencyTMP.text = "🦴 1,250 | [*] 50";
             currencyTMP.fontSize = 18;
             currencyTMP.color = new Color(1f, 0.9f, 0.5f);
             currencyTMP.alignment = TextAlignmentOptions.Right;
@@ -316,7 +316,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "🐎 Mounts", "🐾 Pets", "🏠 Stable", "💕 Breeding", "🛒 Shop" };
+            string[] tabNames = { "[H] Mounts", "🐾 Pets", "🏠 Stable", "💕 Breeding", "[M] Shop" };
             CompanionTab[] tabValues = { CompanionTab.Mounts, CompanionTab.Pets, CompanionTab.Stable, CompanionTab.Breeding, CompanionTab.Shop };
 
             for (int i = 0; i < tabNames.Length; i++)
@@ -629,7 +629,7 @@ namespace ApexCitadels.PC.UI
             GameObject titleObj = new GameObject("Title");
             titleObj.transform.SetParent(statsObj.transform, false);
             TextMeshProUGUI titleTMP = titleObj.AddComponent<TextMeshProUGUI>();
-            titleTMP.text = "📊 BONUSES & ABILITIES";
+            titleTMP.text = "[#] BONUSES & ABILITIES";
             titleTMP.fontSize = 16;
             titleTMP.fontStyle = FontStyles.Bold;
             titleTMP.color = new Color(0.9f, 0.8f, 0.4f);
@@ -1000,16 +1000,16 @@ namespace ApexCitadels.PC.UI
             {
                 return companion.mountType switch
                 {
-                    MountType.Horse => "🐎",
+                    MountType.Horse => "[H]",
                     MountType.Wolf => "🐺",
                     MountType.Bear => "🐻",
                     MountType.Griffin => "🦅",
                     MountType.Dragon => "🐉",
-                    MountType.Phoenix => "🔥",
+                    MountType.Phoenix => "[*]",
                     MountType.Unicorn => "🦄",
-                    MountType.Mechanical => "⚙️",
-                    MountType.Elemental => "✨",
-                    _ => "🐎"
+                    MountType.Mechanical => "[P]",
+                    MountType.Elemental => "[*]",
+                    _ => "[H]"
                 };
             }
             else
@@ -1023,7 +1023,7 @@ namespace ApexCitadels.PC.UI
                     PetType.Fox => "🦊",
                     PetType.Spirit => "👻",
                     PetType.Imp => "😈",
-                    PetType.Golem => "🗿",
+                    PetType.Golem => "[*]",
                     PetType.Fairy => "🧚",
                     _ => "🐾"
                 };

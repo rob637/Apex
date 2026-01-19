@@ -152,7 +152,7 @@ namespace ApexCitadels.PC.UI
             titleRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "🏛️ AUCTION HOUSE";
+            title.text = "[R] AUCTION HOUSE";
             title.fontSize = 24;
             title.fontStyle = FontStyles.Bold;
             title.color = accentColor;
@@ -169,7 +169,7 @@ namespace ApexCitadels.PC.UI
             balanceRect.offsetMax = Vector2.zero;
             
             _balanceText = balanceObj.AddComponent<TextMeshProUGUI>();
-            _balanceText.text = $"💰 {_playerGold:N0} Gold";
+            _balanceText.text = $"[$] {_playerGold:N0} Gold";
             _balanceText.fontSize = 18;
             _balanceText.color = accentColor;
             _balanceText.alignment = TextAlignmentOptions.Center;
@@ -304,11 +304,11 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.childForceExpandHeight = true;
             
-            _browseTab = CreateTabButton(tabBar.transform, "📋 Browse", () => SwitchTab(AuctionTab.Browse));
-            _sellTab = CreateTabButton(tabBar.transform, "💰 Sell", () => SwitchTab(AuctionTab.Sell));
+            _browseTab = CreateTabButton(tabBar.transform, "[T] Browse", () => SwitchTab(AuctionTab.Browse));
+            _sellTab = CreateTabButton(tabBar.transform, "[$] Sell", () => SwitchTab(AuctionTab.Sell));
             _ordersTab = CreateTabButton(tabBar.transform, "📝 My Orders", () => SwitchTab(AuctionTab.MyOrders));
-            _historyTab = CreateTabButton(tabBar.transform, "📜 History", () => SwitchTab(AuctionTab.History));
-            _watchlistTab = CreateTabButton(tabBar.transform, "⭐ Watchlist", () => SwitchTab(AuctionTab.Watchlist));
+            _historyTab = CreateTabButton(tabBar.transform, "[S] History", () => SwitchTab(AuctionTab.History));
+            _watchlistTab = CreateTabButton(tabBar.transform, "[*] Watchlist", () => SwitchTab(AuctionTab.Watchlist));
             
             UpdateTabHighlights();
         }
@@ -645,7 +645,7 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(15, 15, 15, 15);
             
             // Item icon placeholder
-            GameObject iconObj = CreateDetailRow(detailsPanel.transform, "🎁", 60);
+            GameObject iconObj = CreateDetailRow(detailsPanel.transform, "[?]", 60);
             
             // Item name
             GameObject nameObj = new GameObject("ItemName");
@@ -683,11 +683,11 @@ namespace ApexCitadels.PC.UI
             _selectedItemDetails.alignment = TextAlignmentOptions.TopLeft;
             
             // Buy button
-            _buyButton = CreateActionButton(detailsPanel.transform, "💰 BUY NOW", buyColor, OnBuyClicked);
+            _buyButton = CreateActionButton(detailsPanel.transform, "[$] BUY NOW", buyColor, OnBuyClicked);
             _buyButton.interactable = false;
             
             // Watchlist button
-            _watchlistButton = CreateActionButton(detailsPanel.transform, "⭐ Add to Watchlist", highlightColor, OnWatchlistClicked);
+            _watchlistButton = CreateActionButton(detailsPanel.transform, "[*] Add to Watchlist", highlightColor, OnWatchlistClicked);
             _watchlistButton.interactable = false;
         }
 
@@ -768,9 +768,9 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = false;
             
             // Market stats
-            CreateStatLabel(footer.transform, "📊 24h Volume:", "125,432 Gold");
-            CreateStatLabel(footer.transform, "📈 Active Listings:", "2,847");
-            CreateStatLabel(footer.transform, "👥 Online Traders:", "156");
+            CreateStatLabel(footer.transform, "[#] 24h Volume:", "125,432 Gold");
+            CreateStatLabel(footer.transform, "[+] Active Listings:", "2,847");
+            CreateStatLabel(footer.transform, "[P] Online Traders:", "156");
         }
 
         private void CreateStatLabel(Transform parent, string label, string value)
@@ -812,7 +812,7 @@ namespace ApexCitadels.PC.UI
                 "Siege Ram", "Crossbow", "Battle Axe", "Royal Crown"
             };
             
-            string[] icons = { "⚔️", "🛡️", "🎽", "🧪", "💎", "🪨", "🪄", "🐉", "🪶", "📜", "💍", "🐴", "🪵", "🏹", "🪓", "👑" };
+            string[] icons = { "[!]", "[D]", "🎽", "[P]", "[G]", "[Q]", "🪄", "🐉", "🪶", "[S]", "💍", "🐴", "[W]", "[A]", "[L]", "👑" };
             
             AuctionCategory[] categories = {
                 AuctionCategory.Weapons, AuctionCategory.Armor, AuctionCategory.Armor, AuctionCategory.Consumables,
@@ -923,7 +923,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement priceLE = priceObj.AddComponent<LayoutElement>();
             priceLE.preferredWidth = 100;
             TextMeshProUGUI price = priceObj.AddComponent<TextMeshProUGUI>();
-            price.text = $"💰 {listing.Price:N0}";
+            price.text = $"[$] {listing.Price:N0}";
             price.fontSize = 14;
             price.color = accentColor;
             price.alignment = TextAlignmentOptions.Center;
@@ -947,7 +947,7 @@ namespace ApexCitadels.PC.UI
             _selectedItemName.text = $"{listing.ItemIcon} {listing.ItemName}";
             _selectedItemName.color = GetRarityColor(listing.Rarity);
             
-            _selectedItemPrice.text = $"💰 {listing.Price:N0} Gold";
+            _selectedItemPrice.text = $"[$] {listing.Price:N0} Gold";
             
             string details = $"<b>Rarity:</b> {listing.Rarity}\n" +
                            $"<b>Item Level:</b> {listing.ItemLevel}\n" +
@@ -1055,7 +1055,7 @@ namespace ApexCitadels.PC.UI
             }
             
             _playerGold -= _selectedListing.Price;
-            _balanceText.text = $"💰 {_playerGold:N0} Gold";
+            _balanceText.text = $"[$] {_playerGold:N0} Gold";
             
             _transactionHistory.Add(new AuctionTransaction
             {
@@ -1095,14 +1095,14 @@ namespace ApexCitadels.PC.UI
         {
             return category switch
             {
-                AuctionCategory.All => "📦 All Categories",
-                AuctionCategory.Weapons => "⚔️ Weapons",
-                AuctionCategory.Armor => "🛡️ Armor",
-                AuctionCategory.Equipment => "🎒 Equipment",
-                AuctionCategory.Consumables => "🧪 Consumables",
-                AuctionCategory.Materials => "🪨 Materials",
+                AuctionCategory.All => "[B] All Categories",
+                AuctionCategory.Weapons => "[!] Weapons",
+                AuctionCategory.Armor => "[D] Armor",
+                AuctionCategory.Equipment => "[I] Equipment",
+                AuctionCategory.Consumables => "[P] Consumables",
+                AuctionCategory.Materials => "[Q] Materials",
                 AuctionCategory.Mounts => "🐴 Mounts",
-                AuctionCategory.Miscellaneous => "📜 Miscellaneous",
+                AuctionCategory.Miscellaneous => "[S] Miscellaneous",
                 _ => "Unknown"
             };
         }

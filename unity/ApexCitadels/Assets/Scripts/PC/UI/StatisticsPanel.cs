@@ -251,10 +251,10 @@ namespace ApexCitadels.PC.UI
             if (currentProductionRateText != null && _stats.CurrentProductionRate != null)
             {
                 currentProductionRateText.text = 
-                    $"🪨 {_stats.CurrentProductionRate.StonePerHour}/h  " +
-                    $"🪵 {_stats.CurrentProductionRate.WoodPerHour}/h  " +
-                    $"⚙️ {_stats.CurrentProductionRate.MetalPerHour}/h  " +
-                    $"💎 {_stats.CurrentProductionRate.CrystalPerHour}/h";
+                    $"[Q] {_stats.CurrentProductionRate.StonePerHour}/h  " +
+                    $"[W] {_stats.CurrentProductionRate.WoodPerHour}/h  " +
+                    $"[P] {_stats.CurrentProductionRate.MetalPerHour}/h  " +
+                    $"[G] {_stats.CurrentProductionRate.CrystalPerHour}/h";
             }
         }
 

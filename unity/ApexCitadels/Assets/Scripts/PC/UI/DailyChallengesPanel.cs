@@ -77,7 +77,7 @@ namespace ApexCitadels.PC.UI
                     Rewards = new List<ChallengeReward> { new ChallengeReward { Type = ResourceType.Gold, Amount = 5000 } },
                     ExperienceReward = 100,
                     Difficulty = ChallengeDifficulty.Easy,
-                    Icon = "💰"
+                    Icon = "[$]"
                 },
                 new DailyChallenge
                 {
@@ -90,7 +90,7 @@ namespace ApexCitadels.PC.UI
                     Rewards = new List<ChallengeReward> { new ChallengeReward { Type = ResourceType.Iron, Amount = 2000 } },
                     ExperienceReward = 150,
                     Difficulty = ChallengeDifficulty.Easy,
-                    Icon = "⚔️"
+                    Icon = "[!]"
                 },
                 new DailyChallenge
                 {
@@ -118,7 +118,7 @@ namespace ApexCitadels.PC.UI
                     Rewards = new List<ChallengeReward> { new ChallengeReward { Type = ResourceType.Gold, Amount = 3000 } },
                     ExperienceReward = 120,
                     Difficulty = ChallengeDifficulty.Medium,
-                    Icon = "🎖️"
+                    Icon = "[M]"
                 },
                 new DailyChallenge
                 {
@@ -178,7 +178,7 @@ namespace ApexCitadels.PC.UI
                     },
                     ExperienceReward = 300,
                     Difficulty = ChallengeDifficulty.Hard,
-                    Icon = "🛡️"
+                    Icon = "[D]"
                 }
             };
             
@@ -209,7 +209,7 @@ namespace ApexCitadels.PC.UI
                         new ChallengeReward { Type = ResourceType.Crystal, Amount = 500 }
                     },
                     ExperienceReward = 800,
-                    Icon = "💎"
+                    Icon = "[G]"
                 },
                 new WeeklyChallenge
                 {
@@ -222,21 +222,21 @@ namespace ApexCitadels.PC.UI
                         new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 100 }
                     },
                     ExperienceReward = 1200,
-                    Icon = "🏰"
+                    Icon = "[C]"
                 }
             };
             
             _streakRewards = new List<StreakReward>
             {
-                new StreakReward { Day = 1, Reward = new ChallengeReward { Type = ResourceType.Gold, Amount = 5000 }, Icon = "📦", IsClaimed = true },
-                new StreakReward { Day = 2, Reward = new ChallengeReward { Type = ResourceType.Stone, Amount = 5000 }, Icon = "🪨", IsClaimed = true },
-                new StreakReward { Day = 3, Reward = new ChallengeReward { Type = ResourceType.Wood, Amount = 5000 }, Icon = "🪵", IsClaimed = true },
-                new StreakReward { Day = 4, Reward = new ChallengeReward { Type = ResourceType.Iron, Amount = 3000 }, Icon = "⚙️", IsClaimed = true },
-                new StreakReward { Day = 5, Reward = new ChallengeReward { Type = ResourceType.Crystal, Amount = 100 }, Icon = "💎", IsClaimed = true },
-                new StreakReward { Day = 6, Reward = new ChallengeReward { Type = ResourceType.Gold, Amount = 20000 }, Icon = "💰", IsClaimed = true },
-                new StreakReward { Day = 7, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 50 }, Icon = "🌟", IsClaimed = true },
+                new StreakReward { Day = 1, Reward = new ChallengeReward { Type = ResourceType.Gold, Amount = 5000 }, Icon = "[B]", IsClaimed = true },
+                new StreakReward { Day = 2, Reward = new ChallengeReward { Type = ResourceType.Stone, Amount = 5000 }, Icon = "[Q]", IsClaimed = true },
+                new StreakReward { Day = 3, Reward = new ChallengeReward { Type = ResourceType.Wood, Amount = 5000 }, Icon = "[W]", IsClaimed = true },
+                new StreakReward { Day = 4, Reward = new ChallengeReward { Type = ResourceType.Iron, Amount = 3000 }, Icon = "[P]", IsClaimed = true },
+                new StreakReward { Day = 5, Reward = new ChallengeReward { Type = ResourceType.Crystal, Amount = 100 }, Icon = "[G]", IsClaimed = true },
+                new StreakReward { Day = 6, Reward = new ChallengeReward { Type = ResourceType.Gold, Amount = 20000 }, Icon = "[$]", IsClaimed = true },
+                new StreakReward { Day = 7, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 50 }, Icon = "[*]", IsClaimed = true },
                 new StreakReward { Day = 14, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 100 }, Icon = "👑", IsClaimed = false, IsMilestone = true },
-                new StreakReward { Day = 30, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 300 }, Icon = "🏆", IsClaimed = false, IsMilestone = true }
+                new StreakReward { Day = 30, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 300 }, Icon = "[T]", IsClaimed = false, IsMilestone = true }
             };
         }
 
@@ -311,7 +311,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup vlayout = timer.AddComponent<VerticalLayoutGroup>();
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(timer.transform, "⏰ Resets in", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(timer.transform, "[T] Resets in", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(timer.transform, GetTimeRemaining(_dailyResetTime), 14, TextAlignmentOptions.Center, accentColor);
         }
 
@@ -379,7 +379,7 @@ namespace ApexCitadels.PC.UI
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             vlayout.spacing = 5;
             
-            CreateText(info.transform, "🔥 LOGIN STREAK", 12, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(info.transform, "[*] LOGIN STREAK", 12, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(info.transform, $"{_currentStreak} Days", 32, TextAlignmentOptions.Center, goldColor);
             CreateText(info.transform, $"Best: {_longestStreak} days", 10, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
         }
@@ -441,7 +441,7 @@ namespace ApexCitadels.PC.UI
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             vlayout.padding = new RectOffset(5, 5, 5, 5);
             
-            string icon = reward?.Icon ?? "📦";
+            string icon = reward?.Icon ?? "[B]";
             CreateText(dayObj.transform, icon, 18, TextAlignmentOptions.Center);
             CreateText(dayObj.transform, $"Day {day}", 9, TextAlignmentOptions.Center, Color.white);
             
@@ -478,7 +478,7 @@ namespace ApexCitadels.PC.UI
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             vlayout.padding = new RectOffset(5, 5, 5, 5);
             
-            CreateText(marker.transform, reward?.Icon ?? "🏆", 20, TextAlignmentOptions.Center);
+            CreateText(marker.transform, reward?.Icon ?? "[T]", 20, TextAlignmentOptions.Center);
             CreateText(marker.transform, $"{day} Days", 9, TextAlignmentOptions.Center, Color.white);
             
             if (isUnlocked && !isClaimed)
@@ -510,8 +510,8 @@ namespace ApexCitadels.PC.UI
             
             CreateTab(tabBar.transform, ChallengeTab.Daily, $"📅 Daily ({dailyRemaining})");
             CreateTab(tabBar.transform, ChallengeTab.Weekly, $"📆 Weekly ({weeklyRemaining})");
-            CreateTab(tabBar.transform, ChallengeTab.Special, "⭐ Special");
-            CreateTab(tabBar.transform, ChallengeTab.Achievements, "🏆 Progress");
+            CreateTab(tabBar.transform, ChallengeTab.Special, "[*] Special");
+            CreateTab(tabBar.transform, ChallengeTab.Achievements, "[T] Progress");
         }
 
         private void CreateTab(Transform parent, ChallengeTab tab, string label)
@@ -630,7 +630,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = $"🎁 CLAIM ALL REWARDS ({count})";
+            text.text = $"[?] CLAIM ALL REWARDS ({count})";
             text.fontSize = 14;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;
@@ -656,7 +656,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(20, 20, 10, 10);
             
             // Progress text
-            CreateText(summary.transform, $"📊 Progress: {completed}/{total}", 14, TextAlignmentOptions.Center, Color.white);
+            CreateText(summary.transform, $"[#] Progress: {completed}/{total}", 14, TextAlignmentOptions.Center, Color.white);
             
             // Progress bar
             CreateProgressBar(summary.transform, (float)completed / total);
@@ -664,7 +664,7 @@ namespace ApexCitadels.PC.UI
             // Bonus reward preview
             if (completed == total)
             {
-                CreateText(summary.transform, "🎉 All Complete! +50 Bonus XP", 12, TextAlignmentOptions.Center, goldColor);
+                CreateText(summary.transform, "[!] All Complete! +50 Bonus XP", 12, TextAlignmentOptions.Center, goldColor);
             }
         }
 
@@ -849,7 +849,7 @@ namespace ApexCitadels.PC.UI
             }
             else if (challenge.IsCompleted)
             {
-                label = "🎁 Claim";
+                label = "[?] Claim";
                 bgColor = completedColor;
                 interactable = true;
             }
@@ -983,12 +983,12 @@ namespace ApexCitadels.PC.UI
             GameObject scrollView = CreateScrollView(_contentArea.transform);
             GameObject content = scrollView.transform.Find("Viewport/Content").gameObject;
             
-            CreateSectionHeader(content.transform, "🌟 SPECIAL EVENT CHALLENGES");
+            CreateSectionHeader(content.transform, "[*] SPECIAL EVENT CHALLENGES");
             
             // Event challenge examples
             CreateSpecialChallengeCard(content.transform, "🎃 Halloween Havoc", "Defeat 50 skeleton warriors", 35, 50, "Limited Time!", new Color(0.6f, 0.3f, 0.8f));
             CreateSpecialChallengeCard(content.transform, "❄️ Winter Siege", "Capture 3 frozen territories", 1, 3, "3 days left", new Color(0.3f, 0.6f, 0.9f));
-            CreateSpecialChallengeCard(content.transform, "🔥 Dragon's Wrath", "Deal 1M damage to world boss", 650000, 1000000, "Community Goal", new Color(0.9f, 0.4f, 0.2f));
+            CreateSpecialChallengeCard(content.transform, "[*] Dragon's Wrath", "Deal 1M damage to world boss", 650000, 1000000, "Community Goal", new Color(0.9f, 0.4f, 0.2f));
         }
 
         private void CreateSpecialChallengeCard(Transform parent, string title, string desc, int current, int required, string tag, Color themeColor)
@@ -1038,7 +1038,7 @@ namespace ApexCitadels.PC.UI
             float progress = (float)current / required;
             CreateProgressBarSmall(card.transform, progress, $"{FormatNumber(current)}/{FormatNumber(required)}");
             
-            CreateText(card.transform, "🎁 Exclusive Rewards + 500 XP", 10, TextAlignmentOptions.Center, goldColor);
+            CreateText(card.transform, "[?] Exclusive Rewards + 500 XP", 10, TextAlignmentOptions.Center, goldColor);
         }
 
         private void CreateAchievementsContent()
@@ -1069,10 +1069,10 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 30;
             hlayout.padding = new RectOffset(30, 30, 20, 20);
             
-            CreateStatBox(summary.transform, "🏆", "Total Completed", _totalChallengesCompleted.ToString());
-            CreateStatBox(summary.transform, "🔥", "Current Streak", $"{_currentStreak} days");
-            CreateStatBox(summary.transform, "⭐", "Best Streak", $"{_longestStreak} days");
-            CreateStatBox(summary.transform, "💫", "Total XP Earned", "45,200");
+            CreateStatBox(summary.transform, "[T]", "Total Completed", _totalChallengesCompleted.ToString());
+            CreateStatBox(summary.transform, "[*]", "Current Streak", $"{_currentStreak} days");
+            CreateStatBox(summary.transform, "[*]", "Best Streak", $"{_longestStreak} days");
+            CreateStatBox(summary.transform, "[*]", "Total XP Earned", "45,200");
         }
 
         private void CreateStatBox(Transform parent, string icon, string label, string value)
@@ -1094,13 +1094,13 @@ namespace ApexCitadels.PC.UI
 
         private void CreateCategoryBreakdown(Transform parent)
         {
-            CreateSectionHeader(parent, "📊 CHALLENGE CATEGORIES");
+            CreateSectionHeader(parent, "[#] CHALLENGE CATEGORIES");
             
-            CreateCategoryRow(parent, ChallengeCategory.Combat, "⚔️ Combat", 45, 60);
-            CreateCategoryRow(parent, ChallengeCategory.Resources, "💰 Resources", 38, 50);
+            CreateCategoryRow(parent, ChallengeCategory.Combat, "[!] Combat", 45, 60);
+            CreateCategoryRow(parent, ChallengeCategory.Resources, "[$] Resources", 38, 50);
             CreateCategoryRow(parent, ChallengeCategory.Building, "🏗️ Building", 28, 40);
             CreateCategoryRow(parent, ChallengeCategory.Social, "🤝 Social", 22, 35);
-            CreateCategoryRow(parent, ChallengeCategory.Military, "🎖️ Military", 15, 30);
+            CreateCategoryRow(parent, ChallengeCategory.Military, "[M] Military", 15, 30);
             CreateCategoryRow(parent, ChallengeCategory.Research, "🔬 Research", 8, 25);
         }
 
@@ -1242,13 +1242,13 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                ResourceType.Gold => "💰",
-                ResourceType.Stone => "🪨",
-                ResourceType.Wood => "🪵",
-                ResourceType.Iron => "⚙️",
-                ResourceType.Crystal => "💎",
-                ResourceType.ApexCoins => "🌟",
-                _ => "📦"
+                ResourceType.Gold => "[$]",
+                ResourceType.Stone => "[Q]",
+                ResourceType.Wood => "[W]",
+                ResourceType.Iron => "[P]",
+                ResourceType.Crystal => "[G]",
+                ResourceType.ApexCoins => "[*]",
+                _ => "[B]"
             };
         }
 

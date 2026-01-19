@@ -66,7 +66,7 @@ namespace ApexCitadels.PC.UI
             {
                 { ResourceType.Gold, new ResourceData {
                     Type = ResourceType.Gold,
-                    Icon = "💰",
+                    Icon = "[$]",
                     Name = "Gold",
                     Current = 125000,
                     Capacity = 200000,
@@ -76,7 +76,7 @@ namespace ApexCitadels.PC.UI
                 }},
                 { ResourceType.Stone, new ResourceData {
                     Type = ResourceType.Stone,
-                    Icon = "🪨",
+                    Icon = "[Q]",
                     Name = "Stone",
                     Current = 78500,
                     Capacity = 150000,
@@ -86,7 +86,7 @@ namespace ApexCitadels.PC.UI
                 }},
                 { ResourceType.Wood, new ResourceData {
                     Type = ResourceType.Wood,
-                    Icon = "🪵",
+                    Icon = "[W]",
                     Name = "Wood",
                     Current = 92000,
                     Capacity = 150000,
@@ -96,7 +96,7 @@ namespace ApexCitadels.PC.UI
                 }},
                 { ResourceType.Iron, new ResourceData {
                     Type = ResourceType.Iron,
-                    Icon = "⚙️",
+                    Icon = "[P]",
                     Name = "Iron",
                     Current = 45000,
                     Capacity = 100000,
@@ -106,7 +106,7 @@ namespace ApexCitadels.PC.UI
                 }},
                 { ResourceType.Crystal, new ResourceData {
                     Type = ResourceType.Crystal,
-                    Icon = "💎",
+                    Icon = "[G]",
                     Name = "Crystal",
                     Current = 8500,
                     Capacity = 25000,
@@ -116,7 +116,7 @@ namespace ApexCitadels.PC.UI
                 }},
                 { ResourceType.ApexCoins, new ResourceData {
                     Type = ResourceType.ApexCoins,
-                    Icon = "🌟",
+                    Icon = "[*]",
                     Name = "Apex Coins",
                     Current = 1250,
                     Capacity = 99999,
@@ -252,7 +252,7 @@ namespace ApexCitadels.PC.UI
                     ResourceType = ResourceType.Gold,
                     BonusPercent = 50,
                     ExpiresAt = DateTime.Now.AddHours(2),
-                    Icon = "⚡"
+                    Icon = "[!]"
                 },
                 new ResourceBoost {
                     BoostId = "BOOST002",
@@ -311,7 +311,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(20, 20, 10, 10);
             
             // Title
-            CreateText(header.transform, "📦 RESOURCE CENTER", 20, TextAlignmentOptions.Left, accentColor);
+            CreateText(header.transform, "[B] RESOURCE CENTER", 20, TextAlignmentOptions.Left, accentColor);
             
             // Spacer
             GameObject spacer = new GameObject("Spacer");
@@ -377,7 +377,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = _autoCollectEnabled ? "🔄 Auto: ON" : "🔄 Auto: OFF";
+            text.text = _autoCollectEnabled ? "[R] Auto: ON" : "[R] Auto: OFF";
             text.fontSize = 11;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -428,11 +428,11 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 5;
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
-            CreateTab(tabBar.transform, ResourceTab.Overview, "📊 Overview");
+            CreateTab(tabBar.transform, ResourceTab.Overview, "[#] Overview");
             CreateTab(tabBar.transform, ResourceTab.Buildings, "🏗️ Buildings");
-            CreateTab(tabBar.transform, ResourceTab.Boosts, "⚡ Boosts");
-            CreateTab(tabBar.transform, ResourceTab.Trade, "🔄 Trade");
-            CreateTab(tabBar.transform, ResourceTab.History, "📜 History");
+            CreateTab(tabBar.transform, ResourceTab.Boosts, "[!] Boosts");
+            CreateTab(tabBar.transform, ResourceTab.Trade, "[R] Trade");
+            CreateTab(tabBar.transform, ResourceTab.History, "[S] History");
         }
 
         private void CreateTab(Transform parent, ResourceTab tab, string label)
@@ -556,7 +556,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup pendingLayout = pending.AddComponent<VerticalLayoutGroup>();
             pendingLayout.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(pending.transform, "📦 READY TO COLLECT", 12, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(pending.transform, "[B] READY TO COLLECT", 12, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(pending.transform, $"+{FormatNumber(totalPending)}", 28, TextAlignmentOptions.Center, goldColor);
             CreateText(pending.transform, "Total Resources", 10, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
             
@@ -582,13 +582,13 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup vlayout = btn.AddComponent<VerticalLayoutGroup>();
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(btn.transform, "🎁 COLLECT ALL", 14, TextAlignmentOptions.Center, Color.white);
+            CreateText(btn.transform, "[?] COLLECT ALL", 14, TextAlignmentOptions.Center, Color.white);
             CreateText(btn.transform, $"+{FormatNumber(amount)}", 11, TextAlignmentOptions.Center, new Color(0.9f, 0.9f, 0.9f));
         }
 
         private void CreateResourceCardsSection(Transform parent)
         {
-            CreateSectionHeader(parent, "💎 YOUR RESOURCES");
+            CreateSectionHeader(parent, "[G] YOUR RESOURCES");
             
             GameObject cards = new GameObject("ResourceCards");
             cards.transform.SetParent(parent, false);
@@ -654,7 +654,7 @@ namespace ApexCitadels.PC.UI
                 rowLayout.childAlignment = TextAnchor.MiddleCenter;
                 rowLayout.spacing = 5;
                 
-                CreateText(collectRow.transform, $"📦 +{FormatNumber(resource.PendingCollection)}", 10, TextAlignmentOptions.Center, goldColor);
+                CreateText(collectRow.transform, $"[B] +{FormatNumber(resource.PendingCollection)}", 10, TextAlignmentOptions.Center, goldColor);
                 CreateCollectButton(collectRow.transform, resource);
             }
         }
@@ -717,7 +717,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_activeBoosts.Count == 0) return;
             
-            CreateSectionHeader(parent, "⚡ ACTIVE BOOSTS");
+            CreateSectionHeader(parent, "[!] ACTIVE BOOSTS");
             
             GameObject boosts = new GameObject("ActiveBoosts");
             boosts.transform.SetParent(parent, false);
@@ -784,7 +784,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateBuildingGroup(Transform parent, ResourceType type, List<ProductionBuilding> buildings)
         {
-            string icon = _resources.ContainsKey(type) ? _resources[type].Icon : "📦";
+            string icon = _resources.ContainsKey(type) ? _resources[type].Icon : "[B]";
             CreateSectionHeader(parent, $"{icon} {type} PRODUCTION");
             
             foreach (var building in buildings)
@@ -856,7 +856,7 @@ namespace ApexCitadels.PC.UI
             pendLayout.childAlignment = TextAnchor.MiddleCenter;
             
             float pendingPercent = (float)building.PendingAmount / building.MaxPending;
-            CreateText(pending.transform, $"📦 {FormatNumber(building.PendingAmount)}", 12, TextAlignmentOptions.Center, goldColor);
+            CreateText(pending.transform, $"[B] {FormatNumber(building.PendingAmount)}", 12, TextAlignmentOptions.Center, goldColor);
             CreateCapacityBar(pending.transform, pendingPercent);
             
             // Collect button
@@ -893,7 +893,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "🎁 Collect";
+            text.text = "[?] Collect";
             text.fontSize = 11;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -904,7 +904,7 @@ namespace ApexCitadels.PC.UI
             GameObject content = scrollView.transform.Find("Viewport/Content").gameObject;
             
             // Active boosts
-            CreateSectionHeader(content.transform, "⚡ ACTIVE BOOSTS");
+            CreateSectionHeader(content.transform, "[!] ACTIVE BOOSTS");
             
             if (_activeBoosts.Count > 0)
             {
@@ -919,7 +919,7 @@ namespace ApexCitadels.PC.UI
             }
             
             // Available boosts (shop)
-            CreateSectionHeader(content.transform, "🛒 AVAILABLE BOOSTS");
+            CreateSectionHeader(content.transform, "[M] AVAILABLE BOOSTS");
             CreateBoostShopItem(content.transform, "1-Hour Gold Rush", "+50% Gold", 100, ResourceType.Gold);
             CreateBoostShopItem(content.transform, "1-Hour Resource Boost", "+25% All Resources", 200, null);
             CreateBoostShopItem(content.transform, "24-Hour Production", "+15% All Production", 500, null);
@@ -979,7 +979,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(20, 20, 15, 15);
             
             // Icon
-            string icon = targetResource.HasValue ? "⚡" : "🌟";
+            string icon = targetResource.HasValue ? "[!]" : "[*]";
             CreateText(item.transform, icon, 24, TextAlignmentOptions.Center);
             
             // Info
@@ -1023,7 +1023,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = $"🌟 {cost}";
+            text.text = $"[*] {cost}";
             text.fontSize = 12;
             text.color = Color.black;
             text.alignment = TextAlignmentOptions.Center;
@@ -1034,7 +1034,7 @@ namespace ApexCitadels.PC.UI
             GameObject scrollView = CreateScrollView(_contentArea.transform);
             GameObject content = scrollView.transform.Find("Viewport/Content").gameObject;
             
-            CreateSectionHeader(content.transform, "🔄 RESOURCE EXCHANGE");
+            CreateSectionHeader(content.transform, "[R] RESOURCE EXCHANGE");
             
             // Trade rates
             CreateTradeOption(content.transform, ResourceType.Gold, ResourceType.Stone, 2, 1);
@@ -1043,7 +1043,7 @@ namespace ApexCitadels.PC.UI
             CreateTradeOption(content.transform, ResourceType.Stone, ResourceType.Gold, 1, 1);
             CreateTradeOption(content.transform, ResourceType.Wood, ResourceType.Gold, 1, 1);
             
-            CreateSectionHeader(content.transform, "💎 PREMIUM EXCHANGE");
+            CreateSectionHeader(content.transform, "[G] PREMIUM EXCHANGE");
             CreateTradeOption(content.transform, ResourceType.ApexCoins, ResourceType.Gold, 1, 10000);
             CreateTradeOption(content.transform, ResourceType.ApexCoins, ResourceType.Crystal, 10, 100);
         }
@@ -1065,14 +1065,14 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(30, 30, 10, 10);
             
             // From
-            string fromIcon = _resources.ContainsKey(from) ? _resources[from].Icon : "📦";
+            string fromIcon = _resources.ContainsKey(from) ? _resources[from].Icon : "[B]";
             CreateText(row.transform, $"{fromIcon} {FormatNumber(fromAmount)}", 14, TextAlignmentOptions.Center, new Color(0.9f, 0.5f, 0.5f));
             
             // Arrow
             CreateText(row.transform, "➡️", 18, TextAlignmentOptions.Center);
             
             // To
-            string toIcon = _resources.ContainsKey(to) ? _resources[to].Icon : "📦";
+            string toIcon = _resources.ContainsKey(to) ? _resources[to].Icon : "[B]";
             CreateText(row.transform, $"{toIcon} {FormatNumber(toAmount)}", 14, TextAlignmentOptions.Center, accentColor);
             
             // Spacer
@@ -1124,7 +1124,7 @@ namespace ApexCitadels.PC.UI
             GameObject scrollView = CreateScrollView(_contentArea.transform);
             GameObject content = scrollView.transform.Find("Viewport/Content").gameObject;
             
-            CreateSectionHeader(content.transform, "📜 RECENT TRANSACTIONS");
+            CreateSectionHeader(content.transform, "[S] RECENT TRANSACTIONS");
             
             // Sample history entries
             CreateHistoryEntry(content.transform, "Collected from Gold Mine", "+2,500 Gold", DateTime.Now.AddMinutes(-15));

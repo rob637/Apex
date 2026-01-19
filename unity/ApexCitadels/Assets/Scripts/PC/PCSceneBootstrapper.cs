@@ -315,6 +315,12 @@ namespace ApexCitadels.PC
 
             // Add UI Manager
             uiManager = canvasObj.AddComponent<PCUIManager>();
+            
+            // Add Controls Help Panel (shows keyboard shortcuts)
+            canvasObj.AddComponent<ApexCitadels.PC.UI.ControlsHelpPanel>();
+            
+            // Add Tutorial System
+            canvasObj.AddComponent<ApexCitadels.PC.UI.TutorialSystem>();
 
             // Create Event System if needed
             if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)

@@ -325,7 +325,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup vlayout = title.AddComponent<VerticalLayoutGroup>();
             vlayout.childAlignment = TextAnchor.MiddleLeft;
             
-            CreateText(title.transform, "⚔️ PVP ARENA", 24, TextAlignmentOptions.Left, accentColor);
+            CreateText(title.transform, "[!] PVP ARENA", 24, TextAlignmentOptions.Left, accentColor);
             CreateText(title.transform, "Prove your strength!", 12, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
         }
 
@@ -353,7 +353,7 @@ namespace ApexCitadels.PC.UI
             CreateText(card.transform, GetRankIcon(_playerStats.Rank) + " " + _playerStats.Division, 14, TextAlignmentOptions.Center, GetRankColor(_playerStats.Rank));
             CreateText(card.transform, $"Rating: {_playerStats.Rating}", 20, TextAlignmentOptions.Center, Color.white);
             CreateText(card.transform, $"W: {_playerStats.Wins} | L: {_playerStats.Losses} ({(_playerStats.Wins * 100 / (_playerStats.Wins + _playerStats.Losses))}%)", 11, TextAlignmentOptions.Center, new Color(0.7f, 0.7f, 0.7f));
-            CreateText(card.transform, $"🔥 {_playerStats.WinStreak} win streak", 11, TextAlignmentOptions.Center, goldColor);
+            CreateText(card.transform, $"[*] {_playerStats.WinStreak} win streak", 11, TextAlignmentOptions.Center, goldColor);
         }
 
         private void CreateSeasonProgress(Transform parent)
@@ -369,7 +369,7 @@ namespace ApexCitadels.PC.UI
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             vlayout.spacing = 5;
             
-            CreateText(progress.transform, "🏆 SEASON 7", 12, TextAlignmentOptions.Center, goldColor);
+            CreateText(progress.transform, "[T] SEASON 7", 12, TextAlignmentOptions.Center, goldColor);
             CreateText(progress.transform, $"Season Rank: #{_playerStats.SeasonRank}", 14, TextAlignmentOptions.Center, Color.white);
             CreateText(progress.transform, $"{_playerStats.NextRankPoints} pts to next rank", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.8f, 0.6f));
             
@@ -446,12 +446,12 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateTab(tabs.transform, ArenaTab.QuickMatch, "⚔️ Quick Match");
-            CreateTab(tabs.transform, ArenaTab.Ranked, "🏆 Ranked");
+            CreateTab(tabs.transform, ArenaTab.QuickMatch, "[!] Quick Match");
+            CreateTab(tabs.transform, ArenaTab.Ranked, "[T] Ranked");
             CreateTab(tabs.transform, ArenaTab.Tournaments, "🎪 Tournaments");
-            CreateTab(tabs.transform, ArenaTab.Leaderboard, "📊 Leaderboard");
-            CreateTab(tabs.transform, ArenaTab.History, "📜 History");
-            CreateTab(tabs.transform, ArenaTab.Rewards, "🎁 Rewards");
+            CreateTab(tabs.transform, ArenaTab.Leaderboard, "[#] Leaderboard");
+            CreateTab(tabs.transform, ArenaTab.History, "[S] History");
+            CreateTab(tabs.transform, ArenaTab.Rewards, "[?] Rewards");
         }
 
         private void CreateTab(Transform parent, ArenaTab tab, string label)
@@ -578,10 +578,10 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 15;
             hlayout.padding = new RectOffset(20, 20, 10, 10);
             
-            CreateModeCard(modes.transform, ArenaMode.Ranked1v1, "⚔️", "Ranked 1v1", "Compete for rating", true);
-            CreateModeCard(modes.transform, ArenaMode.Casual, "🎮", "Casual", "No rating change", false);
-            CreateModeCard(modes.transform, ArenaMode.Draft, "📋", "Draft Mode", "Random heroes", false);
-            CreateModeCard(modes.transform, ArenaMode.Challenge, "🎯", "Challenge", "Fight friends", false);
+            CreateModeCard(modes.transform, ArenaMode.Ranked1v1, "[!]", "Ranked 1v1", "Compete for rating", true);
+            CreateModeCard(modes.transform, ArenaMode.Casual, "[G]", "Casual", "No rating change", false);
+            CreateModeCard(modes.transform, ArenaMode.Draft, "[T]", "Draft Mode", "Random heroes", false);
+            CreateModeCard(modes.transform, ArenaMode.Challenge, "[+]", "Challenge", "Fight friends", false);
         }
 
         private void CreateModeCard(Transform parent, ArenaMode mode, string icon, string title, string desc, bool selected)
@@ -653,7 +653,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "⚔️ FIND MATCH";
+            text.text = "[!] FIND MATCH";
             text.fontSize = 20;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;
@@ -713,10 +713,10 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 10;
             
-            CreateStatCard(stats.transform, "🏆", "Win Rate", $"{(_playerStats.Wins * 100 / (_playerStats.Wins + _playerStats.Losses))}%");
-            CreateStatCard(stats.transform, "⚔️", "Total Matches", _playerStats.TotalMatches.ToString());
-            CreateStatCard(stats.transform, "🔥", "Best Streak", _playerStats.BestStreak.ToString());
-            CreateStatCard(stats.transform, "📊", "Season Wins", _playerStats.SeasonWins.ToString());
+            CreateStatCard(stats.transform, "[T]", "Win Rate", $"{(_playerStats.Wins * 100 / (_playerStats.Wins + _playerStats.Losses))}%");
+            CreateStatCard(stats.transform, "[!]", "Total Matches", _playerStats.TotalMatches.ToString());
+            CreateStatCard(stats.transform, "[*]", "Best Streak", _playerStats.BestStreak.ToString());
+            CreateStatCard(stats.transform, "[#]", "Season Wins", _playerStats.SeasonWins.ToString());
         }
 
         private void CreateStatCard(Transform parent, string icon, string label, string value)
@@ -857,7 +857,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup rewVL = rewards.AddComponent<VerticalLayoutGroup>();
             rewVL.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(rewards.transform, "🎁 SEASON REWARDS", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(rewards.transform, "[?] SEASON REWARDS", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(rewards.transform, "Exclusive Dragon Armor Set + 50,000 Gold", 12, TextAlignmentOptions.Center, goldColor);
             CreateText(rewards.transform, "Reach Platinum to unlock!", 10, TextAlignmentOptions.Center, new Color(0.4f, 0.8f, 0.4f));
         }
@@ -930,7 +930,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup partVL = participants.AddComponent<VerticalLayoutGroup>();
             partVL.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(participants.transform, "👥", 20, TextAlignmentOptions.Center);
+            CreateText(participants.transform, "[P]", 20, TextAlignmentOptions.Center);
             CreateText(participants.transform, $"{tournament.Participants}/{tournament.MaxParticipants}", 12, TextAlignmentOptions.Center, Color.white);
             
             // Prize
@@ -943,7 +943,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup prizeVL = prize.AddComponent<VerticalLayoutGroup>();
             prizeVL.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(prize.transform, "💰", 20, TextAlignmentOptions.Center);
+            CreateText(prize.transform, "[$]", 20, TextAlignmentOptions.Center);
             CreateText(prize.transform, $"{tournament.PrizePool:N0}", 12, TextAlignmentOptions.Center, goldColor);
             
             // Action button
@@ -951,7 +951,7 @@ namespace ApexCitadels.PC.UI
             {
                 if (tournament.Status == TournamentStatus.InProgress)
                 {
-                    CreateTournamentButton(card.transform, "🎮 Play", () => PlayTournamentMatch(tournament), accentColor);
+                    CreateTournamentButton(card.transform, "[G] Play", () => PlayTournamentMatch(tournament), accentColor);
                 }
                 else
                 {
@@ -1219,7 +1219,7 @@ namespace ApexCitadels.PC.UI
             
             // Arena shop
             CreateSectionHeader("ARENA SHOP");
-            CreateText(_contentArea.transform, $"Arena Points: {_playerStats.TotalArenaPoints:N0} 🏆", 16, TextAlignmentOptions.Center, goldColor);
+            CreateText(_contentArea.transform, $"Arena Points: {_playerStats.TotalArenaPoints:N0} [T]", 16, TextAlignmentOptions.Center, goldColor);
             
             CreateArenaShop();
             
@@ -1241,10 +1241,10 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 10;
             
-            CreateShopItem(shop.transform, "⚔️", "Champion's Blade", 5000, false);
-            CreateShopItem(shop.transform, "🛡️", "Arena Shield", 3000, false);
-            CreateShopItem(shop.transform, "📜", "XP Scroll x10", 1000, true);
-            CreateShopItem(shop.transform, "🧪", "Potions x50", 500, true);
+            CreateShopItem(shop.transform, "[!]", "Champion's Blade", 5000, false);
+            CreateShopItem(shop.transform, "[D]", "Arena Shield", 3000, false);
+            CreateShopItem(shop.transform, "[S]", "XP Scroll x10", 1000, true);
+            CreateShopItem(shop.transform, "[P]", "Potions x50", 500, true);
         }
 
         private void CreateShopItem(Transform parent, string icon, string name, int cost, bool canAfford)
@@ -1274,7 +1274,7 @@ namespace ApexCitadels.PC.UI
             CreateText(item.transform, name, 11, TextAlignmentOptions.Center, Color.white);
             
             Color costColor = _playerStats.TotalArenaPoints >= cost ? goldColor : new Color(0.5f, 0.3f, 0.3f);
-            CreateText(item.transform, $"🏆 {cost:N0}", 10, TextAlignmentOptions.Center, costColor);
+            CreateText(item.transform, $"[T] {cost:N0}", 10, TextAlignmentOptions.Center, costColor);
         }
 
         private void CreateMilestoneRewards()
@@ -1319,7 +1319,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(card.transform, milestone, 10, TextAlignmentOptions.Center, Color.white);
             CreateText(card.transform, reward, 9, TextAlignmentOptions.Center, goldColor);
-            CreateText(card.transform, claimed ? "✓ Claimed" : "🔒 Locked", 8, TextAlignmentOptions.Center, 
+            CreateText(card.transform, claimed ? "✓ Claimed" : "[L] Locked", 8, TextAlignmentOptions.Center, 
                       claimed ? new Color(0.4f, 0.8f, 0.4f) : new Color(0.5f, 0.5f, 0.5f));
         }
 

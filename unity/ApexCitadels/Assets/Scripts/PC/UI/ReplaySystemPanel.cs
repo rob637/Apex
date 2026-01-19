@@ -313,7 +313,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "📁 My Replays", "⭐ Bookmarked", "🏆 Featured", "🔍 Search" };
+            string[] tabNames = { "📁 My Replays", "[*] Bookmarked", "[T] Featured", "🔍 Search" };
             ReplayTab[] tabValues = { ReplayTab.MyReplays, ReplayTab.Bookmarked, ReplayTab.Featured, ReplayTab.Search };
 
             for (int i = 0; i < tabNames.Length; i++)
@@ -725,8 +725,8 @@ namespace ApexCitadels.PC.UI
 
             // Action buttons
             CreateControlButton(controlsObj.transform, "📌", AddMarker, 40);
-            CreateControlButton(controlsObj.transform, "⭐", ToggleBookmark, 40);
-            CreateControlButton(controlsObj.transform, "📤", ShareReplay, 40);
+            CreateControlButton(controlsObj.transform, "[*]", ToggleBookmark, 40);
+            CreateControlButton(controlsObj.transform, "[E]", ShareReplay, 40);
             CreateControlButton(controlsObj.transform, "📷", TakeScreenshot, 40);
 
             // Volume
@@ -1086,11 +1086,11 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                ReplayType.Battle => "⚔️",
-                ReplayType.Siege => "🏰",
-                ReplayType.Tournament => "🏆",
+                ReplayType.Battle => "[!]",
+                ReplayType.Siege => "[C]",
+                ReplayType.Tournament => "[T]",
                 ReplayType.DuelArena => "🤺",
-                ReplayType.AllianceWar => "⚔️",
+                ReplayType.AllianceWar => "[!]",
                 _ => "🎬"
             };
         }

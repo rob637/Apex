@@ -140,7 +140,7 @@ namespace ApexCitadels.PC.UI
             title.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "⚔️ ALLIANCE WAR ROOM";
+            titleText.text = "[!] ALLIANCE WAR ROOM";
             titleText.fontSize = 26;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;
@@ -205,7 +205,7 @@ namespace ApexCitadels.PC.UI
                 VerticalLayoutGroup vsVL = vs.AddComponent<VerticalLayoutGroup>();
                 vsVL.childAlignment = TextAnchor.MiddleCenter;
                 
-                CreateText(vs.transform, "⚔️", 32, TextAlignmentOptions.Center);
+                CreateText(vs.transform, "[!]", 32, TextAlignmentOptions.Center);
                 CreateText(vs.transform, "VS", 18, TextAlignmentOptions.Center, goldColor);
                 
                 // Time remaining
@@ -262,11 +262,11 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateTab(tabs.transform, WarRoomTab.Overview, "📊 Overview");
-            CreateTab(tabs.transform, WarRoomTab.Battles, "⚔️ Battles");
-            CreateTab(tabs.transform, WarRoomTab.Leaderboard, "🏆 Leaderboard");
-            CreateTab(tabs.transform, WarRoomTab.Strategy, "📋 Strategy");
-            CreateTab(tabs.transform, WarRoomTab.History, "📜 History");
+            CreateTab(tabs.transform, WarRoomTab.Overview, "[#] Overview");
+            CreateTab(tabs.transform, WarRoomTab.Battles, "[!] Battles");
+            CreateTab(tabs.transform, WarRoomTab.Leaderboard, "[T] Leaderboard");
+            CreateTab(tabs.transform, WarRoomTab.Strategy, "[T] Strategy");
+            CreateTab(tabs.transform, WarRoomTab.History, "[S] History");
         }
 
         private void CreateTab(Transform parent, WarRoomTab tab, string label)
@@ -355,13 +355,13 @@ namespace ApexCitadels.PC.UI
         {
             if (_currentWar == null || _currentWar.Phase != WarPhase.Active)
             {
-                CreateSectionHeader("⚔️ Declare War");
+                CreateSectionHeader("[!] Declare War");
                 CreateText(_contentContainer.transform, "Your alliance is not currently at war.", 14, TextAlignmentOptions.Center, new Color(0.7f, 0.7f, 0.7f));
                 CreateDeclareWarButton();
                 return;
             }
             
-            CreateSectionHeader("📊 War Statistics");
+            CreateSectionHeader("[#] War Statistics");
             
             // Stats grid
             GameObject statsGrid = new GameObject("StatsGrid");
@@ -379,13 +379,13 @@ namespace ApexCitadels.PC.UI
             CreateStatCard(statsGrid.transform, "Their Wins", _currentWar.DefenderWins.ToString(), enemyColor);
             CreateStatCard(statsGrid.transform, "Point Lead", $"+{_currentWar.AttackerScore - _currentWar.DefenderScore}");
             
-            CreateSectionHeader("🎯 War Objectives");
+            CreateSectionHeader("[+] War Objectives");
             
             CreateObjectiveItem("Capture 3 enemy territories", 2, 3, true);
             CreateObjectiveItem("Win 30 battles", 26, 30, false);
             CreateObjectiveItem("Score 2000 points", _currentWar.AttackerScore, 2000, false);
             
-            CreateSectionHeader("💪 Quick Actions");
+            CreateSectionHeader("[+] Quick Actions");
             
             GameObject actions = new GameObject("Actions");
             actions.transform.SetParent(_contentContainer.transform, false);
@@ -394,14 +394,14 @@ namespace ApexCitadels.PC.UI
             actionsHL.childAlignment = TextAnchor.MiddleCenter;
             actionsHL.spacing = 15;
             
-            CreateActionButton(actions.transform, "⚔️ Attack", () => ApexLogger.Log("[War] Opening attack interface...", ApexLogger.LogCategory.UI));
-            CreateActionButton(actions.transform, "🛡️ Defend", () => ApexLogger.Log("[War] Opening defense interface...", ApexLogger.LogCategory.UI));
+            CreateActionButton(actions.transform, "[!] Attack", () => ApexLogger.Log("[War] Opening attack interface...", ApexLogger.LogCategory.UI));
+            CreateActionButton(actions.transform, "[D] Defend", () => ApexLogger.Log("[War] Opening defense interface...", ApexLogger.LogCategory.UI));
             CreateActionButton(actions.transform, "📢 Rally", () => ApexLogger.Log("[War] Sending rally call...", ApexLogger.LogCategory.UI));
         }
 
         private void CreateBattlesContent()
         {
-            CreateSectionHeader("⚔️ Recent Battles");
+            CreateSectionHeader("[!] Recent Battles");
             
             // Battle log
             CreateBattleLogItem("Commander_Alpha", "Shadow_Knight", true, "+150 pts", "5 min ago");
@@ -411,7 +411,7 @@ namespace ApexCitadels.PC.UI
             CreateBattleLogItem("Thunder_Strike", "Shadow_Walker", false, "-60 pts", "32 min ago");
             CreateBattleLogItem("Storm_Bringer", "Void_Reaper", true, "+180 pts", "45 min ago");
             
-            CreateSectionHeader("📍 Active Battlefields");
+            CreateSectionHeader("[*] Active Battlefields");
             
             CreateBattlefieldItem("Northern Plains", "Contested", 5, 3);
             CreateBattlefieldItem("Eastern Fortress", "Under Attack", 2, 8);
@@ -435,7 +435,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
             // Result icon
-            string resultIcon = attackerWon ? "⚔️" : "🛡️";
+            string resultIcon = attackerWon ? "[!]" : "[D]";
             CreateText(item.transform, resultIcon, 20, TextAlignmentOptions.Center);
             
             // Attacker
@@ -510,7 +510,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateLeaderboardContent()
         {
-            CreateSectionHeader("🏆 Top Warriors - Our Alliance");
+            CreateSectionHeader("[T] Top Warriors - Our Alliance");
             
             CreateWarriorLeaderboardItem(1, "Commander_Alpha", 850, 12, 2);
             CreateWarriorLeaderboardItem(2, "Steel_Titan", 720, 10, 3);
@@ -518,7 +518,7 @@ namespace ApexCitadels.PC.UI
             CreateWarriorLeaderboardItem(4, "Storm_Bringer", 580, 8, 4);
             CreateWarriorLeaderboardItem(5, "Thunder_Strike", 520, 7, 3);
             
-            CreateSectionHeader("📊 Enemy Top Warriors");
+            CreateSectionHeader("[#] Enemy Top Warriors");
             
             CreateWarriorLeaderboardItem(1, "Shadow_Knight", 680, 9, 1, true);
             CreateWarriorLeaderboardItem(2, "Dark_Lord", 590, 8, 2, true);
@@ -569,17 +569,17 @@ namespace ApexCitadels.PC.UI
 
         private void CreateStrategyContent()
         {
-            CreateSectionHeader("📋 War Strategy Board");
+            CreateSectionHeader("[T] War Strategy Board");
             
             CreateText(_contentContainer.transform, "Coordinate with your alliance to plan attacks and defenses!", 13, TextAlignmentOptions.Center, new Color(0.7f, 0.7f, 0.7f));
             
-            CreateSectionHeader("🎯 Priority Targets");
+            CreateSectionHeader("[+] Priority Targets");
             
             CreateTargetItem("Eastern Fortress", "High Value", "3 defenders, weak walls", TargetPriority.High);
             CreateTargetItem("Crystal Mines", "Resource Node", "Under-defended", TargetPriority.Medium);
             CreateTargetItem("Shadow Keep", "Enemy HQ", "Heavy defenses", TargetPriority.Low);
             
-            CreateSectionHeader("🛡️ Defense Assignments");
+            CreateSectionHeader("[D] Defense Assignments");
             
             CreateDefenseItem("Northern Plains", "Steel_Titan, Blade_Master", "2/3 slots filled");
             CreateDefenseItem("Western Gate", "Storm_Bringer", "1/2 slots filled");
@@ -664,7 +664,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
             // Location
-            GameObject locObj = CreateText(item.transform, $"🏰 {location}", 13, TextAlignmentOptions.Left, Color.white);
+            GameObject locObj = CreateText(item.transform, $"[C] {location}", 13, TextAlignmentOptions.Left, Color.white);
             locObj.AddComponent<LayoutElement>().preferredWidth = 150;
             
             // Defenders
@@ -684,7 +684,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateHistoryContent()
         {
-            CreateSectionHeader("📜 War History");
+            CreateSectionHeader("[S] War History");
             
             foreach (var war in _warHistory)
             {
@@ -716,7 +716,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 10, 10);
             
             // Result
-            string resultIcon = won ? "🏆" : "❌";
+            string resultIcon = won ? "[T]" : "[X]";
             GameObject resultObj = CreateText(item.transform, resultIcon, 28, TextAlignmentOptions.Center);
             resultObj.AddComponent<LayoutElement>().preferredWidth = 40;
             
@@ -800,7 +800,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
             // Checkbox
-            string check = completed ? "✅" : "⬜";
+            string check = completed ? "[OK]" : "⬜";
             CreateText(item.transform, check, 18, TextAlignmentOptions.Center);
             
             // Description
@@ -896,7 +896,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "⚔️ DECLARE WAR";
+            text.text = "[!] DECLARE WAR";
             text.fontSize = 18;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;

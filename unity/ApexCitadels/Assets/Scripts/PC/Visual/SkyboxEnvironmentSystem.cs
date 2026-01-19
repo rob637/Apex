@@ -71,7 +71,7 @@ namespace ApexCitadels.PC.Visual
             CreateClouds();
             UpdateEnvironment();
 
-            ApexLogger.Log("✅ Skybox and environment system initialized", ApexLogger.LogCategory.General);
+            ApexLogger.Log("[OK] Skybox and environment system initialized", ApexLogger.LogCategory.General);
         }
 
         private void Update()

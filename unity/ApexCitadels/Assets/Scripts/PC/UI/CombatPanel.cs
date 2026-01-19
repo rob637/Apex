@@ -218,7 +218,7 @@ namespace ApexCitadels.PC.UI
             nameObj.transform.SetParent(_targetInfoSection.transform, false);
             
             _targetNameText = nameObj.AddComponent<TextMeshProUGUI>();
-            _targetNameText.text = "🏰 Enemy Citadel";
+            _targetNameText.text = "[C] Enemy Citadel";
             _targetNameText.fontSize = 22;
             _targetNameText.fontStyle = FontStyles.Bold;
             _targetNameText.alignment = TextAlignmentOptions.Center;
@@ -398,11 +398,11 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                TroopType.Infantry => "🗡️",
-                TroopType.Archer => "🏹",
+                TroopType.Infantry => "[W]",
+                TroopType.Archer => "[A]",
                 TroopType.Cavalry => "🐴",
                 TroopType.Siege => "💣",
-                TroopType.Elite => "⚔️",
+                TroopType.Elite => "[!]",
                 _ => "👤"
             };
         }
@@ -445,7 +445,7 @@ namespace ApexCitadels.PC.UI
             powerObj.transform.SetParent(preview.transform, false);
             
             _powerComparisonText = powerObj.AddComponent<TextMeshProUGUI>();
-            _powerComparisonText.text = "⚡ Your Power: 0 vs Enemy: 250";
+            _powerComparisonText.text = "[!] Your Power: 0 vs Enemy: 250";
             _powerComparisonText.fontSize = 16;
             _powerComparisonText.alignment = TextAlignmentOptions.Center;
             
@@ -506,7 +506,7 @@ namespace ApexCitadels.PC.UI
             CreateActionButton(actions.transform, "🔍 SCOUT (50g)", ScoutTerritory, new Color(0.3f, 0.5f, 0.7f));
             
             // Attack button
-            _attackButton = CreateActionButton(actions.transform, "⚔️ ATTACK!", LaunchAttack, new Color(0.8f, 0.2f, 0.2f));
+            _attackButton = CreateActionButton(actions.transform, "[!] ATTACK!", LaunchAttack, new Color(0.8f, 0.2f, 0.2f));
         }
 
         private Button CreateActionButton(Transform parent, string label, Action onClick, Color color)
@@ -771,7 +771,7 @@ namespace ApexCitadels.PC.UI
             int attackPower = CalculateAttackPower();
             int defensePower = _targetTerritory?.Level * 50 ?? 250;
             
-            _powerComparisonText.text = $"⚡ Your Power: {attackPower} vs Enemy: {defensePower}";
+            _powerComparisonText.text = $"[!] Your Power: {attackPower} vs Enemy: {defensePower}";
             
             float winChance = Mathf.Clamp01((float)attackPower / (attackPower + defensePower));
             _winChanceBar.rectTransform.anchorMax = new Vector2(winChance, 1f);
@@ -834,7 +834,7 @@ namespace ApexCitadels.PC.UI
             effects?.OnBattleStart();
             
             // Log start
-            AddBattleLog("⚔️ Battle begins!");
+            AddBattleLog("[!] Battle begins!");
             AddBattleLog($"Your army ({GetTotalSelectedTroops()} troops) advances...");
             yield return new WaitForSeconds(0.5f);
             
@@ -870,7 +870,7 @@ namespace ApexCitadels.PC.UI
             // Determine outcome
             bool victory = UnityEngine.Random.value < winChance;
             
-            AddBattleLog(victory ? "\n🏆 VICTORY!" : "\n💀 DEFEAT!");
+            AddBattleLog(victory ? "\n[T] VICTORY!" : "\n[X] DEFEAT!");
             
             // Outcome effects
             if (victory)
@@ -936,29 +936,29 @@ namespace ApexCitadels.PC.UI
             var events = phase switch
             {
                 0 => new[] { // Opening Volley
-                    ("🏹 Archers rain arrows on the walls!", BattleEventType.ArcherVolley),
-                    ("🔥 Fire arrows ignite the towers!", BattleEventType.FireAttack),
+                    ("[A] Archers rain arrows on the walls!", BattleEventType.ArcherVolley),
+                    ("[*] Fire arrows ignite the towers!", BattleEventType.FireAttack),
                     ("💣 Siege weapons launch their payload!", BattleEventType.SiegeWeapon),
-                    ("🛡️ Defenders raise their shields!", BattleEventType.DefenseHold),
+                    ("[D] Defenders raise their shields!", BattleEventType.DefenseHold),
                 },
                 1 => new[] { // Melee Clash
-                    ("🗡️ Infantry clashes with defenders!", BattleEventType.MeleeClash),
-                    ("⚔️ Elite troops cut through enemy ranks!", BattleEventType.MeleeClash),
-                    ("🛡️ Defenders hold the line!", BattleEventType.DefenseHold),
-                    ("⚡ Your troops break through!", BattleEventType.Breakthrough),
+                    ("[W] Infantry clashes with defenders!", BattleEventType.MeleeClash),
+                    ("[!] Elite troops cut through enemy ranks!", BattleEventType.MeleeClash),
+                    ("[D] Defenders hold the line!", BattleEventType.DefenseHold),
+                    ("[!] Your troops break through!", BattleEventType.Breakthrough),
                 },
                 2 => new[] { // Siege Phase
                     ("💣 Siege weapons breach the wall!", BattleEventType.SiegeWeapon),
                     ("💥 Battering ram breaks through!", BattleEventType.Breakthrough),
-                    ("🔥 Flaming projectiles rain down!", BattleEventType.FireAttack),
-                    ("🗡️ Close quarters combat ensues!", BattleEventType.MeleeClash),
+                    ("[*] Flaming projectiles rain down!", BattleEventType.FireAttack),
+                    ("[W] Close quarters combat ensues!", BattleEventType.MeleeClash),
                 },
                 _ => new[] { // Final Push
                     ("🐴 Cavalry charges through the gate!", BattleEventType.CavalryCharge),
-                    ("⚔️ Elite troops lead the final assault!", BattleEventType.MeleeClash),
+                    ("[!] Elite troops lead the final assault!", BattleEventType.MeleeClash),
                     ("🏃 Enemy troops retreat!", BattleEventType.Retreat),
-                    ("⚡ Your troops advance!", BattleEventType.Advance),
-                    ("🏆 Victory is within reach!", BattleEventType.Advance),
+                    ("[!] Your troops advance!", BattleEventType.Advance),
+                    ("[T] Victory is within reach!", BattleEventType.Advance),
                 }
             };
             
@@ -1080,7 +1080,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_targetTerritory != null)
             {
-                _targetNameText.text = $"🏰 {_targetTerritory.Name}";
+                _targetNameText.text = $"[C] {_targetTerritory.Name}";
                 _targetStatsText.text = $"Level {_targetTerritory.Level} | Defense: {_targetTerritory.Level * 50} | Owner: {_targetTerritory.OwnerName ?? "Unclaimed"}";
                 
                 float healthPercent = (float)_targetTerritory.Health / _targetTerritory.MaxHealth;
@@ -1088,7 +1088,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                _targetNameText.text = "🏰 Select a Territory";
+                _targetNameText.text = "[C] Select a Territory";
                 _targetStatsText.text = "Click on an enemy territory on the map";
             }
         }

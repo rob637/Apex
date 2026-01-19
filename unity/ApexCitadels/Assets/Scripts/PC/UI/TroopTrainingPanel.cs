@@ -106,12 +106,12 @@ namespace ApexCitadels.PC.UI
         // Troop icons (emoji)
         private readonly Dictionary<TroopType, string> troopIcons = new Dictionary<TroopType, string>
         {
-            { TroopType.Infantry, "⚔️" },
-            { TroopType.Archer, "🏹" },
+            { TroopType.Infantry, "[!]" },
+            { TroopType.Archer, "[A]" },
             { TroopType.Cavalry, "🐴" },
             { TroopType.Siege, "💣" },
             { TroopType.Mage, "🔮" },
-            { TroopType.Guardian, "🛡️" }
+            { TroopType.Guardian, "[D]" }
         };
 
         // Troop colors
@@ -211,7 +211,7 @@ namespace ApexCitadels.PC.UI
             bg.color = HEADER_BG;
 
             // Title
-            titleText = CreateText(headerPanel, "⚔️ TROOP TRAINING", 24, FontStyles.Bold);
+            titleText = CreateText(headerPanel, "[!] TROOP TRAINING", 24, FontStyles.Bold);
             SetAnchors(titleText.rectTransform, new Vector2(0, 0), new Vector2(0.5f, 1), new Vector2(20, 0), new Vector2(0, 0));
             titleText.alignment = TextAlignmentOptions.MidlineLeft;
 
@@ -243,10 +243,10 @@ namespace ApexCitadels.PC.UI
             tabsBg.color = new Color(0.1f, 0.12f, 0.14f);
 
             // Create tab buttons
-            CreateTabButton(tabsRT, TrainingTab.Train, "🎖️ Train", "Train new troops");
-            CreateTabButton(tabsRT, TrainingTab.Army, "👥 Army", "View your army");
+            CreateTabButton(tabsRT, TrainingTab.Train, "[M] Train", "Train new troops");
+            CreateTabButton(tabsRT, TrainingTab.Army, "[P] Army", "View your army");
             CreateTabButton(tabsRT, TrainingTab.Upgrades, "⬆️ Upgrades", "Research upgrades");
-            CreateTabButton(tabsRT, TrainingTab.Formations, "📋 Formations", "Battle formations");
+            CreateTabButton(tabsRT, TrainingTab.Formations, "[T] Formations", "Battle formations");
         }
 
         private void CreateTabButton(RectTransform parent, TrainingTab tab, string label, string tooltip)
@@ -344,7 +344,7 @@ namespace ApexCitadels.PC.UI
             nameText.color = troopColors.TryGetValue(type, out Color c) ? c : TEXT_PRIMARY;
 
             // Stats row
-            TextMeshProUGUI statsText = CreateText(cardRT, $"⚔️{def.BaseAttack} 🛡️{def.BaseDefense} ❤️{def.BaseHealth}", 10);
+            TextMeshProUGUI statsText = CreateText(cardRT, $"[!]{def.BaseAttack} [D]{def.BaseDefense} ❤️{def.BaseHealth}", 10);
             SetAnchors(statsText.rectTransform, new Vector2(0, 0.40f), new Vector2(1, 0.52f), Vector2.zero, Vector2.zero);
             statsText.color = TEXT_SECONDARY;
 
@@ -410,7 +410,7 @@ namespace ApexCitadels.PC.UI
             bg.color = new Color(0.1f, 0.12f, 0.14f);
 
             // Header
-            TextMeshProUGUI header = CreateText(queueRT, "📋 TRAINING QUEUE (0/5)", 13, FontStyles.Bold);
+            TextMeshProUGUI header = CreateText(queueRT, "[T] TRAINING QUEUE (0/5)", 13, FontStyles.Bold);
             SetAnchors(header.rectTransform, new Vector2(0, 1), new Vector2(1, 1), new Vector2(15, -25), new Vector2(-15, 0));
             header.alignment = TextAlignmentOptions.MidlineLeft;
             header.color = TEXT_SECONDARY;
@@ -464,13 +464,13 @@ namespace ApexCitadels.PC.UI
             header.color = TEXT_SECONDARY;
 
             // Total power
-            totalPowerText = CreateText(armyPanel, "⚡ Total Power: 0", 16, FontStyles.Bold);
+            totalPowerText = CreateText(armyPanel, "[!] Total Power: 0", 16, FontStyles.Bold);
             SetAnchors(totalPowerText.rectTransform, new Vector2(0.5f, 1), new Vector2(0.8f, 1), new Vector2(0, -30), new Vector2(0, 0));
             totalPowerText.alignment = TextAlignmentOptions.Center;
             totalPowerText.color = TEXT_HIGHLIGHT;
 
             // Total troops
-            totalTroopsText = CreateText(armyPanel, "👥 Troops: 0/100", 14);
+            totalTroopsText = CreateText(armyPanel, "[P] Troops: 0/100", 14);
             SetAnchors(totalTroopsText.rectTransform, new Vector2(0.8f, 1), new Vector2(1, 1), new Vector2(0, -30), new Vector2(-10, 0));
             totalTroopsText.alignment = TextAlignmentOptions.MidlineRight;
             totalTroopsText.color = TEXT_SECONDARY;
@@ -524,13 +524,13 @@ namespace ApexCitadels.PC.UI
             countText.name = $"Count_{type}";
 
             // Stats
-            TextMeshProUGUI statsText = CreateText(cardRT, $"⚔️{def.BaseAttack}  🛡️{def.BaseDefense}  ❤️{def.BaseHealth}", 11);
+            TextMeshProUGUI statsText = CreateText(cardRT, $"[!]{def.BaseAttack}  [D]{def.BaseDefense}  ❤️{def.BaseHealth}", 11);
             SetAnchors(statsText.rectTransform, new Vector2(0.28f, 0.35f), new Vector2(1, 0.6f), Vector2.zero, Vector2.zero);
             statsText.alignment = TextAlignmentOptions.MidlineLeft;
             statsText.color = TEXT_SECONDARY;
 
             // Power contribution
-            TextMeshProUGUI powerText = CreateText(cardRT, "⚡ Power: 0", 12);
+            TextMeshProUGUI powerText = CreateText(cardRT, "[!] Power: 0", 12);
             SetAnchors(powerText.rectTransform, new Vector2(0.28f, 0.05f), new Vector2(1, 0.35f), Vector2.zero, Vector2.zero);
             powerText.alignment = TextAlignmentOptions.MidlineLeft;
             powerText.color = new Color(0.8f, 0.7f, 0.4f);
@@ -560,7 +560,7 @@ namespace ApexCitadels.PC.UI
             formationsPanel.gameObject.SetActive(false);
 
             // Coming soon message
-            TextMeshProUGUI comingSoon = CreateText(formationsPanel, "📋 BATTLE FORMATIONS\n\nComing Soon!\n\nCreate and save battle formations:\n• Defensive Wall\n• Flanking Assault\n• Siege Formation\n• Balanced Attack", 18);
+            TextMeshProUGUI comingSoon = CreateText(formationsPanel, "[T] BATTLE FORMATIONS\n\nComing Soon!\n\nCreate and save battle formations:\n• Defensive Wall\n• Flanking Assault\n• Siege Formation\n• Balanced Attack", 18);
             SetAnchors(comingSoon.rectTransform, Vector2.zero, Vector2.one, new Vector2(20, 20), new Vector2(-20, -20));
             comingSoon.color = TEXT_SECONDARY;
         }
@@ -785,7 +785,7 @@ namespace ApexCitadels.PC.UI
             var header = trainPanel.Find("QueueArea")?.GetComponentInChildren<TextMeshProUGUI>();
             if (header != null)
             {
-                header.text = $"📋 TRAINING QUEUE ({trainingQueue.Count}/{maxQueueSize})";
+                header.text = $"[T] TRAINING QUEUE ({trainingQueue.Count}/{maxQueueSize})";
             }
         }
 
@@ -813,10 +813,10 @@ namespace ApexCitadels.PC.UI
 
             // Update totals
             if (totalPowerText != null)
-                totalPowerText.text = $"⚡ Total Power: {totalPower:N0}";
+                totalPowerText.text = $"[!] Total Power: {totalPower:N0}";
 
             if (totalTroopsText != null)
-                totalTroopsText.text = $"👥 Troops: {totalTroops}/{maxArmySize}";
+                totalTroopsText.text = $"[P] Troops: {totalTroops}/{maxArmySize}";
         }
 
         private void UpdateArmyCard(TroopType type, int count, int power)
@@ -828,7 +828,7 @@ namespace ApexCitadels.PC.UI
             if (countText != null) countText.text = count.ToString();
 
             var powerText = cardObj.transform.Find($"Power_{type}")?.GetComponent<TextMeshProUGUI>();
-            if (powerText != null) powerText.text = $"⚡ Power: {power:N0}";
+            if (powerText != null) powerText.text = $"[!] Power: {power:N0}";
         }
 
         private void UpdateCapacityDisplay()
@@ -893,11 +893,11 @@ namespace ApexCitadels.PC.UI
         private string FormatCost(Data.ResourceCost cost)
         {
             List<string> parts = new List<string>();
-            if (cost.Stone > 0) parts.Add($"🪨{cost.Stone}");
-            if (cost.Wood > 0) parts.Add($"🪵{cost.Wood}");
+            if (cost.Stone > 0) parts.Add($"[Q]{cost.Stone}");
+            if (cost.Wood > 0) parts.Add($"[W]{cost.Wood}");
             if (cost.Iron > 0) parts.Add($"🔩{cost.Iron}");
-            if (cost.Crystal > 0) parts.Add($"💎{cost.Crystal}");
-            if (cost.ArcaneEssence > 0) parts.Add($"✨{cost.ArcaneEssence}");
+            if (cost.Crystal > 0) parts.Add($"[G]{cost.Crystal}");
+            if (cost.ArcaneEssence > 0) parts.Add($"[*]{cost.ArcaneEssence}");
             return string.Join(" ", parts);
         }
 

@@ -135,7 +135,7 @@ namespace ApexCitadels.PC.UI
             titleRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "🏆 TOURNAMENTS";
+            title.text = "[T] TOURNAMENTS";
             title.fontSize = 26;
             title.fontStyle = FontStyles.Bold;
             title.color = accentColor;
@@ -165,9 +165,9 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             
             CreateStatItem(statsContainer.transform, "🏅 Your Rank", "#42");
-            CreateStatItem(statsContainer.transform, "🎯 Win Rate", "68%");
-            CreateStatItem(statsContainer.transform, "🏆 Tournaments Won", "3");
-            CreateStatItem(statsContainer.transform, "💰 Total Winnings", "15,420 Gold");
+            CreateStatItem(statsContainer.transform, "[+] Win Rate", "68%");
+            CreateStatItem(statsContainer.transform, "[T] Tournaments Won", "3");
+            CreateStatItem(statsContainer.transform, "[$] Total Winnings", "15,420 Gold");
         }
 
         private void CreateStatItem(Transform parent, string label, string value)
@@ -253,8 +253,8 @@ namespace ApexCitadels.PC.UI
             
             _activeTab = CreateTabButton(tabBar.transform, "🔴 Active", () => ShowTab(TournamentViewTab.Active));
             _upcomingTab = CreateTabButton(tabBar.transform, "📅 Upcoming", () => ShowTab(TournamentViewTab.Upcoming));
-            _myMatchesTab = CreateTabButton(tabBar.transform, "⚔️ My Matches", () => ShowTab(TournamentViewTab.MyMatches));
-            _historyTab = CreateTabButton(tabBar.transform, "📜 History", () => ShowTab(TournamentViewTab.History));
+            _myMatchesTab = CreateTabButton(tabBar.transform, "[ATK] My Matches", () => ShowTab(TournamentViewTab.MyMatches));
+            _historyTab = CreateTabButton(tabBar.transform, "[S] History", () => ShowTab(TournamentViewTab.History));
             
             UpdateTabHighlights();
         }
@@ -466,7 +466,7 @@ namespace ApexCitadels.PC.UI
             GameObject headerObj = new GameObject("Header");
             headerObj.transform.SetParent(prizeContainer.transform, false);
             TextMeshProUGUI header = headerObj.AddComponent<TextMeshProUGUI>();
-            header.text = "💰 PRIZE POOL";
+            header.text = "[$] PRIZE POOL";
             header.fontSize = 12;
             header.color = new Color(0.5f, 0.5f, 0.5f);
             header.alignment = TextAlignmentOptions.Center;
@@ -513,7 +513,7 @@ namespace ApexCitadels.PC.UI
             phRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI placeholder = placeholderObj.AddComponent<TextMeshProUGUI>();
-            placeholder.text = "🏆\n\nSelect a tournament to view bracket";
+            placeholder.text = "[T]\n\nSelect a tournament to view bracket";
             placeholder.fontSize = 16;
             placeholder.color = new Color(0.4f, 0.4f, 0.4f);
             placeholder.alignment = TextAlignmentOptions.Center;
@@ -841,7 +841,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement infoLE = infoRow.AddComponent<LayoutElement>();
             infoLE.preferredHeight = 18;
             TextMeshProUGUI info = infoRow.AddComponent<TextMeshProUGUI>();
-            info.text = $"💰 {tournament.PrizePool:N0} Gold  |  👥 {tournament.CurrentParticipants}/{tournament.MaxParticipants}";
+            info.text = $"[$] {tournament.PrizePool:N0} Gold  |  [P] {tournament.CurrentParticipants}/{tournament.MaxParticipants}";
             info.fontSize = 11;
             info.color = new Color(0.6f, 0.6f, 0.6f);
             
@@ -860,10 +860,10 @@ namespace ApexCitadels.PC.UI
         {
             _selectedTournament = tournament;
             
-            _tournamentTitle.text = $"🏆 {tournament.Name}";
+            _tournamentTitle.text = $"[T] {tournament.Name}";
             _prizePool.text = $"{tournament.PrizePool:N0} Gold";
             _status.text = $"Status: {tournament.Status}";
-            _participantCount.text = $"👥 {tournament.CurrentParticipants}/{tournament.MaxParticipants}";
+            _participantCount.text = $"[P] {tournament.CurrentParticipants}/{tournament.MaxParticipants}";
             
             // Update buttons
             _registerButton.interactable = tournament.Status == TournamentPanelStatus.Registration && !tournament.IsRegistered;
@@ -894,8 +894,8 @@ namespace ApexCitadels.PC.UI
                 
                 TextMeshProUGUI ph = phObj.AddComponent<TextMeshProUGUI>();
                 ph.text = tournament.Status == TournamentPanelStatus.Registration 
-                    ? "🏆\n\nBracket will be generated when tournament starts" 
-                    : "🏆\n\nNo bracket data available";
+                    ? "[T]\n\nBracket will be generated when tournament starts" 
+                    : "[T]\n\nNo bracket data available";
                 ph.fontSize = 14;
                 ph.color = new Color(0.4f, 0.4f, 0.4f);
                 ph.alignment = TextAlignmentOptions.Center;
@@ -1105,8 +1105,8 @@ namespace ApexCitadels.PC.UI
             {
                 TournamentPanelStatus.Registration => "📅",
                 TournamentPanelStatus.InProgress => "🔴",
-                TournamentPanelStatus.Completed => "✅",
-                TournamentPanelStatus.Cancelled => "❌",
+                TournamentPanelStatus.Completed => "[OK]",
+                TournamentPanelStatus.Cancelled => "[X]",
                 _ => "❓"
             };
         }
@@ -1132,7 +1132,7 @@ namespace ApexCitadels.PC.UI
 
         private string GetRoundName(int round, int matchCount)
         {
-            if (matchCount == 1) return "🏆 FINALS";
+            if (matchCount == 1) return "[T] FINALS";
             if (matchCount == 2) return "Semi-Finals";
             if (matchCount == 4) return "Quarter-Finals";
             return $"Round {round}";

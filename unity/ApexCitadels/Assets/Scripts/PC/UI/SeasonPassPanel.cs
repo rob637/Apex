@@ -197,7 +197,7 @@ namespace ApexCitadels.PC.UI
             
             // Season name
             TextMeshProUGUI title = header.AddComponent<TextMeshProUGUI>();
-            title.text = $"🎖️ {seasonName}";
+            title.text = $"[M] {seasonName}";
             title.fontSize = 28;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Left;
@@ -509,7 +509,7 @@ namespace ApexCitadels.PC.UI
                 lockRect.offsetMax = Vector2.zero;
                 
                 TextMeshProUGUI lockText = lockObj.AddComponent<TextMeshProUGUI>();
-                lockText.text = isPremium && !_hasPremium ? "👑" : "🔒";
+                lockText.text = isPremium && !_hasPremium ? "👑" : "[L]";
                 lockText.fontSize = 14;
                 lockText.alignment = TextAlignmentOptions.Center;
             }
@@ -660,8 +660,8 @@ namespace ApexCitadels.PC.UI
             _freeRewards.Clear();
             _premiumRewards.Clear();
             
-            string[] freeIcons = { "💎", "⚡", "🛡️", "🗡️", "📦" };
-            string[] premiumIcons = { "👑", "🌟", "🎨", "🐉", "🏆" };
+            string[] freeIcons = { "[G]", "[!]", "[D]", "[W]", "[B]" };
+            string[] premiumIcons = { "👑", "[*]", "🎨", "🐉", "[T]" };
             string[] freeNames = { "Gems", "Energy", "Shield", "Weapon", "Crate" };
             string[] premiumNames = { "Crown", "Star Skin", "Epic Decor", "Dragon Pet", "Legendary" };
             

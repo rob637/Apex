@@ -186,7 +186,7 @@ namespace ApexCitadels.PC.UI
             titleObj.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "⚙️ SETTINGS";
+            title.text = "[P] SETTINGS";
             title.fontSize = 28;
             title.fontStyle = FontStyles.Bold;
             title.alignment = TextAlignmentOptions.Center;
@@ -235,8 +235,8 @@ namespace ApexCitadels.PC.UI
             
             CreateCategoryTab(tabs.transform, SettingsCategory.Audio, "🔊 Audio");
             CreateCategoryTab(tabs.transform, SettingsCategory.Graphics, "🖥️ Graphics");
-            CreateCategoryTab(tabs.transform, SettingsCategory.Controls, "🎮 Controls");
-            CreateCategoryTab(tabs.transform, SettingsCategory.Gameplay, "🎯 Gameplay");
+            CreateCategoryTab(tabs.transform, SettingsCategory.Controls, "[G] Controls");
+            CreateCategoryTab(tabs.transform, SettingsCategory.Gameplay, "[+] Gameplay");
             CreateCategoryTab(tabs.transform, SettingsCategory.Account, "👤 Account");
         }
 
@@ -400,13 +400,13 @@ namespace ApexCitadels.PC.UI
             CreateSpacer();
             
             CreateButtonSetting("🔗 Link Account", () => ApexLogger.Log("[Settings] Link account clicked", ApexLogger.LogCategory.UI));
-            CreateButtonSetting("🔄 Sync Data", () => ApexLogger.Log("[Settings] Syncing data...", ApexLogger.LogCategory.UI));
+            CreateButtonSetting("[R] Sync Data", () => ApexLogger.Log("[Settings] Syncing data...", ApexLogger.LogCategory.UI));
             
             CreateSpacer();
             
             CreateLabel("Support:");
             CreateButtonSetting("📧 Contact Support", () => ApexLogger.Log("[Settings] Opening support...", ApexLogger.LogCategory.UI));
-            CreateButtonSetting("📋 Copy Player ID", () => {
+            CreateButtonSetting("[T] Copy Player ID", () => {
                 GUIUtility.systemCopyBuffer = "DEMO_USER_001";
                 ApexLogger.Log("[Settings] Player ID copied!", ApexLogger.LogCategory.UI);
             });
@@ -768,10 +768,10 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(100, 100, 5, 5);
             
             // Reset button
-            CreateActionButton(actions.transform, "🔄 Reset to Defaults", ResetToDefaults, new Color(0.5f, 0.3f, 0.2f));
+            CreateActionButton(actions.transform, "[R] Reset to Defaults", ResetToDefaults, new Color(0.5f, 0.3f, 0.2f));
             
             // Save button
-            CreateActionButton(actions.transform, "💾 Save Settings", SaveSettings, new Color(0.2f, 0.5f, 0.3f));
+            CreateActionButton(actions.transform, "[S] Save Settings", SaveSettings, new Color(0.2f, 0.5f, 0.3f));
         }
 
         private void CreateActionButton(Transform parent, string label, Action onClick, Color color)

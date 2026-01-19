@@ -139,9 +139,9 @@ namespace ApexCitadels.PC.UI
                 {
                     new GuildBankItem { ItemId = "BI001", Name = "Dragon Scale", Icon = "🐲", Quantity = 15, Rarity = "Epic" },
                     new GuildBankItem { ItemId = "BI002", Name = "War Banner", Icon = "🚩", Quantity = 3, Rarity = "Rare" },
-                    new GuildBankItem { ItemId = "BI003", Name = "Health Potions", Icon = "🧪", Quantity = 200, Rarity = "Common" },
-                    new GuildBankItem { ItemId = "BI004", Name = "Legendary Chest", Icon = "📦", Quantity = 2, Rarity = "Legendary" },
-                    new GuildBankItem { ItemId = "BI005", Name = "Crystal Shards", Icon = "💎", Quantity = 500, Rarity = "Rare" }
+                    new GuildBankItem { ItemId = "BI003", Name = "Health Potions", Icon = "[P]", Quantity = 200, Rarity = "Common" },
+                    new GuildBankItem { ItemId = "BI004", Name = "Legendary Chest", Icon = "[B]", Quantity = 2, Rarity = "Legendary" },
+                    new GuildBankItem { ItemId = "BI005", Name = "Crystal Shards", Icon = "[G]", Quantity = 500, Rarity = "Rare" }
                 }
             };
             
@@ -281,11 +281,11 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 15;
             
-            CreateStatBlock(stats.transform, "👥", $"{_guild.MemberCount}/{_guild.MaxMembers}", "Members");
-            CreateStatBlock(stats.transform, "⚔️", $"{(_guild.TotalPower / 1000f):F1}K", "Power");
-            CreateStatBlock(stats.transform, "🏰", _guild.TerritoryCount.ToString(), "Territories");
-            CreateStatBlock(stats.transform, "📊", $"#{_guild.Rank}", "Rank");
-            CreateStatBlock(stats.transform, "🔥", $"{_guild.WeeklyActivity}%", "Activity");
+            CreateStatBlock(stats.transform, "[P]", $"{_guild.MemberCount}/{_guild.MaxMembers}", "Members");
+            CreateStatBlock(stats.transform, "[!]", $"{(_guild.TotalPower / 1000f):F1}K", "Power");
+            CreateStatBlock(stats.transform, "[C]", _guild.TerritoryCount.ToString(), "Territories");
+            CreateStatBlock(stats.transform, "[#]", $"#{_guild.Rank}", "Rank");
+            CreateStatBlock(stats.transform, "[*]", $"{_guild.WeeklyActivity}%", "Activity");
         }
 
         private void CreateStatBlock(Transform parent, string icon, string value, string label)
@@ -350,13 +350,13 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateTab(tabs.transform, GuildTab.Overview, "📋 Overview");
-            CreateTab(tabs.transform, GuildTab.Members, "👥 Members");
-            CreateTab(tabs.transform, GuildTab.Events, "⚔️ Events");
+            CreateTab(tabs.transform, GuildTab.Overview, "[T] Overview");
+            CreateTab(tabs.transform, GuildTab.Members, "[P] Members");
+            CreateTab(tabs.transform, GuildTab.Events, "[!] Events");
             CreateTab(tabs.transform, GuildTab.Bank, "🏦 Bank");
             CreateTab(tabs.transform, GuildTab.Upgrades, "⬆️ Upgrades");
             CreateTab(tabs.transform, GuildTab.Applications, "📩 Applications");
-            CreateTab(tabs.transform, GuildTab.Settings, "⚙️ Settings");
+            CreateTab(tabs.transform, GuildTab.Settings, "[P] Settings");
         }
 
         private void CreateTab(Transform parent, GuildTab tab, string label)
@@ -481,19 +481,19 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(10, 10, 10, 10);
             
             // Description
-            CreateSectionHeader(left.transform, "📜 ABOUT");
+            CreateSectionHeader(left.transform, "[S] ABOUT");
             CreateText(left.transform, _guild.Description, 12, TextAlignmentOptions.Left, new Color(0.8f, 0.8f, 0.8f));
             
             // Guild XP progress
-            CreateSectionHeader(left.transform, "⭐ GUILD LEVEL");
+            CreateSectionHeader(left.transform, "[*] GUILD LEVEL");
             CreateGuildLevelProgress(left.transform);
             
             // Quick stats
-            CreateSectionHeader(left.transform, "📊 STATISTICS");
+            CreateSectionHeader(left.transform, "[#] STATISTICS");
             CreateQuickStats(left.transform);
             
             // Upcoming event
-            CreateSectionHeader(left.transform, "⚔️ NEXT EVENT");
+            CreateSectionHeader(left.transform, "[!] NEXT EVENT");
             if (_events.Count > 0)
             {
                 CreateUpcomingEventPreview(left.transform, _events[0]);
@@ -559,9 +559,9 @@ namespace ApexCitadels.PC.UI
             grid.constraintCount = 2;
             
             CreateStatRow(stats.transform, "📅 Founded", _guild.Founded.ToString("MMM dd, yyyy"));
-            CreateStatRow(stats.transform, "🏆 Guild Rank", $"#{_guild.Rank} in Server");
-            CreateStatRow(stats.transform, "⚔️ Wars Won", "23");
-            CreateStatRow(stats.transform, "💰 Total Donations", "1.2M Gold");
+            CreateStatRow(stats.transform, "[T] Guild Rank", $"#{_guild.Rank} in Server");
+            CreateStatRow(stats.transform, "[!] Wars Won", "23");
+            CreateStatRow(stats.transform, "[$] Total Donations", "1.2M Gold");
         }
 
         private void CreateStatRow(Transform parent, string label, string value)
@@ -645,7 +645,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 5;
             vlayout.padding = new RectOffset(10, 10, 10, 10);
             
-            CreateSectionHeader(right.transform, "📜 ACTIVITY LOG");
+            CreateSectionHeader(right.transform, "[S] ACTIVITY LOG");
             
             foreach (var entry in _activityLog)
             {
@@ -816,7 +816,7 @@ namespace ApexCitadels.PC.UI
                 {
                     CreateSmallButton(actions.transform, "⬆️", () => PromoteMember(member), officerColor, 25);
                     CreateSmallButton(actions.transform, "⬇️", () => DemoteMember(member), new Color(0.5f, 0.5f, 0.3f), 25);
-                    CreateSmallButton(actions.transform, "❌", () => KickMember(member), new Color(0.5f, 0.2f, 0.2f), 25);
+                    CreateSmallButton(actions.transform, "[X]", () => KickMember(member), new Color(0.5f, 0.2f, 0.2f), 25);
                 }
             }
         }
@@ -829,7 +829,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 10;
             vlayout.padding = new RectOffset(15, 15, 15, 15);
             
-            CreateSectionHeader(_contentArea.transform, "⚔️ GUILD EVENTS");
+            CreateSectionHeader(_contentArea.transform, "[!] GUILD EVENTS");
             
             foreach (var evt in _events)
             {
@@ -890,7 +890,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup partsVL = parts.AddComponent<VerticalLayoutGroup>();
             partsVL.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(parts.transform, "👥", 18, TextAlignmentOptions.Center);
+            CreateText(parts.transform, "[P]", 18, TextAlignmentOptions.Center);
             CreateText(parts.transform, $"{evt.Participants}/{evt.MaxParticipants}", 12, TextAlignmentOptions.Center);
             
             // Time/Status
@@ -930,15 +930,15 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(15, 15, 15, 15);
             
             // Gold section
-            CreateSectionHeader(_contentArea.transform, "💰 GUILD TREASURY");
+            CreateSectionHeader(_contentArea.transform, "[$] GUILD TREASURY");
             CreateTreasurySection();
             
             // Items section
-            CreateSectionHeader(_contentArea.transform, "📦 GUILD ITEMS");
+            CreateSectionHeader(_contentArea.transform, "[B] GUILD ITEMS");
             CreateBankItemsGrid();
             
             // Donation section
-            CreateSectionHeader(_contentArea.transform, "🎁 DONATE");
+            CreateSectionHeader(_contentArea.transform, "[?] DONATE");
             CreateDonationSection();
         }
 
@@ -958,7 +958,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 5;
             vlayout.padding = new RectOffset(20, 20, 10, 10);
             
-            CreateText(treasury.transform, $"💰 {_bank.Gold:N0} / {_bank.MaxGold:N0} Gold", 18, TextAlignmentOptions.Center, goldColor);
+            CreateText(treasury.transform, $"[$] {_bank.Gold:N0} / {_bank.MaxGold:N0} Gold", 18, TextAlignmentOptions.Center, goldColor);
             CreateProgressBar(treasury.transform, (float)_bank.Gold / _bank.MaxGold, goldColor);
         }
 
@@ -1018,9 +1018,9 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 15;
             
-            CreateDonationButton(donation.transform, "💰 1,000 Gold", () => Donate(1000));
-            CreateDonationButton(donation.transform, "💰 5,000 Gold", () => Donate(5000));
-            CreateDonationButton(donation.transform, "💰 10,000 Gold", () => Donate(10000));
+            CreateDonationButton(donation.transform, "[$] 1,000 Gold", () => Donate(1000));
+            CreateDonationButton(donation.transform, "[$] 5,000 Gold", () => Donate(5000));
+            CreateDonationButton(donation.transform, "[$] 10,000 Gold", () => Donate(10000));
         }
 
         private void CreateDonationButton(Transform parent, string label, Action onClick)
@@ -1118,7 +1118,7 @@ namespace ApexCitadels.PC.UI
             // Upgrade button
             if (!upgrade.IsUnlocked)
             {
-                CreateActionButton(card.transform, $"🔒 Req. Lv.{upgrade.RequiredGuildLevel}", null, new Color(0.3f, 0.3f, 0.3f), 120);
+                CreateActionButton(card.transform, $"[L] Req. Lv.{upgrade.RequiredGuildLevel}", null, new Color(0.3f, 0.3f, 0.3f), 120);
             }
             else if (upgrade.CurrentLevel >= upgrade.MaxLevel)
             {
@@ -1127,7 +1127,7 @@ namespace ApexCitadels.PC.UI
             else
             {
                 Color btnColor = canUpgrade ? accentColor : new Color(0.3f, 0.3f, 0.3f);
-                CreateActionButton(card.transform, $"💰 {upgrade.Cost:N0}", canUpgrade ? () => PurchaseUpgrade(upgrade) : (Action)null, btnColor, 100);
+                CreateActionButton(card.transform, $"[$] {upgrade.Cost:N0}", canUpgrade ? () => PurchaseUpgrade(upgrade) : (Action)null, btnColor, 100);
             }
         }
 
@@ -1200,7 +1200,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 15;
             vlayout.padding = new RectOffset(20, 20, 20, 20);
             
-            CreateSectionHeader(_contentArea.transform, "⚙️ GUILD SETTINGS");
+            CreateSectionHeader(_contentArea.transform, "[P] GUILD SETTINGS");
             
             // Recruitment settings
             CreateSettingToggle("Open Recruitment", _guild.IsRecruiting, (value) => _guild.IsRecruiting = value);
@@ -1209,7 +1209,7 @@ namespace ApexCitadels.PC.UI
             CreateSettingInput("Guild Motto", _guild.Motto);
             
             // Danger zone
-            CreateSectionHeader(_contentArea.transform, "⚠️ DANGER ZONE");
+            CreateSectionHeader(_contentArea.transform, "[!] DANGER ZONE");
             
             GameObject dangerZone = new GameObject("DangerZone");
             dangerZone.transform.SetParent(_contentArea.transform, false);
@@ -1218,7 +1218,7 @@ namespace ApexCitadels.PC.UI
             hzone.childAlignment = TextAnchor.MiddleCenter;
             hzone.spacing = 15;
             
-            CreateActionButton(dangerZone.transform, "🚪 Leave Guild", () => LeaveGuild(), new Color(0.6f, 0.3f, 0.3f), 150);
+            CreateActionButton(dangerZone.transform, "[G] Leave Guild", () => LeaveGuild(), new Color(0.6f, 0.3f, 0.3f), 150);
         }
 
         private void CreateSettingToggle(string label, bool value, Action<bool> onChange)
@@ -1417,9 +1417,9 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                GuildEventType.War => "⚔️",
+                GuildEventType.War => "[!]",
                 GuildEventType.Raid => "🐉",
-                GuildEventType.Defense => "🛡️",
+                GuildEventType.Defense => "[D]",
                 GuildEventType.BossHunt => "👹",
                 _ => "📅"
             };
@@ -1435,10 +1435,10 @@ namespace ApexCitadels.PC.UI
                 GuildLogType.Kick => "🚫",
                 GuildLogType.Promotion => "⬆️",
                 GuildLogType.Demotion => "⬇️",
-                GuildLogType.Donation => "💰",
+                GuildLogType.Donation => "[$]",
                 GuildLogType.Upgrade => "⬆️",
-                GuildLogType.War => "⚔️",
-                _ => "📋"
+                GuildLogType.War => "[!]",
+                _ => "[T]"
             };
         }
 

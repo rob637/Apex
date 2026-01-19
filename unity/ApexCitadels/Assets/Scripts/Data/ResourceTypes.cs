@@ -207,7 +207,7 @@ namespace ApexCitadels.Data
                 {
                     Type = ResourceType.Stone,
                     DisplayName = "Stone",
-                    Icon = "🪨",
+                    Icon = "[Q]",
                     Color = new Color(0.5f, 0.5f, 0.5f),
                     Description = "Basic building material from quarries"
                 }
@@ -217,7 +217,7 @@ namespace ApexCitadels.Data
                 {
                     Type = ResourceType.Wood,
                     DisplayName = "Wood",
-                    Icon = "🪵",
+                    Icon = "[W]",
                     Color = new Color(0.6f, 0.4f, 0.2f),
                     Description = "Basic building material from forests"
                 }
@@ -227,7 +227,7 @@ namespace ApexCitadels.Data
                 {
                     Type = ResourceType.Iron,
                     DisplayName = "Iron",
-                    Icon = "⚙️",
+                    Icon = "[P]",
                     Color = new Color(0.4f, 0.4f, 0.5f),
                     Description = "Refined material for weapons and armor"
                 }
@@ -237,7 +237,7 @@ namespace ApexCitadels.Data
                 {
                     Type = ResourceType.Crystal,
                     DisplayName = "Crystal",
-                    Icon = "💎",
+                    Icon = "[G]",
                     Color = new Color(0.3f, 0.7f, 1.0f),
                     Description = "Rare material for advanced construction"
                 }
@@ -247,7 +247,7 @@ namespace ApexCitadels.Data
                 {
                     Type = ResourceType.ArcaneEssence,
                     DisplayName = "Arcane Essence",
-                    Icon = "✨",
+                    Icon = "[*]",
                     Color = new Color(0.6f, 0.2f, 0.8f),
                     Description = "Magical essence for elite troops"
                 }

@@ -245,10 +245,10 @@ namespace ApexCitadels.PC.UI
             CreateStatBadge(parent, "🕵️", $"{available}/{_maxSpies}", "Agents");
             
             // Intel points
-            CreateStatBadge(parent, "📊", _intelPoints.ToString(), "Intel");
+            CreateStatBadge(parent, "[#]", _intelPoints.ToString(), "Intel");
             
             // Counter-intel level
-            CreateStatBadge(parent, "🛡️", $"Lv.{_counterIntelLevel}", "Defense");
+            CreateStatBadge(parent, "[D]", $"Lv.{_counterIntelLevel}", "Defense");
         }
 
         private void CreateStatBadge(Transform parent, string icon, string value, string label)
@@ -326,10 +326,10 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
             CreateTab(tabBar.transform, IntelTab.Spies, "🕵️ Agents");
-            CreateTab(tabBar.transform, IntelTab.Operations, "🎯 Operations");
-            CreateTab(tabBar.transform, IntelTab.Reports, "📋 Intel Reports");
-            CreateTab(tabBar.transform, IntelTab.CounterIntel, "🛡️ Counter-Intel");
-            CreateTab(tabBar.transform, IntelTab.Training, "📚 Training");
+            CreateTab(tabBar.transform, IntelTab.Operations, "[+] Operations");
+            CreateTab(tabBar.transform, IntelTab.Reports, "[T] Intel Reports");
+            CreateTab(tabBar.transform, IntelTab.CounterIntel, "[D] Counter-Intel");
+            CreateTab(tabBar.transform, IntelTab.Training, "[Y] Training");
         }
 
         private void CreateTab(Transform parent, IntelTab tab, string label)
@@ -444,7 +444,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(btn.transform, "➕", 24, TextAlignmentOptions.Center, accentColor);
             CreateText(btn.transform, "RECRUIT NEW AGENT", 14, TextAlignmentOptions.Center, Color.white);
-            CreateText(btn.transform, "💰 10,000 Gold", 12, TextAlignmentOptions.Center, goldColor);
+            CreateText(btn.transform, "[$] 10,000 Gold", 12, TextAlignmentOptions.Center, goldColor);
         }
 
         private void CreateSpyCard(Transform parent, SpyAgent spy)
@@ -504,8 +504,8 @@ namespace ApexCitadels.PC.UI
             {
                 SpySpecialty.Reconnaissance => "👁️",
                 SpySpecialty.Sabotage => "💣",
-                SpySpecialty.Assassination => "🗡️",
-                SpySpecialty.CounterIntelligence => "🛡️",
+                SpySpecialty.Assassination => "[W]",
+                SpySpecialty.CounterIntelligence => "[D]",
                 _ => "🕵️"
             };
             
@@ -654,8 +654,8 @@ namespace ApexCitadels.PC.UI
             
             if (spy.Status == SpyStatus.Available)
             {
-                CreateActionButton(actions.transform, "🎯 Deploy", () => DeploySpy(spy), accentColor);
-                CreateActionButton(actions.transform, "📚 Train", () => TrainSpy(spy), new Color(0.3f, 0.4f, 0.5f));
+                CreateActionButton(actions.transform, "[+] Deploy", () => DeploySpy(spy), accentColor);
+                CreateActionButton(actions.transform, "[Y] Train", () => TrainSpy(spy), new Color(0.3f, 0.4f, 0.5f));
             }
             else if (spy.Status == SpyStatus.OnMission)
             {
@@ -701,7 +701,7 @@ namespace ApexCitadels.PC.UI
             GameObject content = scrollView.transform.Find("Viewport/Content").gameObject;
             
             // Active operations
-            CreateSectionHeader(content.transform, "🎯 ACTIVE OPERATIONS");
+            CreateSectionHeader(content.transform, "[+] ACTIVE OPERATIONS");
             
             if (_activeOperations.Count > 0)
             {
@@ -716,7 +716,7 @@ namespace ApexCitadels.PC.UI
             }
             
             // Available operations
-            CreateSectionHeader(content.transform, "📋 AVAILABLE MISSIONS");
+            CreateSectionHeader(content.transform, "[T] AVAILABLE MISSIONS");
             
             CreateMissionOption(content.transform, "Scout Enemy Base", OperationType.Reconnaissance, "Gather intel on enemy forces", 2, 65);
             CreateMissionOption(content.transform, "Sabotage Production", OperationType.Sabotage, "Destroy enemy resource buildings", 4, 55);
@@ -752,9 +752,9 @@ namespace ApexCitadels.PC.UI
             {
                 OperationType.Reconnaissance => "👁️",
                 OperationType.Sabotage => "💣",
-                OperationType.Theft => "💰",
-                OperationType.Assassination => "🗡️",
-                _ => "🎯"
+                OperationType.Theft => "[$]",
+                OperationType.Assassination => "[W]",
+                _ => "[+]"
             };
             
             CreateText(header.transform, typeIcon, 20, TextAlignmentOptions.Center);
@@ -799,9 +799,9 @@ namespace ApexCitadels.PC.UI
             {
                 OperationType.Reconnaissance => "👁️",
                 OperationType.Sabotage => "💣",
-                OperationType.Theft => "💰",
-                OperationType.Assassination => "🗡️",
-                _ => "🎯"
+                OperationType.Theft => "[$]",
+                OperationType.Assassination => "[W]",
+                _ => "[+]"
             };
             CreateText(option.transform, icon, 24, TextAlignmentOptions.Center);
             
@@ -874,7 +874,7 @@ namespace ApexCitadels.PC.UI
             }
             
             // All reports
-            CreateSectionHeader(content.transform, "📋 ALL INTELLIGENCE");
+            CreateSectionHeader(content.transform, "[T] ALL INTELLIGENCE");
             foreach (var report in _intelReports)
             {
                 if (!report.IsNew)
@@ -905,11 +905,11 @@ namespace ApexCitadels.PC.UI
             // Type icon
             string icon = report.ReportType switch
             {
-                IntelType.TroopCount => "⚔️",
-                IntelType.DefenseLayout => "🏰",
-                IntelType.ResourceLevel => "💰",
-                IntelType.AttackPlan => "📜",
-                _ => "📊"
+                IntelType.TroopCount => "[!]",
+                IntelType.DefenseLayout => "[C]",
+                IntelType.ResourceLevel => "[$]",
+                IntelType.AttackPlan => "[S]",
+                _ => "[#]"
             };
             
             GameObject iconObj = new GameObject("Icon");
@@ -944,7 +944,7 @@ namespace ApexCitadels.PC.UI
             }
             if (report.IsUrgent)
             {
-                CreateText(headerRow.transform, "⚠️ URGENT", 10, TextAlignmentOptions.Left, dangerColor);
+                CreateText(headerRow.transform, "[!] URGENT", 10, TextAlignmentOptions.Left, dangerColor);
             }
             
             CreateText(info.transform, report.Content, 10, TextAlignmentOptions.Left, new Color(0.7f, 0.7f, 0.7f));
@@ -995,12 +995,12 @@ namespace ApexCitadels.PC.UI
             CreateCounterIntelStatus(content.transform);
             
             // Detected threats
-            CreateSectionHeader(content.transform, "⚠️ DETECTED THREATS");
+            CreateSectionHeader(content.transform, "[!] DETECTED THREATS");
             CreateThreatAlert(content.transform, "Enemy spy detected near barracks", "High", DateTime.Now.AddMinutes(-30));
             CreateThreatAlert(content.transform, "Suspicious activity at treasury", "Medium", DateTime.Now.AddHours(-2));
             
             // Upgrades
-            CreateSectionHeader(content.transform, "🛡️ DEFENSE UPGRADES");
+            CreateSectionHeader(content.transform, "[D] DEFENSE UPGRADES");
             CreateCounterIntelUpgrade(content.transform, "Watchtower Network", 3, 5, "Increases spy detection range");
             CreateCounterIntelUpgrade(content.transform, "Secret Police", 2, 5, "Faster threat response time");
             CreateCounterIntelUpgrade(content.transform, "Cipher Division", 1, 5, "Protects against intel theft");
@@ -1022,10 +1022,10 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 40;
             hlayout.padding = new RectOffset(30, 30, 20, 20);
             
-            CreateStatBox(status.transform, "🛡️", $"Level {_counterIntelLevel}", "Defense Rating");
+            CreateStatBox(status.transform, "[D]", $"Level {_counterIntelLevel}", "Defense Rating");
             CreateStatBox(status.transform, "👁️", "85%", "Detection Rate");
-            CreateStatBox(status.transform, "⚡", "2.5s", "Response Time");
-            CreateStatBox(status.transform, "🔒", "12", "Threats Blocked");
+            CreateStatBox(status.transform, "[!]", "2.5s", "Response Time");
+            CreateStatBox(status.transform, "[L]", "12", "Threats Blocked");
         }
 
         private void CreateStatBox(Transform parent, string icon, string value, string label)
@@ -1061,7 +1061,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(20, 20, 10, 10);
             
             Color severityColor = severity == "High" ? dangerColor : warningColor;
-            CreateText(alert.transform, "⚠️", 18, TextAlignmentOptions.Center, severityColor);
+            CreateText(alert.transform, "[!]", 18, TextAlignmentOptions.Center, severityColor);
             
             GameObject info = new GameObject("Info");
             info.transform.SetParent(alert.transform, false);
@@ -1167,7 +1167,7 @@ namespace ApexCitadels.PC.UI
             GameObject scrollView = CreateScrollView(_contentArea.transform);
             GameObject content = scrollView.transform.Find("Viewport/Content").gameObject;
             
-            CreateSectionHeader(content.transform, "📚 TRAINING PROGRAMS");
+            CreateSectionHeader(content.transform, "[Y] TRAINING PROGRAMS");
             
             CreateTrainingOption(content.transform, "Stealth Training", "Increases stealth skill", 500, 4);
             CreateTrainingOption(content.transform, "Combat Training", "Increases combat skill", 500, 4);
@@ -1192,7 +1192,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 15;
             hlayout.padding = new RectOffset(20, 20, 10, 10);
             
-            CreateText(option.transform, "📚", 24, TextAlignmentOptions.Center);
+            CreateText(option.transform, "[Y]", 24, TextAlignmentOptions.Center);
             
             GameObject info = new GameObject("Info");
             info.transform.SetParent(option.transform, false);
@@ -1203,7 +1203,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(info.transform, name, 13, TextAlignmentOptions.Left, Color.white);
             CreateText(info.transform, description, 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
-            CreateText(info.transform, $"💰 {cost} Gold | ⏱️ {hours}h", 9, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(info.transform, $"[$] {cost} Gold | ⏱️ {hours}h", 9, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             GameObject btn = new GameObject("TrainBtn");
             btn.transform.SetParent(option.transform, false);

@@ -209,12 +209,12 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                ActivityType.Attack => "⚔️",
-                ActivityType.Defense => "🛡️",
-                ActivityType.Conquest => "🏆",
+                ActivityType.Attack => "[!]",
+                ActivityType.Defense => "[D]",
+                ActivityType.Conquest => "[T]",
                 ActivityType.Alliance => "🤝",
-                ActivityType.Achievement => "⭐",
-                ActivityType.LevelUp => "📈",
+                ActivityType.Achievement => "[*]",
+                ActivityType.LevelUp => "[+]",
                 ActivityType.Building => "🏗️",
                 _ => "📢"
             };

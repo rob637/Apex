@@ -67,7 +67,7 @@ namespace ApexCitadels.PC.Visual
             SetupEffects();
             ApplyPreset(VisualPreset.Default);
             
-            ApexLogger.Log("✅ Post-processing system initialized (Camera-based)", ApexLogger.LogCategory.General);
+            ApexLogger.Log("[OK] Post-processing system initialized (Camera-based)", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

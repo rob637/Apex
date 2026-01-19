@@ -148,7 +148,7 @@ namespace ApexCitadels.PC.UI
             rect.offsetMax = new Vector2(-40, -5);
             
             _titleText = header.AddComponent<TextMeshProUGUI>();
-            _titleText.text = "🏆 LEADERBOARD";
+            _titleText.text = "[T] LEADERBOARD";
             _titleText.fontSize = 24;
             _titleText.fontStyle = FontStyles.Bold;
             _titleText.alignment = TextAlignmentOptions.Center;
@@ -173,7 +173,7 @@ namespace ApexCitadels.PC.UI
             layout.padding = new RectOffset(5, 5, 2, 2);
             
             // Create tabs
-            string[] categories = { "⚡Power", "🏰Territories", "⚔️Victories", "💎Resources" };
+            string[] categories = { "[!]Power", "[C]Territories", "[!]Victories", "[G]Resources" };
             LeaderboardCategory[] categoryValues = { 
                 LeaderboardCategory.Power, 
                 LeaderboardCategory.Territories, 

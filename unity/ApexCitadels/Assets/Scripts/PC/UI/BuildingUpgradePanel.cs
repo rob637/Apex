@@ -70,7 +70,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "castle",
                 Name = "Castle",
                 Category = BuildingCategory.Core,
-                Icon = "🏰",
+                Icon = "[C]",
                 Level = 15,
                 MaxLevel = 30,
                 Description = "The heart of your citadel. Unlocks new buildings and features.",
@@ -106,7 +106,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "goldmine",
                 Name = "Gold Mine",
                 Category = BuildingCategory.Resource,
-                Icon = "⛏️",
+                Icon = "[M]",
                 Level = 14,
                 MaxLevel = 25,
                 Description = "Produces gold over time. Upgrade for higher production.",
@@ -124,7 +124,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "lumbermill",
                 Name = "Lumber Mill",
                 Category = BuildingCategory.Resource,
-                Icon = "🪵",
+                Icon = "[W]",
                 Level = 13,
                 MaxLevel = 25,
                 Description = "Processes wood for construction. Higher levels increase output.",
@@ -142,7 +142,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "stonequarry",
                 Name = "Stone Quarry",
                 Category = BuildingCategory.Resource,
-                Icon = "🪨",
+                Icon = "[Q]",
                 Level = 12,
                 MaxLevel = 25,
                 Description = "Extracts stone for buildings and walls.",
@@ -160,7 +160,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "ironforge",
                 Name = "Iron Forge",
                 Category = BuildingCategory.Resource,
-                Icon = "🔥",
+                Icon = "[*]",
                 Level = 10,
                 MaxLevel = 20,
                 Description = "Smelts iron ore into usable iron. Required for advanced buildings.",
@@ -178,7 +178,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "crystalcave",
                 Name = "Crystal Cave",
                 Category = BuildingCategory.Resource,
-                Icon = "💎",
+                Icon = "[G]",
                 Level = 8,
                 MaxLevel = 15,
                 Description = "Harvests magical crystals. Rare resource for special buildings.",
@@ -198,7 +198,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "barracks",
                 Name = "Barracks",
                 Category = BuildingCategory.Military,
-                Icon = "⚔️",
+                Icon = "[!]",
                 Level = 14,
                 MaxLevel = 25,
                 Description = "Train infantry and basic troops. More levels unlock new units.",
@@ -214,7 +214,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "archeryrange",
                 Name = "Archery Range",
                 Category = BuildingCategory.Military,
-                Icon = "🏹",
+                Icon = "[A]",
                 Level = 12,
                 MaxLevel = 25,
                 Description = "Train archers and ranged units. Higher levels unlock crossbowmen.",
@@ -247,7 +247,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "siegeworkshop",
                 Name = "Siege Workshop",
                 Category = BuildingCategory.Military,
-                Icon = "🎯",
+                Icon = "[+]",
                 Level = 8,
                 MaxLevel = 15,
                 Description = "Build siege weapons. Essential for attacking fortified cities.",
@@ -281,7 +281,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "arrowtower",
                 Name = "Arrow Tower",
                 Category = BuildingCategory.Defense,
-                Icon = "🏹",
+                Icon = "[A]",
                 Level = 10,
                 MaxLevel = 20,
                 Description = "Automatically fires at attackers. Place strategically for maximum effect.",
@@ -315,7 +315,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "academy",
                 Name = "Academy",
                 Category = BuildingCategory.Special,
-                Icon = "📚",
+                Icon = "[Y]",
                 Level = 9,
                 MaxLevel = 20,
                 Description = "Research technologies. Unlocks powerful upgrades for your kingdom.",
@@ -347,7 +347,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "embassy",
                 Name = "Embassy",
                 Category = BuildingCategory.Special,
-                Icon = "🏛️",
+                Icon = "[R]",
                 Level = 8,
                 MaxLevel = 15,
                 Description = "Manages alliances and reinforcements. Receive help from allies.",
@@ -603,7 +603,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
             int gemCost = CalculateBoostCost(item);
-            text.text = $"⚡ {gemCost}";
+            text.text = $"[!] {gemCost}";
             text.fontSize = 11;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;
@@ -897,7 +897,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateCurrentStats()
         {
-            CreateSectionLabel("📊 CURRENT STATS");
+            CreateSectionLabel("[#] CURRENT STATS");
             
             GameObject stats = new GameObject("CurrentStats");
             stats.transform.SetParent(_detailPanel.transform, false);
@@ -916,7 +916,7 @@ namespace ApexCitadels.PC.UI
                 CreateStatItem(stats.transform, $"{resourceIcon} Production", $"+{_selectedBuilding.ProductionRate}/hour");
             }
             
-            CreateStatItem(stats.transform, "📍 Category", _selectedBuilding.Category.ToString());
+            CreateStatItem(stats.transform, "[*] Category", _selectedBuilding.Category.ToString());
         }
 
         private void CreateStatItem(Transform parent, string label, string value)
@@ -967,7 +967,7 @@ namespace ApexCitadels.PC.UI
             // Requirements
             if (!string.IsNullOrEmpty(_selectedBuilding.Requirements))
             {
-                CreateText(_detailPanel.transform, $"⚠️ Requires: {_selectedBuilding.Requirements}", 10, TextAlignmentOptions.Center, new Color(0.8f, 0.6f, 0.3f));
+                CreateText(_detailPanel.transform, $"[!] Requires: {_selectedBuilding.Requirements}", 10, TextAlignmentOptions.Center, new Color(0.8f, 0.6f, 0.3f));
             }
             
             // Cost
@@ -979,7 +979,7 @@ namespace ApexCitadels.PC.UI
             // Bonuses
             if (_selectedBuilding.Bonuses != null && _selectedBuilding.Bonuses.Length > 0)
             {
-                CreateSectionLabel("✨ BONUSES");
+                CreateSectionLabel("[*] BONUSES");
                 
                 foreach (var bonus in _selectedBuilding.Bonuses)
                 {
@@ -1071,7 +1071,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateMaxLevelSection()
         {
-            CreateSectionLabel("🏆 MAXIMUM LEVEL REACHED");
+            CreateSectionLabel("[T] MAXIMUM LEVEL REACHED");
             
             GameObject maxInfo = new GameObject("MaxInfo");
             maxInfo.transform.SetParent(_detailPanel.transform, false);
@@ -1091,7 +1091,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 5;
             vlayout.padding = new RectOffset(15, 15, 15, 15);
             
-            CreateText(maxInfo.transform, "🌟", 32, TextAlignmentOptions.Center);
+            CreateText(maxInfo.transform, "[*]", 32, TextAlignmentOptions.Center);
             CreateText(maxInfo.transform, "This building is fully upgraded!", 12, TextAlignmentOptions.Center, maxLevelColor);
             CreateText(maxInfo.transform, "All bonuses are active", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
         }
@@ -1132,13 +1132,13 @@ namespace ApexCitadels.PC.UI
         {
             return resource switch
             {
-                ResourceType.Gold => "💰",
-                ResourceType.Stone => "🪨",
-                ResourceType.Wood => "🪵",
-                ResourceType.Iron => "⚙️",
-                ResourceType.Crystal => "💎",
-                ResourceType.ApexCoins => "🪙",
-                _ => "📦"
+                ResourceType.Gold => "[$]",
+                ResourceType.Stone => "[Q]",
+                ResourceType.Wood => "[W]",
+                ResourceType.Iron => "[P]",
+                ResourceType.Crystal => "[G]",
+                ResourceType.ApexCoins => "[$]",
+                _ => "[B]"
             };
         }
 

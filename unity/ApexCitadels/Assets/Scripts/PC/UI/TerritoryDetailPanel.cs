@@ -161,7 +161,7 @@ namespace ApexCitadels.PC.UI
                 string healthInfo = $"Health: {_currentTerritory.Health}/{_currentTerritory.MaxHealth}";
                 float healthPercent = (float)_currentTerritory.Health / Mathf.Max(1, _currentTerritory.MaxHealth) * 100f;
                 
-                string stateInfo = _currentTerritory.IsContested ? "⚔️ CONTESTED" : "🛡️ Secure";
+                string stateInfo = _currentTerritory.IsContested ? "[!] CONTESTED" : "[OK] Secure";
                 
                 string allianceInfo = string.IsNullOrEmpty(_currentTerritory.AllianceId) 
                     ? "No Alliance" 

@@ -294,7 +294,7 @@ namespace ApexCitadels.UI
         private void OnLevelUp(int newLevel)
         {
             UpdatePlayerInfo();
-            ShowStatus($"🎉 Level Up! Now level {newLevel}!");
+            ShowStatus($"[!] Level Up! Now level {newLevel}!");
         }
 
         private void OnExperienceGained(int amount)

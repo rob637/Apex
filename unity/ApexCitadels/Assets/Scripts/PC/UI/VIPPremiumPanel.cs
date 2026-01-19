@@ -296,7 +296,7 @@ namespace ApexCitadels.PC.UI
                 category = PremiumCategory.Boosts,
                 requiredTier = VIPTier.None,
                 gemCost = 50,
-                iconEmoji = "⚡",
+                iconEmoji = "[!]",
                 bonusValue = 100f,
                 bonusType = "xp"
             });
@@ -309,7 +309,7 @@ namespace ApexCitadels.PC.UI
                 category = PremiumCategory.Boosts,
                 requiredTier = VIPTier.None,
                 gemCost = 75,
-                iconEmoji = "💎",
+                iconEmoji = "[G]",
                 bonusValue = 50f,
                 bonusType = "resource"
             });
@@ -358,7 +358,7 @@ namespace ApexCitadels.PC.UI
                 category = PremiumCategory.Cosmetics,
                 requiredTier = VIPTier.Gold,
                 gemCost = 300,
-                iconEmoji = "✨"
+                iconEmoji = "[*]"
             });
 
             // Convenience
@@ -381,7 +381,7 @@ namespace ApexCitadels.PC.UI
                 category = PremiumCategory.Convenience,
                 requiredTier = VIPTier.Silver,
                 gemCost = 500,
-                iconEmoji = "📋"
+                iconEmoji = "[T]"
             });
 
             premiumItems.Add(new PremiumItem
@@ -502,7 +502,7 @@ namespace ApexCitadels.PC.UI
             GameObject gemsObj = new GameObject("Gems");
             gemsObj.transform.SetParent(headerObj.transform, false);
             gemsText = gemsObj.AddComponent<TextMeshProUGUI>();
-            gemsText.text = "💎 1,250";
+            gemsText.text = "[G] 1,250";
             gemsText.fontSize = 20;
             gemsText.fontStyle = FontStyles.Bold;
             gemsText.color = new Color(0.5f, 0.8f, 1f);
@@ -573,7 +573,7 @@ namespace ApexCitadels.PC.UI
             int daysLeft = (playerStatus.subscriptionEnd - DateTime.Now).Days;
             subscriptionText.text = daysLeft > 0 
                 ? $"📅 {daysLeft} days remaining" 
-                : "⚠️ Subscription expired";
+                : "[!] Subscription expired";
             subscriptionText.fontSize = 14;
             subscriptionText.color = daysLeft > 7 
                 ? new Color(0.5f, 0.8f, 0.5f) 
@@ -587,7 +587,7 @@ namespace ApexCitadels.PC.UI
                 GameObject renewObj = new GameObject("AutoRenew");
                 renewObj.transform.SetParent(statusObj.transform, false);
                 TextMeshProUGUI renewTMP = renewObj.AddComponent<TextMeshProUGUI>();
-                renewTMP.text = "🔄 Auto-renew ON";
+                renewTMP.text = "[R] Auto-renew ON";
                 renewTMP.fontSize = 12;
                 renewTMP.color = new Color(0.5f, 0.7f, 0.5f);
                 LayoutElement renewLE = renewObj.AddComponent<LayoutElement>();
@@ -612,7 +612,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "👑 VIP Tiers", "🛒 Premium Shop", "🎁 My Benefits" };
+            string[] tabNames = { "👑 VIP Tiers", "[M] Premium Shop", "[?] My Benefits" };
 
             for (int i = 0; i < tabNames.Length; i++)
             {
@@ -847,14 +847,14 @@ namespace ApexCitadels.PC.UI
             priceLE.preferredHeight = 22;
 
             // Benefits list
-            string benefits = $"💎 {tier.monthlyGems} gems/mo\n";
-            benefits += $"⚡ +{tier.xpBoost}% XP\n";
-            benefits += $"📦 +{tier.resourceBoost}% Resources\n";
+            string benefits = $"[G] {tier.monthlyGems} gems/mo\n";
+            benefits += $"[!] +{tier.xpBoost}% XP\n";
+            benefits += $"[B] +{tier.resourceBoost}% Resources\n";
             benefits += $"🏗️ +{tier.buildSpeedBoost}% Build Speed\n";
-            benefits += $"📋 +{tier.extraQueueSlots} Queue Slots\n";
+            benefits += $"[T] +{tier.extraQueueSlots} Queue Slots\n";
             if (tier.skipAds) benefits += "🚫 No Ads\n";
             if (tier.autoCollect) benefits += "🤖 Auto-Collect\n";
-            if (tier.prioritySupport) benefits += "⭐ Priority Support\n";
+            if (tier.prioritySupport) benefits += "[*] Priority Support\n";
             if (tier.exclusiveChat) benefits += "💬 VIP Chat\n";
 
             GameObject benefitsObj = new GameObject("Benefits");
@@ -915,7 +915,7 @@ namespace ApexCitadels.PC.UI
             GameObject titleObj = new GameObject("Title");
             titleObj.transform.SetParent(panelObj.transform, false);
             TextMeshProUGUI titleTMP = titleObj.AddComponent<TextMeshProUGUI>();
-            titleTMP.text = "🛒 PREMIUM SHOP";
+            titleTMP.text = "[M] PREMIUM SHOP";
             titleTMP.fontSize = 22;
             titleTMP.fontStyle = FontStyles.Bold;
             titleTMP.color = new Color(0.5f, 0.8f, 1f);
@@ -1046,12 +1046,12 @@ namespace ApexCitadels.PC.UI
             }
             else if ((int)item.requiredTier > (int)playerStatus.currentTier)
             {
-                priceTMP.text = $"🔒 Requires {item.requiredTier}";
+                priceTMP.text = $"[L] Requires {item.requiredTier}";
                 priceTMP.color = new Color(0.6f, 0.4f, 0.4f);
             }
             else
             {
-                priceTMP.text = $"💎 {item.gemCost}";
+                priceTMP.text = $"[G] {item.gemCost}";
                 priceTMP.color = new Color(0.5f, 0.8f, 1f);
             }
             
@@ -1081,7 +1081,7 @@ namespace ApexCitadels.PC.UI
             GameObject titleObj = new GameObject("Title");
             titleObj.transform.SetParent(panelObj.transform, false);
             TextMeshProUGUI titleTMP = titleObj.AddComponent<TextMeshProUGUI>();
-            titleTMP.text = "🎁 YOUR ACTIVE BENEFITS";
+            titleTMP.text = "[?] YOUR ACTIVE BENEFITS";
             titleTMP.fontSize = 22;
             titleTMP.fontStyle = FontStyles.Bold;
             titleTMP.color = new Color(0.5f, 1f, 0.5f);
@@ -1093,11 +1093,11 @@ namespace ApexCitadels.PC.UI
             var currentTierBenefits = allTiers.Find(t => t.tier == playerStatus.currentTier);
             if (currentTierBenefits != null)
             {
-                CreateBenefitRow(panelObj.transform, "💎 Monthly Gems", $"{currentTierBenefits.monthlyGems}/month");
-                CreateBenefitRow(panelObj.transform, "⚡ XP Boost", $"+{currentTierBenefits.xpBoost}%");
-                CreateBenefitRow(panelObj.transform, "📦 Resource Boost", $"+{currentTierBenefits.resourceBoost}%");
+                CreateBenefitRow(panelObj.transform, "[G] Monthly Gems", $"{currentTierBenefits.monthlyGems}/month");
+                CreateBenefitRow(panelObj.transform, "[!] XP Boost", $"+{currentTierBenefits.xpBoost}%");
+                CreateBenefitRow(panelObj.transform, "[B] Resource Boost", $"+{currentTierBenefits.resourceBoost}%");
                 CreateBenefitRow(panelObj.transform, "🏗️ Build Speed", $"+{currentTierBenefits.buildSpeedBoost}%");
-                CreateBenefitRow(panelObj.transform, "📋 Queue Slots", $"+{currentTierBenefits.extraQueueSlots}");
+                CreateBenefitRow(panelObj.transform, "[T] Queue Slots", $"+{currentTierBenefits.extraQueueSlots}");
                 CreateBenefitRow(panelObj.transform, "🚫 Ad-Free", currentTierBenefits.skipAds ? "Active" : "Inactive");
                 CreateBenefitRow(panelObj.transform, "🤖 Auto-Collect", currentTierBenefits.autoCollect ? "Active" : "Inactive");
             }
@@ -1106,7 +1106,7 @@ namespace ApexCitadels.PC.UI
             GameObject statsObj = new GameObject("Stats");
             statsObj.transform.SetParent(panelObj.transform, false);
             TextMeshProUGUI statsTMP = statsObj.AddComponent<TextMeshProUGUI>();
-            statsTMP.text = $"📊 Your VIP Stats:\n\n" +
+            statsTMP.text = $"[#] Your VIP Stats:\n\n" +
                 $"  • Total days as VIP: {playerStatus.totalDaysPremium}\n" +
                 $"  • Total gems received: {playerStatus.totalGemsReceived}\n" +
                 $"  • Premium items owned: {playerStatus.ownedPremiumItems.Count}";
@@ -1177,16 +1177,16 @@ namespace ApexCitadels.PC.UI
             footerLayout.childForceExpandWidth = false;
 
             // Buy gems button
-            CreateFooterButton(footerObj.transform, "💎 Buy Gems", BuyGems, new Color(0.3f, 0.5f, 0.7f));
+            CreateFooterButton(footerObj.transform, "[G] Buy Gems", BuyGems, new Color(0.3f, 0.5f, 0.7f));
             
             // Redeem code button
             CreateFooterButton(footerObj.transform, "🎟️ Redeem Code", RedeemCode, new Color(0.4f, 0.4f, 0.5f));
             
             // Gift premium button
-            CreateFooterButton(footerObj.transform, "🎁 Gift Premium", GiftPremium, new Color(0.5f, 0.4f, 0.5f));
+            CreateFooterButton(footerObj.transform, "[?] Gift Premium", GiftPremium, new Color(0.5f, 0.4f, 0.5f));
             
             // Manage subscription
-            CreateFooterButton(footerObj.transform, "⚙️ Manage", ManageSubscription, new Color(0.3f, 0.3f, 0.4f));
+            CreateFooterButton(footerObj.transform, "[P] Manage", ManageSubscription, new Color(0.3f, 0.3f, 0.4f));
         }
 
         private void CreateFooterButton(Transform parent, string text, UnityEngine.Events.UnityAction onClick, Color color)

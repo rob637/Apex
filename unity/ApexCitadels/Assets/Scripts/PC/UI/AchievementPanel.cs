@@ -434,7 +434,7 @@ namespace ApexCitadels.PC.UI
             iconObj.transform.SetParent(iconContainer.transform, false);
             
             TextMeshProUGUI icon = iconObj.AddComponent<TextMeshProUGUI>();
-            icon.text = ach.IsUnlocked ? ach.Icon : "🔒";
+            icon.text = ach.IsUnlocked ? ach.Icon : "[L]";
             icon.fontSize = 32;
             icon.alignment = TextAlignmentOptions.Center;
             icon.color = ach.IsUnlocked ? Color.white : new Color(0.5f, 0.5f, 0.5f);
@@ -645,7 +645,7 @@ namespace ApexCitadels.PC.UI
             _totalPoints += ach.Points;
             _unlockedCount++;
             
-            ApexLogger.Log($"[Achievement] 🏆 UNLOCKED: {ach.Title} (+{ach.Points} points)", ApexLogger.LogCategory.UI);
+            ApexLogger.Log($"[Achievement] [T] UNLOCKED: {ach.Title} (+{ach.Points} points)", ApexLogger.LogCategory.UI);
             
             OnAchievementUnlocked?.Invoke(ach);
             UpdateSummary();

@@ -286,9 +286,9 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(20, 20, 6, 6);
             hlayout.childForceExpandWidth = true;
             
-            _featuredTab = CreateTabButton(tabBar.transform, "⭐ Featured", () => ShowTab(SpectatorTab.Featured));
+            _featuredTab = CreateTabButton(tabBar.transform, "[*] Featured", () => ShowTab(SpectatorTab.Featured));
             _liveTab = CreateTabButton(tabBar.transform, "🔴 All Live", () => ShowTab(SpectatorTab.Live));
-            _friendsTab = CreateTabButton(tabBar.transform, "👥 Friends", () => ShowTab(SpectatorTab.Friends));
+            _friendsTab = CreateTabButton(tabBar.transform, "[P] Friends", () => ShowTab(SpectatorTab.Friends));
             
             UpdateTabHighlights();
         }
@@ -921,7 +921,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement vsLE = vsObj.AddComponent<LayoutElement>();
             vsLE.preferredWidth = 50;
             TextMeshProUGUI vsText = vsObj.AddComponent<TextMeshProUGUI>();
-            vsText.text = "⚔️";
+            vsText.text = "[!]";
             vsText.fontSize = 24;
             vsText.alignment = TextAlignmentOptions.Center;
             
@@ -1163,9 +1163,9 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                BattleType.Ranked => "🏆 Ranked",
-                BattleType.Tournament => "🎖️ Tournament",
-                BattleType.Casual => "⚔️ Casual",
+                BattleType.Ranked => "[T] Ranked",
+                BattleType.Tournament => "[M] Tournament",
+                BattleType.Casual => "[!] Casual",
                 _ => "Battle"
             };
         }

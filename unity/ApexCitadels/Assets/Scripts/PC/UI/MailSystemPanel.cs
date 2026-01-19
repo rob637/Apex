@@ -274,9 +274,9 @@ namespace ApexCitadels.PC.UI
             vlayout.padding = new RectOffset(8, 8, 10, 10);
             
             _inboxButton = CreateFolderButton(sidebar.transform, "📥 Inbox", () => ShowFolder(MailFolder.Inbox), true);
-            _sentButton = CreateFolderButton(sidebar.transform, "📤 Sent", () => ShowFolder(MailFolder.Sent), false);
-            _systemButton = CreateFolderButton(sidebar.transform, "⚙️ System", () => ShowFolder(MailFolder.System), false);
-            _trashButton = CreateFolderButton(sidebar.transform, "🗑️ Trash", () => ShowFolder(MailFolder.Trash), false);
+            _sentButton = CreateFolderButton(sidebar.transform, "[E] Sent", () => ShowFolder(MailFolder.Sent), false);
+            _systemButton = CreateFolderButton(sidebar.transform, "[P] System", () => ShowFolder(MailFolder.System), false);
+            _trashButton = CreateFolderButton(sidebar.transform, "[D] Trash", () => ShowFolder(MailFolder.Trash), false);
             
             // Add spacer
             GameObject spacer = new GameObject("Spacer");
@@ -518,8 +518,8 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.childForceExpandWidth = true;
             
-            CreateActionButton(actionsRow.transform, "↩️ Reply", OnReplyClicked, accentColor);
-            CreateActionButton(actionsRow.transform, "🗑️ Delete", OnDeleteClicked, new Color(0.6f, 0.3f, 0.3f));
+            CreateActionButton(actionsRow.transform, "[U] Reply", OnReplyClicked, accentColor);
+            CreateActionButton(actionsRow.transform, "[D] Delete", OnDeleteClicked, new Color(0.6f, 0.3f, 0.3f));
             CreateActionButton(actionsRow.transform, "📎 Claim All", OnClaimAllClicked, attachmentColor);
         }
 
@@ -708,8 +708,8 @@ namespace ApexCitadels.PC.UI
             sendHL.spacing = 15;
             sendHL.childForceExpandWidth = true;
             
-            CreateComposeActionButton(sendRow.transform, "❌ Cancel", HideComposePanel, new Color(0.4f, 0.25f, 0.25f));
-            _sendButton = CreateComposeActionButton(sendRow.transform, "📤 Send", OnSendClicked, accentColor);
+            CreateComposeActionButton(sendRow.transform, "[X] Cancel", HideComposePanel, new Color(0.4f, 0.25f, 0.25f));
+            _sendButton = CreateComposeActionButton(sendRow.transform, "[E] Send", OnSendClicked, accentColor);
         }
 
         private void CreateComposeField(Transform parent, string label, out TMP_InputField inputField, string placeholder)
@@ -874,7 +874,7 @@ namespace ApexCitadels.PC.UI
             {
                 Id = Guid.NewGuid().ToString(),
                 Sender = "SYSTEM",
-                Subject = "🎉 Daily Login Rewards",
+                Subject = "[!] Daily Login Rewards",
                 Body = "Thank you for logging in today! Here are your daily rewards.\n\nLogin streak: 7 days\nBonus multiplier: 1.5x",
                 ReceivedAt = DateTime.Now.AddHours(-1),
                 IsRead = false,
@@ -890,7 +890,7 @@ namespace ApexCitadels.PC.UI
             {
                 Id = Guid.NewGuid().ToString(),
                 Sender = "SYSTEM",
-                Subject = "⚔️ Battle Report: Victory!",
+                Subject = "[!] Battle Report: Victory!",
                 Body = "Your defense was successful!\n\nAttacker: EnemyPlayer99\nYour losses: 50 Infantry, 20 Archers\nEnemy losses: 200 Infantry, 80 Archers, 30 Cavalry\n\nResources captured: 2,500 Gold",
                 ReceivedAt = DateTime.Now.AddDays(-1),
                 IsRead = true,
@@ -1288,10 +1288,10 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                AttachmentType.Gold => "💰",
-                AttachmentType.Resource => "📦",
-                AttachmentType.Item => "🎁",
-                AttachmentType.Troop => "⚔️",
+                AttachmentType.Gold => "[$]",
+                AttachmentType.Resource => "[B]",
+                AttachmentType.Item => "[?]",
+                AttachmentType.Troop => "[!]",
                 _ => "📎"
             };
         }

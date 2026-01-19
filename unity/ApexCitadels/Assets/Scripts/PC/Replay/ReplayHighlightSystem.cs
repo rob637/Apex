@@ -331,7 +331,7 @@ namespace ApexCitadels.PC.Replay
         
         private void HandleSpecialAbility(BattleEvent evt)
         {
-            ShowHighlightText($"⚡ {evt.AbilityType.ToUpper()} ⚡", new Color(0.6f, 0.4f, 1f));
+            ShowHighlightText($"[!] {evt.AbilityType.ToUpper()} [!]", new Color(0.6f, 0.4f, 1f));
             
             if (_camera != null)
             {
@@ -351,7 +351,7 @@ namespace ApexCitadels.PC.Replay
         {
             bool victory = evt.Value > 0;
             
-            string text = victory ? "🏆 VICTORY! 🏆" : "💀 DEFEAT 💀";
+            string text = victory ? "[T] VICTORY! [T]" : "[X] DEFEAT [X]";
             Color color = victory ? new Color(1f, 0.84f, 0f) : new Color(0.6f, 0.2f, 0.2f);
             
             ShowHighlightText(text, color, 3f);

@@ -117,13 +117,13 @@ namespace ApexCitadels.PC.UI
             layout.spacing = 8;
             layout.padding = new RectOffset(10, 10, 8, 8);
             
-            // Create action buttons
-            CreateActionButton("attack", "⚔️", "Attack", KeyCode.Alpha1, "Launch attack on target");
-            CreateActionButton("defend", "🛡️", "Defend", KeyCode.Alpha2, "Fortify defenses");
-            CreateActionButton("scout", "👁️", "Scout", KeyCode.Alpha3, "Send scouts");
-            CreateActionButton("build", "🏗️", "Build", KeyCode.Alpha4, "Open build menu");
-            CreateActionButton("special", "⭐", "Special", KeyCode.Alpha5, "Use special ability");
-            CreateActionButton("rally", "🚩", "Rally", KeyCode.Alpha6, "Rally troops");
+            // Create action buttons (using ASCII-friendly text icons)
+            CreateActionButton("attack", "ATK", "Attack", KeyCode.Alpha1, "Launch attack on target");
+            CreateActionButton("defend", "DEF", "Defend", KeyCode.Alpha2, "Fortify defenses");
+            CreateActionButton("scout", "SCT", "Scout", KeyCode.Alpha3, "Send scouts");
+            CreateActionButton("build", "BLD", "Build", KeyCode.Alpha4, "Open build menu");
+            CreateActionButton("special", "SPL", "Special", KeyCode.Alpha5, "Use special ability");
+            CreateActionButton("rally", "RLY", "Rally", KeyCode.Alpha6, "Rally troops");
         }
 
         private void CreateActionButton(string id, string icon, string label, KeyCode hotkey, string tooltip)
@@ -292,7 +292,7 @@ namespace ApexCitadels.PC.UI
                     // Open build menu
                     if (PCUIManager.Instance != null)
                     {
-                        // PCUIManager.Instance.ShowBuildMenu();
+                        PCUIManager.Instance.TogglePanel(PCUIPanel.BuildMenu);
                     }
                     break;
                     

@@ -282,7 +282,7 @@ namespace ApexCitadels.PC.UI
             
             if (rewardPreviewText != null && evt.rewards?.Length > 0)
             {
-                rewardPreviewText.text = $"🎁 {evt.rewards[0]}";
+                rewardPreviewText.text = $"[?] {evt.rewards[0]}";
                 if (evt.rewards.Length > 1)
                 {
                     rewardPreviewText.text += $" +{evt.rewards.Length - 1} more";
@@ -424,12 +424,12 @@ namespace ApexCitadels.PC.UI
             {
                 case UrgencyLevel.Critical:
                     color = criticalColor;
-                    text = "⚠️ ENDING SOON!";
+                    text = "[!] ENDING SOON!";
                     flash = true;
                     break;
                 case UrgencyLevel.Urgent:
                     color = urgentColor;
-                    text = "⏰ HURRY!";
+                    text = "[T] HURRY!";
                     flash = true;
                     break;
                 case UrgencyLevel.Warning:

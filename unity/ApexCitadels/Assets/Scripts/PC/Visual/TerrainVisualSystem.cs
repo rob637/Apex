@@ -56,7 +56,7 @@ namespace ApexCitadels.PC.Visual
             CreateAtmosphere();
             PlaceDecorations();
             
-            ApexLogger.Log("✅ Terrain visual system initialized", ApexLogger.LogCategory.General);
+            ApexLogger.Log("[OK] Terrain visual system initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

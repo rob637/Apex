@@ -280,7 +280,7 @@ namespace ApexCitadels.PC.UI
             GameObject titleObj = new GameObject("Title");
             titleObj.transform.SetParent(headerObj.transform, false);
             headerTitle = titleObj.AddComponent<TextMeshProUGUI>();
-            headerTitle.text = "⚔️ SIEGE WARFARE";
+            headerTitle.text = "[!] SIEGE WARFARE";
             headerTitle.fontSize = 28;
             headerTitle.fontStyle = FontStyles.Bold;
             headerTitle.color = Color.white;
@@ -597,7 +597,7 @@ namespace ApexCitadels.PC.UI
             GameObject titleObj = new GameObject("Title");
             titleObj.transform.SetParent(unitObj.transform, false);
             TextMeshProUGUI titleTMP = titleObj.AddComponent<TextMeshProUGUI>();
-            titleTMP.text = "⚔️ YOUR FORCES";
+            titleTMP.text = "[!] YOUR FORCES";
             titleTMP.fontSize = 16;
             titleTMP.fontStyle = FontStyles.Bold;
             titleTMP.color = new Color(0.9f, 0.8f, 0.3f);
@@ -700,11 +700,11 @@ namespace ApexCitadels.PC.UI
             actionLayout.childControlHeight = true;
 
             // Create action buttons
-            CreateActionButton(actionObj.transform, "⚔️ Join Attack", JoinAttack, new Color(0.8f, 0.3f, 0.2f));
-            CreateActionButton(actionObj.transform, "🛡️ Join Defense", JoinDefense, new Color(0.2f, 0.5f, 0.8f));
+            CreateActionButton(actionObj.transform, "[!] Join Attack", JoinAttack, new Color(0.8f, 0.3f, 0.2f));
+            CreateActionButton(actionObj.transform, "[D] Join Defense", JoinDefense, new Color(0.2f, 0.5f, 0.8f));
             CreateActionButton(actionObj.transform, "📢 Rally Allies", RallyAllies, new Color(0.7f, 0.5f, 0.2f));
-            CreateActionButton(actionObj.transform, "🔄 Retreat", Retreat, new Color(0.5f, 0.3f, 0.3f));
-            CreateActionButton(actionObj.transform, "📋 Siege Log", ShowSiegeLog, new Color(0.3f, 0.3f, 0.4f));
+            CreateActionButton(actionObj.transform, "[R] Retreat", Retreat, new Color(0.5f, 0.3f, 0.3f));
+            CreateActionButton(actionObj.transform, "[T] Siege Log", ShowSiegeLog, new Color(0.3f, 0.3f, 0.4f));
         }
 
         private void CreateActionButton(Transform parent, string text, UnityEngine.Events.UnityAction onClick, Color color)
@@ -896,7 +896,7 @@ namespace ApexCitadels.PC.UI
             GameObject nameObj = new GameObject("Name");
             nameObj.transform.SetParent(itemObj.transform, false);
             TextMeshProUGUI nameTMP = nameObj.AddComponent<TextMeshProUGUI>();
-            nameTMP.text = $"🏰 {siege.targetCitadelName}";
+            nameTMP.text = $"[C] {siege.targetCitadelName}";
             nameTMP.fontSize = 16;
             nameTMP.fontStyle = FontStyles.Bold;
             nameTMP.color = Color.white;
@@ -907,7 +907,7 @@ namespace ApexCitadels.PC.UI
             GameObject allianceObj = new GameObject("Alliances");
             allianceObj.transform.SetParent(itemObj.transform, false);
             TextMeshProUGUI allianceTMP = allianceObj.AddComponent<TextMeshProUGUI>();
-            allianceTMP.text = $"⚔️ {siege.attackingAllianceName} vs 🛡️ {siege.defendingAllianceName}";
+            allianceTMP.text = $"[!] {siege.attackingAllianceName} vs [D] {siege.defendingAllianceName}";
             allianceTMP.fontSize = 12;
             allianceTMP.color = new Color(0.8f, 0.8f, 0.8f);
             LayoutElement allianceLE = allianceObj.AddComponent<LayoutElement>();
@@ -923,8 +923,8 @@ namespace ApexCitadels.PC.UI
                 SiegeStatus.ActiveBattle => $"🔴 ACTIVE - Health: {siege.citadelHealthPercent}%",
                 SiegeStatus.PreparationPhase => $"🟡 PREP PHASE - Starts soon",
                 SiegeStatus.Scheduled => $"📅 Scheduled: {siege.scheduledTime:MMM dd HH:mm}",
-                SiegeStatus.DefenseVictory => "🛡️ Defense Victory",
-                SiegeStatus.AttackVictory => "⚔️ Attack Victory",
+                SiegeStatus.DefenseVictory => "[D] Defense Victory",
+                SiegeStatus.AttackVictory => "[!] Attack Victory",
                 _ => siege.status.ToString()
             };
             
@@ -938,7 +938,7 @@ namespace ApexCitadels.PC.UI
             GameObject participantsObj = new GameObject("Participants");
             participantsObj.transform.SetParent(itemObj.transform, false);
             TextMeshProUGUI participantsTMP = participantsObj.AddComponent<TextMeshProUGUI>();
-            participantsTMP.text = $"👥 {siege.attackerParticipants} vs {siege.defenderParticipants}";
+            participantsTMP.text = $"[P] {siege.attackerParticipants} vs {siege.defenderParticipants}";
             participantsTMP.fontSize = 11;
             participantsTMP.color = new Color(0.6f, 0.6f, 0.6f);
             LayoutElement participantsLE = participantsObj.AddComponent<LayoutElement>();
@@ -980,7 +980,7 @@ namespace ApexCitadels.PC.UI
 
             string statusLine = currentSiege.status switch
             {
-                SiegeStatus.ActiveBattle => $"⚔️ BATTLE IN PROGRESS - Citadel Health: {currentSiege.citadelHealthPercent}%\n" +
+                SiegeStatus.ActiveBattle => $"[!] BATTLE IN PROGRESS - Citadel Health: {currentSiege.citadelHealthPercent}%\n" +
                     $"Walls Breached: {currentSiege.wallsBreached} | Towers Destroyed: {currentSiege.towersDestroyed}\n" +
                     $"Casualties - Attackers: {currentSiege.attackerCasualties} | Defenders: {currentSiege.defenderCasualties}",
                 SiegeStatus.PreparationPhase => $"🟡 PREPARATION PHASE\nDeploy your units and prepare defenses!\n" +
@@ -1126,7 +1126,7 @@ namespace ApexCitadels.PC.UI
             if (NotificationSystem.Instance != null)
             {
                 NotificationSystem.Instance.ShowInfo(
-                    $"⚔️ SIEGE STARTED: {siege.targetCitadelName}"
+                    $"[!] SIEGE STARTED: {siege.targetCitadelName}"
                 );
             }
         }

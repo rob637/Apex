@@ -330,7 +330,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_playerLevelText != null)
             {
-                _playerLevelText.text = $"⭐ Level {level}";
+                _playerLevelText.text = $"[*] Level {level}";
             }
         }
 

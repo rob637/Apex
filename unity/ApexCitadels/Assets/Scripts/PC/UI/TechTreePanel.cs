@@ -74,7 +74,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "MIL_001",
                 Name = "Basic Warfare",
                 Description = "Unlocks basic military units and combat strategies.",
-                Icon = "⚔️",
+                Icon = "[ATK]",
                 Branch = TechBranch.Military,
                 Tier = 1,
                 State = TechState.Unlocked,
@@ -87,7 +87,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "MIL_002",
                 Name = "Improved Weapons",
                 Description = "+10% attack power for all infantry units.",
-                Icon = "🗡️",
+                Icon = "[W]",
                 Branch = TechBranch.Military,
                 Tier = 2,
                 State = TechState.Available,
@@ -120,7 +120,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "MIL_004",
                 Name = "Siege Engineering",
                 Description = "Unlocks Siege weapons effective against buildings.",
-                Icon = "🏰",
+                Icon = "[C]",
                 Branch = TechBranch.Military,
                 Tier = 3,
                 State = TechState.Locked,
@@ -150,7 +150,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "MIL_006",
                 Name = "Battle Formations",
                 Description = "+15% defense when defending your territory.",
-                Icon = "🛡️",
+                Icon = "[DEF]",
                 Branch = TechBranch.Military,
                 Tier = 3,
                 State = TechState.Locked,
@@ -169,7 +169,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ECO_001",
                 Name = "Basic Economics",
                 Description = "Unlocks basic resource production buildings.",
-                Icon = "💰",
+                Icon = "[$]",
                 Branch = TechBranch.Economy,
                 Tier = 1,
                 State = TechState.Unlocked,
@@ -182,7 +182,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ECO_002",
                 Name = "Efficient Mining",
                 Description = "+25% Stone and Iron production.",
-                Icon = "⛏️",
+                Icon = "[M]",
                 Branch = TechBranch.Economy,
                 Tier = 2,
                 State = TechState.Available,
@@ -219,7 +219,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ECO_004",
                 Name = "Trade Routes",
                 Description = "Unlocks Market building. +10% Gold income.",
-                Icon = "🛒",
+                Icon = "[M]",
                 Branch = TechBranch.Economy,
                 Tier = 3,
                 State = TechState.Locked,
@@ -256,7 +256,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ECO_006",
                 Name = "Crystal Synthesis",
                 Description = "Unlocks Crystal production. Essential for advanced tech.",
-                Icon = "💎",
+                Icon = "[G]",
                 Branch = TechBranch.Economy,
                 Tier = 5,
                 State = TechState.Locked,
@@ -300,7 +300,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "DEF_003",
                 Name = "Reinforced Walls",
                 Description = "+50% wall HP. Walls slow enemy advancement.",
-                Icon = "🏛️",
+                Icon = "[G]",
                 Branch = TechBranch.Defense,
                 Tier = 3,
                 State = TechState.Locked,
@@ -318,7 +318,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "DEF_004",
                 Name = "Trap Systems",
                 Description = "Unlocks hidden traps that damage attackers.",
-                Icon = "⚠️",
+                Icon = "[!]",
                 Branch = TechBranch.Defense,
                 Tier = 3,
                 State = TechState.Locked,
@@ -333,7 +333,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "DEF_005",
                 Name = "Citadel Upgrade",
                 Description = "Unlock the ultimate fortress upgrade for your citadel.",
-                Icon = "🏰",
+                Icon = "[C]",
                 Branch = TechBranch.Defense,
                 Tier = 5,
                 State = TechState.Locked,
@@ -428,7 +428,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ALL_002",
                 Name = "Resource Sharing",
                 Description = "Share resources with alliance members. +10% shared bonus.",
-                Icon = "📦",
+                Icon = "[B]",
                 Branch = TechBranch.Alliance,
                 Tier = 2,
                 State = TechState.Available,
@@ -442,7 +442,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ALL_003",
                 Name = "Joint Operations",
                 Description = "Unlocks coordinated attacks with alliance members.",
-                Icon = "🎯",
+                Icon = "[+]",
                 Branch = TechBranch.Alliance,
                 Tier = 3,
                 State = TechState.Locked,
@@ -733,7 +733,7 @@ namespace ApexCitadels.PC.UI
                 TechState.Unlocked => "✓",
                 TechState.Researching => "⏳",
                 TechState.Available => "",
-                _ => "🔒"
+                _ => "[L]"
             };
             if (!string.IsNullOrEmpty(statusStr))
             {
@@ -872,7 +872,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateCostSection()
         {
-            CreateSectionLabel("📋 RESEARCH COST");
+            CreateSectionLabel("[T] RESEARCH COST");
             
             GameObject costs = new GameObject("Costs");
             costs.transform.SetParent(_detailPanel.transform, false);
@@ -919,7 +919,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateEffectsSection()
         {
-            CreateSectionLabel("⚡ EFFECTS");
+            CreateSectionLabel("[!] EFFECTS");
             
             GameObject effects = new GameObject("Effects");
             effects.transform.SetParent(_detailPanel.transform, false);
@@ -974,10 +974,10 @@ namespace ApexCitadels.PC.UI
                 {
                     string unitIcon = unit switch
                     {
-                        TroopType.Infantry => "⚔️",
-                        TroopType.Archer => "🏹",
+                        TroopType.Infantry => "[ATK]",
+                        TroopType.Archer => "[A]",
                         TroopType.Cavalry => "🐴",
-                        TroopType.Siege => "🏰",
+                        TroopType.Siege => "[C]",
                         TroopType.Elite => "👑",
                         _ => "👤"
                     };
@@ -1015,7 +1015,7 @@ namespace ApexCitadels.PC.UI
                     color = accentColor;
                     break;
                 default:
-                    label = "🔒 Locked";
+                    label = "[L] Locked";
                     color = lockedColor;
                     interactable = false;
                     break;
@@ -1072,13 +1072,13 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                ResourceType.Gold => "💰",
-                ResourceType.Stone => "🪨",
-                ResourceType.Wood => "🪵",
-                ResourceType.Iron => "⚙️",
-                ResourceType.Crystal => "💎",
-                ResourceType.ApexCoins => "🪙",
-                _ => "📦"
+                ResourceType.Gold => "[$]",
+                ResourceType.Stone => "[Q]",
+                ResourceType.Wood => "[W]",
+                ResourceType.Iron => "[P]",
+                ResourceType.Crystal => "[G]",
+                ResourceType.ApexCoins => "[$]",
+                _ => "[B]"
             };
         }
 

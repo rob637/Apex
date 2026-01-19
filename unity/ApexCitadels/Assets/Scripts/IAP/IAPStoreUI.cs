@@ -619,18 +619,18 @@ namespace ApexCitadels.UI
         {
             switch (type.ToLower())
             {
-                case "gems": return "Gems 💎";
-                case "coins": return "Coins 🪙";
-                case "stone": return "Stone 🪨";
-                case "wood": return "Wood 🪵";
-                case "metal": return "Metal ⚙️";
+                case "gems": return "Gems [G]";
+                case "coins": return "Coins [$]";
+                case "stone": return "Stone [Q]";
+                case "wood": return "Wood [W]";
+                case "metal": return "Metal [P]";
                 case "crystal": return "Crystals 💠";
-                case "xp": return "XP ⭐";
-                case "season_xp": return "Season XP 🌟";
+                case "xp": return "XP [*]";
+                case "season_xp": return "Season XP [*]";
                 case "premium_pass": return "Premium Pass 👑";
                 case "cosmetic": return "Cosmetic Item 🎨";
-                case "chest": return "Chest 📦";
-                case "boost": return "Boost ⚡";
+                case "chest": return "Chest [B]";
+                case "boost": return "Boost [!]";
                 default: return type;
             }
         }

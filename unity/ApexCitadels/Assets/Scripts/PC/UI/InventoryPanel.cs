@@ -69,7 +69,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Legendary armor forged from dragon scales. Provides exceptional protection.",
                 Category = ItemCategory.Equipment,
                 Rarity = InventoryItemRarity.Legendary,
-                Icon = "🛡️",
+                Icon = "[D]",
                 Quantity = 1,
                 IsEquipped = false,
                 Stats = new ItemStats { Defense = 150, Health = 500 },
@@ -84,7 +84,7 @@ namespace ApexCitadels.PC.UI
                 Description = "A sword that burns with eternal flame. Deals fire damage to enemies.",
                 Category = ItemCategory.Equipment,
                 Rarity = InventoryItemRarity.Epic,
-                Icon = "🗡️",
+                Icon = "[W]",
                 Quantity = 1,
                 IsEquipped = true,
                 Stats = new ItemStats { Attack = 120, FireDamage = 30 },
@@ -128,7 +128,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Restores 500 HP instantly.",
                 Category = ItemCategory.Consumable,
                 Rarity = InventoryItemRarity.Common,
-                Icon = "🧪",
+                Icon = "[P]",
                 Quantity = 25,
                 MaxStack = 99,
                 IsConsumable = true,
@@ -158,7 +158,7 @@ namespace ApexCitadels.PC.UI
                 Description = "+50% attack for 5 minutes.",
                 Category = ItemCategory.Consumable,
                 Rarity = InventoryItemRarity.Rare,
-                Icon = "⚔️",
+                Icon = "[!]",
                 Quantity = 5,
                 MaxStack = 20,
                 IsConsumable = true,
@@ -173,7 +173,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Grants 5000 XP when used.",
                 Category = ItemCategory.Consumable,
                 Rarity = InventoryItemRarity.Epic,
-                Icon = "📜",
+                Icon = "[S]",
                 Quantity = 3,
                 MaxStack = 10,
                 IsConsumable = true,
@@ -188,7 +188,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Instantly teleport to your citadel.",
                 Category = ItemCategory.Consumable,
                 Rarity = InventoryItemRarity.Rare,
-                Icon = "💎",
+                Icon = "[G]",
                 Quantity = 8,
                 MaxStack = 50,
                 IsConsumable = true,
@@ -204,7 +204,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Raw iron ore. Used in crafting.",
                 Category = ItemCategory.Material,
                 Rarity = InventoryItemRarity.Common,
-                Icon = "🪨",
+                Icon = "[Q]",
                 Quantity = 150,
                 MaxStack = 999,
                 SellPrice = 5
@@ -243,7 +243,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Magically infused wood. Used in staff crafting.",
                 Category = ItemCategory.Material,
                 Rarity = InventoryItemRarity.Epic,
-                Icon = "🪵",
+                Icon = "[W]",
                 Quantity = 20,
                 MaxStack = 200,
                 SellPrice = 100
@@ -256,7 +256,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Essence extracted from monsters. Used for enchantments.",
                 Category = ItemCategory.Material,
                 Rarity = InventoryItemRarity.Rare,
-                Icon = "✨",
+                Icon = "[*]",
                 Quantity = 67,
                 MaxStack = 500,
                 SellPrice = 25
@@ -270,7 +270,7 @@ namespace ApexCitadels.PC.UI
                 Description = "A coin from an ancient civilization. Collectors pay well for these.",
                 Category = ItemCategory.Treasure,
                 Rarity = InventoryItemRarity.Rare,
-                Icon = "🪙",
+                Icon = "[$]",
                 Quantity = 12,
                 MaxStack = 100,
                 SellPrice = 500
@@ -283,7 +283,7 @@ namespace ApexCitadels.PC.UI
                 Description = "A beautifully crafted golden chalice. Worth a fortune.",
                 Category = ItemCategory.Treasure,
                 Rarity = InventoryItemRarity.Epic,
-                Icon = "🏆",
+                Icon = "[T]",
                 Quantity = 1,
                 MaxStack = 1,
                 SellPrice = 3000
@@ -296,7 +296,7 @@ namespace ApexCitadels.PC.UI
                 Description = "A flawless ruby. Can be sold or used in crafting.",
                 Category = ItemCategory.Treasure,
                 Rarity = InventoryItemRarity.Rare,
-                Icon = "💎",
+                Icon = "[G]",
                 Quantity = 5,
                 MaxStack = 50,
                 SellPrice = 800
@@ -418,14 +418,14 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             
             // Title
-            CreateText(header.transform, "🎒 INVENTORY", 24, TextAlignmentOptions.Left, accentColor);
+            CreateText(header.transform, "[I] INVENTORY", 24, TextAlignmentOptions.Left, accentColor);
             
             // Slot counter
             GameObject spacer = new GameObject("Spacer");
             spacer.transform.SetParent(header.transform, false);
             spacer.AddComponent<LayoutElement>().flexibleWidth = 1;
             
-            CreateText(header.transform, $"📦 {_usedSlots}/{_maxSlots} slots", 14, TextAlignmentOptions.Right, new Color(0.7f, 0.7f, 0.7f));
+            CreateText(header.transform, $"[B] {_usedSlots}/{_maxSlots} slots", 14, TextAlignmentOptions.Right, new Color(0.7f, 0.7f, 0.7f));
         }
 
         private void CreateCategoryTabs(Transform parent)
@@ -441,11 +441,11 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateCategoryTab(tabs.transform, ItemCategory.All, "📋 All");
-            CreateCategoryTab(tabs.transform, ItemCategory.Equipment, "⚔️ Equipment");
-            CreateCategoryTab(tabs.transform, ItemCategory.Consumable, "🧪 Consumables");
-            CreateCategoryTab(tabs.transform, ItemCategory.Material, "🪨 Materials");
-            CreateCategoryTab(tabs.transform, ItemCategory.Treasure, "💰 Treasures");
+            CreateCategoryTab(tabs.transform, ItemCategory.All, "[T] All");
+            CreateCategoryTab(tabs.transform, ItemCategory.Equipment, "[!] Equipment");
+            CreateCategoryTab(tabs.transform, ItemCategory.Consumable, "[P] Consumables");
+            CreateCategoryTab(tabs.transform, ItemCategory.Material, "[Q] Materials");
+            CreateCategoryTab(tabs.transform, ItemCategory.Treasure, "[$] Treasures");
             CreateCategoryTab(tabs.transform, ItemCategory.Special, "🗝️ Special");
         }
 
@@ -507,7 +507,7 @@ namespace ApexCitadels.PC.UI
             spacer.transform.SetParent(bar.transform, false);
             spacer.AddComponent<LayoutElement>().flexibleWidth = 1;
             
-            CreateSmallButton(bar.transform, "🗑️ Sell Junk", () => SellJunk(), new Color(0.5f, 0.3f, 0.3f));
+            CreateSmallButton(bar.transform, "[D] Sell Junk", () => SellJunk(), new Color(0.5f, 0.3f, 0.3f));
         }
 
         private void CreateSortButton(Transform parent, SortMode mode, string label)
@@ -644,7 +644,7 @@ namespace ApexCitadels.PC.UI
             // Equipped indicator
             if (item.IsEquipped)
             {
-                CreateText(slot.transform, "⚡", 12, TextAlignmentOptions.Center, goldColor);
+                CreateText(slot.transform, "[!]", 12, TextAlignmentOptions.Center, goldColor);
             }
         }
 
@@ -792,13 +792,13 @@ namespace ApexCitadels.PC.UI
             // Equipped indicator
             if (_selectedItem.IsEquipped)
             {
-                CreateText(header.transform, "⚡ EQUIPPED", 11, TextAlignmentOptions.Center, goldColor);
+                CreateText(header.transform, "[!] EQUIPPED", 11, TextAlignmentOptions.Center, goldColor);
             }
         }
 
         private void CreateStatsSection()
         {
-            CreateSectionLabel("📊 STATS");
+            CreateSectionLabel("[#] STATS");
             
             GameObject stats = new GameObject("Stats");
             stats.transform.SetParent(_detailPanel.transform, false);
@@ -810,11 +810,11 @@ namespace ApexCitadels.PC.UI
             grid.constraintCount = 2;
             
             var s = _selectedItem.Stats;
-            if (s.Attack > 0) CreateStatItem(stats.transform, "⚔️ Attack", $"+{s.Attack}");
-            if (s.Defense > 0) CreateStatItem(stats.transform, "🛡️ Defense", $"+{s.Defense}");
+            if (s.Attack > 0) CreateStatItem(stats.transform, "[!] Attack", $"+{s.Attack}");
+            if (s.Defense > 0) CreateStatItem(stats.transform, "[D] Defense", $"+{s.Defense}");
             if (s.Health > 0) CreateStatItem(stats.transform, "❤️ Health", $"+{s.Health}");
-            if (s.Speed > 0) CreateStatItem(stats.transform, "⚡ Speed", $"+{s.Speed}");
-            if (s.FireDamage > 0) CreateStatItem(stats.transform, "🔥 Fire DMG", $"+{s.FireDamage}");
+            if (s.Speed > 0) CreateStatItem(stats.transform, "[!] Speed", $"+{s.Speed}");
+            if (s.FireDamage > 0) CreateStatItem(stats.transform, "[*] Fire DMG", $"+{s.FireDamage}");
             if (s.Stealth > 0) CreateStatItem(stats.transform, "👻 Stealth", $"+{s.Stealth}");
         }
 
@@ -833,7 +833,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateEffectSection()
         {
-            CreateSectionLabel("✨ EFFECT");
+            CreateSectionLabel("[*] EFFECT");
             
             GameObject effect = new GameObject("Effect");
             effect.transform.SetParent(_detailPanel.transform, false);
@@ -849,7 +849,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateInfoSection()
         {
-            CreateSectionLabel("📋 INFO");
+            CreateSectionLabel("[T] INFO");
             
             GameObject info = new GameObject("Info");
             info.transform.SetParent(_detailPanel.transform, false);
@@ -867,8 +867,8 @@ namespace ApexCitadels.PC.UI
             
             if (!_selectedItem.IsUnsellable)
             {
-                CreateText(info.transform, $"Sell Value: {_selectedItem.SellPrice:N0} 💰 each", 11, TextAlignmentOptions.Center, goldColor);
-                CreateText(info.transform, $"Total Value: {(_selectedItem.SellPrice * _selectedItem.Quantity):N0} 💰", 11, TextAlignmentOptions.Center, goldColor);
+                CreateText(info.transform, $"Sell Value: {_selectedItem.SellPrice:N0} [$] each", 11, TextAlignmentOptions.Center, goldColor);
+                CreateText(info.transform, $"Total Value: {(_selectedItem.SellPrice * _selectedItem.Quantity):N0} [$]", 11, TextAlignmentOptions.Center, goldColor);
             }
             else
             {
@@ -891,33 +891,33 @@ namespace ApexCitadels.PC.UI
             // Use/Equip button
             if (_selectedItem.IsConsumable)
             {
-                CreateActionButton(actions.transform, "🧪 Use Item", () => UseItem(_selectedItem), new Color(0.3f, 0.6f, 0.3f));
+                CreateActionButton(actions.transform, "[P] Use Item", () => UseItem(_selectedItem), new Color(0.3f, 0.6f, 0.3f));
             }
             else if (_selectedItem.Category == ItemCategory.Equipment)
             {
                 if (_selectedItem.IsEquipped)
                 {
-                    CreateActionButton(actions.transform, "❌ Unequip", () => UnequipItem(_selectedItem), new Color(0.5f, 0.4f, 0.3f));
+                    CreateActionButton(actions.transform, "[X] Unequip", () => UnequipItem(_selectedItem), new Color(0.5f, 0.4f, 0.3f));
                 }
                 else
                 {
-                    CreateActionButton(actions.transform, "⚔️ Equip", () => EquipItem(_selectedItem), accentColor);
+                    CreateActionButton(actions.transform, "[!] Equip", () => EquipItem(_selectedItem), accentColor);
                 }
             }
             
             // Sell button
             if (!_selectedItem.IsUnsellable)
             {
-                CreateActionButton(actions.transform, $"💰 Sell ({_selectedItem.SellPrice:N0})", () => SellItem(_selectedItem, 1), goldColor);
+                CreateActionButton(actions.transform, $"[$] Sell ({_selectedItem.SellPrice:N0})", () => SellItem(_selectedItem, 1), goldColor);
                 
                 if (_selectedItem.Quantity > 1)
                 {
-                    CreateActionButton(actions.transform, $"💰 Sell All ({_selectedItem.SellPrice * _selectedItem.Quantity:N0})", () => SellItem(_selectedItem, _selectedItem.Quantity), new Color(0.8f, 0.6f, 0.2f));
+                    CreateActionButton(actions.transform, $"[$] Sell All ({_selectedItem.SellPrice * _selectedItem.Quantity:N0})", () => SellItem(_selectedItem, _selectedItem.Quantity), new Color(0.8f, 0.6f, 0.2f));
                 }
             }
             
             // Drop button
-            CreateActionButton(actions.transform, "🗑️ Drop", () => DropItem(_selectedItem, 1), new Color(0.5f, 0.3f, 0.3f));
+            CreateActionButton(actions.transform, "[D] Drop", () => DropItem(_selectedItem, 1), new Color(0.5f, 0.3f, 0.3f));
         }
 
         #region UI Helpers

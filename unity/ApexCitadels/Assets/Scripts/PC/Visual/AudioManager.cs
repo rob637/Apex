@@ -73,7 +73,7 @@ namespace ApexCitadels.PC.Visual
             LoadAudioClips();
             StartAmbient("ENV25_village_day");
             
-            ApexLogger.Log("✅ Audio manager initialized", ApexLogger.LogCategory.General);
+            ApexLogger.Log("[OK] Audio manager initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

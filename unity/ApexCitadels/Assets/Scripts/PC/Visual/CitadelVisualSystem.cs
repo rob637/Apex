@@ -55,7 +55,7 @@ namespace ApexCitadels.PC.Visual
         private void Start()
         {
             CreateFallbackPrefabs();
-            ApexLogger.Log("✅ Citadel visual system initialized", ApexLogger.LogCategory.General);
+            ApexLogger.Log("[OK] Citadel visual system initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

@@ -173,11 +173,11 @@ namespace ApexCitadels.PC.Combat
             
             string icon = resourceName.ToLower() switch
             {
-                "gold" => "🪙",
-                "stone" => "🪨",
-                "wood" => "🪵",
-                "metal" => "⚙️",
-                "crystal" => "💎",
+                "gold" => "[$]",
+                "stone" => "[Q]",
+                "wood" => "[W]",
+                "metal" => "[P]",
+                "crystal" => "[G]",
                 _ => ""
             };
             

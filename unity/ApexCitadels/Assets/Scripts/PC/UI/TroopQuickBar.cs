@@ -48,12 +48,12 @@ namespace ApexCitadels.PC.UI
         // Troop icons
         private readonly Dictionary<TroopType, string> troopIcons = new Dictionary<TroopType, string>
         {
-            { TroopType.Infantry, "⚔️" },
-            { TroopType.Archer, "🏹" },
+            { TroopType.Infantry, "[!]" },
+            { TroopType.Archer, "[A]" },
             { TroopType.Cavalry, "🐴" },
             { TroopType.Siege, "💣" },
             { TroopType.Mage, "🔮" },
-            { TroopType.Guardian, "🛡️" }
+            { TroopType.Guardian, "[D]" }
         };
 
         private void Awake()
@@ -235,7 +235,7 @@ namespace ApexCitadels.PC.UI
             RectTransform rt = section.AddComponent<RectTransform>();
             rt.sizeDelta = new Vector2(100, 50);
 
-            armyStatusText = CreateText(rt, "👥 0/100\n⚡ 0", 11);
+            armyStatusText = CreateText(rt, "[P] 0/100\n[!] 0", 11);
             armyStatusText.rectTransform.anchorMin = Vector2.zero;
             armyStatusText.rectTransform.anchorMax = Vector2.one;
             armyStatusText.rectTransform.offsetMin = Vector2.zero;
@@ -263,7 +263,7 @@ namespace ApexCitadels.PC.UI
             colors.highlightedColor = new Color(0.25f, 0.5f, 0.35f, 1f);
             btn.colors = colors;
 
-            TextMeshProUGUI iconText = CreateText(rt, "🎖️", 22);
+            TextMeshProUGUI iconText = CreateText(rt, "[M]", 22);
             iconText.rectTransform.anchorMin = Vector2.zero;
             iconText.rectTransform.anchorMax = Vector2.one;
             iconText.rectTransform.offsetMin = Vector2.zero;
@@ -396,7 +396,7 @@ namespace ApexCitadels.PC.UI
 
             if (armyStatusText != null)
             {
-                armyStatusText.text = $"👥 {armySize}/{maxArmy}\n⚡ {power:N0}";
+                armyStatusText.text = $"[P] {armySize}/{maxArmy}\n[!] {power:N0}";
             }
         }
 

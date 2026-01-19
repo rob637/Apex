@@ -107,15 +107,15 @@ namespace ApexCitadels.PC.Economy
         public override string ToString()
         {
             var parts = new List<string>();
-            if (Stone > 0) parts.Add($"🪨{Stone}");
-            if (Wood > 0) parts.Add($"🪵{Wood}");
+            if (Stone > 0) parts.Add($"[Q]{Stone}");
+            if (Wood > 0) parts.Add($"[W]{Wood}");
             if (Iron > 0) parts.Add($"🔩{Iron}");
-            if (Crystal > 0) parts.Add($"💎{Crystal}");
-            if (ArcaneEssence > 0) parts.Add($"✨{ArcaneEssence}");
+            if (Crystal > 0) parts.Add($"[G]{Crystal}");
+            if (ArcaneEssence > 0) parts.Add($"[*]{ArcaneEssence}");
             if (Gems > 0) parts.Add($"💠{Gems}");
-            if (Gold > 0) parts.Add($"🪙{Gold}");
+            if (Gold > 0) parts.Add($"[$]{Gold}");
             if (Food > 0) parts.Add($"🍖{Food}");
-            if (Energy > 0) parts.Add($"⚡{Energy}");
+            if (Energy > 0) parts.Add($"[!]{Energy}");
             return string.Join(" ", parts);
         }
     }

@@ -572,12 +572,12 @@ namespace ApexCitadels.Tutorial
         {
             return type.ToLower() switch
             {
-                "gems" => "Gems 💎",
-                "coins" => "Coins 🪙",
-                "stone" => "Stone 🪨",
-                "wood" => "Wood 🪵",
-                "metal" => "Metal ⚙️",
-                "xp" => "XP ⭐",
+                "gems" => "Gems [G]",
+                "coins" => "Coins [$]",
+                "stone" => "Stone [S]",
+                "wood" => "Wood [W]",
+                "metal" => "Metal [M]",
+                "xp" => "XP [*]",
                 _ => type
             };
         }

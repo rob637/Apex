@@ -327,14 +327,14 @@ namespace ApexCitadels.PC.UI
             return type switch
             {
                 ToastNotificationType.Info => "ℹ️",
-                ToastNotificationType.Success => "✅",
-                ToastNotificationType.Warning => "⚠️",
-                ToastNotificationType.Error => "❌",
-                ToastNotificationType.Resource => "💰",
-                ToastNotificationType.Combat => "⚔️",
-                ToastNotificationType.Alliance => "🛡️",
-                ToastNotificationType.Quest => "📋",
-                ToastNotificationType.Achievement => "🏆",
+                ToastNotificationType.Success => "[OK]",
+                ToastNotificationType.Warning => "[!]",
+                ToastNotificationType.Error => "[X]",
+                ToastNotificationType.Resource => "[$]",
+                ToastNotificationType.Combat => "[!]",
+                ToastNotificationType.Alliance => "[D]",
+                ToastNotificationType.Quest => "[T]",
+                ToastNotificationType.Achievement => "[T]",
                 ToastNotificationType.LevelUp => "⬆️",
                 _ => "📢"
             };

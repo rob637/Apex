@@ -35,12 +35,12 @@ namespace ApexCitadels.DailyRewards
         {
             return type switch
             {
-                ResourceType.Stone => "🪨",
-                ResourceType.Wood => "🪵",
-                ResourceType.Metal => "⚙️",
-                ResourceType.Crystal => "💎",
+                ResourceType.Stone => "[Q]",
+                ResourceType.Wood => "[W]",
+                ResourceType.Metal => "[P]",
+                ResourceType.Crystal => "[G]",
                 ResourceType.Gems => "💠",
-                _ => "📦"
+                _ => "[B]"
             };
         }
     }

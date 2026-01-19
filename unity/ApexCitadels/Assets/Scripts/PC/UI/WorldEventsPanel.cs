@@ -58,7 +58,7 @@ namespace ApexCitadels.PC.UI
             _activeEvents.Add(new WorldEvent
             {
                 EventId = "EVENT_001",
-                Name = "🔥 Dragon's Fury",
+                Name = "[*] Dragon's Fury",
                 Description = "A legendary dragon has awakened! Rally your troops and defeat the beast before it destroys everything.",
                 Type = WorldEventType.WorldBoss,
                 StartTime = DateTime.Now.AddHours(-12),
@@ -70,8 +70,8 @@ namespace ApexCitadels.PC.UI
                 MaxProgress = 100,
                 Rewards = new List<EventReward>
                 {
-                    new EventReward { Name = "Dragon Scale Armor", Icon = "🛡️", Rarity = "Legendary", Claimed = false },
-                    new EventReward { Name = "10,000 Gold", Icon = "💰", Rarity = "Common", Claimed = true },
+                    new EventReward { Name = "Dragon Scale Armor", Icon = "[D]", Rarity = "Legendary", Claimed = false },
+                    new EventReward { Name = "10,000 Gold", Icon = "[$]", Rarity = "Common", Claimed = true },
                     new EventReward { Name = "Dragon Egg", Icon = "🥚", Rarity = "Epic", Claimed = false }
                 }
             });
@@ -79,7 +79,7 @@ namespace ApexCitadels.PC.UI
             _activeEvents.Add(new WorldEvent
             {
                 EventId = "EVENT_002",
-                Name = "⚔️ Conquest Week",
+                Name = "[!] Conquest Week",
                 Description = "Double rewards for territory captures! Expand your empire during this limited-time event.",
                 Type = WorldEventType.ResourceBoost,
                 StartTime = DateTime.Now.AddDays(-3),
@@ -91,14 +91,14 @@ namespace ApexCitadels.PC.UI
                 Rewards = new List<EventReward>
                 {
                     new EventReward { Name = "Conqueror Banner", Icon = "🚩", Rarity = "Rare", Claimed = false },
-                    new EventReward { Name = "50 Apex Coins", Icon = "🪙", Rarity = "Rare", Claimed = false }
+                    new EventReward { Name = "50 Apex Coins", Icon = "[$]", Rarity = "Rare", Claimed = false }
                 }
             });
             
             _activeEvents.Add(new WorldEvent
             {
                 EventId = "EVENT_003",
-                Name = "🏆 Alliance Tournament",
+                Name = "[T] Alliance Tournament",
                 Description = "Compete against other alliances in strategic battles. Earn glory for your alliance!",
                 Type = WorldEventType.Tournament,
                 StartTime = DateTime.Now.AddDays(-1),
@@ -111,8 +111,8 @@ namespace ApexCitadels.PC.UI
                 CurrentRank = 12,
                 Rewards = new List<EventReward>
                 {
-                    new EventReward { Name = "Tournament Trophy", Icon = "🏆", Rarity = "Epic", Claimed = false },
-                    new EventReward { Name = "Champion's Chest", Icon = "📦", Rarity = "Legendary", Claimed = false }
+                    new EventReward { Name = "Tournament Trophy", Icon = "[T]", Rarity = "Epic", Claimed = false },
+                    new EventReward { Name = "Champion's Chest", Icon = "[B]", Rarity = "Legendary", Claimed = false }
                 }
             });
             
@@ -131,7 +131,7 @@ namespace ApexCitadels.PC.UI
             _upcomingEvents.Add(new WorldEvent
             {
                 EventId = "EVENT_005",
-                Name = "💎 Crystal Rush",
+                Name = "[G] Crystal Rush",
                 Description = "Crystal deposits have been discovered! Race to gather rare crystals before they disappear.",
                 Type = WorldEventType.ResourceBoost,
                 StartTime = DateTime.Now.AddDays(5),
@@ -292,7 +292,7 @@ namespace ApexCitadels.PC.UI
             iconTextRect.offsetMin = Vector2.zero;
             iconTextRect.offsetMax = Vector2.zero;
             TextMeshProUGUI iconText = iconTextObj.AddComponent<TextMeshProUGUI>();
-            iconText.text = "🔥";
+            iconText.text = "[*]";
             iconText.fontSize = 48;
             iconText.alignment = TextAlignmentOptions.Center;
             
@@ -318,7 +318,7 @@ namespace ApexCitadels.PC.UI
             string timeStr = remaining.TotalDays >= 1 
                 ? $"{(int)remaining.TotalDays}d {remaining.Hours}h remaining" 
                 : $"{remaining.Hours}h {remaining.Minutes}m remaining";
-            CreateText(info.transform, $"⏰ {timeStr}", 12, TextAlignmentOptions.Left, urgentColor);
+            CreateText(info.transform, $"[T] {timeStr}", 12, TextAlignmentOptions.Left, urgentColor);
             
             // Progress
             CreateProgressDisplay(info.transform, featuredEvent);
@@ -370,7 +370,7 @@ namespace ApexCitadels.PC.UI
             // Participants
             if (evt.CurrentParticipants > 0)
             {
-                CreateText(progress.transform, $"👥 {evt.CurrentParticipants:N0} participating", 11, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
+                CreateText(progress.transform, $"[P] {evt.CurrentParticipants:N0} participating", 11, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             }
         }
 
@@ -418,10 +418,10 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             hlayout.spacing = 5;
             
-            CreateTab(tabs.transform, EventTab.Active, $"🔥 Active ({_activeEvents.Count})");
+            CreateTab(tabs.transform, EventTab.Active, $"[*] Active ({_activeEvents.Count})");
             CreateTab(tabs.transform, EventTab.Upcoming, $"📅 Upcoming ({_upcomingEvents.Count})");
-            CreateTab(tabs.transform, EventTab.Completed, "✅ Completed");
-            CreateTab(tabs.transform, EventTab.Rewards, "🎁 Rewards");
+            CreateTab(tabs.transform, EventTab.Completed, "[OK] Completed");
+            CreateTab(tabs.transform, EventTab.Rewards, "[?] Rewards");
         }
 
         private void CreateTab(Transform parent, EventTab tab, string label)
@@ -569,11 +569,11 @@ namespace ApexCitadels.PC.UI
             string typeIcon = evt.Type switch
             {
                 WorldEventType.WorldBoss => "👹",
-                WorldEventType.Tournament => "🏆",
+                WorldEventType.Tournament => "[T]",
                 WorldEventType.Seasonal => "🎄",
-                WorldEventType.ResourceBoost => "⚡",
-                WorldEventType.Challenge => "🎯",
-                _ => "📋"
+                WorldEventType.ResourceBoost => "[!]",
+                WorldEventType.Challenge => "[+]",
+                _ => "[T]"
             };
             CreateText(badge.transform, typeIcon, 32, TextAlignmentOptions.Center);
             CreateText(badge.transform, evt.Difficulty.ToString(), 10, TextAlignmentOptions.Center, GetDifficultyColor(evt.Difficulty));
@@ -608,7 +608,7 @@ namespace ApexCitadels.PC.UI
                     ? $"{(int)remaining.TotalDays}d {remaining.Hours}h left" 
                     : $"{remaining.Hours}h {remaining.Minutes}m left";
                 Color timeColor = remaining.TotalHours < 24 ? urgentColor : new Color(0.8f, 0.8f, 0.8f);
-                CreateText(info.transform, $"⏰ {endStr}", 11, TextAlignmentOptions.Left, timeColor);
+                CreateText(info.transform, $"[T] {endStr}", 11, TextAlignmentOptions.Left, timeColor);
             }
             
             // Progress/Rank (for active events)
@@ -635,7 +635,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                CreateSmallButton(card.transform, "🔔 Remind", () => SetReminder(evt), new Color(0.3f, 0.3f, 0.4f));
+                CreateSmallButton(card.transform, "[!] Remind", () => SetReminder(evt), new Color(0.3f, 0.3f, 0.4f));
             }
         }
 
@@ -710,7 +710,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 10, 10);
             
             // Checkmark
-            CreateText(card.transform, "✅", 24, TextAlignmentOptions.Center);
+            CreateText(card.transform, "[OK]", 24, TextAlignmentOptions.Center);
             
             // Info
             GameObject info = new GameObject("Info");
@@ -742,7 +742,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateRewardsContent()
         {
-            CreateSectionHeader("🎁 Unclaimed Rewards");
+            CreateSectionHeader("[?] Unclaimed Rewards");
             
             bool hasUnclaimed = false;
             foreach (var evt in _activeEvents)
@@ -763,7 +763,7 @@ namespace ApexCitadels.PC.UI
                 CreateText(_contentContainer.transform, "No unclaimed rewards. Complete event milestones to earn rewards!", 13, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             }
             
-            CreateSectionHeader("📜 Claimed Rewards");
+            CreateSectionHeader("[S] Claimed Rewards");
             
             foreach (var evt in _activeEvents)
             {

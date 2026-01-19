@@ -197,36 +197,36 @@ namespace ApexCitadels.PC.UI
             // Defense buildings
             buildingDefs.Add(new PlaceableBuildingDef { buildingType = "wall", displayName = "Wall", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(1, 1), baseCost = 100, iconEmoji = "🧱" });
             buildingDefs.Add(new PlaceableBuildingDef { buildingType = "tower", displayName = "Tower", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(2, 2), baseCost = 500, iconEmoji = "🗼" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "gate", displayName = "Gate", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(2, 1), baseCost = 300, iconEmoji = "🚪" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "moat", displayName = "Moat", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(1, 1), baseCost = 150, iconEmoji = "🌊" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "ballista", displayName = "Ballista", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(2, 2), baseCost = 800, iconEmoji = "🎯" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "gate", displayName = "Gate", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(2, 1), baseCost = 300, iconEmoji = "[G]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "moat", displayName = "Moat", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(1, 1), baseCost = 150, iconEmoji = "[~]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "ballista", displayName = "Ballista", category = BlueprintBuildingCategory.Defense, size = new Vector2Int(2, 2), baseCost = 800, iconEmoji = "[+]" });
 
             // Production buildings
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "farm", displayName = "Farm", category = BlueprintBuildingCategory.Production, size = new Vector2Int(3, 3), baseCost = 400, iconEmoji = "🌾" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "mine", displayName = "Mine", category = BlueprintBuildingCategory.Production, size = new Vector2Int(2, 2), baseCost = 600, iconEmoji = "⛏️" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "lumber", displayName = "Lumbermill", category = BlueprintBuildingCategory.Production, size = new Vector2Int(2, 2), baseCost = 350, iconEmoji = "🪓" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "quarry", displayName = "Quarry", category = BlueprintBuildingCategory.Production, size = new Vector2Int(3, 2), baseCost = 550, iconEmoji = "🪨" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "farm", displayName = "Farm", category = BlueprintBuildingCategory.Production, size = new Vector2Int(3, 3), baseCost = 400, iconEmoji = "[F]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "mine", displayName = "Mine", category = BlueprintBuildingCategory.Production, size = new Vector2Int(2, 2), baseCost = 600, iconEmoji = "[M]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "lumber", displayName = "Lumbermill", category = BlueprintBuildingCategory.Production, size = new Vector2Int(2, 2), baseCost = 350, iconEmoji = "[L]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "quarry", displayName = "Quarry", category = BlueprintBuildingCategory.Production, size = new Vector2Int(3, 2), baseCost = 550, iconEmoji = "[Q]" });
 
             // Military buildings
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "barracks", displayName = "Barracks", category = BlueprintBuildingCategory.Military, size = new Vector2Int(3, 3), baseCost = 1000, iconEmoji = "⚔️" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "archery", displayName = "Archery Range", category = BlueprintBuildingCategory.Military, size = new Vector2Int(3, 2), baseCost = 800, iconEmoji = "🏹" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "stable", displayName = "Stables", category = BlueprintBuildingCategory.Military, size = new Vector2Int(3, 3), baseCost = 1200, iconEmoji = "🐎" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "siege_workshop", displayName = "Siege Workshop", category = BlueprintBuildingCategory.Military, size = new Vector2Int(4, 3), baseCost = 2000, iconEmoji = "🔧" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "barracks", displayName = "Barracks", category = BlueprintBuildingCategory.Military, size = new Vector2Int(3, 3), baseCost = 1000, iconEmoji = "[B]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "archery", displayName = "Archery Range", category = BlueprintBuildingCategory.Military, size = new Vector2Int(3, 2), baseCost = 800, iconEmoji = "[A]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "stable", displayName = "Stables", category = BlueprintBuildingCategory.Military, size = new Vector2Int(3, 3), baseCost = 1200, iconEmoji = "[H]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "siege_workshop", displayName = "Siege Workshop", category = BlueprintBuildingCategory.Military, size = new Vector2Int(4, 3), baseCost = 2000, iconEmoji = "[S]" });
 
             // Storage buildings
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "warehouse", displayName = "Warehouse", category = BlueprintBuildingCategory.Storage, size = new Vector2Int(3, 2), baseCost = 700, iconEmoji = "📦" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "granary", displayName = "Granary", category = BlueprintBuildingCategory.Storage, size = new Vector2Int(2, 2), baseCost = 450, iconEmoji = "🏛️" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "treasury", displayName = "Treasury", category = BlueprintBuildingCategory.Storage, size = new Vector2Int(2, 2), baseCost = 1500, iconEmoji = "💰" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "warehouse", displayName = "Warehouse", category = BlueprintBuildingCategory.Storage, size = new Vector2Int(3, 2), baseCost = 700, iconEmoji = "[W]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "granary", displayName = "Granary", category = BlueprintBuildingCategory.Storage, size = new Vector2Int(2, 2), baseCost = 450, iconEmoji = "[R]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "treasury", displayName = "Treasury", category = BlueprintBuildingCategory.Storage, size = new Vector2Int(2, 2), baseCost = 1500, iconEmoji = "[$]" });
 
             // Special buildings
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "castle", displayName = "Castle", category = BlueprintBuildingCategory.Special, size = new Vector2Int(4, 4), baseCost = 5000, iconEmoji = "🏰" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "market", displayName = "Market", category = BlueprintBuildingCategory.Special, size = new Vector2Int(3, 3), baseCost = 1200, iconEmoji = "🛒" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "academy", displayName = "Academy", category = BlueprintBuildingCategory.Special, size = new Vector2Int(3, 3), baseCost = 2500, iconEmoji = "📚" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "castle", displayName = "Castle", category = BlueprintBuildingCategory.Special, size = new Vector2Int(4, 4), baseCost = 5000, iconEmoji = "[C]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "market", displayName = "Market", category = BlueprintBuildingCategory.Special, size = new Vector2Int(3, 3), baseCost = 1200, iconEmoji = "[K]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "academy", displayName = "Academy", category = BlueprintBuildingCategory.Special, size = new Vector2Int(3, 3), baseCost = 2500, iconEmoji = "[Y]" });
 
             // Decorations
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "statue", displayName = "Statue", category = BlueprintBuildingCategory.Decoration, size = new Vector2Int(1, 1), baseCost = 200, iconEmoji = "🗿" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "fountain", displayName = "Fountain", category = BlueprintBuildingCategory.Decoration, size = new Vector2Int(2, 2), baseCost = 400, iconEmoji = "⛲" });
-            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "garden", displayName = "Garden", category = BlueprintBuildingCategory.Decoration, size = new Vector2Int(2, 2), baseCost = 250, iconEmoji = "🌳" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "statue", displayName = "Statue", category = BlueprintBuildingCategory.Decoration, size = new Vector2Int(1, 1), baseCost = 200, iconEmoji = "[*]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "fountain", displayName = "Fountain", category = BlueprintBuildingCategory.Decoration, size = new Vector2Int(2, 2), baseCost = 400, iconEmoji = "[O]" });
+            buildingDefs.Add(new PlaceableBuildingDef { buildingType = "garden", displayName = "Garden", category = BlueprintBuildingCategory.Decoration, size = new Vector2Int(2, 2), baseCost = 250, iconEmoji = "[T]" });
         }
 
         private void CreateUI()
@@ -409,7 +409,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "📁 My Blueprints", "🌐 Community", "✏️ Editor", "📋 Templates" };
+            string[] tabNames = { "📁 My Blueprints", "🌐 Community", "✏️ Editor", "[T] Templates" };
             BlueprintTab[] tabValues = { BlueprintTab.MyBlueprints, BlueprintTab.Community, BlueprintTab.Editor, BlueprintTab.Templates };
 
             for (int i = 0; i < tabNames.Length; i++)
@@ -717,7 +717,7 @@ namespace ApexCitadels.PC.UI
             GameObject titleObj = new GameObject("Title");
             titleObj.transform.SetParent(paletteObj.transform, false);
             TextMeshProUGUI titleTMP = titleObj.AddComponent<TextMeshProUGUI>();
-            titleTMP.text = "🏗️ BUILDING PALETTE";
+            titleTMP.text = "BUILDING PALETTE";
             titleTMP.fontSize = 14;
             titleTMP.fontStyle = FontStyles.Bold;
             titleTMP.color = new Color(0.9f, 0.8f, 0.5f);
@@ -912,13 +912,13 @@ namespace ApexCitadels.PC.UI
 
             // Toolbar buttons
             CreateToolbarButton(toolbarObj.transform, "📄 New", NewBlueprint, new Color(0.3f, 0.4f, 0.5f));
-            CreateToolbarButton(toolbarObj.transform, "💾 Save", SaveBlueprint, new Color(0.3f, 0.5f, 0.3f));
-            CreateToolbarButton(toolbarObj.transform, "📂 Load", LoadBlueprint, new Color(0.4f, 0.4f, 0.5f));
-            CreateToolbarButton(toolbarObj.transform, "🔄 Rotate (R)", RotateBuilding, new Color(0.4f, 0.4f, 0.4f));
-            CreateToolbarButton(toolbarObj.transform, "🗑️ Delete (Del)", DeleteBuilding, new Color(0.5f, 0.3f, 0.3f));
-            CreateToolbarButton(toolbarObj.transform, "↩️ Undo", UndoAction, new Color(0.4f, 0.35f, 0.3f));
-            CreateToolbarButton(toolbarObj.transform, "📤 Share", ShareBlueprint, new Color(0.3f, 0.4f, 0.5f));
-            CreateToolbarButton(toolbarObj.transform, "🏗️ Apply", ApplyBlueprint, new Color(0.5f, 0.4f, 0.2f));
+            CreateToolbarButton(toolbarObj.transform, "Save", SaveBlueprint, new Color(0.3f, 0.5f, 0.3f));
+            CreateToolbarButton(toolbarObj.transform, "Load", LoadBlueprint, new Color(0.4f, 0.4f, 0.5f));
+            CreateToolbarButton(toolbarObj.transform, "Rotate (R)", RotateBuilding, new Color(0.4f, 0.4f, 0.4f));
+            CreateToolbarButton(toolbarObj.transform, "Delete (Del)", DeleteBuilding, new Color(0.5f, 0.3f, 0.3f));
+            CreateToolbarButton(toolbarObj.transform, "Undo", UndoAction, new Color(0.4f, 0.35f, 0.3f));
+            CreateToolbarButton(toolbarObj.transform, "Share", ShareBlueprint, new Color(0.3f, 0.4f, 0.5f));
+            CreateToolbarButton(toolbarObj.transform, "Apply", ApplyBlueprint, new Color(0.5f, 0.4f, 0.2f));
         }
 
         private void CreateToolbarButton(Transform parent, string text, UnityEngine.Events.UnityAction onClick, Color color)
@@ -1112,7 +1112,7 @@ namespace ApexCitadels.PC.UI
             GameObject authorObj = new GameObject("Author");
             authorObj.transform.SetParent(itemObj.transform, false);
             TextMeshProUGUI authorTMP = authorObj.AddComponent<TextMeshProUGUI>();
-            authorTMP.text = blueprint.isTemplate ? "📋 Official Template" : $"by {blueprint.authorName}";
+            authorTMP.text = blueprint.isTemplate ? "[T] Official Template" : $"by {blueprint.authorName}";
             authorTMP.fontSize = 11;
             authorTMP.color = new Color(0.6f, 0.6f, 0.6f);
             LayoutElement authorLE = authorObj.AddComponent<LayoutElement>();
@@ -1122,7 +1122,7 @@ namespace ApexCitadels.PC.UI
             GameObject statsObj = new GameObject("Stats");
             statsObj.transform.SetParent(itemObj.transform, false);
             TextMeshProUGUI statsTMP = statsObj.AddComponent<TextMeshProUGUI>();
-            statsTMP.text = $"🛡️ {blueprint.defenseRating} | ⚙️ {blueprint.productionRating}";
+            statsTMP.text = $"DEF: {blueprint.defenseRating} | PROD: {blueprint.productionRating}";
             statsTMP.fontSize = 11;
             statsTMP.color = new Color(0.7f, 0.7f, 0.7f);
             LayoutElement statsLE = statsObj.AddComponent<LayoutElement>();
@@ -1317,7 +1317,7 @@ namespace ApexCitadels.PC.UI
             currentBlueprint.defenseRating = Mathf.Min(100, defenseScore);
             currentBlueprint.productionRating = Mathf.Min(100, productionScore);
 
-            statsText.text = $"Buildings: {currentBlueprint.buildings.Count} | Cost: {totalCost:N0} | 🛡️ {defenseScore} | ⚙️ {productionScore}";
+            statsText.text = $"Buildings: {currentBlueprint.buildings.Count} | Cost: {totalCost:N0} | DEF: {defenseScore} | PROD: {productionScore}";
         }
 
         private void SelectBuildingDef(PlaceableBuildingDef building)

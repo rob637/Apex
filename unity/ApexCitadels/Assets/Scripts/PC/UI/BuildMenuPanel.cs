@@ -135,12 +135,12 @@ namespace ApexCitadels.PC.UI
         {
             return category switch
             {
-                BuildMenuCategory.Foundations => "📦 Foundations",
+                BuildMenuCategory.Foundations => "[B] Foundations",
                 BuildMenuCategory.Walls => "🧱 Walls",
                 BuildMenuCategory.Defenses => "🗼 Defenses",
-                BuildMenuCategory.Production => "⚙️ Production",
+                BuildMenuCategory.Production => "[P] Production",
                 BuildMenuCategory.Decorative => "🎨 Decorative",
-                BuildMenuCategory.Special => "⭐ Special",
+                BuildMenuCategory.Special => "[*] Special",
                 _ => category.ToString()
             };
         }
@@ -189,7 +189,7 @@ namespace ApexCitadels.PC.UI
             if (texts.Length > 1)
             {
                 var cost = GetBuildingCost(blockType);
-                texts[1].text = $"🪨{cost.Stone} 🪵{cost.Wood}";
+                texts[1].text = $"[Q]{cost.Stone} [W]{cost.Wood}";
             }
 
             // Preview image (would load from resources)

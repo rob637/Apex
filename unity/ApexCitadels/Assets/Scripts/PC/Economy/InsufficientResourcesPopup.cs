@@ -50,15 +50,15 @@ namespace ApexCitadels.PC.Economy
         // Resource icons
         private readonly Dictionary<ResourceType, string> resourceIcons = new Dictionary<ResourceType, string>
         {
-            { ResourceType.Stone, "🪨" },
-            { ResourceType.Wood, "🪵" },
+            { ResourceType.Stone, "[Q]" },
+            { ResourceType.Wood, "[W]" },
             { ResourceType.Iron, "🔩" },
-            { ResourceType.Crystal, "💎" },
-            { ResourceType.ArcaneEssence, "✨" },
+            { ResourceType.Crystal, "[G]" },
+            { ResourceType.ArcaneEssence, "[*]" },
             { ResourceType.Gems, "💠" },
-            { ResourceType.Gold, "🪙" },
+            { ResourceType.Gold, "[$]" },
             { ResourceType.Food, "🍖" },
-            { ResourceType.Energy, "⚡" }
+            { ResourceType.Energy, "[!]" }
         };
 
         private void Awake()
@@ -147,7 +147,7 @@ namespace ApexCitadels.PC.Economy
             headerBg.color = HEADER_BG;
 
             // Warning icon + title
-            titleText = CreateText(headerRT, "⚠️ INSUFFICIENT RESOURCES", 16, FontStyles.Bold);
+            titleText = CreateText(headerRT, "[!] INSUFFICIENT RESOURCES", 16, FontStyles.Bold);
             SetAnchors(titleText.rectTransform, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-40, 0));
             titleText.alignment = TextAlignmentOptions.MidlineLeft;
 
@@ -189,7 +189,7 @@ namespace ApexCitadels.PC.Economy
             // Shop button
             if (showShortcutToShop)
             {
-                shopButton = CreateActionButton(buttonsRT, "💎 GET RESOURCES", OpenShop, 
+                shopButton = CreateActionButton(buttonsRT, "[G] GET RESOURCES", OpenShop, 
                     new Color(0.3f, 0.5f, 0.4f));
             }
 

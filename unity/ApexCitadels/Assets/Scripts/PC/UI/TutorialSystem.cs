@@ -230,7 +230,7 @@ namespace ApexCitadels.PC.UI
             rect.sizeDelta = new Vector2(50, 50);
             
             TextMeshProUGUI arrow = _arrowIndicator.AddComponent<TextMeshProUGUI>();
-            arrow.text = "👆";
+            arrow.text = "[^]";
             arrow.fontSize = 40;
             arrow.alignment = TextAlignmentOptions.Center;
             

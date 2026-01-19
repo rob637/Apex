@@ -223,7 +223,7 @@ namespace ApexCitadels.PC.UI
             
             // Create tabs
             CreateChannelTab(tabBar.transform, "🌍 World", ChatChannel.World, worldColor);
-            CreateChannelTab(tabBar.transform, "⚔️ Alliance", ChatChannel.Alliance, allianceColor);
+            CreateChannelTab(tabBar.transform, "[!] Alliance", ChatChannel.Alliance, allianceColor);
             CreateChannelTab(tabBar.transform, "📨 Private", ChatChannel.Private, privateColor);
         }
 
@@ -575,7 +575,7 @@ namespace ApexCitadels.PC.UI
         {
             // World chat
             AddDemoMessage("DragonLord99", "Anyone want to alliance?", ChatChannel.World);
-            AddDemoMessage("ShadowKnight", "Just conquered Crystal Peak! 💪", ChatChannel.World);
+            AddDemoMessage("ShadowKnight", "Just conquered Crystal Peak! [+]", ChatChannel.World);
             AddDemoMessage("CrystalMage", "Need help defending my territory", ChatChannel.World);
             AddDemoMessage("IronFist", "Trading resources - have extra gold", ChatChannel.World);
             
@@ -585,8 +585,8 @@ namespace ApexCitadels.PC.UI
             AddDemoMessage("Scout", "Enemy forces spotted near our border", ChatChannel.Alliance);
             
             // System messages
-            AddSystemMessage("🎉 Season 1: Rise of Citadels has begun!");
-            AddSystemMessage("⚔️ War between Steel Legion and Shadow Council declared!", ChatChannel.Alliance);
+            AddSystemMessage("[!] Season 1: Rise of Citadels has begun!");
+            AddSystemMessage("[!] War between Steel Legion and Shadow Council declared!", ChatChannel.Alliance);
         }
 
         private void AddDemoMessage(string sender, string text, ChatChannel channel)

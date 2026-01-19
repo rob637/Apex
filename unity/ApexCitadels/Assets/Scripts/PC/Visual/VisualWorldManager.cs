@@ -64,7 +64,7 @@ namespace ApexCitadels.PC.Visual
             Invoke(nameof(InitializeTerritoryVisuals), 2f); // Delay to let Firebase load
 
             ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
-            ApexLogger.Log("  ✅ VISUAL SYSTEMS INITIALIZED - World should now look amazing!", ApexLogger.LogCategory.General);
+            ApexLogger.Log("  [OK] VISUAL SYSTEMS INITIALIZED - World should now look amazing!", ApexLogger.LogCategory.General);
             ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
         }
 
@@ -80,7 +80,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject terrainObj = new GameObject("TerrainSystem");
                 terrainObj.transform.SetParent(visualSystems.transform);
                 terrainSystem = terrainObj.AddComponent<TerrainVisualSystem>();
-                ApexLogger.LogVerbose("✅ Terrain system created", ApexLogger.LogCategory.General);
+                ApexLogger.LogVerbose("[OK] Terrain system created", ApexLogger.LogCategory.General);
             }
 
             // 2. Skybox & Environment - Dynamic sky, day/night, clouds
@@ -89,7 +89,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject skyboxObj = new GameObject("SkyboxSystem");
                 skyboxObj.transform.SetParent(visualSystems.transform);
                 skyboxSystem = skyboxObj.AddComponent<SkyboxEnvironmentSystem>();
-                ApexLogger.LogVerbose("✅ Skybox system created", ApexLogger.LogCategory.General);
+                ApexLogger.LogVerbose("[OK] Skybox system created", ApexLogger.LogCategory.General);
             }
 
             // 3. Citadel Visuals - 3D buildings for territories
@@ -98,7 +98,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject citadelObj = new GameObject("CitadelSystem");
                 citadelObj.transform.SetParent(visualSystems.transform);
                 citadelSystem = citadelObj.AddComponent<CitadelVisualSystem>();
-                ApexLogger.LogVerbose("✅ Citadel system created", ApexLogger.LogCategory.General);
+                ApexLogger.LogVerbose("[OK] Citadel system created", ApexLogger.LogCategory.General);
             }
 
             // 4. Audio Manager - Music, SFX, ambient sounds
@@ -107,7 +107,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject audioObj = new GameObject("AudioManager");
                 audioObj.transform.SetParent(visualSystems.transform);
                 audioManager = audioObj.AddComponent<AudioManager>();
-                ApexLogger.LogVerbose("✅ Audio manager created", ApexLogger.LogCategory.General);
+                ApexLogger.LogVerbose("[OK] Audio manager created", ApexLogger.LogCategory.General);
             }
 
             // 5. Post-Processing - Bloom, color grading, etc.
@@ -116,7 +116,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject ppObj = new GameObject("PostProcessing");
                 ppObj.transform.SetParent(visualSystems.transform);
                 postProcessing = ppObj.AddComponent<PostProcessingSetup>();
-                ApexLogger.LogVerbose("✅ Post-processing created", ApexLogger.LogCategory.General);
+                ApexLogger.LogVerbose("[OK] Post-processing created", ApexLogger.LogCategory.General);
             }
 
             // 6. Disable old flat ground if it exists

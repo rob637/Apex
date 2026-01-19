@@ -310,7 +310,7 @@ namespace ApexCitadels.Notifications
             var testNotification = new ReceivedNotification
             {
                 Type = PushNotificationType.DailyRewardAvailable,
-                Title = "🎁 Test Notification",
+                Title = "[?] Test Notification",
                 Body = "This is a test notification from Apex Citadels!",
                 Data = new Dictionary<string, string>(),
                 ReceivedAt = DateTime.Now,

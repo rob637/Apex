@@ -403,7 +403,7 @@ namespace ApexCitadels.WorldEvents
         {
             if (!showEventNotifications) return;
 
-            var title = isStarting ? "🎉 Event Started!" : "⏰ Event Ended";
+            var title = isStarting ? "[!] Event Started!" : "[T] Event Ended";
             var message = isStarting 
                 ? $"{evt.Name} has begun! Join now to earn rewards!"
                 : $"{evt.Name} has ended. Claim your rewards!";

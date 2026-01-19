@@ -137,7 +137,7 @@ namespace ApexCitadels.PC.UI
             titleRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "✨ COSMETICS";
+            title.text = "[*] COSMETICS";
             title.fontSize = 26;
             title.fontStyle = FontStyles.Bold;
             title.color = accentColor;
@@ -175,7 +175,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement gemLE = gemIcon.AddComponent<LayoutElement>();
             gemLE.preferredWidth = 25;
             TextMeshProUGUI gem = gemIcon.AddComponent<TextMeshProUGUI>();
-            gem.text = "💎";
+            gem.text = "[G]";
             gem.fontSize = 20;
             gem.alignment = TextAlignmentOptions.Center;
             
@@ -270,8 +270,8 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             
             _skinsTab = CreateCategoryButton(tabBar.transform, "👤 Skins", () => ShowCategory(CosmeticCategory.Skins));
-            _themesTab = CreateCategoryButton(tabBar.transform, "🏰 Themes", () => ShowCategory(CosmeticCategory.Themes));
-            _effectsTab = CreateCategoryButton(tabBar.transform, "✨ Effects", () => ShowCategory(CosmeticCategory.Effects));
+            _themesTab = CreateCategoryButton(tabBar.transform, "[C] Themes", () => ShowCategory(CosmeticCategory.Themes));
+            _effectsTab = CreateCategoryButton(tabBar.transform, "[*] Effects", () => ShowCategory(CosmeticCategory.Effects));
             _emotesTab = CreateCategoryButton(tabBar.transform, "🎭 Emotes", () => ShowCategory(CosmeticCategory.Emotes));
             _titlesTab = CreateCategoryButton(tabBar.transform, "🏅 Titles", () => ShowCategory(CosmeticCategory.Titles));
             
@@ -497,8 +497,8 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.childForceExpandWidth = true;
             
-            _equipButton = CreateActionButton(actionsRow.transform, "✅ Equip", OnEquipClicked, ownedColor);
-            _purchaseButton = CreateActionButton(actionsRow.transform, "💎 Purchase", OnPurchaseClicked, accentColor);
+            _equipButton = CreateActionButton(actionsRow.transform, "[OK] Equip", OnEquipClicked, ownedColor);
+            _purchaseButton = CreateActionButton(actionsRow.transform, "[G] Purchase", OnPurchaseClicked, accentColor);
             
             _equipButton.interactable = false;
             _purchaseButton.interactable = false;
@@ -544,9 +544,9 @@ namespace ApexCitadels.PC.UI
             // Character Skins
             _allItems.AddRange(new[]
             {
-                new CosmeticItem { Id = "skin_knight", Name = "Royal Knight", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Common, Price = 100, Icon = "🛡️", Description = "A classic knight armor set.", IsOwned = true },
+                new CosmeticItem { Id = "skin_knight", Name = "Royal Knight", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Common, Price = 100, Icon = "[D]", Description = "A classic knight armor set.", IsOwned = true },
                 new CosmeticItem { Id = "skin_mage", Name = "Arcane Mage", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "🧙", Description = "Mystical robes imbued with ancient magic.", IsOwned = true },
-                new CosmeticItem { Id = "skin_samurai", Name = "Shadow Samurai", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Epic, Price = 1200, Icon = "⚔️", Description = "Legendary armor of the Eastern warriors." },
+                new CosmeticItem { Id = "skin_samurai", Name = "Shadow Samurai", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Epic, Price = 1200, Icon = "[!]", Description = "Legendary armor of the Eastern warriors." },
                 new CosmeticItem { Id = "skin_dragon", Name = "Dragon Lord", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Legendary, Price = 2500, Icon = "🐉", Description = "Forged from dragon scales, this armor commands respect." },
                 new CosmeticItem { Id = "skin_cyber", Name = "Cyber Warrior", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Epic, Price = 1500, Icon = "🤖", Description = "Futuristic combat suit with advanced tech." },
                 new CosmeticItem { Id = "skin_pirate", Name = "Pirate Captain", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Rare, Price = 600, Icon = "🏴‍☠️", Description = "Arr! Set sail for adventure!" },
@@ -555,19 +555,19 @@ namespace ApexCitadels.PC.UI
             // Building Themes
             _allItems.AddRange(new[]
             {
-                new CosmeticItem { Id = "theme_medieval", Name = "Medieval Stone", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Common, Price = 200, Icon = "🏰", Description = "Classic medieval architecture.", IsOwned = true },
+                new CosmeticItem { Id = "theme_medieval", Name = "Medieval Stone", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Common, Price = 200, Icon = "[C]", Description = "Classic medieval architecture.", IsOwned = true },
                 new CosmeticItem { Id = "theme_oriental", Name = "Eastern Palace", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Rare, Price = 800, Icon = "🏯", Description = "Elegant Eastern-style buildings." },
-                new CosmeticItem { Id = "theme_fantasy", Name = "Enchanted Forest", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Epic, Price = 1500, Icon = "🌳", Description = "Buildings made from living trees and magic." },
-                new CosmeticItem { Id = "theme_crystal", Name = "Crystal Kingdom", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Legendary, Price = 3000, Icon = "💎", Description = "Structures made of pure crystal that glow at night." },
+                new CosmeticItem { Id = "theme_fantasy", Name = "Enchanted Forest", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Epic, Price = 1500, Icon = "[T]", Description = "Buildings made from living trees and magic." },
+                new CosmeticItem { Id = "theme_crystal", Name = "Crystal Kingdom", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Legendary, Price = 3000, Icon = "[G]", Description = "Structures made of pure crystal that glow at night." },
                 new CosmeticItem { Id = "theme_volcanic", Name = "Volcanic Fortress", Category = CosmeticCategory.Themes, Rarity = CosmeticRarity.Epic, Price = 1800, Icon = "🌋", Description = "Dark obsidian structures with flowing lava." },
             });
             
             // Visual Effects
             _allItems.AddRange(new[]
             {
-                new CosmeticItem { Id = "fx_sparkle", Name = "Sparkle Trail", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Common, Price = 150, Icon = "✨", Description = "Leaves a trail of sparkles as you move.", IsOwned = true },
-                new CosmeticItem { Id = "fx_fire", Name = "Fire Aura", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Rare, Price = 400, Icon = "🔥", Description = "Surrounded by dancing flames." },
-                new CosmeticItem { Id = "fx_lightning", Name = "Lightning Storm", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Epic, Price = 1000, Icon = "⚡", Description = "Crackling electricity surrounds you." },
+                new CosmeticItem { Id = "fx_sparkle", Name = "Sparkle Trail", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Common, Price = 150, Icon = "[*]", Description = "Leaves a trail of sparkles as you move.", IsOwned = true },
+                new CosmeticItem { Id = "fx_fire", Name = "Fire Aura", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Rare, Price = 400, Icon = "[*]", Description = "Surrounded by dancing flames." },
+                new CosmeticItem { Id = "fx_lightning", Name = "Lightning Storm", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Epic, Price = 1000, Icon = "[!]", Description = "Crackling electricity surrounds you." },
                 new CosmeticItem { Id = "fx_void", Name = "Void Walker", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Legendary, Price = 2000, Icon = "🌀", Description = "Dark void particles swirl around you." },
                 new CosmeticItem { Id = "fx_rainbow", Name = "Rainbow Glow", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "🌈", Description = "A colorful aura that shifts through the spectrum." },
             });
@@ -578,18 +578,18 @@ namespace ApexCitadels.PC.UI
                 new CosmeticItem { Id = "emote_wave", Name = "Friendly Wave", Category = CosmeticCategory.Emotes, Rarity = CosmeticRarity.Common, Price = 50, Icon = "👋", Description = "Wave hello to friends and foes.", IsOwned = true },
                 new CosmeticItem { Id = "emote_dance", Name = "Victory Dance", Category = CosmeticCategory.Emotes, Rarity = CosmeticRarity.Rare, Price = 300, Icon = "💃", Description = "Celebrate your victories in style!" },
                 new CosmeticItem { Id = "emote_bow", Name = "Honorable Bow", Category = CosmeticCategory.Emotes, Rarity = CosmeticRarity.Common, Price = 75, Icon = "🙇", Description = "Show respect to your opponents.", IsOwned = true },
-                new CosmeticItem { Id = "emote_flex", Name = "Power Flex", Category = CosmeticCategory.Emotes, Rarity = CosmeticRarity.Rare, Price = 350, Icon = "💪", Description = "Show off your strength!" },
+                new CosmeticItem { Id = "emote_flex", Name = "Power Flex", Category = CosmeticCategory.Emotes, Rarity = CosmeticRarity.Rare, Price = 350, Icon = "[+]", Description = "Show off your strength!" },
                 new CosmeticItem { Id = "emote_throne", Name = "Summon Throne", Category = CosmeticCategory.Emotes, Rarity = CosmeticRarity.Legendary, Price = 1500, Icon = "🪑", Description = "Summon a majestic throne to sit upon." },
             });
             
             // Titles & Badges
             _allItems.AddRange(new[]
             {
-                new CosmeticItem { Id = "title_warrior", Name = "The Warrior", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Common, Price = 100, Icon = "⚔️", Description = "A title for those who fight bravely.", IsOwned = true },
+                new CosmeticItem { Id = "title_warrior", Name = "The Warrior", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Common, Price = 100, Icon = "[!]", Description = "A title for those who fight bravely.", IsOwned = true },
                 new CosmeticItem { Id = "title_conqueror", Name = "The Conqueror", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "👑", Description = "For those who have conquered many territories." },
-                new CosmeticItem { Id = "title_legend", Name = "The Legend", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Legendary, Price = 2500, Icon = "🌟", Description = "A title reserved for the greatest players." },
-                new CosmeticItem { Id = "title_defender", Name = "The Defender", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Rare, Price = 400, Icon = "🛡️", Description = "Successfully defended against 100 attacks." },
-                new CosmeticItem { Id = "title_wealthy", Name = "The Wealthy", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Epic, Price = 1000, Icon = "💰", Description = "Accumulated great riches." },
+                new CosmeticItem { Id = "title_legend", Name = "The Legend", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Legendary, Price = 2500, Icon = "[*]", Description = "A title reserved for the greatest players." },
+                new CosmeticItem { Id = "title_defender", Name = "The Defender", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Rare, Price = 400, Icon = "[D]", Description = "Successfully defended against 100 attacks." },
+                new CosmeticItem { Id = "title_wealthy", Name = "The Wealthy", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Epic, Price = 1000, Icon = "[$]", Description = "Accumulated great riches." },
             });
             
             // Set default equipped items
@@ -718,7 +718,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                status.text = $"💎 {item.Price}";
+                status.text = $"[G] {item.Price}";
                 status.color = accentColor;
             }
             status.fontSize = 10;
@@ -745,7 +745,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                _itemPrice.text = $"💎 {item.Price} Gems";
+                _itemPrice.text = $"[G] {item.Price} Gems";
                 _itemPrice.color = _playerGems >= item.Price ? accentColor : new Color(0.7f, 0.3f, 0.3f);
                 _equipButton.interactable = false;
                 _purchaseButton.interactable = _playerGems >= item.Price;
