@@ -206,7 +206,11 @@ namespace ApexCitadels.Editor
         private static void PopulateWeaponSounds(SerializedObject so, Dictionary<string, AudioClip> clips)
         {
             var weaponProp = so.FindProperty("weaponSounds");
-            if (weaponProp == null) return;
+            if (weaponProp == null) 
+            {
+                Debug.LogWarning("[SFX] weaponSounds property not found");
+                return;
+            }
 
             weaponProp.ClearArray();
 
@@ -231,9 +235,23 @@ namespace ApexCitadels.Editor
                     element.FindPropertyRelative("weapon").enumValueIndex = (int)mapping.Value;
                     
                     var soundProp = element.FindPropertyRelative("sound");
-                    soundProp.FindPropertyRelative("mainClip").objectReferenceValue = clip;
-                    soundProp.FindPropertyRelative("volume").floatValue = 1f;
-                    soundProp.FindPropertyRelative("pitchVariation").floatValue = 0.05f;
+                    if (soundProp != null)
+                    {
+                        // CombatSound uses 'clips' array, not 'mainClip'
+                        var clipsProp = soundProp.FindPropertyRelative("clips");
+                        if (clipsProp != null)
+                        {
+                            clipsProp.ClearArray();
+                            clipsProp.InsertArrayElementAtIndex(0);
+                            clipsProp.GetArrayElementAtIndex(0).objectReferenceValue = clip;
+                        }
+                        
+                        var volumeProp = soundProp.FindPropertyRelative("volume");
+                        if (volumeProp != null) volumeProp.floatValue = 1f;
+                        
+                        var pitchProp = soundProp.FindPropertyRelative("pitchVariation");
+                        if (pitchProp != null) pitchProp.floatValue = 0.05f;
+                    }
                     
                     index++;
                 }
@@ -270,11 +288,7 @@ namespace ApexCitadels.Editor
                     var element = impactProp.GetArrayElementAtIndex(index);
                     element.FindPropertyRelative("impact").enumValueIndex = (int)mapping.Value;
                     
-                    var soundProp = element.FindPropertyRelative("sound");
-                    soundProp.FindPropertyRelative("mainClip").objectReferenceValue = clip;
-                    soundProp.FindPropertyRelative("volume").floatValue = 1f;
-                    soundProp.FindPropertyRelative("pitchVariation").floatValue = 0.08f;
-                    
+                    SetCombatSoundClip(element.FindPropertyRelative("sound"), clip, 1f, 0.08f);
                     index++;
                 }
             }
@@ -307,10 +321,7 @@ namespace ApexCitadels.Editor
                     var element = projProp.GetArrayElementAtIndex(index);
                     element.FindPropertyRelative("projectile").enumValueIndex = (int)mapping.Value;
                     
-                    var soundProp = element.FindPropertyRelative("sound");
-                    soundProp.FindPropertyRelative("mainClip").objectReferenceValue = clip;
-                    soundProp.FindPropertyRelative("volume").floatValue = 0.9f;
-                    
+                    SetCombatSoundClip(element.FindPropertyRelative("sound"), clip, 0.9f);
                     index++;
                 }
             }
@@ -344,10 +355,7 @@ namespace ApexCitadels.Editor
                     var element = abilityProp.GetArrayElementAtIndex(index);
                     element.FindPropertyRelative("ability").enumValueIndex = (int)mapping.Value;
                     
-                    var soundProp = element.FindPropertyRelative("sound");
-                    soundProp.FindPropertyRelative("mainClip").objectReferenceValue = clip;
-                    soundProp.FindPropertyRelative("volume").floatValue = 1f;
-                    
+                    SetCombatSoundClip(element.FindPropertyRelative("sound"), clip, 1f);
                     index++;
                 }
             }
@@ -381,10 +389,7 @@ namespace ApexCitadels.Editor
                     var element = structProp.GetArrayElementAtIndex(index);
                     element.FindPropertyRelative("structure").enumValueIndex = (int)mapping.Value;
                     
-                    var soundProp = element.FindPropertyRelative("sound");
-                    soundProp.FindPropertyRelative("mainClip").objectReferenceValue = clip;
-                    soundProp.FindPropertyRelative("volume").floatValue = 1f;
-                    
+                    SetCombatSoundClip(element.FindPropertyRelative("sound"), clip, 1f);
                     index++;
                 }
             }
@@ -397,37 +402,45 @@ namespace ApexCitadels.Editor
             // Small explosion
             if (clips.TryGetValue("SFX-FX09_explosion_small", out AudioClip smallExp))
             {
-                var prop = so.FindProperty("smallExplosion");
-                if (prop != null)
-                {
-                    prop.FindPropertyRelative("mainClip").objectReferenceValue = smallExp;
-                    prop.FindPropertyRelative("volume").floatValue = 1f;
-                }
+                SetCombatSoundClip(so.FindProperty("smallExplosion"), smallExp, 1f);
             }
 
             // Large explosion
             if (clips.TryGetValue("SFX-FX10_explosion_large", out AudioClip largeExp))
             {
-                var prop = so.FindProperty("largeExplosion");
-                if (prop != null)
-                {
-                    prop.FindPropertyRelative("mainClip").objectReferenceValue = largeExp;
-                    prop.FindPropertyRelative("volume").floatValue = 1.2f;
-                }
+                SetCombatSoundClip(so.FindProperty("largeExplosion"), largeExp, 1.2f);
             }
 
             // Debris
             if (clips.TryGetValue("SFX-BLD26_debris_fall", out AudioClip debris))
             {
-                var prop = so.FindProperty("debris");
-                if (prop != null)
-                {
-                    prop.FindPropertyRelative("mainClip").objectReferenceValue = debris;
-                    prop.FindPropertyRelative("volume").floatValue = 0.8f;
-                }
+                SetCombatSoundClip(so.FindProperty("debris"), debris, 0.8f);
             }
 
             Debug.Log("[SFX] Mapped explosion sounds");
+        }
+
+        /// <summary>
+        /// Helper to set a CombatSound property with a single clip
+        /// CombatSound uses 'clips' array, not 'mainClip'
+        /// </summary>
+        private static void SetCombatSoundClip(SerializedProperty soundProp, AudioClip clip, float volume, float pitchVariation = 0.1f)
+        {
+            if (soundProp == null) return;
+            
+            var clipsProp = soundProp.FindPropertyRelative("clips");
+            if (clipsProp != null)
+            {
+                clipsProp.ClearArray();
+                clipsProp.InsertArrayElementAtIndex(0);
+                clipsProp.GetArrayElementAtIndex(0).objectReferenceValue = clip;
+            }
+            
+            var volumeProp = soundProp.FindPropertyRelative("volume");
+            if (volumeProp != null) volumeProp.floatValue = volume;
+            
+            var pitchProp = soundProp.FindPropertyRelative("pitchVariation");
+            if (pitchProp != null) pitchProp.floatValue = pitchVariation;
         }
     }
 }
