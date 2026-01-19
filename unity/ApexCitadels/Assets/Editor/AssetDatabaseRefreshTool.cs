@@ -419,20 +419,33 @@ namespace ApexCitadels.Editor
         private static List<string> FindModelFiles(string folder)
         {
             var files = new List<string>();
-            if (!Directory.Exists(folder)) return files;
+            if (!Directory.Exists(folder))
+            {
+                Debug.LogWarning($"[AssetDB] Folder does not exist: {folder}");
+                return files;
+            }
 
             files.AddRange(Directory.GetFiles(folder, "*.glb", SearchOption.AllDirectories));
             files.AddRange(Directory.GetFiles(folder, "*.fbx", SearchOption.AllDirectories));
             files.AddRange(Directory.GetFiles(folder, "*.obj", SearchOption.AllDirectories));
 
+            Debug.Log($"[AssetDB] Found {files.Count} model files in {folder}");
             return files;
         }
 
         private static ModelEntry CreateModelEntry(string filePath)
         {
             string assetPath = filePath.Replace("\\", "/");
+            
+            // Force import if not yet imported
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+            
             GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-            if (model == null) return null;
+            if (model == null)
+            {
+                Debug.LogWarning($"[AssetDB] Could not load model: {assetPath}");
+                return null;
+            }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             
@@ -447,8 +460,16 @@ namespace ApexCitadels.Editor
         private static BuildingModelEntry CreateBuildingEntry(string filePath)
         {
             string assetPath = filePath.Replace("\\", "/");
+            
+            // Force import if not yet imported
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+            
             GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-            if (model == null) return null;
+            if (model == null)
+            {
+                Debug.LogWarning($"[AssetDB] Could not load building model: {assetPath}");
+                return null;
+            }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             
@@ -468,8 +489,16 @@ namespace ApexCitadels.Editor
         private static TowerModelEntry CreateTowerEntry(string filePath)
         {
             string assetPath = filePath.Replace("\\", "/");
+            
+            // Force import if not yet imported
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+            
             GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-            if (model == null) return null;
+            if (model == null)
+            {
+                Debug.LogWarning($"[AssetDB] Could not load tower model: {assetPath}");
+                return null;
+            }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             
@@ -487,8 +516,16 @@ namespace ApexCitadels.Editor
         private static WallModelEntry CreateWallEntry(string filePath)
         {
             string assetPath = filePath.Replace("\\", "/");
+            
+            // Force import if not yet imported
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+            
             GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-            if (model == null) return null;
+            if (model == null)
+            {
+                Debug.LogWarning($"[AssetDB] Could not load wall model: {assetPath}");
+                return null;
+            }
 
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             

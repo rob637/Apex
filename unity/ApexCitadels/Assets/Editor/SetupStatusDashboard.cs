@@ -415,7 +415,26 @@ namespace ApexCitadels.Editor
             
             // Step 2: Force Unity to reimport all model files (creates .meta files)
             Debug.Log("[Setup] Forcing Unity AssetDatabase refresh...");
-            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive);
+            
+            // Step 2b: Force reimport of model folders specifically
+            Debug.Log("[Setup] Reimporting model folders...");
+            string[] modelFolders = new[]
+            {
+                "Assets/Art/Models/Buildings",
+                "Assets/Art/Models/Towers", 
+                "Assets/Art/Models/Walls",
+                "Assets/Art/Models/Foundations",
+                "Assets/Art/Models/Roofs"
+            };
+            foreach (var folder in modelFolders)
+            {
+                if (AssetDatabase.IsValidFolder(folder))
+                {
+                    AssetDatabase.ImportAsset(folder, ImportAssetOptions.ImportRecursive | ImportAssetOptions.ForceUpdate);
+                    Debug.Log($"[Setup] Reimported: {folder}");
+                }
+            }
             
             // Step 3: Create or get GameAssetDatabase
             var db = FindAssetDatabase();
