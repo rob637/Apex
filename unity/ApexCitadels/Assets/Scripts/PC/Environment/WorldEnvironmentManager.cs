@@ -61,39 +61,7 @@ namespace ApexCitadels.PC.Environment
 
         private void Start()
         {
-            StartCoroutine(InitializeEnvironment());
-        }
-
-        /// <summary>
-        /// Initialize all environment systems in order
-        /// </summary>
-        private IEnumerator InitializeEnvironment()
-        {
-            ApexLogger.Log("Starting AAA environment initialization...", ApexLogger.LogCategory.General);
-
-            // Step 1: Create terrain
-            if (enableTerrain)
-            {
-                CreateTerrain();
-                yield return new WaitForSeconds(0.1f); // Wait for terrain to generate
-            }
-
-            // Step 2: Setup atmospheric lighting
-            if (enableAtmosphere)
-            {
-                CreateAtmosphere();
-                yield return null;
-            }
-
-            // Step 3: Create AAA visual effects (post-processing, particles, etc.)
-            if (enableAAAEffects)
-            {
-                CreateAAAEffects();
-                yield return null;
-            }
-
-            // Step 4: Create environmental props (trees, rocks, etc.)
-            if (enableEnvironmentalProps)
+            Debug.Log($\"[WorldEnv] === Starting with TerrainMode: {terrainMode} ===\");\n            StartCoroutine(InitializeEnvironment());\n        }\n\n        /// <summary>\n        /// Initialize all environment systems in order\n        /// </summary>\n        private IEnumerator InitializeEnvironment()\n        {\n            Debug.Log($\"[WorldEnv] Initializing environment. TerrainMode={terrainMode}, EnableTerrain={enableTerrain}\");\n\n            // Step 1: Create terrain\n            if (enableTerrain)\n            {\n                CreateTerrain();\n                yield return new WaitForSeconds(0.1f); // Wait for terrain to generate\n            }\n\n            // Step 2: Setup atmospheric lighting\n            if (enableAtmosphere)\n            {\n                CreateAtmosphere();\n                yield return null;\n            }\n\n            // Step 3: Create AAA visual effects (post-processing, particles, etc.)\n            if (enableAAAEffects)\n            {\n                CreateAAAEffects();\n                yield return null;\n            }\n\n            // Step 4: Create environmental props (trees, rocks, etc.) - SKIP for Mapbox mode\n            if (enableEnvironmentalProps && terrainMode != TerrainMode.Mapbox)
             {
                 CreateEnvironmentalProps();
                 yield return new WaitForSeconds(0.1f);

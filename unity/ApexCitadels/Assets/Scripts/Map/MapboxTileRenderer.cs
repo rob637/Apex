@@ -25,8 +25,8 @@ namespace ApexCitadels.Map
         [SerializeField] private float groundHeight = -0.5f;  // Height of ground plane
         
         [Header("Location")]
-        [SerializeField] private double centerLatitude = 40.7128;
-        [SerializeField] private double centerLongitude = -74.0060;
+        [SerializeField] private double centerLatitude = 38.9012;  // Vienna, VA
+        [SerializeField] private double centerLongitude = -77.2653;
         [SerializeField] private int zoomLevel = 15;
         
         [Header("AAA Visual Quality")]
@@ -69,22 +69,35 @@ namespace ApexCitadels.Map
         
         private void Start()
         {
+            Debug.Log("[Mapbox] === MapboxTileRenderer Starting ===");
+            
             // Try to load config from Resources
             if (config == null)
             {
                 config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
+                Debug.Log($"[Mapbox] Loaded config from Resources: {(config != null ? "SUCCESS" : "FAILED")}");
             }
             
-            if (config == null || !config.IsValid)
+            if (config == null)
             {
-                ApexLogger.LogWarning("[Mapbox] No valid configuration found. Go to Apex > PC > Configure Mapbox API", ApexLogger.LogCategory.Map);
+                Debug.LogError("[Mapbox] ERROR: MapboxConfig.asset not found in Resources folder!");
                 return;
             }
+            
+            if (!config.IsValid)
+            {
+                Debug.LogError($"[Mapbox] ERROR: Config invalid. Token: {(string.IsNullOrEmpty(config.AccessToken) ? "EMPTY" : config.AccessToken.Substring(0, 10) + "...")}");
+                return;
+            }
+            
+            Debug.Log($"[Mapbox] Config valid. Style: {config.Style}, Location: {config.DefaultLatitude}, {config.DefaultLongitude}");
             
             // Use config defaults
             centerLatitude = config.DefaultLatitude;
             centerLongitude = config.DefaultLongitude;
             zoomLevel = config.DefaultZoom;
+            
+            Debug.Log($"[Mapbox] Initializing at {centerLatitude}, {centerLongitude} zoom {zoomLevel}");
             
             Initialize();
         }
@@ -323,6 +336,7 @@ namespace ApexCitadels.Map
             tile.IsLoading = true;
             
             string url = config.GetTileUrl(tile.X, tile.Y, zoomLevel);
+            Debug.Log($"[Mapbox] Loading tile {key} from: {url.Substring(0, 80)}...");
             
             // Use standard UnityWebRequest to avoid dependency on UnityWebRequestTexture module
             using (UnityWebRequest www = UnityWebRequest.Get(url))
