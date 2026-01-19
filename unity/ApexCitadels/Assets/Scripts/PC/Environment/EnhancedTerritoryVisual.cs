@@ -102,12 +102,13 @@ namespace ApexCitadels.PC.Environment
         private void CreateBasePlatform(Color color)
         {
             // Try to use real foundation model
-            Debug.Log($"[Territory] CreateBasePlatform: useRealModels={useRealModels}, Provider={BuildingModelProvider.Instance != null}");
+            var provider = BuildingModelProvider.Instance; // This triggers lazy init
+            Debug.Log($"[Territory] CreateBasePlatform: useRealModels={useRealModels}, Provider={provider != null}, HasDB={provider?.HasDatabase ?? false}");
             
-            if (useRealModels && BuildingModelProvider.Instance != null)
+            if (useRealModels && provider != null && provider.HasDatabase)
             {
-                citadelBase = BuildingModelProvider.Instance.GetFoundationModel(Level, transform);
-                Debug.Log($"[Territory] Got foundation model: {citadelBase != null}");
+                citadelBase = provider.GetFoundationModel(Level, transform);
+                Debug.Log($"[Territory] Got foundation model: {citadelBase != null}, name={citadelBase?.name ?? "NULL"}");
                 if (citadelBase != null)
                 {
                     citadelBase.name = "CitadelBase";
@@ -115,11 +116,12 @@ namespace ApexCitadels.PC.Environment
                     citadelBase.transform.localPosition = Vector3.zero;
                     citadelBase.transform.localScale = Vector3.one * baseScale;
                     ApplyOwnershipTint(citadelBase, color);
+                    Debug.Log($"[Territory] SUCCESS: Using real model for citadel base!");
                     return;
                 }
             }
             
-            Debug.Log("[Territory] Using fallback primitive for base");
+            Debug.LogWarning($"[Territory] FALLBACK: Using primitive cylinder (useRealModels={useRealModels}, provider={provider != null})");
             // Fallback to primitive
             citadelBase = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             citadelBase.name = "CitadelBase";

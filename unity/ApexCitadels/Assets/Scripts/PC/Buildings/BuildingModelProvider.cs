@@ -35,24 +35,59 @@ namespace ApexCitadels.PC.Buildings
         [SerializeField] private bool randomizeScale = true;
         [SerializeField] private Vector2 scaleVariation = new Vector2(0.9f, 1.1f);
         
-        // Singleton
+        // Singleton with lazy initialization
         private static BuildingModelProvider _instance;
-        public static BuildingModelProvider Instance => _instance;
+        private static bool _searchedForInstance = false;
+        
+        public static BuildingModelProvider Instance
+        {
+            get
+            {
+                if (_instance == null && !_searchedForInstance)
+                {
+                    _searchedForInstance = true;
+                    _instance = FindFirstObjectByType<BuildingModelProvider>();
+                    
+                    if (_instance == null)
+                    {
+                        // Auto-create if not found
+                        Debug.Log("[BuildingModelProvider] Auto-creating instance...");
+                        var go = new GameObject("BuildingModelProvider");
+                        _instance = go.AddComponent<BuildingModelProvider>();
+                    }
+                    
+                    // Ensure database is loaded
+                    if (_instance != null && _instance.assetDatabase == null)
+                    {
+                        _instance.LoadAssetDatabase();
+                    }
+                }
+                return _instance;
+            }
+        }
         
         // Cache
         private Dictionary<string, GameObject> _prefabCache = new Dictionary<string, GameObject>();
         
         private void Awake()
         {
+            Debug.Log("[BuildingModelProvider] Awake called");
+            
             if (_instance != null && _instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
             _instance = this;
+            _searchedForInstance = true;
             
             LoadAssetDatabase();
         }
+        
+        /// <summary>
+        /// Check if the database is loaded and has content
+        /// </summary>
+        public bool HasDatabase => assetDatabase != null && assetDatabase.BuildingModels.Count > 0;
         
         private void LoadAssetDatabase()
         {
