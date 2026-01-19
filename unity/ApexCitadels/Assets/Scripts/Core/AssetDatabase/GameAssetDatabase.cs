@@ -52,7 +52,7 @@ namespace ApexCitadels.Core.Assets
         {
             if (Instance != null) return Instance;
             
-            Instance = Resources.Load<GameAssetDatabase>("GameAssetDatabase");
+            Instance = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
             if (Instance == null)
             {
                 Debug.LogWarning("[AssetDB] GameAssetDatabase not found in Resources. Create one via Assets > Create > Apex Citadels > Game Asset Database");
