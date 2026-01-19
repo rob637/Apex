@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Data;
 using ApexCitadels.Territory;
 using ApexCitadels.Building;
 using ApexCitadels.Player;

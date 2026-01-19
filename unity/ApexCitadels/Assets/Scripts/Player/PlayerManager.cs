@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Data;
 #if FIREBASE_ENABLED
 using Firebase.Auth;
 using Firebase.Firestore;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Data;
 using ApexCitadels.Player;
 using ApexCitadels.Notifications;
 
