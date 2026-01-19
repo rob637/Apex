@@ -65,7 +65,7 @@ namespace ApexCitadels.Map
             // Try to load config from Resources
             if (config == null)
             {
-                config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+                config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             }
             
             if (config == null || !config.IsValid)
@@ -277,13 +277,13 @@ namespace ApexCitadels.Map
             
             string url = config.GetTileUrl(tile.X, tile.Y, zoomLevel);
             
-            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+            using (UnityWebRequest www = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(url))
             {
                 yield return www.SendWebRequest();
                 
                 if (www.result == UnityWebRequest.Result.Success)
                 {
-                    tile.Texture = DownloadHandlerTexture.GetContent(www);
+                    tile.Texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(www);
                     tile.Texture.wrapMode = TextureWrapMode.Clamp;
                     
                     if (tile.GameObject != null)
