@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.UI
@@ -182,7 +183,7 @@ namespace ApexCitadels.PC.UI
         {
             if (savedFormations.Count >= maxFormationPresets)
             {
-                Debug.LogWarning("[TroopManager] Max formations reached!");
+                ApexLogger.LogWarning("Max formations reached!", ApexLogger.LogCategory.Combat);
                 return false;
             }
 
@@ -205,7 +206,7 @@ namespace ApexCitadels.PC.UI
             SaveFormations();
 
             OnFormationSaved?.Invoke(formation);
-            Debug.Log($"[TroopManager] Created formation: {name} with {troops.Sum(t => t.Count)} troops");
+            ApexLogger.Log($"Created formation: {name} with {troops.Sum(t => t.Count)} troops", ApexLogger.LogCategory.Combat);
             return true;
         }
 
@@ -276,7 +277,7 @@ namespace ApexCitadels.PC.UI
             // Check if we have enough troops
             if (!ValidateDeployment(formation.Troops))
             {
-                Debug.LogWarning("[TroopManager] Not enough troops for this formation!");
+                ApexLogger.LogWarning("Not enough troops for this formation!", ApexLogger.LogCategory.Combat);
                 return false;
             }
 
@@ -324,7 +325,7 @@ namespace ApexCitadels.PC.UI
                 int availableCount = available.TryGetValue(kvp.Key, out int a) ? a : 0;
                 if (availableCount < kvp.Value)
                 {
-                    Debug.LogWarning($"[TroopManager] Not enough {kvp.Key}: need {kvp.Value}, have {availableCount}");
+                    ApexLogger.LogWarning($"Not enough {kvp.Key}: need {kvp.Value}, have {availableCount}", ApexLogger.LogCategory.Combat);
                     return false;
                 }
             }
@@ -463,7 +464,7 @@ namespace ApexCitadels.PC.UI
                 TrainingQueueManager.Instance?.RemoveTroops(entry.Type, entry.Count);
             }
 
-            Debug.Log($"[TroopManager] Deployed {troops.Sum(t => t.Count)} troops for battle");
+            ApexLogger.Log($"Deployed {troops.Sum(t => t.Count)} troops for battle", ApexLogger.LogCategory.Combat);
             return true;
         }
 
@@ -477,7 +478,7 @@ namespace ApexCitadels.PC.UI
                 TrainingQueueManager.Instance?.AddTroops(entry.Type, entry.Count);
             }
 
-            Debug.Log($"[TroopManager] Returned {survivors.Sum(t => t.Count)} troops from battle");
+            ApexLogger.Log($"Returned {survivors.Sum(t => t.Count)} troops from battle", ApexLogger.LogCategory.Combat);
         }
 
         /// <summary>
@@ -514,7 +515,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[TroopManager] Save failed: {ex.Message}");
+                ApexLogger.LogError($"Save failed: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
         }
 
@@ -534,7 +535,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[TroopManager] Load failed: {ex.Message}");
+                ApexLogger.LogError($"Load failed: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
         }
 
@@ -562,14 +563,14 @@ namespace ApexCitadels.PC.UI
         [ContextMenu("Log Army Stats")]
         public void LogArmyStats()
         {
-            Debug.Log($"=== Army Stats ===");
-            Debug.Log($"Total Size: {GetTotalArmySize()}/{maxArmySize}");
-            Debug.Log($"Total Power: {GetTotalArmyPower()}");
+            ApexLogger.Log($"=== Army Stats ===", ApexLogger.LogCategory.Combat);
+            ApexLogger.Log($"Total Size: {GetTotalArmySize()}/{maxArmySize}", ApexLogger.LogCategory.Combat);
+            ApexLogger.Log($"Total Power: {GetTotalArmyPower()}", ApexLogger.LogCategory.Combat);
 
             var breakdown = GetTroopBreakdown();
             foreach (var kvp in breakdown)
             {
-                Debug.Log($"  {kvp.Key}: {kvp.Value}");
+                ApexLogger.Log($"  {kvp.Key}: {kvp.Value}", ApexLogger.LogCategory.Combat);
             }
         }
 

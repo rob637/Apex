@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 #endif
@@ -188,7 +189,7 @@ namespace ApexCitadels.Territory
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Territory] Failed to parse from Firestore: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Territory, $"Failed to parse from Firestore: {ex.Message}");
                 return null;
             }
         }

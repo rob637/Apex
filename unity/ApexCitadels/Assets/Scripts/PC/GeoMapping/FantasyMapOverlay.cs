@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -144,7 +145,7 @@ namespace ApexCitadels.PC.GeoMapping
             // Apply fantasy style to existing tiles
             ApplyFantasyStyleToAllTiles();
             
-            Debug.Log($"[FantasyMapOverlay] Initialized with style: {currentStyle}");
+            ApexLogger.Log($"Initialized with style: {currentStyle}", ApexLogger.LogCategory.Map);
         }
         
         private void Update()
@@ -220,7 +221,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             
             OnStyleChanged?.Invoke(style);
-            Debug.Log($"[FantasyMapOverlay] Style changed to: {style}");
+            ApexLogger.Log($"Style changed to: {style}", ApexLogger.LogCategory.Map);
         }
         
         /// <summary>

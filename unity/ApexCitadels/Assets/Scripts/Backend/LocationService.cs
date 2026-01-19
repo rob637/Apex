@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Backend
 {
@@ -54,11 +55,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[LocationService] SetAreaDensity failed: {ex.Message}");
+                ApexLogger.LogError($"SetAreaDensity failed: {ex.Message}", ApexLogger.LogCategory.Map);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] SetAreaDensity: {geohash} -> {density}");
+            ApexLogger.LogVerbose($"[STUB] SetAreaDensity: {geohash} -> {density}", ApexLogger.LogCategory.Map);
             await Task.Delay(100);
 #endif
         }
@@ -97,12 +98,12 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[LocationService] GetLocationInfo failed: {ex.Message}");
+                ApexLogger.LogError($"GetLocationInfo failed: {ex.Message}", ApexLogger.LogCategory.Map);
                 // Return default values on error
                 return GetDefaultLocationInfo(latitude, longitude);
             }
 #else
-            Debug.Log($"[STUB] GetLocationInfo: ({latitude}, {longitude})");
+            ApexLogger.LogVerbose($"[STUB] GetLocationInfo: ({latitude}, {longitude})", ApexLogger.LogCategory.Map);
             await Task.Delay(100);
             var info = GetDefaultLocationInfo(latitude, longitude);
             _locationCache[cacheKey] = info;

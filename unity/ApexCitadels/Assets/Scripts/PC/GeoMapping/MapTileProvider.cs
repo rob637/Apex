@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -169,7 +170,7 @@ namespace ApexCitadels.PC.GeoMapping
 
             if (showDebugInfo)
             {
-                Debug.Log($"[MapTileProvider] Preloading {count} tiles at zoom {zoom}");
+                ApexLogger.LogMap($"Preloading {count} tiles at zoom {zoom}");
             }
         }
 
@@ -189,7 +190,7 @@ namespace ApexCitadels.PC.GeoMapping
             _cacheOrder.Clear();
             _cacheHits = 0;
             _cacheMisses = 0;
-            Debug.Log("[MapTileProvider] Cache cleared");
+            ApexLogger.LogMap("Cache cleared");
         }
 
         /// <summary>
@@ -230,7 +231,7 @@ namespace ApexCitadels.PC.GeoMapping
                 string url = GetTileUrl(coord);
                 if (showDebugInfo)
                 {
-                    Debug.Log($"[MapTileProvider] Fetching: {url}");
+                    ApexLogger.LogVerbose($"Fetching: {url}", ApexLogger.LogCategory.Map);
                 }
 
                 using (var request = UnityWebRequest.Get(url))
@@ -264,7 +265,7 @@ namespace ApexCitadels.PC.GeoMapping
 
                         if (showDebugInfo)
                         {
-                            Debug.Log($"[MapTileProvider] Loaded tile {coord}");
+                            ApexLogger.LogVerbose($"Loaded tile {coord}", ApexLogger.LogCategory.Map);
                         }
                     }
                     else
@@ -274,7 +275,7 @@ namespace ApexCitadels.PC.GeoMapping
                         _failedRequests++;
                         
                         OnTileFailed?.Invoke(coord, request.error);
-                        Debug.LogWarning($"[MapTileProvider] Failed to load {coord}: {request.error}");
+                        ApexLogger.LogWarning($"Failed to load {coord}: {request.error}", ApexLogger.LogCategory.Map);
                     }
                 }
             }
@@ -285,7 +286,7 @@ namespace ApexCitadels.PC.GeoMapping
                 _failedRequests++;
                 
                 OnTileFailed?.Invoke(coord, ex.Message);
-                Debug.LogError($"[MapTileProvider] Exception loading {coord}: {ex.Message}");
+                ApexLogger.LogError($"Exception loading {coord}: {ex.Message}", ApexLogger.LogCategory.Map);
             }
             finally
             {
@@ -331,7 +332,7 @@ namespace ApexCitadels.PC.GeoMapping
                 case MapProvider.Mapbox:
                     if (string.IsNullOrEmpty(config.MapboxAccessToken))
                     {
-                        Debug.LogError("[MapTileProvider] Mapbox requires an access token!");
+                        ApexLogger.LogError("Mapbox requires an access token!", ApexLogger.LogCategory.Map);
                         return "";
                     }
                     string mapboxStyle = config.Style switch
@@ -388,7 +389,7 @@ namespace ApexCitadels.PC.GeoMapping
         [ContextMenu("Print Cache Stats")]
         private void PrintCacheStats()
         {
-            Debug.Log($"[MapTileProvider] {GetStats()}");
+            ApexLogger.LogMap($"{GetStats()}");
         }
 
         [ContextMenu("Clear Cache")]

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
@@ -178,7 +179,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load friends list: {e.Message}");
+                ApexLogger.LogError($"Failed to load friends list: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -189,7 +190,7 @@ namespace ApexCitadels.Social
         {
             if (_friends.Count >= maxFriends)
             {
-                Debug.LogWarning("Max friends limit reached");
+                ApexLogger.LogWarning("Max friends limit reached", ApexLogger.LogCategory.Network);
                 return false;
             }
 
@@ -204,7 +205,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to send friend request: {e.Message}");
+                ApexLogger.LogError($"Failed to send friend request: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
@@ -243,7 +244,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to accept friend request: {e.Message}");
+                ApexLogger.LogError($"Failed to accept friend request: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
@@ -269,7 +270,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to decline friend request: {e.Message}");
+                ApexLogger.LogError($"Failed to decline friend request: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
@@ -292,7 +293,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to remove friend: {e.Message}");
+                ApexLogger.LogError($"Failed to remove friend: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
@@ -304,10 +305,10 @@ namespace ApexCitadels.Social
         {
             if (!CanSendGift)
             {
-                Debug.LogWarning("Daily gift limit reached");
+                ApexLogger.LogWarning("Daily gift limit reached", ApexLogger.LogCategory.Network);
                 return Task.FromResult(false);
             }
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendGift is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. SendGift is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
@@ -330,7 +331,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load pending requests: {e.Message}");
+                ApexLogger.LogError($"Failed to load pending requests: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -353,7 +354,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load pending gifts: {e.Message}");
+                ApexLogger.LogError($"Failed to load pending gifts: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -376,7 +377,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load activity feed: {e.Message}");
+                ApexLogger.LogError($"Failed to load activity feed: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -386,7 +387,7 @@ namespace ApexCitadels.Social
         private void SubscribeToFriendRequests()
         {
             // Real-time listener for friend requests would go here
-            Debug.Log("[FriendsManager] Subscribed to friend requests");
+            ApexLogger.LogVerbose("Subscribed to friend requests", ApexLogger.LogCategory.Network);
         }
 
         /// <summary>
@@ -395,7 +396,7 @@ namespace ApexCitadels.Social
         private void SubscribeToGifts()
         {
             // Real-time listener for gifts would go here
-            Debug.Log("[FriendsManager] Subscribed to gifts");
+            ApexLogger.LogVerbose("Subscribed to gifts", ApexLogger.LogCategory.Network);
         }
 
         /// <summary>
@@ -423,7 +424,7 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to update online statuses: {e.Message}");
+                ApexLogger.LogError($"Failed to update online statuses: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -447,103 +448,103 @@ namespace ApexCitadels.Social
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to claim all gifts: {e.Message}");
+                ApexLogger.LogError($"Failed to claim all gifts: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         private void Start()
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Network);
         }
 
         public Task LoadFriendsList()
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadFriendsList is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. LoadFriendsList is a stub.", ApexLogger.LogCategory.Network);
             return Task.CompletedTask;
         }
 
         public Task<bool> SendFriendRequest(string toUserId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendFriendRequest is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. SendFriendRequest is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> AcceptFriendRequest(string requestId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. AcceptFriendRequest is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. AcceptFriendRequest is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> DeclineFriendRequest(string requestId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. DeclineFriendRequest is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. DeclineFriendRequest is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> RemoveFriend(string friendUserId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. RemoveFriend is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. RemoveFriend is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> SendGift(string toUserId, string giftType = "energy")
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SendGift is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. SendGift is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> ClaimGift(string giftId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. ClaimGift is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. ClaimGift is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> ClaimAllGifts()
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. ClaimAllGifts is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. ClaimAllGifts is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task LoadPendingRequests()
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadPendingRequests is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. LoadPendingRequests is a stub.", ApexLogger.LogCategory.Network);
             return Task.CompletedTask;
         }
 
         public Task LoadPendingGifts()
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadPendingGifts is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. LoadPendingGifts is a stub.", ApexLogger.LogCategory.Network);
             return Task.CompletedTask;
         }
 
         public Task LoadActivityFeed()
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. LoadActivityFeed is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. LoadActivityFeed is a stub.", ApexLogger.LogCategory.Network);
             return Task.CompletedTask;
         }
 
         public Task<List<Friend>> SearchPlayers(string query)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. SearchPlayers is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. SearchPlayers is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(new List<Friend>());
         }
 
         public Task<bool> BlockUser(string userId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. BlockUser is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. BlockUser is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> UnblockUser(string userId)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. UnblockUser is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. UnblockUser is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 
         public Task<bool> ReportUser(string userId, string reason)
         {
-            Debug.LogWarning("[FriendsManager] Firebase SDK not installed. ReportUser is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. ReportUser is a stub.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif

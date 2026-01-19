@@ -6,6 +6,7 @@ using UnityEngine;
 using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Privacy
 {
@@ -122,7 +123,7 @@ namespace ApexCitadels.Privacy
 #else
         private void Start()
         {
-            Debug.LogWarning("[GDPRManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning(LogCategory.General, "Firebase SDK not installed. Running in stub mode.");
             LoadLocalPreferences();
             // Check local consent only in stub mode
             if (!_hasValidConsent)
@@ -179,7 +180,7 @@ namespace ApexCitadels.Privacy
 
             if (debugMode)
             {
-                Debug.Log($"[GDPR] Loaded consent: {consentJson}, version: {_storedConsentVersion}, valid: {_hasValidConsent}");
+                ApexLogger.Log(LogCategory.General, $"Loaded consent: {consentJson}, version: {_storedConsentVersion}, valid: {_hasValidConsent}");
             }
         }
 
@@ -216,7 +217,7 @@ namespace ApexCitadels.Privacy
             {
                 if (debugMode)
                 {
-                    Debug.LogError($"[GDPR] Failed to check consent status: {ex.Message}");
+                    ApexLogger.LogError(LogCategory.General, $"Failed to check consent status: {ex.Message}");
                 }
                 // On error, use local state
             }
@@ -270,7 +271,7 @@ namespace ApexCitadels.Privacy
 
                     if (debugMode)
                     {
-                        Debug.Log("[GDPR] Consent updated successfully");
+                        ApexLogger.Log(LogCategory.General, "Consent updated successfully");
                     }
 
                     return true;
@@ -280,14 +281,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to update consent: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to update consent: {ex.Message}");
                 return false;
             }
         }
 #else
         public Task<bool> UpdateConsent(ConsentPreferences consent)
         {
-            Debug.LogWarning("[GDPRManager] UpdateConsent called but Firebase SDK not installed. Saving locally only.");
+            ApexLogger.LogWarning(LogCategory.General, "UpdateConsent called but Firebase SDK not installed. Saving locally only.");
             
             // Save locally in stub mode
             _currentConsent = consent;
@@ -341,7 +342,7 @@ namespace ApexCitadels.Privacy
 
                     if (debugMode)
                     {
-                        Debug.Log("[GDPR] Privacy settings updated successfully");
+                        ApexLogger.Log(LogCategory.General, "Privacy settings updated successfully");
                     }
 
                     return true;
@@ -351,14 +352,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to update privacy settings: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to update privacy settings: {ex.Message}");
                 return false;
             }
         }
 #else
         public Task<bool> UpdatePrivacySettings(PrivacySettings settings)
         {
-            Debug.LogWarning("[GDPRManager] UpdatePrivacySettings called but Firebase SDK not installed. Saving locally only.");
+            ApexLogger.LogWarning(LogCategory.General, "UpdatePrivacySettings called but Firebase SDK not installed. Saving locally only.");
             
             _privacySettings = settings;
             PlayerPrefs.SetString(PRIVACY_PREFS_KEY, JsonConvert.SerializeObject(settings));
@@ -406,13 +407,13 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to load privacy settings: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to load privacy settings: {ex.Message}");
             }
         }
 #else
         public Task LoadPrivacySettings()
         {
-            Debug.LogWarning("[GDPRManager] LoadPrivacySettings called but Firebase SDK not installed. Using local settings.");
+            ApexLogger.LogWarning(LogCategory.General, "LoadPrivacySettings called but Firebase SDK not installed. Using local settings.");
             OnPrivacySettingsUpdated?.Invoke(_privacySettings);
             return Task.CompletedTask;
         }
@@ -444,14 +445,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to request data export: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to request data export: {ex.Message}");
                 return new DataExportStatus { Status = "failed", ErrorMessage = ex.Message };
             }
         }
 #else
         public Task<DataExportStatus> RequestDataExport(string format = "json")
         {
-            Debug.LogWarning("[GDPRManager] RequestDataExport called but Firebase SDK not installed.");
+            ApexLogger.LogWarning(LogCategory.General, "RequestDataExport called but Firebase SDK not installed.");
             var status = new DataExportStatus { Status = "unavailable", ErrorMessage = "Firebase not installed" };
             OnExportStatusChanged?.Invoke(status);
             return Task.FromResult(status);
@@ -506,14 +507,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to get export status: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to get export status: {ex.Message}");
                 return new DataExportStatus { Status = "error", ErrorMessage = ex.Message };
             }
         }
 #else
         public Task<DataExportStatus> GetExportStatus(string requestId = null)
         {
-            Debug.LogWarning("[GDPRManager] GetExportStatus called but Firebase SDK not installed.");
+            ApexLogger.LogWarning(LogCategory.General, "GetExportStatus called but Firebase SDK not installed.");
             return Task.FromResult(new DataExportStatus { Status = "unavailable", ErrorMessage = "Firebase not installed" });
         }
 #endif
@@ -558,14 +559,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to request data deletion: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to request data deletion: {ex.Message}");
                 return new DataDeletionStatus { Status = "error" };
             }
         }
 #else
         public Task<DataDeletionStatus> RequestDataDeletion()
         {
-            Debug.LogWarning("[GDPRManager] RequestDataDeletion called but Firebase SDK not installed.");
+            ApexLogger.LogWarning(LogCategory.General, "RequestDataDeletion called but Firebase SDK not installed.");
             var status = new DataDeletionStatus { Status = "unavailable" };
             OnDeletionStatusChanged?.Invoke(status);
             return Task.FromResult(status);
@@ -600,14 +601,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[GDPR] Failed to cancel deletion: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Failed to cancel deletion: {ex.Message}");
                 return false;
             }
         }
 #else
         public Task<bool> CancelDataDeletion(string requestId)
         {
-            Debug.LogWarning("[GDPRManager] CancelDataDeletion called but Firebase SDK not installed.");
+            ApexLogger.LogWarning(LogCategory.General, "CancelDataDeletion called but Firebase SDK not installed.");
             return Task.FromResult(false);
         }
 #endif
@@ -659,7 +660,7 @@ namespace ApexCitadels.Privacy
 
             if (debugMode)
             {
-                Debug.Log("[GDPR] Local data cleared");
+                ApexLogger.Log(LogCategory.General, "Local data cleared");
             }
         }
     }

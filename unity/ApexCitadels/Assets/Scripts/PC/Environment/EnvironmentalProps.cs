@@ -4,6 +4,7 @@
 // ============================================================================
 using UnityEngine;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Environment
 {
@@ -66,7 +67,7 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         public void GenerateAllProps()
         {
-            Debug.Log("[Props] Generating environmental props...");
+            ApexLogger.Log("Generating environmental props...", ApexLogger.LogCategory.Environment);
             
             ClearExisting();
             
@@ -75,7 +76,7 @@ namespace ApexCitadels.PC.Environment
             GenerateRocks();
             GenerateGrassPatches();
             
-            Debug.Log($"[Props] Generated {_trees.Count} trees, {_rocks.Count} rocks");
+            ApexLogger.Log($"Generated {_trees.Count} trees, {_rocks.Count} rocks", ApexLogger.LogCategory.Environment);
         }
 
         private void ClearExisting()

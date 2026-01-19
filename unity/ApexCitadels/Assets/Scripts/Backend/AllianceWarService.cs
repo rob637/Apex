@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
@@ -59,11 +60,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AllianceWarService] DeclareWar failed: {ex.Message}");
+                ApexLogger.LogError($"DeclareWar failed: {ex.Message}", ApexLogger.LogCategory.Alliance);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] DeclareWar against: {targetAllianceId}");
+            ApexLogger.LogVerbose($"[STUB] DeclareWar against: {targetAllianceId}", ApexLogger.LogCategory.Alliance);
             await Task.Delay(200);
             var war = new AllianceWar
             {
@@ -105,11 +106,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AllianceWarService] CancelWar failed: {ex.Message}");
+                ApexLogger.LogError($"CancelWar failed: {ex.Message}", ApexLogger.LogCategory.Alliance);
                 return false;
             }
 #else
-            Debug.Log($"[STUB] CancelWar: {warId}");
+            ApexLogger.LogVerbose($"[STUB] CancelWar: {warId}", ApexLogger.LogCategory.Alliance);
             await Task.Delay(100);
             if (_currentWar?.WarId == warId && _currentWar?.Phase == WarPhase.Warning)
             {
@@ -148,11 +149,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AllianceWarService] GetWarStatus failed: {ex.Message}");
+                ApexLogger.LogError($"GetWarStatus failed: {ex.Message}", ApexLogger.LogCategory.Alliance);
                 throw;
             }
 #else
-            Debug.Log("[STUB] GetWarStatus called");
+            ApexLogger.LogVerbose("[STUB] GetWarStatus called", ApexLogger.LogCategory.Alliance);
             await Task.Delay(100);
             return _currentWar;
 #endif
@@ -207,7 +208,7 @@ namespace ApexCitadels.Backend
         {
             if (_currentWar == null)
             {
-                Debug.Log("[AllianceWarService] No active war to listen for");
+                ApexLogger.Log("No active war to listen for", ApexLogger.LogCategory.Alliance);
                 return;
             }
 
@@ -248,14 +249,14 @@ namespace ApexCitadels.Backend
                     }
                 });
 
-                Debug.Log("[AllianceWarService] Started real-time war listener");
+                ApexLogger.Log("Started real-time war listener", ApexLogger.LogCategory.Alliance);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AllianceWarService] Failed to start listener: {ex.Message}");
+                ApexLogger.LogError($"Failed to start listener: {ex.Message}", ApexLogger.LogCategory.Alliance);
             }
 #else
-            Debug.Log("[STUB] StartWarListener - would connect to Firestore");
+            ApexLogger.LogVerbose("[STUB] StartWarListener - would connect to Firestore", ApexLogger.LogCategory.Alliance);
 #endif
         }
 
@@ -270,10 +271,10 @@ namespace ApexCitadels.Backend
             {
                 _warListenerRegistration.Stop();
                 _warListenerRegistration = null;
-                Debug.Log("[AllianceWarService] Stopped war listener");
+                ApexLogger.Log("Stopped war listener", ApexLogger.LogCategory.Alliance);
             }
 #else
-            Debug.Log("[STUB] StopWarListener");
+            ApexLogger.LogVerbose("[STUB] StopWarListener", ApexLogger.LogCategory.Alliance);
 #endif
         }
 
@@ -313,7 +314,7 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AllianceWarService] Failed to parse war: {ex.Message}");
+                ApexLogger.LogError($"Failed to parse war: {ex.Message}", ApexLogger.LogCategory.Alliance);
                 return null;
             }
         }
@@ -343,11 +344,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AllianceWarService] GetAllianceWars failed: {ex.Message}");
+                ApexLogger.LogError($"GetAllianceWars failed: {ex.Message}", ApexLogger.LogCategory.Alliance);
                 return new List<AllianceWar>();
             }
 #else
-            Debug.Log($"[STUB] GetAllianceWarsAsync for alliance: {allianceId}");
+            ApexLogger.LogVerbose($"[STUB] GetAllianceWarsAsync for alliance: {allianceId}", ApexLogger.LogCategory.Alliance);
             await Task.Delay(100);
             var wars = new List<AllianceWar>();
             if (_currentWar != null)

@@ -4,6 +4,7 @@
 // ============================================================================
 using System;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -119,7 +120,7 @@ namespace ApexCitadels.PC.GeoMapping
         {
             _referencePoint = reference;
             _referenceOffset = Vector3.zero;
-            Debug.Log($"[GeoProjection] Reference point set to {reference}");
+            ApexLogger.Log($"Reference point set to {reference}", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace ApexCitadels.PC.GeoMapping
         public static void SetScale(double metersPerUnit)
         {
             _metersPerUnit = metersPerUnit;
-            Debug.Log($"[GeoProjection] Scale set to {metersPerUnit} meters/unit");
+            ApexLogger.Log($"Scale set to {metersPerUnit} meters/unit", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>

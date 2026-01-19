@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.CameraControllers
 {
@@ -125,7 +126,7 @@ namespace ApexCitadels.PC.CameraControllers
         {
             if (path == null || path.waypoints.Count < 2)
             {
-                Debug.LogWarning("Invalid cinematic path");
+                ApexLogger.LogWarning("Invalid cinematic path", LogCategory.General);
                 return;
             }
             
@@ -273,7 +274,7 @@ namespace ApexCitadels.PC.CameraControllers
             _isPaused = true;
             
             // Enable free camera movement
-            Debug.Log("Photo mode enabled - implement free camera controls");
+            ApexLogger.LogVerbose("Photo mode enabled - implement free camera controls", LogCategory.General);
         }
         
         #endregion
@@ -730,7 +731,7 @@ namespace ApexCitadels.PC.CameraControllers
         {
             if (outputAsset == null)
             {
-                Debug.LogError("No output asset assigned");
+                ApexLogger.LogError("No output asset assigned", LogCategory.General);
                 return;
             }
             
@@ -752,7 +753,7 @@ namespace ApexCitadels.PC.CameraControllers
             UnityEditor.EditorUtility.SetDirty(outputAsset);
 #endif
             
-            Debug.Log($"Generated path with {outputAsset.waypoints.Count} waypoints");
+            ApexLogger.Log($"Generated path with {outputAsset.waypoints.Count} waypoints", LogCategory.General);
         }
     }
     
@@ -877,7 +878,7 @@ namespace ApexCitadels.PC.CameraControllers
             System.IO.File.WriteAllBytes(path, bytes);
             UnityEngine.Object.Destroy(screenshot);
             
-            Debug.Log($"Screenshot saved: {path}");
+            ApexLogger.Log($"Screenshot saved: {path}", LogCategory.General);
             
             // Show UI
             photoModeUI?.SetActive(true);

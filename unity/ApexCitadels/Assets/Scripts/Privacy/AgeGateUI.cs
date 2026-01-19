@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Privacy
 {
@@ -200,7 +201,7 @@ namespace ApexCitadels.Privacy
             PlayerPrefs.SetString(DOB_HASH_KEY, HashDate(birthDate));
             PlayerPrefs.Save();
 
-            Debug.Log($"[AgeGate] Age verified: {age} years old");
+            ApexLogger.Log(LogCategory.General, $"Age verified: {age} years old");
             
             Hide();
             OnAgeVerified?.Invoke();
@@ -256,7 +257,7 @@ namespace ApexCitadels.Privacy
             }
             else
             {
-                Debug.LogWarning($"[AgeGate] {message}");
+                ApexLogger.LogWarning(LogCategory.General, message);
             }
         }
 

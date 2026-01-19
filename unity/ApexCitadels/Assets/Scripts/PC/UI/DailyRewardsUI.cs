@@ -1,5 +1,8 @@
 using System;
 using ApexCitadels.Data;
+using ApexCitadels.Core;
+using ApexCitadels.Audio;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +34,12 @@ namespace ApexCitadels.PC.UI
         [SerializeField] private int daysInCycle = 7; // Weekly cycle
         [SerializeField] private float baseGoldReward = 100f;
         [SerializeField] private float streakMultiplier = 0.1f; // +10% per day
+        
+        [Header("Celebration Effects")]
+        [SerializeField] private ParticleSystem celebrationParticles;
+        [SerializeField] private Image screenFlash;
+        [SerializeField] private float flashDuration = 0.3f;
+        [SerializeField] private Color flashColor = new Color(1f, 0.84f, 0f, 0.5f); // Gold flash
         
         // State
         private int _currentStreak;
@@ -248,12 +257,12 @@ namespace ApexCitadels.PC.UI
             SaveProgress();
             UpdateUI();
             
-            Debug.Log($"[DailyRewards] Claimed Day {_currentDayInCycle}! Streak: {_currentStreak}x (Multiplier: {multiplier:F1}x)");
-            Debug.Log($"[DailyRewards] Rewards: {bonusGold}g, {bonusStone}s, {bonusWood}w, {bonusIron}i, {bonusCrystal}c");
+            ApexLogger.Log(ApexLogger.LogCategory.UI, $"[DailyRewards] Claimed Day {_currentDayInCycle}! Streak: {_currentStreak}x (Multiplier: {multiplier:F1}x)");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, $"[DailyRewards] Rewards: {bonusGold}g, {bonusStone}s, {bonusWood}w, {bonusIron}i, {bonusCrystal}c)");
             
             OnRewardClaimed?.Invoke(reward);
             
-            // Show celebration (TODO: particles, sound)
+            // Show celebration with particles, sound, and screen flash
             ShowClaimCelebration(reward);
         }
 
@@ -537,8 +546,83 @@ namespace ApexCitadels.PC.UI
 
         private void ShowClaimCelebration(DailyReward reward)
         {
-            // TODO: Particle effects, sound, screen flash
-            Debug.Log($"[DailyRewards] 🎉 CELEBRATION! {reward.Description}");
+            ApexLogger.Log(ApexLogger.LogCategory.UI, $"[DailyRewards] 🎉 CELEBRATION! {reward.Description}");
+            
+            // Play celebration particles
+            if (celebrationParticles != null)
+            {
+                celebrationParticles.Play();
+            }
+            
+            // Play reward sound based on reward value
+            if (AudioManager.Instance != null)
+            {
+                bool isPremiumReward = reward.IsPremium || reward.Gold >= 500;
+                string soundId = isPremiumReward ? "reward_epic" : "reward_normal";
+                AudioManager.Instance.PlaySFX(soundId);
+            }
+            
+            // Screen flash effect
+            if (screenFlash != null)
+            {
+                StartCoroutine(FlashScreen());
+            }
+            
+            // Scale punch animation on claim button
+            if (claimButton != null)
+            {
+                StartCoroutine(PunchScale(claimButton.transform, 1.2f, 0.2f));
+            }
+        }
+        
+        private IEnumerator FlashScreen()
+        {
+            if (screenFlash == null) yield break;
+            
+            screenFlash.gameObject.SetActive(true);
+            screenFlash.color = flashColor;
+            
+            float elapsed = 0f;
+            while (elapsed < flashDuration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(flashColor.a, 0f, elapsed / flashDuration);
+                screenFlash.color = new Color(flashColor.r, flashColor.g, flashColor.b, alpha);
+                yield return null;
+            }
+            
+            screenFlash.gameObject.SetActive(false);
+        }
+        
+        private IEnumerator PunchScale(Transform target, float punchScale, float duration)
+        {
+            if (target == null) yield break;
+            
+            Vector3 originalScale = target.localScale;
+            Vector3 punchedScale = originalScale * punchScale;
+            
+            // Scale up
+            float halfDuration = duration / 2f;
+            float elapsed = 0f;
+            while (elapsed < halfDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / halfDuration;
+                target.localScale = Vector3.Lerp(originalScale, punchedScale, t);
+                yield return null;
+            }
+            
+            // Scale back down
+            elapsed = 0f;
+            while (elapsed < halfDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / halfDuration;
+                target.localScale = Vector3.Lerp(punchedScale, originalScale, t);
+                yield return null;
+            }
+            
+            target.localScale = originalScale;
         }
 
         /// <summary>

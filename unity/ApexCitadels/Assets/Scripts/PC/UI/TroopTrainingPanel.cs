@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.UI
@@ -600,7 +601,7 @@ namespace ApexCitadels.PC.UI
         {
             if (trainingQueue.Count >= maxQueueSize)
             {
-                Debug.Log("[TroopTraining] Queue is full!");
+                ApexLogger.LogWarning("Queue is full!", ApexLogger.LogCategory.Combat);
                 return;
             }
 
@@ -623,7 +624,7 @@ namespace ApexCitadels.PC.UI
             CreateQueueItemUI(item);
             UpdateQueueHeader();
 
-            Debug.Log($"[TroopTraining] Queued {count} {type} - {item.TotalTimeSeconds}s");
+            ApexLogger.Log($"Queued {count} {type} - {item.TotalTimeSeconds}s", ApexLogger.LogCategory.Combat);
         }
 
         private void CreateQueueItemUI(TrainingQueueItem item)
@@ -689,7 +690,7 @@ namespace ApexCitadels.PC.UI
                 // TODO: Implement refund
 
                 RefreshQueueUI();
-                Debug.Log($"[TroopTraining] Cancelled training: {item.Type}");
+                ApexLogger.Log($"Cancelled training: {item.Type}", ApexLogger.LogCategory.Combat);
             }
         }
 
@@ -757,7 +758,7 @@ namespace ApexCitadels.PC.UI
 
             UpdateCapacityDisplay();
 
-            Debug.Log($"[TroopTraining] Completed: {item.Count} {item.Type}");
+            ApexLogger.Log($"Completed: {item.Count} {item.Type}", ApexLogger.LogCategory.Combat);
         }
 
         private void RefreshQueueUI()

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
 
@@ -96,7 +97,7 @@ namespace ApexCitadels.Combat
             string currentPlayerId = PlayerManager.Instance?.GetCurrentPlayerId() ?? "";
             if (target.OwnerId == currentPlayerId)
             {
-                Debug.Log("[CombatManager] Cannot attack your own territory!");
+                ApexLogger.Log(ApexLogger.LogCategory.Combat, "[CombatManager] Cannot attack your own territory!");
                 return false;
             }
 
@@ -107,7 +108,7 @@ namespace ApexCitadels.Combat
             _inCombat = true;
             OnCombatStarted?.Invoke();
 
-            Debug.Log($"[CombatManager] Started attack on territory {target.Id}");
+            ApexLogger.Log(ApexLogger.LogCategory.Combat, $"[CombatManager] Started attack on territory {target.Id}");
             return true;
         }
 
@@ -119,7 +120,7 @@ namespace ApexCitadels.Combat
             _currentTarget = null;
             _inCombat = false;
             OnCombatEnded?.Invoke();
-            Debug.Log("[CombatManager] Attack stopped");
+            ApexLogger.Log(ApexLogger.LogCategory.Combat, "[CombatManager] Attack stopped");
         }
 
         /// <summary>

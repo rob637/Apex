@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 #if FIREBASE_ENABLED
 using Firebase.Auth;
@@ -77,7 +78,7 @@ namespace ApexCitadels.Player
                 bool signedIn = _auth.CurrentUser != null;
                 if (!signedIn && _firebaseUser != null)
                 {
-                    Debug.Log("[PlayerManager] User signed out");
+                    ApexLogger.Log(ApexLogger.LogCategory.Player, "User signed out");
                     CurrentPlayer = null;
                     OnPlayerLoggedOut?.Invoke();
                 }
@@ -93,7 +94,7 @@ namespace ApexCitadels.Player
         /// </summary>
         public async Task<LoginResult> Login(string email, string password)
         {
-            Debug.Log($"[PlayerManager] Attempting login for {email}...");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, $"Attempting login for {email}...");
 
 #if FIREBASE_ENABLED
             try
@@ -101,7 +102,7 @@ namespace ApexCitadels.Player
                 var authResult = await _auth.SignInWithEmailAndPasswordAsync(email, password);
                 _firebaseUser = authResult.User;
                 
-                Debug.Log($"[PlayerManager] Firebase Auth successful for {_firebaseUser.UserId}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Firebase Auth successful for {_firebaseUser.UserId}");
                 
                 // Load or create player profile from Firestore
                 await LoadOrCreatePlayerProfile(_firebaseUser);
@@ -109,17 +110,17 @@ namespace ApexCitadels.Player
                 SaveLoginCredentials();
                 OnPlayerLoggedIn?.Invoke(CurrentPlayer);
 
-                Debug.Log($"[PlayerManager] Login successful! Player: {CurrentPlayer.DisplayName}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Login successful! Player: {CurrentPlayer.DisplayName}");
                 return new LoginResult(true, "Login successful!");
             }
             catch (Firebase.FirebaseException ex)
             {
-                Debug.LogError($"[PlayerManager] Firebase Auth failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Firebase Auth failed: {ex.Message}");
                 return new LoginResult(false, GetAuthErrorMessage(ex.ErrorCode), ex.ErrorCode.ToString());
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PlayerManager] Login failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Login failed: {ex.Message}");
                 return new LoginResult(false, "Login failed. Please try again.", "UNKNOWN");
             }
 #else
@@ -133,7 +134,7 @@ namespace ApexCitadels.Player
             };
             SaveLoginCredentials();
             OnPlayerLoggedIn?.Invoke(CurrentPlayer);
-            Debug.Log($"[PlayerManager] Login successful (stub)! Player: {CurrentPlayer.DisplayName}");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, $"Login successful (stub)! Player: {CurrentPlayer.DisplayName}");
             return new LoginResult(true, "Login successful!");
 #endif
         }
@@ -143,7 +144,7 @@ namespace ApexCitadels.Player
         /// </summary>
         public async Task<LoginResult> Register(string email, string password, string displayName)
         {
-            Debug.Log($"[PlayerManager] Registering new account for {email}...");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, $"Registering new account for {email}...");
 
 #if FIREBASE_ENABLED
             try
@@ -155,7 +156,7 @@ namespace ApexCitadels.Player
                 var profile = new UserProfile { DisplayName = displayName };
                 await _firebaseUser.UpdateUserProfileAsync(profile);
                 
-                Debug.Log($"[PlayerManager] Firebase registration successful for {_firebaseUser.UserId}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Firebase registration successful for {_firebaseUser.UserId}");
                 
                 // Create new player profile
                 CurrentPlayer = new PlayerProfile
@@ -170,17 +171,17 @@ namespace ApexCitadels.Player
                 SaveLoginCredentials();
                 OnPlayerLoggedIn?.Invoke(CurrentPlayer);
 
-                Debug.Log($"[PlayerManager] Registration successful! Player: {CurrentPlayer.DisplayName}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Registration successful! Player: {CurrentPlayer.DisplayName}");
                 return new LoginResult(true, "Account created!");
             }
             catch (Firebase.FirebaseException ex)
             {
-                Debug.LogError($"[PlayerManager] Firebase registration failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Firebase registration failed: {ex.Message}");
                 return new LoginResult(false, GetAuthErrorMessage(ex.ErrorCode), ex.ErrorCode.ToString());
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PlayerManager] Registration failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Registration failed: {ex.Message}");
                 return new LoginResult(false, "Registration failed. Please try again.", "UNKNOWN");
             }
 #else
@@ -195,7 +196,7 @@ namespace ApexCitadels.Player
             await SavePlayerToCloud();
             SaveLoginCredentials();
             OnPlayerLoggedIn?.Invoke(CurrentPlayer);
-            Debug.Log($"[PlayerManager] Registration successful (stub)! Player: {CurrentPlayer.DisplayName}");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, $"Registration successful (stub)! Player: {CurrentPlayer.DisplayName}");
             return new LoginResult(true, "Account created!");
 #endif
         }
@@ -205,7 +206,7 @@ namespace ApexCitadels.Player
         /// </summary>
         public async Task<LoginResult> LoginAsGuest()
         {
-            Debug.Log("[PlayerManager] Logging in as guest...");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, "Logging in as guest...");
 
 #if FIREBASE_ENABLED
             try
@@ -213,19 +214,19 @@ namespace ApexCitadels.Player
                 var authResult = await _auth.SignInAnonymouslyAsync();
                 _firebaseUser = authResult.User;
                 
-                Debug.Log($"[PlayerManager] Anonymous auth successful for {_firebaseUser.UserId}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Anonymous auth successful for {_firebaseUser.UserId}");
                 
                 // Load or create player profile
                 await LoadOrCreatePlayerProfile(_firebaseUser, isAnonymous: true);
                 
                 OnPlayerLoggedIn?.Invoke(CurrentPlayer);
 
-                Debug.Log($"[PlayerManager] Guest login successful! Player: {CurrentPlayer.DisplayName}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Guest login successful! Player: {CurrentPlayer.DisplayName}");
                 return new LoginResult(true, "Logged in as guest");
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PlayerManager] Anonymous auth failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Anonymous auth failed: {ex.Message}");
                 return new LoginResult(false, "Guest login failed. Please try again.", "UNKNOWN");
             }
 #else
@@ -237,7 +238,7 @@ namespace ApexCitadels.Player
                 CreatedAt = DateTime.UtcNow
             };
             OnPlayerLoggedIn?.Invoke(CurrentPlayer);
-            Debug.Log($"[PlayerManager] Guest login successful (stub)! Player: {CurrentPlayer.DisplayName}");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, $"Guest login successful (stub)! Player: {CurrentPlayer.DisplayName}");
             return new LoginResult(true, "Logged in as guest");
 #endif
         }
@@ -247,7 +248,7 @@ namespace ApexCitadels.Player
         /// </summary>
         public void Logout()
         {
-            Debug.Log("[PlayerManager] Logging out...");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, "Logging out...");
 
 #if FIREBASE_ENABLED
             _auth.SignOut();
@@ -257,7 +258,7 @@ namespace ApexCitadels.Player
             CurrentPlayer = null;
             OnPlayerLoggedOut?.Invoke();
 
-            Debug.Log("[PlayerManager] Logged out");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, "Logged out");
         }
 
 #if FIREBASE_ENABLED
@@ -279,7 +280,7 @@ namespace ApexCitadels.Player
                     { "lastActiveAt", FieldValue.ServerTimestamp }
                 });
                 
-                Debug.Log($"[PlayerManager] Loaded existing profile for {CurrentPlayer.DisplayName}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Loaded existing profile for {CurrentPlayer.DisplayName}");
             }
             else
             {
@@ -297,7 +298,7 @@ namespace ApexCitadels.Player
                 };
                 
                 await SavePlayerToCloud();
-                Debug.Log($"[PlayerManager] Created new profile for {CurrentPlayer.DisplayName}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Created new profile for {CurrentPlayer.DisplayName}");
             }
         }
         
@@ -333,7 +334,7 @@ namespace ApexCitadels.Player
             // Firebase Auth persists sessions automatically
             if (_auth?.CurrentUser != null)
             {
-                Debug.Log("[PlayerManager] Found existing Firebase session, restoring...");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, "Found existing Firebase session, restoring...");
                 _firebaseUser = _auth.CurrentUser;
                 _ = LoadOrCreatePlayerProfile(_firebaseUser, _firebaseUser.IsAnonymous);
             }
@@ -342,7 +343,7 @@ namespace ApexCitadels.Player
             string savedPlayerId = PlayerPrefs.GetString("SavedPlayerId", "");
             if (!string.IsNullOrEmpty(savedPlayerId))
             {
-                Debug.Log("[PlayerManager] Found saved credentials, attempting auto-login...");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, "Found saved credentials, attempting auto-login...");
                 _ = LoginAsGuest();
             }
 #endif
@@ -380,7 +381,7 @@ namespace ApexCitadels.Player
             if (leveledUp)
             {
                 OnLevelUp?.Invoke(CurrentPlayer.Level);
-                Debug.Log($"[PlayerManager] Level up! Now level {CurrentPlayer.Level}");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, $"Level up! Now level {CurrentPlayer.Level}");
             }
 
             _ = SavePlayerToCloud();
@@ -601,7 +602,7 @@ namespace ApexCitadels.Player
         {
             if (CurrentPlayer == null) return;
 
-            Debug.Log("[PlayerManager] Saving player data to cloud...");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, "Saving player data to cloud...");
             
 #if FIREBASE_ENABLED
             try
@@ -611,21 +612,21 @@ namespace ApexCitadels.Player
                 data["lastActiveAt"] = FieldValue.ServerTimestamp;
                 
                 await docRef.SetAsync(data, SetOptions.MergeAll);
-                Debug.Log("[PlayerManager] Player data saved to Firestore");
+                ApexLogger.Log(ApexLogger.LogCategory.Player, "Player data saved to Firestore");
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PlayerManager] Failed to save player data: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Failed to save player data: {ex.Message}");
             }
 #else
             await Task.Delay(100);
-            Debug.Log("[PlayerManager] Player data saved (stub)");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, "Player data saved (stub)");
 #endif
         }
 
         private async Task LoadPlayerFromCloud(string playerId)
         {
-            Debug.Log($"[PlayerManager] Loading player {playerId} from cloud...");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, $"Loading player {playerId} from cloud...");
 
 #if FIREBASE_ENABLED
             try
@@ -636,20 +637,20 @@ namespace ApexCitadels.Player
                 if (snapshot.Exists)
                 {
                     CurrentPlayer = PlayerProfile.FromFirestore(snapshot);
-                    Debug.Log($"[PlayerManager] Player data loaded: {CurrentPlayer.DisplayName}");
+                    ApexLogger.Log(ApexLogger.LogCategory.Player, $"Player data loaded: {CurrentPlayer.DisplayName}");
                 }
                 else
                 {
-                    Debug.LogWarning($"[PlayerManager] No player data found for {playerId}");
+                    ApexLogger.LogWarning(ApexLogger.LogCategory.Player, $"No player data found for {playerId}");
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[PlayerManager] Failed to load player data: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Player, $"Failed to load player data: {ex.Message}");
             }
 #else
             await Task.Delay(100);
-            Debug.Log("[PlayerManager] Player data loaded (stub)");
+            ApexLogger.Log(ApexLogger.LogCategory.Player, "Player data loaded (stub)");
 #endif
         }
 

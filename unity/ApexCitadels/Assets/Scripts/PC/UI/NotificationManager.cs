@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -343,7 +344,7 @@ namespace ApexCitadels.PC.UI
             
             if (prefab == null || prefab.prefab == null)
             {
-                Debug.LogError("No notification prefab available");
+                ApexLogger.LogError("No notification prefab available", ApexLogger.LogCategory.UI);
                 return null;
             }
             

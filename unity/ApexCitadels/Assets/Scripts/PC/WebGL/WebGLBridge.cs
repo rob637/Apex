@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.WebGL
 {
@@ -106,14 +107,14 @@ namespace ApexCitadels.PC.WebGL
             try
             {
                 JS_SendGameReady();
-                Debug.Log("[WebGLBridge] Notified web page: Game Ready");
+                ApexLogger.Log("Notified web page: Game Ready", ApexLogger.LogCategory.Network);
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"[WebGLBridge] JS_SendGameReady failed: {e.Message}");
+                ApexLogger.LogWarning($"JS_SendGameReady failed: {e.Message}", ApexLogger.LogCategory.Network);
             }
 #else
-            Debug.Log("[WebGLBridge] Game Ready (non-WebGL)");
+            ApexLogger.Log("Game Ready (non-WebGL)", ApexLogger.LogCategory.Network);
 #endif
         }
 
@@ -125,7 +126,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_SendTerritorySelected(territoryId);
 #endif
-            Debug.Log($"[WebGLBridge] Territory selected: {territoryId}");
+            ApexLogger.LogVerbose($"Territory selected: {territoryId}", ApexLogger.LogCategory.Network);
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_SendPlayerStats(json);
 #endif
-            Debug.Log($"[WebGLBridge] Stats sent: {json}");
+            ApexLogger.LogVerbose($"Stats sent: {json}", ApexLogger.LogCategory.Network);
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_SendNotification(title, message);
 #endif
-            Debug.Log($"[WebGLBridge] Notification: {title} - {message}");
+            ApexLogger.LogVerbose($"Notification: {title} - {message}", ApexLogger.LogCategory.Network);
         }
 
         /// <summary>
@@ -208,9 +209,9 @@ namespace ApexCitadels.PC.WebGL
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_GetAllTerritories(gameObject.name, "OnTerritoriesJsonReceived");
-            Debug.Log("[WebGLBridge] Requesting all territories from Firebase JS SDK");
+            ApexLogger.Log("Requesting all territories from Firebase JS SDK", ApexLogger.LogCategory.Network);
 #else
-            Debug.Log("[WebGLBridge] Firebase not available outside WebGL");
+            ApexLogger.Log("Firebase not available outside WebGL", ApexLogger.LogCategory.Network);
 #endif
         }
 
@@ -221,7 +222,7 @@ namespace ApexCitadels.PC.WebGL
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_GetTerritoriesInArea(north, south, east, west, maxResults, gameObject.name, "OnTerritoriesJsonReceived");
-            Debug.Log($"[WebGLBridge] Requesting territories in area: N{north} S{south} E{east} W{west}");
+            ApexLogger.LogVerbose($"Requesting territories in area: N{north} S{south} E{east} W{west}", ApexLogger.LogCategory.Network);
 #endif
         }
 
@@ -251,7 +252,7 @@ namespace ApexCitadels.PC.WebGL
             }
             catch (Exception e)
             {
-                Debug.LogError($"[WebGLBridge] Error getting cached territories: {e.Message}");
+                ApexLogger.LogError($"Error getting cached territories: {e.Message}", ApexLogger.LogCategory.Network);
             }
 #endif
             return new List<TerritorySnapshot>();
@@ -264,7 +265,7 @@ namespace ApexCitadels.PC.WebGL
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_SubscribeToTerritories(gameObject.name, "OnTerritoryUpdateReceived");
-            Debug.Log("[WebGLBridge] Subscribed to real-time territory updates");
+            ApexLogger.Log("Subscribed to real-time territory updates", ApexLogger.LogCategory.Network);
 #endif
         }
 
@@ -276,7 +277,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_Log(message);
 #else
-            Debug.Log(message);
+            ApexLogger.Log(message, ApexLogger.LogCategory.Network);
 #endif
         }
 
@@ -288,7 +289,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
             JS_LogError(message);
 #else
-            Debug.LogError(message);
+            ApexLogger.LogError(message, ApexLogger.LogCategory.Network);
 #endif
         }
 
@@ -301,7 +302,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void OnFirebaseReadyCallback(string userId)
         {
-            Debug.Log($"[WebGLBridge] Firebase ready! User: {userId}");
+            ApexLogger.Log($"Firebase ready! User: {userId}", ApexLogger.LogCategory.Network);
             OnFirebaseReady?.Invoke(userId);
             
             // Auto-load territories when Firebase is ready
@@ -313,16 +314,16 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void OnTerritoriesJsonReceived(string json)
         {
-            Debug.Log($"[WebGLBridge] Received territories JSON ({json.Length} chars)");
+            ApexLogger.LogVerbose($"Received territories JSON ({json.Length} chars)", ApexLogger.LogCategory.Network);
             try
             {
                 var territories = ParseTerritoriesJson(json);
-                Debug.Log($"[WebGLBridge] Parsed {territories.Count} territories");
+                ApexLogger.Log($"Parsed {territories.Count} territories", ApexLogger.LogCategory.Network);
                 OnTerritoriesReceived?.Invoke(territories);
             }
             catch (Exception e)
             {
-                Debug.LogError($"[WebGLBridge] Error parsing territories: {e.Message}");
+                ApexLogger.LogError($"Error parsing territories: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -331,7 +332,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void OnTerritoryJsonReceived(string json)
         {
-            Debug.Log($"[WebGLBridge] Received territory JSON");
+            ApexLogger.LogVerbose($"Received territory JSON", ApexLogger.LogCategory.Network);
             // Single territory callback - you can add specific handling here
         }
 
@@ -340,7 +341,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void OnTerritoryUpdateReceived(string changesJson)
         {
-            Debug.Log($"[WebGLBridge] Received territory update");
+            ApexLogger.LogVerbose($"Received territory update", ApexLogger.LogCategory.Network);
             // Handle real-time updates - parse and forward to WorldMapRenderer
         }
 
@@ -370,7 +371,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void ReceiveLoginToken(string token)
         {
-            Debug.Log($"[WebGLBridge] Received login token");
+            ApexLogger.Log($"Received login token", ApexLogger.LogCategory.Network);
             OnLoginTokenReceived?.Invoke(token);
         }
 
@@ -379,7 +380,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void SelectTerritoryFromWeb(string territoryId)
         {
-            Debug.Log($"[WebGLBridge] Web requested territory: {territoryId}");
+            ApexLogger.Log($"Web requested territory: {territoryId}", ApexLogger.LogCategory.Network);
             OnTerritorySelectedFromWeb?.Invoke(territoryId);
 
             // Forward to PC game controller
@@ -394,7 +395,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void ExecuteCommand(string commandJson)
         {
-            Debug.Log($"[WebGLBridge] Command: {commandJson}");
+            ApexLogger.LogVerbose($"Command: {commandJson}", ApexLogger.LogCategory.Network);
             OnCommandReceived?.Invoke(commandJson);
 
             try
@@ -404,7 +405,7 @@ namespace ApexCitadels.PC.WebGL
             }
             catch (Exception e)
             {
-                Debug.LogError($"[WebGLBridge] Failed to parse command: {e.Message}");
+                ApexLogger.LogError($"Failed to parse command: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 
@@ -413,7 +414,7 @@ namespace ApexCitadels.PC.WebGL
         /// </summary>
         public void TogglePanel(string panelName)
         {
-            Debug.Log($"[WebGLBridge] Toggle panel: {panelName}");
+            ApexLogger.LogVerbose($"Toggle panel: {panelName}", ApexLogger.LogCategory.UI);
             
             if (PC.UI.PCUIManager.Instance != null)
             {

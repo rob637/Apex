@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.UI
@@ -318,7 +319,7 @@ namespace ApexCitadels.PC.UI
                 else
                 {
                     // Show error feedback
-                    Debug.Log($"[QuickBar] Cannot train {type} - queue full or insufficient resources");
+                    ApexLogger.LogWarning($"Cannot train {type} - queue full or insufficient resources", ApexLogger.LogCategory.Combat);
                 }
             }
         }
@@ -332,7 +333,7 @@ namespace ApexCitadels.PC.UI
         {
             // Flash the button or show quick feedback
             string icon = troopIcons.TryGetValue(type, out string i) ? i : "?";
-            Debug.Log($"[QuickBar] Started training: {icon} {type}");
+            ApexLogger.LogVerbose($"Started training: {icon} {type}", ApexLogger.LogCategory.Combat);
         }
 
         #endregion
@@ -431,7 +432,7 @@ namespace ApexCitadels.PC.UI
 
             var enterEntry = new UnityEngine.EventSystems.EventTrigger.Entry();
             enterEntry.eventID = UnityEngine.EventSystems.EventTriggerType.PointerEnter;
-            enterEntry.callback.AddListener((data) => Debug.Log($"Tooltip: {text}"));
+            enterEntry.callback.AddListener((data) => ApexLogger.LogVerbose($"Tooltip: {text}", ApexLogger.LogCategory.UI));
             trigger.triggers.Add(enterEntry);
         }
 

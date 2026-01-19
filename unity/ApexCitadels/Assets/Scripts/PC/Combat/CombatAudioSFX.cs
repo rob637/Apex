@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Combat
 {
@@ -271,7 +272,7 @@ namespace ApexCitadels.PC.Combat
             }
             
             // Could add Resources.Load fallback here for real audio files
-            Debug.LogWarning($"[CombatAudioSFX] Clip not found: {name}");
+            ApexLogger.LogWarning($"Clip not found: {name}", ApexLogger.LogCategory.Audio);
             return null;
         }
 

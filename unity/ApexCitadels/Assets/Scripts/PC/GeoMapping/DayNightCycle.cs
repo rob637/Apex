@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -95,7 +96,7 @@ namespace ApexCitadels.PC.GeoMapping
             // Apply initial time
             ApplyTimeOfDay(currentTime);
             
-            Debug.Log($"[DayNightCycle] Started at {currentTime:F1}h ({GetTimePeriod(currentTime)})");
+            ApexLogger.Log($"Started at {currentTime:F1}h ({GetTimePeriod(currentTime)})", ApexLogger.LogCategory.Map);
         }
         
         private void Update()
@@ -474,7 +475,7 @@ namespace ApexCitadels.PC.GeoMapping
         
         private void OnPeriodChange(TimePeriod period)
         {
-            Debug.Log($"[DayNightCycle] Period changed to: {period}");
+            ApexLogger.Log($"Period changed to: {period}", ApexLogger.LogCategory.Map);
             
             // Trigger any period-specific effects
             switch (period)

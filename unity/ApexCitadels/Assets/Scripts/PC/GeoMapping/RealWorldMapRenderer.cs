@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Territory;
 using ApexCitadels.PC.WebGL;
 
@@ -86,7 +87,7 @@ namespace ApexCitadels.PC.GeoMapping
 
         private IEnumerator Initialize()
         {
-            Debug.Log("[RealWorldMap] Initializing real-world map renderer...");
+            ApexLogger.LogMap("Initializing real-world map renderer...");
 
             // Create containers
             _tilesContainer = new GameObject("MapTiles").transform;
@@ -130,7 +131,7 @@ namespace ApexCitadels.PC.GeoMapping
             yield return LoadTerritories();
 
             _isInitialized = true;
-            Debug.Log($"[RealWorldMap] Initialized at {_currentCenter}, zoom {_currentZoom}");
+            ApexLogger.LogMap($"Initialized at {_currentCenter}, zoom {_currentZoom}");
         }
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace ApexCitadels.PC.GeoMapping
             RefreshMapTiles();
             RefreshTerritoryMarkers();
             OnLocationChanged?.Invoke(_currentCenter);
-            Debug.Log($"[RealWorldMap] Moved to {location}");
+            ApexLogger.LogMap($"Moved to {location}");
         }
 
         /// <summary>
@@ -152,7 +153,7 @@ namespace ApexCitadels.PC.GeoMapping
         public void GoToAddress(string address)
         {
             // TODO: Integrate geocoding service (Nominatim, Google, Mapbox)
-            Debug.Log($"[RealWorldMap] GoToAddress not yet implemented: {address}");
+            ApexLogger.LogWarning($"GoToAddress not yet implemented: {address}", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -349,7 +350,7 @@ namespace ApexCitadels.PC.GeoMapping
         {
             if (_firebaseClient == null)
             {
-                Debug.LogWarning("[RealWorldMap] No Firebase client, using demo territories");
+                ApexLogger.LogWarning("No Firebase client, using demo territories", ApexLogger.LogCategory.Map);
                 CreateDemoTerritories();
                 yield break;
             }
@@ -394,7 +395,7 @@ namespace ApexCitadels.PC.GeoMapping
                 CreateTerritoryMarker(territory);
             }
 
-            Debug.Log($"[RealWorldMap] Rendered {_territories.Count} territory markers");
+            ApexLogger.LogMap($"Rendered {_territories.Count} territory markers");
         }
 
         private void CreateTerritoryMarker(TerritorySnapshot territory)
@@ -622,7 +623,7 @@ namespace ApexCitadels.PC.GeoMapping
             };
 
             RefreshTerritoryMarkers();
-            Debug.Log($"[RealWorldMap] Created {_territories.Count} demo territories");
+            ApexLogger.LogMap($"Created {_territories.Count} demo territories");
         }
 
         #endregion

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.WebGL
 {
@@ -56,7 +57,7 @@ namespace ApexCitadels.PC.WebGL
             if (url.Contains("localhost") || url.Contains("127.0.0.1"))
             {
                 useEmulator = true;
-                Debug.Log("[FirebaseWebClient] Detected localhost, using emulator");
+                ApexLogger.Log("Detected localhost, using emulator", ApexLogger.LogCategory.Network);
             }
 #endif
         }
@@ -79,14 +80,14 @@ namespace ApexCitadels.PC.WebGL
         public async Task<T> CallFunction<T>(string functionName, object data = null)
         {
             string url = $"{GetFunctionsBaseUrl()}/{functionName}";
-            Debug.Log($"[FirebaseWebClient] Calling {url}");
+            ApexLogger.LogVerbose($"Calling {url}", ApexLogger.LogCategory.Network);
 
             // Prepare request body (Firebase callable functions expect { data: ... })
             string jsonBody = data != null 
                 ? JsonUtility.ToJson(new CallableRequest { data = JsonUtility.ToJson(data) })
                 : "{\"data\":{}}";
 
-            Debug.Log($"[FirebaseWebClient] Request body: {jsonBody}");
+            ApexLogger.LogVerbose($"Request body: {jsonBody}", ApexLogger.LogCategory.Network);
 
             using (var request = new UnityWebRequest(url, "POST"))
             {
@@ -112,7 +113,7 @@ namespace ApexCitadels.PC.WebGL
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     string response = request.downloadHandler.text;
-                    Debug.Log($"[FirebaseWebClient] Response: {response}");
+                    ApexLogger.LogVerbose($"Response: {response}", ApexLogger.LogCategory.Network);
 
                     // Firebase callable functions return { result: ... }
                     var wrapper = JsonUtility.FromJson<CallableResponse<T>>(response);
@@ -121,7 +122,7 @@ namespace ApexCitadels.PC.WebGL
                 else
                 {
                     string error = $"Error calling {functionName}: {request.error} - {request.downloadHandler?.text}";
-                    Debug.LogError($"[FirebaseWebClient] {error}");
+                    ApexLogger.LogError($"{error}", ApexLogger.LogCategory.Network);
                     OnError?.Invoke(error);
                     throw new Exception(error);
                 }
@@ -147,14 +148,14 @@ namespace ApexCitadels.PC.WebGL
 
                 var response = await CallFunction<GetTerritoriesResponse>("getTerritoriesInArea", request);
                 
-                Debug.Log($"[FirebaseWebClient] Received {response.count} territories");
+                ApexLogger.Log($"Received {response.count} territories", ApexLogger.LogCategory.Network);
                 OnTerritoriesReceived?.Invoke(response.territories);
                 
                 return response.territories;
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[FirebaseWebClient] GetTerritoriesInArea failed: {ex.Message}");
+                ApexLogger.LogError($"GetTerritoriesInArea failed: {ex.Message}", ApexLogger.LogCategory.Network);
                 return new List<TerritorySnapshot>();
             }
         }
@@ -175,12 +176,12 @@ namespace ApexCitadels.PC.WebGL
 
                 var response = await CallFunction<GetMapTilesResponse>("getMapTiles", request);
                 
-                Debug.Log($"[FirebaseWebClient] Received {response.tiles?.Count ?? 0} map tiles");
+                ApexLogger.Log($"Received {response.tiles?.Count ?? 0} map tiles", ApexLogger.LogCategory.Network);
                 return response.tiles ?? new List<MapTile>();
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[FirebaseWebClient] GetMapTiles failed: {ex.Message}");
+                ApexLogger.LogError($"GetMapTiles failed: {ex.Message}", ApexLogger.LogCategory.Network);
                 return new List<MapTile>();
             }
         }
@@ -195,7 +196,7 @@ namespace ApexCitadels.PC.WebGL
                 ? $"http://{emulatorHost}:{firestoreEmulatorPort}/v1/projects/{projectId}/databases/(default)/documents/territories"
                 : $"https://firestore.googleapis.com/v1/projects/{projectId}/databases/(default)/documents/territories";
 
-            Debug.Log($"[FirebaseWebClient] Fetching territories from: {url}");
+            ApexLogger.LogVerbose($"Fetching territories from: {url}", ApexLogger.LogCategory.Network);
 
             using (var request = UnityWebRequest.Get(url))
             {
@@ -209,18 +210,18 @@ namespace ApexCitadels.PC.WebGL
                 if (request.result == UnityWebRequest.Result.Success)
                 {
                     string response = request.downloadHandler.text;
-                    Debug.Log($"[FirebaseWebClient] Firestore response length: {response.Length}");
+                    ApexLogger.LogVerbose($"Firestore response length: {response.Length}", ApexLogger.LogCategory.Network);
 
                     // Parse Firestore REST response using simple JSON parsing
                     var territories = ParseFirestoreResponse(response);
 
-                    Debug.Log($"[FirebaseWebClient] Parsed {territories.Count} territories");
+                    ApexLogger.Log($"Parsed {territories.Count} territories", ApexLogger.LogCategory.Network);
                     OnTerritoriesReceived?.Invoke(territories);
                     return territories;
                 }
                 else
                 {
-                    Debug.LogError($"[FirebaseWebClient] Firestore error: {request.error} - {request.downloadHandler?.text}");
+                    ApexLogger.LogError($"Firestore error: {request.error} - {request.downloadHandler?.text}", ApexLogger.LogCategory.Network);
                     return new List<TerritorySnapshot>();
                 }
             }
@@ -240,7 +241,7 @@ namespace ApexCitadels.PC.WebGL
                 var docIdPattern = @"""name"":\s*""projects/[^""]+/territories/([^""]+)""";
                 var docMatches = Regex.Matches(json, docIdPattern);
                 
-                Debug.Log($"[FirebaseWebClient] Found {docMatches.Count} document matches");
+                ApexLogger.LogVerbose($"Found {docMatches.Count} document matches", ApexLogger.LogCategory.Network);
 
                 // For each document, find its section of the JSON and extract fields
                 for (int i = 0; i < docMatches.Count; i++)
@@ -256,7 +257,7 @@ namespace ApexCitadels.PC.WebGL
                     double lat = ExtractDoubleFromSection(docSection, "latitude") ?? 0;
                     double lng = ExtractDoubleFromSection(docSection, "longitude") ?? 0;
                     
-                    Debug.Log($"[FirebaseWebClient] Doc {docId}: lat={lat}, lng={lng}");
+                    ApexLogger.LogVerbose($"Doc {docId}: lat={lat}, lng={lng}", ApexLogger.LogCategory.Network);
 
                     var territory = new TerritorySnapshot
                     {
@@ -279,13 +280,13 @@ namespace ApexCitadels.PC.WebGL
                         totalBlocks = ExtractIntFromSection(docSection, "totalBlocks") ?? 0
                     };
 
-                    Debug.Log($"[FirebaseWebClient] Parsed territory: {territory.name} at ({territory.latitude}, {territory.longitude})");
+                    ApexLogger.LogVerbose($"Parsed territory: {territory.name} at ({territory.latitude}, {territory.longitude})", ApexLogger.LogCategory.Network);
                     territories.Add(territory);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[FirebaseWebClient] Error parsing Firestore response: {ex.Message}");
+                ApexLogger.LogError($"Error parsing Firestore response: {ex.Message}", ApexLogger.LogCategory.Network);
             }
 
             return territories;

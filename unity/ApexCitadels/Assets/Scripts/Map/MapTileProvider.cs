@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Map
 {
@@ -134,7 +135,7 @@ namespace ApexCitadels.Map
             ClearCache();
             OnProviderChanged?.Invoke();
 
-            Debug.Log($"[MapTileProvider] Provider set to: {provider}");
+            ApexLogger.Log($"Provider set to: {provider}", LogCategory.Map);
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace ApexCitadels.Map
             ClearCache();
             OnProviderChanged?.Invoke();
 
-            Debug.Log($"[MapTileProvider] Style set to: {style}");
+            ApexLogger.Log($"Style set to: {style}", LogCategory.Map);
         }
 
         /// <summary>
@@ -208,7 +209,7 @@ namespace ApexCitadels.Map
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                Debug.LogWarning("[MapTileProvider] Mapbox requires an API key");
+                ApexLogger.LogWarning("Mapbox requires an API key", LogCategory.Map);
                 return GetOpenStreetMapUrl(x, y, zoom);
             }
 
@@ -231,7 +232,7 @@ namespace ApexCitadels.Map
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                Debug.LogWarning("[MapTileProvider] Google Maps requires an API key");
+                ApexLogger.LogWarning("Google Maps requires an API key", LogCategory.Map);
                 return GetOpenStreetMapUrl(x, y, zoom);
             }
 
@@ -252,7 +253,7 @@ namespace ApexCitadels.Map
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                Debug.LogWarning("[MapTileProvider] MapTiler requires an API key");
+                ApexLogger.LogWarning("MapTiler requires an API key", LogCategory.Map);
                 return GetOpenStreetMapUrl(x, y, zoom);
             }
 
@@ -462,7 +463,7 @@ namespace ApexCitadels.Map
             _tileCache.Clear();
             _tileCacheOrder.Clear();
 
-            Debug.Log("[MapTileProvider] Cache cleared");
+            ApexLogger.Log("Cache cleared", LogCategory.Map);
         }
 
         /// <summary>
@@ -491,7 +492,7 @@ namespace ApexCitadels.Map
 
             // Load from persistent storage
             // In production, use proper file I/O or SQLite
-            Debug.Log("[MapTileProvider] Offline cache loading not implemented in stub");
+            ApexLogger.LogVerbose("Offline cache loading not implemented in stub", LogCategory.Map);
         }
 
         private void SaveOfflineCache()
@@ -499,7 +500,7 @@ namespace ApexCitadels.Map
             if (!enableOfflineCache) return;
 
             // Save to persistent storage
-            Debug.Log("[MapTileProvider] Offline cache saving not implemented in stub");
+            ApexLogger.LogVerbose("Offline cache saving not implemented in stub", LogCategory.Map);
         }
 
         /// <summary>
@@ -522,7 +523,7 @@ namespace ApexCitadels.Map
                 totalTiles += tilesAtZoom;
             }
 
-            Debug.Log($"[MapTileProvider] Downloading {totalTiles} tiles for offline use");
+            ApexLogger.Log($"Downloading {totalTiles} tiles for offline use", LogCategory.Map);
 
             for (int zoom = minZoom; zoom <= maxZoom; zoom++)
             {
@@ -558,7 +559,7 @@ namespace ApexCitadels.Map
                 }
             }
 
-            Debug.Log($"[MapTileProvider] Downloaded {downloadedTiles} tiles");
+            ApexLogger.Log($"Downloaded {downloadedTiles} tiles", LogCategory.Map);
             SaveOfflineCache();
         }
 

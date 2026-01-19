@@ -4,6 +4,7 @@
 // ============================================================================
 using UnityEngine;
 using System;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Economy
 {
@@ -61,7 +62,7 @@ namespace ApexCitadels.PC.Economy
 
             canvasObj.AddComponent<UnityEngine.UI.GraphicRaycaster>();
 
-            Debug.Log("[EconomyIntegration] Created UI Canvas");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Created UI Canvas");
         }
 
         private void CreateEventSystem()
@@ -70,7 +71,7 @@ namespace ApexCitadels.PC.Economy
             eventSystemObj.AddComponent<UnityEngine.EventSystems.EventSystem>();
             eventSystemObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
 
-            Debug.Log("[EconomyIntegration] Created Event System");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Created Event System");
         }
 
         private void SetupEconomySystem()
@@ -80,7 +81,7 @@ namespace ApexCitadels.PC.Economy
             {
                 GameObject managerObj = new GameObject("ResourceSpendingManager");
                 managerObj.AddComponent<ResourceSpendingManager>();
-                Debug.Log("[EconomyIntegration] Created ResourceSpendingManager");
+                ApexLogger.Log(ApexLogger.LogCategory.Economy, "Created ResourceSpendingManager");
             }
 
             // Create Resource HUD
@@ -88,7 +89,7 @@ namespace ApexCitadels.PC.Economy
             {
                 GameObject hudObj = new GameObject("ResourceHUD");
                 hudObj.AddComponent<ResourceHUD>();
-                Debug.Log("[EconomyIntegration] Created ResourceHUD");
+                ApexLogger.Log(ApexLogger.LogCategory.Economy, "Created ResourceHUD");
             }
 
             // Create Insufficient Resources Popup
@@ -96,10 +97,10 @@ namespace ApexCitadels.PC.Economy
             {
                 GameObject popupObj = new GameObject("InsufficientResourcesPopup");
                 popupObj.AddComponent<InsufficientResourcesPopup>();
-                Debug.Log("[EconomyIntegration] Created InsufficientResourcesPopup");
+                ApexLogger.Log(ApexLogger.LogCategory.Economy, "Created InsufficientResourcesPopup");
             }
 
-            Debug.Log("[EconomyIntegration] Economy system setup complete!");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Economy system setup complete!");
         }
 
         private void ConnectToGameSystems()
@@ -110,7 +111,7 @@ namespace ApexCitadels.PC.Economy
             // Connect to Base Editor (if exists)
             ConnectToBaseEditor();
 
-            Debug.Log("[EconomyIntegration] Connected to game systems");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Connected to game systems");
         }
 
         private void ConnectToTroopTraining()
@@ -119,7 +120,7 @@ namespace ApexCitadels.PC.Economy
             var trainingQueue = FindFirstObjectByType<UI.TrainingQueueManager>();
             if (trainingQueue != null)
             {
-                Debug.Log("[EconomyIntegration] Connected to TrainingQueueManager");
+                ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, "Connected to TrainingQueueManager");
             }
         }
 
@@ -129,7 +130,7 @@ namespace ApexCitadels.PC.Economy
             var baseEditor = FindFirstObjectByType<UI.BaseEditorPanel>();
             if (baseEditor != null)
             {
-                Debug.Log("[EconomyIntegration] Connected to BaseEditorPanel");
+                ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, "Connected to BaseEditorPanel");
             }
         }
 
@@ -138,13 +139,13 @@ namespace ApexCitadels.PC.Economy
             if (Input.GetKeyDown(addResourcesKey))
             {
                 ResourceSpendingManager.Instance?.AddDebugResources();
-                Debug.Log("[EconomyIntegration] Added debug resources (F9)");
+                ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, "Added debug resources (F9)");
             }
 
             if (Input.GetKeyDown(resetResourcesKey))
             {
                 ResourceSpendingManager.Instance?.ResetResources();
-                Debug.Log("[EconomyIntegration] Reset resources (F10)");
+                ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, "Reset resources (F10)");
             }
         }
 
@@ -157,7 +158,7 @@ namespace ApexCitadels.PC.Economy
         {
             if (FindFirstObjectByType<EconomyIntegration>() != null)
             {
-                Debug.Log("Economy System already exists in scene!");
+                ApexLogger.Log(ApexLogger.LogCategory.Economy, "Economy System already exists in scene!");
                 return;
             }
 
@@ -165,7 +166,7 @@ namespace ApexCitadels.PC.Economy
             integrationObj.AddComponent<EconomyIntegration>();
 
             UnityEditor.Selection.activeGameObject = integrationObj;
-            Debug.Log("Economy System created!");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Economy System created!");
         }
         #endif
     }
@@ -182,7 +183,7 @@ namespace ApexCitadels.PC.Economy
         {
             if (ResourceSpendingManager.Instance == null)
             {
-                Debug.LogWarning("[Economy] ResourceSpendingManager not found - allowing action");
+                ApexLogger.LogWarning(ApexLogger.LogCategory.Economy, "ResourceSpendingManager not found - allowing action");
                 return true;
             }
 
@@ -196,7 +197,7 @@ namespace ApexCitadels.PC.Economy
         {
             if (ResourceSpendingManager.Instance == null)
             {
-                Debug.LogWarning("[Economy] ResourceSpendingManager not found - allowing action");
+                ApexLogger.LogWarning(ApexLogger.LogCategory.Economy, "ResourceSpendingManager not found - allowing action");
                 return true;
             }
 
@@ -210,7 +211,7 @@ namespace ApexCitadels.PC.Economy
         {
             if (ResourceSpendingManager.Instance == null)
             {
-                Debug.LogWarning("[Economy] ResourceSpendingManager not found - allowing action");
+                ApexLogger.LogWarning(ApexLogger.LogCategory.Economy, "ResourceSpendingManager not found - allowing action");
                 return true;
             }
 

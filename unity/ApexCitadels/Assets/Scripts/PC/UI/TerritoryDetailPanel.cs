@@ -6,6 +6,8 @@ using TMPro;
 using ApexCitadels.Territory;
 using ApexCitadels.Building;
 using ApexCitadels.Resources;
+using ApexCitadels.Core;
+using ApexCitadels.Player;
 
 namespace ApexCitadels.PC.UI
 {
@@ -366,18 +368,40 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             }
         }
 
-        private void ConfirmUpgrade()
+        private async void ConfirmUpgrade()
         {
             if (_currentTerritory == null || !CanAffordUpgrade()) return;
 
-            // TODO: Call backend to perform upgrade
-            Debug.Log($"[TerritoryDetail] Upgrading territory {_currentTerritory.Id} to level {_currentTerritory.Level + 1}");
+            int nextLevel = _currentTerritory.Level + 1;
+            ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryDetail] Upgrading territory {_currentTerritory.Id} to level {nextLevel}");
+
+            // Deduct upgrade cost
+            var cost = GetUpgradeCost(nextLevel);
+            if (ResourceSpendingManager.Instance != null)
+            {
+                ResourceSpendingManager.Instance.SpendResources(cost);
+            }
+
+            // Call backend to perform upgrade
+            bool success = await TerritoryManager.Instance.UpgradeTerritory(_currentTerritory.Id);
+            
+            if (success)
+            {
+                ApexLogger.Log(ApexLogger.LogCategory.Territory, $"[TerritoryDetail] Territory upgraded to level {nextLevel}");
+                AddActivityEntry($"Upgraded to Level {nextLevel}", TerritoryActivityType.Build);
+                
+                // Refresh display
+                if (levelText != null)
+                    levelText.text = $"Level {nextLevel}";
+            }
+            else
+            {
+                ApexLogger.LogWarning(ApexLogger.LogCategory.Territory, "[TerritoryDetail] Upgrade failed!");
+            }
 
             // Hide upgrade panel
             if (upgradeInfoPanel != null)
                 upgradeInfoPanel.SetActive(false);
-
-            AddActivityEntry($"Upgraded to Level {_currentTerritory.Level + 1}", TerritoryActivityType.Build);
         }
 
         #endregion
@@ -386,20 +410,59 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
 
         private int CalculateDefenseRating()
         {
-            // TODO: Calculate from actual buildings
-            return 50 + _currentTerritory?.Level ?? 0 * 10;
+            // Calculate defense from buildings in territory
+            int baseDefense = 50 + (_currentTerritory?.Level ?? 0) * 10;
+            
+            if (_currentTerritory != null && BuildingManager.Instance != null)
+            {
+                var blocks = BuildingManager.Instance.GetBlocksInTerritory(_currentTerritory.Id);
+                // Defense blocks add to defense rating
+                int blockDefense = 0;
+                foreach (var block in blocks)
+                {
+                    if (block.Type == BlockType.Stone || block.Type == BlockType.Metal)
+                    {
+                        blockDefense += block.Type == BlockType.Metal ? 3 : 2;
+                    }
+                }
+                return baseDefense + blockDefense;
+            }
+            
+            return baseDefense;
         }
 
         private int CalculateIncomeRate()
         {
-            // TODO: Calculate from resource-generating buildings
-            return 30 + _currentTerritory?.Level ?? 0 * 15;
+            // Calculate income from resource-generating buildings
+            int baseIncome = 30 + (_currentTerritory?.Level ?? 0) * 15;
+            
+            if (_currentTerritory != null && BuildingManager.Instance != null)
+            {
+                var blocks = BuildingManager.Instance.GetBlocksInTerritory(_currentTerritory.Id);
+                // Resource blocks generate income
+                int resourceBonus = 0;
+                foreach (var block in blocks)
+                {
+                    if (block.Type == BlockType.Wood || block.Type == BlockType.Glass)
+                    {
+                        resourceBonus += 5;
+                    }
+                }
+                return baseIncome + resourceBonus;
+            }
+            
+            return baseIncome;
         }
 
         private int GetBlockCount()
         {
-            // TODO: Get from BuildingManager
-            return 47;
+            // Get actual block count from BuildingManager
+            if (_currentTerritory != null && BuildingManager.Instance != null)
+            {
+                var blocks = BuildingManager.Instance.GetBlocksInTerritory(_currentTerritory.Id);
+                return blocks.Count;
+            }
+            return 0;
         }
 
         private int GetMaxBlocks()
@@ -411,7 +474,17 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
 
         private bool CanAffordUpgrade()
         {
-            // TODO: Check player resources against upgrade cost
+            // Check player resources against upgrade cost
+            if (_currentTerritory == null) return false;
+            
+            var cost = GetUpgradeCost(_currentTerritory.Level + 1);
+            
+            if (ResourceSpendingManager.Instance != null)
+            {
+                return ResourceSpendingManager.Instance.CanAfford(cost);
+            }
+            
+            // Fallback: always allow if manager not available
             return true;
         }
 

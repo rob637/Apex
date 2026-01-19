@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ApexCitadels.Building;
 using ApexCitadels.BuildingTemplates;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.UI
@@ -321,7 +322,7 @@ namespace ApexCitadels.PC.UI
             AddBlockItem(BlockType.Forge, "Legendary Forge", "Craft epic items", BlockCategory.Special, 600, "🔨", 5);
             AddBlockItem(BlockType.Altar, "Altar of Power", "Special abilities", BlockCategory.Special, 750, "✨", 5);
 
-            Debug.Log($"[BaseEditorPanel] Initialized {allBlockItems.Count} block types across {blocksByCategory.Count} categories");
+            ApexLogger.Log($"Initialized {allBlockItems.Count} block types across {blocksByCategory.Count} categories", ApexLogger.LogCategory.Building);
         }
 
         private void AddBlockItem(BlockType type, string name, string desc, BlockCategory category, int cost, string icon, int minLevel)

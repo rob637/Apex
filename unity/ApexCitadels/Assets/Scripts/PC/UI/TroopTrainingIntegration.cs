@@ -4,6 +4,7 @@
 // ============================================================================
 using UnityEngine;
 using UnityEngine.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -54,7 +55,7 @@ namespace ApexCitadels.PC.UI
 
             canvasObj.AddComponent<GraphicRaycaster>();
 
-            Debug.Log("[TroopTrainingIntegration] Created UI Canvas");
+            ApexLogger.Log("Created UI Canvas", ApexLogger.LogCategory.UI);
         }
 
         private void CreateEventSystem()
@@ -63,7 +64,7 @@ namespace ApexCitadels.PC.UI
             eventSystemObj.AddComponent<UnityEngine.EventSystems.EventSystem>();
             eventSystemObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
 
-            Debug.Log("[TroopTrainingIntegration] Created Event System");
+            ApexLogger.Log("Created Event System", ApexLogger.LogCategory.UI);
         }
 
         private void SetupTroopSystem()
@@ -73,7 +74,7 @@ namespace ApexCitadels.PC.UI
             {
                 GameObject queueMgr = new GameObject("TrainingQueueManager");
                 queueMgr.AddComponent<TrainingQueueManager>();
-                Debug.Log("[TroopTrainingIntegration] Created TrainingQueueManager");
+                ApexLogger.Log("Created TrainingQueueManager", ApexLogger.LogCategory.Combat);
             }
 
             // Create troop manager (persistent)
@@ -81,7 +82,7 @@ namespace ApexCitadels.PC.UI
             {
                 GameObject troopMgr = new GameObject("TroopManager");
                 troopMgr.AddComponent<TroopManager>();
-                Debug.Log("[TroopTrainingIntegration] Created TroopManager");
+                ApexLogger.Log("Created TroopManager", ApexLogger.LogCategory.Combat);
             }
 
             // Create training panel
@@ -89,7 +90,7 @@ namespace ApexCitadels.PC.UI
             {
                 GameObject panelObj = new GameObject("TroopTrainingPanelRoot");
                 panelObj.AddComponent<TroopTrainingPanel>();
-                Debug.Log("[TroopTrainingIntegration] Created TroopTrainingPanel");
+                ApexLogger.Log("Created TroopTrainingPanel", ApexLogger.LogCategory.UI);
             }
 
             // Create quick bar
@@ -97,10 +98,10 @@ namespace ApexCitadels.PC.UI
             {
                 GameObject quickBarObj = new GameObject("TroopQuickBarRoot");
                 quickBarObj.AddComponent<TroopQuickBar>();
-                Debug.Log("[TroopTrainingIntegration] Created TroopQuickBar");
+                ApexLogger.Log("Created TroopQuickBar", ApexLogger.LogCategory.UI);
             }
 
-            Debug.Log("[TroopTrainingIntegration] Troop system setup complete!");
+            ApexLogger.Log("Troop system setup complete!", ApexLogger.LogCategory.General);
         }
 
         private void Update()
@@ -121,7 +122,7 @@ namespace ApexCitadels.PC.UI
         {
             if (FindFirstObjectByType<TroopTrainingIntegration>() != null)
             {
-                Debug.Log("Troop Training System already exists in scene!");
+                ApexLogger.Log("Troop Training System already exists in scene!", ApexLogger.LogCategory.General);
                 return;
             }
 
@@ -129,7 +130,7 @@ namespace ApexCitadels.PC.UI
             integrationObj.AddComponent<TroopTrainingIntegration>();
 
             UnityEditor.Selection.activeGameObject = integrationObj;
-            Debug.Log("Troop Training System created!");
+            ApexLogger.Log("Troop Training System created!", ApexLogger.LogCategory.General);
         }
         #endif
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.AntiCheat
 {
@@ -77,13 +78,13 @@ namespace ApexCitadels.AntiCheat
 
         private void Start()
         {
-            Debug.LogWarning("[AntiCheatManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.Network);
         }
 
         public void StartLocationValidation()
         {
             _isLocationServiceRunning = true;
-            Debug.Log("[AntiCheatManager] Location validation started (stub mode)");
+            ApexLogger.Log("Location validation started (stub mode)", LogCategory.Network);
         }
 
         public void StopLocationValidation()

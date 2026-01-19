@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.Economy
@@ -355,7 +356,7 @@ namespace ApexCitadels.PC.Economy
                         }
                     }
 
-                    Debug.Log($"[ResourceSpending] Calculated {minutes:F1} minutes of offline generation");
+                    ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, $"Calculated {minutes:F1} minutes of offline generation");
                 }
             }
         }
@@ -664,11 +665,11 @@ namespace ApexCitadels.PC.Economy
                 lastSaveTime = Time.time;
                 isDirty = false;
 
-                Debug.Log("[ResourceSpending] Saved resources");
+                ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, "Saved resources");
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ResourceSpending] Save failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Save failed: {ex.Message}");
             }
         }
 
@@ -692,7 +693,7 @@ namespace ApexCitadels.PC.Economy
                         }
 
                         OnResourcesLoaded?.Invoke();
-                        Debug.Log("[ResourceSpending] Loaded resources from storage");
+                        ApexLogger.Log(ApexLogger.LogCategory.Economy, "Loaded resources from storage");
                         return;
                     }
                 }
@@ -702,7 +703,7 @@ namespace ApexCitadels.PC.Economy
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ResourceSpending] Load failed: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Economy, $"Load failed: {ex.Message}");
                 SetStartingResources();
             }
         }
@@ -720,7 +721,7 @@ namespace ApexCitadels.PC.Economy
             resources[ResourceType.Energy] = startEnergy;
 
             OnResourcesLoaded?.Invoke();
-            Debug.Log("[ResourceSpending] Set starting resources");
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Set starting resources");
         }
 
         /// <summary>

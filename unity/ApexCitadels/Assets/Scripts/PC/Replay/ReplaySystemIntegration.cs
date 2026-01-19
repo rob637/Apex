@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 using ApexCitadels.PC.Combat;
 
 namespace ApexCitadels.PC.Replay
@@ -121,7 +122,7 @@ namespace ApexCitadels.PC.Replay
             {
                 combatPanel.OnAttackStarted += OnCombatStarted;
                 combatPanel.OnBattleCompleted += OnCombatCompleted;
-                Debug.Log("[ReplayIntegration] Connected to CombatPanel");
+                ApexLogger.Log("Connected to CombatPanel", ApexLogger.LogCategory.Replay);
             }
         }
         
@@ -146,7 +147,7 @@ namespace ApexCitadels.PC.Replay
             };
             
             recorder.StartRecording(context);
-            Debug.Log($"[ReplayIntegration] Started recording attack on {context.TerritoryName}");
+            ApexLogger.Log($"Started recording attack on {context.TerritoryName}", ApexLogger.LogCategory.Replay);
         }
         
         private async void OnCombatCompleted(ApexCitadels.Territory.Territory territory, UI.BattleResult result)
@@ -154,7 +155,7 @@ namespace ApexCitadels.PC.Replay
             if (recorder == null || !recorder.IsRecording) return;
             
             string replayId = await recorder.StopRecording(result.Victory);
-            Debug.Log($"[ReplayIntegration] Recorded battle: {replayId}, Victory: {result.Victory}");
+            ApexLogger.Log($"Recorded battle: {replayId}, Victory: {result.Victory}", ApexLogger.LogCategory.Replay);
         }
         
         private string GetCurrentPlayerId()
@@ -330,7 +331,7 @@ namespace ApexCitadels.PC.Replay
                     };
                     
                     recorder.StartRecording(context);
-                    Debug.Log("[ReplayIntegration] DEBUG: Started recording");
+                    ApexLogger.Log("DEBUG: Started recording", ApexLogger.LogCategory.Replay);
                 }
             }
             
@@ -340,7 +341,7 @@ namespace ApexCitadels.PC.Replay
                 if (recorder != null && recorder.IsRecording)
                 {
                     _ = recorder.StopRecording(true);
-                    Debug.Log("[ReplayIntegration] DEBUG: Stopped recording");
+                    ApexLogger.Log("DEBUG: Stopped recording", ApexLogger.LogCategory.Replay);
                 }
             }
             
@@ -398,7 +399,7 @@ namespace ApexCitadels.PC.Replay
             }
             
             OnReplayViewOpened?.Invoke();
-            Debug.Log("[ReplayIntegration] Opened replay browser");
+            ApexLogger.Log("Opened replay browser", ApexLogger.LogCategory.Replay);
         }
         
         /// <summary>
@@ -422,7 +423,7 @@ namespace ApexCitadels.PC.Replay
             Time.timeScale = 1f;
             
             OnReplayViewClosed?.Invoke();
-            Debug.Log("[ReplayIntegration] Closed replay browser");
+            ApexLogger.Log("Closed replay browser", ApexLogger.LogCategory.Replay);
         }
         
         /// <summary>
@@ -457,7 +458,7 @@ namespace ApexCitadels.PC.Replay
             {
                 // Convert RecordingSession to BattleReplay and load
                 // This would require additional conversion logic
-                Debug.Log($"[ReplayIntegration] Loaded local replay: {replayId}");
+                ApexLogger.Log($"Loaded local replay: {replayId}", ApexLogger.LogCategory.Replay);
             }
         }
         
@@ -494,7 +495,7 @@ namespace ApexCitadels.PC.Replay
             System.IO.File.WriteAllBytes(path, bytes);
             UnityEngine.Object.Destroy(screenshot);
             
-            Debug.Log($"[ReplayIntegration] Screenshot saved: {path}");
+            ApexLogger.Log($"Screenshot saved: {path}", ApexLogger.LogCategory.Replay);
             OnScreenshotTaken?.Invoke(path);
             
             // Show feedback

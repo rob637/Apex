@@ -8,6 +8,8 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.Data;
+using ApexCitadels.Core;
+using ApexCitadels.UI;
 
 namespace ApexCitadels.PC.Economy
 {
@@ -338,8 +340,19 @@ namespace ApexCitadels.PC.Economy
 
         private void OpenShop()
         {
-            Debug.Log("[InsufficientResourcesPopup] Opening shop...");
-            // TODO: Open shop/IAP panel
+            ApexLogger.Log(ApexLogger.LogCategory.Economy, "Opening IAP store...");
+            
+            // Find and open the IAP store UI
+            var storeUI = UnityEngine.Object.FindObjectOfType<IAPStoreUI>();
+            if (storeUI != null)
+            {
+                storeUI.OpenStore();
+            }
+            else
+            {
+                ApexLogger.LogWarning(ApexLogger.LogCategory.Economy, "IAPStoreUI not found in scene!");
+            }
+            
             Hide();
         }
 

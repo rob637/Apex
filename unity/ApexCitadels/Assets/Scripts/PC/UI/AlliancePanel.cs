@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.Alliance;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -134,17 +135,41 @@ namespace ApexCitadels.PC.UI
 
         public void RefreshData()
         {
-            // TODO: Load from AllianceManager
+            // Load from AllianceManager
+            var alliance = AllianceManager.Instance?.CurrentAlliance;
+            if (alliance != null)
+            {
+                _currentAllianceId = alliance.Id;
+                ApexLogger.Log(ApexLogger.LogCategory.UI, $"[AlliancePanel] Refreshing data for alliance: {alliance.Name}");
+            }
+            else
+            {
+                ApexLogger.Log(ApexLogger.LogCategory.UI, "[AlliancePanel] No alliance - showing placeholder data");
+            }
+            
             RefreshOverview();
         }
 
         private void RefreshOverview()
         {
-            // Mock data for now
-            if (allianceNameText != null) allianceNameText.text = "Shadow Legion";
-            if (allianceLevelText != null) allianceLevelText.text = "Level 5";
-            if (memberCountText != null) memberCountText.text = "23/50 Members";
-            if (territoryCountText != null) territoryCountText.text = "47 Territories";
+            var alliance = AllianceManager.Instance?.CurrentAlliance;
+            
+            if (alliance != null)
+            {
+                // Real alliance data
+                if (allianceNameText != null) allianceNameText.text = $"{alliance.Name} [{alliance.Tag}]";
+                if (allianceLevelText != null) allianceLevelText.text = $"Level {alliance.Level}";
+                if (memberCountText != null) memberCountText.text = $"{alliance.Members.Count}/{alliance.MaxMembers} Members";
+                if (territoryCountText != null) territoryCountText.text = $"{alliance.TerritoryCount} Territories";
+            }
+            else
+            {
+                // Placeholder for when not in alliance
+                if (allianceNameText != null) allianceNameText.text = "No Alliance";
+                if (allianceLevelText != null) allianceLevelText.text = "Join or Create";
+                if (memberCountText != null) memberCountText.text = "0/0 Members";
+                if (territoryCountText != null) territoryCountText.text = "0 Territories";
+            }
         }
 
         private void RefreshMemberList()
@@ -158,14 +183,21 @@ namespace ApexCitadels.PC.UI
             }
             _memberEntries.Clear();
 
-            // TODO: Load from AllianceManager
-            // Mock data
-            string[] mockMembers = { "Commander Alpha", "Lieutenant Beta", "Soldier Gamma", "Recruit Delta" };
-            string[] mockRoles = { "Leader", "Officer", "Member", "Member" };
-
-            for (int i = 0; i < mockMembers.Length; i++)
+            var alliance = AllianceManager.Instance?.CurrentAlliance;
+            if (alliance != null && alliance.Members != null)
             {
-                CreateMemberEntry(mockMembers[i], mockRoles[i], i == 0);
+                // Real member data from AllianceManager
+                foreach (var member in alliance.Members)
+                {
+                    bool isOnline = member.IsOnline;
+                    string roleName = member.Role.ToString();
+                    CreateMemberEntry(member.PlayerName, roleName, isOnline);
+                }
+            }
+            else
+            {
+                // Placeholder data when not in alliance
+                ApexLogger.Log(ApexLogger.LogCategory.UI, "[AlliancePanel] No alliance members to display");
             }
         }
 
@@ -213,10 +245,22 @@ namespace ApexCitadels.PC.UI
                 return;
             }
 
-            if (warStatusText != null)
-                warStatusText.text = "No active war operations";
-
-            // TODO: Load war targets and strategic data
+            // Load active war from AllianceManager
+            var activeWar = AllianceManager.Instance?.ActiveWar;
+            if (activeWar != null && activeWar.IsActive)
+            {
+                if (warStatusText != null)
+                {
+                    string timeRemaining = activeWar.TimeRemaining.ToString(@"hh\:mm\:ss");
+                    warStatusText.text = $"WAR: vs {activeWar.DefenderName}\nScore: {activeWar.AttackerScore} - {activeWar.DefenderScore}\nTime: {timeRemaining}";
+                }
+                ApexLogger.Log(ApexLogger.LogCategory.UI, $"[AlliancePanel] Displaying active war vs {activeWar.DefenderName}");
+            }
+            else
+            {
+                if (warStatusText != null)
+                    warStatusText.text = "No active war operations";
+            }
         }
 
         /// <summary>

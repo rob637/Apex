@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.Backend
@@ -34,7 +35,7 @@ namespace ApexCitadels.Backend
 #if FIREBASE_ENABLED
             _firebaseInitialized = true;
 #else
-            Debug.LogWarning("[BattleService] Firebase SDK not imported. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not imported. Running in stub mode.", ApexLogger.LogCategory.Combat);
 #endif
         }
 
@@ -58,11 +59,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] ScheduleBattle failed: {ex.Message}");
+                ApexLogger.LogError($"ScheduleBattle failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] ScheduleBattle called for territory: {territoryId}");
+            ApexLogger.LogVerbose($"[STUB] ScheduleBattle called for territory: {territoryId}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return new ScheduledBattle
             {
@@ -104,11 +105,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] SetBattleFormation failed: {ex.Message}");
+                ApexLogger.LogError($"SetBattleFormation failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] SetBattleFormation called for battle: {battleId}");
+            ApexLogger.LogVerbose($"[STUB] SetBattleFormation called for battle: {battleId}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             formation.IsReady = true;
             return formation;
@@ -129,11 +130,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] GetBattle failed: {ex.Message}");
+                ApexLogger.LogError($"GetBattle failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] GetBattle called for: {battleId}");
+            ApexLogger.LogVerbose($"[STUB] GetBattle called for: {battleId}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return new ScheduledBattle { BattleId = battleId };
 #endif
@@ -158,11 +159,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] GetMyBattles failed: {ex.Message}");
+                ApexLogger.LogError($"GetMyBattles failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log("[STUB] GetMyBattles called");
+            ApexLogger.LogVerbose("[STUB] GetMyBattles called", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return new List<ScheduledBattle>();
 #endif
@@ -186,11 +187,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] ExecuteBattle failed: {ex.Message}");
+                ApexLogger.LogError($"ExecuteBattle failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] ExecuteBattle called for: {battleId}");
+            ApexLogger.LogVerbose($"[STUB] ExecuteBattle called for: {battleId}", ApexLogger.LogCategory.Combat);
             await Task.Delay(500);
             return new BattleResult
             {
@@ -218,11 +219,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] ReportParticipation failed: {ex.Message}");
+                ApexLogger.LogError($"ReportParticipation failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] ReportParticipation: {battleId} -> {participation}");
+            ApexLogger.LogVerbose($"[STUB] ReportParticipation: {battleId} -> {participation}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
 #endif
         }
@@ -250,11 +251,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] ReclaimTerritory failed: {ex.Message}");
+                ApexLogger.LogError($"ReclaimTerritory failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 return false;
             }
 #else
-            Debug.Log($"[STUB] ReclaimTerritory: {territoryId}");
+            ApexLogger.LogVerbose($"[STUB] ReclaimTerritory: {territoryId}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return true;
 #endif
@@ -282,11 +283,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] TrainTroops failed: {ex.Message}");
+                ApexLogger.LogError($"TrainTroops failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] TrainTroops: {count}x {troopType}");
+            ApexLogger.LogVerbose($"[STUB] TrainTroops: {count}x {troopType}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return new TrainingQueueItem
             {
@@ -310,11 +311,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] CollectTrainedTroops failed: {ex.Message}");
+                ApexLogger.LogError($"CollectTrainedTroops failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log("[STUB] CollectTrainedTroops");
+            ApexLogger.LogVerbose("[STUB] CollectTrainedTroops", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return new UserTroops();
 #endif
@@ -333,11 +334,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleService] GetMyTroops failed: {ex.Message}");
+                ApexLogger.LogError($"GetMyTroops failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log("[STUB] GetMyTroops");
+            ApexLogger.LogVerbose("[STUB] GetMyTroops", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return new UserTroops
             {

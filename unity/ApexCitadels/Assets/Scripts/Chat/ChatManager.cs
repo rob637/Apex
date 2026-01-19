@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
+using ApexCitadels.Core;
 #if FIREBASE_ENABLED
 using Firebase.Extensions;
 using Firebase.Firestore;
@@ -158,7 +159,7 @@ namespace ApexCitadels.Chat
 #else
         private void Start()
         {
-            Debug.LogWarning("[ChatManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Network);
             InvokeRepeating(nameof(CleanupTypingIndicators), 1f, 1f);
         }
 
@@ -219,7 +220,7 @@ namespace ApexCitadels.Chat
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"Failed to load channel {channelId}: {e.Message}");
+                    ApexLogger.LogError($"Failed to load channel {channelId}: {e.Message}", ApexLogger.LogCategory.Network);
                 }
             }
 
@@ -231,13 +232,13 @@ namespace ApexCitadels.Chat
 #else
         private void SubscribeToChannels()
         {
-            Debug.LogWarning("[ChatManager] SubscribeToChannels called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("SubscribeToChannels called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             OnChannelsUpdated?.Invoke(_channels);
         }
 
         private void LoadChannelDetails(List<string> channelIds)
         {
-            Debug.LogWarning("[ChatManager] LoadChannelDetails called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("LoadChannelDetails called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             OnChannelsUpdated?.Invoke(_channels);
         }
 #endif
@@ -258,14 +259,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to get global channel: {e.Message}");
+                ApexLogger.LogError($"Failed to get global channel: {e.Message}", ApexLogger.LogCategory.Network);
                 return null;
             }
         }
 #else
         public Task<ChatChannel> GetGlobalChannel()
         {
-            Debug.LogWarning("[ChatManager] GetGlobalChannel called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("GetGlobalChannel called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult<ChatChannel>(null);
         }
 #endif
@@ -287,14 +288,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to get alliance channel: {e.Message}");
+                ApexLogger.LogError($"Failed to get alliance channel: {e.Message}", ApexLogger.LogCategory.Network);
                 return null;
             }
         }
 #else
         public Task<ChatChannel> GetAllianceChannel(string allianceId)
         {
-            Debug.LogWarning("[ChatManager] GetAllianceChannel called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("GetAllianceChannel called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult<ChatChannel>(null);
         }
 #endif
@@ -319,14 +320,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to create DM: {e.Message}");
+                ApexLogger.LogError($"Failed to create DM: {e.Message}", ApexLogger.LogCategory.Network);
                 return null;
             }
         }
 #else
         public Task<ChatChannel> CreateDirectMessage(string otherUserId)
         {
-            Debug.LogWarning("[ChatManager] CreateDirectMessage called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("CreateDirectMessage called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult<ChatChannel>(null);
         }
 #endif
@@ -346,14 +347,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to join channel: {e.Message}");
+                ApexLogger.LogError($"Failed to join channel: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> JoinChannel(string channelId)
         {
-            Debug.LogWarning("[ChatManager] JoinChannel called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("JoinChannel called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -383,14 +384,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to leave channel: {e.Message}");
+                ApexLogger.LogError($"Failed to leave channel: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> LeaveChannel(string channelId)
         {
-            Debug.LogWarning("[ChatManager] LeaveChannel called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("LeaveChannel called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             _messageCache.Remove(channelId);
             OnChannelDeleted?.Invoke(channelId);
             return Task.FromResult(false);
@@ -447,7 +448,7 @@ namespace ApexCitadels.Chat
 #else
         public void OpenChannel(string channelId)
         {
-            Debug.LogWarning("[ChatManager] OpenChannel called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("OpenChannel called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             _currentChannelId = channelId;
             OnMessagesLoaded?.Invoke(channelId, new List<ChatMessage>());
         }
@@ -498,13 +499,13 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load messages: {e.Message}");
+                ApexLogger.LogError($"Failed to load messages: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 #else
         public void LoadMessages(string channelId, object startAfter = null)
         {
-            Debug.LogWarning("[ChatManager] LoadMessages called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("LoadMessages called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             OnMessagesLoaded?.Invoke(channelId, new List<ChatMessage>());
         }
 #endif
@@ -533,14 +534,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to send message: {e.Message}");
+                ApexLogger.LogError($"Failed to send message: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> SendMessage(string channelId, string content)
         {
-            Debug.LogWarning("[ChatManager] SendMessage called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("SendMessage called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -565,14 +566,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to send emote: {e.Message}");
+                ApexLogger.LogError($"Failed to send emote: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> SendEmote(string channelId, string emoteId)
         {
-            Debug.LogWarning("[ChatManager] SendEmote called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("SendEmote called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -597,14 +598,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to send system message: {e.Message}");
+                ApexLogger.LogError($"Failed to send system message: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> SendSystemMessage(string channelId, string content, Dictionary<string, object> metadata = null)
         {
-            Debug.LogWarning("[ChatManager] SendSystemMessage called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("SendSystemMessage called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -631,14 +632,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to delete message: {e.Message}");
+                ApexLogger.LogError($"Failed to delete message: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> DeleteMessage(string messageId)
         {
-            Debug.LogWarning("[ChatManager] DeleteMessage called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("DeleteMessage called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -662,14 +663,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to report message: {e.Message}");
+                ApexLogger.LogError($"Failed to report message: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> ReportMessage(string messageId, string reason)
         {
-            Debug.LogWarning("[ChatManager] ReportMessage called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("ReportMessage called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -693,14 +694,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to add reaction: {e.Message}");
+                ApexLogger.LogError($"Failed to add reaction: {e.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }
 #else
         public Task<bool> AddReaction(string messageId, string reaction)
         {
-            Debug.LogWarning("[ChatManager] AddReaction called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("AddReaction called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(false);
         }
 #endif
@@ -724,7 +725,7 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Failed to set typing indicator: {e.Message}");
+                ApexLogger.LogVerbose($"Failed to set typing indicator: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 #else
@@ -748,7 +749,7 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Failed to clear typing indicator: {e.Message}");
+                ApexLogger.LogVerbose($"Failed to clear typing indicator: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 #else
@@ -813,7 +814,7 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Failed to mark channel as read: {e.Message}");
+                ApexLogger.LogVerbose($"Failed to mark channel as read: {e.Message}", ApexLogger.LogCategory.Network);
             }
         }
 #else
@@ -868,14 +869,14 @@ namespace ApexCitadels.Chat
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to search messages: {e.Message}");
+                ApexLogger.LogError($"Failed to search messages: {e.Message}", ApexLogger.LogCategory.Network);
                 return new List<ChatMessage>();
             }
         }
 #else
         public Task<List<ChatMessage>> SearchMessages(string channelId, string query)
         {
-            Debug.LogWarning("[ChatManager] SearchMessages called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("SearchMessages called but Firebase SDK not installed.", ApexLogger.LogCategory.Network);
             return Task.FromResult(new List<ChatMessage>());
         }
 #endif

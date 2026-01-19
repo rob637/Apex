@@ -6,6 +6,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.UI
 {
@@ -562,14 +563,14 @@ namespace ApexCitadels.UI
                 if (TMP_Settings.defaultSpriteAsset == null)
                 {
                     // Can't set directly, but we can add to fallback list
-                    Debug.Log("[GameIcons] Sprite asset loaded successfully");
+                    ApexLogger.LogVerbose("Sprite asset loaded successfully", LogCategory.UI);
                 }
                 _useFallback = false;
             }
             else
             {
-                Debug.Log("[GameIcons] Sprite asset not found, using styled text fallback. " +
-                         "Run Window > Apex Citadels > Generate Icon Sprites to create the sprite sheet.");
+                ApexLogger.Log("Sprite asset not found, using styled text fallback. " +
+                         "Run Window > Apex Citadels > Generate Icon Sprites to create the sprite sheet.", LogCategory.UI);
                 _useFallback = true;
             }
         }

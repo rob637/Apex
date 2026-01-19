@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Config
 {
@@ -56,11 +57,11 @@ namespace ApexCitadels.Config
             if (configJson != null)
             {
                 _config = JsonUtility.FromJson<ConfigData>(configJson.text);
-                Debug.Log($"[AppConfig] Loaded config for project: {_config.firebase.projectId}");
+                ApexLogger.Log($"Loaded config for project: {_config.firebase.projectId}", LogCategory.General);
             }
             else
             {
-                Debug.LogError("[AppConfig] AppConfig.json not found in Resources folder!");
+                ApexLogger.LogError("AppConfig.json not found in Resources folder!", LogCategory.General);
                 _config = new ConfigData();
             }
         }

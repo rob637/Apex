@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.Backend
@@ -57,11 +58,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] SaveBlueprint failed: {ex.Message}");
+                ApexLogger.LogError($"SaveBlueprint failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] SaveBlueprint: {name} from territory {territoryId}");
+            ApexLogger.LogVerbose($"[STUB] SaveBlueprint: {name} from territory {territoryId}", ApexLogger.LogCategory.Building);
             await Task.Delay(100);
             return new Blueprint
             {
@@ -104,11 +105,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] GetMyBlueprints failed: {ex.Message}");
+                ApexLogger.LogError($"GetMyBlueprints failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 throw;
             }
 #else
-            Debug.Log("[STUB] GetMyBlueprints called");
+            ApexLogger.LogVerbose("[STUB] GetMyBlueprints called", ApexLogger.LogCategory.Building);
             await Task.Delay(100);
             _cachedBlueprints = new List<Blueprint>
             {
@@ -154,11 +155,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] GetBlueprintDetails failed: {ex.Message}");
+                ApexLogger.LogError($"GetBlueprintDetails failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] GetBlueprintDetails: {blueprintId}");
+            ApexLogger.LogVerbose($"[STUB] GetBlueprintDetails: {blueprintId}", ApexLogger.LogCategory.Building);
             await Task.Delay(100);
             return new Blueprint
             {
@@ -195,11 +196,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] DeleteBlueprint failed: {ex.Message}");
+                ApexLogger.LogError($"DeleteBlueprint failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 return false;
             }
 #else
-            Debug.Log($"[STUB] DeleteBlueprint: {blueprintId}");
+            ApexLogger.LogVerbose($"[STUB] DeleteBlueprint: {blueprintId}", ApexLogger.LogCategory.Building);
             await Task.Delay(100);
             _cachedBlueprints?.RemoveAll(b => b.Id == blueprintId);
             return true;
@@ -234,11 +235,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] RenameBlueprint failed: {ex.Message}");
+                ApexLogger.LogError($"RenameBlueprint failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 return false;
             }
 #else
-            Debug.Log($"[STUB] RenameBlueprint: {blueprintId} -> {name}");
+            ApexLogger.LogVerbose($"[STUB] RenameBlueprint: {blueprintId} -> {name}", ApexLogger.LogCategory.Building);
             await Task.Delay(100);
             var bp = _cachedBlueprints?.Find(b => b.Id == blueprintId);
             if (bp != null)
@@ -273,11 +274,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] ApplyBlueprint failed: {ex.Message}");
+                ApexLogger.LogError($"ApplyBlueprint failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 return (false, 0, new ResourceCost());
             }
 #else
-            Debug.Log($"[STUB] ApplyBlueprint: {blueprintId} to territory {territoryId}");
+            ApexLogger.LogVerbose($"[STUB] ApplyBlueprint: {blueprintId} to territory {territoryId}", ApexLogger.LogCategory.Building);
             await Task.Delay(500);
             return (true, 15, new ResourceCost
             {
@@ -302,11 +303,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BlueprintService] PreviewBlueprintCost failed: {ex.Message}");
+                ApexLogger.LogError($"PreviewBlueprintCost failed: {ex.Message}", ApexLogger.LogCategory.Building);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] PreviewBlueprintCost: {blueprintId}");
+            ApexLogger.LogVerbose($"[STUB] PreviewBlueprintCost: {blueprintId}", ApexLogger.LogCategory.Building);
             await Task.Delay(100);
             return new BlueprintCostPreview
             {

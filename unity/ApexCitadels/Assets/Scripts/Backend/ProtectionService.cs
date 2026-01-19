@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.Backend
@@ -51,11 +52,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ProtectionService] GetProtectionStatus failed: {ex.Message}");
+                ApexLogger.LogError($"GetProtectionStatus failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log("[STUB] GetProtectionStatus called");
+            ApexLogger.LogVerbose("[STUB] GetProtectionStatus called", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             _cachedStatus = new ProtectionStatus
             {
@@ -85,11 +86,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ProtectionService] CheckTerritoryAttackable failed: {ex.Message}");
+                ApexLogger.LogError($"CheckTerritoryAttackable failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 return (false, "Error checking territory status");
             }
 #else
-            Debug.Log($"[STUB] CheckTerritoryAttackable: {territoryId}");
+            ApexLogger.LogVerbose($"[STUB] CheckTerritoryAttackable: {territoryId}", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             return (true, null);
 #endif
@@ -115,11 +116,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ProtectionService] WaiveNewcomerShield failed: {ex.Message}");
+                ApexLogger.LogError($"WaiveNewcomerShield failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 return false;
             }
 #else
-            Debug.Log("[STUB] WaiveNewcomerShield called");
+            ApexLogger.LogVerbose("[STUB] WaiveNewcomerShield called", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             _cachedStatus = new ProtectionStatus
             {
@@ -145,11 +146,11 @@ namespace ApexCitadels.Backend
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ProtectionService] GrantTemporaryShield failed: {ex.Message}");
+                ApexLogger.LogError($"GrantTemporaryShield failed: {ex.Message}", ApexLogger.LogCategory.Combat);
                 throw;
             }
 #else
-            Debug.Log($"[STUB] GrantTemporaryShield: {hours} hours");
+            ApexLogger.LogVerbose($"[STUB] GrantTemporaryShield: {hours} hours", ApexLogger.LogCategory.Combat);
             await Task.Delay(100);
             _cachedStatus = new ProtectionStatus
             {

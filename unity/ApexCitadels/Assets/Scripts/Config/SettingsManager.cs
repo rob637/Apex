@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Config
 {
@@ -73,7 +74,7 @@ namespace ApexCitadels.Config
             TargetFrameRate = PlayerPrefs.GetInt(KEY_FRAME_RATE, defaultFrameRate);
             Language = PlayerPrefs.GetString(KEY_LANGUAGE, "en");
 
-            Debug.Log("[SettingsManager] Settings loaded");
+            ApexLogger.Log("Settings loaded", LogCategory.General);
         }
 
         public void SaveSettings()
@@ -88,7 +89,7 @@ namespace ApexCitadels.Config
             PlayerPrefs.SetString(KEY_LANGUAGE, Language);
             PlayerPrefs.Save();
 
-            Debug.Log("[SettingsManager] Settings saved");
+            ApexLogger.Log("Settings saved", LogCategory.General);
         }
 
         public void ResetToDefaults()
@@ -106,7 +107,7 @@ namespace ApexCitadels.Config
             ApplySettings();
             OnSettingsChanged?.Invoke();
 
-            Debug.Log("[SettingsManager] Settings reset to defaults");
+            ApexLogger.Log("Settings reset to defaults", LogCategory.General);
         }
 
         #endregion
@@ -124,7 +125,7 @@ namespace ApexCitadels.Config
             // Apply frame rate
             Application.targetFrameRate = TargetFrameRate;
 
-            Debug.Log("[SettingsManager] Settings applied");
+            ApexLogger.Log("Settings applied", LogCategory.General);
         }
 
         #endregion

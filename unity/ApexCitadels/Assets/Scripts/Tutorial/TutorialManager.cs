@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Tutorial
 {
@@ -219,7 +220,7 @@ namespace ApexCitadels.Tutorial
 #else
         private void Start()
         {
-            Debug.LogWarning("[TutorialManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.UI);
             
             // Load progress
             LoadProgress();
@@ -776,13 +777,13 @@ namespace ApexCitadels.Tutorial
         {
             if (enableDebugLogs)
             {
-                Debug.Log($"[TutorialManager] {message}");
+                ApexLogger.LogVerbose(message, LogCategory.UI);
             }
         }
 
         private void LogError(string message)
         {
-            Debug.LogError($"[TutorialManager] {message}");
+            ApexLogger.LogError(message, LogCategory.UI);
         }
     }
 }

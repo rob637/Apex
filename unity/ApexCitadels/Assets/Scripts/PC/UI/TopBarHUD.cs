@@ -237,7 +237,10 @@ namespace ApexCitadels.PC.UI
             // Settings
             _settingsBtn = CreateQuickButton(GameIcons.Settings, "Menu", () =>
             {
-                Debug.Log("[TopBarHUD] Settings clicked - TODO");
+                if (SettingsPanel.Instance != null)
+                    SettingsPanel.Instance.Toggle();
+                else
+                    ApexCitadels.Core.ApexLogger.LogWarning("SettingsPanel not found", ApexCitadels.Core.ApexLogger.LogCategory.UI);
             });
         }
 

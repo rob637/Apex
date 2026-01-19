@@ -1,4 +1,5 @@
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -30,13 +31,13 @@ namespace ApexCitadels.PC
                 if (renderer != null && renderer.sharedMaterial != null)
                 {
                     _baseMaterial = renderer.sharedMaterial;
-                    Debug.Log($"[MaterialHelper] Base material shader: {_baseMaterial.shader.name}");
+                    ApexLogger.Log(LogCategory.General, $"Base material shader: {_baseMaterial.shader.name}");
                 }
                 Object.DestroyImmediate(temp);
             }
             
             _initialized = true;
-            Debug.Log($"[MaterialHelper] Initialized. URP: {_isURP}");
+            ApexLogger.Log(LogCategory.General, $"MaterialHelper Initialized. URP: {_isURP}");
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace ApexCitadels.PC
             
             if (mat == null)
             {
-                Debug.LogError("[MaterialHelper] Failed to create material!");
+                ApexLogger.LogError(LogCategory.General, "Failed to create material!");
                 return null;
             }
             
@@ -178,7 +179,7 @@ namespace ApexCitadels.PC
                 Shader shader = Shader.Find(name);
                 if (shader != null)
                 {
-                    Debug.Log($"[MaterialHelper] Using fallback shader: {name}");
+                    ApexLogger.Log(LogCategory.General, $"Using fallback shader: {name}");
                     return new Material(shader);
                 }
             }
@@ -245,7 +246,7 @@ namespace ApexCitadels.PC
             
             if (!hasDirectional)
             {
-                Debug.LogWarning("[MaterialHelper] No directional light found! Creating one...");
+                ApexLogger.LogWarning(LogCategory.General, "No directional light found! Creating one...");
                 CreateEmergencyLight();
             }
             
@@ -255,7 +256,7 @@ namespace ApexCitadels.PC
                 RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
                 RenderSettings.ambientLight = new Color(0.5f, 0.5f, 0.5f);
                 RenderSettings.ambientIntensity = 1f;
-                Debug.Log("[MaterialHelper] Set ambient lighting");
+                ApexLogger.Log(LogCategory.General, "Set ambient lighting");
             }
         }
 
@@ -269,7 +270,7 @@ namespace ApexCitadels.PC
             sun.shadows = LightShadows.None; // No shadows for performance
             sunObj.transform.rotation = Quaternion.Euler(50, -30, 0);
             
-            Debug.Log("[MaterialHelper] Created emergency directional light");
+            ApexLogger.Log(LogCategory.General, "Created emergency directional light");
         }
     }
 }

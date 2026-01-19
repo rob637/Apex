@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 using ApexCitadels.PC.Compatibility;
 
 namespace ApexCitadels.PC.GeoMapping
@@ -211,7 +212,7 @@ namespace ApexCitadels.PC.GeoMapping
                 _lensDistortion = profile.Add<LensDistortion>();
             }
             
-            Debug.Log("[FantasyAtmosphere] Post-processing volume configured");
+            ApexLogger.Log("Post-processing volume configured", ApexLogger.LogCategory.Map);
         }
         
         #region Preset Application

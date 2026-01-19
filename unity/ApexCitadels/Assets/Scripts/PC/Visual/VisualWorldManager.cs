@@ -3,6 +3,7 @@
 // Master controller that initializes all visual systems
 // ============================================================================
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Visual
 {
@@ -47,9 +48,9 @@ namespace ApexCitadels.PC.Visual
 
         private void Start()
         {
-            Debug.Log("═══════════════════════════════════════════════════════════════════════");
-            Debug.Log("  APEX CITADELS - VISUAL WORLD MANAGER STARTING");
-            Debug.Log("═══════════════════════════════════════════════════════════════════════");
+            ApexLogger.Log(LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
+            ApexLogger.Log(LogCategory.General, "  APEX CITADELS - VISUAL WORLD MANAGER STARTING");
+            ApexLogger.Log(LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
 
             // FIRST: Disable any old flat ground
             DisableFlatGround();
@@ -62,9 +63,9 @@ namespace ApexCitadels.PC.Visual
             // Subscribe to territory updates
             Invoke(nameof(InitializeTerritoryVisuals), 2f); // Delay to let Firebase load
 
-            Debug.Log("═══════════════════════════════════════════════════════════════════════");
-            Debug.Log("  ✅ VISUAL SYSTEMS INITIALIZED - World should now look amazing!");
-            Debug.Log("═══════════════════════════════════════════════════════════════════════");
+            ApexLogger.Log(LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
+            ApexLogger.Log(LogCategory.General, "  ✅ VISUAL SYSTEMS INITIALIZED - World should now look amazing!");
+            ApexLogger.Log(LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
         }
 
         private void InitializeVisualSystems()
@@ -79,7 +80,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject terrainObj = new GameObject("TerrainSystem");
                 terrainObj.transform.SetParent(visualSystems.transform);
                 terrainSystem = terrainObj.AddComponent<TerrainVisualSystem>();
-                Debug.Log("[VisualWorld] ✅ Terrain system created");
+                ApexLogger.LogVerbose(LogCategory.General, "✅ Terrain system created");
             }
 
             // 2. Skybox & Environment - Dynamic sky, day/night, clouds
@@ -88,7 +89,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject skyboxObj = new GameObject("SkyboxSystem");
                 skyboxObj.transform.SetParent(visualSystems.transform);
                 skyboxSystem = skyboxObj.AddComponent<SkyboxEnvironmentSystem>();
-                Debug.Log("[VisualWorld] ✅ Skybox system created");
+                ApexLogger.LogVerbose(LogCategory.General, "✅ Skybox system created");
             }
 
             // 3. Citadel Visuals - 3D buildings for territories
@@ -97,7 +98,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject citadelObj = new GameObject("CitadelSystem");
                 citadelObj.transform.SetParent(visualSystems.transform);
                 citadelSystem = citadelObj.AddComponent<CitadelVisualSystem>();
-                Debug.Log("[VisualWorld] ✅ Citadel system created");
+                ApexLogger.LogVerbose(LogCategory.General, "✅ Citadel system created");
             }
 
             // 4. Audio Manager - Music, SFX, ambient sounds
@@ -106,7 +107,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject audioObj = new GameObject("AudioManager");
                 audioObj.transform.SetParent(visualSystems.transform);
                 audioManager = audioObj.AddComponent<AudioManager>();
-                Debug.Log("[VisualWorld] ✅ Audio manager created");
+                ApexLogger.LogVerbose(LogCategory.General, "✅ Audio manager created");
             }
 
             // 5. Post-Processing - Bloom, color grading, etc.
@@ -115,7 +116,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject ppObj = new GameObject("PostProcessing");
                 ppObj.transform.SetParent(visualSystems.transform);
                 postProcessing = ppObj.AddComponent<PostProcessingSetup>();
-                Debug.Log("[VisualWorld] ✅ Post-processing created");
+                ApexLogger.LogVerbose(LogCategory.General, "✅ Post-processing created");
             }
 
             // 6. Disable old flat ground if it exists
@@ -134,7 +135,7 @@ namespace ApexCitadels.PC.Visual
                 if (obj.name == "Ground" || obj.name == "GroundPlane" || obj.name == "Plane")
                 {
                     obj.SetActive(false);
-                    Debug.Log($"[VisualWorld] Disabled old ground: {obj.name}");
+                    ApexLogger.LogVerbose(LogCategory.General, $"Disabled old ground: {obj.name}");
                 }
             }
 
@@ -168,7 +169,7 @@ namespace ApexCitadels.PC.Visual
                 cam.allowHDR = true;
                 cam.allowMSAA = true;
 
-                Debug.Log("[VisualWorld] Camera configured for 3D world");
+                ApexLogger.LogVerbose(LogCategory.General, "Camera configured for 3D world");
             }
         }
 
@@ -183,7 +184,7 @@ namespace ApexCitadels.PC.Visual
             var worldMap = Object.FindFirstObjectByType<WorldMapRenderer>();
             if (worldMap == null)
             {
-                Debug.LogWarning("[VisualWorld] WorldMapRenderer not found, retrying...");
+                ApexLogger.LogWarning(LogCategory.General, "WorldMapRenderer not found, retrying...");
                 Invoke(nameof(InitializeTerritoryVisuals), 2f);
                 return;
             }
@@ -241,7 +242,7 @@ namespace ApexCitadels.PC.Visual
                 );
             }
 
-            Debug.Log($"[VisualWorld] Created {citadelPositions.Length} demo citadels");
+            ApexLogger.LogVerbose(LogCategory.General, $"Created {citadelPositions.Length} demo citadels");
         }
 
         #region Public API
@@ -411,7 +412,7 @@ namespace ApexCitadels.PC.Visual
             currentPresetIndex = (currentPresetIndex + 1) % 7;
             PostProcessingSetup.VisualPreset preset = (PostProcessingSetup.VisualPreset)currentPresetIndex;
             postProcessing.TransitionToPreset(preset, 0.5f);
-            Debug.Log($"[VisualWorld] Switched to preset: {preset}");
+            ApexLogger.LogVerbose(LogCategory.General, $"Switched to preset: {preset}");
         }
     }
 }

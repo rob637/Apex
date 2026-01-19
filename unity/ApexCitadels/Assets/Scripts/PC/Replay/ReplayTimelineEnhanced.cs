@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Replay
 {
@@ -153,7 +154,7 @@ namespace ApexCitadels.PC.Replay
             // Setup mini-map with initial buildings
             SetupMiniMap(replay);
             
-            Debug.Log($"[ReplayTimeline] Loaded {_timelineMarkers.Count} markers, {_highlightTimestamps.Count} highlights");
+            ApexLogger.Log($"Loaded {_timelineMarkers.Count} markers, {_highlightTimestamps.Count} highlights", ApexLogger.LogCategory.Replay);
         }
         
         private void CreateTimelineMarker(BattleEvent evt)

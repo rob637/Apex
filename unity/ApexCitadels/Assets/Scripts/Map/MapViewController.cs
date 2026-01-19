@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
 
@@ -121,7 +122,7 @@ namespace ApexCitadels.Map
             // Request location permission
             if (!Input.location.isEnabledByUser)
             {
-                Debug.Log("[MapView] Location not enabled");
+                ApexLogger.Log("Location not enabled", LogCategory.Map);
                 // Use default location for testing
                 SetCenter(37.7749, -122.4194); // San Francisco
                 yield break;
@@ -218,7 +219,7 @@ namespace ApexCitadels.Map
         public void ToggleFollowPlayer()
         {
             _followPlayer = !_followPlayer;
-            Debug.Log($"[MapView] Follow player: {_followPlayer}");
+            ApexLogger.Log($"Follow player: {_followPlayer}", LogCategory.Map);
         }
 
         /// <summary>

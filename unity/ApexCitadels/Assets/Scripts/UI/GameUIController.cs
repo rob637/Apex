@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 using ApexCitadels.Territory;
 using ApexCitadels.Building;
@@ -151,7 +152,7 @@ namespace ApexCitadels.UI
                 statusText.text = message;
                 _statusTimer = statusDisplayTime;
             }
-            Debug.Log($"[UI] {message}");
+            ApexLogger.Log(message, LogCategory.UI);
         }
 
         public void ShowTerritoryInfo(Territory.Territory territory)

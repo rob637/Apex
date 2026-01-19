@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 
 #if FIREBASE_ENABLED
 using Firebase.Functions;
@@ -65,7 +66,7 @@ namespace ApexCitadels.Backend
             }
             catch (Exception e)
             {
-                Debug.LogError($"[FirebaseManager] Function {functionName} failed: {e.Message}");
+                ApexLogger.LogError($"Function {functionName} failed: {e.Message}", ApexLogger.LogCategory.Firebase);
                 throw;
             }
         }
@@ -90,7 +91,7 @@ namespace ApexCitadels.Backend
             }
             catch (Exception e)
             {
-                Debug.LogError($"[FirebaseManager] Function {functionName} failed: {e.Message}");
+                ApexLogger.LogError($"Function {functionName} failed: {e.Message}", ApexLogger.LogCategory.Firebase);
                 throw;
             }
         }
@@ -103,18 +104,18 @@ namespace ApexCitadels.Backend
                 return;
             }
             _instance = this;
-            Debug.LogWarning("[FirebaseManager] Firebase not enabled. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase not enabled. Running in stub mode.", ApexLogger.LogCategory.Firebase);
         }
 
         public Task<T> CallFunction<T>(string functionName, Dictionary<string, object> data = null) where T : class
         {
-            Debug.LogWarning($"[FirebaseManager] Stub: CallFunction<{typeof(T).Name}>({functionName})");
+            ApexLogger.LogVerbose($"Stub: CallFunction<{typeof(T).Name}>({functionName})", ApexLogger.LogCategory.Firebase);
             return Task.FromResult<T>(null);
         }
 
         public Task<Dictionary<string, object>> CallFunction(string functionName, Dictionary<string, object> data = null)
         {
-            Debug.LogWarning($"[FirebaseManager] Stub: CallFunction({functionName})");
+            ApexLogger.LogVerbose($"Stub: CallFunction({functionName})", ApexLogger.LogCategory.Firebase);
             return Task.FromResult(new Dictionary<string, object>());
         }
 #endif

@@ -4,6 +4,7 @@
 // ============================================================================
 using UnityEngine;
 using ApexCitadels.Building;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 using ApexCitadels.PC.UI;
 
@@ -69,7 +70,7 @@ namespace ApexCitadels.PC
             }
 
             isInitialized = true;
-            Debug.Log("[BaseEditorIntegration] Initialized successfully");
+            ApexLogger.Log("Initialized successfully", ApexLogger.LogCategory.Building);
         }
 
         private void FindOrCreateComponents()
@@ -156,7 +157,7 @@ namespace ApexCitadels.PC
 
         private void OnEditorEntered()
         {
-            Debug.Log("[BaseEditorIntegration] Editor mode entered");
+            ApexLogger.Log("Editor mode entered", ApexLogger.LogCategory.Building);
 
             // Enable camera controls
             if (cameraController != null)
@@ -171,7 +172,7 @@ namespace ApexCitadels.PC
 
         private void OnEditorExited()
         {
-            Debug.Log("[BaseEditorIntegration] Editor mode exited");
+            ApexLogger.Log("Editor mode exited", ApexLogger.LogCategory.Building);
 
             // Disable camera controls
             if (cameraController != null)
@@ -215,7 +216,7 @@ namespace ApexCitadels.PC
                 // The BaseEditor will handle the actual placement
             }
 
-            Debug.Log($"[BaseEditorIntegration] Placement confirmed: {type} at {position}");
+            ApexLogger.Log($"Placement confirmed: {type} at {position}", ApexLogger.LogCategory.Building);
         }
 
         private void OnPlacementCancelled()

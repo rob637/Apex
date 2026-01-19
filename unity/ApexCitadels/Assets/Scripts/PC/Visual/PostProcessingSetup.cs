@@ -6,6 +6,7 @@ using Camera = UnityEngine.Camera;
 // ============================================================================
 using UnityEngine;
 using System.Collections;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Visual
 {
@@ -66,7 +67,7 @@ namespace ApexCitadels.PC.Visual
             SetupEffects();
             ApplyPreset(VisualPreset.Default);
             
-            Debug.Log("[PostProcess] ✅ Post-processing system initialized (Camera-based)");
+            ApexLogger.Log(LogCategory.General, "✅ Post-processing system initialized (Camera-based)");
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace ApexCitadels.PC.Visual
             // Apply initial lighting enhancements
             EnhanceLighting();
             
-            Debug.Log("[PostProcess] Visual effects configured");
+            ApexLogger.LogVerbose(LogCategory.General, "Visual effects configured");
         }
 
         private void CreateScreenOverlay()
@@ -109,7 +110,7 @@ namespace ApexCitadels.PC.Visual
             // If no shader found, skip overlay creation to avoid yellow screen
             if (transparentShader == null)
             {
-                Debug.LogWarning("[PostProcess] Could not find transparent shader, skipping vignette overlay");
+                ApexLogger.LogWarning(LogCategory.General, "Could not find transparent shader, skipping vignette overlay");
                 return;
             }
             
@@ -236,7 +237,7 @@ namespace ApexCitadels.PC.Visual
             }
 
             ApplySettings();
-            Debug.Log($"[PostProcess] Applied preset: {preset}");
+            ApexLogger.LogVerbose(LogCategory.General, $"Applied preset: {preset}");
         }
 
         private void ApplySettings()
@@ -403,7 +404,7 @@ namespace ApexCitadels.PC.Visual
         public void SetMotionBlur(bool enabled, float intensity = 0.2f)
         {
             // Motion blur requires render texture - placeholder for now
-            Debug.Log($"[PostProcess] Motion blur {(enabled ? "enabled" : "disabled")}");
+            ApexLogger.LogVerbose(LogCategory.General, $"Motion blur {(enabled ? "enabled" : "disabled")}");
         }
 
         /// <summary>
@@ -412,7 +413,7 @@ namespace ApexCitadels.PC.Visual
         public void SetDepthOfField(bool enabled, float focusDistance = 10f)
         {
             // DOF requires post-process shader - placeholder for now
-            Debug.Log($"[PostProcess] Depth of field {(enabled ? "enabled" : "disabled")}");
+            ApexLogger.LogVerbose(LogCategory.General, $"Depth of field {(enabled ? "enabled" : "disabled")}");
         }
 
         #endregion

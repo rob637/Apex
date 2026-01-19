@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Analytics
 {
@@ -40,7 +41,7 @@ namespace ApexCitadels.Analytics
 
         private void Start()
         {
-            Debug.LogWarning("[AnalyticsManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.Performance);
             StartSession();
         }
 
@@ -50,38 +51,38 @@ namespace ApexCitadels.Analytics
             _sessionStartTime = DateTime.UtcNow;
             _isSessionActive = true;
             OnSessionStarted?.Invoke();
-            Debug.Log($"[AnalyticsManager] Session started: {_sessionId}");
+            ApexLogger.Log($"Session started: {_sessionId}", LogCategory.Performance);
         }
 
         public void EndSession()
         {
             _isSessionActive = false;
             OnSessionEnded?.Invoke();
-            Debug.Log("[AnalyticsManager] Session ended");
+            ApexLogger.Log("Session ended", LogCategory.Performance);
         }
 
         public void TrackEvent(string eventName, Dictionary<string, object> parameters = null)
         {
             if (enableDebugLogs)
-                Debug.Log($"[AnalyticsManager] Event: {eventName}");
+                ApexLogger.LogVerbose($"Event: {eventName}", LogCategory.Performance);
         }
 
         public void SetUserProperty(string property, object value)
         {
             if (enableDebugLogs)
-                Debug.Log($"[AnalyticsManager] Property: {property} = {value}");
+                ApexLogger.LogVerbose($"Property: {property} = {value}", LogCategory.Performance);
         }
 
         public void TrackScreenView(string screenName)
         {
             if (enableDebugLogs)
-                Debug.Log($"[AnalyticsManager] Screen: {screenName}");
+                ApexLogger.LogVerbose($"Screen: {screenName}", LogCategory.Performance);
         }
 
         public void TrackPurchase(string productId, decimal amount, string currency)
         {
             if (enableDebugLogs)
-                Debug.Log($"[AnalyticsManager] Purchase: {productId} - {amount} {currency}");
+                ApexLogger.LogVerbose($"Purchase: {productId} - {amount} {currency}", LogCategory.Performance);
         }
     }
 }

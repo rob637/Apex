@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -61,7 +62,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_isLoading)
             {
-                Debug.LogWarning("Already loading a scene");
+                ApexLogger.LogWarning("Already loading a scene", ApexLogger.LogCategory.UI);
                 return;
             }
             
@@ -75,7 +76,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_isLoading)
             {
-                Debug.LogWarning("Already loading a scene");
+                ApexLogger.LogWarning("Already loading a scene", ApexLogger.LogCategory.UI);
                 return;
             }
             
@@ -111,7 +112,7 @@ namespace ApexCitadels.PC.UI
         {
             if (!_preloadedScenes.TryGetValue(sceneName, out var operation))
             {
-                Debug.LogWarning($"Scene {sceneName} is not preloaded");
+                ApexLogger.LogWarning($"Scene {sceneName} is not preloaded", ApexLogger.LogCategory.UI);
                 LoadScene(sceneName, loadingContext, onComplete);
                 return;
             }
@@ -258,7 +259,7 @@ namespace ApexCitadels.PC.UI
             
             if (operation == null)
             {
-                Debug.LogWarning($"Could not unload scene: {sceneName}");
+                ApexLogger.LogWarning($"Could not unload scene: {sceneName}", ApexLogger.LogCategory.UI);
                 onComplete?.Invoke();
                 yield break;
             }

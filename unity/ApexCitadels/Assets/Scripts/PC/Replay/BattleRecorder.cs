@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ApexCitadels.Core;
 using ApexCitadels.PC.Combat;
 
 #if FIREBASE_ENABLED
@@ -83,7 +84,7 @@ namespace ApexCitadels.PC.Replay
         {
             if (_isRecording)
             {
-                Debug.LogWarning("[BattleRecorder] Already recording - stopping previous session");
+                ApexLogger.LogWarning("Already recording - stopping previous session", ApexLogger.LogCategory.Replay);
                 StopRecording(false);
             }
             
@@ -135,7 +136,7 @@ namespace ApexCitadels.PC.Replay
             });
             
             OnRecordingStarted?.Invoke(_currentSession);
-            Debug.Log($"[BattleRecorder] Started recording: {context.TerritoryName}");
+            ApexLogger.Log($"Started recording: {context.TerritoryName}", ApexLogger.LogCategory.Replay);
         }
         
         /// <summary>
@@ -145,7 +146,7 @@ namespace ApexCitadels.PC.Replay
         {
             if (!_isRecording || _currentSession == null)
             {
-                Debug.LogWarning("[BattleRecorder] Not currently recording");
+                ApexLogger.LogWarning("Not currently recording", ApexLogger.LogCategory.Replay);
                 return null;
             }
             
@@ -181,7 +182,7 @@ namespace ApexCitadels.PC.Replay
             }
             
             OnRecordingEnded?.Invoke(_currentSession);
-            Debug.Log($"[BattleRecorder] Recording stopped. Duration: {_currentSession.Duration:F1}s, Events: {_currentSession.Events.Count}");
+            ApexLogger.Log($"Recording stopped. Duration: {_currentSession.Duration:F1}s, Events: {_currentSession.Events.Count}", ApexLogger.LogCategory.Replay);
             
             // Clear tracking
             _trackedUnits.Clear();
@@ -200,7 +201,7 @@ namespace ApexCitadels.PC.Replay
             _trackedUnits.Clear();
             _trackedBuildings.Clear();
             _currentSession = null;
-            Debug.Log("[BattleRecorder] Recording cancelled");
+            ApexLogger.Log("Recording cancelled", ApexLogger.LogCategory.Replay);
         }
         
         #endregion
@@ -618,11 +619,11 @@ namespace ApexCitadels.PC.Replay
                     .Document(_currentSession.Id)
                     .SetAsync(data);
                 
-                Debug.Log($"[BattleRecorder] Saved to Firebase: {_currentSession.Id}");
+                ApexLogger.Log($"Saved to Firebase: {_currentSession.Id}", ApexLogger.LogCategory.Replay);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleRecorder] Firebase save failed: {ex.Message}");
+                ApexLogger.LogError($"Firebase save failed: {ex.Message}", ApexLogger.LogCategory.Replay);
             }
 #endif
         }
@@ -710,7 +711,7 @@ namespace ApexCitadels.PC.Replay
             PlayerPrefs.SetString("ReplayList", string.Join("|", ids));
             PlayerPrefs.Save();
             
-            Debug.Log($"[BattleRecorder] Saved locally: {_currentSession.Id}");
+            ApexLogger.Log($"Saved locally: {_currentSession.Id}", ApexLogger.LogCategory.Replay);
         }
         
         /// <summary>
@@ -723,7 +724,7 @@ namespace ApexCitadels.PC.Replay
             
             if (string.IsNullOrEmpty(json))
             {
-                Debug.LogWarning($"[BattleRecorder] Local replay not found: {replayId}");
+                ApexLogger.LogWarning($"Local replay not found: {replayId}", ApexLogger.LogCategory.Replay);
                 return null;
             }
             
@@ -734,7 +735,7 @@ namespace ApexCitadels.PC.Replay
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleRecorder] Failed to load replay: {ex.Message}");
+                ApexLogger.LogError($"Failed to load replay: {ex.Message}", ApexLogger.LogCategory.Replay);
                 return null;
             }
         }

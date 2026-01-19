@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Tutorial
 {
@@ -246,7 +247,7 @@ namespace ApexCitadels.Tutorial
             var target = FindTargetByName(targetName);
             if (target == null)
             {
-                Debug.LogWarning($"[TutorialUI] Highlight target not found: {targetName}");
+                ApexLogger.LogWarning($"Highlight target not found: {targetName}", LogCategory.UI);
                 return;
             }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -214,7 +215,7 @@ namespace ApexCitadels.PC
         {
             if (!_musicTracks.ContainsKey(trackId))
             {
-                Debug.LogWarning($"[SoundManager] Music track not found: {trackId}");
+                ApexLogger.LogWarning(LogCategory.General, $"Music track not found: {trackId}");
                 return;
             }
             
@@ -234,7 +235,7 @@ namespace ApexCitadels.PC
             }
             
             OnMusicTrackChanged?.Invoke(trackId);
-            Debug.Log($"[SoundManager] Playing music: {trackId}");
+            ApexLogger.LogVerbose(LogCategory.General, $"Playing music: {trackId}");
         }
 
         /// <summary>
@@ -254,7 +255,7 @@ namespace ApexCitadels.PC
             
             if (_currentPlaylist.Count == 0)
             {
-                Debug.LogWarning("[SoundManager] No valid tracks in playlist");
+                ApexLogger.LogWarning(LogCategory.General, "No valid tracks in playlist");
                 return;
             }
             
@@ -268,7 +269,7 @@ namespace ApexCitadels.PC
             
             PlayCurrentPlaylistTrack();
             
-            Debug.Log($"[SoundManager] Playing playlist with {_currentPlaylist.Count} tracks");
+            ApexLogger.LogVerbose(LogCategory.General, $"Playing playlist with {_currentPlaylist.Count} tracks");
         }
 
         private void PlayCurrentPlaylistTrack()
@@ -395,7 +396,7 @@ namespace ApexCitadels.PC
         {
             if (!_sfxClips.ContainsKey(sfxId))
             {
-                Debug.LogWarning($"[SoundManager] SFX not found: {sfxId}");
+                ApexLogger.LogWarning(LogCategory.General, $"SFX not found: {sfxId}");
                 return;
             }
             
@@ -403,7 +404,7 @@ namespace ApexCitadels.PC
             if (clip == null)
             {
                 // Placeholder - would load from Resources in production
-                Debug.Log($"[SoundManager] SFX played: {sfxId}");
+                ApexLogger.LogVerbose(LogCategory.General, $"SFX played: {sfxId}");
                 return;
             }
             
@@ -421,14 +422,14 @@ namespace ApexCitadels.PC
         {
             if (!_sfxClips.ContainsKey(sfxId))
             {
-                Debug.LogWarning($"[SoundManager] SFX not found: {sfxId}");
+                ApexLogger.LogWarning(LogCategory.General, $"SFX not found: {sfxId}");
                 return;
             }
             
             AudioClip clip = _sfxClips[sfxId];
             if (clip == null)
             {
-                Debug.Log($"[SoundManager] SFX played with pitch variation: {sfxId}");
+                ApexLogger.LogVerbose(LogCategory.General, $"SFX played with pitch variation: {sfxId}");
                 return;
             }
             
@@ -479,7 +480,7 @@ namespace ApexCitadels.PC
         {
             if (!_uiClips.ContainsKey(soundId))
             {
-                Debug.Log($"[SoundManager] UI sound played: {soundId}");
+                ApexLogger.LogVerbose(LogCategory.General, $"UI sound played: {soundId}");
                 return;
             }
             
@@ -510,7 +511,7 @@ namespace ApexCitadels.PC
         {
             if (!_ambientClips.ContainsKey(ambientId))
             {
-                Debug.Log($"[SoundManager] Ambient sound: {ambientId}");
+                ApexLogger.LogVerbose(LogCategory.General, $"Ambient sound: {ambientId}");
                 return;
             }
             
@@ -663,11 +664,11 @@ namespace ApexCitadels.PC
                         _ambientClips[id] = clip;
                         break;
                 }
-                Debug.Log($"[SoundManager] Loaded {category}/{id} from {resourcePath}");
+                ApexLogger.Log(LogCategory.General, $"Loaded {category}/{id} from {resourcePath}");
             }
             else
             {
-                Debug.LogWarning($"[SoundManager] Failed to load: {resourcePath}");
+                ApexLogger.LogWarning(LogCategory.General, $"Failed to load: {resourcePath}");
             }
         }
 

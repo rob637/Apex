@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using ApexCitadels.Data;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -108,7 +109,7 @@ namespace ApexCitadels.PC
             FindUIElements();
             UpdateUI();
             
-            Debug.Log("[Resources] PCResourceSystem initialized");
+            ApexLogger.Log(LogCategory.Economy, "PCResourceSystem initialized");
         }
 
         private void Update()
@@ -144,7 +145,7 @@ namespace ApexCitadels.PC
             UpdateUI();
             OnTick?.Invoke();
             
-            Debug.Log($"[Resources] Tick: +{goldProduction:F0}g, +{stoneProduction:F0}s, +{woodProduction:F0}w");
+            ApexLogger.LogVerbose(LogCategory.Economy, $"Tick: +{goldProduction:F0}g, +{stoneProduction:F0}s, +{woodProduction:F0}w");
         }
 
         /// <summary>
@@ -265,7 +266,7 @@ namespace ApexCitadels.PC
         {
             if (GetResource(type) < amount)
             {
-                Debug.Log($"[Resources] Insufficient {type}!");
+                ApexLogger.Log(LogCategory.Economy, $"Insufficient {type}!");
                 return false;
             }
 
@@ -293,7 +294,7 @@ namespace ApexCitadels.PC
             // Check if we have enough
             if (_gold < gold || _stone < stone || _wood < wood || _iron < iron || _crystal < crystal)
             {
-                Debug.Log("[Resources] Insufficient resources!");
+                ApexLogger.Log(LogCategory.Economy, "Insufficient resources!");
                 return false;
             }
             
@@ -411,7 +412,7 @@ namespace ApexCitadels.PC
         {
             // TODO: Spawn floating text showing resource gain
             // For now just log
-            Debug.Log($"[Resources] +{amount:F0} {type}");
+            ApexLogger.LogVerbose(LogCategory.Economy, $"+{amount:F0} {type}");
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 using ApexCitadels.Config;
 
 namespace ApexCitadels.UI
@@ -255,14 +256,14 @@ namespace ApexCitadels.UI
         private void OnSaveClicked()
         {
             SettingsManager.Instance?.SaveSettings();
-            Debug.Log("[SettingsPanel] Settings saved");
+            ApexLogger.Log("Settings saved", LogCategory.UI);
         }
 
         private void OnResetClicked()
         {
             SettingsManager.Instance?.ResetToDefaults();
             LoadCurrentSettings();
-            Debug.Log("[SettingsPanel] Settings reset");
+            ApexLogger.Log("Settings reset", LogCategory.UI);
         }
 
         private void OnCloseClicked()

@@ -2,6 +2,7 @@ using Camera = UnityEngine.Camera;
 using UnityEngine;
 using System;
 using System.Collections;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Replay
 {
@@ -217,7 +218,7 @@ namespace ApexCitadels.PC.Replay
             _currentMode = mode;
             OnModeChanged?.Invoke(mode);
             
-            Debug.Log($"[ReplayCamera] Mode: {mode}");
+            ApexLogger.Log($"Mode: {mode}", ApexLogger.LogCategory.Replay);
             
             // Initialize mode
             switch (mode)
@@ -250,7 +251,7 @@ namespace ApexCitadels.PC.Replay
             
             if (target != null)
             {
-                Debug.Log($"[ReplayCamera] Following: {target.name}");
+                ApexLogger.Log($"Following: {target.name}", ApexLogger.LogCategory.Replay);
             }
         }
         

@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Visual
 {
@@ -54,7 +55,7 @@ namespace ApexCitadels.PC.Visual
         private void Start()
         {
             CreateFallbackPrefabs();
-            Debug.Log("[CitadelVisual] ✅ Citadel visual system initialized");
+            ApexLogger.Log(LogCategory.General, "✅ Citadel visual system initialized");
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace ApexCitadels.PC.Visual
             CreateWallPrefab("W01_Stone_Wall_Straight_2m", CreateStoneWall);
             CreateWallPrefab("W10_Stone_Wall_Gate_Small", CreateGate);
 
-            Debug.Log($"[CitadelVisual] Created {buildingPrefabs.Count} building prefabs, {towerPrefabs.Count} tower prefabs, {wallPrefabs.Count} wall prefabs");
+            ApexLogger.LogVerbose(LogCategory.General, $"Created {buildingPrefabs.Count} building prefabs, {towerPrefabs.Count} tower prefabs, {wallPrefabs.Count} wall prefabs");
         }
 
         #region Building Creation Methods

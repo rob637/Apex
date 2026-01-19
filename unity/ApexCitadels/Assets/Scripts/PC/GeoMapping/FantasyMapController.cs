@@ -1,4 +1,5 @@
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -58,11 +59,11 @@ namespace ApexCitadels.PC.GeoMapping
         {
             ApplyDefaultSettings();
             
-            Debug.Log("[FantasyMapController] Fantasy Map Overlay system initialized");
-            Debug.Log($"  - Map Style: {defaultStyle}");
-            Debug.Log($"  - Atmosphere: {defaultAtmosphere}");
-            Debug.Log($"  - Time: {defaultTimeOfDay:F1}h");
-            Debug.Log($"  - Particles: {(enableParticlesByDefault ? "Enabled" : "Disabled")}");
+            ApexLogger.Log("Fantasy Map Overlay system initialized", ApexLogger.LogCategory.Map);
+            ApexLogger.Log($"  - Map Style: {defaultStyle}", ApexLogger.LogCategory.Map);
+            ApexLogger.Log($"  - Atmosphere: {defaultAtmosphere}", ApexLogger.LogCategory.Map);
+            ApexLogger.Log($"  - Time: {defaultTimeOfDay:F1}h", ApexLogger.LogCategory.Map);
+            ApexLogger.Log($"  - Particles: {(enableParticlesByDefault ? "Enabled" : "Disabled")}", ApexLogger.LogCategory.Map);
         }
         
         private void InitializeComponents()
@@ -235,7 +236,7 @@ namespace ApexCitadels.PC.GeoMapping
                     break;
             }
             
-            Debug.Log($"[FantasyMapController] Applied preset: {preset}");
+            ApexLogger.Log($"Applied preset: {preset}", ApexLogger.LogCategory.Map);
         }
         
         /// <summary>

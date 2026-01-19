@@ -44,7 +44,7 @@ namespace ApexCitadels.PC
             // Check platform - PC, WebGL, or Editor
             if (!PlatformManager.HasKeyboardMouse)
             {
-                Debug.LogWarning("[PCBootstrap] Not running on PC/WebGL platform, redirecting to AR scene");
+                ApexLogger.LogWarning(LogCategory.General, "Not running on PC/WebGL platform, redirecting to AR scene");
                 SceneManager.LoadScene("ARGameplay");
                 return;
             }
@@ -57,7 +57,7 @@ namespace ApexCitadels.PC
 
         private IEnumerator SetupScene()
         {
-            Debug.Log("[PCBootstrap] Starting PC scene setup...");
+            ApexLogger.Log(LogCategory.General, "Starting PC scene setup...");
 
             // Wait a frame for other Awake calls
             yield return null;
@@ -90,19 +90,19 @@ namespace ApexCitadels.PC
             // Step 5: Connect Systems
             ConnectSystems();
 
-            Debug.Log("[PCBootstrap] PC scene setup complete!");
+            ApexLogger.Log(LogCategory.General, "PC scene setup complete!");
         }
 
         #region Core Systems
 
         private void CreateCoreSystems()
         {
-            Debug.Log("[PCBootstrap] Creating core systems...");
+            ApexLogger.Log(LogCategory.General, "Creating core systems...");
 
             // Ensure GameManager exists (Critical dependency)
             if (FindFirstObjectByType<GameManager>() == null)
             {
-                Debug.Log("[PCBootstrap] Creating GameManager...");
+                ApexLogger.Log(LogCategory.General, "Creating GameManager...");
                 GameObject gmObj = new GameObject("GameManager");
                 gmObj.AddComponent<GameManager>();
             }
@@ -176,7 +176,7 @@ namespace ApexCitadels.PC
                 }
             }
 
-            Debug.Log("[PCBootstrap] Core systems created");
+            ApexLogger.Log(LogCategory.General, "Core systems created");
         }
 
         #endregion
@@ -185,7 +185,7 @@ namespace ApexCitadels.PC
 
         private void CreateLighting()
         {
-            Debug.Log("[PCBootstrap] Creating lighting...");
+            ApexLogger.Log(LogCategory.General, "Creating lighting...");
 
             // Check for existing directional light
             Light sunLight = null;
@@ -223,7 +223,7 @@ namespace ApexCitadels.PC
             RenderSettings.ambientEquatorColor = new Color(0.5f, 0.5f, 0.5f);
             RenderSettings.ambientGroundColor = new Color(0.3f, 0.35f, 0.3f);
 
-            Debug.Log("[PCBootstrap] Lighting created");
+            ApexLogger.Log(LogCategory.General, "Lighting created");
         }
 
         #endregion
@@ -232,7 +232,7 @@ namespace ApexCitadels.PC
 
         private void CreateEnvironment()
         {
-            Debug.Log("[PCBootstrap] Creating environment...");
+            ApexLogger.Log(LogCategory.General, "Creating environment...");
 
             if (createGround)
             {
@@ -284,7 +284,7 @@ namespace ApexCitadels.PC
             // Make ground static
             ground.isStatic = true;
 
-            Debug.Log("[PCBootstrap] Ground plane created");
+            ApexLogger.Log(LogCategory.General, "Ground plane created");
         }
 
         #endregion
@@ -293,7 +293,7 @@ namespace ApexCitadels.PC
 
         private void CreateUISystem()
         {
-            Debug.Log("[PCBootstrap] Creating UI system...");
+            ApexLogger.Log(LogCategory.General, "Creating UI system...");
 
             // Check for existing Canvas
             Canvas existingCanvas = FindFirstObjectByType<Canvas>();
@@ -324,7 +324,7 @@ namespace ApexCitadels.PC
                 eventSystemObj.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
-            Debug.Log("[PCBootstrap] UI system created");
+            ApexLogger.Log(LogCategory.General, "UI system created");
         }
 
         #endregion
@@ -333,7 +333,7 @@ namespace ApexCitadels.PC
 
         private void ConnectSystems()
         {
-            Debug.Log("[PCBootstrap] Connecting systems...");
+            ApexLogger.Log(LogCategory.General, "Connecting systems...");
 
             // Connect camera to input events
             if (inputManager != null && cameraController != null)
@@ -357,7 +357,7 @@ namespace ApexCitadels.PC
                 territoryManager.OnTerritoryLost += (t) => worldMapRenderer.RefreshVisibleTerritories();
             }
 
-            Debug.Log("[PCBootstrap] Systems connected");
+            ApexLogger.Log(LogCategory.General, "Systems connected");
         }
 
         private void CycleCameraMode()

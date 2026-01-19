@@ -7,6 +7,7 @@ using UnityEngine;
 using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Moderation
 {
@@ -151,7 +152,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Moderation] Failed to check ban status: {ex.Message}");
+                ApexLogger.LogError(LogCategory.Network, $"Failed to check ban status: {ex.Message}");
             }
         }
 
@@ -221,7 +222,7 @@ namespace ApexCitadels.Moderation
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"[Moderation] Server validation failed: {ex.Message}");
+                    ApexLogger.LogError(LogCategory.Network, $"Server validation failed: {ex.Message}");
                     
                     // Fall back to client-side result
                     if (enableClientSideFilter)
@@ -237,18 +238,18 @@ namespace ApexCitadels.Moderation
 #else
         private void Start()
         {
-            Debug.LogWarning("[ContentModerationManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning(LogCategory.Network, "Firebase SDK not installed. Running in stub mode.");
         }
 
         public void CheckBanStatus()
         {
-            Debug.LogWarning("[ContentModerationManager] Firebase SDK not installed. CheckBanStatus is a stub.");
+            ApexLogger.LogWarning(LogCategory.Network, "Firebase SDK not installed. CheckBanStatus is a stub.");
             _banStatus = new BanStatus { Banned = false };
         }
 
         public Task<ModerationResult> ModerateContent(string content, string contentType = "chat")
         {
-            Debug.LogWarning("[ContentModerationManager] Firebase SDK not installed. ModerateContent is a stub.");
+            ApexLogger.LogWarning(LogCategory.Network, "Firebase SDK not installed. ModerateContent is a stub.");
             if (enableClientSideFilter)
             {
                 var result = QuickClientFilter(content);
@@ -446,7 +447,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Moderation] Failed to submit report: {ex.Message}");
+                ApexLogger.LogError(LogCategory.Network, $"Failed to submit report: {ex.Message}");
                 return new ReportResult
                 {
                     Success = false,
@@ -480,7 +481,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Moderation] Failed to submit appeal: {ex.Message}");
+                ApexLogger.LogError(LogCategory.Network, $"Failed to submit appeal: {ex.Message}");
                 return false;
             }
         }

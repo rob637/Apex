@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Player;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
@@ -200,7 +201,7 @@ namespace ApexCitadels.Leaderboard
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[LeaderboardManager] Failed to get player rank: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to get player rank: {ex.Message}", LogCategory.Network);
                 return _currentPlayerRank;
             }
 #else
@@ -229,7 +230,7 @@ namespace ApexCitadels.Leaderboard
             };
 
             await SaveScoreToCloud(category, entry);
-            Debug.Log($"[LeaderboardManager] Submitted score: {score} for {category}");
+            ApexLogger.Log($"Submitted score: {score} for {category}", LogCategory.Network);
         }
 
         /// <summary>
@@ -247,7 +248,7 @@ namespace ApexCitadels.Leaderboard
             await SubmitScore(LeaderboardCategory.DefensesWon, player.DefensesWon);
             await SubmitScore(LeaderboardCategory.BuildingsPlaced, player.BuildingsPlaced);
 
-            Debug.Log("[LeaderboardManager] All stats updated");
+            ApexLogger.Log("All stats updated", LogCategory.Network);
         }
 
         #endregion
@@ -374,11 +375,11 @@ namespace ApexCitadels.Leaderboard
                     rank++;
                 }
                 
-                Debug.Log($"[LeaderboardManager] Loaded {entries.Count} leaderboard entries from Firebase");
+                ApexLogger.Log($"Loaded {entries.Count} leaderboard entries from Firebase", LogCategory.Network);
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[LeaderboardManager] Failed to load leaderboard: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to load leaderboard: {ex.Message}", LogCategory.Network);
                 // Fall through to generate placeholder data
             }
 #endif
@@ -447,11 +448,11 @@ namespace ApexCitadels.Leaderboard
                     { "lastActiveAt", FieldValue.ServerTimestamp }
                 });
                 
-                Debug.Log($"[LeaderboardManager] Score saved for {category}");
+                ApexLogger.Log($"Score saved for {category}", LogCategory.Network);
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[LeaderboardManager] Failed to save score: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to save score: {ex.Message}", LogCategory.Network);
             }
 #else
             await Task.Delay(50);
@@ -470,7 +471,7 @@ namespace ApexCitadels.Leaderboard
             _lastRefresh = DateTime.MinValue;
             _cachedLeaderboards.Clear();
             await GetGlobalLeaderboard();
-            Debug.Log("[LeaderboardManager] Leaderboards refreshed");
+            ApexLogger.Log("Leaderboards refreshed", LogCategory.Network);
         }
 
         #endregion

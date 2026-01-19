@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
 using ApexCitadels.PC.Combat;
+using ApexCitadels.Core;
 using TerritoryData = ApexCitadels.Territory.Territory;
 
 namespace ApexCitadels.PC.UI
@@ -791,7 +792,7 @@ namespace ApexCitadels.PC.UI
         private void ScoutTerritory()
         {
             // TODO: Implement scouting - spend gold to reveal enemy composition
-            Debug.Log("[Combat] Scouting territory...");
+            ApexLogger.Log(ApexLogger.LogCategory.UI, "[Combat] Scouting territory...");
         }
 
         private void LaunchAttack()
@@ -801,7 +802,7 @@ namespace ApexCitadels.PC.UI
             int totalTroops = GetTotalSelectedTroops();
             if (totalTroops == 0)
             {
-                Debug.Log("[Combat] Select troops first!");
+                ApexLogger.Log(ApexLogger.LogCategory.UI, "[Combat] Select troops first!");
                 return;
             }
             

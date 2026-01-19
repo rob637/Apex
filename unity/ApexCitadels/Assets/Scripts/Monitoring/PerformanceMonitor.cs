@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using ApexCitadels.Core;
 #if FIREBASE_ENABLED
 using Firebase.Analytics;
 using Firebase.Crashlytics;
@@ -163,7 +164,7 @@ namespace ApexCitadels.Monitoring
                 }
                 catch (Exception ex)
                 {
-                    UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Crashlytics init failed: {ex.Message}");
+                    ApexLogger.LogWarning($"Crashlytics init failed: {ex.Message}", LogCategory.Performance);
                 }
             }
 #endif
@@ -178,7 +179,7 @@ namespace ApexCitadels.Monitoring
                 ["memory_mb"] = SystemInfo.systemMemorySize
             });
 
-            UnityEngine.Debug.Log($"[PerformanceMonitor] Initialized - Session: {_sessionId}");
+            ApexLogger.Log($"Initialized - Session: {_sessionId}", LogCategory.Performance);
         }
 
         private void Update()
@@ -354,7 +355,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Failed to log screen view: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to log screen view: {ex.Message}", LogCategory.Performance);
             }
         }
 
@@ -394,7 +395,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Failed to log event: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to log event: {ex.Message}", LogCategory.Performance);
             }
         }
 
@@ -433,7 +434,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Failed to log error: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to log error: {ex.Message}", LogCategory.Performance);
             }
         }
 
@@ -469,7 +470,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Failed to log exception: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to log exception: {ex.Message}", LogCategory.Performance);
             }
         }
 
@@ -517,7 +518,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Failed to set user property: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to set user property: {ex.Message}", LogCategory.Performance);
             }
         }
 
@@ -539,7 +540,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogWarning($"[PerformanceMonitor] Failed to set user ID: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to set user ID: {ex.Message}", LogCategory.Performance);
             }
         }
 
@@ -637,7 +638,7 @@ namespace ApexCitadels.Monitoring
                 ["memory_freed_mb"] = beforeMb - afterMb
             });
 
-            UnityEngine.Debug.Log($"[PerformanceMonitor] GC: {beforeMb}MB -> {afterMb}MB (freed {beforeMb - afterMb}MB)");
+            ApexLogger.LogVerbose($"GC: {beforeMb}MB -> {afterMb}MB (freed {beforeMb - afterMb}MB)", LogCategory.Performance);
         }
 
         #if UNITY_EDITOR || DEVELOPMENT_BUILD

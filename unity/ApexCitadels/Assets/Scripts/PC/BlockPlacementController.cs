@@ -7,6 +7,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.Building;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC
@@ -207,7 +208,7 @@ namespace ApexCitadels.PC
             CreatePreviewObject();
 
             OnBlockTypeSelected?.Invoke(blockType);
-            Debug.Log($"[PlacementController] Started placement: {blockType}");
+            ApexLogger.Log($"Started placement: {blockType}", ApexLogger.LogCategory.Building);
         }
 
         /// <summary>
@@ -231,7 +232,7 @@ namespace ApexCitadels.PC
             }
 
             OnPlacementCancelled?.Invoke();
-            Debug.Log("[PlacementController] Placement cancelled");
+            ApexLogger.Log("Placement cancelled", ApexLogger.LogCategory.Building);
         }
 
         /// <summary>
@@ -784,7 +785,7 @@ namespace ApexCitadels.PC
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 enableSnapping = !enableSnapping;
-                Debug.Log($"[PlacementController] Snapping: {enableSnapping}");
+                ApexLogger.LogVerbose($"Snapping: {enableSnapping}", ApexLogger.LogCategory.Building);
             }
         }
 

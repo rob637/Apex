@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.AR
 {
@@ -190,7 +191,7 @@ namespace ApexCitadels.AR
         {
             if (isSessionRunning)
             {
-                Debug.LogWarning("[ARSessionController] Session already running");
+                ApexLogger.LogWarning("Session already running", ApexLogger.LogCategory.AR);
                 return;
             }
 
@@ -199,7 +200,7 @@ namespace ApexCitadels.AR
 
         private IEnumerator InitializeSession()
         {
-            Debug.Log("[ARSessionController] Initializing AR session...");
+            ApexLogger.Log("Initializing AR session...", ApexLogger.LogCategory.AR);
             ShowUI(initializingUI);
 
             // Check AR availability
@@ -211,7 +212,7 @@ namespace ApexCitadels.AR
 
             if (ARSession.state == ARSessionState.Unsupported)
             {
-                Debug.LogWarning("[ARSessionController] AR is not supported on this device");
+                ApexLogger.LogWarning("AR is not supported on this device", ApexLogger.LogCategory.AR);
                 isARSupported = false;
                 OnARNotSupported?.Invoke();
                 
@@ -228,7 +229,7 @@ namespace ApexCitadels.AR
 
             if (ARSession.state == ARSessionState.NeedsInstall)
             {
-                Debug.Log("[ARSessionController] AR software needs to be installed");
+                ApexLogger.Log("AR software needs to be installed", ApexLogger.LogCategory.AR);
                 yield return ARSession.Install();
                 
                 if (ARSession.state == ARSessionState.NeedsInstall)
@@ -261,11 +262,11 @@ namespace ApexCitadels.AR
                 isSessionRunning = true;
                 OnSessionStarted?.Invoke();
                 HideAllUI();
-                Debug.Log("[ARSessionController] AR session started successfully");
+                ApexLogger.Log("AR session started successfully", ApexLogger.LogCategory.AR);
             }
             else
             {
-                Debug.LogWarning($"[ARSessionController] Session initialization timed out (state: {ARSession.state})");
+                ApexLogger.LogWarning($"Session initialization timed out (state: {ARSession.state})", ApexLogger.LogCategory.AR);
                 
                 if (enableFallbackCamera)
                 {
@@ -287,7 +288,7 @@ namespace ApexCitadels.AR
             }
 
             isSessionRunning = false;
-            Debug.Log("[ARSessionController] AR session stopped");
+            ApexLogger.Log("AR session stopped", ApexLogger.LogCategory.AR);
         }
 
         /// <summary>
@@ -303,7 +304,7 @@ namespace ApexCitadels.AR
             }
 
             OnSessionPaused?.Invoke();
-            Debug.Log("[ARSessionController] AR session paused");
+            ApexLogger.Log("AR session paused", ApexLogger.LogCategory.AR);
         }
 
         /// <summary>
@@ -319,7 +320,7 @@ namespace ApexCitadels.AR
             }
 
             OnSessionResumed?.Invoke();
-            Debug.Log("[ARSessionController] AR session resumed");
+            ApexLogger.Log("AR session resumed", ApexLogger.LogCategory.AR);
         }
 
         /// <summary>
@@ -332,7 +333,7 @@ namespace ApexCitadels.AR
                 arSession.Reset();
             }
 
-            Debug.Log("[ARSessionController] AR session reset");
+            ApexLogger.Log("AR session reset", ApexLogger.LogCategory.AR);
         }
 
         #endregion
@@ -341,7 +342,7 @@ namespace ApexCitadels.AR
 
         private void EnableFallbackMode()
         {
-            Debug.Log("[ARSessionController] Enabling fallback camera mode");
+            ApexLogger.Log("Enabling fallback camera mode", ApexLogger.LogCategory.AR);
 
             // Disable AR camera
             if (arCamera != null)
@@ -381,7 +382,7 @@ namespace ApexCitadels.AR
             // Add basic controls
             var controller = camObj.AddComponent<SimpleCameraController>();
             
-            Debug.Log("[ARSessionController] Created fallback camera");
+            ApexLogger.Log("Created fallback camera", ApexLogger.LogCategory.AR);
         }
 
         #endregion
@@ -395,7 +396,7 @@ namespace ApexCitadels.AR
 
             OnSessionStateChanged?.Invoke(currentState);
 
-            Debug.Log($"[ARSessionController] Session state changed: {previousState} -> {currentState}");
+            ApexLogger.Log($"Session state changed: {previousState} -> {currentState}", ApexLogger.LogCategory.AR);
 
             switch (currentState)
             {
@@ -448,7 +449,7 @@ namespace ApexCitadels.AR
                 
                 if (resetOnTrackingLoss && trackingLostTime > trackingRecoveryTimeout)
                 {
-                    Debug.Log("[ARSessionController] Tracking lost for too long, resetting session");
+                    ApexLogger.Log("Tracking lost for too long, resetting session", ApexLogger.LogCategory.AR);
                     ResetSession();
                     trackingLostTime = 0f;
                 }
@@ -525,7 +526,7 @@ namespace ApexCitadels.AR
             // Note: In AR Foundation 6.0+, requestedLightEstimation uses LightEstimation flags
             // The exact API depends on which AR Foundation version is installed
             // For compatibility, we just store the setting - actual implementation handled by AR subsystem
-            UnityEngine.Debug.Log($"[ARSessionController] Light estimation set to: {enabled}");
+            ApexLogger.LogVerbose($"Light estimation set to: {enabled}", ApexLogger.LogCategory.AR);
         }
 
         #endregion

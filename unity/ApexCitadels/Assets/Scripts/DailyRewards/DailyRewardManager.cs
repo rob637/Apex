@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 using ApexCitadels.Player;
 using ApexCitadels.Notifications;
@@ -165,7 +166,7 @@ namespace ApexCitadels.DailyRewards
             if (today == lastDate)
             {
                 // Same day, nothing to do
-                Debug.Log("[DailyReward] Already logged in today");
+                ApexLogger.LogVerbose("Already logged in today", ApexLogger.LogCategory.Events);
                 return;
             }
 
@@ -180,12 +181,12 @@ namespace ApexCitadels.DailyRewards
                 // Continue or start streak
                 _streak.CurrentStreak++;
                 _streak.LongestStreak = Math.Max(_streak.CurrentStreak, _streak.LongestStreak);
-                Debug.Log($"[DailyReward] Streak: {_streak.CurrentStreak} days!");
+                ApexLogger.Log($"Streak: {_streak.CurrentStreak} days!", ApexLogger.LogCategory.Events);
             }
             else
             {
                 // Streak broken
-                Debug.Log($"[DailyReward] Streak broken! Was {_streak.CurrentStreak} days");
+                ApexLogger.Log($"Streak broken! Was {_streak.CurrentStreak} days", ApexLogger.LogCategory.Events);
                 _streak.CurrentStreak = 1;
                 OnStreakBroken?.Invoke();
             }
@@ -213,7 +214,7 @@ namespace ApexCitadels.DailyRewards
         {
             if (!CanClaim)
             {
-                Debug.Log("[DailyReward] Cannot claim - already claimed or not available");
+                ApexLogger.LogVerbose("Cannot claim - already claimed or not available", ApexLogger.LogCategory.Events);
                 return (false, null);
             }
 
@@ -240,8 +241,8 @@ namespace ApexCitadels.DailyRewards
 
             OnRewardClaimed?.Invoke(reward);
 
-            Debug.Log($"[DailyReward] Claimed Day {reward.Day}: {totalAmount} {reward.ResourceType} " +
-                     $"(base {reward.Amount} + streak bonus {streakBonus})");
+            ApexLogger.Log($"Claimed Day {reward.Day}: {totalAmount} {reward.ResourceType} " +
+                     $"(base {reward.Amount} + streak bonus {streakBonus})", ApexLogger.LogCategory.Events);
 
             return (true, reward);
         }
@@ -335,7 +336,7 @@ namespace ApexCitadels.DailyRewards
                 _streak = new LoginStreak();
             }
 
-            Debug.Log($"[DailyReward] Loaded streak: {_streak.CurrentStreak} days");
+            ApexLogger.Log($"Loaded streak: {_streak.CurrentStreak} days", ApexLogger.LogCategory.Events);
         }
 
         private void SaveStreak()
@@ -343,7 +344,7 @@ namespace ApexCitadels.DailyRewards
             string json = JsonUtility.ToJson(_streak);
             PlayerPrefs.SetString("login_streak", json);
             PlayerPrefs.Save();
-            Debug.Log("[DailyReward] Streak saved");
+            ApexLogger.LogVerbose("Streak saved", ApexLogger.LogCategory.Events);
         }
 
         private void OnApplicationPause(bool pause)
@@ -362,7 +363,7 @@ namespace ApexCitadels.DailyRewards
         {
             _streak = new LoginStreak();
             SaveStreak();
-            Debug.Log("[DailyReward] Streak reset");
+            ApexLogger.Log("Streak reset", ApexLogger.LogCategory.Events);
         }
 
         /// <summary>

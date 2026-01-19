@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.AR
 {
@@ -133,7 +134,7 @@ namespace ApexCitadels.AR
 
             if (_isDesktopMode)
             {
-                Debug.Log("[SpatialAnchorManager] Running in Desktop Mode with fallback raycasting");
+                ApexLogger.Log("Running in Desktop Mode with fallback raycasting", ApexLogger.LogCategory.AR);
             }
         }
 
@@ -885,18 +886,18 @@ namespace ApexCitadels.AR
         {
             if (logAnchorEvents)
             {
-                Debug.Log($"[SpatialAnchorManager] {message}");
+                ApexLogger.Log(message, ApexLogger.LogCategory.AR);
             }
         }
 
         private void LogWarning(string message)
         {
-            Debug.LogWarning($"[SpatialAnchorManager] {message}");
+            ApexLogger.LogWarning(message, ApexLogger.LogCategory.AR);
         }
 
         private void LogError(string message)
         {
-            Debug.LogError($"[SpatialAnchorManager] {message}");
+            ApexLogger.LogError(message, ApexLogger.LogCategory.AR);
         }
 
         /// <summary>

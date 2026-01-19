@@ -243,7 +243,7 @@ namespace ApexCitadels.PC
         {
             if (!PlatformManager.IsFeatureAvailable(GameFeature.ManageBuildings))
             {
-                Debug.LogWarning("[PCBridge] Upgrade not available on this platform");
+                ApexLogger.LogWarning(LogCategory.Territory, "Upgrade not available on this platform");
                 return false;
             }
 
@@ -306,7 +306,7 @@ namespace ApexCitadels.PC
         {
             if (!PlatformManager.IsFeatureAvailable(GameFeature.BlueprintDesigner))
             {
-                Debug.LogWarning("[PCBridge] Blueprint designer not available on this platform");
+                ApexLogger.LogWarning(LogCategory.Territory, "Blueprint designer not available on this platform");
                 return false;
             }
 
@@ -342,7 +342,7 @@ namespace ApexCitadels.PC
             }
 
             // Save to backend (would use BlueprintService)
-            Debug.Log($"[PCBridge] Saved blueprint: {name} with {blueprint.Buildings.Count} buildings");
+            ApexLogger.Log(LogCategory.Territory, $"Saved blueprint: {name} with {blueprint.Buildings.Count} buildings");
             return true;
         }
 

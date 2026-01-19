@@ -4,6 +4,7 @@
 // ============================================================================
 using UnityEngine;
 using System.Collections;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Combat
 {
@@ -99,7 +100,7 @@ namespace ApexCitadels.PC.Combat
         {
             _audioSFX?.PlayBattleHorn();
             _cameraEffects?.Shake(0.2f);
-            Debug.Log("[CombatEffects] Battle started!");
+            ApexLogger.Log("Battle started!", ApexLogger.LogCategory.Combat);
         }
 
         /// <summary>

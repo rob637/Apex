@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.Economy

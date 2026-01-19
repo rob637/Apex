@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 using ApexCitadels.Building;
 
 namespace ApexCitadels.BuildingTemplates
@@ -78,7 +79,7 @@ namespace ApexCitadels.BuildingTemplates
             RegisterTemplate(CreateTurretNest());
             RegisterTemplate(CreateTowerComplex());
 
-            Debug.Log($"[BuildingTemplates] Loaded {_templates.Count} default templates");
+            ApexLogger.Log(ApexLogger.LogCategory.Building, $"Loaded {_templates.Count} default templates");
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace ApexCitadels.BuildingTemplates
             }
             catch (Exception e)
             {
-                Debug.LogError($"[BuildingTemplates] Failed to load templates: {e.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Building, $"Failed to load templates: {e.Message}");
             }
         }
 
@@ -211,7 +212,7 @@ namespace ApexCitadels.BuildingTemplates
             var template = GetTemplate(templateId);
             if (template == null)
             {
-                Debug.LogError($"[BuildingTemplates] Template not found: {templateId}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Building, $"Template not found: {templateId}");
                 return null;
             }
 

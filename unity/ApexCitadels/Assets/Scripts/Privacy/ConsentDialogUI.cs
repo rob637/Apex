@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Privacy
 {
@@ -244,27 +245,27 @@ namespace ApexCitadels.Privacy
                     
                     if (success)
                     {
-                        Debug.Log("[ConsentDialog] Consent submitted successfully");
+                        ApexLogger.Log(LogCategory.General, "Consent submitted successfully");
                         Hide();
                         OnConsentSubmitted?.Invoke(consent);
                     }
                     else
                     {
-                        Debug.LogError("[ConsentDialog] Failed to submit consent");
+                        ApexLogger.LogError(LogCategory.General, "Failed to submit consent");
                         _isSubmitting = false;
                     }
                 }
                 else
                 {
                     // Fallback if manager not available
-                    Debug.LogWarning("[ConsentDialog] GDPRManager not found, using local storage");
+                    ApexLogger.LogWarning(LogCategory.General, "GDPRManager not found, using local storage");
                     Hide();
                     OnConsentSubmitted?.Invoke(consent);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[ConsentDialog] Error submitting consent: {ex.Message}");
+                ApexLogger.LogError(LogCategory.General, $"Error submitting consent: {ex.Message}");
                 _isSubmitting = false;
             }
         }
@@ -278,7 +279,7 @@ namespace ApexCitadels.Privacy
         {
             // Expand detailed settings if collapsed
             // Or navigate to privacy settings page
-            Debug.Log("[ConsentDialog] Manage settings clicked");
+            ApexLogger.Log(LogCategory.General, "Manage settings clicked");
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Backend
 {
@@ -34,7 +35,7 @@ namespace ApexCitadels.Backend
 
         private void Start()
         {
-            Debug.Log("[AnchorPersistenceService] STUB MODE - Import Firebase SDK for cloud features");
+            ApexLogger.LogWarning("STUB MODE - Import Firebase SDK for cloud features", ApexLogger.LogCategory.AR);
             IsInitialized = true;
             OnInitialized?.Invoke();
         }
@@ -64,13 +65,13 @@ namespace ApexCitadels.Backend
                 CreatedAt = DateTime.UtcNow
             };
             _localAnchors.Add(anchor);
-            Debug.Log($"[STUB] Saved anchor locally: {anchor.Id}");
+            ApexLogger.LogVerbose($"[STUB] Saved anchor locally: {anchor.Id}", ApexLogger.LogCategory.AR);
             return Task.FromResult(anchor.Id);
         }
 
         public Task<List<AnchorData>> LoadAnchorsNearbyAsync(double lat, double lon, double radiusMeters)
         {
-            Debug.Log($"[STUB] Loading anchors near ({lat}, {lon})");
+            ApexLogger.LogVerbose($"[STUB] Loading anchors near ({lat}, {lon})", ApexLogger.LogCategory.AR);
             return Task.FromResult(_localAnchors);
         }
 

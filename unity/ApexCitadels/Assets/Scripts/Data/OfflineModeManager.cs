@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Data
 {
@@ -47,7 +48,7 @@ namespace ApexCitadels.Data
 
         private void Start()
         {
-            Debug.LogWarning("[OfflineModeManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.Firebase);
             CheckConnectivity();
         }
 

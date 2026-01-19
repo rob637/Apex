@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Apex Citadels</string>
+    <!-- ARCore Geospatial API Key - from Google Cloud Console -->
+    <!-- This key is already configured in ARCoreExtensionsProjectSettings.json -->
+    <string name="arcore_api_key">AIzaSyAo8dDJY9gHhMXnwatcFSrY_CECw2UYP68</string>
+</resources>

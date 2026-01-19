@@ -2,6 +2,7 @@ using Camera = UnityEngine.Camera;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -134,7 +135,7 @@ namespace ApexCitadels.PC.GeoMapping
             // Setup weather systems
             CreateWeatherSystems();
             
-            Debug.Log("[MapMagicParticles] Initialized with " + _activeOrbs.Count + " orbs");
+            ApexLogger.Log("Initialized with " + _activeOrbs.Count + " orbs", ApexLogger.LogCategory.Map);
         }
         
         private void Update()
@@ -708,7 +709,7 @@ namespace ApexCitadels.PC.GeoMapping
                     break;
             }
             
-            Debug.Log($"[MapMagicParticles] Weather changed to: {weather}");
+            ApexLogger.Log($"Weather changed to: {weather}", ApexLogger.LogCategory.Map);
         }
         
         private void RandomizeWeather()

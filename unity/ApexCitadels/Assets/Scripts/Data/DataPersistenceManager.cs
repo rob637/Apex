@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Data
 {
@@ -742,13 +743,13 @@ namespace ApexCitadels.Data
         {
             if (enableDebugLogs)
             {
-                Debug.Log($"[DataPersistence] {message}");
+                ApexLogger.LogVerbose(message, LogCategory.Firebase);
             }
         }
 
         private void LogError(string message)
         {
-            Debug.LogError($"[DataPersistence] {message}");
+            ApexLogger.LogError(message, LogCategory.Firebase);
         }
 
         #endregion

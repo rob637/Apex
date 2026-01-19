@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Data
 {
@@ -308,7 +309,7 @@ namespace ApexCitadels.Data
                 if (!RemoveResource(cost.Type, cost.Amount, reason))
                 {
                     // Rollback on failure (shouldn't happen if CanAfford passed)
-                    Debug.LogError($"[ResourceInventory] Failed to spend {cost.Amount} {cost.Type}");
+                    ApexLogger.LogError($"Failed to spend {cost.Amount} {cost.Type}", ApexLogger.LogCategory.Economy);
                     return false;
                 }
             }
@@ -391,7 +392,7 @@ namespace ApexCitadels.Data
                                 resources[type] = Convert.ToInt32(kvp.Value);
                             }
                         }
-                        Debug.Log("[ResourceInventory] Loaded resources from Firebase");
+                        ApexLogger.Log("Loaded resources from Firebase", ApexLogger.LogCategory.Economy);
                         OnResourcesLoaded?.Invoke();
                         return;
                     }
@@ -404,7 +405,7 @@ namespace ApexCitadels.Data
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ResourceInventory] Failed to load resources: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to load resources: {ex.Message}", ApexLogger.LogCategory.Economy);
                 SetStartingResources();
                 OnResourcesLoaded?.Invoke();
             }
@@ -420,7 +421,7 @@ namespace ApexCitadels.Data
             resources[ResourceType.Food] = startingFood;
             resources[ResourceType.Energy] = startingEnergy;
 
-            Debug.Log("[ResourceInventory] Using starting resources");
+            ApexLogger.Log("Using starting resources", ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>
@@ -448,16 +449,16 @@ namespace ApexCitadels.Data
                         { "updatedAt", Firebase.Firestore.FieldValue.ServerTimestamp }
                     }, Firebase.Firestore.SetOptions.MergeAll);
                     
-                    Debug.Log("[ResourceInventory] Saved resources to Firebase");
+                    ApexLogger.Log("Saved resources to Firebase", ApexLogger.LogCategory.Economy);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ResourceInventory] Failed to save resources: {ex.Message}");
+                ApexLogger.LogWarning($"Failed to save resources: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
 #else
             await Task.CompletedTask;
-            Debug.Log("[ResourceInventory] Saved resources (local stub)");
+            ApexLogger.LogVerbose("Saved resources (local stub)", ApexLogger.LogCategory.Economy);
 #endif
         }
 
@@ -486,7 +487,7 @@ namespace ApexCitadels.Data
         {
             foreach (var kvp in resources)
             {
-                Debug.Log($"{kvp.Key}: {kvp.Value} / {GetMaxResource(kvp.Key)}");
+                ApexLogger.Log($"{kvp.Key}: {kvp.Value} / {GetMaxResource(kvp.Key)}", ApexLogger.LogCategory.Economy);
             }
         }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 using ApexCitadels.AR;
 using ApexCitadels.Backend;
 
@@ -61,7 +62,7 @@ namespace ApexCitadels.Demo
 
         private void CreateUI()
         {
-            Debug.Log("[PersistentCubeDemo] Auto-creating UI...");
+            ApexLogger.LogVerbose("Auto-creating UI...", LogCategory.General);
 
             // Create Canvas
             var canvasGO = new GameObject("DemoCanvas_AutoCreated");
@@ -129,19 +130,19 @@ namespace ApexCitadels.Demo
 
             // Connect button listeners immediately
             _placeCubeButton.onClick.AddListener(() => {
-                Debug.Log("[PersistentCubeDemo] PLACE CUBE clicked!");
+                ApexLogger.LogVerbose("PLACE CUBE clicked!", LogCategory.General);
                 OnPlaceCubeClicked();
             });
             _loadCubesButton.onClick.AddListener(() => {
-                Debug.Log("[PersistentCubeDemo] LOAD CUBES clicked!");
+                ApexLogger.LogVerbose("LOAD CUBES clicked!", LogCategory.General);
                 OnLoadCubesClicked();
             });
             _clearCubesButton.onClick.AddListener(() => {
-                Debug.Log("[PersistentCubeDemo] CLEAR ALL clicked!");
+                ApexLogger.LogVerbose("CLEAR ALL clicked!", LogCategory.General);
                 OnClearCubesClicked();
             });
 
-            Debug.Log("[PersistentCubeDemo] UI created and listeners connected!");
+            ApexLogger.LogVerbose("UI created and listeners connected!", LogCategory.General);
         }
 
         private Button CreateButton(Transform parent, string text, Color color)
@@ -218,7 +219,7 @@ namespace ApexCitadels.Demo
 
         private void OnPlaceCubeClicked()
         {
-            Debug.Log("[PersistentCubeDemo] Place Cube button clicked!");
+            ApexLogger.LogVerbose("Place Cube button clicked!", LogCategory.General);
             _isPlacementMode = true;
             UpdateStatus("Tap on a surface to place a cube...");
         }
@@ -362,7 +363,7 @@ namespace ApexCitadels.Demo
 
         private void UpdateStatus(string message)
         {
-            Debug.Log($"[PersistentCubeDemo] {message}");
+            ApexLogger.Log(message, LogCategory.General);
             if (_statusText != null)
             {
                 _statusText.text = message;
