@@ -143,6 +143,35 @@ namespace ApexCitadels.PC.Buildings
         }
         
         /// <summary>
+        /// Get a foundation/platform model based on citadel level
+        /// </summary>
+        public GameObject GetFoundationModel(int level, Transform parent = null)
+        {
+            if (assetDatabase == null)
+                return CreateFallbackCylinder(parent);
+            
+            // Search for appropriate foundation in building models
+            // Foundations are typically in the building list with identifiers like F01, F06, F08
+            string[] foundationIds = level switch
+            {
+                >= 5 => new[] { "F08", "F19", "F06" }, // Large crystal or stone foundation
+                >= 3 => new[] { "F06", "F16", "F04" }, // Medium reinforced foundation
+                _ => new[] { "F01", "F09", "F02" }     // Small stone or wood
+            };
+            
+            foreach (var id in foundationIds)
+            {
+                var entry = assetDatabase.GetBuilding(id);
+                if (entry != null && entry.Model != null)
+                {
+                    return InstantiateModel(entry, parent);
+                }
+            }
+            
+            return CreateFallbackCylinder(parent);
+        }
+        
+        /// <summary>
         /// Get random decoration/detail model
         /// </summary>
         public GameObject GetDecorationModel(string type, Transform parent = null)
@@ -293,6 +322,23 @@ namespace ApexCitadels.PC.Buildings
             
             wall.name = "Wall_Fallback";
             return wall;
+        }
+        
+        private GameObject CreateFallbackCylinder(Transform parent)
+        {
+            if (!useFallbackPrimitives) return null;
+            
+            var cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            cylinder.transform.SetParent(parent);
+            cylinder.transform.localScale = new Vector3(15f, 2f, 15f);
+            
+            if (fallbackMaterial != null)
+            {
+                cylinder.GetComponent<Renderer>().material = fallbackMaterial;
+            }
+            
+            cylinder.name = "Foundation_Fallback";
+            return cylinder;
         }
         
         #endregion

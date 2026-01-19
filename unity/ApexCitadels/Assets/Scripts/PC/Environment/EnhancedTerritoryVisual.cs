@@ -1,15 +1,24 @@
 // ============================================================================
 // APEX CITADELS - ENHANCED TERRITORY VISUALS
 // Creates impressive 3D citadel representations on the world map
+// Now uses real 3D models from the asset database!
 // ============================================================================
 using UnityEngine;
 using System.Collections.Generic;
+using ApexCitadels.PC.Buildings;
+
+// Import asset types
+using AssetBuildingCategory = ApexCitadels.Core.Assets.BuildingCategory;
+using AssetTowerType = ApexCitadels.Core.Assets.TowerType;
+using AssetWallType = ApexCitadels.Core.Assets.WallType;
+using AssetWallMaterial = ApexCitadels.Core.Assets.WallMaterial;
 
 namespace ApexCitadels.PC.Environment
 {
     /// <summary>
     /// Creates visually impressive territory representations.
     /// Includes citadel buildings, walls, flags, and effects.
+    /// Now integrates real 3D models from Meshy!
     /// </summary>
     public class EnhancedTerritoryVisual : MonoBehaviour
     {
@@ -27,6 +36,10 @@ namespace ApexCitadels.PC.Environment
         [SerializeField] private GameObject selectionRing;
         [SerializeField] private GameObject auraEffect;
         [SerializeField] private Light territoryLight;
+        
+        [Header("Model Settings")]
+        [SerializeField] private bool useRealModels = true;
+        [SerializeField] private float modelScale = 2f;
 
         [Header("Colors by Ownership")]
         private static readonly Color OwnedColor = new Color(0.2f, 0.8f, 0.3f);       // Green
@@ -88,6 +101,22 @@ namespace ApexCitadels.PC.Environment
 
         private void CreateBasePlatform(Color color)
         {
+            // Try to use real foundation model
+            if (useRealModels && BuildingModelProvider.Instance != null)
+            {
+                citadelBase = BuildingModelProvider.Instance.GetFoundationModel(Level, transform);
+                if (citadelBase != null)
+                {
+                    citadelBase.name = "CitadelBase";
+                    float baseScale = (15f + Level * 3f) * 0.2f * modelScale;
+                    citadelBase.transform.localPosition = Vector3.zero;
+                    citadelBase.transform.localScale = Vector3.one * baseScale;
+                    ApplyOwnershipTint(citadelBase, color);
+                    return;
+                }
+            }
+            
+            // Fallback to primitive
             citadelBase = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             citadelBase.name = "CitadelBase";
             citadelBase.transform.parent = transform;
@@ -111,7 +140,42 @@ namespace ApexCitadels.PC.Environment
             mainTower.transform.parent = transform;
             mainTower.transform.localPosition = new Vector3(0, 2f, 0);
 
-            // Tower body (cylinder)
+            // Try to use real tower models
+            if (useRealModels && BuildingModelProvider.Instance != null)
+            {
+                // Choose tower type based on level
+                AssetTowerType towerType = Level switch
+                {
+                    >= 5 => AssetTowerType.Mage,
+                    >= 3 => AssetTowerType.Archer, 
+                    _ => AssetTowerType.Guard
+                };
+                
+                GameObject realTower = BuildingModelProvider.Instance.GetTowerModel(towerType, mainTower.transform);
+                if (realTower != null)
+                {
+                    realTower.name = "TowerBody";
+                    float towerScale = (1f + Level * 0.3f) * modelScale;
+                    realTower.transform.localPosition = Vector3.zero;
+                    realTower.transform.localScale = Vector3.one * towerScale;
+                    ApplyOwnershipTint(realTower, color);
+                    
+                    // Add smaller towers for higher level citadels
+                    if (Level >= 3)
+                    {
+                        CreateSideTowerFromModel(mainTower.transform, new Vector3(6, -2, 0), color, 0.6f);
+                        CreateSideTowerFromModel(mainTower.transform, new Vector3(-6, -2, 0), color, 0.6f);
+                    }
+                    if (Level >= 5)
+                    {
+                        CreateSideTowerFromModel(mainTower.transform, new Vector3(0, -2, 6), color, 0.5f);
+                        CreateSideTowerFromModel(mainTower.transform, new Vector3(0, -2, -6), color, 0.5f);
+                    }
+                    return;
+                }
+            }
+
+            // Fallback to primitives
             GameObject towerBody = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             towerBody.name = "TowerBody";
             towerBody.transform.parent = mainTower.transform;
@@ -148,6 +212,20 @@ namespace ApexCitadels.PC.Environment
                 CreateSideTower(mainTower.transform, new Vector3(0, -2, -6), color, towerHeight * 0.5f);
             }
         }
+        
+        private void CreateSideTowerFromModel(Transform parent, Vector3 pos, Color color, float scaleMult)
+        {
+            if (BuildingModelProvider.Instance == null) return;
+            
+            GameObject tower = BuildingModelProvider.Instance.GetTowerModel(AssetTowerType.Guard, parent);
+            if (tower != null)
+            {
+                tower.name = "SideTower";
+                tower.transform.localPosition = pos;
+                tower.transform.localScale = Vector3.one * scaleMult * modelScale;
+                ApplyOwnershipTint(tower, color);
+            }
+        }
 
         private void CreateSideTower(Transform parent, Vector3 pos, Color color, float height)
         {
@@ -179,7 +257,29 @@ namespace ApexCitadels.PC.Environment
                     Mathf.Sin(angle) * wallRadius
                 );
 
-                GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject wall;
+                
+                // Try to use real wall model
+                if (useRealModels && BuildingModelProvider.Instance != null)
+                {
+                    // Alternate between straight walls and gate on entry
+                    AssetWallType wallType = (i == 0) ? AssetWallType.GateSmall : AssetWallType.Straight;
+                    wall = BuildingModelProvider.Instance.GetWallModel(wallType, AssetWallMaterial.Stone, transform);
+                    
+                    if (wall != null)
+                    {
+                        wall.name = $"Wall_{i}";
+                        wall.transform.localPosition = pos;
+                        wall.transform.localScale = Vector3.one * modelScale;
+                        wall.transform.LookAt(transform.position);
+                        ApplyOwnershipTint(wall, color);
+                        wallSegments[i] = wall;
+                        continue;
+                    }
+                }
+                
+                // Fallback to primitive
+                wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 wall.name = $"Wall_{i}";
                 wall.transform.parent = transform;
                 wall.transform.localPosition = pos;
@@ -191,6 +291,47 @@ namespace ApexCitadels.PC.Environment
                 Destroy(wall.GetComponent<Collider>());
 
                 wallSegments[i] = wall;
+            }
+        }
+        
+        /// <summary>
+        /// Apply ownership color tint to all renderers in a model
+        /// </summary>
+        private void ApplyOwnershipTint(GameObject model, Color tintColor)
+        {
+            if (model == null) return;
+            
+            foreach (var renderer in model.GetComponentsInChildren<Renderer>())
+            {
+                if (renderer.material != null)
+                {
+                    // Create instance to avoid modifying shared materials
+                    Material mat = new Material(renderer.material);
+                    
+                    // Blend the existing color with the ownership tint
+                    if (mat.HasProperty("_Color"))
+                    {
+                        Color existingColor = mat.color;
+                        mat.color = Color.Lerp(existingColor, tintColor, 0.3f);
+                    }
+                    else if (mat.HasProperty("_BaseColor"))
+                    {
+                        Color existingColor = mat.GetColor("_BaseColor");
+                        mat.SetColor("_BaseColor", Color.Lerp(existingColor, tintColor, 0.3f));
+                    }
+                    
+                    // Add a subtle emission for owned territories
+                    if (Ownership == TerritoryOwnership.Owned || Ownership == TerritoryOwnership.Contested)
+                    {
+                        if (mat.HasProperty("_EmissionColor"))
+                        {
+                            mat.EnableKeyword("_EMISSION");
+                            mat.SetColor("_EmissionColor", tintColor * 0.2f);
+                        }
+                    }
+                    
+                    renderer.material = mat;
+                }
             }
         }
 
