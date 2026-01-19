@@ -41,12 +41,12 @@ namespace ApexCitadels.Editor
         {
             if (EditorUtility.DisplayDialog("AAA Scene Setup",
                 "This will set up the current scene with all AAA features:\n\n" +
-                "• HDR Skybox with Day/Night Cycle\n" +
-                "• Real-world Map Tiles (OpenStreetMap)\n" +
-                "• Post-processing (Bloom, Color Grading)\n" +
-                "• Atmospheric Lighting\n" +
-                "• Audio System\n" +
-                "• Complete UI\n\n" +
+                "- HDR Skybox with Day/Night Cycle\n" +
+                "- Real-world Map Tiles (OpenStreetMap)\n" +
+                "- Post-processing (Bloom, Color Grading)\n" +
+                "- Atmospheric Lighting\n" +
+                "- Audio System\n" +
+                "- Complete UI\n\n" +
                 "Continue?", "Setup Scene", "Cancel"))
             {
                 SetupCompleteScene();
@@ -57,7 +57,7 @@ namespace ApexCitadels.Editor
         {
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 
-            GUILayout.Label("🏰 Apex Citadels - AAA Scene Setup", EditorStyles.boldLabel);
+            GUILayout.Label("Apex Citadels - AAA Scene Setup", EditorStyles.boldLabel);
             GUILayout.Space(10);
 
             EditorGUILayout.HelpBox(
@@ -68,13 +68,13 @@ namespace ApexCitadels.Editor
 
             // Feature toggles
             GUILayout.Label("Features to Setup:", EditorStyles.boldLabel);
-            setupSkybox = EditorGUILayout.Toggle("🌅 HDR Skybox + Day/Night", setupSkybox);
-            setupLighting = EditorGUILayout.Toggle("☀️ Atmospheric Lighting", setupLighting);
-            setupPostProcessing = EditorGUILayout.Toggle("✨ Post-Processing", setupPostProcessing);
-            setupMapSystem = EditorGUILayout.Toggle("🗺️ Real-World Map Tiles", setupMapSystem);
-            setupCamera = EditorGUILayout.Toggle("📷 Camera Controllers", setupCamera);
-            setupUI = EditorGUILayout.Toggle("🖥️ UI System", setupUI);
-            setupAudio = EditorGUILayout.Toggle("🔊 Audio System", setupAudio);
+            setupSkybox = EditorGUILayout.Toggle("HDR Skybox + Day/Night", setupSkybox);
+            setupLighting = EditorGUILayout.Toggle("Atmospheric Lighting", setupLighting);
+            setupPostProcessing = EditorGUILayout.Toggle("Post-Processing", setupPostProcessing);
+            setupMapSystem = EditorGUILayout.Toggle("Real-World Map Tiles", setupMapSystem);
+            setupCamera = EditorGUILayout.Toggle("Camera Controllers", setupCamera);
+            setupUI = EditorGUILayout.Toggle("UI System", setupUI);
+            setupAudio = EditorGUILayout.Toggle("Audio System", setupAudio);
 
             GUILayout.Space(20);
 
@@ -83,14 +83,14 @@ namespace ApexCitadels.Editor
             DrawStatusCheck("SkyboxEnvironmentSystem", FindFirstObjectByType<PC.Visual.SkyboxEnvironmentSystem>() != null);
             DrawStatusCheck("RealWorldMapRenderer", FindFirstObjectByType<PC.GeoMapping.RealWorldMapRenderer>() != null);
             DrawStatusCheck("Post-Processing Volume", FindFirstObjectByType<Volume>() != null);
-            DrawStatusCheck("Directional Light", FindFirstObjectByType<Light>()?.type == LightType.Directional);
+            DrawStatusCheck("Directional Light", FindDirectionalLight() != null);
             DrawStatusCheck("Main Camera", Camera.main != null);
             DrawStatusCheck("EventSystem", FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() != null);
 
             GUILayout.Space(20);
 
             // Action buttons
-            if (GUILayout.Button("🚀 Setup Selected Features", GUILayout.Height(40)))
+            if (GUILayout.Button("Setup Selected Features", GUILayout.Height(40)))
             {
                 SetupSelectedFeatures();
             }
@@ -131,10 +131,20 @@ namespace ApexCitadels.Editor
             EditorGUILayout.EndScrollView();
         }
 
+        private static Light FindDirectionalLight()
+        {
+            foreach (var light in FindObjectsByType<Light>(FindObjectsSortMode.None))
+            {
+                if (light.type == LightType.Directional)
+                    return light;
+            }
+            return null;
+        }
+
         private void DrawStatusCheck(string name, bool exists)
         {
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(exists ? "✅" : "❌", GUILayout.Width(20));
+            GUILayout.Label(exists ? "[OK]" : "[X]", GUILayout.Width(30));
             GUILayout.Label(name);
             EditorGUILayout.EndHorizontal();
         }
@@ -197,12 +207,23 @@ namespace ApexCitadels.Editor
 
         private static void ApplyHDRSkybox()
         {
-            // Try to load skybox texture from Resources
-            Texture2D skyTex = Resources.Load<Texture2D>("PC/Skyboxes/SKY02");
+            // Try to load skybox texture - use fully qualified UnityEngine.Resources
+            Texture2D skyTex = UnityEngine.Resources.Load<Texture2D>("PC/Skyboxes/SKY02");
             if (skyTex == null)
             {
                 // Try from Art folder
                 string[] guids = AssetDatabase.FindAssets("SKY02 t:Texture2D", new[] { "Assets/Art/Skyboxes" });
+                if (guids.Length > 0)
+                {
+                    string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                    skyTex = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                }
+            }
+            
+            if (skyTex == null)
+            {
+                // Try Resources folder directly
+                string[] guids = AssetDatabase.FindAssets("SKY02 t:Texture2D", new[] { "Assets/Resources/PC/Skyboxes" });
                 if (guids.Length > 0)
                 {
                     string path = AssetDatabase.GUIDToAssetPath(guids[0]);
@@ -221,33 +242,40 @@ namespace ApexCitadels.Editor
                     skyboxMat.SetFloat("_Exposure", 1.3f);
 
                     // Save the material
+                    string matDir = "Assets/Materials";
+                    if (!Directory.Exists(matDir))
+                        Directory.CreateDirectory(matDir);
+                    
                     string matPath = "Assets/Materials/Skybox_HDR.mat";
-                    Directory.CreateDirectory(Path.GetDirectoryName(matPath));
                     AssetDatabase.CreateAsset(skyboxMat, matPath);
+                    AssetDatabase.SaveAssets();
 
                     RenderSettings.skybox = skyboxMat;
                     Debug.Log("[AAA Setup] Applied HDR panoramic skybox");
+                    return;
                 }
             }
-            else
+
+            // Fallback to procedural
+            Shader procShader = Shader.Find("Skybox/Procedural");
+            if (procShader != null)
             {
-                // Fallback to procedural
-                Shader procShader = Shader.Find("Skybox/Procedural");
-                if (procShader != null)
-                {
-                    Material skyboxMat = new Material(procShader);
-                    skyboxMat.SetFloat("_SunSize", 0.04f);
-                    skyboxMat.SetFloat("_AtmosphereThickness", 1.0f);
-                    skyboxMat.SetColor("_SkyTint", new Color(0.4f, 0.6f, 0.9f));
-                    skyboxMat.SetFloat("_Exposure", 1.3f);
+                Material skyboxMat = new Material(procShader);
+                skyboxMat.SetFloat("_SunSize", 0.04f);
+                skyboxMat.SetFloat("_AtmosphereThickness", 1.0f);
+                skyboxMat.SetColor("_SkyTint", new Color(0.4f, 0.6f, 0.9f));
+                skyboxMat.SetFloat("_Exposure", 1.3f);
 
-                    string matPath = "Assets/Materials/Skybox_Procedural.mat";
-                    Directory.CreateDirectory(Path.GetDirectoryName(matPath));
-                    AssetDatabase.CreateAsset(skyboxMat, matPath);
+                string matDir = "Assets/Materials";
+                if (!Directory.Exists(matDir))
+                    Directory.CreateDirectory(matDir);
 
-                    RenderSettings.skybox = skyboxMat;
-                    Debug.Log("[AAA Setup] Created procedural skybox (no HDR texture found)");
-                }
+                string matPath = "Assets/Materials/Skybox_Procedural.mat";
+                AssetDatabase.CreateAsset(skyboxMat, matPath);
+                AssetDatabase.SaveAssets();
+
+                RenderSettings.skybox = skyboxMat;
+                Debug.Log("[AAA Setup] Created procedural skybox (no HDR texture found)");
             }
         }
 
@@ -264,15 +292,7 @@ namespace ApexCitadels.Editor
         private static void SetupAtmosphericLighting()
         {
             // Find or create directional light (sun)
-            Light sunLight = null;
-            foreach (var light in FindObjectsByType<Light>(FindObjectsSortMode.None))
-            {
-                if (light.type == LightType.Directional)
-                {
-                    sunLight = light;
-                    break;
-                }
-            }
+            Light sunLight = FindDirectionalLight();
 
             if (sunLight == null)
             {
@@ -330,34 +350,51 @@ namespace ApexCitadels.Editor
             volume.isGlobal = true;
             Undo.RegisterCreatedObjectUndo(volumeObj, "Create Global Volume");
 
-            // Create or load volume profile
+            // Create volume profile
             VolumeProfile profile = ScriptableObject.CreateInstance<VolumeProfile>();
 
-            // Add Bloom
-            Bloom bloom = profile.Add<Bloom>(true);
-            bloom.threshold.Override(0.9f);
-            bloom.intensity.Override(0.5f);
-            bloom.scatter.Override(0.7f);
+            // Add Bloom - Unity 6 URP API
+            var bloom = profile.Add<Bloom>(false);
+            bloom.active = true;
+            bloom.threshold.value = 0.9f;
+            bloom.threshold.overrideState = true;
+            bloom.intensity.value = 0.5f;
+            bloom.intensity.overrideState = true;
+            bloom.scatter.value = 0.7f;
+            bloom.scatter.overrideState = true;
 
             // Add Color Adjustments
-            ColorAdjustments colorAdj = profile.Add<ColorAdjustments>(true);
-            colorAdj.postExposure.Override(0.5f);
-            colorAdj.contrast.Override(10f);
-            colorAdj.saturation.Override(10f);
+            var colorAdj = profile.Add<ColorAdjustments>(false);
+            colorAdj.active = true;
+            colorAdj.postExposure.value = 0.5f;
+            colorAdj.postExposure.overrideState = true;
+            colorAdj.contrast.value = 10f;
+            colorAdj.contrast.overrideState = true;
+            colorAdj.saturation.value = 10f;
+            colorAdj.saturation.overrideState = true;
 
             // Add Vignette
-            Vignette vignette = profile.Add<Vignette>(true);
-            vignette.intensity.Override(0.25f);
-            vignette.smoothness.Override(0.5f);
+            var vignette = profile.Add<Vignette>(false);
+            vignette.active = true;
+            vignette.intensity.value = 0.25f;
+            vignette.intensity.overrideState = true;
+            vignette.smoothness.value = 0.5f;
+            vignette.smoothness.overrideState = true;
 
             // Add Tonemapping
-            Tonemapping tonemapping = profile.Add<Tonemapping>(true);
-            tonemapping.mode.Override(TonemappingMode.ACES);
+            var tonemapping = profile.Add<Tonemapping>(false);
+            tonemapping.active = true;
+            tonemapping.mode.value = TonemappingMode.ACES;
+            tonemapping.mode.overrideState = true;
 
             // Save profile
+            string settingsDir = "Assets/Settings";
+            if (!Directory.Exists(settingsDir))
+                Directory.CreateDirectory(settingsDir);
+
             string profilePath = "Assets/Settings/PostProcessing_AAA.asset";
-            Directory.CreateDirectory(Path.GetDirectoryName(profilePath));
             AssetDatabase.CreateAsset(profile, profilePath);
+            AssetDatabase.SaveAssets();
 
             volume.profile = profile;
 
@@ -386,7 +423,7 @@ namespace ApexCitadels.Editor
             mapSystemObj.AddComponent<PC.GeoMapping.RealWorldMapRenderer>();
 
             // Add MapTileProvider
-            var tileProvider = mapSystemObj.AddComponent<PC.GeoMapping.MapTileProvider>();
+            mapSystemObj.AddComponent<PC.GeoMapping.MapTileProvider>();
 
             // Add OSMDataPipeline for road/building data
             mapSystemObj.AddComponent<PC.GeoMapping.OSMDataPipeline>();
@@ -428,13 +465,12 @@ namespace ApexCitadels.Editor
                 mainCam.gameObject.AddComponent<PC.PCCameraController>();
             }
 
-            // Add Universal Additional Camera Data for URP
-            var urpCamData = mainCam.GetComponent<UniversalAdditionalCameraData>();
-            if (urpCamData == null)
+            // Enable post-processing on the camera via URP extension method
+            var additionalData = mainCam.GetUniversalAdditionalCameraData();
+            if (additionalData != null)
             {
-                urpCamData = mainCam.gameObject.AddComponent<UniversalAdditionalCameraData>();
+                additionalData.renderPostProcessing = true;
             }
-            urpCamData.renderPostProcessing = true;
 
             Debug.Log("[AAA Setup] Configured main camera with HDR and post-processing");
         }
@@ -549,13 +585,13 @@ namespace ApexCitadels.Editor
             bool hasDesktopConfig = File.Exists("Assets/StreamingAssets/google-services-desktop.json");
 
             string message = "Firebase Setup Status:\n\n";
-            message += hasGoogleServices ? "✅ google-services.json found\n" : "❌ google-services.json MISSING\n";
-            message += hasFirebasePlugins ? "✅ Firebase SDK installed\n" : "❌ Firebase SDK MISSING\n";
-            message += hasDesktopConfig ? "✅ Desktop config found\n" : "❌ Desktop config MISSING\n";
+            message += hasGoogleServices ? "[OK] google-services.json found\n" : "[X] google-services.json MISSING\n";
+            message += hasFirebasePlugins ? "[OK] Firebase SDK installed\n" : "[X] Firebase SDK MISSING\n";
+            message += hasDesktopConfig ? "[OK] Desktop config found\n" : "[X] Desktop config MISSING\n";
 
             if (!hasGoogleServices && hasDesktopConfig)
             {
-                message += "\n⚠️ Tip: Copy google-services-desktop.json to Assets/google-services.json";
+                message += "\nTip: Copy google-services-desktop.json to Assets/google-services.json";
             }
 
             EditorUtility.DisplayDialog("Firebase Verification", message, "OK");
