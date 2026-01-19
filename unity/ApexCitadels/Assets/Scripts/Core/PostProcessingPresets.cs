@@ -43,6 +43,7 @@ namespace ApexCitadels.Core
         [SerializeField] private ScenePreset currentPreset = ScenePreset.Menu;
         [SerializeField] [Range(0f, 1f)] private float globalIntensity = 1f;
 
+#if UNITY_PIPELINE_URP
         [Header("Volume Reference")]
         [SerializeField] private Volume globalVolume;
         [SerializeField] private VolumeProfile menuProfile;
@@ -50,6 +51,7 @@ namespace ApexCitadels.Core
         [SerializeField] private VolumeProfile combatProfile;
         [SerializeField] private VolumeProfile editorProfile;
         [SerializeField] private VolumeProfile cinematicProfile;
+#endif
 
         [Header("Transition Settings")]
         [SerializeField] private float defaultTransitionDuration = 0.5f;

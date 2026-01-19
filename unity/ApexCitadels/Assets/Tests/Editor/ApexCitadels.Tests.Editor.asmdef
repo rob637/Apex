@@ -2,7 +2,7 @@
     "name": "ApexCitadels.Tests.Editor",
     "rootNamespace": "ApexCitadels.Tests.Editor",
     "references": [
-        "ApexCitadels.Core",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
