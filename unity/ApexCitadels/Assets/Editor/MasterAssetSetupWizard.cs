@@ -34,7 +34,7 @@ namespace ApexCitadels.Editor
         private bool hasUISoundLibrary;
         private bool hasAnimatorController;
 
-        [MenuItem("Tools/Apex Citadels/MASTER ASSET SETUP", false, 0)]
+        [MenuItem("Apex Citadels/★ Quick Start/Full Asset Setup Wizard", false, 1)]
         public static void ShowWindow()
         {
             var window = GetWindow<MasterAssetSetupWizard>("Asset Setup Wizard");
@@ -42,7 +42,7 @@ namespace ApexCitadels.Editor
             window.Show();
         }
 
-        [MenuItem("Tools/Apex Citadels/Run Full Asset Setup", false, 1)]
+        [MenuItem("Apex Citadels/★ Quick Start/Run Full Asset Setup (Auto)", false, 2)]
         public static void RunFullSetup()
         {
             Debug.Log("=".PadRight(60, '='));

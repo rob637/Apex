@@ -12,7 +12,7 @@ namespace ApexCitadels.Editor
     /// </summary>
     public class SceneSetupEditor : EditorWindow
     {
-        [MenuItem("Apex Citadels/Scene Setup Helper")]
+        [MenuItem("Apex Citadels/Scene Setup/Scene Setup Helper (Legacy)\", false, 29)]
         public static void ShowWindow()
         {
             GetWindow<SceneSetupEditor>("Scene Setup");

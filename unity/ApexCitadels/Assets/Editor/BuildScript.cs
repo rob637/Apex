@@ -20,7 +20,7 @@ namespace ApexCitadels.Editor
         private static string BUILD_PATH = "../../backend/hosting-pc/build";
         private static string[] SCENES = new string[] { "Assets/Scenes/PCMain.unity" };
 
-        [MenuItem("Window/Apex Citadels/🔨 Build WebGL", false, 100)]
+        [MenuItem("Apex Citadels/Build/Build WebGL", false, 100)]
         public static void BuildWebGL()
         {
             Debug.Log("[BuildScript] Starting WebGL build...");
@@ -104,7 +104,7 @@ namespace ApexCitadels.Editor
             }
         }
 
-        [MenuItem("Window/Apex Citadels/🔨 Build WebGL (Development)", false, 101)]
+        [MenuItem("Apex Citadels/Build/Build WebGL (Development)", false, 101)]
         public static void BuildWebGLDevelopment()
         {
             Debug.Log("[BuildScript] Starting WebGL development build...");
@@ -200,7 +200,7 @@ namespace ApexCitadels.Editor
             Debug.Log("[BuildScript] WebGL settings configured");
         }
 
-        [MenuItem("Window/Apex Citadels/📁 Open Build Folder", false, 110)]
+        [MenuItem("Apex Citadels/Build/Open Build Folder", false, 102)]
         public static void OpenBuildFolder()
         {
             string fullPath = Path.GetFullPath(Path.Combine(Application.dataPath, BUILD_PATH));

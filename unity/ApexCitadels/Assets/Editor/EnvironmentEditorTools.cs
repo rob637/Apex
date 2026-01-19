@@ -10,7 +10,7 @@ namespace ApexCitadels.PC.Editor
     /// </summary>
     public static class EnvironmentEditorTools
     {
-        [MenuItem("Window/Apex Citadels/🌍 Add AAA Environment", false, 50)]
+        [MenuItem("Apex Citadels/Environment/Add AAA Environment", false, 60)]
         public static void AddAAAEnvironment()
         {
             // Check if already exists
@@ -53,37 +53,37 @@ namespace ApexCitadels.PC.Editor
             Selection.activeGameObject = envObj;
         }
 
-        [MenuItem("Window/Apex Citadels/⏰ Set Time of Day/🌅 Dawn", false, 51)]
+        [MenuItem("Apex Citadels/Environment/Time of Day/Dawn", false, 61)]
         public static void SetTimeDawn()
         {
             SetTime(TimePreset.Dawn);
         }
 
-        [MenuItem("Window/Apex Citadels/⏰ Set Time of Day/☀️ Morning", false, 52)]
+        [MenuItem("Apex Citadels/Environment/Time of Day/Morning", false, 62)]
         public static void SetTimeMorning()
         {
             SetTime(TimePreset.Morning);
         }
 
-        [MenuItem("Window/Apex Citadels/⏰ Set Time of Day/🌞 Noon", false, 53)]
+        [MenuItem("Apex Citadels/Environment/Time of Day/Noon", false, 63)]
         public static void SetTimeNoon()
         {
             SetTime(TimePreset.Noon);
         }
 
-        [MenuItem("Window/Apex Citadels/⏰ Set Time of Day/🌤️ Afternoon", false, 54)]
+        [MenuItem("Apex Citadels/Environment/Time of Day/Afternoon", false, 64)]
         public static void SetTimeAfternoon()
         {
             SetTime(TimePreset.Afternoon);
         }
 
-        [MenuItem("Window/Apex Citadels/⏰ Set Time of Day/🌅 Sunset", false, 55)]
+        [MenuItem("Apex Citadels/Environment/Time of Day/Sunset", false, 65)]
         public static void SetTimeSunset()
         {
             SetTime(TimePreset.Sunset);
         }
 
-        [MenuItem("Window/Apex Citadels/⏰ Set Time of Day/🌙 Night", false, 56)]
+        [MenuItem("Apex Citadels/Environment/Time of Day/Night", false, 66)]
         public static void SetTimeNight()
         {
             SetTime(TimePreset.Night);
@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.Editor
             }
         }
 
-        [MenuItem("Window/Apex Citadels/🗺️ Regenerate Terrain", false, 60)]
+        [MenuItem("Apex Citadels/Environment/Regenerate Terrain", false, 67)]
         public static void RegenerateTerrain()
         {
             var terrain = Object.FindFirstObjectByType<ProceduralTerrain>();
@@ -123,7 +123,7 @@ namespace ApexCitadels.PC.Editor
             }
         }
 
-        [MenuItem("Window/Apex Citadels/📐 Toggle Grid", false, 61)]
+        [MenuItem("Apex Citadels/Environment/Toggle Grid", false, 68)]
         public static void ToggleGrid()
         {
             var terrain = Object.FindFirstObjectByType<ProceduralTerrain>();

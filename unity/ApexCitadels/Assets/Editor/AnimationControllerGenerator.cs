@@ -25,7 +25,7 @@ namespace ApexCitadels.Editor
         private bool generateCombat = true;
         private bool generateInteractions = true;
         
-        [MenuItem("Tools/Apex Citadels/Generate Animation Controllers", false, 30)]
+        [MenuItem("Apex Citadels/Assets/Generate Animation Controllers", false, 46)]
         public static void ShowWindow()
         {
             var window = GetWindow<AnimationControllerGenerator>("Animation Generator");
@@ -33,7 +33,7 @@ namespace ApexCitadels.Editor
             window.Show();
         }
 
-        [MenuItem("Tools/Apex Citadels/Quick Generate Humanoid Controller", false, 31)]
+        [MenuItem("Apex Citadels/Assets/Quick Generate Humanoid Controller", false, 47)]
         public static void QuickGenerate()
         {
             GenerateHumanoidController();

@@ -56,7 +56,7 @@ namespace ApexCitadels.PC.Editor
         private Vector2 scrollPos;
         private static List<string> setupLog = new List<string>();
 
-        [MenuItem("Window/Apex Citadels/🚀 ONE-CLICK SETUP (Start Here!)", false, 0)]
+        [MenuItem("Apex Citadels/★ Quick Start/ONE-CLICK SETUP (Start Here!)", false, 0)]
         public static void OneClickSetup()
         {
             // Prevent running during play mode
@@ -86,7 +86,7 @@ namespace ApexCitadels.PC.Editor
             }
         }
 
-        [MenuItem("Window/Apex Citadels/Complete PC Setup (Options)", false, 1)]
+        [MenuItem("Apex Citadels/Scene Setup/Complete PC Setup (Options)", false, 21)]
         public static void ShowWindow()
         {
             var window = GetWindow<PCCompleteSetup>("PC Complete Setup");

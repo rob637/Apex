@@ -15,7 +15,7 @@ namespace ApexCitadels.PC.Editor
     {
         private Vector2 scrollPos;
         
-        [MenuItem("Window/Apex Citadels/Scene Diagnostic")]
+        [MenuItem("Apex Citadels/★ Quick Start/Scene Diagnostic", false, 5)]
         public static void ShowWindow()
         {
             GetWindow<PCSceneDiagnostic>("PC Scene Diagnostic");

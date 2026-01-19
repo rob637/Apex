@@ -14,7 +14,7 @@ namespace ApexCitadels.PC.Editor
     /// </summary>
     public static class GeoMapEditorTools
     {
-        [MenuItem("Tools/Apex Citadels/GeoMap/Create Real World Map", false, 100)]
+        [MenuItem("Apex Citadels/GeoMap/Create Real World Map", false, 80)]
         public static void CreateRealWorldMap()
         {
             // Check if already exists
@@ -74,49 +74,49 @@ namespace ApexCitadels.PC.Editor
                 "OK");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/Washington DC", false, 200)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/Washington DC", false, 81)]
         public static void GoToWashingtonDC()
         {
             SetMapLocation(38.8951, -77.0364, "Washington DC");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/New York City", false, 201)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/New York City", false, 82)]
         public static void GoToNewYorkCity()
         {
             SetMapLocation(40.7580, -73.9855, "New York City");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/San Francisco", false, 202)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/San Francisco", false, 83)]
         public static void GoToSanFrancisco()
         {
             SetMapLocation(37.7749, -122.4194, "San Francisco");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/London", false, 203)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/London", false, 84)]
         public static void GoToLondon()
         {
             SetMapLocation(51.5074, -0.1278, "London");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/Tokyo", false, 204)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/Tokyo", false, 85)]
         public static void GoToTokyo()
         {
             SetMapLocation(35.6762, 139.6503, "Tokyo");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/Sydney", false, 205)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/Sydney", false, 86)]
         public static void GoToSydney()
         {
             SetMapLocation(-33.8688, 151.2093, "Sydney");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/Paris", false, 206)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/Paris", false, 87)]
         public static void GoToParis()
         {
             SetMapLocation(48.8566, 2.3522, "Paris");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Quick Locations/Vienna VA (Test Data)", false, 220)]
+        [MenuItem("Apex Citadels/GeoMap/Quick Locations/Vienna VA (Test Data)", false, 88)]
         public static void GoToViennaVA()
         {
             SetMapLocation(38.9010, -77.2642, "Vienna, VA (Test Data Location)");
@@ -147,43 +147,43 @@ namespace ApexCitadels.PC.Editor
             }
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/CartoDB Voyager (Default)", false, 300)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/CartoDB Voyager (Default)", false, 89)]
         public static void SetProviderCartoDBVoyager()
         {
             SetMapProvider(MapProvider.CartoDBVoyager);
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/CartoDB Dark", false, 301)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/CartoDB Dark", false, 90)]
         public static void SetProviderCartoDBDark()
         {
             SetMapProvider(MapProvider.CartoDBDarkMatter);
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/CartoDB Light", false, 302)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/CartoDB Light", false, 91)]
         public static void SetProviderCartoDBLight()
         {
             SetMapProvider(MapProvider.CartoDBPositron);
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/OpenStreetMap", false, 303)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/OpenStreetMap", false, 92)]
         public static void SetProviderOSM()
         {
             SetMapProvider(MapProvider.OpenStreetMap);
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/Esri Satellite", false, 304)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/Esri Satellite", false, 93)]
         public static void SetProviderEsriSatellite()
         {
             SetMapProvider(MapProvider.EsriWorldImagery);
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/Stamen Terrain", false, 305)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/Stamen Terrain", false, 94)]
         public static void SetProviderStamenTerrain()
         {
             SetMapProvider(MapProvider.StamenTerrain);
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Change Provider/Stamen Watercolor (Fantasy)", false, 306)]
+        [MenuItem("Apex Citadels/GeoMap/Change Provider/Stamen Watercolor (Fantasy)", false, 95)]
         public static void SetProviderStamenWatercolor()
         {
             SetMapProvider(MapProvider.StamenWatercolor);
@@ -206,7 +206,7 @@ namespace ApexCitadels.PC.Editor
                 "OK");
         }
 
-        [MenuItem("Tools/Apex Citadels/GeoMap/Documentation", false, 400)]
+        [MenuItem("Apex Citadels/GeoMap/Documentation", false, 99)]
         public static void OpenDocumentation()
         {
             Debug.Log(@"
