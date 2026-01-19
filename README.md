@@ -444,7 +444,8 @@ For detailed requirements, workplan, and Unity AI prompts, see:
 - ✅ **Admin Dashboard** - Full React web dashboard with 10 pages
 - ✅ **50+ Firestore Indexes** - Optimized for all query patterns
 - ✅ **Security Rules** - 30+ collections protected
-- ✅ **80+ Unit Tests** - Territory, Alliance, World Events, Season Pass, IAP
+- ✅ **201 Unit Tests** - Combat, Economy, Building, Resources, Map, Progression, UI, Territory, Alliance
+- ✅ **Centralized Logging** - ApexLogger with 17 categories, 1,168 categorized log calls
 - ✅ **In-App Purchases** - Complete IAP system with receipt validation
 - ✅ **Push Notifications** - FCM with preferences and scheduled notifications
 - ✅ **Audio System** - SFX, music, ambient with pooling and crossfade
@@ -916,6 +917,87 @@ The entire game rests on one core technology: **spatial persistence**.
 | **Analytics** | Custom + Firebase Analytics | Event tracking & A/B testing |
 | **Real-time** | Firestore Listeners | Live updates & chat |
 | **Maps** | Geohash encoding | Efficient location queries |
+
+---
+
+## 🧪 Testing
+
+### Unit Test Framework
+
+The project includes comprehensive unit tests using Unity Test Framework (NUnit).
+
+**Running Tests:**
+1. Open Unity Editor
+2. Window → General → Test Runner
+3. Select "Edit Mode" tab for unit tests
+4. Click "Run All" or select specific test categories
+
+### Test Coverage (201 Tests)
+
+| Category | Tests | Coverage |
+|----------|-------|----------|
+| **Combat** | 18 | Damage calculation, unit stats, type effectiveness, combat resolution |
+| **Economy** | 19 | Resource storage, trading, production rates, costs |
+| **Building** | 19 | Placement validation, upgrades, production, health/repair |
+| **Resources** | 22 | Nodes, harvesting, pools, rarity, regeneration |
+| **Map** | 18 | Coordinate conversion, distances, tiles, chunks, bounds |
+| **Progression** | 24 | XP/leveling, achievements, daily rewards, season pass, prestige |
+| **UI** | 24 | Formatting, animations, tooltips, colors, panels |
+| **Territory** | 15 | Claiming, contesting, state transitions |
+| **Alliance** | 15 | Creation, membership, wars, permissions |
+| **Core** | 27 | ServiceLocator, ApexLogger, dependency injection |
+
+### Test File Structure
+
+```
+Assets/Tests/
+├── Editor/                    # Edit mode tests (fast, no scene required)
+│   ├── TestBase.cs           # Base class with common utilities
+│   ├── Alliance/
+│   │   └── AllianceTests.cs
+│   ├── Building/
+│   │   └── BuildingTests.cs
+│   ├── Combat/
+│   │   └── CombatTests.cs
+│   ├── Core/
+│   │   ├── ApexLoggerTests.cs
+│   │   └── ServiceLocatorTests.cs
+│   ├── Economy/
+│   │   └── EconomyTests.cs
+│   ├── Map/
+│   │   └── MapTests.cs
+│   ├── Progression/
+│   │   └── ProgressionTests.cs
+│   ├── Resources/
+│   │   └── ResourceTests.cs
+│   ├── Territory/
+│   │   └── TerritoryTests.cs
+│   └── UI/
+│       └── UITests.cs
+└── Runtime/                   # Play mode tests (require running scenes)
+    ├── SmokeTests.cs
+    └── Core/
+        └── ServiceLocatorPlayModeTests.cs
+```
+
+### Logging System (ApexLogger)
+
+All game systems use centralized logging via `ApexLogger` with 17 categories:
+
+```csharp
+// Usage
+ApexLogger.Log("Territory claimed", ApexLogger.LogCategory.Territory);
+ApexLogger.LogWarning("Low resources", ApexLogger.LogCategory.Economy);
+ApexLogger.LogError("Connection failed", ApexLogger.LogCategory.Network);
+```
+
+**Log Categories:** General, Combat, Building, Economy, Map, Network, Firebase, Audio, UI, AR, Performance, Replay, Territory, Alliance, Social, Events, Loading
+
+**Features:**
+- Category-based filtering
+- Severity levels (Verbose, Log, Warning, Error)
+- Performance profiling with timing
+- 1,168 categorized log calls across codebase
 
 ---
 

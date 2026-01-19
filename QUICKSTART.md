@@ -157,6 +157,33 @@ For ARCore Extensions (Geospatial):
 
 ---
 
+## 🧪 Running Unit Tests
+
+### In Unity Editor:
+1. Open Unity
+2. Window → General → Test Runner
+3. Select **Edit Mode** tab for unit tests (201 tests)
+4. Click **Run All**
+
+### Test Categories:
+| Category | Tests | What It Covers |
+|----------|-------|----------------|
+| Combat | 18 | Damage, stats, type effectiveness |
+| Economy | 19 | Resources, trading, production |
+| Building | 19 | Placement, upgrades, health |
+| Resources | 22 | Nodes, harvesting, pools |
+| Map | 18 | Coordinates, tiles, chunks |
+| Progression | 24 | XP, levels, achievements |
+| UI | 24 | Formatting, animations |
+| Territory | 15 | Claiming, states |
+| Alliance | 15 | Creation, wars |
+| Core | 27 | ServiceLocator, logging |
+
+### Expected Result:
+All 201 tests should pass (green checkmarks).
+
+---
+
 ## 🐛 Troubleshooting
 
 ### "Tracking not ready"
