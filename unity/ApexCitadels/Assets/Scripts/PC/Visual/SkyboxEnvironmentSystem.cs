@@ -92,6 +92,8 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         private void CreateSkybox()
         {
+            Debug.Log("[Skybox] Creating skybox...");
+            
             // Try to load HDR skybox from assets first
             Texture2D skyTexture = TryLoadSkyboxTexture();
             
@@ -105,8 +107,12 @@ namespace ApexCitadels.PC.Visual
                     skyboxMaterial.SetTexture("_MainTex", skyTexture);
                     skyboxMaterial.SetFloat("_Exposure", 1.2f);
                     RenderSettings.skybox = skyboxMaterial;
-                    ApexLogger.LogVerbose("Loaded panoramic skybox from assets", ApexLogger.LogCategory.General);
+                    Debug.Log($"[Skybox] ✓ Loaded panoramic skybox: {skyTexture.name} ({skyTexture.width}x{skyTexture.height})");
                     return;
+                }
+                else
+                {
+                    Debug.LogWarning("[Skybox] Skybox/Panoramic shader not found!");
                 }
             }
 
@@ -145,15 +151,29 @@ namespace ApexCitadels.PC.Visual
         /// </summary>
         private Texture2D TryLoadSkyboxTexture()
         {
-            // Try to load from Resources
-            string[] skyboxNames = { "SKY02", "SKY04", "SKY17", "SKY19", "SKY32" };
+            // Try to load from Resources - Unity Resources.Load doesn't need file extension
+            string[] skyboxNames = { "SKY04", "SKY17", "SKY19", "SKY32", "SKY67", "SKY02" };
             
             foreach (var name in skyboxNames)
             {
+                // Resources.Load doesn't need extension
                 Texture2D tex = UnityEngine.Resources.Load<Texture2D>($"PC/Skyboxes/{name}");
-                if (tex != null) return tex;
+                if (tex != null)
+                {
+                    Debug.Log($"[Skybox] Loaded skybox texture: {name}");
+                    return tex;
+                }
             }
-
+            
+            // If specific names fail, try to load any texture from the folder
+            Texture2D[] allSkyboxes = UnityEngine.Resources.LoadAll<Texture2D>("PC/Skyboxes");
+            if (allSkyboxes != null && allSkyboxes.Length > 0)
+            {
+                Debug.Log($"[Skybox] Found {allSkyboxes.Length} skybox textures, using first one");
+                return allSkyboxes[0];
+            }
+            
+            Debug.LogWarning("[Skybox] No skybox textures found in Resources/PC/Skyboxes/");
             return null;
         }
 
