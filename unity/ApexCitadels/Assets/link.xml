@@ -1,0 +1,10 @@
+<linker>
+  <!-- Prevent Burst compiler from scanning test assemblies -->
+  <assembly fullname="ApexCitadels.Tests.Runtime" preserve="nothing"/>
+  <assembly fullname="ApexCitadels.Tests.Editor" preserve="nothing"/>
+  
+  <!-- Preserve core Unity test runner assemblies -->
+  <assembly fullname="UnityEngine.TestRunner" preserve="all"/>
+  <assembly fullname="UnityEditor.TestRunner" preserve="all"/>
+  <assembly fullname="nunit.framework" preserve="all"/>
+</linker>
