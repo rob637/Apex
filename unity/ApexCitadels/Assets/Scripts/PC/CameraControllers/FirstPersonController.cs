@@ -2,7 +2,6 @@ using Camera = UnityEngine.Camera;
 using UnityEngine;
 using System;
 using System.Collections;
-using UnityEngine.InputSystem;
 
 namespace ApexCitadels.PC.CameraControllers
 {
@@ -78,13 +77,7 @@ namespace ApexCitadels.PC.CameraControllers
         private bool _isCrouching;
         private bool _isActive;
         
-        // Input
-        private InputAction _moveAction;
-        private InputAction _lookAction;
-        private InputAction _jumpAction;
-        private InputAction _sprintAction;
-        private InputAction _crouchAction;
-        private InputAction _exitAction;
+        // Input handled via legacy Input system
         
         // Events
         public event Action OnEnterFirstPerson;
@@ -93,8 +86,6 @@ namespace ApexCitadels.PC.CameraControllers
         
         private void Awake()
         {
-            SetupInput();
-            
             if (characterController == null)
             {
                 characterController = GetComponent<CharacterController>();
@@ -108,41 +99,12 @@ namespace ApexCitadels.PC.CameraControllers
             _targetHeight = standingHeight;
         }
         
-        private void SetupInput()
-        {
-            var inputMap = new InputActionMap("FirstPerson");
-            
-            _moveAction = inputMap.AddAction("Move", binding: "<Keyboard>/w");
-            _moveAction.AddCompositeBinding("2DVector")
-                .With("Up", "<Keyboard>/w")
-                .With("Down", "<Keyboard>/s")
-                .With("Left", "<Keyboard>/a")
-                .With("Right", "<Keyboard>/d");
-            
-            _lookAction = inputMap.AddAction("Look", binding: "<Mouse>/delta");
-            _jumpAction = inputMap.AddAction("Jump", binding: "<Keyboard>/space");
-            _sprintAction = inputMap.AddAction("Sprint", binding: "<Keyboard>/leftShift");
-            _crouchAction = inputMap.AddAction("Crouch", binding: "<Keyboard>/leftCtrl");
-            _exitAction = inputMap.AddAction("Exit", binding: "<Keyboard>/escape");
-            
-            inputMap.Enable();
-        }
-        
-        private void OnEnable()
-        {
-            _jumpAction.performed += OnJump;
-            _exitAction.performed += OnExit;
-        }
-        
-        private void OnDisable()
-        {
-            _jumpAction.performed -= OnJump;
-            _exitAction.performed -= OnExit;
-        }
-        
         private void Update()
         {
             if (!_isActive) return;
+            
+            // Handle exit
+            if (Input.GetKeyDown(KeyCode.Escape)) Deactivate();
             
             HandleInput();
             HandleMovement();
@@ -232,14 +194,25 @@ namespace ApexCitadels.PC.CameraControllers
         
         private void HandleInput()
         {
-            _moveInput = _moveAction.ReadValue<Vector2>();
-            _lookInput = _lookAction.ReadValue<Vector2>();
-            _isSprinting = _sprintAction.ReadValue<float>() > 0.5f && !_isCrouching;
+            // Movement input (WASD)
+            _moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             
-            // Toggle crouch
-            if (_crouchAction.WasPressedThisFrame())
+            // Mouse look
+            _lookInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            
+            // Sprint (Shift)
+            _isSprinting = Input.GetKey(KeyCode.LeftShift) && !_isCrouching;
+            
+            // Toggle crouch (Ctrl)
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
                 _isCrouching = !_isCrouching;
+            }
+            
+            // Jump (Space)
+            if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && !_isCrouching)
+            {
+                _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
         
@@ -286,13 +259,6 @@ namespace ApexCitadels.PC.CameraControllers
             }
             
             OnPositionChanged?.Invoke(transform.position);
-        }
-        
-        private void OnJump(InputAction.CallbackContext context)
-        {
-            if (!_isActive || !_isGrounded || _isCrouching) return;
-            
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
         
         #endregion
@@ -407,11 +373,6 @@ namespace ApexCitadels.PC.CameraControllers
         }
         
         #endregion
-        
-        private void OnExit(InputAction.CallbackContext context)
-        {
-            Deactivate();
-        }
     }
     
     /// <summary>
@@ -645,19 +606,16 @@ namespace ApexCitadels.PC.CameraControllers
         [SerializeField] private TMPro.TextMeshProUGUI promptText;
         
         private IInteractable _currentTarget;
-        private InputAction _interactAction;
-        
-        private void Awake()
-        {
-            var inputMap = new InputActionMap("FPInteraction");
-            _interactAction = inputMap.AddAction("Interact", binding: "<Keyboard>/e");
-            _interactAction.performed += OnInteract;
-            inputMap.Enable();
-        }
         
         private void Update()
         {
             CheckForInteractable();
+            
+            // Handle interaction input
+            if (Input.GetKeyDown(KeyCode.E) && _currentTarget != null)
+            {
+                _currentTarget.Interact();
+            }
         }
         
         private void CheckForInteractable()
@@ -687,11 +645,6 @@ namespace ApexCitadels.PC.CameraControllers
                 _currentTarget = null;
                 HidePrompt();
             }
-        }
-        
-        private void OnInteract(InputAction.CallbackContext context)
-        {
-            _currentTarget?.Interact();
         }
         
         private void ShowPrompt(string text)

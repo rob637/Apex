@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 
 namespace ApexCitadels.PC.CameraControllers
 {
@@ -76,13 +75,7 @@ namespace ApexCitadels.PC.CameraControllers
         private Transform _lookAtTarget;
         private Coroutine _tourCoroutine;
         
-        // Input
-        private InputAction _pauseAction;
-        private InputAction _skipAction;
-        private InputAction _exitAction;
-        private InputAction _speedUpAction;
-        private InputAction _speedDownAction;
-        private InputAction _photoModeAction;
+        // Input handled via legacy Input system in Update()
         
         // Events
         public event Action OnCinematicStart;
@@ -103,29 +96,19 @@ namespace ApexCitadels.PC.CameraControllers
             {
                 speedCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
             }
-            
-            SetupInput();
         }
         
-        private void SetupInput()
+        private void Update()
         {
-            var inputMap = new InputActionMap("Cinematic");
+            if (!_isPlaying) return;
             
-            _pauseAction = inputMap.AddAction("Pause", binding: "<Keyboard>/space");
-            _skipAction = inputMap.AddAction("Skip", binding: "<Keyboard>/enter");
-            _exitAction = inputMap.AddAction("Exit", binding: "<Keyboard>/escape");
-            _speedUpAction = inputMap.AddAction("SpeedUp", binding: "<Keyboard>/rightBracket");
-            _speedDownAction = inputMap.AddAction("SpeedDown", binding: "<Keyboard>/leftBracket");
-            _photoModeAction = inputMap.AddAction("PhotoMode", binding: "<Keyboard>/p");
-            
-            inputMap.Enable();
-            
-            _pauseAction.performed += _ => TogglePause();
-            _skipAction.performed += _ => SkipToNext();
-            _exitAction.performed += _ => StopTour();
-            _speedUpAction.performed += _ => AdjustSpeed(1.5f);
-            _speedDownAction.performed += _ => AdjustSpeed(0.67f);
-            _photoModeAction.performed += _ => EnterPhotoMode();
+            // Handle input via legacy Input system
+            if (Input.GetKeyDown(KeyCode.Space)) TogglePause();
+            if (Input.GetKeyDown(KeyCode.Return)) SkipToNext();
+            if (Input.GetKeyDown(KeyCode.Escape)) StopTour();
+            if (Input.GetKeyDown(KeyCode.RightBracket)) AdjustSpeed(1.5f);
+            if (Input.GetKeyDown(KeyCode.LeftBracket)) AdjustSpeed(0.67f);
+            if (Input.GetKeyDown(KeyCode.P)) EnterPhotoMode();
         }
         
         private void Start()
@@ -798,48 +781,25 @@ namespace ApexCitadels.PC.CameraControllers
         [SerializeField] private UnityEngine.UI.Button captureButton;
         [SerializeField] private TMPro.TextMeshProUGUI filterNameText;
         
-        // Input
-        private InputAction _moveAction;
-        private InputAction _lookAction;
-        private InputAction _captureAction;
-        private InputAction _filterAction;
-        private InputAction _exitAction;
+        // Input handled via legacy Input system
+        private Vector3 _moveInput;
+        private Vector2 _lookInput;
         
         private bool _isActive;
         
         private void Awake()
         {
-            SetupInput();
-        }
-        
-        private void SetupInput()
-        {
-            var inputMap = new InputActionMap("PhotoMode");
-            
-            _moveAction = inputMap.AddAction("Move");
-            _moveAction.AddCompositeBinding("3DVector")
-                .With("Up", "<Keyboard>/e")
-                .With("Down", "<Keyboard>/q")
-                .With("Left", "<Keyboard>/a")
-                .With("Right", "<Keyboard>/d")
-                .With("Forward", "<Keyboard>/w")
-                .With("Backward", "<Keyboard>/s");
-            
-            _lookAction = inputMap.AddAction("Look", binding: "<Mouse>/delta");
-            _captureAction = inputMap.AddAction("Capture", binding: "<Keyboard>/f");
-            _filterAction = inputMap.AddAction("Filter", binding: "<Keyboard>/tab");
-            _exitAction = inputMap.AddAction("Exit", binding: "<Keyboard>/escape");
-            
-            inputMap.Enable();
-            
-            _captureAction.performed += _ => CapturePhoto();
-            _filterAction.performed += _ => CycleFilter();
-            _exitAction.performed += _ => Exit();
+            // Nothing to setup - using legacy Input
         }
         
         private void Update()
         {
             if (!_isActive) return;
+            
+            // Handle input
+            if (Input.GetKeyDown(KeyCode.F)) CapturePhoto();
+            if (Input.GetKeyDown(KeyCode.Tab)) CycleFilter();
+            if (Input.GetKeyDown(KeyCode.Escape)) Exit();
             
             HandleMovement();
             HandleLook();
@@ -869,14 +829,23 @@ namespace ApexCitadels.PC.CameraControllers
         
         private void HandleMovement()
         {
-            Vector3 input = _moveAction.ReadValue<Vector3>();
+            // Get input via legacy system
+            float x = 0, y = 0, z = 0;
+            if (Input.GetKey(KeyCode.D)) x = 1;
+            else if (Input.GetKey(KeyCode.A)) x = -1;
+            if (Input.GetKey(KeyCode.E)) y = 1;
+            else if (Input.GetKey(KeyCode.Q)) y = -1;
+            if (Input.GetKey(KeyCode.W)) z = 1;
+            else if (Input.GetKey(KeyCode.S)) z = -1;
+            
+            Vector3 input = new Vector3(x, y, z);
             Vector3 move = transform.right * input.x + transform.up * input.y + transform.forward * input.z;
             transform.position += move * moveSpeed * Time.unscaledDeltaTime;
         }
         
         private void HandleLook()
         {
-            Vector2 delta = _lookAction.ReadValue<Vector2>();
+            Vector2 delta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             transform.Rotate(Vector3.up, delta.x * rotateSpeed * Time.unscaledDeltaTime, Space.World);
             transform.Rotate(Vector3.right, -delta.y * rotateSpeed * Time.unscaledDeltaTime, Space.Self);
         }
