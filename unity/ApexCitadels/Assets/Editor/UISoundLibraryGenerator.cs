@@ -111,7 +111,9 @@ namespace ApexCitadels.Editor
                 string path = AssetDatabase.GUIDToAssetPath(guids[0]);
                 return AssetDatabase.LoadAssetAtPath<UISoundLibrary>(path);
             }
-            return null;
+            
+            // Create new one if not found
+            return CreateLibrary();
         }
 
         private static UISoundLibrary CreateLibrary()

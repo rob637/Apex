@@ -155,7 +155,7 @@ namespace ApexCitadels.Editor
             // Libraries
             _hasCombatSFXLibrary = AssetDatabase.FindAssets("t:CombatSFXLibrary").Length > 0;
             _hasUISoundLibrary = AssetDatabase.FindAssets("t:UISoundLibrary").Length > 0;
-            _hasAnimatorController = AssetDatabase.FindAssets("HumanoidAnimator t:AnimatorController").Length > 0;
+            _hasAnimatorController = AssetDatabase.FindAssets("HumanoidController t:AnimatorController").Length > 0;
             
             // Scene Managers (check in scene)
             _hasPCSceneBootstrapper = Object.FindFirstObjectByType<PCSceneBootstrapper>() != null;
