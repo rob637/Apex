@@ -273,7 +273,7 @@ namespace ApexCitadels.PC.UI
                        (!replay.WasAttacker && !replay.AttackerWon);
             string result = won ? "VICTORY" : "DEFEAT";
             var duration = TimeSpan.FromSeconds(replay.Duration);
-            return $"{result} • {duration:mm\\:ss}";
+            return $"{result} - {duration:mm\\:ss}";
         }
         
         private async void LoadAndPlayReplay(string replayId)

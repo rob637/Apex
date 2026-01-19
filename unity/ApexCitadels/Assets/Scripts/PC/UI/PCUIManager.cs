@@ -195,7 +195,7 @@ namespace ApexCitadels.PC.UI
             contentRect.offsetMax = Vector2.zero;
 
             TextMeshProUGUI contentText = content.AddComponent<TextMeshProUGUI>();
-            contentText.text = $"[{title} Panel]\n\nThis is a placeholder panel.\nPress ESC to close or click the X button.\n\nKeyboard shortcuts:\n• B - Build Menu\n• Tab - Alliance\n• M - World Map\n• I - Inventory\n• Esc - Close / Main Menu";
+            contentText.text = $"[{title} Panel]\n\nThis is a placeholder panel.\nPress ESC to close or click the X button.\n\nKeyboard shortcuts:\n- B - Build Menu\n- Tab - Alliance\n- M - World Map\n- I - Inventory\n- Esc - Close / Main Menu";
             contentText.fontSize = 20;
             contentText.alignment = TextAlignmentOptions.Center;
             contentText.color = new Color(0.8f, 0.8f, 0.8f, 1f);

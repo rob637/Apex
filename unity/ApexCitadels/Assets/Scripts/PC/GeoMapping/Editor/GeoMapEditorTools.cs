@@ -66,10 +66,10 @@ namespace ApexCitadels.PC.Editor
                 "Real World Map system created!\n\n" +
                 "The map will display real-world geography from OpenStreetMap.\n\n" +
                 "Features:\n" +
-                "• Real map tiles from CartoDB\n" +
-                "• Territory overlays with GPS coordinates\n" +
-                "• Pan/zoom/rotate camera controls\n" +
-                "• Demo territories in Washington DC\n\n" +
+                "- Real map tiles from CartoDB\n" +
+                "- Territory overlays with GPS coordinates\n" +
+                "- Pan/zoom/rotate camera controls\n" +
+                "- Demo territories in Washington DC\n\n" +
                 "Press Play to see it in action!",
                 "OK");
         }
@@ -142,7 +142,7 @@ namespace ApexCitadels.PC.Editor
             {
                 EditorUtility.DisplayDialog("No Map Found",
                     "No RealWorldMapRenderer found in scene.\n" +
-                    "Use Tools → Apex Citadels → GeoMap → Create Real World Map first.",
+                    "Use Tools -> Apex Citadels -> GeoMap -> Create Real World Map first.",
                     "OK");
             }
         }
@@ -222,65 +222,65 @@ This is the 'PC window' into the same world that AR mobile players explore.
 
 COMPONENTS
 ----------
-• GeoCoordinates.cs - GPS coordinate utilities and projections
-• MapTileProvider.cs - Fetches map tiles from various providers
-• RealWorldMapRenderer.cs - Renders tiles and territories
-• GeoMapCameraController.cs - Camera navigation controls
+- GeoCoordinates.cs - GPS coordinate utilities and projections
+- MapTileProvider.cs - Fetches map tiles from various providers
+- RealWorldMapRenderer.cs - Renders tiles and territories
+- GeoMapCameraController.cs - Camera navigation controls
 
 CONTROLS (Play Mode)
 --------------------
-• WASD / Arrows - Pan map
-• Mouse Scroll - Zoom in/out
-• Right Mouse Drag - Rotate view
-• Middle Mouse Drag - Pan map
-• Q/E - Rotate yaw
-• R/F - Adjust pitch
-• Home - Reset view
-• Page Up/Down - Zoom
+- WASD / Arrows - Pan map
+- Mouse Scroll - Zoom in/out
+- Right Mouse Drag - Rotate view
+- Middle Mouse Drag - Pan map
+- Q/E - Rotate yaw
+- R/F - Adjust pitch
+- Home - Reset view
+- Page Up/Down - Zoom
 
 MAP PROVIDERS
 -------------
-• CartoDB Voyager (default) - Colorful, detailed
-• CartoDB Light - Minimal light theme
-• CartoDB Dark - Minimal dark theme
-• OpenStreetMap - Standard OSM tiles
-• Esri World Imagery - Satellite photos
-• Stamen Terrain - Topographic
-• Stamen Watercolor - Artistic (fantasy-style)
-• Mapbox - Requires API key
+- CartoDB Voyager (default) - Colorful, detailed
+- CartoDB Light - Minimal light theme
+- CartoDB Dark - Minimal dark theme
+- OpenStreetMap - Standard OSM tiles
+- Esri World Imagery - Satellite photos
+- Stamen Terrain - Topographic
+- Stamen Watercolor - Artistic (fantasy-style)
+- Mapbox - Requires API key
 
 TERRITORY DATA
 --------------
 Territories are loaded from Firebase Firestore with:
-• id - Unique identifier
-• name - Display name
-• latitude/longitude - GPS coordinates
-• radius - Territory size in meters
-• ownerId - Player who owns it
-• allianceId - Alliance affiliation
+- id - Unique identifier
+- name - Display name
+- latitude/longitude - GPS coordinates
+- radius - Territory size in meters
+- ownerId - Player who owns it
+- allianceId - Alliance affiliation
 
 ARCHITECTURE
 ------------
-               ┌──────────────────────┐
-               │   AR Mobile Client   │
-               │   (Stakes territory  │
-               │    at GPS location)  │
-               └──────────┬───────────┘
-                          │
-                          ▼
-               ┌──────────────────────┐
-               │      Firebase        │
-               │   (territories,      │
-               │    players, etc.)    │
-               └──────────┬───────────┘
-                          │
-                          ▼
-               ┌──────────────────────┐
-               │   PC Map Client      │
-               │   (Shows real-world  │
-               │    map with same     │
-               │    territories)      │
-               └──────────────────────┘
+               +----------------------+
+               |   AR Mobile Client   |
+               |   (Stakes territory  |
+               |    at GPS location)  |
+               +----------------------+
+                          |
+                          v
+               +----------------------+
+               |      Firebase        |
+               |   (territories,      |
+               |    players, etc.)    |
+               +----------------------+
+                          |
+                          v
+               +----------------------+
+               |   PC Map Client      |
+               |   (Shows real-world  |
+               |    map with same     |
+               |    territories)      |
+               +----------------------+
 
 ");
         }

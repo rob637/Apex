@@ -210,7 +210,7 @@ namespace ApexCitadels.PC.UI
             x.transform.SetParent(closeBtn.transform, false);
             
             TextMeshProUGUI xText = x.AddComponent<TextMeshProUGUI>();
-            xText.text = "✕";
+            xText.text = "[X]";
             xText.fontSize = 24;
             xText.alignment = TextAlignmentOptions.Center;
             
@@ -233,11 +233,11 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.padding = new RectOffset(30, 30, 0, 0);
             
-            CreateCategoryTab(tabs.transform, SettingsCategory.Audio, "🔊 Audio");
-            CreateCategoryTab(tabs.transform, SettingsCategory.Graphics, "🖥️ Graphics");
+            CreateCategoryTab(tabs.transform, SettingsCategory.Audio, "[S] Audio");
+            CreateCategoryTab(tabs.transform, SettingsCategory.Graphics, "🖥 Graphics");
             CreateCategoryTab(tabs.transform, SettingsCategory.Controls, "[G] Controls");
             CreateCategoryTab(tabs.transform, SettingsCategory.Gameplay, "[+] Gameplay");
-            CreateCategoryTab(tabs.transform, SettingsCategory.Account, "👤 Account");
+            CreateCategoryTab(tabs.transform, SettingsCategory.Account, "[U] Account");
         }
 
         private void CreateCategoryTab(Transform parent, SettingsCategory category, string label)
@@ -334,7 +334,7 @@ namespace ApexCitadels.PC.UI
             
             CreateSpacer();
             
-            CreateButtonSetting("🔊 Test Sound", () => ApexLogger.Log("[Settings] Playing test sound...", ApexLogger.LogCategory.UI));
+            CreateButtonSetting("[S] Test Sound", () => ApexLogger.Log("[Settings] Playing test sound...", ApexLogger.LogCategory.UI));
         }
 
         private void CreateGraphicsSettings()
@@ -399,13 +399,13 @@ namespace ApexCitadels.PC.UI
             
             CreateSpacer();
             
-            CreateButtonSetting("🔗 Link Account", () => ApexLogger.Log("[Settings] Link account clicked", ApexLogger.LogCategory.UI));
+            CreateButtonSetting("[L] Link Account", () => ApexLogger.Log("[Settings] Link account clicked", ApexLogger.LogCategory.UI));
             CreateButtonSetting("[R] Sync Data", () => ApexLogger.Log("[Settings] Syncing data...", ApexLogger.LogCategory.UI));
             
             CreateSpacer();
             
             CreateLabel("Support:");
-            CreateButtonSetting("📧 Contact Support", () => ApexLogger.Log("[Settings] Opening support...", ApexLogger.LogCategory.UI));
+            CreateButtonSetting("[M] Contact Support", () => ApexLogger.Log("[Settings] Opening support...", ApexLogger.LogCategory.UI));
             CreateButtonSetting("[T] Copy Player ID", () => {
                 GUIUtility.systemCopyBuffer = "DEMO_USER_001";
                 ApexLogger.Log("[Settings] Player ID copied!", ApexLogger.LogCategory.UI);

@@ -200,7 +200,7 @@ namespace ApexCitadels.PC.UI
             x.transform.SetParent(closeBtn.transform, false);
             
             TextMeshProUGUI xText = x.AddComponent<TextMeshProUGUI>();
-            xText.text = "✕";
+            xText.text = "[X]";
             xText.fontSize = 24;
             xText.alignment = TextAlignmentOptions.Center;
             

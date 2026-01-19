@@ -227,8 +227,8 @@ namespace ApexCitadels.Notifications
             if (tokenStatusText != null)
             {
                 tokenStatusText.text = settings.HasToken 
-                    ? "✓ Device registered for notifications" 
-                    : "⚠ Device not registered";
+                    ? "[OK] Device registered for notifications" 
+                    : "[!] Device not registered";
                 tokenStatusText.color = settings.HasToken ? Color.green : Color.yellow;
             }
 

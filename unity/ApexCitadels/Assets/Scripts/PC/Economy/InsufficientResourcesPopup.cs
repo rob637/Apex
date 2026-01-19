@@ -152,7 +152,7 @@ namespace ApexCitadels.PC.Economy
             titleText.alignment = TextAlignmentOptions.MidlineLeft;
 
             // Close button
-            closeButton = CreateButton(headerRT, "✕", Hide);
+            closeButton = CreateButton(headerRT, "[X]", Hide);
             SetAnchors(closeButton.GetComponent<RectTransform>(), new Vector2(1, 0), new Vector2(1, 1), 
                 new Vector2(-40, 5), new Vector2(-5, -5));
         }
@@ -272,7 +272,7 @@ namespace ApexCitadels.PC.Economy
                     string icon = resourceIcons.TryGetValue(type, out string i) ? i : "?";
                     string rowText = missingAmount > 0 
                         ? $"{icon} {type}: {haveAmount} / {requiredAmount} (need {missingAmount} more)"
-                        : $"{icon} {type}: {haveAmount} / {requiredAmount} ✓";
+                        : $"{icon} {type}: {haveAmount} / {requiredAmount} [OK]";
                     
                     bool isMissing = missingAmount > 0;
                     CreateMissingRow(icon, rowText.Replace($"{icon} ", ""), isMissing);

@@ -242,7 +242,7 @@ namespace ApexCitadels.PC.UI
             xtRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI x = closeText.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 22;
             x.color = Color.white;
             x.alignment = TextAlignmentOptions.Center;
@@ -269,11 +269,11 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 8, 8);
             hlayout.childForceExpandWidth = true;
             
-            _skinsTab = CreateCategoryButton(tabBar.transform, "👤 Skins", () => ShowCategory(CosmeticCategory.Skins));
+            _skinsTab = CreateCategoryButton(tabBar.transform, "[U] Skins", () => ShowCategory(CosmeticCategory.Skins));
             _themesTab = CreateCategoryButton(tabBar.transform, "[C] Themes", () => ShowCategory(CosmeticCategory.Themes));
             _effectsTab = CreateCategoryButton(tabBar.transform, "[*] Effects", () => ShowCategory(CosmeticCategory.Effects));
             _emotesTab = CreateCategoryButton(tabBar.transform, "🎭 Emotes", () => ShowCategory(CosmeticCategory.Emotes));
-            _titlesTab = CreateCategoryButton(tabBar.transform, "🏅 Titles", () => ShowCategory(CosmeticCategory.Titles));
+            _titlesTab = CreateCategoryButton(tabBar.transform, "[M] Titles", () => ShowCategory(CosmeticCategory.Titles));
             
             UpdateCategoryHighlights();
         }
@@ -429,7 +429,7 @@ namespace ApexCitadels.PC.UI
             phRect.offsetMin = Vector2.zero;
             phRect.offsetMax = Vector2.zero;
             TextMeshProUGUI ph = phObj.AddComponent<TextMeshProUGUI>();
-            ph.text = "👤\n\nSelect an item to preview";
+            ph.text = "[U]\n\nSelect an item to preview";
             ph.fontSize = 16;
             ph.color = new Color(0.4f, 0.4f, 0.4f);
             ph.alignment = TextAlignmentOptions.Center;
@@ -548,8 +548,8 @@ namespace ApexCitadels.PC.UI
                 new CosmeticItem { Id = "skin_mage", Name = "Arcane Mage", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "🧙", Description = "Mystical robes imbued with ancient magic.", IsOwned = true },
                 new CosmeticItem { Id = "skin_samurai", Name = "Shadow Samurai", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Epic, Price = 1200, Icon = "[!]", Description = "Legendary armor of the Eastern warriors." },
                 new CosmeticItem { Id = "skin_dragon", Name = "Dragon Lord", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Legendary, Price = 2500, Icon = "🐉", Description = "Forged from dragon scales, this armor commands respect." },
-                new CosmeticItem { Id = "skin_cyber", Name = "Cyber Warrior", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Epic, Price = 1500, Icon = "🤖", Description = "Futuristic combat suit with advanced tech." },
-                new CosmeticItem { Id = "skin_pirate", Name = "Pirate Captain", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Rare, Price = 600, Icon = "🏴‍☠️", Description = "Arr! Set sail for adventure!" },
+                new CosmeticItem { Id = "skin_cyber", Name = "Cyber Warrior", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Epic, Price = 1500, Icon = "[B]", Description = "Futuristic combat suit with advanced tech." },
+                new CosmeticItem { Id = "skin_pirate", Name = "Pirate Captain", Category = CosmeticCategory.Skins, Rarity = CosmeticRarity.Rare, Price = 600, Icon = "[F][X]", Description = "Arr! Set sail for adventure!" },
             });
             
             // Building Themes
@@ -569,7 +569,7 @@ namespace ApexCitadels.PC.UI
                 new CosmeticItem { Id = "fx_fire", Name = "Fire Aura", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Rare, Price = 400, Icon = "[*]", Description = "Surrounded by dancing flames." },
                 new CosmeticItem { Id = "fx_lightning", Name = "Lightning Storm", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Epic, Price = 1000, Icon = "[!]", Description = "Crackling electricity surrounds you." },
                 new CosmeticItem { Id = "fx_void", Name = "Void Walker", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Legendary, Price = 2000, Icon = "🌀", Description = "Dark void particles swirl around you." },
-                new CosmeticItem { Id = "fx_rainbow", Name = "Rainbow Glow", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "🌈", Description = "A colorful aura that shifts through the spectrum." },
+                new CosmeticItem { Id = "fx_rainbow", Name = "Rainbow Glow", Category = CosmeticCategory.Effects, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "[R]", Description = "A colorful aura that shifts through the spectrum." },
             });
             
             // Emotes
@@ -586,7 +586,7 @@ namespace ApexCitadels.PC.UI
             _allItems.AddRange(new[]
             {
                 new CosmeticItem { Id = "title_warrior", Name = "The Warrior", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Common, Price = 100, Icon = "[!]", Description = "A title for those who fight bravely.", IsOwned = true },
-                new CosmeticItem { Id = "title_conqueror", Name = "The Conqueror", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "👑", Description = "For those who have conquered many territories." },
+                new CosmeticItem { Id = "title_conqueror", Name = "The Conqueror", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Rare, Price = 500, Icon = "[K]", Description = "For those who have conquered many territories." },
                 new CosmeticItem { Id = "title_legend", Name = "The Legend", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Legendary, Price = 2500, Icon = "[*]", Description = "A title reserved for the greatest players." },
                 new CosmeticItem { Id = "title_defender", Name = "The Defender", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Rare, Price = 400, Icon = "[D]", Description = "Successfully defended against 100 attacks." },
                 new CosmeticItem { Id = "title_wealthy", Name = "The Wealthy", Category = CosmeticCategory.Titles, Rarity = CosmeticRarity.Epic, Price = 1000, Icon = "[$]", Description = "Accumulated great riches." },
@@ -675,7 +675,7 @@ namespace ApexCitadels.PC.UI
                 LayoutElement eqLE = equippedObj.AddComponent<LayoutElement>();
                 eqLE.preferredHeight = 16;
                 TextMeshProUGUI eqText = equippedObj.AddComponent<TextMeshProUGUI>();
-                eqText.text = "✓ EQUIPPED";
+                eqText.text = "[OK] EQUIPPED";
                 eqText.fontSize = 9;
                 eqText.fontStyle = FontStyles.Bold;
                 eqText.color = ownedColor;
@@ -713,7 +713,7 @@ namespace ApexCitadels.PC.UI
             
             if (item.IsOwned)
             {
-                status.text = "✓ Owned";
+                status.text = "[OK] Owned";
                 status.color = ownedColor;
             }
             else

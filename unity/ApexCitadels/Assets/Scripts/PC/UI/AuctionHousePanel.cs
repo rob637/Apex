@@ -238,7 +238,7 @@ namespace ApexCitadels.PC.UI
             phRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI placeholder = placeholderObj.AddComponent<TextMeshProUGUI>();
-            placeholder.text = "🔍 Search items...";
+            placeholder.text = "[?] Search items...";
             placeholder.fontSize = 14;
             placeholder.color = new Color(0.5f, 0.5f, 0.5f);
             placeholder.fontStyle = FontStyles.Italic;
@@ -276,7 +276,7 @@ namespace ApexCitadels.PC.UI
             xtRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI x = closeText.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.color = Color.white;
             x.alignment = TextAlignmentOptions.Center;
@@ -543,7 +543,7 @@ namespace ApexCitadels.PC.UI
             arrRect.sizeDelta = new Vector2(20, 20);
             
             TextMeshProUGUI arrow = arrowObj.AddComponent<TextMeshProUGUI>();
-            arrow.text = "▼";
+            arrow.text = "v";
             arrow.fontSize = 10;
             arrow.color = Color.white;
             arrow.alignment = TextAlignmentOptions.Center;
@@ -812,7 +812,7 @@ namespace ApexCitadels.PC.UI
                 "Siege Ram", "Crossbow", "Battle Axe", "Royal Crown"
             };
             
-            string[] icons = { "[!]", "[D]", "🎽", "[P]", "[G]", "[Q]", "🪄", "🐉", "🪶", "[S]", "💍", "🐴", "[W]", "[A]", "[L]", "👑" };
+            string[] icons = { "[!]", "[D]", "🎽", "[P]", "[G]", "[Q]", "🪄", "🐉", "🪶", "[S]", "💍", "[H]", "[W]", "[A]", "[L]", "[K]" };
             
             AuctionCategory[] categories = {
                 AuctionCategory.Weapons, AuctionCategory.Armor, AuctionCategory.Armor, AuctionCategory.Consumables,
@@ -1101,7 +1101,7 @@ namespace ApexCitadels.PC.UI
                 AuctionCategory.Equipment => "[I] Equipment",
                 AuctionCategory.Consumables => "[P] Consumables",
                 AuctionCategory.Materials => "[Q] Materials",
-                AuctionCategory.Mounts => "🐴 Mounts",
+                AuctionCategory.Mounts => "[H] Mounts",
                 AuctionCategory.Miscellaneous => "[S] Miscellaneous",
                 _ => "Unknown"
             };

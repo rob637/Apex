@@ -168,7 +168,7 @@ namespace ApexCitadels.PC.UI
             { BlockCategory.Basic, "🧱" },
             { BlockCategory.Walls, "[C]" },
             { BlockCategory.Defense, "🗼" },
-            { BlockCategory.Production, "⚒️" },
+            { BlockCategory.Production, "[W]" },
             { BlockCategory.Military, "[!]" },
             { BlockCategory.Storage, "[B]" },
             { BlockCategory.Decoration, "🎨" },
@@ -180,12 +180,12 @@ namespace ApexCitadels.PC.UI
         private readonly Dictionary<EditorTool, string> toolIcons = new Dictionary<EditorTool, string>
         {
             { EditorTool.Select, "[^]" },
-            { EditorTool.Place, "➕" },
-            { EditorTool.Move, "✋" },
+            { EditorTool.Place, "[+]" },
+            { EditorTool.Move, "[H]" },
             { EditorTool.Rotate, "[R]" },
             { EditorTool.Delete, "[D]" },
             { EditorTool.Copy, "[T]" },
-            { EditorTool.MultiSelect, "⬜" },
+            { EditorTool.MultiSelect, "[]" },
             { EditorTool.Measure, "📏" }
         };
 
@@ -263,7 +263,7 @@ namespace ApexCitadels.PC.UI
             AddBlockItem(BlockType.Metal, "Metal Block", "Reinforced metal block", BlockCategory.Basic, 25, "🔩", 2);
             AddBlockItem(BlockType.Glass, "Glass Block", "Transparent glass panel", BlockCategory.Basic, 15, "🪟", 2);
             AddBlockItem(BlockType.Brick, "Brick Block", "Classic brick construction", BlockCategory.Basic, 12, "🧱", 1);
-            AddBlockItem(BlockType.Concrete, "Concrete Block", "Heavy-duty concrete", BlockCategory.Basic, 20, "⬜", 3);
+            AddBlockItem(BlockType.Concrete, "Concrete Block", "Heavy-duty concrete", BlockCategory.Basic, 20, "[]", 3);
 
             // === WALLS ===
             AddBlockItem(BlockType.Wall, "Basic Wall", "Standard defensive wall", BlockCategory.Walls, 50, "[C]", 1);
@@ -277,12 +277,12 @@ namespace ApexCitadels.PC.UI
             AddBlockItem(BlockType.Tower, "Watch Tower", "Scout tower for visibility", BlockCategory.Defense, 100, "🗼", 2);
             AddBlockItem(BlockType.Turret, "Defense Turret", "Auto-targeting turret", BlockCategory.Defense, 200, "[+]", 3);
             AddBlockItem(BlockType.TowerArcher, "Archer Tower", "Ranged attack tower", BlockCategory.Defense, 175, "[A]", 2);
-            AddBlockItem(BlockType.TowerCannon, "Cannon Tower", "Siege defense tower", BlockCategory.Defense, 300, "💣", 4);
+            AddBlockItem(BlockType.TowerCannon, "Cannon Tower", "Siege defense tower", BlockCategory.Defense, 300, "[X]", 4);
             AddBlockItem(BlockType.TowerMage, "Mage Tower", "Magical defense tower", BlockCategory.Defense, 400, "🔮", 5);
             AddBlockItem(BlockType.Moat, "Moat Section", "Water defense moat", BlockCategory.Defense, 75, "[~]", 2);
             AddBlockItem(BlockType.Spikes, "Spike Trap", "Ground spike trap", BlockCategory.Defense, 50, "[!]", 1);
             AddBlockItem(BlockType.TrapFire, "Fire Trap", "Flame trap trigger", BlockCategory.Defense, 120, "[*]", 3);
-            AddBlockItem(BlockType.TrapPit, "Pit Trap", "Hidden pit trap", BlockCategory.Defense, 80, "🕳️", 2);
+            AddBlockItem(BlockType.TrapPit, "Pit Trap", "Hidden pit trap", BlockCategory.Defense, 80, "🕳", 2);
 
             // === PRODUCTION ===
             AddBlockItem(BlockType.Mine, "Mining Station", "Extract stone resources", BlockCategory.Production, 150, "[M]", 2);
@@ -295,21 +295,21 @@ namespace ApexCitadels.PC.UI
             // === MILITARY ===
             AddBlockItem(BlockType.Barracks, "Barracks", "Train infantry units", BlockCategory.Military, 200, "[M]", 2);
             AddBlockItem(BlockType.Armory, "Armory", "Store and upgrade weapons", BlockCategory.Military, 175, "[!]", 2);
-            AddBlockItem(BlockType.TrainingGround, "Training Ground", "Train elite units", BlockCategory.Military, 250, "🏋️", 3);
+            AddBlockItem(BlockType.TrainingGround, "Training Ground", "Train elite units", BlockCategory.Military, 250, "🏋", 3);
             AddBlockItem(BlockType.Workshop, "War Workshop", "Build siege engines", BlockCategory.Military, 350, "[W]", 4);
-            AddBlockItem(BlockType.Stable, "Stables", "House cavalry units", BlockCategory.Military, 225, "🐴", 3);
+            AddBlockItem(BlockType.Stable, "Stables", "House cavalry units", BlockCategory.Military, 225, "[H]", 3);
 
             // === STORAGE ===
             AddBlockItem(BlockType.Storage, "Storage Vault", "General resource storage", BlockCategory.Storage, 100, "[B]", 1);
             AddBlockItem(BlockType.Warehouse, "Warehouse", "Large capacity storage", BlockCategory.Storage, 200, "🏢", 2);
             AddBlockItem(BlockType.Treasury, "Treasury", "Secure gold storage", BlockCategory.Storage, 300, "[$]", 3);
-            AddBlockItem(BlockType.Silo, "Resource Silo", "Bulk material storage", BlockCategory.Storage, 175, "🏗️", 2);
+            AddBlockItem(BlockType.Silo, "Resource Silo", "Bulk material storage", BlockCategory.Storage, 175, "[B]", 2);
 
             // === DECORATION ===
             AddBlockItem(BlockType.Flag, "Territory Flag", "Mark your territory", BlockCategory.Decoration, 15, "🚩", 1);
             AddBlockItem(BlockType.Banner, "Banner", "Decorative banner", BlockCategory.Decoration, 20, "🎌", 1);
             AddBlockItem(BlockType.Torch, "Wall Torch", "Lighting decoration", BlockCategory.Decoration, 10, "[*]", 1);
-            AddBlockItem(BlockType.Beacon, "Beacon", "Glowing beacon light", BlockCategory.Decoration, 75, "💡", 2);
+            AddBlockItem(BlockType.Beacon, "Beacon", "Glowing beacon light", BlockCategory.Decoration, 75, "[!]", 2);
             AddBlockItem(BlockType.Statue, "Statue", "Decorative statue", BlockCategory.Decoration, 100, "[*]", 2);
             AddBlockItem(BlockType.Fountain, "Fountain", "Water fountain", BlockCategory.Decoration, 150, "[O]", 3);
             AddBlockItem(BlockType.Garden, "Garden Plot", "Decorative garden", BlockCategory.Decoration, 50, "[T]", 1);
@@ -318,8 +318,8 @@ namespace ApexCitadels.PC.UI
             // === SPECIAL ===
             AddBlockItem(BlockType.CommandCenter, "Command Center", "Main base headquarters", BlockCategory.Special, 500, "[R]", 1);
             AddBlockItem(BlockType.Portal, "Portal Gate", "Teleportation point", BlockCategory.Special, 1000, "🌀", 5);
-            AddBlockItem(BlockType.Shrine, "Ancient Shrine", "Magical buff shrine", BlockCategory.Special, 400, "⛩️", 4);
-            AddBlockItem(BlockType.Forge, "Legendary Forge", "Craft epic items", BlockCategory.Special, 600, "🔨", 5);
+            AddBlockItem(BlockType.Shrine, "Ancient Shrine", "Magical buff shrine", BlockCategory.Special, 400, "[T]", 4);
+            AddBlockItem(BlockType.Forge, "Legendary Forge", "Craft epic items", BlockCategory.Special, 600, "[H]", 5);
             AddBlockItem(BlockType.Altar, "Altar of Power", "Special abilities", BlockCategory.Special, 750, "[*]", 5);
 
             ApexLogger.Log($"Initialized {allBlockItems.Count} block types across {blocksByCategory.Count} categories", ApexLogger.LogCategory.Building);
@@ -381,7 +381,7 @@ namespace ApexCitadels.PC.UI
             bg.color = HEADER_BG;
 
             // Title
-            TextMeshProUGUI title = CreateText(topBar, "🏗️ BASE EDITOR", 24, FontStyles.Bold);
+            TextMeshProUGUI title = CreateText(topBar, "[B] BASE EDITOR", 24, FontStyles.Bold);
             SetAnchors(title.rectTransform, new Vector2(0, 0), new Vector2(0, 1), new Vector2(20, 0), new Vector2(250, 0));
             title.alignment = TextAlignmentOptions.MidlineLeft;
 
@@ -420,7 +420,7 @@ namespace ApexCitadels.PC.UI
                 new Vector2(btnX - btnSize, -btnSize/2), new Vector2(btnX, btnSize/2));
 
             btnX -= btnSize + btnSpacing + 10;
-            redoButton = CreateIconButton(topBar, "↪️", () => baseEditor?.Redo(), "Redo (Ctrl+Y)");
+            redoButton = CreateIconButton(topBar, "->", () => baseEditor?.Redo(), "Redo (Ctrl+Y)");
             SetAnchors(redoButton.GetComponent<RectTransform>(), new Vector2(1, 0.5f), new Vector2(1, 0.5f),
                 new Vector2(btnX - btnSize, -btnSize/2), new Vector2(btnX, btnSize/2));
 
@@ -509,7 +509,7 @@ namespace ApexCitadels.PC.UI
             btn.colors = colors;
 
             // Icon
-            string icon = categoryIcons.TryGetValue(category, out string i) ? i : "❓";
+            string icon = categoryIcons.TryGetValue(category, out string i) ? i : "?";
             TextMeshProUGUI iconText = CreateText(rt, icon, 18);
             SetAnchors(iconText.rectTransform, new Vector2(0, 0), new Vector2(1, 1), new Vector2(0, 10), new Vector2(0, 0));
             iconText.alignment = TextAlignmentOptions.Center;
@@ -594,7 +594,7 @@ namespace ApexCitadels.PC.UI
             SetAnchors(toolContainer, new Vector2(0, 1), new Vector2(1, 1), new Vector2(10, -130), new Vector2(-10, -10));
 
             // Header
-            TextMeshProUGUI header = CreateText(toolContainer, "🛠️ TOOLS", 14, FontStyles.Bold);
+            TextMeshProUGUI header = CreateText(toolContainer, "🛠 TOOLS", 14, FontStyles.Bold);
             SetAnchors(header.rectTransform, new Vector2(0, 1), new Vector2(1, 1), new Vector2(0, -25), new Vector2(0, 0));
             header.alignment = TextAlignmentOptions.Center;
 
@@ -634,7 +634,7 @@ namespace ApexCitadels.PC.UI
             colors.selectedColor = BUTTON_SELECTED;
             btn.colors = colors;
 
-            string icon = toolIcons.TryGetValue(tool, out string i) ? i : "❓";
+            string icon = toolIcons.TryGetValue(tool, out string i) ? i : "?";
             TextMeshProUGUI iconText = CreateText(btnObj.GetComponent<RectTransform>(), icon, 22);
             SetAnchors(iconText.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             iconText.alignment = TextAlignmentOptions.Center;
@@ -837,7 +837,7 @@ namespace ApexCitadels.PC.UI
             toggleBtn.targetGraphic = headerBg;
             toggleBtn.onClick.AddListener(ToggleTemplatesPanel);
 
-            TextMeshProUGUI headerText = CreateText(headerRT, "[T] QUICK TEMPLATES ▼", 12, FontStyles.Bold);
+            TextMeshProUGUI headerText = CreateText(headerRT, "[T] QUICK TEMPLATES v", 12, FontStyles.Bold);
             SetAnchors(headerText.rectTransform, Vector2.zero, Vector2.one, new Vector2(10, 0), new Vector2(-10, 0));
             headerText.alignment = TextAlignmentOptions.MidlineLeft;
 
@@ -928,7 +928,7 @@ namespace ApexCitadels.PC.UI
         {
             return category switch
             {
-                TemplateCategory.Starter => "🏠",
+                TemplateCategory.Starter => "[H]",
                 TemplateCategory.Defensive => "[C]",
                 TemplateCategory.Economy => "[$]",
                 TemplateCategory.Advanced => "[P]",

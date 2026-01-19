@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.UI
                     Rewards = new List<ChallengeReward> { new ChallengeReward { Type = ResourceType.Stone, Amount = 3000 } },
                     ExperienceReward = 100,
                     Difficulty = ChallengeDifficulty.Easy,
-                    Icon = "🏗️"
+                    Icon = "[B]"
                 },
                 new DailyChallenge
                 {
@@ -147,7 +147,7 @@ namespace ApexCitadels.PC.UI
                     Rewards = new List<ChallengeReward> { new ChallengeReward { Type = ResourceType.Gold, Amount = 2000 } },
                     ExperienceReward = 80,
                     Difficulty = ChallengeDifficulty.Easy,
-                    Icon = "🤝"
+                    Icon = "[H]"
                 },
                 new DailyChallenge
                 {
@@ -160,7 +160,7 @@ namespace ApexCitadels.PC.UI
                     Rewards = new List<ChallengeReward> { new ChallengeReward { Type = ResourceType.Crystal, Amount = 100 } },
                     ExperienceReward = 150,
                     Difficulty = ChallengeDifficulty.Medium,
-                    Icon = "🔬"
+                    Icon = "[R]"
                 },
                 new DailyChallenge
                 {
@@ -196,7 +196,7 @@ namespace ApexCitadels.PC.UI
                         new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 50 }
                     },
                     ExperienceReward = 1000,
-                    Icon = "👑"
+                    Icon = "[K]"
                 },
                 new WeeklyChallenge
                 {
@@ -235,7 +235,7 @@ namespace ApexCitadels.PC.UI
                 new StreakReward { Day = 5, Reward = new ChallengeReward { Type = ResourceType.Crystal, Amount = 100 }, Icon = "[G]", IsClaimed = true },
                 new StreakReward { Day = 6, Reward = new ChallengeReward { Type = ResourceType.Gold, Amount = 20000 }, Icon = "[$]", IsClaimed = true },
                 new StreakReward { Day = 7, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 50 }, Icon = "[*]", IsClaimed = true },
-                new StreakReward { Day = 14, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 100 }, Icon = "👑", IsClaimed = false, IsMilestone = true },
+                new StreakReward { Day = 14, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 100 }, Icon = "[K]", IsClaimed = false, IsMilestone = true },
                 new StreakReward { Day = 30, Reward = new ChallengeReward { Type = ResourceType.ApexCoins, Amount = 300 }, Icon = "[T]", IsClaimed = false, IsMilestone = true }
             };
         }
@@ -286,7 +286,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(20, 20, 10, 10);
             
             // Title
-            CreateText(header.transform, "📅 DAILY CHALLENGES", 20, TextAlignmentOptions.Left, accentColor);
+            CreateText(header.transform, "[D] DAILY CHALLENGES", 20, TextAlignmentOptions.Left, accentColor);
             
             // Spacer
             GameObject spacer = new GameObject("Spacer");
@@ -339,7 +339,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕";
+            text.text = "[X]";
             text.fontSize = 18;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -447,7 +447,7 @@ namespace ApexCitadels.PC.UI
             
             if (isClaimed)
             {
-                CreateText(dayObj.transform, "✓", 12, TextAlignmentOptions.Center, completedColor);
+                CreateText(dayObj.transform, "[OK]", 12, TextAlignmentOptions.Center, completedColor);
             }
             
             if (isAvailable)
@@ -508,7 +508,7 @@ namespace ApexCitadels.PC.UI
             int dailyRemaining = _dailyChallenges.FindAll(c => !c.IsClaimed).Count;
             int weeklyRemaining = _weeklyChallenges.FindAll(c => !c.IsClaimed).Count;
             
-            CreateTab(tabBar.transform, ChallengeTab.Daily, $"📅 Daily ({dailyRemaining})");
+            CreateTab(tabBar.transform, ChallengeTab.Daily, $"[D] Daily ({dailyRemaining})");
             CreateTab(tabBar.transform, ChallengeTab.Weekly, $"📆 Weekly ({weeklyRemaining})");
             CreateTab(tabBar.transform, ChallengeTab.Special, "[*] Special");
             CreateTab(tabBar.transform, ChallengeTab.Achievements, "[T] Progress");
@@ -844,7 +844,7 @@ namespace ApexCitadels.PC.UI
             
             if (challenge.IsClaimed)
             {
-                label = "✓ Claimed";
+                label = "[OK] Claimed";
                 bgColor = new Color(0.3f, 0.4f, 0.3f);
             }
             else if (challenge.IsCompleted)
@@ -855,7 +855,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                label = "🔓 Go";
+                label = "[U] Go";
                 bgColor = new Color(0.3f, 0.25f, 0.2f);
                 interactable = true;
             }
@@ -987,7 +987,7 @@ namespace ApexCitadels.PC.UI
             
             // Event challenge examples
             CreateSpecialChallengeCard(content.transform, "🎃 Halloween Havoc", "Defeat 50 skeleton warriors", 35, 50, "Limited Time!", new Color(0.6f, 0.3f, 0.8f));
-            CreateSpecialChallengeCard(content.transform, "❄️ Winter Siege", "Capture 3 frozen territories", 1, 3, "3 days left", new Color(0.3f, 0.6f, 0.9f));
+            CreateSpecialChallengeCard(content.transform, "[C] Winter Siege", "Capture 3 frozen territories", 1, 3, "3 days left", new Color(0.3f, 0.6f, 0.9f));
             CreateSpecialChallengeCard(content.transform, "[*] Dragon's Wrath", "Deal 1M damage to world boss", 650000, 1000000, "Community Goal", new Color(0.9f, 0.4f, 0.2f));
         }
 
@@ -1098,10 +1098,10 @@ namespace ApexCitadels.PC.UI
             
             CreateCategoryRow(parent, ChallengeCategory.Combat, "[!] Combat", 45, 60);
             CreateCategoryRow(parent, ChallengeCategory.Resources, "[$] Resources", 38, 50);
-            CreateCategoryRow(parent, ChallengeCategory.Building, "🏗️ Building", 28, 40);
-            CreateCategoryRow(parent, ChallengeCategory.Social, "🤝 Social", 22, 35);
+            CreateCategoryRow(parent, ChallengeCategory.Building, "[B] Building", 28, 40);
+            CreateCategoryRow(parent, ChallengeCategory.Social, "[H] Social", 22, 35);
             CreateCategoryRow(parent, ChallengeCategory.Military, "[M] Military", 15, 30);
-            CreateCategoryRow(parent, ChallengeCategory.Research, "🔬 Research", 8, 25);
+            CreateCategoryRow(parent, ChallengeCategory.Research, "[R] Research", 8, 25);
         }
 
         private void CreateCategoryRow(Transform parent, ChallengeCategory category, string label, int completed, int total)

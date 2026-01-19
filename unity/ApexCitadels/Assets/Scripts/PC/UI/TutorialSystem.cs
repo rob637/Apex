@@ -387,7 +387,7 @@ namespace ApexCitadels.PC.UI
                     new TutorialStep
                     {
                         Title = "Benefits",
-                        Message = "Alliance members can:\n• Help each other in battle\n• Share resources\n• Participate in alliance wars\n• Earn exclusive rewards",
+                        Message = "Alliance members can:\n- Help each other in battle\n- Share resources\n- Participate in alliance wars\n- Earn exclusive rewards",
                         Position = TutorialPosition.Center
                     },
                     new TutorialStep

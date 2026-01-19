@@ -498,7 +498,7 @@ namespace ApexCitadels.PC
                 UI.NotificationSystem.Instance.ShowToast(
                     $"Weather: {GetWeatherDisplayName(_currentWeather)}\n{effects.Description}",
                     UI.ToastNotificationType.Info,
-                    "🌤️ Weather Update"
+                    "🌤 Weather Update"
                 );
             }
             
@@ -798,13 +798,13 @@ namespace ApexCitadels.PC
         {
             return weather switch
             {
-                WeatherType.Clear => "☀️ Clear",
-                WeatherType.Cloudy => "☁️ Cloudy",
-                WeatherType.Rain => "🌧️ Rain",
-                WeatherType.Storm => "⛈️ Storm",
-                WeatherType.Fog => "🌫️ Fog",
-                WeatherType.Snow => "❄️ Snow",
-                WeatherType.Sandstorm => "🏜️ Sandstorm",
+                WeatherType.Clear => "[D] Clear",
+                WeatherType.Cloudy => "[C] Cloudy",
+                WeatherType.Rain => "🌧 Rain",
+                WeatherType.Storm => "[S] Storm",
+                WeatherType.Fog => "🌫 Fog",
+                WeatherType.Snow => "[C] Snow",
+                WeatherType.Sandstorm => "🏜 Sandstorm",
                 WeatherType.Heatwave => "[*] Heatwave",
                 _ => "Unknown"
             };

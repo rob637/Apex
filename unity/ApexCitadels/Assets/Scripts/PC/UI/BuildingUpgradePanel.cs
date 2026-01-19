@@ -230,7 +230,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "stables",
                 Name = "Stables",
                 Category = BuildingCategory.Military,
-                Icon = "🐴",
+                Icon = "[H]",
                 Level = 10,
                 MaxLevel = 20,
                 Description = "Train cavalry units. Fast and powerful in battle.",
@@ -297,7 +297,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "cannonfort",
                 Name = "Cannon Fort",
                 Category = BuildingCategory.Defense,
-                Icon = "💣",
+                Icon = "[X]",
                 Level = 6,
                 MaxLevel = 15,
                 Description = "Powerful defensive cannons. Devastating against siege weapons.",
@@ -331,7 +331,7 @@ namespace ApexCitadels.PC.UI
                 BuildingId = "marketplace",
                 Name = "Marketplace",
                 Category = BuildingCategory.Special,
-                Icon = "🏪",
+                Icon = "[S]",
                 Level = 12,
                 MaxLevel = 20,
                 Description = "Trade resources with other players. Higher levels offer better rates.",
@@ -478,13 +478,13 @@ namespace ApexCitadels.PC.UI
             HorizontalLayoutGroup hlayout = header.AddComponent<HorizontalLayoutGroup>();
             hlayout.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(header.transform, "🏗️ BUILDINGS", 22, TextAlignmentOptions.Left, accentColor);
+            CreateText(header.transform, "[B] BUILDINGS", 22, TextAlignmentOptions.Left, accentColor);
             
             GameObject spacer = new GameObject("Spacer");
             spacer.transform.SetParent(header.transform, false);
             spacer.AddComponent<LayoutElement>().flexibleWidth = 1;
             
-            CreateText(header.transform, $"👷 Builders: {_upgradeQueue.Count}/{_builderCount}", 12, TextAlignmentOptions.Right, 
+            CreateText(header.transform, $"[W] Builders: {_upgradeQueue.Count}/{_builderCount}", 12, TextAlignmentOptions.Right, 
                       _upgradeQueue.Count < _builderCount ? upgradeColor : new Color(0.8f, 0.6f, 0.2f));
         }
 
@@ -543,8 +543,8 @@ namespace ApexCitadels.PC.UI
             infoVL.childAlignment = TextAnchor.MiddleLeft;
             infoVL.spacing = 2;
             
-            CreateText(info.transform, $"{item.Building.Name} → Lv.{item.TargetLevel}", 12, TextAlignmentOptions.Left, Color.white);
-            CreateText(info.transform, $"⏱️ {FormatTime((int)item.TimeRemaining)} remaining", 10, TextAlignmentOptions.Left, new Color(0.6f, 0.8f, 0.6f));
+            CreateText(info.transform, $"{item.Building.Name} -> Lv.{item.TargetLevel}", 12, TextAlignmentOptions.Left, Color.white);
+            CreateText(info.transform, $"[T] {FormatTime((int)item.TimeRemaining)} remaining", 10, TextAlignmentOptions.Left, new Color(0.6f, 0.8f, 0.6f));
             
             // Progress bar
             float progress = 1f - (item.TimeRemaining / item.Building.UpgradeTime);
@@ -752,7 +752,7 @@ namespace ApexCitadels.PC.UI
             // Status indicator
             if (isUpgrading)
             {
-                CreateText(card.transform, "🔨", 12, TextAlignmentOptions.Center, upgradeColor);
+                CreateText(card.transform, "[H]", 12, TextAlignmentOptions.Center, upgradeColor);
             }
             else if (building.ProductionRate > 0)
             {
@@ -851,7 +851,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 18;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -908,7 +908,7 @@ namespace ApexCitadels.PC.UI
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.constraintCount = 2;
             
-            CreateStatItem(stats.transform, "❤️ HP", $"{_selectedBuilding.CurrentHP:N0} / {_selectedBuilding.MaxHP:N0}");
+            CreateStatItem(stats.transform, "[+] HP", $"{_selectedBuilding.CurrentHP:N0} / {_selectedBuilding.MaxHP:N0}");
             
             if (_selectedBuilding.ProductionRate > 0)
             {
@@ -938,7 +938,7 @@ namespace ApexCitadels.PC.UI
             
             if (isUpgrading)
             {
-                CreateSectionLabel("🔨 UPGRADING...");
+                CreateSectionLabel("[H] UPGRADING...");
                 var queue = _upgradeQueue.Find(q => q.Building.BuildingId == _selectedBuilding.BuildingId);
                 
                 GameObject progress = new GameObject("UpgradeProgress");
@@ -954,7 +954,7 @@ namespace ApexCitadels.PC.UI
                 vlayout.childAlignment = TextAnchor.MiddleCenter;
                 vlayout.padding = new RectOffset(10, 10, 10, 10);
                 
-                CreateText(progress.transform, $"⏱️ {FormatTime((int)queue.TimeRemaining)} remaining", 14, TextAlignmentOptions.Center, upgradeColor);
+                CreateText(progress.transform, $"[T] {FormatTime((int)queue.TimeRemaining)} remaining", 14, TextAlignmentOptions.Center, upgradeColor);
                 
                 float prog = 1f - (queue.TimeRemaining / _selectedBuilding.UpgradeTime);
                 CreateMiniProgressBar(progress.transform, prog, upgradeColor);
@@ -962,7 +962,7 @@ namespace ApexCitadels.PC.UI
                 return;
             }
             
-            CreateSectionLabel("⬆️ UPGRADE TO LEVEL " + (_selectedBuilding.Level + 1));
+            CreateSectionLabel("^ UPGRADE TO LEVEL " + (_selectedBuilding.Level + 1));
             
             // Requirements
             if (!string.IsNullOrEmpty(_selectedBuilding.Requirements))
@@ -974,7 +974,7 @@ namespace ApexCitadels.PC.UI
             CreateCostSection();
             
             // Time
-            CreateText(_detailPanel.transform, $"⏱️ Build Time: {FormatTime(_selectedBuilding.UpgradeTime)}", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(_detailPanel.transform, $"[T] Build Time: {FormatTime(_selectedBuilding.UpgradeTime)}", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             
             // Bonuses
             if (_selectedBuilding.Bonuses != null && _selectedBuilding.Bonuses.Length > 0)
@@ -983,7 +983,7 @@ namespace ApexCitadels.PC.UI
                 
                 foreach (var bonus in _selectedBuilding.Bonuses)
                 {
-                    CreateText(_detailPanel.transform, $"• {bonus}", 11, TextAlignmentOptions.Left, upgradeColor);
+                    CreateText(_detailPanel.transform, $"- {bonus}", 11, TextAlignmentOptions.Left, upgradeColor);
                 }
             }
             
@@ -1063,7 +1063,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = canUpgrade ? "⬆️ UPGRADE" : "👷 NO BUILDERS AVAILABLE";
+            text.text = canUpgrade ? "^ UPGRADE" : "[W] NO BUILDERS AVAILABLE";
             text.fontSize = 14;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;

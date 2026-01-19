@@ -175,7 +175,7 @@ namespace ApexCitadels.AR
         /// </summary>
         public void MoveByMeters(float northMeters, float eastMeters)
         {
-            // Approximate conversion (1 degree latitude ≈ 111km)
+            // Approximate conversion (1 degree latitude ~ 111km)
             double latChange = northMeters / 111000.0;
             double lonChange = eastMeters / (111000.0 * Math.Cos(latitude * Math.PI / 180.0));
             
@@ -265,10 +265,10 @@ namespace ApexCitadels.AR
             // Move buttons
             EditorGUILayout.LabelField("Move (100m)", EditorStyles.boldLabel);
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("↑ North")) gps.MoveByMeters(100, 0);
-            if (GUILayout.Button("↓ South")) gps.MoveByMeters(-100, 0);
-            if (GUILayout.Button("← West")) gps.MoveByMeters(0, -100);
-            if (GUILayout.Button("→ East")) gps.MoveByMeters(0, 100);
+            if (GUILayout.Button("^ North")) gps.MoveByMeters(100, 0);
+            if (GUILayout.Button("v South")) gps.MoveByMeters(-100, 0);
+            if (GUILayout.Button("<- West")) gps.MoveByMeters(0, -100);
+            if (GUILayout.Button("-> East")) gps.MoveByMeters(0, 100);
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();

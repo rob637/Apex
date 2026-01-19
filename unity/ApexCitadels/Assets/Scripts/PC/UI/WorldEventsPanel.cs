@@ -120,7 +120,7 @@ namespace ApexCitadels.PC.UI
             _upcomingEvents.Add(new WorldEvent
             {
                 EventId = "EVENT_004",
-                Name = "❄️ Winter Siege",
+                Name = "[C] Winter Siege",
                 Description = "The northern armies march south! Defend your territories from the winter invasion.",
                 Type = WorldEventType.Seasonal,
                 StartTime = DateTime.Now.AddDays(2),
@@ -213,7 +213,7 @@ namespace ApexCitadels.PC.UI
             title.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "🌍 WORLD EVENTS";
+            titleText.text = "[W] WORLD EVENTS";
             titleText.fontSize = 28;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;
@@ -242,7 +242,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -419,7 +419,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 5;
             
             CreateTab(tabs.transform, EventTab.Active, $"[*] Active ({_activeEvents.Count})");
-            CreateTab(tabs.transform, EventTab.Upcoming, $"📅 Upcoming ({_upcomingEvents.Count})");
+            CreateTab(tabs.transform, EventTab.Upcoming, $"[D] Upcoming ({_upcomingEvents.Count})");
             CreateTab(tabs.transform, EventTab.Completed, "[OK] Completed");
             CreateTab(tabs.transform, EventTab.Rewards, "[?] Rewards");
         }
@@ -599,7 +599,7 @@ namespace ApexCitadels.PC.UI
                 string startStr = until.TotalDays >= 1 
                     ? $"Starts in {(int)until.TotalDays}d {until.Hours}h" 
                     : $"Starts in {until.Hours}h {until.Minutes}m";
-                CreateText(info.transform, $"📅 {startStr}", 11, TextAlignmentOptions.Left, accentColor);
+                CreateText(info.transform, $"[D] {startStr}", 11, TextAlignmentOptions.Left, accentColor);
             }
             else
             {
@@ -814,7 +814,7 @@ namespace ApexCitadels.PC.UI
             infoVL.childAlignment = TextAnchor.MiddleLeft;
             
             CreateText(info.transform, $"<b>{reward.Name}</b>", 14, TextAlignmentOptions.Left, Color.white);
-            CreateText(info.transform, $"<color=#{ColorUtility.ToHtmlStringRGB(rarityColor)}>{reward.Rarity}</color> • From: {evt.Name}", 11, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(info.transform, $"<color=#{ColorUtility.ToHtmlStringRGB(rarityColor)}>{reward.Rarity}</color> - From: {evt.Name}", 11, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             // Claim button
             CreateSmallButton(item.transform, "Claim!", () => ClaimReward(evt, reward), goldColor);
@@ -833,7 +833,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
-            CreateText(item.transform, "✓", 16, TextAlignmentOptions.Center, new Color(0.3f, 0.6f, 0.3f));
+            CreateText(item.transform, "[OK]", 16, TextAlignmentOptions.Center, new Color(0.3f, 0.6f, 0.3f));
             CreateText(item.transform, reward.Icon, 20, TextAlignmentOptions.Center);
             
             GameObject nameObj = CreateText(item.transform, reward.Name, 13, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));

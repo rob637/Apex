@@ -191,7 +191,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✏️ Compose";
+            text.text = "[E] Compose";
             text.fontSize = 16;
             text.fontStyle = FontStyles.Bold;
             text.color = Color.white;
@@ -225,7 +225,7 @@ namespace ApexCitadels.PC.UI
             xtRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI x = closeText.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.color = Color.white;
             x.alignment = TextAlignmentOptions.Center;
@@ -497,7 +497,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement headerLE = headerObj.AddComponent<LayoutElement>();
             headerLE.preferredHeight = 20;
             TextMeshProUGUI header = headerObj.AddComponent<TextMeshProUGUI>();
-            header.text = "📎 Attachments";
+            header.text = "[A] Attachments";
             header.fontSize = 12;
             header.fontStyle = FontStyles.Bold;
             header.color = attachmentColor;
@@ -520,7 +520,7 @@ namespace ApexCitadels.PC.UI
             
             CreateActionButton(actionsRow.transform, "[U] Reply", OnReplyClicked, accentColor);
             CreateActionButton(actionsRow.transform, "[D] Delete", OnDeleteClicked, new Color(0.6f, 0.3f, 0.3f));
-            CreateActionButton(actionsRow.transform, "📎 Claim All", OnClaimAllClicked, attachmentColor);
+            CreateActionButton(actionsRow.transform, "[A] Claim All", OnClaimAllClicked, attachmentColor);
         }
 
         private Button CreateActionButton(Transform parent, string label, Action onClick, Color color)
@@ -591,7 +591,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement titleLE = titleObj.AddComponent<LayoutElement>();
             titleLE.flexibleWidth = 1;
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "✏️ New Message";
+            title.text = "[E] New Message";
             title.fontSize = 20;
             title.fontStyle = FontStyles.Bold;
             title.color = accentColor;
@@ -615,7 +615,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI closeX = textObj.AddComponent<TextMeshProUGUI>();
-            closeX.text = "✕";
+            closeX.text = "[X]";
             closeX.fontSize = 18;
             closeX.color = Color.white;
             closeX.alignment = TextAlignmentOptions.Center;
@@ -695,7 +695,7 @@ namespace ApexCitadels.PC.UI
             attachHL.spacing = 10;
             attachHL.padding = new RectOffset(10, 10, 5, 5);
             
-            _attachButton = CreateComposeActionButton(_composeAttachments.transform, "📎 Add Attachment", OnAddAttachment, new Color(0.3f, 0.3f, 0.4f));
+            _attachButton = CreateComposeActionButton(_composeAttachments.transform, "[A] Add Attachment", OnAddAttachment, new Color(0.3f, 0.3f, 0.4f));
             
             // Send row
             GameObject sendRow = new GameObject("SendRow");
@@ -1000,7 +1000,7 @@ namespace ApexCitadels.PC.UI
                 LayoutElement indLE = indicator.AddComponent<LayoutElement>();
                 indLE.preferredWidth = 15;
                 TextMeshProUGUI ind = indicator.AddComponent<TextMeshProUGUI>();
-                ind.text = "●";
+                ind.text = "o";
                 ind.fontSize = 10;
                 ind.color = mail.IsSystem ? systemColor : accentColor;
             }
@@ -1033,7 +1033,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement subjectLE = subjectObj.AddComponent<LayoutElement>();
             subjectLE.preferredHeight = 20;
             TextMeshProUGUI subject = subjectObj.AddComponent<TextMeshProUGUI>();
-            string icon = mail.Attachments?.Count > 0 ? "📎 " : "";
+            string icon = mail.Attachments?.Count > 0 ? "[A] " : "";
             subject.text = $"{icon}{mail.Subject}";
             subject.fontSize = 13;
             subject.fontStyle = mail.IsRead ? FontStyles.Normal : FontStyles.Bold;
@@ -1268,7 +1268,7 @@ namespace ApexCitadels.PC.UI
             int unreadSystem = _system.Count(m => !m.IsRead);
             int total = unreadInbox + unreadSystem;
             
-            _unreadCounter.text = total > 0 ? $"📧 {total} unread" : "📭 No unread mail";
+            _unreadCounter.text = total > 0 ? $"[M] {total} unread" : "📭 No unread mail";
         }
 
         #endregion
@@ -1292,7 +1292,7 @@ namespace ApexCitadels.PC.UI
                 AttachmentType.Resource => "[B]",
                 AttachmentType.Item => "[?]",
                 AttachmentType.Troop => "[!]",
-                _ => "📎"
+                _ => "[A]"
             };
         }
 

@@ -288,7 +288,7 @@ namespace ApexCitadels.PC.UI
             GameObject closeText = new GameObject("X");
             closeText.transform.SetParent(closeObj.transform, false);
             TextMeshProUGUI closeTMP = closeText.AddComponent<TextMeshProUGUI>();
-            closeTMP.text = "✕";
+            closeTMP.text = "[X]";
             closeTMP.fontSize = 24;
             closeTMP.alignment = TextAlignmentOptions.Center;
             closeTMP.color = Color.white;
@@ -316,7 +316,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "[H] Mounts", "🐾 Pets", "🏠 Stable", "💕 Breeding", "[M] Shop" };
+            string[] tabNames = { "[H] Mounts", "[P] Pets", "[H] Stable", "💕 Breeding", "[M] Shop" };
             CompanionTab[] tabValues = { CompanionTab.Mounts, CompanionTab.Pets, CompanionTab.Stable, CompanionTab.Breeding, CompanionTab.Shop };
 
             for (int i = 0; i < tabNames.Length; i++)
@@ -674,9 +674,9 @@ namespace ApexCitadels.PC.UI
             // Action buttons
             CreateActionButton(actionObj.transform, "🎠 Equip", EquipCompanion, new Color(0.3f, 0.5f, 0.3f));
             CreateActionButton(actionObj.transform, "🍖 Feed", FeedCompanion, new Color(0.5f, 0.4f, 0.2f));
-            CreateActionButton(actionObj.transform, "✏️ Rename", RenameCompanion, new Color(0.3f, 0.4f, 0.5f));
-            CreateActionButton(actionObj.transform, "⬆️ Level Up", LevelUpCompanion, new Color(0.4f, 0.5f, 0.2f));
-            CreateActionButton(actionObj.transform, "🏠 To Stable", SendToStable, new Color(0.4f, 0.3f, 0.3f));
+            CreateActionButton(actionObj.transform, "[E] Rename", RenameCompanion, new Color(0.3f, 0.4f, 0.5f));
+            CreateActionButton(actionObj.transform, "^ Level Up", LevelUpCompanion, new Color(0.4f, 0.5f, 0.2f));
+            CreateActionButton(actionObj.transform, "[H] To Stable", SendToStable, new Color(0.4f, 0.3f, 0.3f));
             CreateActionButton(actionObj.transform, "💔 Release", ReleaseCompanion, new Color(0.5f, 0.2f, 0.2f));
         }
 
@@ -944,7 +944,7 @@ namespace ApexCitadels.PC.UI
                 GameObject equippedObj = new GameObject("Equipped");
                 equippedObj.transform.SetParent(iconObj.transform, false);
                 TextMeshProUGUI equippedTMP = equippedObj.AddComponent<TextMeshProUGUI>();
-                equippedTMP.text = "✓";
+                equippedTMP.text = "[OK]";
                 equippedTMP.fontSize = 18;
                 equippedTMP.color = new Color(0.3f, 1f, 0.3f);
                 equippedTMP.alignment = TextAlignmentOptions.TopRight;
@@ -1003,7 +1003,7 @@ namespace ApexCitadels.PC.UI
                     MountType.Horse => "[H]",
                     MountType.Wolf => "🐺",
                     MountType.Bear => "🐻",
-                    MountType.Griffin => "🦅",
+                    MountType.Griffin => "[E]",
                     MountType.Dragon => "🐉",
                     MountType.Phoenix => "[*]",
                     MountType.Unicorn => "🦄",
@@ -1019,13 +1019,13 @@ namespace ApexCitadels.PC.UI
                     PetType.Cat => "🐱",
                     PetType.Dog => "🐕",
                     PetType.Owl => "🦉",
-                    PetType.Falcon => "🦅",
+                    PetType.Falcon => "[E]",
                     PetType.Fox => "🦊",
                     PetType.Spirit => "👻",
                     PetType.Imp => "😈",
                     PetType.Golem => "[*]",
                     PetType.Fairy => "🧚",
-                    _ => "🐾"
+                    _ => "[P]"
                 };
             }
         }
@@ -1078,20 +1078,20 @@ namespace ApexCitadels.PC.UI
             // Build stats text
             string stats = $"<b>Type:</b> {(c.isMount ? c.mountType.ToString() : c.petType.ToString())}\n\n";
             stats += $"<b>Bonuses:</b>\n";
-            if (c.speedBonus > 0) stats += $"  • Speed: +{c.speedBonus}%\n";
-            if (c.combatBonus > 0) stats += $"  • Combat: +{c.combatBonus}%\n";
-            if (c.gatherBonus > 0) stats += $"  • Gathering: +{c.gatherBonus}%\n";
+            if (c.speedBonus > 0) stats += $"  - Speed: +{c.speedBonus}%\n";
+            if (c.combatBonus > 0) stats += $"  - Combat: +{c.combatBonus}%\n";
+            if (c.gatherBonus > 0) stats += $"  - Gathering: +{c.gatherBonus}%\n";
             
             stats += $"\n<b>Abilities:</b>\n";
             foreach (var ability in c.abilities)
             {
-                stats += $"  • {ability}\n";
+                stats += $"  - {ability}\n";
             }
             
             stats += $"\n<b>Traits:</b>\n";
             foreach (var trait in c.traits)
             {
-                stats += $"  • {trait}\n";
+                stats += $"  - {trait}\n";
             }
 
             companionStatsText.text = stats;

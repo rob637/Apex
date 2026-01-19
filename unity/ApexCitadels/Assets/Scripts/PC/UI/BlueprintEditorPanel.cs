@@ -324,7 +324,7 @@ namespace ApexCitadels.PC.UI
             GameObject closeText = new GameObject("X");
             closeText.transform.SetParent(closeObj.transform, false);
             TextMeshProUGUI closeTMP = closeText.AddComponent<TextMeshProUGUI>();
-            closeTMP.text = "✕";
+            closeTMP.text = "[X]";
             closeTMP.fontSize = 22;
             closeTMP.alignment = TextAlignmentOptions.Center;
             closeTMP.color = Color.white;
@@ -364,7 +364,7 @@ namespace ApexCitadels.PC.UI
             GameObject placeholder = new GameObject("Placeholder");
             placeholder.transform.SetParent(textArea.transform, false);
             TextMeshProUGUI placeholderTMP = placeholder.AddComponent<TextMeshProUGUI>();
-            placeholderTMP.text = "🔍 Search blueprints...";
+            placeholderTMP.text = "[?] Search blueprints...";
             placeholderTMP.fontSize = 14;
             placeholderTMP.color = new Color(0.5f, 0.5f, 0.5f);
             placeholderTMP.alignment = TextAlignmentOptions.Left;
@@ -409,7 +409,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "📁 My Blueprints", "🌐 Community", "✏️ Editor", "[T] Templates" };
+            string[] tabNames = { "[F] My Blueprints", "[W] Community", "[E] Editor", "[T] Templates" };
             BlueprintTab[] tabValues = { BlueprintTab.MyBlueprints, BlueprintTab.Community, BlueprintTab.Editor, BlueprintTab.Templates };
 
             for (int i = 0; i < tabNames.Length; i++)
@@ -802,7 +802,7 @@ namespace ApexCitadels.PC.UI
                 GameObject catHeader = new GameObject(category.ToString());
                 catHeader.transform.SetParent(parent, false);
                 TextMeshProUGUI catTMP = catHeader.AddComponent<TextMeshProUGUI>();
-                catTMP.text = $"── {category} ──";
+                catTMP.text = $"-- {category} --";
                 catTMP.fontSize = 12;
                 catTMP.fontStyle = FontStyles.Bold;
                 catTMP.color = GetCategoryColor(category);
@@ -1134,7 +1134,7 @@ namespace ApexCitadels.PC.UI
                 GameObject communityObj = new GameObject("Community");
                 communityObj.transform.SetParent(itemObj.transform, false);
                 TextMeshProUGUI communityTMP = communityObj.AddComponent<TextMeshProUGUI>();
-                communityTMP.text = $"❤️ {blueprint.likes} | ⬇️ {blueprint.downloads}";
+                communityTMP.text = $"[+] {blueprint.likes} | v {blueprint.downloads}";
                 communityTMP.fontSize = 10;
                 communityTMP.color = new Color(0.5f, 0.6f, 0.7f);
                 LayoutElement communityLE = communityObj.AddComponent<LayoutElement>();

@@ -108,8 +108,8 @@ namespace ApexCitadels.PC.UI
         {
             { TroopType.Infantry, "[!]" },
             { TroopType.Archer, "[A]" },
-            { TroopType.Cavalry, "🐴" },
-            { TroopType.Siege, "💣" },
+            { TroopType.Cavalry, "[H]" },
+            { TroopType.Siege, "[X]" },
             { TroopType.Mage, "🔮" },
             { TroopType.Guardian, "[D]" }
         };
@@ -222,7 +222,7 @@ namespace ApexCitadels.PC.UI
             capacityText.color = TEXT_SECONDARY;
 
             // Close button
-            Button closeBtn = CreateIconButton(headerPanel, "✕", Hide, "Close");
+            Button closeBtn = CreateIconButton(headerPanel, "[X]", Hide, "Close");
             SetAnchors(closeBtn.GetComponent<RectTransform>(), new Vector2(1, 0.5f), new Vector2(1, 0.5f), 
                 new Vector2(-50, -20), new Vector2(-10, 20));
         }
@@ -245,7 +245,7 @@ namespace ApexCitadels.PC.UI
             // Create tab buttons
             CreateTabButton(tabsRT, TrainingTab.Train, "[M] Train", "Train new troops");
             CreateTabButton(tabsRT, TrainingTab.Army, "[P] Army", "View your army");
-            CreateTabButton(tabsRT, TrainingTab.Upgrades, "⬆️ Upgrades", "Research upgrades");
+            CreateTabButton(tabsRT, TrainingTab.Upgrades, "^ Upgrades", "Research upgrades");
             CreateTabButton(tabsRT, TrainingTab.Formations, "[T] Formations", "Battle formations");
         }
 
@@ -334,7 +334,7 @@ namespace ApexCitadels.PC.UI
             RectTransform cardRT = cardObj.GetComponent<RectTransform>();
 
             // Type icon (large)
-            string icon = troopIcons.TryGetValue(type, out string i) ? i : "❓";
+            string icon = troopIcons.TryGetValue(type, out string i) ? i : "?";
             TextMeshProUGUI iconText = CreateText(cardRT, icon, 36);
             SetAnchors(iconText.rectTransform, new Vector2(0, 0.65f), new Vector2(1, 0.95f), Vector2.zero, Vector2.zero);
 
@@ -344,7 +344,7 @@ namespace ApexCitadels.PC.UI
             nameText.color = troopColors.TryGetValue(type, out Color c) ? c : TEXT_PRIMARY;
 
             // Stats row
-            TextMeshProUGUI statsText = CreateText(cardRT, $"[!]{def.BaseAttack} [D]{def.BaseDefense} ❤️{def.BaseHealth}", 10);
+            TextMeshProUGUI statsText = CreateText(cardRT, $"[!]{def.BaseAttack} [D]{def.BaseDefense} [+]{def.BaseHealth}", 10);
             SetAnchors(statsText.rectTransform, new Vector2(0, 0.40f), new Vector2(1, 0.52f), Vector2.zero, Vector2.zero);
             statsText.color = TEXT_SECONDARY;
 
@@ -356,7 +356,7 @@ namespace ApexCitadels.PC.UI
 
             // Time
             string timeStr = FormatTime(def.TrainingTimeSeconds);
-            TextMeshProUGUI timeText = CreateText(cardRT, $"⏱️ {timeStr}", 10);
+            TextMeshProUGUI timeText = CreateText(cardRT, $"[T] {timeStr}", 10);
             SetAnchors(timeText.rectTransform, new Vector2(0, 0.16f), new Vector2(1, 0.28f), Vector2.zero, Vector2.zero);
             timeText.color = TEXT_SECONDARY;
 
@@ -505,7 +505,7 @@ namespace ApexCitadels.PC.UI
             RectTransform cardRT = cardObj.GetComponent<RectTransform>();
 
             // Left side - icon
-            string icon = troopIcons.TryGetValue(type, out string i) ? i : "❓";
+            string icon = troopIcons.TryGetValue(type, out string i) ? i : "?";
             TextMeshProUGUI iconText = CreateText(cardRT, icon, 40);
             SetAnchors(iconText.rectTransform, new Vector2(0, 0), new Vector2(0.25f, 1), Vector2.zero, Vector2.zero);
 
@@ -524,7 +524,7 @@ namespace ApexCitadels.PC.UI
             countText.name = $"Count_{type}";
 
             // Stats
-            TextMeshProUGUI statsText = CreateText(cardRT, $"[!]{def.BaseAttack}  [D]{def.BaseDefense}  ❤️{def.BaseHealth}", 11);
+            TextMeshProUGUI statsText = CreateText(cardRT, $"[!]{def.BaseAttack}  [D]{def.BaseDefense}  [+]{def.BaseHealth}", 11);
             SetAnchors(statsText.rectTransform, new Vector2(0.28f, 0.35f), new Vector2(1, 0.6f), Vector2.zero, Vector2.zero);
             statsText.alignment = TextAlignmentOptions.MidlineLeft;
             statsText.color = TEXT_SECONDARY;
@@ -547,7 +547,7 @@ namespace ApexCitadels.PC.UI
             upgradesPanel.gameObject.SetActive(false);
 
             // Coming soon message
-            TextMeshProUGUI comingSoon = CreateText(upgradesPanel, "🔬 TROOP UPGRADES\n\nComing Soon!\n\nResearch upgrades to improve your troops:\n• Increased Attack\n• Improved Defense\n• Better Health\n• Faster Training", 18);
+            TextMeshProUGUI comingSoon = CreateText(upgradesPanel, "[R] TROOP UPGRADES\n\nComing Soon!\n\nResearch upgrades to improve your troops:\n- Increased Attack\n- Improved Defense\n- Better Health\n- Faster Training", 18);
             SetAnchors(comingSoon.rectTransform, Vector2.zero, Vector2.one, new Vector2(20, 20), new Vector2(-20, -20));
             comingSoon.color = TEXT_SECONDARY;
         }
@@ -560,7 +560,7 @@ namespace ApexCitadels.PC.UI
             formationsPanel.gameObject.SetActive(false);
 
             // Coming soon message
-            TextMeshProUGUI comingSoon = CreateText(formationsPanel, "[T] BATTLE FORMATIONS\n\nComing Soon!\n\nCreate and save battle formations:\n• Defensive Wall\n• Flanking Assault\n• Siege Formation\n• Balanced Attack", 18);
+            TextMeshProUGUI comingSoon = CreateText(formationsPanel, "[T] BATTLE FORMATIONS\n\nComing Soon!\n\nCreate and save battle formations:\n- Defensive Wall\n- Flanking Assault\n- Siege Formation\n- Balanced Attack", 18);
             SetAnchors(comingSoon.rectTransform, Vector2.zero, Vector2.one, new Vector2(20, 20), new Vector2(-20, -20));
             comingSoon.color = TEXT_SECONDARY;
         }
@@ -639,7 +639,7 @@ namespace ApexCitadels.PC.UI
             bg.color = CARD_BG;
 
             // Icon
-            string icon = troopIcons.TryGetValue(item.Type, out string i) ? i : "❓";
+            string icon = troopIcons.TryGetValue(item.Type, out string i) ? i : "?";
             TextMeshProUGUI iconText = CreateText(itemRT, icon, 24);
             SetAnchors(iconText.rectTransform, new Vector2(0, 0.5f), new Vector2(0.35f, 1), Vector2.zero, Vector2.zero);
 
@@ -672,7 +672,7 @@ namespace ApexCitadels.PC.UI
             timeText.name = $"Time_{item.Id}";
 
             // Cancel button
-            Button cancelBtn = CreateIconButton(itemRT, "✕", () => CancelTraining(item.Id), "Cancel");
+            Button cancelBtn = CreateIconButton(itemRT, "[X]", () => CancelTraining(item.Id), "Cancel");
             SetAnchors(cancelBtn.GetComponent<RectTransform>(), new Vector2(1, 1), new Vector2(1, 1), 
                 new Vector2(-25, -25), new Vector2(-5, -5));
 

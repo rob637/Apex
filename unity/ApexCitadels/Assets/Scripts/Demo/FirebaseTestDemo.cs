@@ -49,17 +49,17 @@ namespace ApexCitadels.Demo
                 {
                     _db = FirebaseFirestore.DefaultInstance;
                     _firebaseReady = true;
-                    SetStatus("✓ Firebase Ready!\n\nTap 'Write Test' to save data\nTap 'Read Test' to load data");
+                    SetStatus("[OK] Firebase Ready!\n\nTap 'Write Test' to save data\nTap 'Read Test' to load data");
                     ApexLogger.Log("Firebase initialized successfully!", LogCategory.General);
                 }
                 else
                 {
-                    SetStatus($"✗ Firebase Error: {task.Result}");
+                    SetStatus($"[X] Firebase Error: {task.Result}");
                     ApexLogger.LogError($"Could not resolve Firebase dependencies: {task.Result}", LogCategory.General);
                 }
             });
 #else
-            SetStatus("Firebase not enabled.\n\nAdd FIREBASE_ENABLED to\nPlayer Settings → Scripting Define Symbols");
+            SetStatus("Firebase not enabled.\n\nAdd FIREBASE_ENABLED to\nPlayer Settings -> Scripting Define Symbols");
             ApexLogger.LogWarning("Firebase is not enabled. Add FIREBASE_ENABLED to Scripting Define Symbols.", ApexLogger.LogCategory.General);
 #endif
         }
@@ -87,12 +87,12 @@ namespace ApexCitadels.Demo
             {
                 if (task.IsCompleted && !task.IsFaulted)
                 {
-                    SetStatus("✓ Write successful!\n\nData saved to Firestore.\nCheck Firebase Console to see it.\n\nTap 'Read Test' to read it back.");
+                    SetStatus("[OK] Write successful!\n\nData saved to Firestore.\nCheck Firebase Console to see it.\n\nTap 'Read Test' to read it back.");
                     ApexLogger.Log("Test data written to Firestore!", LogCategory.General);
                 }
                 else
                 {
-                    SetStatus($"✗ Write failed:\n{task.Exception?.Message}");
+                    SetStatus($"[X] Write failed:\n{task.Exception?.Message}");
                     ApexLogger.LogError($"Failed to write test data: {task.Exception}", LogCategory.General);
                 }
             });
@@ -123,7 +123,7 @@ namespace ApexCitadels.Demo
                         string message = data.ContainsKey("message") ? data["message"].ToString() : "N/A";
                         string testNum = data.ContainsKey("testNumber") ? data["testNumber"].ToString() : "N/A";
                         
-                        SetStatus($"✓ Read successful!\n\nMessage: {message}\nTest #: {testNum}\n\n Firebase is working!");
+                        SetStatus($"[OK] Read successful!\n\nMessage: {message}\nTest #: {testNum}\n\n Firebase is working!");
                         ApexLogger.Log($"Read from Firestore: {message}", LogCategory.General);
                     }
                     else
@@ -133,7 +133,7 @@ namespace ApexCitadels.Demo
                 }
                 else
                 {
-                    SetStatus($"✗ Read failed:\n{task.Exception?.Message}");
+                    SetStatus($"[X] Read failed:\n{task.Exception?.Message}");
                     ApexLogger.LogError($"Failed to read test data: {task.Exception}", LogCategory.General);
                 }
             });

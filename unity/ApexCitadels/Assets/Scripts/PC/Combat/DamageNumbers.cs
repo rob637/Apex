@@ -237,7 +237,7 @@ namespace ApexCitadels.PC.Combat
         {
             var instance = GetFromPool();
             
-            instance.Text.text = unitName != null ? $"☠ {unitName}" : "☠ KILL";
+            instance.Text.text = unitName != null ? $"[X] {unitName}" : "[X] KILL";
             instance.Text.color = new Color(1f, 0.2f, 0.2f);
             instance.Text.fontSize = 2.2f;
             

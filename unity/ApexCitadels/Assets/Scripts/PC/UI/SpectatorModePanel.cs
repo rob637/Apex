@@ -178,7 +178,7 @@ namespace ApexCitadels.PC.UI
             titleRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI title = titleObj.AddComponent<TextMeshProUGUI>();
-            title.text = "👁️ SPECTATOR MODE";
+            title.text = "[E] SPECTATOR MODE";
             title.fontSize = 24;
             title.fontStyle = FontStyles.Bold;
             title.color = accentColor;
@@ -206,7 +206,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI liveText = textObj.AddComponent<TextMeshProUGUI>();
-            liveText.text = "🔴 LIVE";
+            liveText.text = "[R] LIVE";
             liveText.fontSize = 14;
             liveText.fontStyle = FontStyles.Bold;
             liveText.color = Color.white;
@@ -259,7 +259,7 @@ namespace ApexCitadels.PC.UI
             xtRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI x = closeText.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 22;
             x.color = Color.white;
             x.alignment = TextAlignmentOptions.Center;
@@ -287,7 +287,7 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             
             _featuredTab = CreateTabButton(tabBar.transform, "[*] Featured", () => ShowTab(SpectatorTab.Featured));
-            _liveTab = CreateTabButton(tabBar.transform, "🔴 All Live", () => ShowTab(SpectatorTab.Live));
+            _liveTab = CreateTabButton(tabBar.transform, "[R] All Live", () => ShowTab(SpectatorTab.Live));
             _friendsTab = CreateTabButton(tabBar.transform, "[P] Friends", () => ShowTab(SpectatorTab.Friends));
             
             UpdateTabHighlights();
@@ -568,7 +568,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement viewerLE = viewerObj.AddComponent<LayoutElement>();
             viewerLE.preferredHeight = 15;
             _viewerCount = viewerObj.AddComponent<TextMeshProUGUI>();
-            _viewerCount.text = "👁️ 0 watching";
+            _viewerCount.text = "[E] 0 watching";
             _viewerCount.fontSize = 10;
             _viewerCount.color = new Color(0.5f, 0.5f, 0.5f);
             _viewerCount.alignment = TextAlignmentOptions.Center;
@@ -596,7 +596,7 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = false;
             
             // Pause button
-            _pauseButton = CreateControlButton(bottomPanel.transform, "⏸️", OnPauseClicked, 40);
+            _pauseButton = CreateControlButton(bottomPanel.transform, "||", OnPauseClicked, 40);
             
             // Speed slider
             CreateSpeedSlider(bottomPanel.transform);
@@ -605,10 +605,10 @@ namespace ApexCitadels.PC.UI
             _screenshotButton = CreateControlButton(bottomPanel.transform, "📷", OnScreenshotClicked, 40);
             
             // Record
-            _recordButton = CreateControlButton(bottomPanel.transform, "🔴", OnRecordClicked, 40);
+            _recordButton = CreateControlButton(bottomPanel.transform, "[R]", OnRecordClicked, 40);
             
             // Exit
-            _exitButton = CreateControlButton(bottomPanel.transform, "✕ Exit", OnExitSpectatorClicked, 70);
+            _exitButton = CreateControlButton(bottomPanel.transform, "[X] Exit", OnExitSpectatorClicked, 70);
         }
 
         private Button CreateControlButton(Transform parent, string label, Action onClick, float width)
@@ -968,7 +968,7 @@ namespace ApexCitadels.PC.UI
             GameObject viewersObj = new GameObject("Viewers");
             viewersObj.transform.SetParent(infoObj.transform, false);
             TextMeshProUGUI viewers = viewersObj.AddComponent<TextMeshProUGUI>();
-            viewers.text = $"👁️ {battle.ViewerCount}";
+            viewers.text = $"[E] {battle.ViewerCount}";
             viewers.fontSize = 12;
             viewers.color = new Color(0.7f, 0.7f, 0.7f);
             viewers.alignment = TextAlignmentOptions.Right;
@@ -1017,7 +1017,7 @@ namespace ApexCitadels.PC.UI
             _player2Health.value = battle.Player2Health;
             _player1Score.text = $"Score: {battle.Player1Score}";
             _player2Score.text = $"Score: {battle.Player2Score}";
-            _viewerCount.text = $"👁️ {battle.ViewerCount} watching";
+            _viewerCount.text = $"[E] {battle.ViewerCount} watching";
             
             _browsePanel.SetActive(false);
             _watchPanel.SetActive(true);
@@ -1098,7 +1098,7 @@ namespace ApexCitadels.PC.UI
             var text = _pauseButton.GetComponent<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = _isPaused ? "▶️" : "⏸️";
+                text.text = _isPaused ? ">" : "||";
             }
         }
 
@@ -1138,7 +1138,7 @@ namespace ApexCitadels.PC.UI
             var text = _recordButton.GetComponent<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = _isRecording ? "⏹️" : "🔴";
+                text.text = _isRecording ? "[S]" : "[R]";
             }
             
             NotificationSystem.Instance?.ShowInfo(_isRecording ? "Recording started..." : "Recording stopped");

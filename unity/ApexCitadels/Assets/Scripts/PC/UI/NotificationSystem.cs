@@ -222,7 +222,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI closeText = textObj.AddComponent<TextMeshProUGUI>();
-            closeText.text = "✕";
+            closeText.text = "[X]";
             closeText.fontSize = 16;
             closeText.alignment = TextAlignmentOptions.Center;
             closeText.color = new Color(0.5f, 0.5f, 0.5f);
@@ -326,7 +326,7 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                ToastNotificationType.Info => "ℹ️",
+                ToastNotificationType.Info => "[i]",
                 ToastNotificationType.Success => "[OK]",
                 ToastNotificationType.Warning => "[!]",
                 ToastNotificationType.Error => "[X]",
@@ -335,8 +335,8 @@ namespace ApexCitadels.PC.UI
                 ToastNotificationType.Alliance => "[D]",
                 ToastNotificationType.Quest => "[T]",
                 ToastNotificationType.Achievement => "[T]",
-                ToastNotificationType.LevelUp => "⬆️",
-                _ => "📢"
+                ToastNotificationType.LevelUp => "^",
+                _ => "[!]"
             };
         }
 

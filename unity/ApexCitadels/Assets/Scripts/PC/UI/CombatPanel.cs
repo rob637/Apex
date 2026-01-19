@@ -183,7 +183,7 @@ namespace ApexCitadels.PC.UI
             txt.transform.SetParent(closeBtn.transform, false);
             
             TextMeshProUGUI x = txt.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.alignment = TextAlignmentOptions.Center;
             
@@ -400,10 +400,10 @@ namespace ApexCitadels.PC.UI
             {
                 TroopType.Infantry => "[W]",
                 TroopType.Archer => "[A]",
-                TroopType.Cavalry => "🐴",
-                TroopType.Siege => "💣",
+                TroopType.Cavalry => "[H]",
+                TroopType.Siege => "[X]",
                 TroopType.Elite => "[!]",
-                _ => "👤"
+                _ => "[U]"
             };
         }
 
@@ -479,7 +479,7 @@ namespace ApexCitadels.PC.UI
             chanceObj.transform.SetParent(preview.transform, false);
             
             _winChanceText = chanceObj.AddComponent<TextMeshProUGUI>();
-            _winChanceText.text = "🎲 Win Chance: 50%";
+            _winChanceText.text = "[D] Win Chance: 50%";
             _winChanceText.fontSize = 14;
             _winChanceText.alignment = TextAlignmentOptions.Center;
             
@@ -503,7 +503,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(50, 50, 10, 10);
             
             // Scout button
-            CreateActionButton(actions.transform, "🔍 SCOUT (50g)", ScoutTerritory, new Color(0.3f, 0.5f, 0.7f));
+            CreateActionButton(actions.transform, "[?] SCOUT (50g)", ScoutTerritory, new Color(0.3f, 0.5f, 0.7f));
             
             // Attack button
             _attackButton = CreateActionButton(actions.transform, "[!] ATTACK!", LaunchAttack, new Color(0.8f, 0.2f, 0.2f));
@@ -775,7 +775,7 @@ namespace ApexCitadels.PC.UI
             
             float winChance = Mathf.Clamp01((float)attackPower / (attackPower + defensePower));
             _winChanceBar.rectTransform.anchorMax = new Vector2(winChance, 1f);
-            _winChanceText.text = $"🎲 Win Chance: {winChance * 100:F0}%";
+            _winChanceText.text = $"[D] Win Chance: {winChance * 100:F0}%";
             
             // Color based on odds
             if (winChance > 0.7f)
@@ -938,7 +938,7 @@ namespace ApexCitadels.PC.UI
                 0 => new[] { // Opening Volley
                     ("[A] Archers rain arrows on the walls!", BattleEventType.ArcherVolley),
                     ("[*] Fire arrows ignite the towers!", BattleEventType.FireAttack),
-                    ("💣 Siege weapons launch their payload!", BattleEventType.SiegeWeapon),
+                    ("[X] Siege weapons launch their payload!", BattleEventType.SiegeWeapon),
                     ("[D] Defenders raise their shields!", BattleEventType.DefenseHold),
                 },
                 1 => new[] { // Melee Clash
@@ -948,13 +948,13 @@ namespace ApexCitadels.PC.UI
                     ("[!] Your troops break through!", BattleEventType.Breakthrough),
                 },
                 2 => new[] { // Siege Phase
-                    ("💣 Siege weapons breach the wall!", BattleEventType.SiegeWeapon),
+                    ("[X] Siege weapons breach the wall!", BattleEventType.SiegeWeapon),
                     ("💥 Battering ram breaks through!", BattleEventType.Breakthrough),
                     ("[*] Flaming projectiles rain down!", BattleEventType.FireAttack),
                     ("[W] Close quarters combat ensues!", BattleEventType.MeleeClash),
                 },
                 _ => new[] { // Final Push
-                    ("🐴 Cavalry charges through the gate!", BattleEventType.CavalryCharge),
+                    ("[H] Cavalry charges through the gate!", BattleEventType.CavalryCharge),
                     ("[!] Elite troops lead the final assault!", BattleEventType.MeleeClash),
                     ("🏃 Enemy troops retreat!", BattleEventType.Retreat),
                     ("[!] Your troops advance!", BattleEventType.Advance),

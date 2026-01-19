@@ -180,7 +180,7 @@ namespace ApexCitadels.PC.UI
                 x.transform.SetParent(closeBtn.transform, false);
                 
                 TextMeshProUGUI xText = x.AddComponent<TextMeshProUGUI>();
-                xText.text = "✕";
+                xText.text = "[X]";
                 xText.fontSize = 20;
                 xText.alignment = TextAlignmentOptions.Center;
                 
@@ -254,7 +254,7 @@ namespace ApexCitadels.PC.UI
             costObj.transform.SetParent(infoObj.transform, false);
             
             TextMeshProUGUI costText = costObj.AddComponent<TextMeshProUGUI>();
-            costText.text = $"[$]{def.GoldCost} [Q]{def.StoneCost} ⏱️{def.TrainingTime}s";
+            costText.text = $"[$]{def.GoldCost} [Q]{def.StoneCost} [T]{def.TrainingTime}s";
             costText.fontSize = 11;
             costText.color = goldColor;
             
@@ -724,7 +724,7 @@ namespace ApexCitadels.PC.UI
                 x.transform.SetParent(cancelBtn.transform, false);
                 
                 TextMeshProUGUI xText = x.AddComponent<TextMeshProUGUI>();
-                xText.text = "✕";
+                xText.text = "[X]";
                 xText.fontSize = 12;
                 xText.alignment = TextAlignmentOptions.Center;
                 
@@ -795,7 +795,7 @@ namespace ApexCitadels.PC.UI
                 TroopType.Cavalry => new TroopDefinition
                 {
                     Name = "Cavalry",
-                    Icon = "🐴",
+                    Icon = "[H]",
                     Attack = 20,
                     Defense = 10,
                     Speed = 10,
@@ -806,7 +806,7 @@ namespace ApexCitadels.PC.UI
                 TroopType.Siege => new TroopDefinition
                 {
                     Name = "Siege Engine",
-                    Icon = "💣",
+                    Icon = "[X]",
                     Attack = 50,
                     Defense = 5,
                     Speed = 2,

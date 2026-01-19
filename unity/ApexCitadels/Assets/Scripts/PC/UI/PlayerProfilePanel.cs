@@ -293,7 +293,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -418,7 +418,7 @@ namespace ApexCitadels.PC.UI
             CreateStatCard(statsGrid.transform, "Win Rate", $"{winRate:F1}%");
             CreateStatCard(statsGrid.transform, "K/D Ratio", $"{kd:F2}");
             CreateStatCard(statsGrid.transform, "Territories", $"{_profile.TerritoriesCaptured:N0} captured");
-            CreateStatCard(statsGrid.transform, "📅 Play Time", $"{(int)_profile.TotalPlayTime.TotalHours}h {_profile.TotalPlayTime.Minutes}m");
+            CreateStatCard(statsGrid.transform, "[D] Play Time", $"{(int)_profile.TotalPlayTime.TotalHours}h {_profile.TotalPlayTime.Minutes}m");
             CreateStatCard(statsGrid.transform, "[OK] Quests", $"{_profile.QuestsCompleted} completed");
             
             // Recent activity
@@ -580,7 +580,7 @@ namespace ApexCitadels.PC.UI
             CreateTitleItem("Apex Predator", "Hold 20 territories at once", false, false);
             CreateTitleItem("Master Builder", "Build 1000 buildings", false, false);
             
-            CreateSectionHeader("🖼️ Avatar Frames");
+            CreateSectionHeader("[I] Avatar Frames");
             
             GameObject framesGrid = new GameObject("FramesGrid");
             framesGrid.transform.SetParent(_contentContainer.transform, false);
@@ -620,7 +620,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
             // Status icon
-            string statusIcon = unlocked ? (equipped ? "[OK]" : "✓") : "[L]";
+            string statusIcon = unlocked ? (equipped ? "[OK]" : "[OK]") : "[L]";
             CreateText(item.transform, statusIcon, 20, TextAlignmentOptions.Center);
             
             // Title info
@@ -804,7 +804,7 @@ namespace ApexCitadels.PC.UI
             le.preferredHeight = 25;
             
             TextMeshProUGUI activityText = item.AddComponent<TextMeshProUGUI>();
-            activityText.text = $"• {text}";
+            activityText.text = $"- {text}";
             activityText.fontSize = 12;
             activityText.color = new Color(0.8f, 0.8f, 0.8f);
         }

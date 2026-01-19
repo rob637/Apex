@@ -75,7 +75,7 @@ namespace ApexCitadels.PC.UI
                 Defense = 220,
                 Speed = 85,
                 Leadership = 150,
-                Portrait = "👤",
+                Portrait = "[U]",
                 IsDeployed = true,
                 DeployedTerritory = "Northern Fortress",
                 Backstory = "A noble knight who rose through the ranks through valor and honor.",
@@ -83,7 +83,7 @@ namespace ApexCitadels.PC.UI
                 {
                     new HeroSkill { SkillId = "SK_001", Name = "Shield Wall", Description = "+30% defense for nearby troops", Icon = "[D]", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = true },
                     new HeroSkill { SkillId = "SK_002", Name = "Rally Cry", Description = "+20% attack for 10 seconds", Icon = "[!]", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 60 },
-                    new HeroSkill { SkillId = "SK_003", Name = "Charge", Description = "Lead cavalry in devastating charge", Icon = "🐴", Level = 0, MaxLevel = 5, IsUnlocked = false, UnlockLevel = 20 },
+                    new HeroSkill { SkillId = "SK_003", Name = "Charge", Description = "Lead cavalry in devastating charge", Icon = "[H]", Level = 0, MaxLevel = 5, IsUnlocked = false, UnlockLevel = 20 },
                     new HeroSkill { SkillId = "SK_004", Name = "Fortress", Description = "+50% territory defense", Icon = "[C]", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 30 }
                 },
                 Equipment = new HeroEquipment
@@ -115,9 +115,9 @@ namespace ApexCitadels.PC.UI
                 Backstory = "A legendary assassin who can strike from the shadows and vanish without a trace.",
                 Skills = new List<HeroSkill>
                 {
-                    new HeroSkill { SkillId = "SK_011", Name = "Shadowstrike", Description = "Critical hit deals 3x damage", Icon = "🌙", Level = 4, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 45 },
+                    new HeroSkill { SkillId = "SK_011", Name = "Shadowstrike", Description = "Critical hit deals 3x damage", Icon = "[N]", Level = 4, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 45 },
                     new HeroSkill { SkillId = "SK_012", Name = "Vanish", Description = "Become invisible for 15 seconds", Icon = "👻", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 90 },
-                    new HeroSkill { SkillId = "SK_013", Name = "Poison Blade", Description = "+50% damage over time", Icon = "☠️", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = true },
+                    new HeroSkill { SkillId = "SK_013", Name = "Poison Blade", Description = "+50% damage over time", Icon = "[X]", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = true },
                     new HeroSkill { SkillId = "SK_014", Name = "Death Mark", Description = "Mark enemy for instant kill", Icon = "[X]", Level = 1, MaxLevel = 3, IsUnlocked = true, IsPassive = false, Cooldown = 180 }
                 },
                 Equipment = new HeroEquipment
@@ -151,7 +151,7 @@ namespace ApexCitadels.PC.UI
                 Skills = new List<HeroSkill>
                 {
                     new HeroSkill { SkillId = "SK_021", Name = "Fireball", Description = "AOE fire damage to enemies", Icon = "[*]", Level = 3, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 30 },
-                    new HeroSkill { SkillId = "SK_022", Name = "Ice Shield", Description = "+40% defense, slows attackers", Icon = "❄️", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 60 },
+                    new HeroSkill { SkillId = "SK_022", Name = "Ice Shield", Description = "+40% defense, slows attackers", Icon = "[C]", Level = 2, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 60 },
                     new HeroSkill { SkillId = "SK_023", Name = "Lightning Storm", Description = "Massive AOE damage", Icon = "[!]", Level = 1, MaxLevel = 5, IsUnlocked = true, IsPassive = false, Cooldown = 120 },
                     new HeroSkill { SkillId = "SK_024", Name = "Arcane Mastery", Description = "+25% all magic damage", Icon = "[*]", Level = 0, MaxLevel = 3, IsUnlocked = false, UnlockLevel = 25, IsPassive = true }
                 },
@@ -372,7 +372,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(stats.transform, $"[!]{hero.Attack + (hero.Equipment.Weapon?.BonusAttack ?? 0)}", 10, TextAlignmentOptions.Right, new Color(0.9f, 0.5f, 0.5f));
             CreateText(stats.transform, $"[D]{hero.Defense + (hero.Equipment.Armor?.BonusDefense ?? 0)}", 10, TextAlignmentOptions.Right, new Color(0.5f, 0.7f, 0.9f));
-            CreateText(stats.transform, $"❤️{hero.Health}", 10, TextAlignmentOptions.Right, new Color(0.5f, 0.9f, 0.5f));
+            CreateText(stats.transform, $"[+]{hero.Health}", 10, TextAlignmentOptions.Right, new Color(0.5f, 0.9f, 0.5f));
         }
 
         private void CreateRecruitButton()
@@ -392,7 +392,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup vlayout = btn.AddComponent<VerticalLayoutGroup>();
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(btn.transform, "➕ Recruit Hero", 14, TextAlignmentOptions.Center, new Color(0.4f, 0.8f, 0.4f));
+            CreateText(btn.transform, "[+] Recruit Hero", 14, TextAlignmentOptions.Center, new Color(0.4f, 0.8f, 0.4f));
             CreateText(btn.transform, "5000 Gold", 10, TextAlignmentOptions.Center, goldColor);
         }
 
@@ -485,7 +485,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 18;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -556,7 +556,7 @@ namespace ApexCitadels.PC.UI
             CreateText(stats.transform, $"[!] {totalAtk}", 16, TextAlignmentOptions.Right, new Color(0.9f, 0.5f, 0.5f));
             CreateText(stats.transform, $"[D] {totalDef}", 16, TextAlignmentOptions.Right, new Color(0.5f, 0.7f, 0.9f));
             CreateText(stats.transform, $"[!] {_selectedHero.Speed}", 16, TextAlignmentOptions.Right, new Color(0.9f, 0.9f, 0.5f));
-            CreateText(stats.transform, $"👑 {_selectedHero.Leadership}", 16, TextAlignmentOptions.Right, goldColor);
+            CreateText(stats.transform, $"[K] {_selectedHero.Leadership}", 16, TextAlignmentOptions.Right, goldColor);
         }
 
         private void CreateXPBar(Transform parent)
@@ -706,11 +706,11 @@ namespace ApexCitadels.PC.UI
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.constraintCount = 3;
             
-            CreateStatItem(stats.transform, "❤️ Health", $"{_selectedHero.Health:N0} / {_selectedHero.MaxHealth:N0}");
+            CreateStatItem(stats.transform, "[+] Health", $"{_selectedHero.Health:N0} / {_selectedHero.MaxHealth:N0}");
             CreateStatItem(stats.transform, "[!] Attack", $"{_selectedHero.Attack}");
             CreateStatItem(stats.transform, "[D] Defense", $"{_selectedHero.Defense}");
             CreateStatItem(stats.transform, "[!] Speed", $"{_selectedHero.Speed}");
-            CreateStatItem(stats.transform, "👑 Leadership", $"{_selectedHero.Leadership}");
+            CreateStatItem(stats.transform, "[K] Leadership", $"{_selectedHero.Leadership}");
             CreateStatItem(stats.transform, "[*] Level", $"{_selectedHero.Level}");
             
             // Action buttons
@@ -723,8 +723,8 @@ namespace ApexCitadels.PC.UI
             actionsHL.childAlignment = TextAnchor.MiddleCenter;
             actionsHL.spacing = 15;
             
-            CreateActionButton(actions.transform, "⬆️ Level Up", "1000 Gold", LevelUpHero, accentColor);
-            CreateActionButton(actions.transform, "❤️ Heal", "500 Gold", HealHero, new Color(0.3f, 0.7f, 0.3f));
+            CreateActionButton(actions.transform, "^ Level Up", "1000 Gold", LevelUpHero, accentColor);
+            CreateActionButton(actions.transform, "[+] Heal", "500 Gold", HealHero, new Color(0.3f, 0.7f, 0.3f));
             CreateActionButton(actions.transform, "[R] Reset Skills", "2000 Gold", ResetSkills, new Color(0.7f, 0.5f, 0.2f));
         }
 
@@ -811,7 +811,7 @@ namespace ApexCitadels.PC.UI
             // Upgrade button
             if (skill.IsUnlocked && skill.Level < skill.MaxLevel && GetAvailableSkillPoints() > 0)
             {
-                CreateSmallButton(card.transform, "⬆️ Upgrade", () => UpgradeSkill(skill), accentColor);
+                CreateSmallButton(card.transform, "^ Upgrade", () => UpgradeSkill(skill), accentColor);
             }
         }
 

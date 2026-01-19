@@ -210,7 +210,7 @@ namespace ApexCitadels.PC.UI
             btnTextRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI btnText = btnTextObj.AddComponent<TextMeshProUGUI>();
-            btnText.text = "⬆";
+            btnText.text = "^";
             btnText.fontSize = 12;
             btnText.alignment = TextAlignmentOptions.Center;
             btnText.color = Color.white;
@@ -269,7 +269,7 @@ namespace ApexCitadels.PC.UI
             iconRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI iconText = iconObj.AddComponent<TextMeshProUGUI>();
-            iconText.text = "▲";
+            iconText.text = "^";
             iconText.fontSize = 12;
             iconText.alignment = TextAlignmentOptions.Center;
             iconText.color = Color.black;

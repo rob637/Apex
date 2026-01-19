@@ -384,7 +384,7 @@ namespace ApexCitadels.PC.UI
                 timeString = $"{timeLeft.Seconds}s";
             }
             
-            countdownText.text = $"⏱ {timeString}";
+            countdownText.text = $"[T] {timeString}";
             
             // Color based on urgency
             if (timeLeft.TotalMinutes <= criticalThresholdMinutes)

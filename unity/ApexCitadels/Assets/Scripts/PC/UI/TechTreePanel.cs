@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "MIL_003",
                 Name = "Cavalry Tactics",
                 Description = "Unlocks Cavalry units with +20% movement speed.",
-                Icon = "🐴",
+                Icon = "[H]",
                 Branch = TechBranch.Military,
                 Tier = 2,
                 State = TechState.Available,
@@ -135,7 +135,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "MIL_005",
                 Name = "Elite Warriors",
                 Description = "Unlocks Elite units with powerful abilities.",
-                Icon = "👑",
+                Icon = "[K]",
                 Branch = TechBranch.Military,
                 Tier = 4,
                 State = TechState.Locked,
@@ -349,7 +349,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "EXP_001",
                 Name = "Scouting",
                 Description = "Reveals nearby territories. Unlocks Scout unit.",
-                Icon = "🔭",
+                Icon = "[T]",
                 Branch = TechBranch.Expansion,
                 Tier = 1,
                 State = TechState.Unlocked,
@@ -380,7 +380,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "EXP_003",
                 Name = "Outpost Networks",
                 Description = "Unlocks Outposts. Provides vision and fast travel.",
-                Icon = "🏕️",
+                Icon = "[C]",
                 Branch = TechBranch.Expansion,
                 Tier = 3,
                 State = TechState.Locked,
@@ -415,7 +415,7 @@ namespace ApexCitadels.PC.UI
                 TechId = "ALL_001",
                 Name = "Diplomacy",
                 Description = "Unlocks alliance features and basic cooperation.",
-                Icon = "🤝",
+                Icon = "[H]",
                 Branch = TechBranch.Alliance,
                 Tier = 1,
                 State = TechState.Unlocked,
@@ -545,7 +545,7 @@ namespace ApexCitadels.PC.UI
             title.transform.SetParent(header.transform, false);
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "🔬 TECHNOLOGY RESEARCH";
+            titleText.text = "[R] TECHNOLOGY RESEARCH";
             titleText.fontSize = 24;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;
@@ -730,8 +730,8 @@ namespace ApexCitadels.PC.UI
             // Status indicator
             string statusStr = tech.State switch
             {
-                TechState.Unlocked => "✓",
-                TechState.Researching => "⏳",
+                TechState.Unlocked => "[OK]",
+                TechState.Researching => "[T]",
                 TechState.Available => "",
                 _ => "[L]"
             };
@@ -841,7 +841,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 18;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -867,7 +867,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(header.transform, _selectedTech.Icon, 48, TextAlignmentOptions.Center);
             CreateText(header.transform, _selectedTech.Name, 20, TextAlignmentOptions.Center, stateColor);
-            CreateText(header.transform, $"Tier {_selectedTech.Tier} • {_selectedTech.Branch}", 12, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(header.transform, $"Tier {_selectedTech.Tier} - {_selectedTech.Branch}", 12, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
         }
 
         private void CreateCostSection()
@@ -893,12 +893,12 @@ namespace ApexCitadels.PC.UI
             // Time
             TimeSpan time = TimeSpan.FromSeconds(_selectedTech.ResearchTime);
             string timeStr = time.TotalHours >= 1 ? $"{(int)time.TotalHours}h {time.Minutes}m" : $"{time.Minutes}m {time.Seconds}s";
-            CreateText(costs.transform, $"⏱️ {timeStr}", 14, TextAlignmentOptions.Center, new Color(0.7f, 0.7f, 0.7f));
+            CreateText(costs.transform, $"[T] {timeStr}", 14, TextAlignmentOptions.Center, new Color(0.7f, 0.7f, 0.7f));
         }
 
         private void CreatePrerequisitesSection()
         {
-            CreateSectionLabel("🔗 PREREQUISITES");
+            CreateSectionLabel("[L] PREREQUISITES");
             
             GameObject prereqs = new GameObject("Prerequisites");
             prereqs.transform.SetParent(_detailPanel.transform, false);
@@ -911,7 +911,7 @@ namespace ApexCitadels.PC.UI
                 if (_technologies.TryGetValue(prereqId, out Technology prereq))
                 {
                     Color color = prereq.State == TechState.Unlocked ? unlockedColor : urgentColor;
-                    string check = prereq.State == TechState.Unlocked ? "✓" : "✗";
+                    string check = prereq.State == TechState.Unlocked ? "[OK]" : "[X]";
                     CreateText(prereqs.transform, $"{check} {prereq.Icon} {prereq.Name}", 12, TextAlignmentOptions.Center, color);
                 }
             }
@@ -941,7 +941,7 @@ namespace ApexCitadels.PC.UI
                     EffectType.TroopSpeed => $"+{effect.Value}% Troop Speed",
                     _ => $"+{effect.Value}%"
                 };
-                CreateText(effects.transform, $"• {effectStr}", 12, TextAlignmentOptions.Center, accentColor);
+                CreateText(effects.transform, $"- {effectStr}", 12, TextAlignmentOptions.Center, accentColor);
             }
         }
 
@@ -952,7 +952,7 @@ namespace ApexCitadels.PC.UI
             
             if (!hasUnlocks) return;
             
-            CreateSectionLabel("🔓 UNLOCKS");
+            CreateSectionLabel("[U] UNLOCKS");
             
             GameObject unlocks = new GameObject("Unlocks");
             unlocks.transform.SetParent(_detailPanel.transform, false);
@@ -964,7 +964,7 @@ namespace ApexCitadels.PC.UI
             {
                 foreach (var building in _selectedTech.UnlocksBuildings)
                 {
-                    CreateText(unlocks.transform, $"🏠 {building}", 12, TextAlignmentOptions.Center, goldColor);
+                    CreateText(unlocks.transform, $"[H] {building}", 12, TextAlignmentOptions.Center, goldColor);
                 }
             }
             
@@ -976,10 +976,10 @@ namespace ApexCitadels.PC.UI
                     {
                         TroopType.Infantry => "[ATK]",
                         TroopType.Archer => "[A]",
-                        TroopType.Cavalry => "🐴",
+                        TroopType.Cavalry => "[H]",
                         TroopType.Siege => "[C]",
-                        TroopType.Elite => "👑",
-                        _ => "👤"
+                        TroopType.Elite => "[K]",
+                        _ => "[U]"
                     };
                     CreateText(unlocks.transform, $"{unitIcon} {unit}", 12, TextAlignmentOptions.Center, goldColor);
                 }
@@ -1001,7 +1001,7 @@ namespace ApexCitadels.PC.UI
             switch (_selectedTech.State)
             {
                 case TechState.Unlocked:
-                    label = "✓ Researched";
+                    label = "[OK] Researched";
                     color = unlockedColor * 0.6f;
                     interactable = false;
                     break;
@@ -1011,7 +1011,7 @@ namespace ApexCitadels.PC.UI
                     interactable = false;
                     break;
                 case TechState.Available:
-                    label = "🔬 Start Research";
+                    label = "[R] Start Research";
                     color = accentColor;
                     break;
                 default:

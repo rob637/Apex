@@ -8,7 +8,7 @@ namespace ApexCitadels.PC.Replay
 {
     /// <summary>
     /// Replay System Integration - Connects all replay components
-    /// Bridges CombatPanel → BattleRecorder → BattleReplaySystem → UI
+    /// Bridges CombatPanel -> BattleRecorder -> BattleReplaySystem -> UI
     /// Provides unified API and keyboard shortcuts.
     /// </summary>
     public class ReplaySystemIntegration : MonoBehaviour

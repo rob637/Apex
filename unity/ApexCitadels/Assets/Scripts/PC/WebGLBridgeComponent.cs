@@ -56,7 +56,7 @@ namespace ApexCitadels.PC.WebGL
         NotifyGameReady();
     }
 
-    #region Unity → JavaScript
+    #region Unity -> JavaScript
 
     public void NotifyGameReady()
     {
@@ -100,7 +100,7 @@ namespace ApexCitadels.PC.WebGL
 
     #endregion
 
-    #region JavaScript → Unity (called via SendMessage)
+    #region JavaScript -> Unity (called via SendMessage)
 
     public void ReceiveLoginToken(string token)
     {

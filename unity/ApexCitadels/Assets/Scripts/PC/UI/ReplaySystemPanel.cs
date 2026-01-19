@@ -242,7 +242,7 @@ namespace ApexCitadels.PC.UI
             GameObject iconObj = new GameObject("Icon");
             iconObj.transform.SetParent(headerObj.transform, false);
             TextMeshProUGUI iconTMP = iconObj.AddComponent<TextMeshProUGUI>();
-            iconTMP.text = "🎬";
+            iconTMP.text = "[V]";
             iconTMP.fontSize = 28;
             iconTMP.alignment = TextAlignmentOptions.Center;
             LayoutElement iconLE = iconObj.AddComponent<LayoutElement>();
@@ -263,7 +263,7 @@ namespace ApexCitadels.PC.UI
             GameObject recObj = new GameObject("RecIndicator");
             recObj.transform.SetParent(headerObj.transform, false);
             TextMeshProUGUI recTMP = recObj.AddComponent<TextMeshProUGUI>();
-            recTMP.text = "⏺ REC";
+            recTMP.text = "[R] REC";
             recTMP.fontSize = 16;
             recTMP.color = new Color(1f, 0.3f, 0.3f);
             recTMP.alignment = TextAlignmentOptions.Center;
@@ -285,7 +285,7 @@ namespace ApexCitadels.PC.UI
             GameObject closeText = new GameObject("X");
             closeText.transform.SetParent(closeObj.transform, false);
             TextMeshProUGUI closeTMP = closeText.AddComponent<TextMeshProUGUI>();
-            closeTMP.text = "✕";
+            closeTMP.text = "[X]";
             closeTMP.fontSize = 22;
             closeTMP.alignment = TextAlignmentOptions.Center;
             closeTMP.color = Color.white;
@@ -313,7 +313,7 @@ namespace ApexCitadels.PC.UI
             tabLayout.childControlWidth = true;
             tabLayout.childControlHeight = true;
 
-            string[] tabNames = { "📁 My Replays", "[*] Bookmarked", "[T] Featured", "🔍 Search" };
+            string[] tabNames = { "[F] My Replays", "[*] Bookmarked", "[T] Featured", "[?] Search" };
             ReplayTab[] tabValues = { ReplayTab.MyReplays, ReplayTab.Bookmarked, ReplayTab.Featured, ReplayTab.Search };
 
             for (int i = 0; i < tabNames.Length; i++)
@@ -515,7 +515,7 @@ namespace ApexCitadels.PC.UI
             GameObject placeholderObj = new GameObject("Placeholder");
             placeholderObj.transform.SetParent(displayObj.transform, false);
             TextMeshProUGUI placeholderTMP = placeholderObj.AddComponent<TextMeshProUGUI>();
-            placeholderTMP.text = "🎬\n\nSelect a replay to watch\nor record a new battle";
+            placeholderTMP.text = "[V]\n\nSelect a replay to watch\nor record a new battle";
             placeholderTMP.fontSize = 20;
             placeholderTMP.color = new Color(0.4f, 0.4f, 0.5f);
             placeholderTMP.alignment = TextAlignmentOptions.Center;
@@ -700,11 +700,11 @@ namespace ApexCitadels.PC.UI
             controlsLayout.childControlHeight = true;
 
             // Playback controls
-            CreateControlButton(controlsObj.transform, "⏮", SkipToStart, 40);
-            CreateControlButton(controlsObj.transform, "⏪", Rewind, 40);
-            CreateControlButton(controlsObj.transform, "⏯", TogglePlayPause, 50);
-            CreateControlButton(controlsObj.transform, "⏩", FastForward, 40);
-            CreateControlButton(controlsObj.transform, "⏭", SkipToEnd, 40);
+            CreateControlButton(controlsObj.transform, "[<<]", SkipToStart, 40);
+            CreateControlButton(controlsObj.transform, "<<", Rewind, 40);
+            CreateControlButton(controlsObj.transform, "[P]", TogglePlayPause, 50);
+            CreateControlButton(controlsObj.transform, ">>", FastForward, 40);
+            CreateControlButton(controlsObj.transform, "[>>]", SkipToEnd, 40);
 
             // Spacer
             GameObject spacer1 = new GameObject("Spacer");
@@ -724,7 +724,7 @@ namespace ApexCitadels.PC.UI
             spacer2LE.preferredWidth = 30;
 
             // Action buttons
-            CreateControlButton(controlsObj.transform, "📌", AddMarker, 40);
+            CreateControlButton(controlsObj.transform, "[P]", AddMarker, 40);
             CreateControlButton(controlsObj.transform, "[*]", ToggleBookmark, 40);
             CreateControlButton(controlsObj.transform, "[E]", ShareReplay, 40);
             CreateControlButton(controlsObj.transform, "📷", TakeScreenshot, 40);
@@ -816,7 +816,7 @@ namespace ApexCitadels.PC.UI
             GameObject iconObj = new GameObject("Icon");
             iconObj.transform.SetParent(volObj.transform, false);
             TextMeshProUGUI iconTMP = iconObj.AddComponent<TextMeshProUGUI>();
-            iconTMP.text = "🔊";
+            iconTMP.text = "[S]";
             iconTMP.fontSize = 18;
             iconTMP.alignment = TextAlignmentOptions.Center;
             LayoutElement iconLE = iconObj.AddComponent<LayoutElement>();
@@ -1059,9 +1059,9 @@ namespace ApexCitadels.PC.UI
             TextMeshProUGUI resultTMP = resultObj.AddComponent<TextMeshProUGUI>();
             
             string resultText = replay.isMyReplay 
-                ? (replay.isVictory ? "✓ Victory" : "✗ Defeat") 
+                ? (replay.isVictory ? "[OK] Victory" : "[X] Defeat") 
                 : $"Winner: {replay.winnerName}";
-            resultTMP.text = $"{resultText} • {FormatDuration(replay.duration)}";
+            resultTMP.text = $"{resultText} - {FormatDuration(replay.duration)}";
             resultTMP.fontSize = 11;
             resultTMP.color = replay.isMyReplay 
                 ? (replay.isVictory ? VICTORY_COLOR : DEFEAT_COLOR) 
@@ -1073,7 +1073,7 @@ namespace ApexCitadels.PC.UI
             GameObject statsObj = new GameObject("Stats");
             statsObj.transform.SetParent(itemObj.transform, false);
             TextMeshProUGUI statsTMP = statsObj.AddComponent<TextMeshProUGUI>();
-            statsTMP.text = $"👁 {replay.views:N0} • ❤️ {replay.likes}";
+            statsTMP.text = $"[E] {replay.views:N0} - [+] {replay.likes}";
             statsTMP.fontSize = 10;
             statsTMP.color = new Color(0.5f, 0.5f, 0.6f);
             LayoutElement statsLE = statsObj.AddComponent<LayoutElement>();
@@ -1091,7 +1091,7 @@ namespace ApexCitadels.PC.UI
                 ReplayType.Tournament => "[T]",
                 ReplayType.DuelArena => "🤺",
                 ReplayType.AllianceWar => "[!]",
-                _ => "🎬"
+                _ => "[V]"
             };
         }
 
@@ -1167,7 +1167,7 @@ namespace ApexCitadels.PC.UI
             playbackTime = 0;
             playbackState = PlaybackState.Stopped;
             
-            nowPlayingText.text = $"▶ {replay.title}";
+            nowPlayingText.text = $"> {replay.title}";
             timelineSlider.maxValue = 100;
             UpdateTimeDisplay();
             

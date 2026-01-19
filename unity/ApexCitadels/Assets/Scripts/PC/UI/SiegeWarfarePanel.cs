@@ -313,7 +313,7 @@ namespace ApexCitadels.PC.UI
             GameObject closeText = new GameObject("X");
             closeText.transform.SetParent(closeObj.transform, false);
             TextMeshProUGUI closeTMP = closeText.AddComponent<TextMeshProUGUI>();
-            closeTMP.text = "✕";
+            closeTMP.text = "[X]";
             closeTMP.fontSize = 24;
             closeTMP.alignment = TextAlignmentOptions.Center;
             closeTMP.color = Color.white;
@@ -702,7 +702,7 @@ namespace ApexCitadels.PC.UI
             // Create action buttons
             CreateActionButton(actionObj.transform, "[!] Join Attack", JoinAttack, new Color(0.8f, 0.3f, 0.2f));
             CreateActionButton(actionObj.transform, "[D] Join Defense", JoinDefense, new Color(0.2f, 0.5f, 0.8f));
-            CreateActionButton(actionObj.transform, "📢 Rally Allies", RallyAllies, new Color(0.7f, 0.5f, 0.2f));
+            CreateActionButton(actionObj.transform, "[!] Rally Allies", RallyAllies, new Color(0.7f, 0.5f, 0.2f));
             CreateActionButton(actionObj.transform, "[R] Retreat", Retreat, new Color(0.5f, 0.3f, 0.3f));
             CreateActionButton(actionObj.transform, "[T] Siege Log", ShowSiegeLog, new Color(0.3f, 0.3f, 0.4f));
         }
@@ -920,9 +920,9 @@ namespace ApexCitadels.PC.UI
             
             string statusText = siege.status switch
             {
-                SiegeStatus.ActiveBattle => $"🔴 ACTIVE - Health: {siege.citadelHealthPercent}%",
-                SiegeStatus.PreparationPhase => $"🟡 PREP PHASE - Starts soon",
-                SiegeStatus.Scheduled => $"📅 Scheduled: {siege.scheduledTime:MMM dd HH:mm}",
+                SiegeStatus.ActiveBattle => $"[R] ACTIVE - Health: {siege.citadelHealthPercent}%",
+                SiegeStatus.PreparationPhase => $"[O] PREP PHASE - Starts soon",
+                SiegeStatus.Scheduled => $"[D] Scheduled: {siege.scheduledTime:MMM dd HH:mm}",
                 SiegeStatus.DefenseVictory => "[D] Defense Victory",
                 SiegeStatus.AttackVictory => "[!] Attack Victory",
                 _ => siege.status.ToString()
@@ -983,9 +983,9 @@ namespace ApexCitadels.PC.UI
                 SiegeStatus.ActiveBattle => $"[!] BATTLE IN PROGRESS - Citadel Health: {currentSiege.citadelHealthPercent}%\n" +
                     $"Walls Breached: {currentSiege.wallsBreached} | Towers Destroyed: {currentSiege.towersDestroyed}\n" +
                     $"Casualties - Attackers: {currentSiege.attackerCasualties} | Defenders: {currentSiege.defenderCasualties}",
-                SiegeStatus.PreparationPhase => $"🟡 PREPARATION PHASE\nDeploy your units and prepare defenses!\n" +
+                SiegeStatus.PreparationPhase => $"[O] PREPARATION PHASE\nDeploy your units and prepare defenses!\n" +
                     $"Battle starts in: {GetTimeUntil(currentSiege.scheduledTime)}",
-                SiegeStatus.Scheduled => $"📅 SCHEDULED SIEGE\nStarts: {currentSiege.scheduledTime:MMMM dd, HH:mm}\n" +
+                SiegeStatus.Scheduled => $"[D] SCHEDULED SIEGE\nStarts: {currentSiege.scheduledTime:MMMM dd, HH:mm}\n" +
                     $"Time until siege: {GetTimeUntil(currentSiege.scheduledTime)}",
                 _ => $"Siege Result: {currentSiege.status}"
             };

@@ -224,7 +224,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(25, 25, 10, 10);
             
             // Title
-            CreateText(header.transform, "🕵️ INTELLIGENCE AGENCY", 22, TextAlignmentOptions.Left, accentColor);
+            CreateText(header.transform, "[S] INTELLIGENCE AGENCY", 22, TextAlignmentOptions.Left, accentColor);
             
             // Spacer
             GameObject spacer = new GameObject("Spacer");
@@ -242,7 +242,7 @@ namespace ApexCitadels.PC.UI
         {
             // Spies available
             int available = _spies.FindAll(s => s.Status == SpyStatus.Available).Count;
-            CreateStatBadge(parent, "🕵️", $"{available}/{_maxSpies}", "Agents");
+            CreateStatBadge(parent, "[S]", $"{available}/{_maxSpies}", "Agents");
             
             // Intel points
             CreateStatBadge(parent, "[#]", _intelPoints.ToString(), "Intel");
@@ -303,7 +303,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕";
+            text.text = "[X]";
             text.fontSize = 18;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -325,7 +325,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 5;
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
-            CreateTab(tabBar.transform, IntelTab.Spies, "🕵️ Agents");
+            CreateTab(tabBar.transform, IntelTab.Spies, "[S] Agents");
             CreateTab(tabBar.transform, IntelTab.Operations, "[+] Operations");
             CreateTab(tabBar.transform, IntelTab.Reports, "[T] Intel Reports");
             CreateTab(tabBar.transform, IntelTab.CounterIntel, "[D] Counter-Intel");
@@ -442,7 +442,7 @@ namespace ApexCitadels.PC.UI
             hlayout.childAlignment = TextAnchor.MiddleCenter;
             hlayout.spacing = 15;
             
-            CreateText(btn.transform, "➕", 24, TextAlignmentOptions.Center, accentColor);
+            CreateText(btn.transform, "[+]", 24, TextAlignmentOptions.Center, accentColor);
             CreateText(btn.transform, "RECRUIT NEW AGENT", 14, TextAlignmentOptions.Center, Color.white);
             CreateText(btn.transform, "[$] 10,000 Gold", 12, TextAlignmentOptions.Center, goldColor);
         }
@@ -502,11 +502,11 @@ namespace ApexCitadels.PC.UI
             
             string icon = spy.Specialty switch
             {
-                SpySpecialty.Reconnaissance => "👁️",
-                SpySpecialty.Sabotage => "💣",
+                SpySpecialty.Reconnaissance => "[E]",
+                SpySpecialty.Sabotage => "[X]",
                 SpySpecialty.Assassination => "[W]",
                 SpySpecialty.CounterIntelligence => "[D]",
-                _ => "🕵️"
+                _ => "[S]"
             };
             
             CreateText(portrait.transform, icon, 32, TextAlignmentOptions.Center);
@@ -520,7 +520,7 @@ namespace ApexCitadels.PC.UI
                 SpyStatus.Recovering => dangerColor,
                 _ => new Color(0.5f, 0.5f, 0.5f)
             };
-            CreateText(portrait.transform, "●", 14, TextAlignmentOptions.Center, statusColor);
+            CreateText(portrait.transform, "o", 14, TextAlignmentOptions.Center, statusColor);
         }
 
         private void CreateSpyInfo(Transform parent, SpyAgent spy)
@@ -552,7 +552,7 @@ namespace ApexCitadels.PC.UI
             CreateText(info.transform, statusText, 10, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             // Success rate and missions
-            CreateText(info.transform, $"✓ {spy.SuccessRate}% success | {spy.MissionsCompleted} missions", 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
+            CreateText(info.transform, $"[OK] {spy.SuccessRate}% success | {spy.MissionsCompleted} missions", 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
             
             // XP bar
             CreateXPBar(info.transform, spy);
@@ -659,7 +659,7 @@ namespace ApexCitadels.PC.UI
             }
             else if (spy.Status == SpyStatus.OnMission)
             {
-                CreateActionButton(actions.transform, "📡 Track", () => TrackMission(spy), warningColor);
+                CreateActionButton(actions.transform, "[R] Track", () => TrackMission(spy), warningColor);
             }
             else
             {
@@ -750,8 +750,8 @@ namespace ApexCitadels.PC.UI
             
             string typeIcon = op.Type switch
             {
-                OperationType.Reconnaissance => "👁️",
-                OperationType.Sabotage => "💣",
+                OperationType.Reconnaissance => "[E]",
+                OperationType.Sabotage => "[X]",
                 OperationType.Theft => "[$]",
                 OperationType.Assassination => "[W]",
                 _ => "[+]"
@@ -797,8 +797,8 @@ namespace ApexCitadels.PC.UI
             // Type icon
             string icon = type switch
             {
-                OperationType.Reconnaissance => "👁️",
-                OperationType.Sabotage => "💣",
+                OperationType.Reconnaissance => "[E]",
+                OperationType.Sabotage => "[X]",
                 OperationType.Theft => "[$]",
                 OperationType.Assassination => "[W]",
                 _ => "[+]"
@@ -816,7 +816,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(info.transform, name, 13, TextAlignmentOptions.Left, Color.white);
             CreateText(info.transform, description, 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
-            CreateText(info.transform, $"⏱️ {hours}h | Base success: {baseSuccess}%", 9, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(info.transform, $"[T] {hours}h | Base success: {baseSuccess}%", 9, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             // Start button
             CreateMissionButton(option.transform, type);
@@ -981,7 +981,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✓ Read";
+            text.text = "[OK] Read";
             text.fontSize = 10;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -1023,7 +1023,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(30, 30, 20, 20);
             
             CreateStatBox(status.transform, "[D]", $"Level {_counterIntelLevel}", "Defense Rating");
-            CreateStatBox(status.transform, "👁️", "85%", "Detection Rate");
+            CreateStatBox(status.transform, "[E]", "85%", "Detection Rate");
             CreateStatBox(status.transform, "[!]", "2.5s", "Response Time");
             CreateStatBox(status.transform, "[L]", "12", "Threats Blocked");
         }
@@ -1071,7 +1071,7 @@ namespace ApexCitadels.PC.UI
             infoLayout.childAlignment = TextAnchor.MiddleLeft;
             
             CreateText(info.transform, description, 11, TextAlignmentOptions.Left, Color.white);
-            CreateText(info.transform, $"{severity} severity • {GetTimeAgo(time)}", 9, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
+            CreateText(info.transform, $"{severity} severity - {GetTimeAgo(time)}", 9, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
         }
 
         private void CreateCounterIntelUpgrade(Transform parent, string name, int current, int max, string description)
@@ -1203,7 +1203,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(info.transform, name, 13, TextAlignmentOptions.Left, Color.white);
             CreateText(info.transform, description, 10, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
-            CreateText(info.transform, $"[$] {cost} Gold | ⏱️ {hours}h", 9, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(info.transform, $"[$] {cost} Gold | [T] {hours}h", 9, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             GameObject btn = new GameObject("TrainBtn");
             btn.transform.SetParent(option.transform, false);

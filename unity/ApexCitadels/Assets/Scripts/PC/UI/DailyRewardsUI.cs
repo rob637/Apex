@@ -393,9 +393,9 @@ namespace ApexCitadels.PC.UI
             
             TextMeshProUGUI statusText = statusIcon.AddComponent<TextMeshProUGUI>();
             if (claimed)
-                statusText.text = "✓";
+                statusText.text = "[OK]";
             else if (isToday)
-                statusText.text = "★";
+                statusText.text = "*";
             else if (locked)
                 statusText.text = "[L]";
             else

@@ -70,7 +70,7 @@ namespace ApexCitadels.PC.GeoMapping
 
         public static GeoBounds FromCenterAndRadius(GeoCoordinate center, double radiusMeters)
         {
-            // Rough approximation: 1 degree latitude ≈ 111,320 meters
+            // Rough approximation: 1 degree latitude ~ 111,320 meters
             double latOffset = radiusMeters / 111320.0;
             // Longitude offset depends on latitude
             double lonOffset = radiusMeters / (111320.0 * Math.Cos(center.Latitude * Math.PI / 180.0));

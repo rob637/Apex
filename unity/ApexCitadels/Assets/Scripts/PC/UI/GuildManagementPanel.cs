@@ -332,7 +332,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕";
+            text.text = "[X]";
             text.fontSize = 20;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -354,8 +354,8 @@ namespace ApexCitadels.PC.UI
             CreateTab(tabs.transform, GuildTab.Members, "[P] Members");
             CreateTab(tabs.transform, GuildTab.Events, "[!] Events");
             CreateTab(tabs.transform, GuildTab.Bank, "🏦 Bank");
-            CreateTab(tabs.transform, GuildTab.Upgrades, "⬆️ Upgrades");
-            CreateTab(tabs.transform, GuildTab.Applications, "📩 Applications");
+            CreateTab(tabs.transform, GuildTab.Upgrades, "^ Upgrades");
+            CreateTab(tabs.transform, GuildTab.Applications, "[M] Applications");
             CreateTab(tabs.transform, GuildTab.Settings, "[P] Settings");
         }
 
@@ -512,7 +512,7 @@ namespace ApexCitadels.PC.UI
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             vlayout.spacing = 5;
             
-            CreateText(progress.transform, $"Level {_guild.Level} → Level {_guild.Level + 1}", 14, TextAlignmentOptions.Center, goldColor);
+            CreateText(progress.transform, $"Level {_guild.Level} -> Level {_guild.Level + 1}", 14, TextAlignmentOptions.Center, goldColor);
             
             // Progress bar
             CreateProgressBar(progress.transform, (float)_guild.Experience / _guild.ExperienceToNextLevel, accentColor);
@@ -558,7 +558,7 @@ namespace ApexCitadels.PC.UI
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.constraintCount = 2;
             
-            CreateStatRow(stats.transform, "📅 Founded", _guild.Founded.ToString("MMM dd, yyyy"));
+            CreateStatRow(stats.transform, "[D] Founded", _guild.Founded.ToString("MMM dd, yyyy"));
             CreateStatRow(stats.transform, "[T] Guild Rank", $"#{_guild.Rank} in Server");
             CreateStatRow(stats.transform, "[!] Wars Won", "23");
             CreateStatRow(stats.transform, "[$] Total Donations", "1.2M Gold");
@@ -619,7 +619,7 @@ namespace ApexCitadels.PC.UI
             
             if (evt.IsJoined)
             {
-                CreateText(preview.transform, "✓ Joined", 11, TextAlignmentOptions.Center, new Color(0.4f, 0.8f, 0.4f));
+                CreateText(preview.transform, "[OK] Joined", 11, TextAlignmentOptions.Center, new Color(0.4f, 0.8f, 0.4f));
             }
             else
             {
@@ -755,7 +755,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
             // Online status
-            string statusIcon = member.IsOnline ? "🟢" : "⚫";
+            string statusIcon = member.IsOnline ? "[O]" : "[O]";
             CreateMemberCell(row.transform, statusIcon, 60, TextAlignmentOptions.Center);
             
             // Name
@@ -814,8 +814,8 @@ namespace ApexCitadels.PC.UI
                 var myMember = _members.Find(m => m.Name == "You");
                 if (myMember != null && (myMember.Role == GuildRole.Leader || myMember.Role == GuildRole.Officer))
                 {
-                    CreateSmallButton(actions.transform, "⬆️", () => PromoteMember(member), officerColor, 25);
-                    CreateSmallButton(actions.transform, "⬇️", () => DemoteMember(member), new Color(0.5f, 0.5f, 0.3f), 25);
+                    CreateSmallButton(actions.transform, "^", () => PromoteMember(member), officerColor, 25);
+                    CreateSmallButton(actions.transform, "v", () => DemoteMember(member), new Color(0.5f, 0.5f, 0.3f), 25);
                     CreateSmallButton(actions.transform, "[X]", () => KickMember(member), new Color(0.5f, 0.2f, 0.2f), 25);
                 }
             }
@@ -909,7 +909,7 @@ namespace ApexCitadels.PC.UI
             // Action button
             if (evt.IsJoined)
             {
-                CreateActionButton(card.transform, "✓ Joined", null, new Color(0.3f, 0.5f, 0.3f), 90);
+                CreateActionButton(card.transform, "[OK] Joined", null, new Color(0.3f, 0.5f, 0.3f), 90);
             }
             else if (evt.Participants < evt.MaxParticipants)
             {
@@ -1061,7 +1061,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 10;
             vlayout.padding = new RectOffset(15, 15, 15, 15);
             
-            CreateSectionHeader(_contentArea.transform, "⬆️ GUILD UPGRADES");
+            CreateSectionHeader(_contentArea.transform, "^ GUILD UPGRADES");
             
             foreach (var upgrade in _upgrades)
             {
@@ -1139,7 +1139,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 10;
             vlayout.padding = new RectOffset(15, 15, 15, 15);
             
-            CreateSectionHeader(_contentArea.transform, "📩 PENDING APPLICATIONS");
+            CreateSectionHeader(_contentArea.transform, "[M] PENDING APPLICATIONS");
             
             if (_applications.Count == 0)
             {
@@ -1188,8 +1188,8 @@ namespace ApexCitadels.PC.UI
             CreateText(card.transform, GetTimeAgo(app.AppliedAt), 10, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
             
             // Actions
-            CreateActionButton(card.transform, "✓ Accept", () => ProcessApplication(app, true), new Color(0.3f, 0.6f, 0.3f), 80);
-            CreateActionButton(card.transform, "✕ Decline", () => ProcessApplication(app, false), new Color(0.6f, 0.3f, 0.3f), 80);
+            CreateActionButton(card.transform, "[OK] Accept", () => ProcessApplication(app, true), new Color(0.3f, 0.6f, 0.3f), 80);
+            CreateActionButton(card.transform, "[X] Decline", () => ProcessApplication(app, false), new Color(0.6f, 0.3f, 0.3f), 80);
         }
 
         private void CreateSettingsContent()
@@ -1421,7 +1421,7 @@ namespace ApexCitadels.PC.UI
                 GuildEventType.Raid => "🐉",
                 GuildEventType.Defense => "[D]",
                 GuildEventType.BossHunt => "👹",
-                _ => "📅"
+                _ => "[D]"
             };
         }
 
@@ -1429,14 +1429,14 @@ namespace ApexCitadels.PC.UI
         {
             return type switch
             {
-                GuildLogType.Chat => "💬",
-                GuildLogType.Join => "➡️",
-                GuildLogType.Leave => "⬅️",
-                GuildLogType.Kick => "🚫",
-                GuildLogType.Promotion => "⬆️",
-                GuildLogType.Demotion => "⬇️",
+                GuildLogType.Chat => "[C]",
+                GuildLogType.Join => ">",
+                GuildLogType.Leave => "<",
+                GuildLogType.Kick => "[X]",
+                GuildLogType.Promotion => "^",
+                GuildLogType.Demotion => "v",
                 GuildLogType.Donation => "[$]",
-                GuildLogType.Upgrade => "⬆️",
+                GuildLogType.Upgrade => "^",
                 GuildLogType.War => "[!]",
                 _ => "[T]"
             };

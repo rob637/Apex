@@ -260,7 +260,7 @@ namespace ApexCitadels.PC.UI
                     ResourceType = null,
                     BonusPercent = 25,
                     ExpiresAt = DateTime.Now.AddDays(3),
-                    Icon = "👑"
+                    Icon = "[K]"
                 }
             };
         }
@@ -325,7 +325,7 @@ namespace ApexCitadels.PC.UI
             CreateAutoCollectToggle(header.transform);
             
             // Close button
-            CreateHeaderButton(header.transform, "✕", Hide, new Color(0.5f, 0.2f, 0.2f));
+            CreateHeaderButton(header.transform, "[X]", Hide, new Color(0.5f, 0.2f, 0.2f));
         }
 
         private void CreateStorageIndicator(Transform parent)
@@ -347,7 +347,7 @@ namespace ApexCitadels.PC.UI
             float storagePercent = (float)_currentStorage / _storageCapacity;
             Color storageColor = storagePercent > 0.9f ? dangerColor : (storagePercent > 0.7f ? warningColor : accentColor);
             
-            CreateText(storage.transform, $"🏪 Storage: {(storagePercent * 100):F0}%", 11, TextAlignmentOptions.Center, storageColor);
+            CreateText(storage.transform, $"[S] Storage: {(storagePercent * 100):F0}%", 11, TextAlignmentOptions.Center, storageColor);
             CreateText(storage.transform, $"{FormatNumber(_currentStorage)}/{FormatNumber(_storageCapacity)}", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
         }
 
@@ -429,7 +429,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
             CreateTab(tabBar.transform, ResourceTab.Overview, "[#] Overview");
-            CreateTab(tabBar.transform, ResourceTab.Buildings, "🏗️ Buildings");
+            CreateTab(tabBar.transform, ResourceTab.Buildings, "[B] Buildings");
             CreateTab(tabBar.transform, ResourceTab.Boosts, "[!] Boosts");
             CreateTab(tabBar.transform, ResourceTab.Trade, "[R] Trade");
             CreateTab(tabBar.transform, ResourceTab.History, "[S] History");
@@ -819,12 +819,12 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup infoLayout = info.AddComponent<VerticalLayoutGroup>();
             infoLayout.childAlignment = TextAnchor.MiddleLeft;
             
-            CreateText(info.transform, $"🏗️ {building.Name}", 13, TextAlignmentOptions.Left, Color.white);
+            CreateText(info.transform, $"[B] {building.Name}", 13, TextAlignmentOptions.Left, Color.white);
             CreateText(info.transform, $"Level {building.Level}", 10, TextAlignmentOptions.Left, accentColor);
             
             if (building.IsUpgrading)
             {
-                CreateText(info.transform, $"⏫ Upgrading... {GetTimeRemaining(building.UpgradeCompleteTime)}", 9, TextAlignmentOptions.Left, warningColor);
+                CreateText(info.transform, $"[^] Upgrading... {GetTimeRemaining(building.UpgradeCompleteTime)}", 9, TextAlignmentOptions.Left, warningColor);
             }
             
             // Production info
@@ -1069,7 +1069,7 @@ namespace ApexCitadels.PC.UI
             CreateText(row.transform, $"{fromIcon} {FormatNumber(fromAmount)}", 14, TextAlignmentOptions.Center, new Color(0.9f, 0.5f, 0.5f));
             
             // Arrow
-            CreateText(row.transform, "➡️", 18, TextAlignmentOptions.Center);
+            CreateText(row.transform, ">", 18, TextAlignmentOptions.Center);
             
             // To
             string toIcon = _resources.ContainsKey(to) ? _resources[to].Icon : "[B]";
@@ -1133,7 +1133,7 @@ namespace ApexCitadels.PC.UI
             CreateHistoryEntry(content.transform, "Troop Training", "-5,000 Gold", DateTime.Now.AddHours(-2));
             CreateHistoryEntry(content.transform, "Alliance Donation", "-10,000 Gold", DateTime.Now.AddHours(-3));
             CreateHistoryEntry(content.transform, "Quest Reward", "+1,200 Crystal", DateTime.Now.AddHours(-4));
-            CreateHistoryEntry(content.transform, "Resource Trade", "-20,000 Gold → +10,000 Stone", DateTime.Now.AddHours(-5));
+            CreateHistoryEntry(content.transform, "Resource Trade", "-20,000 Gold -> +10,000 Stone", DateTime.Now.AddHours(-5));
         }
 
         private void CreateHistoryEntry(Transform parent, string action, string amount, DateTime time)

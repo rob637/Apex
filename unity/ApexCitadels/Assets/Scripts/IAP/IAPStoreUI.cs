@@ -412,7 +412,7 @@ namespace ApexCitadels.UI
                     desc += "\n\nYou will receive:";
                     foreach (var reward in _selectedProduct.Rewards)
                     {
-                        desc += $"\n• {reward.Amount:N0} {FormatRewardType(reward.Type)}";
+                        desc += $"\n- {reward.Amount:N0} {FormatRewardType(reward.Type)}";
                     }
                 }
 
@@ -627,7 +627,7 @@ namespace ApexCitadels.UI
                 case "crystal": return "Crystals 💠";
                 case "xp": return "XP [*]";
                 case "season_xp": return "Season XP [*]";
-                case "premium_pass": return "Premium Pass 👑";
+                case "premium_pass": return "Premium Pass [K]";
                 case "cosmetic": return "Cosmetic Item 🎨";
                 case "chest": return "Chest [B]";
                 case "boost": return "Boost [!]";

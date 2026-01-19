@@ -362,7 +362,7 @@ namespace ApexCitadels.PC.UI
             vlayout.spacing = 5;
             vlayout.padding = new RectOffset(10, 10, 10, 10);
             
-            CreateText(progress.transform, "🔍 Exploration", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(progress.transform, "[?] Exploration", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(progress.transform, $"{_exploredRegions}/{_totalRegions} regions", 14, TextAlignmentOptions.Center, accentColor);
             
             // Progress bar
@@ -406,10 +406,10 @@ namespace ApexCitadels.PC.UI
             vlayout.childForceExpandHeight = false;
             vlayout.spacing = 5;
             
-            CreateLayerButton(layers.transform, MapLayer.Political, "🏳️ Political");
+            CreateLayerButton(layers.transform, MapLayer.Political, "[F] Political");
             CreateLayerButton(layers.transform, MapLayer.Resources, "[G] Resources");
             CreateLayerButton(layers.transform, MapLayer.Military, "[!] Military");
-            CreateLayerButton(layers.transform, MapLayer.Trade, "🏪 Trade Routes");
+            CreateLayerButton(layers.transform, MapLayer.Trade, "[S] Trade Routes");
         }
 
         private void CreateLayerButton(Transform parent, MapLayer layer, string label)
@@ -444,7 +444,7 @@ namespace ApexCitadels.PC.UI
 
         private void CreateZoomControls(Transform parent)
         {
-            CreateSectionHeader(parent, "🔍 ZOOM");
+            CreateSectionHeader(parent, "[?] ZOOM");
             
             GameObject zoom = new GameObject("ZoomControls");
             zoom.transform.SetParent(parent, false);
@@ -504,8 +504,8 @@ namespace ApexCitadels.PC.UI
             vlayout.childForceExpandHeight = false;
             vlayout.spacing = 5;
             
-            CreateActionButton(actions.transform, "🏠 Go to Home", () => GoToHome());
-            CreateActionButton(actions.transform, "🔭 Scout Region", () => ScoutSelectedRegion());
+            CreateActionButton(actions.transform, "[H] Go to Home", () => GoToHome());
+            CreateActionButton(actions.transform, "[T] Scout Region", () => ScoutSelectedRegion());
             CreateActionButton(actions.transform, "[*] Set Waypoint", () => SetWaypoint());
         }
 
@@ -609,7 +609,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕ Close Map";
+            text.text = "[X] Close Map";
             text.fontSize = 12;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;
@@ -845,12 +845,12 @@ namespace ApexCitadels.PC.UI
             CreateText(info.transform, "Send scouts to reveal this region", 11, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
             
             // Scout button
-            CreateActionButtonLarge(info.transform, "🔭 Scout Region", () => ScoutRegion(_selectedRegion), accentColor);
+            CreateActionButtonLarge(info.transform, "[T] Scout Region", () => ScoutRegion(_selectedRegion), accentColor);
         }
 
         private void CreateOwnerInfo()
         {
-            CreateSectionHeader(_infoPanel.transform, "👤 OWNER");
+            CreateSectionHeader(_infoPanel.transform, "[U] OWNER");
             
             GameObject owner = new GameObject("OwnerInfo");
             owner.transform.SetParent(_infoPanel.transform, false);
@@ -957,7 +957,7 @@ namespace ApexCitadels.PC.UI
             var report = _scoutReports.Find(r => r.RegionId == _selectedRegion.RegionId);
             if (report == null) return;
             
-            CreateSectionHeader(_infoPanel.transform, "🔭 SCOUT REPORT");
+            CreateSectionHeader(_infoPanel.transform, "[T] SCOUT REPORT");
             
             GameObject reportInfo = new GameObject("ScoutReport");
             reportInfo.transform.SetParent(_infoPanel.transform, false);
@@ -976,7 +976,7 @@ namespace ApexCitadels.PC.UI
             CreateText(reportInfo.transform, $"[!] Troops: {report.TroopEstimate}", 11, TextAlignmentOptions.Center, Color.white);
             CreateText(reportInfo.transform, $"[D] Defense: {report.DefenseRating}", 11, TextAlignmentOptions.Center, Color.white);
             CreateText(reportInfo.transform, report.Notes, 9, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
-            CreateText(reportInfo.transform, $"📅 {GetTimeAgo(report.Timestamp)}", 9, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
+            CreateText(reportInfo.transform, $"[D] {GetTimeAgo(report.Timestamp)}", 9, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
         }
 
         private void CreateRegionActions()
@@ -994,23 +994,23 @@ namespace ApexCitadels.PC.UI
             switch (_selectedRegion.OwnerType)
             {
                 case OwnerType.Player:
-                    CreateActionButtonLarge(actions.transform, "🏠 View Details", () => ViewRegionDetails(_selectedRegion), accentColor);
+                    CreateActionButtonLarge(actions.transform, "[H] View Details", () => ViewRegionDetails(_selectedRegion), accentColor);
                     CreateActionButtonLarge(actions.transform, "[D] Reinforce", () => ReinforceRegion(_selectedRegion), allyColor);
                     break;
                     
                 case OwnerType.Ally:
-                    CreateActionButtonLarge(actions.transform, "🤝 Send Reinforcements", () => SendReinforcements(_selectedRegion), allyColor);
-                    CreateActionButtonLarge(actions.transform, "💬 Message Owner", () => MessageOwner(_selectedRegion), new Color(0.5f, 0.5f, 0.6f));
+                    CreateActionButtonLarge(actions.transform, "[H] Send Reinforcements", () => SendReinforcements(_selectedRegion), allyColor);
+                    CreateActionButtonLarge(actions.transform, "[C] Message Owner", () => MessageOwner(_selectedRegion), new Color(0.5f, 0.5f, 0.6f));
                     break;
                     
                 case OwnerType.Enemy:
                     CreateActionButtonLarge(actions.transform, "[!] ATTACK", () => AttackRegion(_selectedRegion), enemyColor);
-                    CreateActionButtonLarge(actions.transform, "🔭 Scout Again", () => ScoutRegion(_selectedRegion), new Color(0.4f, 0.4f, 0.5f));
+                    CreateActionButtonLarge(actions.transform, "[T] Scout Again", () => ScoutRegion(_selectedRegion), new Color(0.4f, 0.4f, 0.5f));
                     break;
                     
                 case OwnerType.Neutral:
                     CreateActionButtonLarge(actions.transform, "[!] Capture", () => CaptureRegion(_selectedRegion), accentColor);
-                    CreateActionButtonLarge(actions.transform, "🔭 Scout", () => ScoutRegion(_selectedRegion), new Color(0.4f, 0.4f, 0.5f));
+                    CreateActionButtonLarge(actions.transform, "[T] Scout", () => ScoutRegion(_selectedRegion), new Color(0.4f, 0.4f, 0.5f));
                     break;
             }
         }
@@ -1105,14 +1105,14 @@ namespace ApexCitadels.PC.UI
 
         private string GetRegionIcon(MapRegion region)
         {
-            if (!region.IsExplored) return "❓";
+            if (!region.IsExplored) return "?";
             
             return region.Type switch
             {
                 RegionType.Citadel => "[C]",
                 RegionType.Fortress => "🏯",
-                RegionType.Outpost => "🏕️",
-                RegionType.Port => "⚓",
+                RegionType.Outpost => "[C]",
+                RegionType.Port => "[A]",
                 RegionType.ResourceNode => "[M]",
                 RegionType.Wonder => "[R]",
                 RegionType.Wilderness => "🌲",
@@ -1125,7 +1125,7 @@ namespace ApexCitadels.PC.UI
             return type switch
             {
                 MarkerType.Boss => "👹",
-                MarkerType.Trade => "🏪",
+                MarkerType.Trade => "[S]",
                 MarkerType.Battle => "[!]",
                 MarkerType.Treasure => "[G]",
                 _ => "[*]"

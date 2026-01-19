@@ -48,9 +48,9 @@ namespace ApexCitadels.PC.Visual
 
         private void Start()
         {
-            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
+            ApexLogger.Log("=======================================================================", ApexLogger.LogCategory.General);
             ApexLogger.Log("  APEX CITADELS - VISUAL WORLD MANAGER STARTING", ApexLogger.LogCategory.General);
-            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
+            ApexLogger.Log("=======================================================================", ApexLogger.LogCategory.General);
 
             // FIRST: Disable any old flat ground
             DisableFlatGround();
@@ -63,9 +63,9 @@ namespace ApexCitadels.PC.Visual
             // Subscribe to territory updates
             Invoke(nameof(InitializeTerritoryVisuals), 2f); // Delay to let Firebase load
 
-            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
+            ApexLogger.Log("=======================================================================", ApexLogger.LogCategory.General);
             ApexLogger.Log("  [OK] VISUAL SYSTEMS INITIALIZED - World should now look amazing!", ApexLogger.LogCategory.General);
-            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
+            ApexLogger.Log("=======================================================================", ApexLogger.LogCategory.General);
         }
 
         private void InitializeVisualSystems()

@@ -219,7 +219,7 @@ namespace ApexCitadels.PC.UI
                 // Announce change
                 string announcement = contested 
                     ? $"[!] {territory.name} is under attack!"
-                    : $"🏴 {territory.name} captured!";
+                    : $"[F] {territory.name} captured!";
                 AddChatMessage("War", announcement, true);
             }
         }
@@ -252,7 +252,7 @@ namespace ApexCitadels.PC.UI
         {
             return status switch
             {
-                WarStatus.Preparation => "⏳ PREPARATION PHASE",
+                WarStatus.Preparation => "[T] PREPARATION PHASE",
                 WarStatus.InProgress => "[!] WAR IN PROGRESS",
                 WarStatus.Concluded => "[T] WAR CONCLUDED",
                 _ => "UNKNOWN"
@@ -482,11 +482,11 @@ namespace ApexCitadels.PC.UI
                     }
                     else if (timeLeft.TotalHours >= 1)
                     {
-                        countdownText.text = $"⏱ {(int)timeLeft.TotalHours}:{timeLeft.Minutes:D2}:{timeLeft.Seconds:D2}";
+                        countdownText.text = $"[T] {(int)timeLeft.TotalHours}:{timeLeft.Minutes:D2}:{timeLeft.Seconds:D2}";
                     }
                     else
                     {
-                        countdownText.text = $"⏱ {timeLeft.Minutes:D2}:{timeLeft.Seconds:D2}";
+                        countdownText.text = $"[T] {timeLeft.Minutes:D2}:{timeLeft.Seconds:D2}";
                     }
                 }
                 

@@ -212,11 +212,11 @@ namespace ApexCitadels.PC.UI
                 ActivityType.Attack => "[!]",
                 ActivityType.Defense => "[D]",
                 ActivityType.Conquest => "[T]",
-                ActivityType.Alliance => "🤝",
+                ActivityType.Alliance => "[H]",
                 ActivityType.Achievement => "[*]",
                 ActivityType.LevelUp => "[+]",
-                ActivityType.Building => "🏗️",
-                _ => "📢"
+                ActivityType.Building => "[B]",
+                _ => "[!]"
             };
         }
 
@@ -324,7 +324,7 @@ namespace ApexCitadels.PC.UI
             titleRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI titleText = title.AddComponent<TextMeshProUGUI>();
-            titleText.text = "📢 Activity Feed";
+            titleText.text = "[!] Activity Feed";
             titleText.fontSize = 16;
             titleText.fontStyle = FontStyles.Bold;
             titleText.alignment = TextAlignmentOptions.Center;

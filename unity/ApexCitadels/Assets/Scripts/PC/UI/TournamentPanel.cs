@@ -164,7 +164,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 30;
             hlayout.childForceExpandWidth = true;
             
-            CreateStatItem(statsContainer.transform, "🏅 Your Rank", "#42");
+            CreateStatItem(statsContainer.transform, "[M] Your Rank", "#42");
             CreateStatItem(statsContainer.transform, "[+] Win Rate", "68%");
             CreateStatItem(statsContainer.transform, "[T] Tournaments Won", "3");
             CreateStatItem(statsContainer.transform, "[$] Total Winnings", "15,420 Gold");
@@ -224,7 +224,7 @@ namespace ApexCitadels.PC.UI
             xtRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI x = closeText.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 22;
             x.color = Color.white;
             x.alignment = TextAlignmentOptions.Center;
@@ -251,8 +251,8 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 6, 6);
             hlayout.childForceExpandWidth = true;
             
-            _activeTab = CreateTabButton(tabBar.transform, "🔴 Active", () => ShowTab(TournamentViewTab.Active));
-            _upcomingTab = CreateTabButton(tabBar.transform, "📅 Upcoming", () => ShowTab(TournamentViewTab.Upcoming));
+            _activeTab = CreateTabButton(tabBar.transform, "[R] Active", () => ShowTab(TournamentViewTab.Active));
+            _upcomingTab = CreateTabButton(tabBar.transform, "[D] Upcoming", () => ShowTab(TournamentViewTab.Upcoming));
             _myMatchesTab = CreateTabButton(tabBar.transform, "[ATK] My Matches", () => ShowTab(TournamentViewTab.MyMatches));
             _historyTab = CreateTabButton(tabBar.transform, "[S] History", () => ShowTab(TournamentViewTab.History));
             
@@ -533,7 +533,7 @@ namespace ApexCitadels.PC.UI
             hlayout.childForceExpandWidth = true;
             
             _registerButton = CreateActionButton(actionsRow.transform, "📝 Register", OnRegisterClicked, accentColor);
-            _spectateButton = CreateActionButton(actionsRow.transform, "👁️ Spectate", OnSpectateClicked, new Color(0.3f, 0.4f, 0.6f));
+            _spectateButton = CreateActionButton(actionsRow.transform, "[E] Spectate", OnSpectateClicked, new Color(0.3f, 0.4f, 0.6f));
             
             _registerButton.interactable = false;
             _spectateButton.interactable = false;
@@ -1103,11 +1103,11 @@ namespace ApexCitadels.PC.UI
         {
             return status switch
             {
-                TournamentPanelStatus.Registration => "📅",
-                TournamentPanelStatus.InProgress => "🔴",
+                TournamentPanelStatus.Registration => "[D]",
+                TournamentPanelStatus.InProgress => "[R]",
                 TournamentPanelStatus.Completed => "[OK]",
                 TournamentPanelStatus.Cancelled => "[X]",
-                _ => "❓"
+                _ => "?"
             };
         }
 

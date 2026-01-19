@@ -113,7 +113,7 @@ namespace ApexCitadels.PC.UI
                 Description = "A sturdy iron helmet. Basic but reliable.",
                 Category = ItemCategory.Equipment,
                 Rarity = InventoryItemRarity.Common,
-                Icon = "⛑️",
+                Icon = "[H]",
                 Quantity = 1,
                 Stats = new ItemStats { Defense = 30 },
                 SellPrice = 200,
@@ -310,7 +310,7 @@ namespace ApexCitadels.PC.UI
                 Description = "Opens the Dark Dungeon entrance.",
                 Category = ItemCategory.Special,
                 Rarity = InventoryItemRarity.Epic,
-                Icon = "🗝️",
+                Icon = "[K]",
                 Quantity = 2,
                 MaxStack = 10,
                 SellPrice = 0,
@@ -446,7 +446,7 @@ namespace ApexCitadels.PC.UI
             CreateCategoryTab(tabs.transform, ItemCategory.Consumable, "[P] Consumables");
             CreateCategoryTab(tabs.transform, ItemCategory.Material, "[Q] Materials");
             CreateCategoryTab(tabs.transform, ItemCategory.Treasure, "[$] Treasures");
-            CreateCategoryTab(tabs.transform, ItemCategory.Special, "🗝️ Special");
+            CreateCategoryTab(tabs.transform, ItemCategory.Special, "[K] Special");
         }
 
         private void CreateCategoryTab(Transform parent, ItemCategory category, string label)
@@ -744,7 +744,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 18;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -812,7 +812,7 @@ namespace ApexCitadels.PC.UI
             var s = _selectedItem.Stats;
             if (s.Attack > 0) CreateStatItem(stats.transform, "[!] Attack", $"+{s.Attack}");
             if (s.Defense > 0) CreateStatItem(stats.transform, "[D] Defense", $"+{s.Defense}");
-            if (s.Health > 0) CreateStatItem(stats.transform, "❤️ Health", $"+{s.Health}");
+            if (s.Health > 0) CreateStatItem(stats.transform, "[+] Health", $"+{s.Health}");
             if (s.Speed > 0) CreateStatItem(stats.transform, "[!] Speed", $"+{s.Speed}");
             if (s.FireDamage > 0) CreateStatItem(stats.transform, "[*] Fire DMG", $"+{s.FireDamage}");
             if (s.Stealth > 0) CreateStatItem(stats.transform, "👻 Stealth", $"+{s.Stealth}");

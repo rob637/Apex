@@ -428,7 +428,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕";
+            text.text = "[X]";
             text.fontSize = 20;
             text.alignment = TextAlignmentOptions.Center;
         }
@@ -448,7 +448,7 @@ namespace ApexCitadels.PC.UI
             
             CreateTab(tabs.transform, ArenaTab.QuickMatch, "[!] Quick Match");
             CreateTab(tabs.transform, ArenaTab.Ranked, "[T] Ranked");
-            CreateTab(tabs.transform, ArenaTab.Tournaments, "🎪 Tournaments");
+            CreateTab(tabs.transform, ArenaTab.Tournaments, "[E] Tournaments");
             CreateTab(tabs.transform, ArenaTab.Leaderboard, "[#] Leaderboard");
             CreateTab(tabs.transform, ArenaTab.History, "[S] History");
             CreateTab(tabs.transform, ArenaTab.Rewards, "[?] Rewards");
@@ -673,7 +673,7 @@ namespace ApexCitadels.PC.UI
             vlayout.childAlignment = TextAnchor.MiddleCenter;
             vlayout.spacing = 15;
             
-            CreateText(container.transform, "🔍", 48, TextAlignmentOptions.Center);
+            CreateText(container.transform, "[?]", 48, TextAlignmentOptions.Center);
             CreateText(container.transform, "SEARCHING FOR OPPONENT...", 18, TextAlignmentOptions.Center, accentColor);
             CreateText(container.transform, $"Time: {Mathf.FloorToInt(_searchTime)}s", 14, TextAlignmentOptions.Center, Color.white);
             CreateText(container.transform, $"Rating range: {_playerStats.Rating - 100} - {_playerStats.Rating + 100}", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
@@ -844,7 +844,7 @@ namespace ApexCitadels.PC.UI
             VerticalLayoutGroup timeVL = timeLeft.AddComponent<VerticalLayoutGroup>();
             timeVL.childAlignment = TextAnchor.MiddleCenter;
             
-            CreateText(timeLeft.transform, "⏱️ TIME LEFT", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(timeLeft.transform, "[T] TIME LEFT", 10, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             CreateText(timeLeft.transform, "14 Days", 18, TextAlignmentOptions.Center, accentColor);
             
             // Season rewards preview
@@ -955,7 +955,7 @@ namespace ApexCitadels.PC.UI
                 }
                 else
                 {
-                    CreateTournamentButton(card.transform, "✓ Registered", null, new Color(0.3f, 0.5f, 0.3f));
+                    CreateTournamentButton(card.transform, "[OK] Registered", null, new Color(0.3f, 0.5f, 0.3f));
                 }
             }
             else if (canJoin)
@@ -1112,7 +1112,7 @@ namespace ApexCitadels.PC.UI
             LayoutElement sepLE = separator.AddComponent<LayoutElement>();
             sepLE.preferredHeight = 20;
             
-            CreateText(separator.transform, "• • •", 12, TextAlignmentOptions.Center, new Color(0.4f, 0.4f, 0.4f));
+            CreateText(separator.transform, "- - -", 12, TextAlignmentOptions.Center, new Color(0.4f, 0.4f, 0.4f));
             
             // Player's row
             GameObject playerRow = new GameObject("PlayerRow");
@@ -1177,7 +1177,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(15, 15, 8, 8);
             
             // Result
-            string resultIcon = match.Won ? "✓" : "✕";
+            string resultIcon = match.Won ? "[OK]" : "[X]";
             Color resultColor = match.Won ? new Color(0.4f, 0.9f, 0.4f) : new Color(0.9f, 0.4f, 0.4f);
             CreateText(entry.transform, resultIcon, 24, TextAlignmentOptions.Center, resultColor);
             
@@ -1197,7 +1197,7 @@ namespace ApexCitadels.PC.UI
             // Duration
             int minutes = match.Duration / 60;
             int seconds = match.Duration % 60;
-            CreateText(entry.transform, $"⏱️ {minutes}:{seconds:D2}", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
+            CreateText(entry.transform, $"[T] {minutes}:{seconds:D2}", 11, TextAlignmentOptions.Center, new Color(0.6f, 0.6f, 0.6f));
             
             // Rating change
             string ratingText = match.RatingChange > 0 ? $"+{match.RatingChange}" : match.RatingChange.ToString();
@@ -1319,7 +1319,7 @@ namespace ApexCitadels.PC.UI
             
             CreateText(card.transform, milestone, 10, TextAlignmentOptions.Center, Color.white);
             CreateText(card.transform, reward, 9, TextAlignmentOptions.Center, goldColor);
-            CreateText(card.transform, claimed ? "✓ Claimed" : "[L] Locked", 8, TextAlignmentOptions.Center, 
+            CreateText(card.transform, claimed ? "[OK] Claimed" : "[L] Locked", 8, TextAlignmentOptions.Center, 
                       claimed ? new Color(0.4f, 0.8f, 0.4f) : new Color(0.5f, 0.5f, 0.5f));
         }
 

@@ -311,7 +311,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕";
+            text.text = "[X]";
             text.fontSize = 18;
             text.alignment = TextAlignmentOptions.Center;
             text.color = Color.white;

@@ -222,9 +222,9 @@ namespace ApexCitadels.PC.UI
             layout.padding = new RectOffset(5, 5, 2, 2);
             
             // Create tabs
-            CreateChannelTab(tabBar.transform, "🌍 World", ChatChannel.World, worldColor);
+            CreateChannelTab(tabBar.transform, "[W] World", ChatChannel.World, worldColor);
             CreateChannelTab(tabBar.transform, "[!] Alliance", ChatChannel.Alliance, allianceColor);
-            CreateChannelTab(tabBar.transform, "📨 Private", ChatChannel.Private, privateColor);
+            CreateChannelTab(tabBar.transform, "[M] Private", ChatChannel.Private, privateColor);
         }
 
         private void CreateChannelTab(Transform parent, string label, ChatChannel channel, Color color)
@@ -456,7 +456,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "⬆";
+            text.text = "^";
             text.fontSize = 14;
             text.alignment = TextAlignmentOptions.Center;
             text.color = Color.white;
@@ -528,7 +528,7 @@ namespace ApexCitadels.PC.UI
             
             if (msg.IsSystem)
             {
-                text.text = $"<color=#{ColorUtility.ToHtmlStringRGB(systemColor)}>[{timeStr}] ★ {msg.Text}</color>";
+                text.text = $"<color=#{ColorUtility.ToHtmlStringRGB(systemColor)}>[{timeStr}] * {msg.Text}</color>";
             }
             else
             {

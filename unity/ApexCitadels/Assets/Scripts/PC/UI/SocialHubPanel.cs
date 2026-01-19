@@ -333,7 +333,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -357,7 +357,7 @@ namespace ApexCitadels.PC.UI
             CreateTab(tabs.transform, SocialTab.Guild, $"[!] Guild ({_currentGuild?.MemberCount ?? 0})");
             CreateTab(tabs.transform, SocialTab.Requests, $"📬 Requests ({_pendingRequests.Count})");
             CreateTab(tabs.transform, SocialTab.Activity, "📰 Activity");
-            CreateTab(tabs.transform, SocialTab.Search, "🔍 Search");
+            CreateTab(tabs.transform, SocialTab.Search, "[?] Search");
         }
 
         private void CreateTab(Transform parent, SocialTab tab, string label)
@@ -481,8 +481,8 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
-            CreateSmallButton(bar.transform, "➕ Add Friend", () => OpenAddFriend(), accentColor);
-            CreateSmallButton(bar.transform, "🔗 Share Code", () => ShareFriendCode(), new Color(0.4f, 0.6f, 0.4f));
+            CreateSmallButton(bar.transform, "[+] Add Friend", () => OpenAddFriend(), accentColor);
+            CreateSmallButton(bar.transform, "[L] Share Code", () => ShareFriendCode(), new Color(0.4f, 0.6f, 0.4f));
             
             GameObject spacer = new GameObject("Spacer");
             spacer.transform.SetParent(bar.transform, false);
@@ -587,12 +587,12 @@ namespace ApexCitadels.PC.UI
             
             if (friend.Status == OnlineStatus.Online)
             {
-                CreateSmallButton(actions.transform, "💬", () => OpenChat(friend), accentColor);
+                CreateSmallButton(actions.transform, "[C]", () => OpenChat(friend), accentColor);
                 CreateSmallButton(actions.transform, "[!]", () => InviteToBattle(friend), new Color(0.7f, 0.4f, 0.3f));
             }
             else
             {
-                CreateSmallButton(actions.transform, "📨", () => SendOfflineMessage(friend), new Color(0.4f, 0.4f, 0.5f));
+                CreateSmallButton(actions.transform, "[M]", () => SendOfflineMessage(friend), new Color(0.4f, 0.4f, 0.5f));
             }
         }
 
@@ -644,8 +644,8 @@ namespace ApexCitadels.PC.UI
             hlayout.childAlignment = TextAnchor.MiddleCenter;
             hlayout.spacing = 20;
             
-            CreateActionButton(actions.transform, "🔍 Browse Guilds", BrowseGuilds, accentColor);
-            CreateActionButton(actions.transform, "➕ Create Guild", CreateGuild, goldColor);
+            CreateActionButton(actions.transform, "[?] Browse Guilds", BrowseGuilds, accentColor);
+            CreateActionButton(actions.transform, "[+] Create Guild", CreateGuild, goldColor);
         }
 
         private void CreateGuildHeader()
@@ -692,7 +692,7 @@ namespace ApexCitadels.PC.UI
             infoVL.spacing = 3;
             
             CreateText(info.transform, $"<b>{_currentGuild.Tag} {_currentGuild.Name}</b>", 18, TextAlignmentOptions.Left, goldColor);
-            CreateText(info.transform, $"Level {_currentGuild.Level} • Rank #{_currentGuild.WorldRank}", 12, TextAlignmentOptions.Left, Color.white);
+            CreateText(info.transform, $"Level {_currentGuild.Level} - Rank #{_currentGuild.WorldRank}", 12, TextAlignmentOptions.Left, Color.white);
             CreateText(info.transform, _currentGuild.Description, 10, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             // Quick stats
@@ -763,10 +763,10 @@ namespace ApexCitadels.PC.UI
             // Rank badge
             string rankIcon = member.Rank switch
             {
-                GuildRank.Leader => "👑",
+                GuildRank.Leader => "[K]",
                 GuildRank.Officer => "[*]",
                 GuildRank.Veteran => "[M]",
-                _ => "👤"
+                _ => "[U]"
             };
             CreateText(card.transform, rankIcon, 18, TextAlignmentOptions.Center);
             
@@ -782,7 +782,7 @@ namespace ApexCitadels.PC.UI
             
             // Last active
             bool isOnline = (DateTime.Now - member.LastActive).TotalMinutes < 5;
-            CreateText(card.transform, isOnline ? "🟢" : "⚫", 12, TextAlignmentOptions.Center);
+            CreateText(card.transform, isOnline ? "[O]" : "[O]", 12, TextAlignmentOptions.Center);
         }
 
         private void CreateRequestsContent()
@@ -844,12 +844,12 @@ namespace ApexCitadels.PC.UI
             
             string details = $"Power: {request.PowerLevel:N0}";
             if (!string.IsNullOrEmpty(request.AllianceName))
-                details += $" • {request.AllianceName}";
+                details += $" - {request.AllianceName}";
             CreateText(info.transform, details, 10, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             // Actions
-            CreateSmallButton(card.transform, "✓ Accept", () => AcceptRequest(request), new Color(0.3f, 0.6f, 0.3f));
-            CreateSmallButton(card.transform, "✗ Decline", () => DeclineRequest(request), new Color(0.6f, 0.3f, 0.3f));
+            CreateSmallButton(card.transform, "[OK] Accept", () => AcceptRequest(request), new Color(0.3f, 0.6f, 0.3f));
+            CreateSmallButton(card.transform, "[X] Decline", () => DeclineRequest(request), new Color(0.6f, 0.3f, 0.3f));
         }
 
         private void CreateActivityContent()
@@ -880,10 +880,10 @@ namespace ApexCitadels.PC.UI
             {
                 SocialActivityType.Achievement => "[T]",
                 SocialActivityType.Battle => "[!]",
-                SocialActivityType.LevelUp => "⬆️",
+                SocialActivityType.LevelUp => "^",
                 SocialActivityType.GuildEvent => "[C]",
-                SocialActivityType.Online => "🟢",
-                _ => "📌"
+                SocialActivityType.Online => "[O]",
+                _ => "[P]"
             };
             CreateText(item.transform, icon, 16, TextAlignmentOptions.Center);
             
@@ -913,7 +913,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.padding = new RectOffset(15, 15, 5, 5);
             
-            CreateText(searchBar.transform, "🔍", 18, TextAlignmentOptions.Center);
+            CreateText(searchBar.transform, "[?]", 18, TextAlignmentOptions.Center);
             CreateText(searchBar.transform, "Enter player name or friend code...", 13, TextAlignmentOptions.Left, new Color(0.5f, 0.5f, 0.5f));
             
             // Info

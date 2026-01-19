@@ -214,7 +214,7 @@ namespace ApexCitadels.PC.UI
             daysRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI daysText = daysObj.AddComponent<TextMeshProUGUI>();
-            daysText.text = "⏱️ 42 days remaining";
+            daysText.text = "[T] 42 days remaining";
             daysText.fontSize = 16;
             daysText.alignment = TextAlignmentOptions.Right;
             daysText.color = new Color(0.7f, 0.7f, 0.7f);
@@ -490,7 +490,7 @@ namespace ApexCitadels.PC.UI
                 checkRect.offsetMax = Vector2.zero;
                 
                 TextMeshProUGUI checkText = checkObj.AddComponent<TextMeshProUGUI>();
-                checkText.text = "✓";
+                checkText.text = "[OK]";
                 checkText.fontSize = 36;
                 checkText.alignment = TextAlignmentOptions.Center;
                 checkText.color = Color.white;
@@ -509,7 +509,7 @@ namespace ApexCitadels.PC.UI
                 lockRect.offsetMax = Vector2.zero;
                 
                 TextMeshProUGUI lockText = lockObj.AddComponent<TextMeshProUGUI>();
-                lockText.text = isPremium && !_hasPremium ? "👑" : "[L]";
+                lockText.text = isPremium && !_hasPremium ? "[K]" : "[L]";
                 lockText.fontSize = 14;
                 lockText.alignment = TextAlignmentOptions.Center;
             }
@@ -565,7 +565,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "👑 UPGRADE TO PREMIUM - $9.99";
+            text.text = "[K] UPGRADE TO PREMIUM - $9.99";
             text.fontSize = 18;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;
@@ -600,7 +600,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMax = Vector2.zero;
             
             TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-            text.text = "✕";
+            text.text = "[X]";
             text.fontSize = 22;
             text.alignment = TextAlignmentOptions.Center;
             text.color = Color.white;
@@ -661,7 +661,7 @@ namespace ApexCitadels.PC.UI
             _premiumRewards.Clear();
             
             string[] freeIcons = { "[G]", "[!]", "[D]", "[W]", "[B]" };
-            string[] premiumIcons = { "👑", "[*]", "🎨", "🐉", "[T]" };
+            string[] premiumIcons = { "[K]", "[*]", "🎨", "🐉", "[T]" };
             string[] freeNames = { "Gems", "Energy", "Shield", "Weapon", "Crate" };
             string[] premiumNames = { "Crown", "Star Skin", "Epic Decor", "Dragon Pet", "Legendary" };
             

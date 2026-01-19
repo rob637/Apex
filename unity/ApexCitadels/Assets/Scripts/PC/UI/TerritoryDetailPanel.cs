@@ -149,7 +149,7 @@ namespace ApexCitadels.PC.UI
             if (nameDisplay != null)
                 nameDisplay.text = _currentTerritory.Name;
             if (levelDisplay != null)
-                levelDisplay.text = $"★ Level {_currentTerritory.Level}";
+                levelDisplay.text = $"* Level {_currentTerritory.Level}";
 
             // Update dynamic info text with comprehensive territory data
             if (_dynamicInfoText != null)
@@ -294,7 +294,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             var text = entryObj.GetComponentInChildren<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = $"• {entry.Message}";
+                text.text = $"- {entry.Message}";
                 text.color = GetActivityColor(entry.Type);
             }
         }

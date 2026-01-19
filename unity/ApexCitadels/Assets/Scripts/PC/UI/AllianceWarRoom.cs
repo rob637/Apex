@@ -169,7 +169,7 @@ namespace ApexCitadels.PC.UI
             textRect.offsetMin = Vector2.zero;
             textRect.offsetMax = Vector2.zero;
             TextMeshProUGUI x = textObj.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.alignment = TextAlignmentOptions.Center;
         }
@@ -245,7 +245,7 @@ namespace ApexCitadels.PC.UI
                 isAttacker ? TextAlignmentOptions.Left : TextAlignmentOptions.Right, Color.white);
             
             // Members/Power
-            CreateText(display.transform, $"{alliance.MemberCount} members • {alliance.Power:N0} power", 11, 
+            CreateText(display.transform, $"{alliance.MemberCount} members - {alliance.Power:N0} power", 11, 
                 isAttacker ? TextAlignmentOptions.Left : TextAlignmentOptions.Right, new Color(0.7f, 0.7f, 0.7f));
         }
 
@@ -396,7 +396,7 @@ namespace ApexCitadels.PC.UI
             
             CreateActionButton(actions.transform, "[!] Attack", () => ApexLogger.Log("[War] Opening attack interface...", ApexLogger.LogCategory.UI));
             CreateActionButton(actions.transform, "[D] Defend", () => ApexLogger.Log("[War] Opening defense interface...", ApexLogger.LogCategory.UI));
-            CreateActionButton(actions.transform, "📢 Rally", () => ApexLogger.Log("[War] Sending rally call...", ApexLogger.LogCategory.UI));
+            CreateActionButton(actions.transform, "[!] Rally", () => ApexLogger.Log("[War] Sending rally call...", ApexLogger.LogCategory.UI));
         }
 
         private void CreateBattlesContent()
@@ -496,9 +496,9 @@ namespace ApexCitadels.PC.UI
             // Troops
             if (ourTroops > 0 || enemyTroops > 0)
             {
-                CreateText(item.transform, $"🟢 {ourTroops}", 14, TextAlignmentOptions.Center, allyColor);
+                CreateText(item.transform, $"[O] {ourTroops}", 14, TextAlignmentOptions.Center, allyColor);
                 CreateText(item.transform, "vs", 12, TextAlignmentOptions.Center, new Color(0.5f, 0.5f, 0.5f));
-                CreateText(item.transform, $"🔴 {enemyTroops}", 14, TextAlignmentOptions.Center, enemyColor);
+                CreateText(item.transform, $"[R] {enemyTroops}", 14, TextAlignmentOptions.Center, enemyColor);
             }
             
             // Action button
@@ -585,7 +585,7 @@ namespace ApexCitadels.PC.UI
             CreateDefenseItem("Western Gate", "Storm_Bringer", "1/2 slots filled");
             CreateDefenseItem("Home Base", "Thunder_Strike, Iron_Warrior", "Full");
             
-            CreateSectionHeader("💬 Strategic Notes");
+            CreateSectionHeader("[C] Strategic Notes");
             
             GameObject notesBox = new GameObject("NotesBox");
             notesBox.transform.SetParent(_contentContainer.transform, false);
@@ -597,7 +597,7 @@ namespace ApexCitadels.PC.UI
             bg.color = new Color(0.08f, 0.08f, 0.12f);
             
             TextMeshProUGUI notes = notesBox.AddComponent<TextMeshProUGUI>();
-            notes.text = "• Focus attacks on Eastern Fortress at 18:00\n• Need 2 more defenders at Western Gate\n• Save siege units for final push\n• Enemy is weak on cavalry - exploit this!";
+            notes.text = "- Focus attacks on Eastern Fortress at 18:00\n- Need 2 more defenders at Western Gate\n- Save siege units for final push\n- Enemy is weak on cavalry - exploit this!";
             notes.fontSize = 12;
             notes.color = new Color(0.8f, 0.8f, 0.8f);
             notes.alignment = TextAlignmentOptions.TopLeft;
@@ -800,7 +800,7 @@ namespace ApexCitadels.PC.UI
             hlayout.padding = new RectOffset(10, 10, 5, 5);
             
             // Checkbox
-            string check = completed ? "[OK]" : "⬜";
+            string check = completed ? "[OK]" : "[]";
             CreateText(item.transform, check, 18, TextAlignmentOptions.Center);
             
             // Description

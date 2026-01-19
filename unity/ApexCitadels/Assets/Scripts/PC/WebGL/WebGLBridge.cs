@@ -24,7 +24,7 @@ namespace ApexCitadels.PC.WebGL
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         // =====================================================
-        // JavaScript Imports - Unity → Browser
+        // JavaScript Imports - Unity -> Browser
         // =====================================================
         
         [DllImport("__Internal")]
@@ -96,7 +96,7 @@ namespace ApexCitadels.PC.WebGL
             NotifyGameReady();
         }
 
-        #region Unity → JavaScript
+        #region Unity -> JavaScript
 
         /// <summary>
         /// Notify the web page that the game has loaded and is ready
@@ -364,7 +364,7 @@ namespace ApexCitadels.PC.WebGL
 
         #endregion
 
-        #region JavaScript → Unity (called via SendMessage)
+        #region JavaScript -> Unity (called via SendMessage)
 
         /// <summary>
         /// Called from JavaScript to pass login token

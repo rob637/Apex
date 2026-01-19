@@ -12,7 +12,7 @@ namespace ApexCitadels.AR
 {
     /// <summary>
     /// Bootstraps the AR experience, ensuring all systems are initialized
-    /// in the correct order: Permissions → AR Session → Geospatial → UI
+    /// in the correct order: Permissions -> AR Session -> Geospatial -> UI
     /// </summary>
     public class ARBootstrap : MonoBehaviour
     {

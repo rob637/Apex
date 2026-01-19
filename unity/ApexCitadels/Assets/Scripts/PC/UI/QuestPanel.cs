@@ -332,7 +332,7 @@ namespace ApexCitadels.PC.UI
             txt.transform.SetParent(closeBtn.transform, false);
             
             TextMeshProUGUI x = txt.AddComponent<TextMeshProUGUI>();
-            x.text = "✕";
+            x.text = "[X]";
             x.fontSize = 24;
             x.alignment = TextAlignmentOptions.Center;
             
@@ -355,7 +355,7 @@ namespace ApexCitadels.PC.UI
             hlayout.spacing = 10;
             hlayout.padding = new RectOffset(50, 50, 0, 0);
             
-            CreateCategoryTab(tabs.transform, QuestCategory.Daily, "📅 Daily", dailyColor);
+            CreateCategoryTab(tabs.transform, QuestCategory.Daily, "[D] Daily", dailyColor);
             CreateCategoryTab(tabs.transform, QuestCategory.Weekly, "📆 Weekly", weeklyColor);
             CreateCategoryTab(tabs.transform, QuestCategory.Story, "📖 Story", storyColor);
         }
@@ -561,7 +561,7 @@ namespace ApexCitadels.PC.UI
             else if (quest.IsCompleted)
                 icon.text = "[?]";
             else
-                icon.text = "⏳";
+                icon.text = "[T]";
             
             icon.fontSize = 32;
             icon.alignment = TextAlignmentOptions.Center;

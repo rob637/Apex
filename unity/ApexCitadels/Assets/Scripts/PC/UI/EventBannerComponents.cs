@@ -344,11 +344,11 @@ namespace ApexCitadels.PC.UI
                 {
                     if (timeLeft.TotalHours >= 1)
                     {
-                        countdownText.text = $"⏱ {(int)timeLeft.TotalHours}h {timeLeft.Minutes}m";
+                        countdownText.text = $"[T] {(int)timeLeft.TotalHours}h {timeLeft.Minutes}m";
                     }
                     else
                     {
-                        countdownText.text = $"⏱ {timeLeft.Minutes}m {timeLeft.Seconds}s";
+                        countdownText.text = $"[T] {timeLeft.Minutes}m {timeLeft.Seconds}s";
                     }
                     
                     // Urgency color
@@ -434,7 +434,7 @@ namespace ApexCitadels.PC.UI
                     break;
                 case UrgencyLevel.Warning:
                     color = urgentColor;
-                    text = "⏱️ LIMITED TIME";
+                    text = "[T] LIMITED TIME";
                     break;
                 default:
                     color = normalColor;

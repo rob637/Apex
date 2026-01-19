@@ -50,8 +50,8 @@ namespace ApexCitadels.PC.UI
         {
             { TroopType.Infantry, "[!]" },
             { TroopType.Archer, "[A]" },
-            { TroopType.Cavalry, "🐴" },
-            { TroopType.Siege, "💣" },
+            { TroopType.Cavalry, "[H]" },
+            { TroopType.Siege, "[X]" },
             { TroopType.Mage, "🔮" },
             { TroopType.Guardian, "[D]" }
         };
