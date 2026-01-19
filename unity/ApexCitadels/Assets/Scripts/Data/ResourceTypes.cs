@@ -9,17 +9,22 @@ namespace ApexCitadels.Data
     // ============================================================================
 
     /// <summary>
-    /// The 6 resource types in the game
+    /// All resource types in the game
     /// Matches backend: ResourceType in types/index.ts
     /// </summary>
     public enum ResourceType
     {
         Stone,          // Basic building material
         Wood,           // Basic building material
-        Iron,           // Weapons/armor (formerly 'metal')
+        Iron,           // Weapons/armor
+        Metal,          // Alias for Iron (legacy compatibility)
         Crystal,        // Advanced building material
         ArcaneEssence,  // Magical resource for elite troops
-        Gems            // Premium currency
+        Gems,           // Premium currency
+        Gold,           // Currency
+        Food,           // Troop upkeep
+        Energy,         // Action resource
+        Influence       // Social/political resource
     }
 
     /// <summary>

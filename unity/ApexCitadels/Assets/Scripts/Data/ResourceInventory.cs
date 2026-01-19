@@ -9,32 +9,20 @@ using System.Threading.Tasks;
 
 namespace ApexCitadels.Data
 {
-    /// <summary>
-    /// Resource types available in the game
-    /// </summary>
-    public enum ResourceType
-    {
-        Stone,
-        Wood,
-        Metal,
-        Crystal,
-        Gold,
-        Food,
-        Energy,
-        Influence
-    }
+    // Note: ResourceType enum is defined in ResourceTypes.cs
+    // Note: ResourceCost class is defined in ResourceTypes.cs
 
     /// <summary>
-    /// Resource cost for buildings/actions
+    /// Simple resource cost with type name and amount (for serialization)
     /// </summary>
     [System.Serializable]
-    public class ResourceCost
+    public class SimpleResourceCost
     {
         public string Type;
         public int Amount;
 
-        public ResourceCost() { }
-        public ResourceCost(string type, int amount)
+        public SimpleResourceCost() { }
+        public SimpleResourceCost(string type, int amount)
         {
             Type = type;
             Amount = amount;
