@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 using ApexCitadels.Core;
 
 namespace ApexCitadels.Map
@@ -9,6 +10,7 @@ namespace ApexCitadels.Map
     /// <summary>
     /// Renders real-world Mapbox tiles as the ground plane.
     /// Replaces the procedural green ground with actual geographic imagery.
+    /// AAA-quality rendering with mipmaps, anisotropic filtering, and retina support.
     /// </summary>
     public class MapboxTileRenderer : MonoBehaviour
     {
@@ -18,7 +20,7 @@ namespace ApexCitadels.Map
         [SerializeField] private MapboxConfiguration config;
         
         [Header("Tile Grid")]
-        [SerializeField] private int gridSize = 5;  // 5x5 grid of tiles
+        [SerializeField] private int gridSize = 7;  // 7x7 grid for better coverage
         [SerializeField] private float tileWorldSize = 100f;  // Size of each tile in world units
         [SerializeField] private float groundHeight = -0.5f;  // Height of ground plane
         
@@ -27,8 +29,12 @@ namespace ApexCitadels.Map
         [SerializeField] private double centerLongitude = -74.0060;
         [SerializeField] private int zoomLevel = 15;
         
-        [Header("Visual")]
-        [SerializeField] private bool useUnlit = true;  // Unlit for map tiles looks better
+        [Header("AAA Visual Quality")]
+        [SerializeField] private bool useUnlit = true;  // Unlit for map tiles looks cleaner
+        [SerializeField] private FilterMode textureFilterMode = FilterMode.Trilinear;
+        [SerializeField] private int anisotropicLevel = 16;  // Max anisotropic filtering
+        [SerializeField] private bool generateMipmaps = true;  // Crisp at all distances
+        [SerializeField] private bool useHighQualityMaterial = true;
         
         // Runtime state
         private Dictionary<string, TileData> _tiles = new Dictionary<string, TileData>();
@@ -36,6 +42,7 @@ namespace ApexCitadels.Map
         private int _centerTileX;
         private int _centerTileY;
         private bool _isInitialized;
+        private Material _sharedTileMaterial;
         
         // Events
         public System.Action OnMapLoaded;
@@ -204,12 +211,14 @@ namespace ApexCitadels.Map
             float scale = tileWorldSize / 10f;
             plane.transform.localScale = new Vector3(scale, 1, scale);
             
-            // Initial gray material
-            Material mat = useUnlit 
-                ? new Material(Shader.Find("Unlit/Texture") ?? Shader.Find("Universal Render Pipeline/Unlit"))
-                : new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-            mat.color = new Color(0.3f, 0.3f, 0.3f);
+            // Create AAA-quality material
+            Material mat = CreateTileMaterial();
             plane.GetComponent<Renderer>().material = mat;
+            
+            // Enable shadows for realism
+            var renderer = plane.GetComponent<Renderer>();
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = true;
             
             // Remove collider (we'll add our own for picking)
             Destroy(plane.GetComponent<Collider>());
@@ -222,6 +231,44 @@ namespace ApexCitadels.Map
                 Y = tileY,
                 IsLoading = false
             };
+        }
+        
+        /// <summary>
+        /// Create high-quality material for map tiles
+        /// </summary>
+        private Material CreateTileMaterial()
+        {
+            Material mat;
+            
+            if (useUnlit)
+            {
+                // Try URP Unlit first, then fallback
+                Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
+                if (shader == null) shader = Shader.Find("Unlit/Texture");
+                if (shader == null) shader = Shader.Find("Standard");
+                mat = new Material(shader);
+            }
+            else if (useHighQualityMaterial)
+            {
+                // URP Lit with proper settings for ground
+                Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+                if (shader == null) shader = Shader.Find("Standard");
+                mat = new Material(shader);
+                
+                // Set up for ground rendering
+                mat.SetFloat("_Smoothness", 0.1f);  // Low smoothness for ground
+                mat.SetFloat("_Metallic", 0f);
+                mat.EnableKeyword("_SPECULARHIGHLIGHTS_OFF");
+            }
+            else
+            {
+                mat = new Material(Shader.Find("Standard"));
+            }
+            
+            // Initial loading color (subtle gray)
+            mat.color = new Color(0.25f, 0.25f, 0.28f);
+            
+            return mat;
         }
         
         private void RefreshTiles()
@@ -284,23 +331,49 @@ namespace ApexCitadels.Map
                 
                 if (www.result == UnityWebRequest.Result.Success)
                 {
-                    // Create texture from downloaded bytes
-                    tile.Texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-                    if (tile.Texture.LoadImage(www.downloadHandler.data))
+                    // Create AAA-quality texture with mipmaps for crisp rendering at all distances
+                    // We need to load first without mipmaps, then recreate with mipmaps
+                    Texture2D tempTex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                    
+                    if (tempTex.LoadImage(www.downloadHandler.data))
                     {
+                        // Create final texture with mipmaps for quality at distance
+                        if (generateMipmaps)
+                        {
+                            tile.Texture = new Texture2D(tempTex.width, tempTex.height, TextureFormat.RGBA32, true);
+                            tile.Texture.SetPixels(tempTex.GetPixels());
+                            tile.Texture.Apply(true, false);  // Generate mipmaps
+                            Destroy(tempTex);
+                        }
+                        else
+                        {
+                            tile.Texture = tempTex;
+                        }
+                        
+                        // AAA Quality Settings
                         tile.Texture.wrapMode = TextureWrapMode.Clamp;
-                        tile.Texture.filterMode = FilterMode.Bilinear;
+                        tile.Texture.filterMode = textureFilterMode;  // Trilinear for smooth blending
+                        tile.Texture.anisoLevel = anisotropicLevel;   // Max anisotropic filtering
                         
                         if (tile.GameObject != null)
                         {
                             Material mat = tile.GameObject.GetComponent<Renderer>().material;
                             mat.mainTexture = tile.Texture;
                             mat.color = Color.white;
+                            
+                            // Ensure texture settings are applied to material
+                            if (mat.HasProperty("_MainTex"))
+                            {
+                                mat.SetTexture("_MainTex", tile.Texture);
+                            }
                         }
+                        
+                        ApexLogger.Log($"[Mapbox] Loaded tile {key} ({tile.Texture.width}x{tile.Texture.height}, Mipmaps: {tile.Texture.mipmapCount})", ApexLogger.LogCategory.Map);
                     }
                     else
                     {
                         ApexLogger.LogWarning($"[Mapbox] Failed to decode tile image {key}", ApexLogger.LogCategory.Map);
+                        Destroy(tempTex);
                     }
                 }
                 else
