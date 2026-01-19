@@ -1,6 +1,5 @@
 using UnityEngine;
 using ApexCitadels.Core;
-using ApexCitadels.PC.Visual;
 
 // Run before AR Foundation components
 [DefaultExecutionOrder(-1000)]
@@ -31,9 +30,9 @@ public class DesktopFallbackCamera : MonoBehaviour
         // Tag as MainCamera so Camera.main works
         gameObject.tag = "MainCamera";
         
-        // Only set solid color if no skybox system is active
-        var skyboxSystem = FindFirstObjectByType<SkyboxEnvironmentSystem>();
-        if (skyboxSystem == null || !skyboxSystem.gameObject.activeInHierarchy)
+        // Only set solid color if no skybox is configured
+        // Use RenderSettings.skybox to check - works across assemblies
+        if (RenderSettings.skybox == null)
         {
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = new Color(0.2f, 0.3f, 0.4f); // Blue-grey sky
@@ -41,7 +40,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         else
         {
             cam.clearFlags = CameraClearFlags.Skybox;
-            Debug.Log("[DesktopFallback] SkyboxEnvironmentSystem active - using Skybox clear flags");
+            Debug.Log("[DesktopFallback] Skybox material detected - using Skybox clear flags");
         }
         
         cam.cullingMask = -1; // Everything
