@@ -10,6 +10,8 @@ using System.Linq;
 using UnityEngine.Rendering;
 using ApexCitadels.Core.Assets;
 using ApexCitadels.PC;
+using ApexCitadels.PC.Environment;
+using ApexCitadels.PC.Buildings;
 
 namespace ApexCitadels.Editor
 {
@@ -163,8 +165,8 @@ namespace ApexCitadels.Editor
             _hasPCGameController = FindObjectByTypeName("PCGameController");
             _hasPCInputManager = FindObjectByTypeName("PCInputManager");
             _hasPCUIManager = FindObjectByTypeName("PCUIManager");
-            _hasWorldEnvironment = FindObjectByTypeName("WorldEnvironmentManager");
-            _hasBuildingModelProvider = FindObjectByTypeName("BuildingModelProvider");
+            _hasWorldEnvironment = Object.FindFirstObjectByType<WorldEnvironmentManager>() != null;
+            _hasBuildingModelProvider = Object.FindFirstObjectByType<BuildingModelProvider>() != null;
             
             // Render Pipeline
             _hasURPAsset = GraphicsSettings.currentRenderPipeline != null;
@@ -322,15 +324,10 @@ namespace ApexCitadels.Editor
 
         private void AddWorldEnvironmentManager()
         {
-            if (!FindObjectByTypeName("WorldEnvironmentManager"))
+            if (Object.FindFirstObjectByType<WorldEnvironmentManager>() == null)
             {
                 GameObject obj = new GameObject("WorldEnvironmentManager");
-                // Use reflection to add component by name since it might be in a different namespace
-                var type = System.Type.GetType("ApexCitadels.PC.Environment.WorldEnvironmentManager, Assembly-CSharp");
-                if (type != null)
-                {
-                    obj.AddComponent(type);
-                }
+                obj.AddComponent<WorldEnvironmentManager>();
                 Undo.RegisterCreatedObjectUndo(obj, "Create WorldEnvironmentManager");
                 Debug.Log("[Setup] Added WorldEnvironmentManager to scene");
                 _needsRefresh = true;
@@ -339,14 +336,10 @@ namespace ApexCitadels.Editor
 
         private void AddBuildingModelProvider()
         {
-            if (!FindObjectByTypeName("BuildingModelProvider"))
+            if (Object.FindFirstObjectByType<BuildingModelProvider>() == null)
             {
                 GameObject obj = new GameObject("BuildingModelProvider");
-                var type = System.Type.GetType("ApexCitadels.PC.Buildings.BuildingModelProvider, Assembly-CSharp");
-                if (type != null)
-                {
-                    obj.AddComponent(type);
-                }
+                obj.AddComponent<BuildingModelProvider>();
                 Undo.RegisterCreatedObjectUndo(obj, "Create BuildingModelProvider");
                 Debug.Log("[Setup] Added BuildingModelProvider to scene");
                 _needsRefresh = true;
