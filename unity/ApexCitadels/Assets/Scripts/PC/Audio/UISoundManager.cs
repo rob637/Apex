@@ -180,69 +180,103 @@ namespace ApexCitadels.PC.Audio
     /// </summary>
     public enum UISoundType
     {
-        // Buttons
+        // Buttons (SFX-UI01-06)
         ButtonClick,
+        Confirm,
+        Cancel,
+        ButtonSpecial,
         ButtonHover,
         ButtonDisabled,
-        ButtonToggleOn,
-        ButtonToggleOff,
         
-        // Navigation
-        TabSwitch,
+        // Toggles & Sliders (SFX-UI07-10)
+        ToggleOn,
+        ToggleOff,
+        SliderTick,
+        SliderEnd,
+        
+        // Panels & Navigation (SFX-UI11-18)
         PanelOpen,
         PanelClose,
-        PopupOpen,
-        PopupClose,
+        PopupAppear,
+        PopupDismiss,
+        TabSwitch,
+        ScrollTick,
+        DrawerOpen,
+        DrawerClose,
         
-        // Feedback
+        // Notifications (SFX-UI19-26)
+        NotificationInfo,
         Success,
-        Error,
         Warning,
-        Notification,
+        NotificationError,
+        Message,
+        FriendNotification,
         Achievement,
+        QuestComplete,
         
-        // Resources
+        // Currency & Rewards (SFX-UI27-37)
+        CoinSingle,
+        CoinMultiple,
+        CoinLarge,
+        GemCollect,
+        ResourceCollect,
+        XPGain,
+        LevelUp,
+        ChestOpen,
+        ItemReveal,
+        RareReward,
+        LegendaryReward,
+        
+        // Menu Navigation (SFX-UI38-40)
+        MenuNavigate,
+        MenuSelect,
+        MenuBack,
+        
+        // System (SFX-UI41-48)
+        LoadingStart,
+        LoadingComplete,
+        Screenshot,
+        CountdownTick,
+        CountdownFinal,
+        TypingKey,
+        ErrorBuzz,
+        ConfirmChime,
+        
+        // Legacy (for backward compatibility)
+        Error,
+        Notification,
         Collect,
         Spend,
         Purchase,
         Insufficient,
-        
-        // Building
         PlaceBlock,
         RotateBlock,
         DeleteBlock,
         SnapBlock,
         InvalidPlacement,
-        
-        // Combat
         SelectUnit,
         DeployUnit,
         AttackOrder,
         DefendOrder,
-        
-        // Social
         MessageReceived,
         FriendOnline,
         AllianceAlert,
-        
-        // Progress
         QueueAdd,
         QueueComplete,
-        LevelUp,
         UnlockNew,
-        
-        // Menu
         MenuOpen,
         MenuClose,
         SliderMove,
         DropdownOpen,
         DropdownSelect,
-        
-        // Misc
         Typing,
         Countdown,
         TimerTick,
-        Fanfare
+        Fanfare,
+        ButtonToggleOn,
+        ButtonToggleOff,
+        PopupOpen,
+        PopupClose
     }
     
     /// <summary>
