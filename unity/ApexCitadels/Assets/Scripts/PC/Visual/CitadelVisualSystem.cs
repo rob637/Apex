@@ -55,7 +55,7 @@ namespace ApexCitadels.PC.Visual
         private void Start()
         {
             CreateFallbackPrefabs();
-            ApexLogger.Log(ApexLogger.LogCategory.General, "✅ Citadel visual system initialized");
+            ApexLogger.Log("✅ Citadel visual system initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace ApexCitadels.PC.Visual
             CreateWallPrefab("W01_Stone_Wall_Straight_2m", CreateStoneWall);
             CreateWallPrefab("W10_Stone_Wall_Gate_Small", CreateGate);
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Created {buildingPrefabs.Count} building prefabs, {towerPrefabs.Count} tower prefabs, {wallPrefabs.Count} wall prefabs");
+            ApexLogger.LogVerbose($"Created {buildingPrefabs.Count} building prefabs, {towerPrefabs.Count} tower prefabs, {wallPrefabs.Count} wall prefabs", ApexLogger.LogCategory.General);
         }
 
         #region Building Creation Methods

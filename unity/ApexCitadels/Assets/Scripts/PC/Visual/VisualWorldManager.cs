@@ -48,9 +48,9 @@ namespace ApexCitadels.PC.Visual
 
         private void Start()
         {
-            ApexLogger.Log(ApexLogger.LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
-            ApexLogger.Log(ApexLogger.LogCategory.General, "  APEX CITADELS - VISUAL WORLD MANAGER STARTING");
-            ApexLogger.Log(ApexLogger.LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
+            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
+            ApexLogger.Log("  APEX CITADELS - VISUAL WORLD MANAGER STARTING", ApexLogger.LogCategory.General);
+            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
 
             // FIRST: Disable any old flat ground
             DisableFlatGround();
@@ -63,9 +63,9 @@ namespace ApexCitadels.PC.Visual
             // Subscribe to territory updates
             Invoke(nameof(InitializeTerritoryVisuals), 2f); // Delay to let Firebase load
 
-            ApexLogger.Log(ApexLogger.LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
-            ApexLogger.Log(ApexLogger.LogCategory.General, "  ✅ VISUAL SYSTEMS INITIALIZED - World should now look amazing!");
-            ApexLogger.Log(ApexLogger.LogCategory.General, "═══════════════════════════════════════════════════════════════════════");
+            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
+            ApexLogger.Log("  ✅ VISUAL SYSTEMS INITIALIZED - World should now look amazing!", ApexLogger.LogCategory.General);
+            ApexLogger.Log("═══════════════════════════════════════════════════════════════════════", ApexLogger.LogCategory.General);
         }
 
         private void InitializeVisualSystems()
@@ -80,7 +80,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject terrainObj = new GameObject("TerrainSystem");
                 terrainObj.transform.SetParent(visualSystems.transform);
                 terrainSystem = terrainObj.AddComponent<TerrainVisualSystem>();
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "✅ Terrain system created");
+                ApexLogger.LogVerbose("✅ Terrain system created", ApexLogger.LogCategory.General);
             }
 
             // 2. Skybox & Environment - Dynamic sky, day/night, clouds
@@ -89,7 +89,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject skyboxObj = new GameObject("SkyboxSystem");
                 skyboxObj.transform.SetParent(visualSystems.transform);
                 skyboxSystem = skyboxObj.AddComponent<SkyboxEnvironmentSystem>();
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "✅ Skybox system created");
+                ApexLogger.LogVerbose("✅ Skybox system created", ApexLogger.LogCategory.General);
             }
 
             // 3. Citadel Visuals - 3D buildings for territories
@@ -98,7 +98,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject citadelObj = new GameObject("CitadelSystem");
                 citadelObj.transform.SetParent(visualSystems.transform);
                 citadelSystem = citadelObj.AddComponent<CitadelVisualSystem>();
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "✅ Citadel system created");
+                ApexLogger.LogVerbose("✅ Citadel system created", ApexLogger.LogCategory.General);
             }
 
             // 4. Audio Manager - Music, SFX, ambient sounds
@@ -107,7 +107,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject audioObj = new GameObject("AudioManager");
                 audioObj.transform.SetParent(visualSystems.transform);
                 audioManager = audioObj.AddComponent<AudioManager>();
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "✅ Audio manager created");
+                ApexLogger.LogVerbose("✅ Audio manager created", ApexLogger.LogCategory.General);
             }
 
             // 5. Post-Processing - Bloom, color grading, etc.
@@ -116,7 +116,7 @@ namespace ApexCitadels.PC.Visual
                 GameObject ppObj = new GameObject("PostProcessing");
                 ppObj.transform.SetParent(visualSystems.transform);
                 postProcessing = ppObj.AddComponent<PostProcessingSetup>();
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "✅ Post-processing created");
+                ApexLogger.LogVerbose("✅ Post-processing created", ApexLogger.LogCategory.General);
             }
 
             // 6. Disable old flat ground if it exists
@@ -135,7 +135,7 @@ namespace ApexCitadels.PC.Visual
                 if (obj.name == "Ground" || obj.name == "GroundPlane" || obj.name == "Plane")
                 {
                     obj.SetActive(false);
-                    ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Disabled old ground: {obj.name}");
+                    ApexLogger.LogVerbose($"Disabled old ground: {obj.name}", ApexLogger.LogCategory.General);
                 }
             }
 
@@ -169,7 +169,7 @@ namespace ApexCitadels.PC.Visual
                 cam.allowHDR = true;
                 cam.allowMSAA = true;
 
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Camera configured for 3D world");
+                ApexLogger.LogVerbose("Camera configured for 3D world", ApexLogger.LogCategory.General);
             }
         }
 
@@ -184,7 +184,7 @@ namespace ApexCitadels.PC.Visual
             var worldMap = Object.FindFirstObjectByType<WorldMapRenderer>();
             if (worldMap == null)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, "WorldMapRenderer not found, retrying...");
+                ApexLogger.LogWarning("WorldMapRenderer not found, retrying...", ApexLogger.LogCategory.General);
                 Invoke(nameof(InitializeTerritoryVisuals), 2f);
                 return;
             }
@@ -242,7 +242,7 @@ namespace ApexCitadels.PC.Visual
                 );
             }
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Created {citadelPositions.Length} demo citadels");
+            ApexLogger.LogVerbose($"Created {citadelPositions.Length} demo citadels", ApexLogger.LogCategory.General);
         }
 
         #region Public API
@@ -412,7 +412,7 @@ namespace ApexCitadels.PC.Visual
             currentPresetIndex = (currentPresetIndex + 1) % 7;
             PostProcessingSetup.VisualPreset preset = (PostProcessingSetup.VisualPreset)currentPresetIndex;
             postProcessing.TransitionToPreset(preset, 0.5f);
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Switched to preset: {preset}");
+            ApexLogger.LogVerbose($"Switched to preset: {preset}", ApexLogger.LogCategory.General);
         }
     }
 }

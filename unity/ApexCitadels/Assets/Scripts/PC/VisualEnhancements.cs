@@ -69,12 +69,12 @@ namespace ApexCitadels.PC
                     CreateAmbientParticles();
                 }
                 
-                ApexLogger.Log(ApexLogger.LogCategory.General, "Visual enhancements initialized (legacy mode)");
+                ApexLogger.Log("Visual enhancements initialized (legacy mode)", ApexLogger.LogCategory.General);
             }
             else
             {
                 // New visual system handles everything - disable this
-                ApexLogger.Log(ApexLogger.LogCategory.General, "New VisualWorldManager detected - skipping legacy visuals");
+                ApexLogger.Log("New VisualWorldManager detected - skipping legacy visuals", ApexLogger.LogCategory.General);
                 
                 // Destroy old ground plane if it exists
                 var oldGround = GameObject.Find("GroundPlane");
@@ -121,7 +121,7 @@ namespace ApexCitadels.PC
                 sun.transform.rotation = Quaternion.Euler(45f, 30f, 0f);
             }
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, "Sky configured with gradient ambient lighting");
+            ApexLogger.Log("Sky configured with gradient ambient lighting", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace ApexCitadels.PC
             // Add subtle grid overlay
             CreateGridOverlay();
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, "Enhanced ground plane created");
+            ApexLogger.Log("Enhanced ground plane created", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace ApexCitadels.PC
                     lineMat);
             }
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, $"Created {lineCount * 2} grid lines");
+            ApexLogger.Log($"Created {lineCount * 2} grid lines", ApexLogger.LogCategory.General);
         }
 
         private void CreateLine(Transform parent, string name, Vector3 start, Vector3 end, Material mat)
@@ -253,7 +253,7 @@ namespace ApexCitadels.PC
             RenderSettings.fogColor = fogColor;
             RenderSettings.fogDensity = fogDensity;
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, "Fog configured");
+            ApexLogger.Log("Fog configured", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace ApexCitadels.PC
             
             _ambientParticles.Play();
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, "Ambient particles created");
+            ApexLogger.Log("Ambient particles created", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace ApexCitadels.PC
                 }
             }
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, $"Enhanced {territories.Length} territories with glow effects");
+            ApexLogger.Log($"Enhanced {territories.Length} territories with glow effects", ApexLogger.LogCategory.General);
         }
 
         private Light FindMainDirectionalLight()

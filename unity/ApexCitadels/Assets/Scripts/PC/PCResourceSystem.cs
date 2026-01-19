@@ -109,7 +109,7 @@ namespace ApexCitadels.PC
             FindUIElements();
             UpdateUI();
             
-            ApexLogger.Log(ApexLogger.LogCategory.Economy, "PCResourceSystem initialized");
+            ApexLogger.Log("PCResourceSystem initialized", ApexLogger.LogCategory.Economy);
         }
 
         private void Update()
@@ -145,7 +145,7 @@ namespace ApexCitadels.PC
             UpdateUI();
             OnTick?.Invoke();
             
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, $"Tick: +{goldProduction:F0}g, +{stoneProduction:F0}s, +{woodProduction:F0}w");
+            ApexLogger.LogVerbose($"Tick: +{goldProduction:F0}g, +{stoneProduction:F0}s, +{woodProduction:F0}w", ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace ApexCitadels.PC
         {
             if (GetResource(type) < amount)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.Economy, $"Insufficient {type}!");
+                ApexLogger.Log($"Insufficient {type}!", ApexLogger.LogCategory.Economy);
                 return false;
             }
 
@@ -294,7 +294,7 @@ namespace ApexCitadels.PC
             // Check if we have enough
             if (_gold < gold || _stone < stone || _wood < wood || _iron < iron || _crystal < crystal)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.Economy, "Insufficient resources!");
+                ApexLogger.Log("Insufficient resources!", ApexLogger.LogCategory.Economy);
                 return false;
             }
             
@@ -412,7 +412,7 @@ namespace ApexCitadels.PC
         {
             // TODO: Spawn floating text showing resource gain
             // For now just log
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.Economy, $"+{amount:F0} {type}");
+            ApexLogger.LogVerbose($"+{amount:F0} {type}", ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>

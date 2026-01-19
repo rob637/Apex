@@ -56,7 +56,7 @@ namespace ApexCitadels.PC.Visual
             CreateAtmosphere();
             PlaceDecorations();
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, "✅ Terrain visual system initialized");
+            ApexLogger.Log("✅ Terrain visual system initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ApexCitadels.PC.Visual
             terrain.treeBillboardDistance = 100f;
             terrain.treeDistance = 200f;
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Created terrain with procedural heightmap");
+            ApexLogger.LogVerbose("Created terrain with procedural heightmap", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -404,14 +404,14 @@ namespace ApexCitadels.PC.Visual
                 terrainShader = Shader.Find(shaderName);
                 if (terrainShader != null)
                 {
-                    ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Using terrain shader: {shaderName}");
+                    ApexLogger.LogVerbose($"Using terrain shader: {shaderName}", ApexLogger.LogCategory.General);
                     break;
                 }
             }
 
             if (terrainShader == null)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, "No suitable terrain shader found!");
+                ApexLogger.LogWarning("No suitable terrain shader found!", ApexLogger.LogCategory.General);
                 terrainShader = Shader.Find("Diffuse");
             }
 
@@ -445,7 +445,7 @@ namespace ApexCitadels.PC.Visual
             Material waterMat = CreateWaterMaterial();
             waterPlane.GetComponent<Renderer>().material = waterMat;
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Created water plane");
+            ApexLogger.LogVerbose("Created water plane", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -528,7 +528,7 @@ namespace ApexCitadels.PC.Visual
             RenderSettings.ambientEquatorColor = new Color(0.4f, 0.45f, 0.5f);
             RenderSettings.ambientGroundColor = new Color(0.2f, 0.25f, 0.2f);
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Created atmospheric effects");
+            ApexLogger.LogVerbose("Created atmospheric effects", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace ApexCitadels.PC.Visual
                 }
             }
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Placed {decorations.Count} decorations");
+            ApexLogger.LogVerbose($"Placed {decorations.Count} decorations", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

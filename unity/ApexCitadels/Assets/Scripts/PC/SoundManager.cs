@@ -215,7 +215,7 @@ namespace ApexCitadels.PC
         {
             if (!_musicTracks.ContainsKey(trackId))
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"Music track not found: {trackId}");
+                ApexLogger.LogWarning($"Music track not found: {trackId}", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -235,7 +235,7 @@ namespace ApexCitadels.PC
             }
             
             OnMusicTrackChanged?.Invoke(trackId);
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Playing music: {trackId}");
+            ApexLogger.LogVerbose($"Playing music: {trackId}", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace ApexCitadels.PC
             
             if (_currentPlaylist.Count == 0)
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, "No valid tracks in playlist");
+                ApexLogger.LogWarning("No valid tracks in playlist", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -269,7 +269,7 @@ namespace ApexCitadels.PC
             
             PlayCurrentPlaylistTrack();
             
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Playing playlist with {_currentPlaylist.Count} tracks");
+            ApexLogger.LogVerbose($"Playing playlist with {_currentPlaylist.Count} tracks", ApexLogger.LogCategory.General);
         }
 
         private void PlayCurrentPlaylistTrack()
@@ -396,7 +396,7 @@ namespace ApexCitadels.PC
         {
             if (!_sfxClips.ContainsKey(sfxId))
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"SFX not found: {sfxId}");
+                ApexLogger.LogWarning($"SFX not found: {sfxId}", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -404,7 +404,7 @@ namespace ApexCitadels.PC
             if (clip == null)
             {
                 // Placeholder - would load from Resources in production
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"SFX played: {sfxId}");
+                ApexLogger.LogVerbose($"SFX played: {sfxId}", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -422,14 +422,14 @@ namespace ApexCitadels.PC
         {
             if (!_sfxClips.ContainsKey(sfxId))
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"SFX not found: {sfxId}");
+                ApexLogger.LogWarning($"SFX not found: {sfxId}", ApexLogger.LogCategory.General);
                 return;
             }
             
             AudioClip clip = _sfxClips[sfxId];
             if (clip == null)
             {
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"SFX played with pitch variation: {sfxId}");
+                ApexLogger.LogVerbose($"SFX played with pitch variation: {sfxId}", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -480,7 +480,7 @@ namespace ApexCitadels.PC
         {
             if (!_uiClips.ContainsKey(soundId))
             {
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"UI sound played: {soundId}");
+                ApexLogger.LogVerbose($"UI sound played: {soundId}", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -511,7 +511,7 @@ namespace ApexCitadels.PC
         {
             if (!_ambientClips.ContainsKey(ambientId))
             {
-                ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Ambient sound: {ambientId}");
+                ApexLogger.LogVerbose($"Ambient sound: {ambientId}", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -664,11 +664,11 @@ namespace ApexCitadels.PC
                         _ambientClips[id] = clip;
                         break;
                 }
-                ApexLogger.Log(ApexLogger.LogCategory.General, $"Loaded {category}/{id} from {resourcePath}");
+                ApexLogger.Log($"Loaded {category}/{id} from {resourcePath}", ApexLogger.LogCategory.General);
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"Failed to load: {resourcePath}");
+                ApexLogger.LogWarning($"Failed to load: {resourcePath}", ApexLogger.LogCategory.General);
             }
         }
 

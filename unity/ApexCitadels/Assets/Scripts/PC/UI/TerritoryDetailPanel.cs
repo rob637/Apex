@@ -380,7 +380,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             var cost = GetUpgradeCost(nextLevel);
             if (ResourceSpendingManager.Instance != null)
             {
-                ResourceSpendingManager.Instance.SpendResources(cost);
+                ResourceSpendingManager.Instance.Spend(cost, "Territory Upgrade");
             }
 
             // Call backend to perform upgrade
@@ -478,7 +478,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             // Check player resources against upgrade cost
             if (_currentTerritory == null) return false;
             
-            var cost = GetUpgradeCost(_currentTerritory.Level + 1);
+            Economy.ResourceCost cost = GetUpgradeCost(_currentTerritory.Level + 1);
             
             if (ResourceSpendingManager.Instance != null)
             {
@@ -489,14 +489,13 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
             return true;
         }
 
-        private ResourceCost GetUpgradeCost(int targetLevel)
+        private Economy.ResourceCost GetUpgradeCost(int targetLevel)
         {
-            return new ResourceCost
-            {
-                Stone = targetLevel * 100,
-                Wood = targetLevel * 80,
-                Metal = targetLevel * 50
-            };
+            var cost = new Economy.ResourceCost();
+            cost.Stone = targetLevel * 100;
+            cost.Wood = targetLevel * 80;
+            cost.Iron = targetLevel * 50;
+            return cost;
         }
 
         private string GetUpgradeRequirements(int targetLevel)
@@ -533,15 +532,4 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
         Defense
     }
 
-    /// <summary>
-    /// Simple resource cost structure
-    /// </summary>
-    [Serializable]
-    public class ResourceCost
-    {
-        public int Stone;
-        public int Wood;
-        public int Metal;
-        public int Crystal;
-    }
 }

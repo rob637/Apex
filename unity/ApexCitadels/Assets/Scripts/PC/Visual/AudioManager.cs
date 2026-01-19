@@ -73,7 +73,7 @@ namespace ApexCitadels.PC.Visual
             LoadAudioClips();
             StartAmbient("ENV25_village_day");
             
-            ApexLogger.Log(ApexLogger.LogCategory.General, "✅ Audio manager initialized");
+            ApexLogger.Log("✅ Audio manager initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace ApexCitadels.PC.Visual
             uiSource.priority = 10;
             uiSource.volume = uiVolume * masterVolume;
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Created 4 audio sources");
+            ApexLogger.LogVerbose("Created 4 audio sources", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace ApexCitadels.PC.Visual
                 musicCache[clip.name] = clip;
             }
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Loaded {sfxCache.Count} SFX, {musicCache.Count} music tracks");
+            ApexLogger.LogVerbose($"Loaded {sfxCache.Count} SFX, {musicCache.Count} music tracks", ApexLogger.LogCategory.General);
         }
 
         #region Public API - Sound Playback
@@ -267,7 +267,7 @@ namespace ApexCitadels.PC.Visual
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"SFX not found: {soundId}");
+                ApexLogger.LogWarning($"SFX not found: {soundId}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -329,7 +329,7 @@ namespace ApexCitadels.PC.Visual
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"Music not found: {trackName}");
+                ApexLogger.LogWarning($"Music not found: {trackName}", ApexLogger.LogCategory.General);
             }
         }
 

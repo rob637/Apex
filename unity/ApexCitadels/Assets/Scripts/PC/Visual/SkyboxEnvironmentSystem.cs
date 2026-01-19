@@ -71,7 +71,7 @@ namespace ApexCitadels.PC.Visual
             CreateClouds();
             UpdateEnvironment();
 
-            ApexLogger.Log(ApexLogger.LogCategory.General, "✅ Skybox and environment system initialized");
+            ApexLogger.Log("✅ Skybox and environment system initialized", ApexLogger.LogCategory.General);
         }
 
         private void Update()
@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.Visual
                     skyboxMaterial.SetTexture("_MainTex", skyTexture);
                     skyboxMaterial.SetFloat("_Exposure", 1.2f);
                     RenderSettings.skybox = skyboxMaterial;
-                    ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Loaded panoramic skybox from assets");
+                    ApexLogger.LogVerbose("Loaded panoramic skybox from assets", ApexLogger.LogCategory.General);
                     return;
                 }
             }
@@ -137,7 +137,7 @@ namespace ApexCitadels.PC.Visual
                 Camera.main.backgroundColor = daySkyColor;
             }
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Created procedural skybox");
+            ApexLogger.LogVerbose("Created procedural skybox", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace ApexCitadels.PC.Visual
             sunLight.shadowBias = 0.05f;
             sunLight.shadowNormalBias = 0.4f;
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Sun light configured");
+            ApexLogger.LogVerbose("Sun light configured", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace ApexCitadels.PC.Visual
             // Initially hidden
             starField.SetActive(false);
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, "Star field created");
+            ApexLogger.LogVerbose("Star field created", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace ApexCitadels.PC.Visual
                 clouds.Add(cloud);
             }
 
-            ApexLogger.LogVerbose(ApexLogger.LogCategory.General, $"Created {cloudCount} clouds");
+            ApexLogger.LogVerbose($"Created {cloudCount} clouds", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
