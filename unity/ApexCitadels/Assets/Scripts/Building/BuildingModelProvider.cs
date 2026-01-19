@@ -14,7 +14,7 @@ using AssetTowerType = ApexCitadels.Core.Assets.TowerType;
 using AssetWallType = ApexCitadels.Core.Assets.WallType;
 using AssetWallMaterial = ApexCitadels.Core.Assets.WallMaterial;
 
-namespace ApexCitadels.PC.Buildings
+namespace ApexCitadels.Building
 {
     /// <summary>
     /// Provides 3D models from the GameAssetDatabase for building generation.

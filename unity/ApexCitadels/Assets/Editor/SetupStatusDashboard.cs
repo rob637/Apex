@@ -11,7 +11,7 @@ using UnityEngine.Rendering;
 using ApexCitadels.Core.Assets;
 using ApexCitadels.PC;
 using ApexCitadels.PC.Environment;
-using ApexCitadels.PC.Buildings;
+using ApexCitadels.Building;
 
 namespace ApexCitadels.Editor
 {

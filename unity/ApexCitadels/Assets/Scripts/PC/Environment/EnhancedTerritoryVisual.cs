@@ -5,7 +5,7 @@
 // ============================================================================
 using UnityEngine;
 using System.Collections.Generic;
-using ApexCitadels.PC.Buildings;
+using ApexCitadels.Building;
 
 // Import asset types
 using AssetBuildingCategory = ApexCitadels.Core.Assets.BuildingCategory;

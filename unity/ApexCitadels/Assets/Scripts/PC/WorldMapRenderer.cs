@@ -5,7 +5,7 @@ using UnityEngine;
 using ApexCitadels.Territory;
 using ApexCitadels.Map;
 using ApexCitadels.PC.WebGL;
-using ApexCitadels.PC.Buildings;
+using ApexCitadels.Building;
 using ApexCitadels.UI;
 using ApexCitadels.Core;
 using ApexCitadels.Core.Assets;
