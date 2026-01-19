@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using ApexCitadels.Core;
+using ApexCitadels.Map;
 
 namespace ApexCitadels.PC
 {
@@ -126,9 +127,18 @@ namespace ApexCitadels.PC
 
         /// <summary>
         /// Creates an enhanced ground plane with procedural grid texture
+        /// Only if Mapbox isn't providing the ground
         /// </summary>
         private void SetupEnhancedGround()
         {
+            // Skip if Mapbox is providing the ground
+            var mapbox = FindFirstObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapbox != null && mapbox.gameObject.activeInHierarchy)
+            {
+                ApexLogger.Log("[VisualEnhancements] Mapbox active - skipping ground plane", ApexLogger.LogCategory.General);
+                return;
+            }
+            
             // Find existing ground or create new
             _groundPlane = GameObject.Find("GroundPlane");
             

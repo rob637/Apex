@@ -115,7 +115,19 @@ namespace ApexCitadels.PC
                 }
             }
             
-            CreateGroundPlane();
+            // Only create ground plane if MapboxTileRenderer is NOT active
+            // Mapbox provides its own ground with real map imagery
+            var mapbox = FindFirstObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapbox == null || !mapbox.gameObject.activeInHierarchy)
+            {
+                CreateGroundPlane();
+                ApexLogger.Log("[WorldMap] Using fallback ground plane (no Mapbox)", ApexLogger.LogCategory.Map);
+            }
+            else
+            {
+                ApexLogger.Log("[WorldMap] Mapbox active - skipping ground plane creation", ApexLogger.LogCategory.Map);
+            }
+            
             SetupSkyAndCamera();
             
             if (showGridLines)
