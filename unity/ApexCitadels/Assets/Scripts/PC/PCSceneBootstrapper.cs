@@ -242,9 +242,17 @@ namespace ApexCitadels.PC
                 CreateGroundPlane();
             }
 
-            // Add skybox or sky color
-            Camera.main.clearFlags = CameraClearFlags.SolidColor;
-            Camera.main.backgroundColor = skyColor;
+            // Only set solid color if SkyboxEnvironmentSystem isn't handling it
+            var skyboxSystem = FindFirstObjectByType<Visual.SkyboxEnvironmentSystem>();
+            if (skyboxSystem == null)
+            {
+                Camera.main.clearFlags = CameraClearFlags.SolidColor;
+                Camera.main.backgroundColor = skyColor;
+            }
+            else
+            {
+                Debug.Log("[PCBootstrapper] SkyboxEnvironmentSystem active - letting it handle camera");
+            }
         }
 
         private void CreateGroundPlane()

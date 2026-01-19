@@ -273,6 +273,14 @@ namespace ApexCitadels.PC
 
         private void SetupSkyAndCamera()
         {
+            // Only override camera if SkyboxEnvironmentSystem isn't active
+            var skyboxSystem = FindFirstObjectByType<Visual.SkyboxEnvironmentSystem>();
+            if (skyboxSystem != null && skyboxSystem.gameObject.activeInHierarchy)
+            {
+                ApexLogger.Log("[WorldMap] SkyboxEnvironmentSystem active - skipping camera override", ApexLogger.LogCategory.Map);
+                return;
+            }
+            
             // Nice gradient sky blue
             Color skyBlue = new Color(0.4f, 0.6f, 0.9f, 1f);
             
