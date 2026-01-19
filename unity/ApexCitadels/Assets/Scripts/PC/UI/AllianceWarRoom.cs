@@ -970,7 +970,7 @@ namespace ApexCitadels.PC.UI
         Low
     }
 
-    public class AllianceWar
+    public class WarRoomData
     {
         public string WarId;
         public AllianceInfo AttackingAlliance;

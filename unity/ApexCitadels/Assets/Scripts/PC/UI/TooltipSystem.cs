@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -692,7 +693,7 @@ namespace ApexCitadels.PC.UI
         public float productionRate;
     }
     
-    public enum ItemRarity
+    public enum TooltipItemRarity
     {
         Common,
         Uncommon,

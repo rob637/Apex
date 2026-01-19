@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - EDITOR CAMERA CONTROLLER
 // Smooth camera controls for PC Base Editor

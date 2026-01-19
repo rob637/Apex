@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - COMBAT CAMERA EFFECTS
 // Screen shake, flash, slow-motion, focus effects for AAA combat feel

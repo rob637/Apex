@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - SIEGE WARFARE PANEL
 // Large-scale castle siege system with coordinated attacks and defenses

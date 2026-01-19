@@ -657,14 +657,14 @@ namespace ApexCitadels.PC.UI
     #region Data Types
     
     [Serializable]
-    public class NotificationData
+    public class NotifyData
     {
         public string title;
         public string message;
         public string subtitle;
         public Sprite icon;
-        public NotificationType type = NotificationType.Standard;
-        public NotificationPosition position = NotificationPosition.TopRight;
+        public NotifyType type = NotifyType.Standard;
+        public NotifyPosition position = NotifyPosition.TopRight;
         public float duration = 4f;
         public bool playSound = true;
         public Color backgroundColor = default;
@@ -674,7 +674,7 @@ namespace ApexCitadels.PC.UI
     [Serializable]
     public class NotificationPrefab
     {
-        public NotificationType type;
+        public NotifyType type;
         public GameObject prefab;
     }
     
@@ -688,15 +688,15 @@ namespace ApexCitadels.PC.UI
         public Image iconImage;
         public Image backgroundImage;
         public Button closeButton;
-        public NotificationData data;
+        public NotifyData data;
     }
     
     public class PendingNotification
     {
-        public NotificationData data;
+        public NotifyData data;
     }
     
-    public enum NotificationType
+    public enum NotifyType
     {
         Standard,
         Achievement,
@@ -707,7 +707,7 @@ namespace ApexCitadels.PC.UI
         Quest
     }
     
-    public enum NotificationPosition
+    public enum NotifyPosition
     {
         TopRight,
         TopCenter,

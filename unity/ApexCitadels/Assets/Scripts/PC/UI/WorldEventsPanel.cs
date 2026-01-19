@@ -59,7 +59,7 @@ namespace ApexCitadels.PC.UI
                 EventId = "EVENT_001",
                 Name = "🔥 Dragon's Fury",
                 Description = "A legendary dragon has awakened! Rally your troops and defeat the beast before it destroys everything.",
-                Type = EventType.WorldBoss,
+                Type = WorldEventType.WorldBoss,
                 StartTime = DateTime.Now.AddHours(-12),
                 EndTime = DateTime.Now.AddHours(36),
                 Difficulty = EventDifficulty.Epic,
@@ -80,7 +80,7 @@ namespace ApexCitadels.PC.UI
                 EventId = "EVENT_002",
                 Name = "⚔️ Conquest Week",
                 Description = "Double rewards for territory captures! Expand your empire during this limited-time event.",
-                Type = EventType.ResourceBoost,
+                Type = WorldEventType.ResourceBoost,
                 StartTime = DateTime.Now.AddDays(-3),
                 EndTime = DateTime.Now.AddDays(4),
                 Difficulty = EventDifficulty.Normal,
@@ -99,7 +99,7 @@ namespace ApexCitadels.PC.UI
                 EventId = "EVENT_003",
                 Name = "🏆 Alliance Tournament",
                 Description = "Compete against other alliances in strategic battles. Earn glory for your alliance!",
-                Type = EventType.Tournament,
+                Type = WorldEventType.Tournament,
                 StartTime = DateTime.Now.AddDays(-1),
                 EndTime = DateTime.Now.AddDays(6),
                 Difficulty = EventDifficulty.Hard,
@@ -121,7 +121,7 @@ namespace ApexCitadels.PC.UI
                 EventId = "EVENT_004",
                 Name = "❄️ Winter Siege",
                 Description = "The northern armies march south! Defend your territories from the winter invasion.",
-                Type = EventType.Seasonal,
+                Type = WorldEventType.Seasonal,
                 StartTime = DateTime.Now.AddDays(2),
                 EndTime = DateTime.Now.AddDays(16),
                 Difficulty = EventDifficulty.Hard
@@ -132,7 +132,7 @@ namespace ApexCitadels.PC.UI
                 EventId = "EVENT_005",
                 Name = "💎 Crystal Rush",
                 Description = "Crystal deposits have been discovered! Race to gather rare crystals before they disappear.",
-                Type = EventType.ResourceBoost,
+                Type = WorldEventType.ResourceBoost,
                 StartTime = DateTime.Now.AddDays(5),
                 EndTime = DateTime.Now.AddDays(7),
                 Difficulty = EventDifficulty.Normal
@@ -144,7 +144,7 @@ namespace ApexCitadels.PC.UI
                 EventId = "EVENT_000",
                 Name = "🎃 Harvest Festival",
                 Description = "Collected pumpkins and defended the harvest from raiders.",
-                Type = EventType.Seasonal,
+                Type = WorldEventType.Seasonal,
                 StartTime = DateTime.Now.AddDays(-14),
                 EndTime = DateTime.Now.AddDays(-7),
                 PlayerProgress = 100,
@@ -257,9 +257,9 @@ namespace ApexCitadels.PC.UI
             // Gradient background based on event type
             Color bannerColor = featuredEvent.Type switch
             {
-                EventType.WorldBoss => new Color(0.4f, 0.15f, 0.1f),
-                EventType.Tournament => new Color(0.15f, 0.25f, 0.4f),
-                EventType.Seasonal => new Color(0.15f, 0.3f, 0.25f),
+                WorldEventType.WorldBoss => new Color(0.4f, 0.15f, 0.1f),
+                WorldEventType.Tournament => new Color(0.15f, 0.25f, 0.4f),
+                WorldEventType.Seasonal => new Color(0.15f, 0.3f, 0.25f),
                 _ => new Color(0.2f, 0.2f, 0.3f)
             };
             
@@ -567,11 +567,11 @@ namespace ApexCitadels.PC.UI
             
             string typeIcon = evt.Type switch
             {
-                EventType.WorldBoss => "👹",
-                EventType.Tournament => "🏆",
-                EventType.Seasonal => "🎄",
-                EventType.ResourceBoost => "⚡",
-                EventType.Challenge => "🎯",
+                WorldEventType.WorldBoss => "👹",
+                WorldEventType.Tournament => "🏆",
+                WorldEventType.Seasonal => "🎄",
+                WorldEventType.ResourceBoost => "⚡",
+                WorldEventType.Challenge => "🎯",
                 _ => "📋"
             };
             CreateText(badge.transform, typeIcon, 32, TextAlignmentOptions.Center);
@@ -1020,7 +1020,7 @@ namespace ApexCitadels.PC.UI
         Rewards
     }
 
-    public enum EventType
+    public enum WorldEventType
     {
         WorldBoss,
         Tournament,
@@ -1043,7 +1043,7 @@ namespace ApexCitadels.PC.UI
         public string EventId;
         public string Name;
         public string Description;
-        public EventType Type;
+        public WorldEventType Type;
         public EventDifficulty Difficulty;
         public DateTime StartTime;
         public DateTime EndTime;

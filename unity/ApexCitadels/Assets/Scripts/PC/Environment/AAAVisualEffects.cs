@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - AAA VISUAL EFFECTS SYSTEM
 // Post-processing, particles, and cinematic effects for AAA quality

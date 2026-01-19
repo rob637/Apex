@@ -869,7 +869,7 @@ namespace ApexCitadels.PC.UI
         public TroopDefinition Definition;
     }
 
-    public class TrainingQueueItem
+    public class BarracksQueueItem
     {
         public TroopType Type;
         public float TrainingTime;

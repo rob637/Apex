@@ -169,7 +169,7 @@ namespace ApexCitadels.BuildingTemplates
         /// <summary>
         /// Check if player can afford a template
         /// </summary>
-        public bool CanAfford(BuildingTemplate template, ResourceInventory inventory)
+        public bool CanAfford(BuildingTemplate template, IResourceInventory inventory)
         {
             foreach (var cost in template.ResourceCost)
             {
@@ -184,7 +184,7 @@ namespace ApexCitadels.BuildingTemplates
         /// <summary>
         /// Get templates the player can afford
         /// </summary>
-        public List<BuildingTemplate> GetAffordableTemplates(ResourceInventory inventory)
+        public List<BuildingTemplate> GetAffordableTemplates(IResourceInventory inventory)
         {
             List<BuildingTemplate> affordable = new List<BuildingTemplate>();
 
@@ -924,7 +924,7 @@ namespace ApexCitadels.BuildingTemplates
     /// <summary>
     /// Player's resource inventory (interface for checking affordability)
     /// </summary>
-    public interface ResourceInventory
+    public interface IResourceInventory
     {
         bool HasResource(string type, int amount);
         int GetResourceAmount(string type);

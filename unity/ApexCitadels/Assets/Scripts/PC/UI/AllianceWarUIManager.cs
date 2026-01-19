@@ -500,10 +500,7 @@ namespace ApexCitadels.PC.UI
     #region Data Classes
     
     [Serializable]
-    public class AllianceWar
-    {
-        public string id;
-        public WarStatus status;
+    public class WarUIData
         public DateTime startTime;
         public DateTime endTime;
         public WarAlliance allianceA;

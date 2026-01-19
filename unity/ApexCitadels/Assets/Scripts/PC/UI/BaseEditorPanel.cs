@@ -140,7 +140,7 @@ namespace ApexCitadels.PC.UI
         private BlockType? selectedBlockType;
         private BuildingTemplate selectedTemplate;
         private BaseEditor baseEditor;
-        private ResourceInventory playerResources;
+        private ApexCitadels.Data.ResourceInventory playerResources;
 
         // Palette data
         private List<BlockPaletteItem> allBlockItems = new List<BlockPaletteItem>();

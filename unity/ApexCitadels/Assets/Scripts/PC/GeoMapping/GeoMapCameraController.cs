@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - GEO MAP CAMERA CONTROLLER
 // Camera controls specifically for real-world map navigation

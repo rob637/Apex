@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - DAMAGE NUMBERS SYSTEM
 // Floating damage/heal numbers that pop up during combat

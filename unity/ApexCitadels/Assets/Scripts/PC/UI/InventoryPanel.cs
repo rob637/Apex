@@ -67,7 +67,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Dragon Scale Armor",
                 Description = "Legendary armor forged from dragon scales. Provides exceptional protection.",
                 Category = ItemCategory.Equipment,
-                Rarity = ItemRarity.Legendary,
+                Rarity = InventoryItemRarity.Legendary,
                 Icon = "🛡️",
                 Quantity = 1,
                 IsEquipped = false,
@@ -82,7 +82,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Flamebrand Sword",
                 Description = "A sword that burns with eternal flame. Deals fire damage to enemies.",
                 Category = ItemCategory.Equipment,
-                Rarity = ItemRarity.Epic,
+                Rarity = InventoryItemRarity.Epic,
                 Icon = "🗡️",
                 Quantity = 1,
                 IsEquipped = true,
@@ -97,7 +97,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Shadow Cloak",
                 Description = "A cloak woven from shadows. Increases stealth and speed.",
                 Category = ItemCategory.Equipment,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "🧥",
                 Quantity = 1,
                 Stats = new ItemStats { Speed = 25, Stealth = 40 },
@@ -111,7 +111,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Iron Helmet",
                 Description = "A sturdy iron helmet. Basic but reliable.",
                 Category = ItemCategory.Equipment,
-                Rarity = ItemRarity.Common,
+                Rarity = InventoryItemRarity.Common,
                 Icon = "⛑️",
                 Quantity = 1,
                 Stats = new ItemStats { Defense = 30 },
@@ -126,7 +126,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Health Potion",
                 Description = "Restores 500 HP instantly.",
                 Category = ItemCategory.Consumable,
-                Rarity = ItemRarity.Common,
+                Rarity = InventoryItemRarity.Common,
                 Icon = "🧪",
                 Quantity = 25,
                 MaxStack = 99,
@@ -141,7 +141,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Mana Elixir",
                 Description = "Restores 300 MP instantly.",
                 Category = ItemCategory.Consumable,
-                Rarity = ItemRarity.Common,
+                Rarity = InventoryItemRarity.Common,
                 Icon = "🔮",
                 Quantity = 15,
                 MaxStack = 99,
@@ -156,7 +156,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Attack Boost",
                 Description = "+50% attack for 5 minutes.",
                 Category = ItemCategory.Consumable,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "⚔️",
                 Quantity = 5,
                 MaxStack = 20,
@@ -171,7 +171,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Experience Scroll",
                 Description = "Grants 5000 XP when used.",
                 Category = ItemCategory.Consumable,
-                Rarity = ItemRarity.Epic,
+                Rarity = InventoryItemRarity.Epic,
                 Icon = "📜",
                 Quantity = 3,
                 MaxStack = 10,
@@ -186,7 +186,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Teleport Stone",
                 Description = "Instantly teleport to your citadel.",
                 Category = ItemCategory.Consumable,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "💎",
                 Quantity = 8,
                 MaxStack = 50,
@@ -202,7 +202,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Iron Ore",
                 Description = "Raw iron ore. Used in crafting.",
                 Category = ItemCategory.Material,
-                Rarity = ItemRarity.Common,
+                Rarity = InventoryItemRarity.Common,
                 Icon = "🪨",
                 Quantity = 150,
                 MaxStack = 999,
@@ -215,7 +215,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Crystal Shard",
                 Description = "A shard of magical crystal. Required for advanced crafting.",
                 Category = ItemCategory.Material,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "💠",
                 Quantity = 45,
                 MaxStack = 500,
@@ -228,7 +228,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Dragon Scale",
                 Description = "A scale from a dragon. Extremely rare crafting material.",
                 Category = ItemCategory.Material,
-                Rarity = ItemRarity.Legendary,
+                Rarity = InventoryItemRarity.Legendary,
                 Icon = "🐲",
                 Quantity = 3,
                 MaxStack = 100,
@@ -241,7 +241,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Enchanted Wood",
                 Description = "Magically infused wood. Used in staff crafting.",
                 Category = ItemCategory.Material,
-                Rarity = ItemRarity.Epic,
+                Rarity = InventoryItemRarity.Epic,
                 Icon = "🪵",
                 Quantity = 20,
                 MaxStack = 200,
@@ -254,7 +254,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Monster Essence",
                 Description = "Essence extracted from monsters. Used for enchantments.",
                 Category = ItemCategory.Material,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "✨",
                 Quantity = 67,
                 MaxStack = 500,
@@ -268,7 +268,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Ancient Coin",
                 Description = "A coin from an ancient civilization. Collectors pay well for these.",
                 Category = ItemCategory.Treasure,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "🪙",
                 Quantity = 12,
                 MaxStack = 100,
@@ -281,7 +281,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Golden Chalice",
                 Description = "A beautifully crafted golden chalice. Worth a fortune.",
                 Category = ItemCategory.Treasure,
-                Rarity = ItemRarity.Epic,
+                Rarity = InventoryItemRarity.Epic,
                 Icon = "🏆",
                 Quantity = 1,
                 MaxStack = 1,
@@ -294,7 +294,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Ruby Gemstone",
                 Description = "A flawless ruby. Can be sold or used in crafting.",
                 Category = ItemCategory.Treasure,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "💎",
                 Quantity = 5,
                 MaxStack = 50,
@@ -308,7 +308,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Dungeon Key",
                 Description = "Opens the Dark Dungeon entrance.",
                 Category = ItemCategory.Special,
-                Rarity = ItemRarity.Epic,
+                Rarity = InventoryItemRarity.Epic,
                 Icon = "🗝️",
                 Quantity = 2,
                 MaxStack = 10,
@@ -322,7 +322,7 @@ namespace ApexCitadels.PC.UI
                 Name = "Event Token",
                 Description = "Token for the Dragon Festival event.",
                 Category = ItemCategory.Special,
-                Rarity = ItemRarity.Rare,
+                Rarity = InventoryItemRarity.Rare,
                 Icon = "🎫",
                 Quantity = 47,
                 MaxStack = 999,
@@ -617,7 +617,7 @@ namespace ApexCitadels.PC.UI
             bg.color = isSelected ? new Color(rarityColor.r * 0.4f, rarityColor.g * 0.4f, rarityColor.b * 0.4f) 
                                  : new Color(0.1f, 0.1f, 0.12f);
             
-            if (isSelected || item.Rarity >= ItemRarity.Rare)
+            if (isSelected || item.Rarity >= InventoryItemRarity.Rare)
             {
                 UnityEngine.UI.Outline outline = slot.AddComponent<UnityEngine.UI.Outline>();
                 outline.effectColor = rarityColor;
@@ -1011,14 +1011,14 @@ namespace ApexCitadels.PC.UI
             text.alignment = TextAlignmentOptions.Center;
         }
 
-        private Color GetRarityColor(ItemRarity rarity)
+        private Color GetRarityColor(InventoryItemRarity rarity)
         {
             return rarity switch
             {
-                ItemRarity.Common => commonColor,
-                ItemRarity.Rare => rareColor,
-                ItemRarity.Epic => epicColor,
-                ItemRarity.Legendary => legendaryColor,
+                InventoryItemRarity.Common => commonColor,
+                InventoryItemRarity.Rare => rareColor,
+                InventoryItemRarity.Epic => epicColor,
+                InventoryItemRarity.Legendary => legendaryColor,
                 _ => Color.white
             };
         }
@@ -1182,7 +1182,7 @@ namespace ApexCitadels.PC.UI
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 var item = _items[i];
-                if (item.Rarity == ItemRarity.Common && !item.IsEquipped && !item.IsUnsellable 
+                if (item.Rarity == InventoryItemRarity.Common && !item.IsEquipped && !item.IsUnsellable 
                     && item.Category != ItemCategory.Special)
                 {
                     totalGold += item.SellPrice * item.Quantity;
@@ -1288,7 +1288,7 @@ namespace ApexCitadels.PC.UI
         Special
     }
 
-    public enum ItemRarity
+    public enum InventoryItemRarity
     {
         Common,
         Rare,
@@ -1311,7 +1311,7 @@ namespace ApexCitadels.PC.UI
         public string Name;
         public string Description;
         public ItemCategory Category;
-        public ItemRarity Rarity;
+        public InventoryItemRarity Rarity;
         public string Icon;
         public int Quantity;
         public int MaxStack = 1;

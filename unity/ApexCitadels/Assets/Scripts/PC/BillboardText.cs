@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 using UnityEngine;
 
 namespace ApexCitadels.PC

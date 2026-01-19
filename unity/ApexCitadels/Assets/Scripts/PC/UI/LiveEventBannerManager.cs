@@ -629,7 +629,7 @@ namespace ApexCitadels.PC.UI
         public string id;
         public string title;
         public string description;
-        public EventType type;
+        public LiveEventType type;
         public DateTime endTime;
         public string[] rewards;
         public int participants;
@@ -638,7 +638,7 @@ namespace ApexCitadels.PC.UI
         public string deepLink;
     }
     
-    public enum EventType
+    public enum LiveEventType
     {
         TerritoryContest,
         ResourceBonus,

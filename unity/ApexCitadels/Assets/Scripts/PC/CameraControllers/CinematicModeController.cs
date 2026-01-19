@@ -1,10 +1,11 @@
+using Camera = UnityEngine.Camera;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ApexCitadels.PC.Camera
+namespace ApexCitadels.PC.CameraControllers
 {
     /// <summary>
     /// Cinematic Mode Controller for automated territory tours.

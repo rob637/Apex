@@ -1,9 +1,10 @@
+using Camera = UnityEngine.Camera;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 using System;
 using System.Collections;
 
-namespace ApexCitadels.PC.Camera
+namespace ApexCitadels.PC.CameraControllers
 {
     /// <summary>
     /// First-Person Mode Controller for walking through citadel interiors.

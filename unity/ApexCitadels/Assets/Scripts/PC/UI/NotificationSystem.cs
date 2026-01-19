@@ -304,38 +304,38 @@ namespace ApexCitadels.PC.UI
             Destroy(toast);
         }
 
-        private Color GetColorForType(NotificationType type)
+        private Color GetColorForType(ToastNotificationType type)
         {
             return type switch
             {
-                NotificationType.Info => infoColor,
-                NotificationType.Success => successColor,
-                NotificationType.Warning => warningColor,
-                NotificationType.Error => errorColor,
-                NotificationType.Resource => resourceColor,
-                NotificationType.Combat => combatColor,
-                NotificationType.Alliance => allianceColor,
-                NotificationType.Quest => new Color(0.3f, 0.8f, 0.5f),
-                NotificationType.Achievement => new Color(1f, 0.84f, 0f),
-                NotificationType.LevelUp => new Color(0.8f, 0.6f, 1f),
+                ToastNotificationType.Info => infoColor,
+                ToastNotificationType.Success => successColor,
+                ToastNotificationType.Warning => warningColor,
+                ToastNotificationType.Error => errorColor,
+                ToastNotificationType.Resource => resourceColor,
+                ToastNotificationType.Combat => combatColor,
+                ToastNotificationType.Alliance => allianceColor,
+                ToastNotificationType.Quest => new Color(0.3f, 0.8f, 0.5f),
+                ToastNotificationType.Achievement => new Color(1f, 0.84f, 0f),
+                ToastNotificationType.LevelUp => new Color(0.8f, 0.6f, 1f),
                 _ => infoColor
             };
         }
 
-        private string GetIconForType(NotificationType type)
+        private string GetIconForType(ToastNotificationType type)
         {
             return type switch
             {
-                NotificationType.Info => "ℹ️",
-                NotificationType.Success => "✅",
-                NotificationType.Warning => "⚠️",
-                NotificationType.Error => "❌",
-                NotificationType.Resource => "💰",
-                NotificationType.Combat => "⚔️",
-                NotificationType.Alliance => "🛡️",
-                NotificationType.Quest => "📋",
-                NotificationType.Achievement => "🏆",
-                NotificationType.LevelUp => "⬆️",
+                ToastNotificationType.Info => "ℹ️",
+                ToastNotificationType.Success => "✅",
+                ToastNotificationType.Warning => "⚠️",
+                ToastNotificationType.Error => "❌",
+                ToastNotificationType.Resource => "💰",
+                ToastNotificationType.Combat => "⚔️",
+                ToastNotificationType.Alliance => "🛡️",
+                ToastNotificationType.Quest => "📋",
+                ToastNotificationType.Achievement => "🏆",
+                ToastNotificationType.LevelUp => "⬆️",
                 _ => "📢"
             };
         }
@@ -496,7 +496,7 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show a toast notification
         /// </summary>
-        public void ShowToast(string message, NotificationType type = NotificationType.Info, string title = null, float duration = 0)
+        public void ShowToast(string message, NotificationType type = ToastNotificationType.Info, string title = null, float duration = 0)
         {
             var data = new NotificationData
             {
@@ -512,7 +512,7 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show a clickable toast notification
         /// </summary>
-        public void ShowToastWithAction(string message, Action onClick, NotificationType type = NotificationType.Info, string title = null)
+        public void ShowToastWithAction(string message, Action onClick, NotificationType type = ToastNotificationType.Info, string title = null)
         {
             var data = new NotificationData
             {
@@ -527,14 +527,14 @@ namespace ApexCitadels.PC.UI
         }
 
         // Convenience methods
-        public void ShowInfo(string message, string title = null) => ShowToast(message, NotificationType.Info, title);
-        public void ShowSuccess(string message, string title = null) => ShowToast(message, NotificationType.Success, title);
-        public void ShowWarning(string message, string title = null) => ShowToast(message, NotificationType.Warning, title);
-        public void ShowError(string message, string title = null) => ShowToast(message, NotificationType.Error, title);
+        public void ShowInfo(string message, string title = null) => ShowToast(message, ToastNotificationType.Info, title);
+        public void ShowSuccess(string message, string title = null) => ShowToast(message, ToastNotificationType.Success, title);
+        public void ShowWarning(string message, string title = null) => ShowToast(message, ToastNotificationType.Warning, title);
+        public void ShowError(string message, string title = null) => ShowToast(message, ToastNotificationType.Error, title);
         
         public void ShowResourceGain(string resource, int amount)
         {
-            ShowToast($"+{amount:N0} {resource}", NotificationType.Resource, "Resources Collected");
+            ShowToast($"+{amount:N0} {resource}", ToastNotificationType.Resource, "Resources Collected");
         }
 
         // Alias for ShowResourceGain
@@ -542,35 +542,35 @@ namespace ApexCitadels.PC.UI
         
         public void ShowResourceSpent(string resource, int amount)
         {
-            ShowToast($"-{amount:N0} {resource}", NotificationType.Resource);
+            ShowToast($"-{amount:N0} {resource}", ToastNotificationType.Resource);
         }
         
         public void ShowCombatResult(bool victory, string territoryName, int troopsLost = 0)
         {
             if (victory)
-                ShowToast($"Captured {territoryName}!", NotificationType.Combat, "Victory!");
+                ShowToast($"Captured {territoryName}!", ToastNotificationType.Combat, "Victory!");
             else
-                ShowToast($"Attack on {territoryName} failed. {troopsLost} troops lost.", NotificationType.Combat, "Defeat");
+                ShowToast($"Attack on {territoryName} failed. {troopsLost} troops lost.", ToastNotificationType.Combat, "Defeat");
         }
         
         public void ShowQuestComplete(string questName, string rewards)
         {
-            ShowToast($"{questName}\nReward: {rewards}", NotificationType.Quest, "Quest Complete!");
+            ShowToast($"{questName}\nReward: {rewards}", ToastNotificationType.Quest, "Quest Complete!");
         }
         
         public void ShowAchievementUnlocked(string achievementName, int points)
         {
-            ShowToast($"{achievementName} (+{points} pts)", NotificationType.Achievement, "Achievement Unlocked!");
+            ShowToast($"{achievementName} (+{points} pts)", ToastNotificationType.Achievement, "Achievement Unlocked!");
         }
         
         public void ShowLevelUp(int newLevel)
         {
-            ShowToast($"You are now Level {newLevel}!", NotificationType.LevelUp, "Level Up!");
+            ShowToast($"You are now Level {newLevel}!", ToastNotificationType.LevelUp, "Level Up!");
         }
         
         public void ShowAllianceMessage(string playerName, string message)
         {
-            ShowToast($"{playerName}: {message}", NotificationType.Alliance, "Alliance");
+            ShowToast($"{playerName}: {message}", ToastNotificationType.Alliance, "Alliance");
         }
 
         /// <summary>
@@ -591,7 +591,7 @@ namespace ApexCitadels.PC.UI
         #endregion
     }
 
-    public enum NotificationType
+    public enum ToastNotificationType
     {
         Info,
         Success,
@@ -605,9 +605,9 @@ namespace ApexCitadels.PC.UI
         LevelUp
     }
 
-    public class NotificationData
+    public class ToastNotificationData
     {
-        public NotificationType Type;
+        public ToastNotificationType Type;
         public string Title;
         public string Message;
         public float Duration;

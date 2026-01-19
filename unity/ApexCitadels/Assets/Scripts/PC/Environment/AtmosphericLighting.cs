@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - SKYBOX & ATMOSPHERIC LIGHTING
 // Creates beautiful sky and lighting for immersive gameplay

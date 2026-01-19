@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - BLOCK PLACEMENT CONTROLLER
 // Enhanced block placement with visual feedback and validation

@@ -27,7 +27,7 @@ namespace ApexCitadels.PC.UI
     /// Troop training queue item
     /// </summary>
     [System.Serializable]
-    public class TrainingQueueItem
+    public class TroopTrainingQueueItem
     {
         public string Id;
         public TroopType Type;

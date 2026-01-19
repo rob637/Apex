@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 // ============================================================================
 // APEX CITADELS - POST PROCESSING SETUP
 // Configures beautiful visual effects using camera-based approach

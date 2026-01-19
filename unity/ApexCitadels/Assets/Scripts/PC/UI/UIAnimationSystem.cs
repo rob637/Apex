@@ -1049,7 +1049,7 @@ namespace ApexCitadels.PC.UI
         Right
     }
     
-    public enum NotificationPosition
+    public enum UINotificationPosition
     {
         TopLeft,
         TopRight,

@@ -1,3 +1,4 @@
+using Camera = UnityEngine.Camera;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
