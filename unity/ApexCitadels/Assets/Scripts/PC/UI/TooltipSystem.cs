@@ -599,15 +599,15 @@ namespace ApexCitadels.PC.UI
             return group;
         }
         
-        private Color GetRarityColor(ItemRarity rarity)
+        private Color GetRarityColor(TooltipItemRarity rarity)
         {
             switch (rarity)
             {
-                case ItemRarity.Common: return new Color(0.7f, 0.7f, 0.7f);
-                case ItemRarity.Uncommon: return new Color(0.3f, 0.8f, 0.3f);
-                case ItemRarity.Rare: return new Color(0.3f, 0.5f, 1f);
-                case ItemRarity.Epic: return new Color(0.6f, 0.2f, 0.8f);
-                case ItemRarity.Legendary: return new Color(1f, 0.6f, 0.1f);
+                case TooltipItemRarity.Common: return new Color(0.7f, 0.7f, 0.7f);
+                case TooltipItemRarity.Uncommon: return new Color(0.3f, 0.8f, 0.3f);
+                case TooltipItemRarity.Rare: return new Color(0.3f, 0.5f, 1f);
+                case TooltipItemRarity.Epic: return new Color(0.6f, 0.2f, 0.8f);
+                case TooltipItemRarity.Legendary: return new Color(1f, 0.6f, 0.1f);
                 default: return Color.white;
             }
         }
@@ -659,7 +659,7 @@ namespace ApexCitadels.PC.UI
         public string title;
         public string description;
         public Sprite icon;
-        public ItemRarity rarity = ItemRarity.Common;
+        public TooltipItemRarity rarity = TooltipItemRarity.Common;
         public List<TooltipStat> stats;
     }
     

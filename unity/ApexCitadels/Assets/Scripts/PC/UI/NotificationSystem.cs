@@ -30,14 +30,14 @@ namespace ApexCitadels.PC.UI
         // UI Elements
         private GameObject _toastContainer;
         private GameObject _alertContainer;
-        private Queue<NotificationData> _pendingNotifications = new Queue<NotificationData>();
+        private Queue<ToastNotificationData> _pendingNotifications = new Queue<ToastNotificationData>();
         private List<GameObject> _activeToasts = new List<GameObject>();
         private GameObject _currentAlert;
         
         public static NotificationSystem Instance { get; private set; }
         
-        public event Action<NotificationData> OnNotificationShown;
-        public event Action<NotificationData> OnNotificationClicked;
+        public event Action<ToastNotificationData> OnNotificationShown;
+        public event Action<ToastNotificationData> OnNotificationClicked;
 
         private void Awake()
         {
@@ -107,7 +107,7 @@ namespace ApexCitadels.PC.UI
             }
         }
 
-        private void ShowToastImmediate(NotificationData data)
+        private void ShowToastImmediate(ToastNotificationData data)
         {
             GameObject toast = CreateToast(data);
             _activeToasts.Add(toast);
@@ -118,7 +118,7 @@ namespace ApexCitadels.PC.UI
             StartCoroutine(DismissToastAfterDelay(toast, data.Duration));
         }
 
-        private GameObject CreateToast(NotificationData data)
+        private GameObject CreateToast(ToastNotificationData data)
         {
             GameObject toast = new GameObject($"Toast_{data.Type}");
             toast.transform.SetParent(_toastContainer.transform, false);
@@ -251,7 +251,7 @@ namespace ApexCitadels.PC.UI
             return toast;
         }
 
-        private int GetToastHeight(NotificationData data)
+        private int GetToastHeight(ToastNotificationData data)
         {
             int baseHeight = 50;
             if (!string.IsNullOrEmpty(data.Title)) baseHeight += 18;
@@ -496,9 +496,9 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show a toast notification
         /// </summary>
-        public void ShowToast(string message, NotificationType type = ToastNotificationType.Info, string title = null, float duration = 0)
+        public void ShowToast(string message, ToastNotificationType type = ToastNotificationType.Info, string title = null, float duration = 0)
         {
-            var data = new NotificationData
+            var data = new ToastNotificationData
             {
                 Type = type,
                 Title = title,
@@ -512,9 +512,9 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show a clickable toast notification
         /// </summary>
-        public void ShowToastWithAction(string message, Action onClick, NotificationType type = ToastNotificationType.Info, string title = null)
+        public void ShowToastWithAction(string message, Action onClick, ToastNotificationType type = ToastNotificationType.Info, string title = null)
         {
-            var data = new NotificationData
+            var data = new ToastNotificationData
             {
                 Type = type,
                 Title = title,

@@ -1106,14 +1106,14 @@ namespace ApexCitadels.PC.UI
             };
         }
 
-        private Color GetRarityColor(ItemRarity rarity)
+        private Color GetRarityColor(AuctionItemRarity rarity)
         {
             return rarity switch
             {
-                ItemRarity.Common => new Color(0.7f, 0.7f, 0.7f),
-                ItemRarity.Rare => new Color(0.3f, 0.5f, 0.9f),
-                ItemRarity.Epic => new Color(0.7f, 0.3f, 0.9f),
-                ItemRarity.Legendary => new Color(1f, 0.6f, 0.1f),
+                AuctionItemRarity.Common => new Color(0.7f, 0.7f, 0.7f),
+                AuctionItemRarity.Rare => new Color(0.3f, 0.5f, 0.9f),
+                AuctionItemRarity.Epic => new Color(0.7f, 0.3f, 0.9f),
+                AuctionItemRarity.Legendary => new Color(1f, 0.6f, 0.1f),
                 _ => Color.white
             };
         }
@@ -1196,7 +1196,7 @@ namespace ApexCitadels.PC.UI
         public int Quantity;
         public string SellerName;
         public TimeSpan TimeRemaining;
-        public ItemRarity Rarity;
+        public AuctionItemRarity Rarity;
         public int ItemLevel;
         public string Description;
     }
@@ -1215,6 +1215,15 @@ namespace ApexCitadels.PC.UI
         ListingCreated,
         ListingCancelled,
         ListingExpired
+    }
+
+    public enum AuctionItemRarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+        Legendary
     }
 
     #endregion

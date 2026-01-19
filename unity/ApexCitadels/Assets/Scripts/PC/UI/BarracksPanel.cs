@@ -25,7 +25,7 @@ namespace ApexCitadels.PC.UI
         // UI Elements
         private GameObject _panel;
         private Dictionary<TroopType, TroopTrainingCard> _troopCards = new Dictionary<TroopType, TroopTrainingCard>();
-        private List<TrainingQueueItem> _trainingQueue = new List<TrainingQueueItem>();
+        private List<BarracksQueueItem> _trainingQueue = new List<BarracksQueueItem>();
         private GameObject _queueContainer;
         private TextMeshProUGUI _queueStatusText;
         
@@ -657,7 +657,7 @@ namespace ApexCitadels.PC.UI
             }
         }
 
-        private void CreateQueueItemDisplay(TrainingQueueItem item, int index)
+        private void CreateQueueItemDisplay(BarracksQueueItem item, int index)
         {
             TroopDefinition def = GetTroopDefinition(item.Type);
             

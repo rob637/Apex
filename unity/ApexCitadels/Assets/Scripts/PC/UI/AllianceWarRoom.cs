@@ -26,13 +26,13 @@ namespace ApexCitadels.PC.UI
         private Dictionary<WarRoomTab, GameObject> _tabs = new Dictionary<WarRoomTab, GameObject>();
         
         // War data
-        private AllianceWar _currentWar;
-        private List<AllianceWar> _warHistory = new List<AllianceWar>();
+        private WarRoomData _currentWar;
+        private List<WarRoomData> _warHistory = new List<WarRoomData>();
         
         public static AllianceWarRoom Instance { get; private set; }
         
-        public event Action<AllianceWar> OnWarDeclared;
-        public event Action<AllianceWar> OnWarEnded;
+        public event Action<WarRoomData> OnWarDeclared;
+        public event Action<WarRoomData> OnWarEnded;
 
         private void Awake()
         {
@@ -54,7 +54,7 @@ namespace ApexCitadels.PC.UI
         private void LoadDemoData()
         {
             // Demo active war
-            _currentWar = new AllianceWar
+            _currentWar = new WarRoomData
             {
                 WarId = "WAR_001",
                 AttackingAlliance = new AllianceInfo { Name = "Steel Legion", Tag = "STEEL", MemberCount = 25, Power = 2500000 },
@@ -70,7 +70,7 @@ namespace ApexCitadels.PC.UI
             };
             
             // War history
-            _warHistory.Add(new AllianceWar
+            _warHistory.Add(new WarRoomData
             {
                 WarId = "WAR_000",
                 AttackingAlliance = new AllianceInfo { Name = "Steel Legion", Tag = "STEEL" },
@@ -696,7 +696,7 @@ namespace ApexCitadels.PC.UI
             }
         }
 
-        private void CreateWarHistoryItem(AllianceWar war)
+        private void CreateWarHistoryItem(WarRoomData war)
         {
             GameObject item = new GameObject($"WarHistory_{war.WarId}");
             item.transform.SetParent(_contentContainer.transform, false);

@@ -55,15 +55,15 @@ namespace ApexCitadels.PC.UI
         private Queue<PendingNotification> _pendingQueue = new Queue<PendingNotification>();
         
         // Object pooling
-        private Dictionary<NotificationType, Queue<NotificationInstance>> _notificationPools =
-            new Dictionary<NotificationType, Queue<NotificationInstance>>();
+        private Dictionary<NotifyType, Queue<NotificationInstance>> _notificationPools =
+            new Dictionary<NotifyType, Queue<NotificationInstance>>();
         
         // Audio source
         private AudioSource _audioSource;
         
         // Events
-        public event Action<NotificationData> OnNotificationShown;
-        public event Action<NotificationData> OnNotificationDismissed;
+        public event Action<NotifyData> OnNotificationShown;
+        public event Action<NotifyData> OnNotificationDismissed;
         
         private void Awake()
         {
@@ -114,9 +114,9 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show a standard notification
         /// </summary>
-        public void Show(string message, string title = null, NotificationType type = NotificationType.Standard)
+        public void Show(string message, string title = null, NotifyType type = NotifyType.Standard)
         {
-            var data = new NotificationData
+            var data = new NotifyData
             {
                 message = message,
                 title = title,
@@ -131,7 +131,7 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show notification with full configuration
         /// </summary>
-        public void Show(NotificationData data)
+        public void Show(NotifyData data)
         {
             if (string.IsNullOrEmpty(data.message)) return;
             
@@ -155,14 +155,14 @@ namespace ApexCitadels.PC.UI
         /// </summary>
         public void ShowAchievement(string achievementName, string description, Sprite icon = null)
         {
-            var data = new NotificationData
+            var data = new NotifyData
             {
                 title = "Achievement Unlocked!",
                 message = achievementName,
                 subtitle = description,
                 icon = icon,
-                type = NotificationType.Achievement,
-                position = NotificationPosition.TopCenter,
+                type = NotifyType.Achievement,
+                position = NotifyPosition.TopCenter,
                 duration = 5f,
                 playSound = true
             };
@@ -175,11 +175,11 @@ namespace ApexCitadels.PC.UI
         /// </summary>
         public void ShowCombatAlert(string message, CombatAlertType alertType)
         {
-            var data = new NotificationData
+            var data = new NotifyData
             {
                 message = message,
-                type = NotificationType.Combat,
-                position = NotificationPosition.Center,
+                type = NotifyType.Combat,
+                position = NotifyPosition.Center,
                 duration = 3f,
                 playSound = true
             };
@@ -212,11 +212,11 @@ namespace ApexCitadels.PC.UI
             string sign = isGain ? "+" : "-";
             string colorHex = isGain ? "#4CAF50" : "#F44336";
             
-            var data = new NotificationData
+            var data = new NotifyData
             {
                 message = $"<color={colorHex}>{sign}{amount}</color> {resourceName}",
-                type = NotificationType.Resource,
-                position = NotificationPosition.TopRight,
+                type = NotifyType.Resource,
+                position = NotifyPosition.TopRight,
                 duration = 2.5f,
                 playSound = false
             };
@@ -229,12 +229,12 @@ namespace ApexCitadels.PC.UI
         /// </summary>
         public void ShowSystem(string message, SystemMessagePriority priority = SystemMessagePriority.Normal)
         {
-            var data = new NotificationData
+            var data = new NotifyData
             {
                 title = "System",
                 message = message,
-                type = NotificationType.System,
-                position = NotificationPosition.TopCenter,
+                type = NotifyType.System,
+                position = NotifyPosition.TopCenter,
                 duration = priority == SystemMessagePriority.Critical ? 8f : 4f,
                 playSound = priority >= SystemMessagePriority.High
             };
@@ -262,7 +262,7 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Dismiss notifications of specific type
         /// </summary>
-        public void DismissType(NotificationType type)
+        public void DismissType(NotifyType type)
         {
             foreach (var container in _activeNotifications.Keys)
             {
@@ -286,7 +286,7 @@ namespace ApexCitadels.PC.UI
         
         #region Internal Methods
         
-        private void ShowNotificationImmediate(NotificationData data, RectTransform container)
+        private void ShowNotificationImmediate(NotifyData data, RectTransform container)
         {
             // Get or create notification instance
             var instance = GetNotificationInstance(data.type);
@@ -370,7 +370,7 @@ namespace ApexCitadels.PC.UI
             return newInstance;
         }
         
-        private void ConfigureNotification(NotificationInstance instance, NotificationData data)
+        private void ConfigureNotification(NotificationInstance instance, NotifyData data)
         {
             instance.data = data;
             
@@ -588,16 +588,16 @@ namespace ApexCitadels.PC.UI
             }
         }
         
-        private void PlayNotificationSound(NotificationType type)
+        private void PlayNotificationSound(NotifyType type)
         {
             AudioClip clip = null;
             
             switch (type)
             {
-                case NotificationType.Achievement:
+                case NotifyType.Achievement:
                     clip = achievementSound;
                     break;
-                case NotificationType.Combat:
+                case NotifyType.Combat:
                     clip = alertSound;
                     break;
                 default:
@@ -615,38 +615,38 @@ namespace ApexCitadels.PC.UI
         
         #region Helpers
         
-        private RectTransform GetContainer(NotificationPosition position)
+        private RectTransform GetContainer(NotifyPosition position)
         {
             switch (position)
             {
-                case NotificationPosition.TopRight: return topRightContainer;
-                case NotificationPosition.TopCenter: return topCenterContainer;
-                case NotificationPosition.BottomRight: return bottomRightContainer;
-                case NotificationPosition.Center: return centerContainer;
+                case NotifyPosition.TopRight: return topRightContainer;
+                case NotifyPosition.TopCenter: return topCenterContainer;
+                case NotifyPosition.BottomRight: return bottomRightContainer;
+                case NotifyPosition.Center: return centerContainer;
                 default: return topRightContainer;
             }
         }
         
-        private NotificationPosition GetDefaultPosition(NotificationType type)
+        private NotifyPosition GetDefaultPosition(NotifyType type)
         {
             switch (type)
             {
-                case NotificationType.Achievement: return NotificationPosition.TopCenter;
-                case NotificationType.Combat: return NotificationPosition.Center;
-                case NotificationType.System: return NotificationPosition.TopCenter;
-                case NotificationType.Resource: return NotificationPosition.TopRight;
-                default: return NotificationPosition.TopRight;
+                case NotifyType.Achievement: return NotifyPosition.TopCenter;
+                case NotifyType.Combat: return NotifyPosition.Center;
+                case NotifyType.System: return NotifyPosition.TopCenter;
+                case NotifyType.Resource: return NotifyPosition.TopRight;
+                default: return NotifyPosition.TopRight;
             }
         }
         
-        private NotificationPrefab GetPrefabForType(NotificationType type)
+        private NotificationPrefab GetPrefabForType(NotifyType type)
         {
             switch (type)
             {
-                case NotificationType.Achievement: return achievementNotification;
-                case NotificationType.Combat: return combatNotification;
-                case NotificationType.System: return systemNotification;
-                case NotificationType.Resource: return resourceNotification;
+                case NotifyType.Achievement: return achievementNotification;
+                case NotifyType.Combat: return combatNotification;
+                case NotifyType.System: return systemNotification;
+                case NotifyType.Resource: return resourceNotification;
                 default: return standardNotification;
             }
         }

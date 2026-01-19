@@ -67,7 +67,7 @@ namespace ApexCitadels.PC.UI
         public static AllianceWarUIManager Instance => _instance;
         
         // State
-        private AllianceWar _currentWar;
+        private WarUIData _currentWar;
         private List<WarTerritoryMarker> _territoryMarkers = new List<WarTerritoryMarker>();
         private bool _isVisible;
         
@@ -105,7 +105,7 @@ namespace ApexCitadels.PC.UI
         
         private void LoadDemoWar()
         {
-            _currentWar = new AllianceWar
+            _currentWar = new WarUIData
             {
                 id = "war_001",
                 status = WarStatus.InProgress,
@@ -157,7 +157,7 @@ namespace ApexCitadels.PC.UI
             StartCoroutine(AnimateOut());
         }
         
-        public void SetWar(AllianceWar war)
+        public void SetWar(WarUIData war)
         {
             _currentWar = war;
             UpdateWarDisplay();
@@ -795,7 +795,7 @@ namespace ApexCitadels.PC.UI
             closeButton?.onClick.AddListener(() => gameObject.SetActive(false));
         }
         
-        public void ShowResults(AllianceWar war, bool victory)
+        public void ShowResults(WarUIData war, bool victory)
         {
             gameObject.SetActive(true);
             

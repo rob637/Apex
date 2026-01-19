@@ -374,7 +374,7 @@ namespace ApexCitadels.PC.UI
         /// <summary>
         /// Show notification with slide in animation
         /// </summary>
-        public void ShowNotification(RectTransform notification, NotificationPosition position = NotificationPosition.TopRight,
+        public void ShowNotification(RectTransform notification, UINotificationPosition position = UINotificationPosition.TopRight,
             Action onComplete = null)
         {
             if (!enableAnimations)
@@ -408,7 +408,7 @@ namespace ApexCitadels.PC.UI
             _activeAnimations[notification.GetInstanceID()] = anim;
         }
         
-        private IEnumerator AnimateNotificationShow(RectTransform notification, NotificationPosition position, Action onComplete)
+        private IEnumerator AnimateNotificationShow(RectTransform notification, UINotificationPosition position, Action onComplete)
         {
             notification.gameObject.SetActive(true);
             
@@ -468,16 +468,16 @@ namespace ApexCitadels.PC.UI
             onComplete?.Invoke();
         }
         
-        private Vector2 GetNotificationOffset(NotificationPosition position)
+        private Vector2 GetNotificationOffset(UINotificationPosition position)
         {
             switch (position)
             {
-                case NotificationPosition.TopLeft: return new Vector2(-1, 0);
-                case NotificationPosition.TopRight: return new Vector2(1, 0);
-                case NotificationPosition.BottomLeft: return new Vector2(-1, 0);
-                case NotificationPosition.BottomRight: return new Vector2(1, 0);
-                case NotificationPosition.Top: return new Vector2(0, 1);
-                case NotificationPosition.Bottom: return new Vector2(0, -1);
+                case UINotificationPosition.TopLeft: return new Vector2(-1, 0);
+                case UINotificationPosition.TopRight: return new Vector2(1, 0);
+                case UINotificationPosition.BottomLeft: return new Vector2(-1, 0);
+                case UINotificationPosition.BottomRight: return new Vector2(1, 0);
+                case UINotificationPosition.Top: return new Vector2(0, 1);
+                case UINotificationPosition.Bottom: return new Vector2(0, -1);
                 default: return new Vector2(1, 0);
             }
         }
