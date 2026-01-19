@@ -268,8 +268,9 @@ namespace ApexCitadels.PC
             // Look down at the map at 60 degrees for better perspective
             transform.rotation = Quaternion.Euler(60f, 0f, 0f);
             
-            // Set sky color
-            if (_camera != null)
+            // Only set sky color if no skybox system is active
+            var skyboxSystem = FindFirstObjectByType<Visual.SkyboxEnvironmentSystem>();
+            if (_camera != null && (skyboxSystem == null || !skyboxSystem.gameObject.activeInHierarchy))
             {
                 _camera.clearFlags = CameraClearFlags.SolidColor;
                 _camera.backgroundColor = new Color(0.3f, 0.5f, 0.8f, 1f); // Nice sky blue

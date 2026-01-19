@@ -91,6 +91,14 @@ namespace ApexCitadels.PC
         /// </summary>
         private void SetupProceduralSky()
         {
+            // Skip if SkyboxEnvironmentSystem is handling the sky
+            var skyboxSystem = FindFirstObjectByType<Visual.SkyboxEnvironmentSystem>();
+            if (skyboxSystem != null && skyboxSystem.gameObject.activeInHierarchy)
+            {
+                Debug.Log("[VisualEnhancements] SkyboxEnvironmentSystem active - skipping sky setup");
+                return;
+            }
+            
             // Try to create a procedural skybox material
             // For WebGL, we'll use a gradient approach via render settings
             
