@@ -80,7 +80,7 @@ namespace ApexCitadels.Editor
             // Create new
             MapboxConfiguration config = ScriptableObject.CreateInstance<MapboxConfiguration>();
             config.AccessToken = MAPBOX_API_KEY;
-            config.Style = MapboxStyle.Dark;
+            config.Style = MapboxStyle.Streets;  // Streets style for visible roads
             config.DefaultLatitude = 38.9012;  // Vienna, VA
             config.DefaultLongitude = -77.2653;
             config.DefaultZoom = 14;
@@ -99,8 +99,8 @@ namespace ApexCitadels.Editor
             EditorUtility.DisplayDialog("✅ Mapbox Configured!",
                 $"Created MapboxConfig.asset with your API key.\n\n" +
                 $"Location: Assets/Resources/MapboxConfig.asset\n\n" +
-                $"Style: Dark\n" +
-                $"Default Location: Vienna, VA (38.9012, -77.2653)\n\n" +
+                $"Style: Streets (shows roads clearly)\n" +
+                $"Default Location: Vienna, VA (38.9012, -77.2653)\n\n" + +
                 $"The asset is now selected in the Project window.\n" +
                 $"You can change the location in the Inspector.",
                 "OK");

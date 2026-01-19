@@ -62,7 +62,52 @@ namespace ApexCitadels.PC.Environment
         private void Start()
         {
             Debug.Log($"[WorldEnv] === Starting with TerrainMode: {terrainMode} ===");
+            
+            // If using Mapbox, disable conflicting terrain systems
+            if (terrainMode == TerrainMode.Mapbox)
+            {
+                DisableConflictingTerrainSystems();
+            }
+            
             StartCoroutine(InitializeEnvironment());
+        }
+
+        /// <summary>
+        /// Disable old terrain systems that would cover Mapbox tiles
+        /// </summary>
+        private void DisableConflictingTerrainSystems()
+        {
+            // Disable VisualWorldManager's terrain
+            var visualWorldManager = FindFirstObjectByType<Visual.VisualWorldManager>();
+            if (visualWorldManager != null)
+            {
+                Debug.Log("[WorldEnv] Disabling VisualWorldManager for Mapbox mode");
+                visualWorldManager.enableTerrain = false;
+            }
+            
+            // Destroy any existing WorldTerrain
+            var existingTerrain = GameObject.Find("WorldTerrain");
+            if (existingTerrain != null)
+            {
+                Debug.Log("[WorldEnv] Destroying existing WorldTerrain for Mapbox mode");
+                Destroy(existingTerrain);
+            }
+            
+            // Destroy TerrainVisualSystem if it exists
+            var terrainVisualSystem = FindFirstObjectByType<Visual.TerrainVisualSystem>();
+            if (terrainVisualSystem != null)
+            {
+                Debug.Log("[WorldEnv] Destroying TerrainVisualSystem for Mapbox mode");
+                Destroy(terrainVisualSystem.gameObject);
+            }
+            
+            // Destroy ProceduralTerrain if it exists
+            var proceduralTerrain = FindFirstObjectByType<ProceduralTerrain>();
+            if (proceduralTerrain != null)
+            {
+                Debug.Log("[WorldEnv] Destroying ProceduralTerrain for Mapbox mode");
+                Destroy(proceduralTerrain.gameObject);
+            }
         }
 
         /// <summary>
