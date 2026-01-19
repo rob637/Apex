@@ -126,9 +126,7 @@ namespace ApexCitadels.PC.CameraControllers
         {
             if (path == null || path.waypoints.Count < 2)
             {
-                ApexLogger.LogWarning("Invalid cinematic path", LogCategory.General);
-                return;
-            }
+            ApexLogger.LogWarning("Invalid cinematic path", ApexLogger.LogCategory.General);
             
             _currentPath = path;
             _currentWaypointIndex = 0;
@@ -274,7 +272,7 @@ namespace ApexCitadels.PC.CameraControllers
             _isPaused = true;
             
             // Enable free camera movement
-            ApexLogger.LogVerbose("Photo mode enabled - implement free camera controls", LogCategory.General);
+            ApexLogger.LogVerbose("Photo mode enabled - implement free camera controls", ApexLogger.LogCategory.General);
         }
         
         #endregion
@@ -731,7 +729,7 @@ namespace ApexCitadels.PC.CameraControllers
         {
             if (outputAsset == null)
             {
-                ApexLogger.LogError("No output asset assigned", LogCategory.General);
+                ApexLogger.LogError("No output asset assigned", ApexLogger.LogCategory.General);
                 return;
             }
             
@@ -753,7 +751,7 @@ namespace ApexCitadels.PC.CameraControllers
             UnityEditor.EditorUtility.SetDirty(outputAsset);
 #endif
             
-            ApexLogger.Log($"Generated path with {outputAsset.waypoints.Count} waypoints", LogCategory.General);
+            ApexLogger.Log($"Generated path with {outputAsset.waypoints.Count} waypoints", ApexLogger.LogCategory.General);
         }
     }
     
@@ -878,7 +876,7 @@ namespace ApexCitadels.PC.CameraControllers
             System.IO.File.WriteAllBytes(path, bytes);
             UnityEngine.Object.Destroy(screenshot);
             
-            ApexLogger.Log($"Screenshot saved: {path}", LogCategory.General);
+            ApexLogger.Log($"Screenshot saved: {path}", ApexLogger.LogCategory.General);
             
             // Show UI
             photoModeUI?.SetActive(true);

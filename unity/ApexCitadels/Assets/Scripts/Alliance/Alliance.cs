@@ -32,6 +32,10 @@ namespace ApexCitadels.Alliance
         public int WeeklyXP;
         public int AllTimeXP;
 
+        // Computed properties
+        public int Level => Mathf.FloorToInt(AllTimeXP / 1000f) + 1; // Level based on XP
+        public int TerritoryCount => TotalTerritories;
+
         // Settings
         public bool IsOpen; // Open to join without invitation
         public int MinLevelToJoin = 1;
@@ -214,6 +218,9 @@ namespace ApexCitadels.Alliance
         public int TerritoriesCaptured;
         public int TerritoriesDefended;
         public DateTime LastActive;
+
+        // Computed properties
+        public bool IsOnline => (DateTime.UtcNow - LastActive).TotalMinutes < 15;
     }
 
     /// <summary>
@@ -352,6 +359,10 @@ namespace ApexCitadels.Alliance
         public string WinnerId;
 
         public List<WarBattle> Battles = new List<WarBattle>();
+
+        // Computed properties
+        public TimeSpan TimeRemaining => EndTime > DateTime.UtcNow ? EndTime - DateTime.UtcNow : TimeSpan.Zero;
+        public string DefenderName => DefendingAllianceName;
 
         public AllianceWar() { }
 

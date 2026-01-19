@@ -289,7 +289,7 @@ namespace ApexCitadels.PC
                 string tooltipText = $"{visual.TerritoryName}\nLevel {visual.TerritoryLevel}";
                 
                 // TODO: Show via PCUIManager tooltip system
-                ApexLogger.LogVerbose(LogCategory.UI, $"Tooltip: {tooltipText}");
+                ApexLogger.LogVerbose(ApexLogger.LogCategory.UI, $"Tooltip: {tooltipText}");
             }
         }
 
@@ -301,7 +301,7 @@ namespace ApexCitadels.PC
         private void PlaySound(string soundName)
         {
             // TODO: Play via audio manager
-            ApexLogger.LogVerbose(LogCategory.UI, $"Sound: {soundName}");
+            ApexLogger.LogVerbose(ApexLogger.LogCategory.UI, $"Sound: {soundName}");
         }
     }
 }
