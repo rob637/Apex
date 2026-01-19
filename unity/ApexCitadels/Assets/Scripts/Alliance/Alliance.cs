@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Alliance
 {
@@ -79,6 +81,7 @@ namespace ApexCitadels.Alliance
             };
         }
 
+#if FIREBASE_ENABLED
         /// <summary>
         /// Convert alliance to Firestore-compatible dictionary
         /// </summary>
@@ -194,6 +197,7 @@ namespace ApexCitadels.Alliance
 
             return alliance;
         }
+#endif
     }
 
     /// <summary>
@@ -272,6 +276,7 @@ namespace ApexCitadels.Alliance
         public bool IsExpired => DateTime.UtcNow > ExpiresAt;
         public bool IsPending => !Accepted && !Declined && !IsExpired;
 
+#if FIREBASE_ENABLED
         /// <summary>
         /// Convert invitation to Firestore-compatible dictionary
         /// </summary>
@@ -321,6 +326,7 @@ namespace ApexCitadels.Alliance
 
             return invitation;
         }
+#endif
     }
 
     /// <summary>
@@ -364,6 +370,7 @@ namespace ApexCitadels.Alliance
 
         public bool IsActive => Status == WarStatus.Active && DateTime.UtcNow < EndTime;
 
+#if FIREBASE_ENABLED
         /// <summary>
         /// Convert war to Firestore-compatible dictionary
         /// </summary>
@@ -464,8 +471,7 @@ namespace ApexCitadels.Alliance
             }
 
             return war;
-        }
-    }
+        }#endif    }
 
     /// <summary>
     /// Individual battle in an alliance war

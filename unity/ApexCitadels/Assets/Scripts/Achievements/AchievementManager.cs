@@ -6,7 +6,9 @@ using ApexCitadels.Player;
 using ApexCitadels.Territory;
 using ApexCitadels.Notifications;
 using ApexCitadels.UI;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Achievements
 {

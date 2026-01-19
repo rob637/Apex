@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Moderation
@@ -80,7 +82,9 @@ namespace ApexCitadels.Moderation
         public event Action<ReportResult> OnReportSubmitted;
 
         // State
+#if FIREBASE_ENABLED
         private Firebase.Functions.FirebaseFunctions _functions;
+#endif
         private bool _isMuted;
         private DateTime? _muteExpiresAt;
         private BanStatus _banStatus;

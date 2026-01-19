@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Building
 {
@@ -190,6 +192,7 @@ namespace ApexCitadels.Building
             return Health <= 0;
         }
 
+#if FIREBASE_ENABLED
         /// <summary>
         /// Convert block to Firestore-compatible dictionary
         /// </summary>
@@ -300,6 +303,7 @@ namespace ApexCitadels.Building
 
             return block;
         }
+#endif
     }
 
     /// <summary>

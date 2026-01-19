@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Data;
 using ApexCitadels.Player;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Alliance
 {
@@ -503,6 +505,7 @@ namespace ApexCitadels.Alliance
 
         #region Cloud Operations
 
+#if FIREBASE_ENABLED
         private FirebaseFirestore _db;
 
         private FirebaseFirestore GetFirestore()
@@ -513,6 +516,7 @@ namespace ApexCitadels.Alliance
             }
             return _db;
         }
+#endif
 
         private async void LoadPlayerAlliance()
         {

@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.SeasonPass
@@ -109,8 +111,10 @@ namespace ApexCitadels.SeasonPass
         private Season _currentSeason;
         private SeasonProgress _progress;
         private List<SeasonChallenge> _challenges = new List<SeasonChallenge>();
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
+#endif
 
         public Season CurrentSeason => _currentSeason;
         public SeasonProgress Progress => _progress;

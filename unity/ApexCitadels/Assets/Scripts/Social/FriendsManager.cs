@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Functions;
+#endif
 using Newtonsoft.Json;
 
 namespace ApexCitadels.Social
@@ -108,8 +110,10 @@ namespace ApexCitadels.Social
         private List<Gift> _pendingGifts = new List<Gift>();
         private List<ActivityItem> _activityFeed = new List<ActivityItem>();
         private int _dailyGiftsSent = 0;
+#if FIREBASE_ENABLED
         private FirebaseFunctions _functions;
         private FirebaseFirestore _firestore;
+#endif
 
         public List<Friend> Friends => _friends;
         public List<FriendRequest> IncomingRequests => _incomingRequests;

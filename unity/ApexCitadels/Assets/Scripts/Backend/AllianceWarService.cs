@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Data;
+#if FIREBASE_ENABLED
 using Firebase.Firestore;
+#endif
 
 namespace ApexCitadels.Backend
 {
@@ -191,7 +193,11 @@ namespace ApexCitadels.Backend
 
         #region Real-time Listeners
 
+#if FIREBASE_ENABLED
         private ListenerRegistration _warListenerRegistration;
+#else
+        private object _warListenerRegistration;
+#endif
 
         /// <summary>
         /// Start listening for real-time war updates
@@ -271,6 +277,7 @@ namespace ApexCitadels.Backend
 #endif
         }
 
+#if FIREBASE_ENABLED
         private AllianceWar ParseWarFromSnapshot(DocumentSnapshot snapshot)
         {
             try
@@ -310,6 +317,7 @@ namespace ApexCitadels.Backend
                 return null;
             }
         }
+#endif
 
         private void OnDestroy()
         {
