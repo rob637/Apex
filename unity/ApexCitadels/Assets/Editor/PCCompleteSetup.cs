@@ -11,6 +11,8 @@ using ApexCitadels.PC;
 using ApexCitadels.PC.UI;
 using ApexCitadels.PC.WebGL;
 using ApexCitadels.PC.Visual;
+using ApexCitadels.PC.Environment;
+using ApexCitadels.PC.Buildings;
 
 namespace ApexCitadels.PC.Editor
 {
