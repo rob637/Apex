@@ -373,6 +373,7 @@ namespace ApexCitadels.Data
         /// </summary>
         public async void LoadResources()
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED

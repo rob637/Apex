@@ -9,6 +9,8 @@ using Firebase.Functions;
 using Newtonsoft.Json;
 using ApexCitadels.Core;
 
+#pragma warning disable 0067, 0414
+
 namespace ApexCitadels.Moderation
 {
     /// <summary>
@@ -415,6 +417,7 @@ namespace ApexCitadels.Moderation
             string reason,
             string description = null)
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -461,6 +464,7 @@ namespace ApexCitadels.Moderation
         /// </summary>
         public async Task<bool> AppealBan(string banId, string reason)
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED

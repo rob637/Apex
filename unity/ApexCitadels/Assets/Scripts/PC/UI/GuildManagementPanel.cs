@@ -1332,7 +1332,7 @@ namespace ApexCitadels.PC.UI
             tmp.fontSize = fontSize;
             tmp.alignment = alignment;
             tmp.color = color ?? Color.white;
-            tmp.enableWordWrapping = true;
+            tmp.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = true;
             
             return obj;
         }

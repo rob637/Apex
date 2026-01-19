@@ -126,7 +126,7 @@ namespace ApexCitadels.PC
         private void InitializeFirebaseClient()
         {
             // Find or create FirebaseWebClient
-            _firebaseClient = FindObjectOfType<FirebaseWebClient>();
+            _firebaseClient = FindFirstObjectByType<FirebaseWebClient>();
             if (_firebaseClient == null)
             {
                 var clientObj = new GameObject("FirebaseWebClient");

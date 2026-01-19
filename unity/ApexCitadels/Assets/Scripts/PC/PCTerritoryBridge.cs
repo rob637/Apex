@@ -241,6 +241,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public async Task<bool> UpgradeTerritory(string territoryId)
         {
+            await Task.CompletedTask;
             if (!PlatformManager.IsFeatureAvailable(GameFeature.ManageBuildings))
             {
                 ApexLogger.LogWarning("Upgrade not available on this platform", ApexLogger.LogCategory.Territory);
@@ -267,6 +268,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public async Task<bool> PlaceBuildingPC(string territoryId, BlockType type, Vector3 localPosition, float rotation)
         {
+            await Task.CompletedTask;
             if (_buildingManager == null) return false;
 
             // PC can place buildings (but not first-time in new territory)
@@ -304,6 +306,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public async Task<bool> SaveBlueprint(string territoryId, string name, string description)
         {
+            await Task.CompletedTask;
             if (!PlatformManager.IsFeatureAvailable(GameFeature.BlueprintDesigner))
             {
                 ApexLogger.LogWarning("Blueprint designer not available on this platform", ApexLogger.LogCategory.Territory);
@@ -373,6 +376,7 @@ namespace ApexCitadels.PC
 
         private async Task<List<ActivityEntry>> LoadActivityLog(string territoryId)
         {
+            await Task.CompletedTask;
             // Would load from backend
             return new List<ActivityEntry>
             {

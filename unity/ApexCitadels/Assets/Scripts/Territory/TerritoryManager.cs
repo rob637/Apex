@@ -8,6 +8,8 @@ using Firebase.Firestore;
 using Firebase.Extensions;
 #endif
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.Territory
 {
     /// <summary>

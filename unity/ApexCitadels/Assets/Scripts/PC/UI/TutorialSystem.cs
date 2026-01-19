@@ -173,7 +173,7 @@ namespace ApexCitadels.PC.UI
             msgText.fontSize = 14;
             msgText.alignment = TextAlignmentOptions.Center;
             msgText.color = new Color(0.9f, 0.9f, 0.9f);
-            msgText.enableWordWrapping = true;
+            msgText.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = true;
             
             // Buttons
             GameObject buttons = new GameObject("Buttons");

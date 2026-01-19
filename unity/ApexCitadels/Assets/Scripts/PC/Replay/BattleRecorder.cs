@@ -9,6 +9,8 @@ using ApexCitadels.PC.Combat;
 using Firebase.Firestore;
 #endif
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.PC.Replay
 {
     /// <summary>
@@ -85,7 +87,7 @@ namespace ApexCitadels.PC.Replay
             if (_isRecording)
             {
                 ApexLogger.LogWarning("Already recording - stopping previous session", ApexLogger.LogCategory.Replay);
-                StopRecording(false);
+                _ = StopRecording(false); // Fire and forget, intentionally not awaited
             }
             
             _currentSession = new RecordingSession
@@ -586,6 +588,7 @@ namespace ApexCitadels.PC.Replay
         
         private async Task SaveToFirebase()
         {
+            await Task.CompletedTask;
 #if FIREBASE_ENABLED
             if (_currentSession == null) return;
             

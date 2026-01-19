@@ -9,6 +9,8 @@ using ApexCitadels.Combat;
 using Firebase.Firestore;
 #endif
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.PC
 {
     /// <summary>
@@ -90,6 +92,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public async Task<bool> LoadReplay(string replayId)
         {
+            await Task.CompletedTask;
 #if FIREBASE_ENABLED
             try
             {
@@ -125,6 +128,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public async Task<List<BattleReplaySummary>> GetTerritoryReplays(string territoryId, int limit = 20)
         {
+            await Task.CompletedTask;
             var summaries = new List<BattleReplaySummary>();
             
 #if FIREBASE_ENABLED
@@ -171,6 +175,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public async Task<List<BattleReplaySummary>> GetPlayerReplays(string playerId, bool attacksOnly = false, bool defensesOnly = false, int limit = 50)
         {
+            await Task.CompletedTask;
             var summaries = new List<BattleReplaySummary>();
             
 #if FIREBASE_ENABLED
@@ -461,6 +466,7 @@ namespace ApexCitadels.PC
         
         private async Task SetupReplayScene()
         {
+            await Task.CompletedTask;
             ClearReplayScene();
             
             if (_currentReplay == null) return;

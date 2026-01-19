@@ -9,6 +9,8 @@ using Firebase.Functions;
 using Newtonsoft.Json;
 using ApexCitadels.Core;
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.SeasonPass
 {
     /// <summary>

@@ -10,6 +10,8 @@ using Firebase.Functions;
 using Newtonsoft.Json;
 using ApexCitadels.Core;
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.Tutorial
 {
     /// <summary>
@@ -709,6 +711,7 @@ namespace ApexCitadels.Tutorial
         /// </summary>
         private async void SyncProgressToServer()
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED

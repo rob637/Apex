@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.Core;
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.Tutorial
 {
     /// <summary>

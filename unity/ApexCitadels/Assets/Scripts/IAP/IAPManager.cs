@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Core;
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.IAP
 {
     /// <summary>

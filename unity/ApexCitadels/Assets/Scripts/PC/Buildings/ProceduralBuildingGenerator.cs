@@ -647,7 +647,6 @@ namespace ApexCitadels.PC.Buildings
         private void CreateBattlements(Transform parent, float y, Vector2 size, Color color)
         {
             float spacing = 1.5f;
-            float merlonSize = 0.4f;
             
             // Create merlons around perimeter
             int countX = Mathf.FloorToInt(size.x / spacing);

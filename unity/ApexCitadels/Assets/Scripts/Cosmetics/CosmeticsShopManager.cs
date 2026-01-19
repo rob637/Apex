@@ -10,6 +10,8 @@ using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
 
+#pragma warning disable 0067, 0414
+
 namespace ApexCitadels.Cosmetics
 {
     /// <summary>
@@ -268,6 +270,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async Task RefreshBalance()
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -298,6 +301,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async Task RefreshShopCatalog()
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -358,6 +362,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async Task RefreshUserCosmetics()
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -676,6 +681,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         private async void LoadPreviewImage()
         {
+            await Task.CompletedTask;
             if (string.IsNullOrEmpty(_selectedItem.PreviewImage) || previewImage == null) return;
 
             // For now, assume the image is in Resources
@@ -701,6 +707,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async void PurchaseItem(string currency)
         {
+            await Task.CompletedTask;
             if (_selectedItem == null) return;
 
             ShowLoading(true);
@@ -779,6 +786,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async void EquipSelectedItem()
         {
+            await Task.CompletedTask;
             if (_selectedItem == null || !_selectedItem.IsOwned) return;
 
             ShowLoading(true);
@@ -838,6 +846,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async void UnequipSelectedItem()
         {
+            await Task.CompletedTask;
             if (_selectedItem == null || !_selectedItem.IsEquipped) return;
 
             ShowLoading(true);
@@ -885,6 +894,7 @@ namespace ApexCitadels.Cosmetics
         /// </summary>
         public async void ToggleFavorite()
         {
+            await Task.CompletedTask;
             if (_selectedItem == null || !_selectedItem.IsOwned) return;
 
             try

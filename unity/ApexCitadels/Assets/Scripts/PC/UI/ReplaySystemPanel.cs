@@ -1038,7 +1038,7 @@ namespace ApexCitadels.PC.UI
             titleTMP.fontSize = 13;
             titleTMP.fontStyle = FontStyles.Bold;
             titleTMP.color = Color.white;
-            titleTMP.enableWordWrapping = false;
+            titleTMP.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = false;
             titleTMP.overflowMode = TextOverflowModes.Ellipsis;
             LayoutElement titleLE = titleObj.AddComponent<LayoutElement>();
             titleLE.flexibleWidth = 1;

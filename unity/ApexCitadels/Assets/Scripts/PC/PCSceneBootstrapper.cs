@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using ApexCitadels.Core;
 using ApexCitadels.PC.UI;
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.PC
 {
     /// <summary>

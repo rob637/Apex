@@ -11,6 +11,8 @@ using ApexCitadels.Core;
 using Firebase.Firestore;
 #endif
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.Achievements
 {
     /// <summary>
@@ -551,6 +553,7 @@ namespace ApexCitadels.Achievements
 
         private async void SyncProgressFromCloud()
         {
+            await Task.CompletedTask;
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
             if (string.IsNullOrEmpty(playerId)) return;
 
@@ -606,6 +609,7 @@ namespace ApexCitadels.Achievements
 
         private async void SyncProgressToCloud(AchievementProgressWrapper wrapper)
         {
+            await Task.CompletedTask;
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
             if (string.IsNullOrEmpty(playerId)) return;
 

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.IAP;
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.UI
 {
     /// <summary>
@@ -427,7 +429,7 @@ namespace ApexCitadels.UI
             if (_selectedProduct == null) return;
 
             HidePurchaseConfirm();
-            IAPManager.Instance.Purchase(_selectedProduct.ProductId);
+            _ = IAPManager.Instance.Purchase(_selectedProduct.ProductId); // Fire and forget, intentionally not awaited
         }
 
         private void CancelPurchase()

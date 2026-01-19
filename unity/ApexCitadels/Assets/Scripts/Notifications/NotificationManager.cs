@@ -15,6 +15,8 @@ using Firebase.Firestore;
 using Firebase.Messaging;
 #endif
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.Notifications
 {
     /// <summary>

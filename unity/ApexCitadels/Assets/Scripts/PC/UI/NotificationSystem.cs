@@ -200,7 +200,7 @@ namespace ApexCitadels.PC.UI
             msgText.text = data.Message;
             msgText.fontSize = 12;
             msgText.color = new Color(0.85f, 0.85f, 0.85f);
-            msgText.enableWordWrapping = true;
+            msgText.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = true;
             
             // Close button
             GameObject closeBtn = new GameObject("CloseBtn");
@@ -413,7 +413,7 @@ namespace ApexCitadels.PC.UI
             msgText.fontSize = 16;
             msgText.alignment = TextAlignmentOptions.Center;
             msgText.color = new Color(0.85f, 0.85f, 0.85f);
-            msgText.enableWordWrapping = true;
+            msgText.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = true;
             
             // Buttons
             GameObject buttons = new GameObject("Buttons");

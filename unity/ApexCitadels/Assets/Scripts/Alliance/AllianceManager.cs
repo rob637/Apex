@@ -10,6 +10,8 @@ using ApexCitadels.Player;
 using Firebase.Firestore;
 #endif
 
+#pragma warning disable 0414
+
 namespace ApexCitadels.Alliance
 {
     /// <summary>
@@ -570,6 +572,7 @@ namespace ApexCitadels.Alliance
 
         private async Task LoadActiveWar()
         {
+            await Task.CompletedTask;
             if (_currentAlliance == null) return;
 
             try
@@ -612,6 +615,7 @@ namespace ApexCitadels.Alliance
 
         private async Task LoadPendingInvitations()
         {
+            await Task.CompletedTask;
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
             if (string.IsNullOrEmpty(playerId)) return;
 
@@ -648,6 +652,7 @@ namespace ApexCitadels.Alliance
 
         private async Task SaveAllianceToCloud(Alliance alliance)
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -665,6 +670,7 @@ namespace ApexCitadels.Alliance
 
         private async Task<Alliance> LoadAllianceFromCloud(string allianceId)
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -688,6 +694,7 @@ namespace ApexCitadels.Alliance
 
         private async Task SaveInvitationToCloud(AllianceInvitation invitation)
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -705,6 +712,7 @@ namespace ApexCitadels.Alliance
 
         private async Task SaveWarToCloud(AllianceWar war)
         {
+            await Task.CompletedTask;
             try
             {
 #if FIREBASE_ENABLED
@@ -722,6 +730,7 @@ namespace ApexCitadels.Alliance
 
         private async Task DisbandAlliance()
         {
+            await Task.CompletedTask;
             if (_currentAlliance == null) return;
 
             try
@@ -753,6 +762,7 @@ namespace ApexCitadels.Alliance
         /// </summary>
         public async Task<List<Alliance>> SearchAlliances(string queryText)
         {
+            await Task.CompletedTask;
             var results = new List<Alliance>();
 
             try
@@ -794,6 +804,7 @@ namespace ApexCitadels.Alliance
         /// </summary>
         public async Task<List<Alliance>> GetLeaderboard(int limit = 100)
         {
+            await Task.CompletedTask;
             var results = new List<Alliance>();
 
             try

@@ -1325,7 +1325,7 @@ namespace ApexCitadels.PC.UI
             tmp.fontStyle = style;
             tmp.color = TEXT_PRIMARY;
             tmp.alignment = TextAlignmentOptions.Center;
-            tmp.enableWordWrapping = true;
+            tmp.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = true;
             tmp.overflowMode = TextOverflowModes.Ellipsis;
 
             return tmp;

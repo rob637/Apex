@@ -343,7 +343,7 @@ namespace ApexCitadels.PC.Economy
             ApexLogger.Log("Opening IAP store...", ApexLogger.LogCategory.Economy);
             
             // Find and open the IAP store UI
-            var storeUI = UnityEngine.Object.FindObjectOfType<IAPStoreUI>();
+            var storeUI = UnityEngine.Object.FindFirstObjectByType<IAPStoreUI>();
             if (storeUI != null)
             {
                 storeUI.OpenStore();

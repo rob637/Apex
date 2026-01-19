@@ -11,6 +11,8 @@ using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.Chat
 {
     /// <summary>

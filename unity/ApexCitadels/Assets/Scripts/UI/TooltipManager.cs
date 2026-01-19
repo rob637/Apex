@@ -494,7 +494,7 @@ namespace ApexCitadels.UI
             bodyText.text = "Body text";
             bodyText.fontSize = bodyFontSize;
             bodyText.color = bodyColor;
-            bodyText.enableWordWrapping = true;
+            bodyText.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = true;
 
             var bodyLayoutElem = bodyGO.AddComponent<LayoutElement>();
             bodyLayoutElem.preferredWidth = maxWidth;

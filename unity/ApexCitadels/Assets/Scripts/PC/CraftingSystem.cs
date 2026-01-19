@@ -73,6 +73,7 @@ namespace ApexCitadels.PC
         /// </summary>
         private async Task LoadRecipes()
         {
+            await Task.CompletedTask;
             _recipes.Clear();
             
             // Load built-in recipes
@@ -607,6 +608,7 @@ namespace ApexCitadels.PC
         
         private async Task LoadCraftingState()
         {
+            await Task.CompletedTask;
 #if FIREBASE_ENABLED
             string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
             if (string.IsNullOrEmpty(userId)) return;
@@ -653,6 +655,7 @@ namespace ApexCitadels.PC
         
         private async Task SaveCraftingState()
         {
+            await Task.CompletedTask;
 #if FIREBASE_ENABLED
             string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser?.UserId;
             if (string.IsNullOrEmpty(userId)) return;

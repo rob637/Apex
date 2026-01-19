@@ -9,6 +9,8 @@ using Firebase.Firestore;
 using Firebase.Extensions;
 #endif
 
+#pragma warning disable 0067
+
 namespace ApexCitadels.Leaderboard
 {
     /// <summary>
@@ -320,6 +322,7 @@ namespace ApexCitadels.Leaderboard
             int limit,
             string region = "")
         {
+            await Task.CompletedTask;
             var entries = new List<LeaderboardEntry>();
             string currentPlayerId = PlayerManager.Instance?.GetCurrentPlayerId() ?? "";
 

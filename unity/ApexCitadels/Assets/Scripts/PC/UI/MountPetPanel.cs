@@ -964,7 +964,7 @@ namespace ApexCitadels.PC.UI
             nameTMP.fontStyle = FontStyles.Bold;
             nameTMP.color = rarityColor;
             nameTMP.alignment = TextAlignmentOptions.Center;
-            nameTMP.enableWordWrapping = false;
+            nameTMP.textWrappingMode = TMPro.TextWrappingModes.Normal; //  = false;
             nameTMP.overflowMode = TextOverflowModes.Ellipsis;
             LayoutElement nameLE = nameObj.AddComponent<LayoutElement>();
             nameLE.preferredHeight = 18;

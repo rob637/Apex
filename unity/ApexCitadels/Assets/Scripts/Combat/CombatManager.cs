@@ -6,6 +6,8 @@ using ApexCitadels.Core;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
 
+#pragma warning disable 0067, 0414
+
 namespace ApexCitadels.Combat
 {
     /// <summary>

@@ -285,6 +285,7 @@ namespace ApexCitadels.Resources
         /// </summary>
         public async void LoadNearbyNodes(double latitude, double longitude)
         {
+            await Task.CompletedTask;
             // Clear old distant nodes
             _nearbyNodes.RemoveAll(n => 
                 Territory.Territory.CalculateDistance(n.Latitude, n.Longitude, latitude, longitude) > nodeSpawnRadius * 2);

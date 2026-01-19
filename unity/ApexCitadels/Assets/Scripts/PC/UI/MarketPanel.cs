@@ -178,6 +178,7 @@ namespace ApexCitadels.PC.UI
         
         private async void RefreshListings()
         {
+            await Task.CompletedTask;
             ClearListingItems();
             
 #if FIREBASE_ENABLED
@@ -676,6 +677,7 @@ namespace ApexCitadels.PC.UI
         
         private async void RefreshMyListings()
         {
+            await Task.CompletedTask;
 #if FIREBASE_ENABLED
             try
             {
@@ -803,6 +805,7 @@ namespace ApexCitadels.PC.UI
         
         private async void RefreshHistory()
         {
+            await Task.CompletedTask;
 #if FIREBASE_ENABLED
             try
             {

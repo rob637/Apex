@@ -695,7 +695,7 @@ namespace ApexCitadels.PC.CameraControllers
         
         private void Start()
         {
-            var fpController = FindObjectOfType<FirstPersonController>();
+            var fpController = FindFirstObjectByType<FirstPersonController>();
             if (fpController != null)
             {
                 _playerTransform = fpController.transform;
