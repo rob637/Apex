@@ -74,6 +74,8 @@ namespace ApexCitadels.PC.UI
             _armyCounts[TroopType.Archer] = 50;
             _armyCounts[TroopType.Cavalry] = 25;
             _armyCounts[TroopType.Siege] = 10;
+            _armyCounts[TroopType.Mage] = 15;
+            _armyCounts[TroopType.Guardian] = 20;
             _armyCounts[TroopType.Elite] = 5;
         }
 
