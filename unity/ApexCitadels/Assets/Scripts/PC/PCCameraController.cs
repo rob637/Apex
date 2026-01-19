@@ -342,6 +342,19 @@ namespace ApexCitadels.PC
 
         private void UpdateTerritoryMode()
         {
+            // WASD to move the orbit center (pan the view)
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+            
+            if (Mathf.Abs(horizontal) > 0.01f || Mathf.Abs(vertical) > 0.01f)
+            {
+                // Move orbit center based on camera facing
+                Vector3 forward = Quaternion.Euler(0, _orbitAngle, 0) * Vector3.forward;
+                Vector3 right = Quaternion.Euler(0, _orbitAngle, 0) * Vector3.right;
+                Vector3 moveDir = (forward * vertical + right * horizontal).normalized;
+                _orbitCenter += moveDir * worldMapPanSpeed * 0.3f * Time.deltaTime;
+            }
+            
             // Right mouse drag to orbit
             if (Input.GetMouseButton(1))
             {

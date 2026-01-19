@@ -5,14 +5,17 @@ using UnityEngine;
 using ApexCitadels.Territory;
 using ApexCitadels.Map;
 using ApexCitadels.PC.WebGL;
+using ApexCitadels.PC.Buildings;
 using ApexCitadels.UI;
 using ApexCitadels.Core;
+using ApexCitadels.Core.Assets;
 
 namespace ApexCitadels.PC
 {
     /// <summary>
     /// Renders the 3D world map view for the PC client.
     /// Displays territories, players, resources, and events on a strategic map.
+    /// Now uses 3D models from BuildingModelProvider instead of primitives.
     /// </summary>
     public class WorldMapRenderer : MonoBehaviour
     {
@@ -22,6 +25,10 @@ namespace ApexCitadels.PC
         [SerializeField] private float tileSize = 100f;          // World units per tile
         [SerializeField] private int viewRadius = 5;             // Number of tiles to render around center
         [SerializeField] private float updateInterval = 1f;      // How often to refresh data
+        
+        [Header("3D Model Integration")]
+        [SerializeField] private bool use3DModels = true;        // Use 3D models instead of primitives
+        [SerializeField] private float modelScale = 5f;          // Scale for 3D models
 
         [Header("Territory Rendering")]
         [SerializeField] private Material ownedTerritoryMaterial;
@@ -384,8 +391,222 @@ namespace ApexCitadels.PC
             // Make territories larger and more visible - minimum 25 units radius
             float radius = Mathf.Max(territory.RadiusMeters / 8f, 25f);
 
+            // === USE 3D MODELS OR FALLBACK TO PRIMITIVES ===
+            if (use3DModels && BuildingModelProvider.Instance != null)
+            {
+                Create3DModelTerritory(territoryObj, territory, baseMat, radius);
+            }
+            else
+            {
+                CreatePrimitiveTerritory(territoryObj, territory, baseMat, radius);
+            }
+
+            // Add TerritoryVisual component
+            var visual = territoryObj.AddComponent<TerritoryVisual>();
+            visual.Initialize(territory.Id, territory.Name, territory.OwnerId, 
+                            territory.OwnerName ?? "Unclaimed", territory.Level);
+
+            // Enable interaction
+            var collider = territoryObj.GetComponent<Collider>();
+            if (collider == null)
+            {
+                var boxCollider = territoryObj.AddComponent<BoxCollider>();
+                boxCollider.size = new Vector3(radius * 2f, 100f, radius * 2f);
+                boxCollider.center = new Vector3(0, 50f, 0);
+            }
+
+            _territoryObjects[territory.Id] = territoryObj;
+            ApexLogger.Log($"[WorldMap] Created territory visual: {territory.Name} (3D Models: {use3DModels && BuildingModelProvider.Instance != null})", ApexLogger.LogCategory.Map);
+        }
+
+        /// <summary>
+        /// Create territory using 3D models from BuildingModelProvider
+        /// </summary>
+        private void Create3DModelTerritory(GameObject territoryObj, Territory.Territory territory, Material baseMat, float radius)
+        {
+            var modelProvider = BuildingModelProvider.Instance;
+            
+            // === GROUND PLATFORM ===
+            GameObject baseObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            baseObj.name = "GroundPlatform";
+            baseObj.transform.parent = territoryObj.transform;
+            baseObj.transform.localPosition = new Vector3(0, 0.5f, 0);
+            baseObj.transform.localScale = new Vector3(radius * 2.2f, 1f, radius * 2.2f);
+            baseObj.GetComponent<Renderer>().material = baseMat;
+            
+            // === CENTRAL CASTLE/CITADEL (3D Model) ===
+            GameObject citadel = modelProvider.GetBuildingModel(BuildingCategory.Citadel, territoryObj.transform);
+            if (citadel != null)
+            {
+                citadel.name = "Citadel";
+                citadel.transform.localPosition = new Vector3(0, 1f, 0);
+                citadel.transform.localScale = Vector3.one * modelScale * 2f;
+                citadel.transform.localRotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
+            }
+            else
+            {
+                // Fallback to primitive
+                CreateCentralTowerPrimitive(territoryObj.transform, baseMat);
+            }
+
+            // === DEFENSE TOWERS (3D Models) at corners ===
+            float towerOffset = radius * 0.65f;
+            Vector3[] towerPositions = {
+                new Vector3(towerOffset, 1f, towerOffset),
+                new Vector3(-towerOffset, 1f, towerOffset),
+                new Vector3(towerOffset, 1f, -towerOffset),
+                new Vector3(-towerOffset, 1f, -towerOffset)
+            };
+            
+            foreach (var pos in towerPositions)
+            {
+                GameObject tower = modelProvider.GetTowerModel(TowerType.Defense, territoryObj.transform);
+                if (tower != null)
+                {
+                    tower.name = "DefenseTower";
+                    tower.transform.localPosition = pos;
+                    tower.transform.localScale = Vector3.one * modelScale;
+                    tower.transform.localRotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
+                }
+            }
+
+            // === WALLS between towers (3D Models) ===
+            CreateWallsBetweenTowers(territoryObj.transform, modelProvider, towerPositions);
+
+            // === ADDITIONAL BUILDINGS scattered in the territory ===
+            int buildingCount = Mathf.Min(territory.Level + 2, 8);
+            for (int i = 0; i < buildingCount; i++)
+            {
+                float angle = (360f / buildingCount) * i + UnityEngine.Random.Range(-20f, 20f);
+                float dist = radius * UnityEngine.Random.Range(0.3f, 0.55f);
+                Vector3 buildingPos = new Vector3(
+                    Mathf.Sin(angle * Mathf.Deg2Rad) * dist,
+                    1f,
+                    Mathf.Cos(angle * Mathf.Deg2Rad) * dist
+                );
+
+                BuildingCategory category = (BuildingCategory)(i % 5); // Cycle through categories
+                GameObject building = modelProvider.GetBuildingModel(category, territoryObj.transform);
+                if (building != null)
+                {
+                    building.name = $"Building_{category}_{i}";
+                    building.transform.localPosition = buildingPos;
+                    building.transform.localScale = Vector3.one * modelScale * UnityEngine.Random.Range(0.8f, 1.2f);
+                    building.transform.localRotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
+                }
+            }
+
+            // === LABELS ===
+            CreateTerritoryLabels(territoryObj.transform, territory, radius);
+        }
+
+        private void CreateWallsBetweenTowers(Transform parent, BuildingModelProvider modelProvider, Vector3[] towerPositions)
+        {
+            // Create walls connecting the towers
+            for (int i = 0; i < towerPositions.Length; i++)
+            {
+                int nextIndex = (i + 1) % towerPositions.Length;
+                Vector3 start = towerPositions[i];
+                Vector3 end = towerPositions[nextIndex];
+                Vector3 midpoint = (start + end) / 2f;
+                
+                // Direction and distance
+                Vector3 dir = (end - start).normalized;
+                float dist = Vector3.Distance(start, end);
+                int wallSegments = Mathf.Max(1, Mathf.FloorToInt(dist / 15f));
+                
+                for (int j = 0; j < wallSegments; j++)
+                {
+                    float t = (j + 0.5f) / wallSegments;
+                    Vector3 wallPos = Vector3.Lerp(start, end, t);
+                    
+                    GameObject wall = modelProvider.GetWallModel(WallType.Fortified, WallMaterial.Stone, parent);
+                    if (wall != null)
+                    {
+                        wall.name = $"Wall_{i}_{j}";
+                        wall.transform.localPosition = wallPos;
+                        wall.transform.localScale = Vector3.one * modelScale * 0.8f;
+                        // Rotate to face along the wall line
+                        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+                        wall.transform.localRotation = Quaternion.Euler(0, angle, 0);
+                    }
+                }
+            }
+        }
+
+        private void CreateCentralTowerPrimitive(Transform parent, Material baseMat)
+        {
+            GameObject tower = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            tower.name = "CitadelTower_Fallback";
+            tower.transform.parent = parent;
+            tower.transform.localPosition = new Vector3(0, 30f, 0);
+            tower.transform.localScale = new Vector3(6f, 60f, 6f);
+            tower.GetComponent<Renderer>().material = baseMat;
+            
+            GameObject topSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            topSphere.name = "BeaconTop";
+            topSphere.transform.parent = parent;
+            topSphere.transform.localPosition = new Vector3(0, 95f, 0);
+            topSphere.transform.localScale = new Vector3(12f, 12f, 12f);
+            Material glowMat = MaterialHelper.CreateColorMaterial(baseMat.color * 1.5f);
+            topSphere.GetComponent<Renderer>().material = glowMat;
+        }
+
+        private void CreateTerritoryLabels(Transform parent, Territory.Territory territory, float radius)
+        {
+            // Territory Name
+            GameObject labelObj = new GameObject("TerritoryLabel");
+            labelObj.transform.parent = parent;
+            labelObj.transform.localPosition = new Vector3(0, 80f, 0);
+            
+            TextMesh textMesh = labelObj.AddComponent<TextMesh>();
+            textMesh.text = territory.Name;
+            textMesh.fontSize = 64;
+            textMesh.characterSize = 0.8f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = Color.white;
+            textMesh.fontStyle = FontStyle.Bold;
+            labelObj.AddComponent<BillboardText>();
+
+            // Level Badge
+            GameObject levelObj = new GameObject("LevelBadge");
+            levelObj.transform.parent = parent;
+            levelObj.transform.localPosition = new Vector3(0, 70f, 0);
+            
+            TextMesh levelText = levelObj.AddComponent<TextMesh>();
+            levelText.text = $"Level {territory.Level}";
+            levelText.fontSize = 48;
+            levelText.characterSize = 0.6f;
+            levelText.anchor = TextAnchor.MiddleCenter;
+            levelText.alignment = TextAlignment.Center;
+            levelText.color = new Color(1f, 0.9f, 0.4f);
+            levelObj.AddComponent<BillboardText>();
+
+            // Owner Name
+            if (!string.IsNullOrEmpty(territory.OwnerName))
+            {
+                GameObject ownerObj = new GameObject("OwnerLabel");
+                ownerObj.transform.parent = parent;
+                ownerObj.transform.localPosition = new Vector3(0, 62f, 0);
+                
+                TextMesh ownerText = ownerObj.AddComponent<TextMesh>();
+                ownerText.text = territory.OwnerName;
+                ownerText.fontSize = 36;
+                ownerText.characterSize = 0.5f;
+                ownerText.anchor = TextAnchor.MiddleCenter;
+                ownerText.alignment = TextAlignment.Center;
+                ownerText.color = new Color(0.8f, 0.8f, 1f);
+                ownerObj.AddComponent<BillboardText>();
+            }
+        }
+
+        /// <summary>
+        /// Fallback: Create territory using primitives (original behavior)
+        /// </summary>
+        private void CreatePrimitiveTerritory(GameObject territoryObj, Territory.Territory territory, Material baseMat, float radius)
+        {
             // === HEXAGONAL BASE PLATFORM ===
-            // Create a hexagonal platform using a cylinder (looks hex-ish when viewed from above)
             GameObject baseObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             baseObj.name = "HexBase";
             baseObj.transform.parent = territoryObj.transform;
@@ -399,29 +620,15 @@ namespace ApexCitadels.PC
             innerRing.transform.parent = territoryObj.transform;
             innerRing.transform.localPosition = new Vector3(0, 3f, 0);
             innerRing.transform.localScale = new Vector3(radius * 1.6f, 1f, radius * 1.6f);
-            // Slightly brighter version
             Material innerMat = MaterialHelper.CreateColorMaterial(baseMat.color * 1.2f);
             innerRing.GetComponent<Renderer>().material = innerMat;
 
-            // === CITADEL TOWER (Central beacon) ===
-            GameObject tower = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            tower.name = "CitadelTower";
-            tower.transform.parent = territoryObj.transform;
-            tower.transform.localPosition = new Vector3(0, 30f, 0);
-            tower.transform.localScale = new Vector3(6f, 60f, 6f);
-            tower.GetComponent<Renderer>().material = baseMat;
+            // === CITADEL TOWER ===
+            CreateCentralTowerPrimitive(territoryObj.transform, baseMat);
 
-            // === TOP BEACON SPHERE ===
-            GameObject topSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            topSphere.name = "BeaconTop";
-            topSphere.transform.parent = territoryObj.transform;
-            topSphere.transform.localPosition = new Vector3(0, 95f, 0);
-            topSphere.transform.localScale = new Vector3(12f, 12f, 12f);
-            // Glowing bright version
             Material glowMat = MaterialHelper.CreateColorMaterial(baseMat.color * 1.5f);
-            topSphere.GetComponent<Renderer>().material = glowMat;
 
-            // === DEFENSE TOWERS (4 corners) ===
+            // === DEFENSE TOWERS ===
             float towerOffset = radius * 0.7f;
             Vector3[] towerPositions = {
                 new Vector3(towerOffset, 0, towerOffset),
@@ -439,7 +646,6 @@ namespace ApexCitadels.PC
                 defenseTower.transform.localScale = new Vector3(3f, 30f, 3f);
                 defenseTower.GetComponent<Renderer>().material = baseMat;
                 
-                // Small top on each defense tower
                 GameObject towerTop = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 towerTop.name = "TowerTop";
                 towerTop.transform.parent = defenseTower.transform;
@@ -448,67 +654,8 @@ namespace ApexCitadels.PC
                 towerTop.GetComponent<Renderer>().material = glowMat;
             }
 
-            // === TERRITORY NAME LABEL ===
-            GameObject labelObj = new GameObject("TerritoryLabel");
-            labelObj.transform.parent = territoryObj.transform;
-            labelObj.transform.localPosition = new Vector3(0, 115f, 0);
-            
-            TextMesh textMesh = labelObj.AddComponent<TextMesh>();
-            textMesh.text = territory.Name;
-            textMesh.fontSize = 64;
-            textMesh.characterSize = 0.8f;
-            textMesh.anchor = TextAnchor.MiddleCenter;
-            textMesh.alignment = TextAlignment.Center;
-            textMesh.color = Color.white;
-            textMesh.fontStyle = FontStyle.Bold;
-            labelObj.AddComponent<BillboardText>();
-
-            // === LEVEL BADGE ===
-            GameObject levelObj = new GameObject("LevelBadge");
-            levelObj.transform.parent = territoryObj.transform;
-            levelObj.transform.localPosition = new Vector3(0, 105f, 0);
-            
-            TextMesh levelText = levelObj.AddComponent<TextMesh>();
-            // Note: TextMesh doesn't support TMP sprites, using text stars
-            levelText.text = $"* Level {territory.Level} *";
-            levelText.fontSize = 48;
-            levelText.characterSize = 0.6f;
-            levelText.anchor = TextAnchor.MiddleCenter;
-            levelText.alignment = TextAlignment.Center;
-            levelText.color = new Color(1f, 0.9f, 0.4f); // Gold color
-            levelObj.AddComponent<BillboardText>();
-
-            // === OWNER NAME (if owned) ===
-            if (!string.IsNullOrEmpty(territory.OwnerName))
-            {
-                GameObject ownerObj = new GameObject("OwnerLabel");
-                ownerObj.transform.parent = territoryObj.transform;
-                ownerObj.transform.localPosition = new Vector3(0, 97f, 0);
-                
-                TextMesh ownerText = ownerObj.AddComponent<TextMesh>();
-                // Note: TextMesh doesn't support TMP sprites, using text crown
-                ownerText.text = $"[King] {territory.OwnerName}";
-                ownerText.fontSize = 36;
-                ownerText.characterSize = 0.5f;
-                ownerText.anchor = TextAnchor.MiddleCenter;
-                ownerText.alignment = TextAlignment.Center;
-                ownerText.color = new Color(0.9f, 0.9f, 1f);
-                ownerObj.AddComponent<BillboardText>();
-            }
-
-            // Add territory data component
-            TerritoryVisual visual = territoryObj.AddComponent<TerritoryVisual>();
-            visual.Initialize(territory);
-
-            // Add collider for clicking - covers the whole territory area
-            CapsuleCollider collider = territoryObj.AddComponent<CapsuleCollider>();
-            collider.radius = radius * 1.2f;
-            collider.height = 120f;
-            collider.center = new Vector3(0, 50f, 0);
-
-            _territoryObjects[territory.Id] = territoryObj;
-
-            ApexLogger.Log($"[WorldMap] Created territory: {territory.Name} at {worldPos} (radius={radius})", ApexLogger.LogCategory.Map);
+            // === LABELS ===
+            CreateTerritoryLabels(territoryObj.transform, territory, radius);
         }
 
         private void UpdateTerritoryObject(Territory.Territory territory)

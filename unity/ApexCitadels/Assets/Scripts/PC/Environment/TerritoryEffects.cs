@@ -416,9 +416,10 @@ namespace ApexCitadels.PC.Environment
 
             var velocityOverLifetime = beam.velocityOverLifetime;
             velocityOverLifetime.enabled = true;
-            velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(0f);
+            // All curves must use the same mode - using TwoConstants
+            velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(0f, 0f);
             velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(10f, 15f);
-            velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(0f);
+            velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(0f, 0f);
 
             var colorOverLifetime = beam.colorOverLifetime;
             colorOverLifetime.enabled = true;
