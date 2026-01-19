@@ -277,20 +277,30 @@ namespace ApexCitadels.Map
             
             string url = config.GetTileUrl(tile.X, tile.Y, zoomLevel);
             
-            using (UnityWebRequest www = UnityEngine.Networking.UnityWebRequestTexture.GetTexture(url))
+            // Use standard UnityWebRequest to avoid dependency on UnityWebRequestTexture module
+            using (UnityWebRequest www = UnityWebRequest.Get(url))
             {
                 yield return www.SendWebRequest();
                 
                 if (www.result == UnityWebRequest.Result.Success)
                 {
-                    tile.Texture = UnityEngine.Networking.DownloadHandlerTexture.GetContent(www);
-                    tile.Texture.wrapMode = TextureWrapMode.Clamp;
-                    
-                    if (tile.GameObject != null)
+                    // Create texture from downloaded bytes
+                    tile.Texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                    if (tile.Texture.LoadImage(www.downloadHandler.data))
                     {
-                        Material mat = tile.GameObject.GetComponent<Renderer>().material;
-                        mat.mainTexture = tile.Texture;
-                        mat.color = Color.white;
+                        tile.Texture.wrapMode = TextureWrapMode.Clamp;
+                        tile.Texture.filterMode = FilterMode.Bilinear;
+                        
+                        if (tile.GameObject != null)
+                        {
+                            Material mat = tile.GameObject.GetComponent<Renderer>().material;
+                            mat.mainTexture = tile.Texture;
+                            mat.color = Color.white;
+                        }
+                    }
+                    else
+                    {
+                        ApexLogger.LogWarning($"[Mapbox] Failed to decode tile image {key}", ApexLogger.LogCategory.Map);
                     }
                 }
                 else
