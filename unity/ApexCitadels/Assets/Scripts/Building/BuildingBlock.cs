@@ -426,4 +426,14 @@ namespace ApexCitadels.Building
             return null;
         }
     }
+
+    /// <summary>
+    /// Static accessor for block definitions (wrapper for BlockDefinition.Get)
+    /// </summary>
+    public static class BlockDefinitions
+    {
+        public static BlockDefinition Get(BlockType type) => BlockDefinition.Get(type);
+        
+        public static IEnumerable<BlockDefinition> GetAll() => BlockDefinition.Definitions.Values;
+    }
 }
