@@ -435,7 +435,8 @@ namespace ApexCitadels.PC
             baseObj.GetComponent<Renderer>().material = baseMat;
             
             // === CENTRAL CASTLE/CITADEL (3D Model) ===
-            GameObject citadel = modelProvider.GetBuildingModel(AssetBuildingCategory.Citadel, territoryObj.transform);
+            // Use Military category for citadel (includes Barracks, Armory, etc.)
+            GameObject citadel = modelProvider.GetBuildingModel(AssetBuildingCategory.Military, territoryObj.transform);
             if (citadel != null)
             {
                 citadel.name = "Citadel";
