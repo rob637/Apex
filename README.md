@@ -815,7 +815,66 @@ For testing without a mobile device:
 
 ---
 
-## 🔑 The Persistent Cube Test
+## � Project Costs & Estimates
+
+### Development Hours (Estimated Total: 2,000 - 2,500 hours)
+
+| Component | Hours | Status | Notes |
+|-----------|-------|--------|-------|
+| Backend (Firebase Functions) | 300-400 | ✅ 95% Complete | 20+ cloud functions |
+| Admin Dashboard (React) | 150-200 | ✅ 90% Complete | Full moderation suite |
+| AR Mobile Client (Unity) | 400-500 | ✅ 85% Complete | ARCore/ARKit integration |
+| PC Client (Unity WebGL) | 350-450 | 🔄 70% Complete | Strategic command center |
+| Visual Polish & VFX | 200-300 | 🔄 30% Complete | Shaders, particles, animations |
+| Audio Integration | 80-120 | ⏳ 10% Complete | Music, SFX, voice |
+| Testing & QA | 150-200 | ⏳ In Progress | Cross-platform validation |
+| Documentation | 100-150 | ✅ 80% Complete | 3,000+ lines of docs |
+| **TOTAL** | **1,730-2,320** | **~75% Done** | **~480-620 hours remaining** |
+
+### Monthly Operating Costs (Firebase + APIs)
+
+| User Scale | Firebase | Map APIs | Total/Month | Notes |
+|------------|----------|----------|-------------|-------|
+| **Development** (10 users) | $0 | $0 | **$0** | Free tiers cover all |
+| **Beta** (1K MAU) | $5-10 | $0-50 | **$5-60** | Mostly free tier |
+| **Launch** (10K MAU) | $50-100 | $50-100 | **$100-200** | Map tiles = biggest cost |
+| **Growth** (100K MAU) | $500-800 | $500-700 | **$1,000-1,500** | Consider enterprise tiers |
+| **Scale** (1M MAU) | $5,000+ | $3,000+ | **$8,000-15,000** | Optimize queries critical |
+
+### Cost Breakdown by Service
+
+| Service | Free Tier | Cost Driver | Optimization |
+|---------|-----------|-------------|---------------|
+| **Firestore** | 50K reads/day, 1GB | Document reads | Denormalize, cache client-side |
+| **Cloud Functions** | 2M invocations/mo | Function calls | Batch operations |
+| **Firebase Hosting** | 10GB/month | Bandwidth | CDN caching |
+| **Firebase Storage** | 5GB | Asset storage | Compress images |
+| **Firebase Auth** | Unlimited | N/A | Free forever |
+| **FCM Push** | Unlimited | N/A | Free forever |
+| **Mapbox Tiles** | 50K loads/month | Tile requests | Aggressive caching, OSM fallback |
+| **ARCore/ARKit** | Unlimited | N/A | Free forever |
+
+### One-Time Asset Generation Costs
+
+| Service | Purpose | Cost | Status |
+|---------|---------|------|--------|
+| Suno AI | Background music | ~$30 | ⏳ Planned |
+| ElevenLabs | Voice lines | ~$22 | ⏳ Planned |
+| Meshy AI | 3D models | ~$20 | ⏳ Planned |
+| Blockade Labs | Skyboxes | ~$10 | ⏳ Planned |
+| **Total One-Time** | | **~$82** | |
+
+### Cost Optimizations Already Implemented
+
+1. **Geohash queries** - Efficient territory lookups in `map-api.ts`
+2. **Client-side tile caching** - `MapTileProvider.cs` caches locally
+3. **OSM fallback** - Free alternative when budget constrained
+4. **Firebase listeners** - Real-time instead of polling
+5. **Batch Firestore writes** - Reduced function calls
+
+---
+
+## �🔑 The Persistent Cube Test
 
 The entire game rests on one core technology: **spatial persistence**.
 
