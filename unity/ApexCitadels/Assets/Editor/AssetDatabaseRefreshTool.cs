@@ -173,7 +173,7 @@ namespace ApexCitadels.Editor
         private static GameAssetDatabase LoadOrCreateDatabase()
         {
             // Try to load from Resources
-            var db = Resources.Load<GameAssetDatabase>("GameAssetDatabase");
+            var db = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
             if (db != null) return db;
 
             // Try to find in project

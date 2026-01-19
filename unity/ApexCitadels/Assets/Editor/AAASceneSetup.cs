@@ -8,6 +8,9 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
+#if UNITY_6000_0_OR_NEWER
+using UnityEngine.Rendering.Universal;
+#endif
 using System.IO;
 
 namespace ApexCitadels.Editor

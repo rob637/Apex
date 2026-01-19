@@ -253,12 +253,12 @@ namespace ApexCitadels.Editor
             {
                 { "SFX-CMB02_sword_hit_metal", ImpactType.MetalOnMetal },
                 { "SFX-CMB03_sword_hit_flesh", ImpactType.MetalOnFlesh },
-                { "SFX-CMB08_axe_hit", ImpactType.BluntOnArmor },
-                { "SFX-CMB18_arrow_hit_flesh", ImpactType.ArrowOnFlesh },
-                { "SFX-CMB16_arrow_hit_wood", ImpactType.ArrowOnWood },
-                { "SFX-CMB17_arrow_hit_stone", ImpactType.ArrowOnStone },
-                { "SFX-CMB24_catapult_impact", ImpactType.SiegeOnWall },
-                { "SFX-CMB36_armor_hit", ImpactType.BluntOnArmor },
+                { "SFX-CMB08_axe_hit", ImpactType.Blocked },
+                { "SFX-CMB18_arrow_hit_flesh", ImpactType.ArrowHit },
+                { "SFX-CMB16_arrow_hit_wood", ImpactType.MetalOnWood },
+                { "SFX-CMB17_arrow_hit_stone", ImpactType.MetalOnStone },
+                { "SFX-CMB24_catapult_impact", ImpactType.Critical },
+                { "SFX-CMB36_armor_hit", ImpactType.Blocked },
             };
 
             int index = 0;
@@ -293,9 +293,9 @@ namespace ApexCitadels.Editor
             {
                 { "SFX-CMB14_bow_release", ProjectileType.Arrow },
                 { "SFX-CMB20_crossbow_fire", ProjectileType.Bolt },
-                { "SFX-CMB23_catapult_fire", ProjectileType.Boulder },
-                { "SFX-CMB25_trebuchet_release", ProjectileType.TrebuchetProjectile },
-                { "SFX-CMB29_ballista_fire", ProjectileType.BallistaBolt },
+                { "SFX-CMB23_catapult_fire", ProjectileType.Rock },
+                { "SFX-CMB25_trebuchet_release", ProjectileType.CannonBall },
+                { "SFX-CMB29_ballista_fire", ProjectileType.Bolt },
             };
 
             int index = 0;
@@ -327,12 +327,12 @@ namespace ApexCitadels.Editor
 
             var abilityMappings = new Dictionary<string, AbilityType>
             {
-                { "SFX-CMB38_spell_cast_fire", AbilityType.Fireball },
-                { "SFX-CMB40_spell_cast_ice", AbilityType.IceBlast },
-                { "SFX-CMB42_spell_cast_lightning", AbilityType.LightningBolt },
-                { "SFX-CMB44_spell_cast_heal", AbilityType.Heal },
-                { "SFX-CMB45_spell_cast_buff", AbilityType.Buff },
-                { "SFX-CMB46_spell_cast_debuff", AbilityType.Curse },
+                { "SFX-CMB38_spell_cast_fire", AbilityType.FireCast },
+                { "SFX-CMB40_spell_cast_ice", AbilityType.IceCast },
+                { "SFX-CMB42_spell_cast_lightning", AbilityType.LightningCast },
+                { "SFX-CMB44_spell_cast_heal", AbilityType.HealCast },
+                { "SFX-CMB45_spell_cast_buff", AbilityType.BuffCast },
+                { "SFX-CMB46_spell_cast_debuff", AbilityType.DebuffCast },
             };
 
             int index = 0;
@@ -364,12 +364,12 @@ namespace ApexCitadels.Editor
 
             var structMappings = new Dictionary<string, StructureSoundType>
             {
-                { "SFX-BLD22_wall_breach", StructureSoundType.WallBreach },
-                { "SFX-BLD23_tower_fall", StructureSoundType.TowerCollapse },
-                { "SFX-BLD27_gate_open", StructureSoundType.GateOpen },
-                { "SFX-BLD28_gate_close", StructureSoundType.GateClose },
-                { "SFX-BLD13_building_complete", StructureSoundType.BuildingComplete },
-                { "SFX-BLD25_demolish_large", StructureSoundType.BuildingDestroyed },
+                { "SFX-BLD22_wall_breach", StructureSoundType.Damage },
+                { "SFX-BLD23_tower_fall", StructureSoundType.Destroy },
+                { "SFX-BLD27_gate_open", StructureSoundType.Activate },
+                { "SFX-BLD28_gate_close", StructureSoundType.Deactivate },
+                { "SFX-BLD13_building_complete", StructureSoundType.Build },
+                { "SFX-BLD25_demolish_large", StructureSoundType.Destroy },
             };
 
             int index = 0;
