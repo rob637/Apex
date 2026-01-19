@@ -320,6 +320,39 @@ namespace ApexCitadels.Editor
             }
         }
 
+        private void AddWorldEnvironmentManager()
+        {
+            if (!FindObjectByTypeName("WorldEnvironmentManager"))
+            {
+                GameObject obj = new GameObject("WorldEnvironmentManager");
+                // Use reflection to add component by name since it might be in a different namespace
+                var type = System.Type.GetType("ApexCitadels.PC.Environment.WorldEnvironmentManager, Assembly-CSharp");
+                if (type != null)
+                {
+                    obj.AddComponent(type);
+                }
+                Undo.RegisterCreatedObjectUndo(obj, "Create WorldEnvironmentManager");
+                Debug.Log("[Setup] Added WorldEnvironmentManager to scene");
+                _needsRefresh = true;
+            }
+        }
+
+        private void AddBuildingModelProvider()
+        {
+            if (!FindObjectByTypeName("BuildingModelProvider"))
+            {
+                GameObject obj = new GameObject("BuildingModelProvider");
+                var type = System.Type.GetType("ApexCitadels.PC.Buildings.BuildingModelProvider, Assembly-CSharp");
+                if (type != null)
+                {
+                    obj.AddComponent(type);
+                }
+                Undo.RegisterCreatedObjectUndo(obj, "Create BuildingModelProvider");
+                Debug.Log("[Setup] Added BuildingModelProvider to scene");
+                _needsRefresh = true;
+            }
+        }
+
         private void DrawRenderPipelineSection()
         {
             EditorGUILayout.LabelField("🎨 RENDER PIPELINE", EditorStyles.boldLabel);
@@ -454,6 +487,18 @@ namespace ApexCitadels.Editor
             if (!_hasPCSceneBootstrapper)
             {
                 AddPCSceneBootstrapper();
+            }
+            
+            // Step 5b: Add WorldEnvironmentManager if missing
+            if (!_hasWorldEnvironment)
+            {
+                AddWorldEnvironmentManager();
+            }
+            
+            // Step 5c: Add BuildingModelProvider if missing
+            if (!_hasBuildingModelProvider)
+            {
+                AddBuildingModelProvider();
             }
             
             // Step 6: Generate ALL libraries if missing

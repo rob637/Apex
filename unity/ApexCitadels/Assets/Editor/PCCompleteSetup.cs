@@ -566,6 +566,22 @@ namespace ApexCitadels.PC.Editor
                 Log("[Setup] Created VisualEnhancements");
             }
             
+            // WorldEnvironmentManager - for terrain, skybox, lighting
+            if (Object.FindFirstObjectByType<WorldEnvironmentManager>() == null)
+            {
+                var obj = new GameObject("WorldEnvironmentManager");
+                obj.AddComponent<WorldEnvironmentManager>();
+                Log("[Setup] Created WorldEnvironmentManager");
+            }
+            
+            // BuildingModelProvider - for 3D building models from asset database
+            if (Object.FindFirstObjectByType<BuildingModelProvider>() == null)
+            {
+                var obj = new GameObject("BuildingModelProvider");
+                obj.AddComponent<BuildingModelProvider>();
+                Log("[Setup] Created BuildingModelProvider");
+            }
+            
             // PCResourceSystem - for resource ticking and management
             if (Object.FindFirstObjectByType<PCResourceSystem>() == null)
             {
