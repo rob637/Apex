@@ -92,12 +92,34 @@ Manager classes connecting the game client to all backend systems:
 - Real-time leaderboards
 - Trust scores and anti-cheat
 
+## � Recent Updates (January 19, 2026)
+
+### Firebase Conditional Compilation
+Made all Firebase-dependent code optional using `#if FIREBASE_ENABLED` preprocessor directives:
+
+| File | Methods Wrapped |
+|------|-----------------|
+| `AchievementManager.cs` | SyncProgressFromCloud, SyncProgressToCloud |
+| `AllianceManager.cs` | All Firestore operations (load, save, search, leaderboard, war, invitations) |
+| `WorldEventManager.cs` | Timestamp parsing in ParseWorldEvent |
+| `TutorialManager.cs` | GrantStepRewards, SyncProgressToServer |
+| `CosmeticsShopManager.cs` | RefreshBalance, RefreshShopCatalog, RefreshUserCosmetics, PurchaseItem, EquipSelectedItem, UnequipSelectedItem, ToggleFavorite |
+| `ContentModerationManager.cs` | ReportContent, AppealBan |
+
+**Benefits:**
+- ✅ Project compiles without Firebase SDK installed
+- ✅ Enables testing UI/gameplay without backend dependency
+- ✅ Cleaner build process for WebGL and other platforms
+
+---
+
 ## 🚀 Next Steps
 
-1. **Push Notifications** - FCM integration for re-engagement
-2. **In-App Purchases** - Unity IAP + receipt validation
-3. **AR Features** - Spatial anchors, persistent structures
-4. **Audio System** - Sound effects, music, haptics
+1. **Phase 7: Visual Excellence** - Real map fantasy overlay, building models
+2. **Push Notifications** - FCM integration for re-engagement
+3. **In-App Purchases** - Unity IAP + receipt validation
+4. **AR Features** - Spatial anchors, persistent structures
+5. **Audio System** - Sound effects, music, haptics
 5. **Localization** - Multi-language support
 
 ## 📁 Project Structure

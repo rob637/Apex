@@ -1,7 +1,7 @@
 # 🏰 APEX CITADELS - AAA DEVELOPMENT MASTER PLAN
 
-**Document Version:** 2.0  
-**Last Updated:** January 18, 2026  
+**Document Version:** 2.1  
+**Last Updated:** January 19, 2026  
 **Status:** ACTIVE DEVELOPMENT  
 
 ---
@@ -576,6 +576,13 @@ Real Data Sources:                Fantasy Rendering Output:
 
 ## TECHNICAL DEBT
 
+### ✅ Recently Resolved (January 19, 2026)
+
+| Issue | Resolution | Files Modified |
+|-------|------------|----------------|
+| Firebase SDK dependency | Wrapped all Firebase code in `#if FIREBASE_ENABLED` preprocessor directives | 6 C# managers |
+| Build without Firebase | Project now compiles without Firebase SDK installed | AchievementManager, AllianceManager, WorldEventManager, TutorialManager, CosmeticsShopManager, ContentModerationManager |
+
 ### Code Quality Issues
 
 | Issue | Location | Priority |
@@ -649,17 +656,22 @@ Real Data Sources:                Fantasy Rendering Output:
 
 ## NEXT ACTIONS
 
-**Immediate (This Session):**
-1. ☐ Review this document for accuracy
-2. ☐ Choose next priority: Combat System or Real Map Enhancement
-3. ☐ Begin implementation
+**Completed Today (January 19, 2026):**
+1. ✅ Firebase conditional compilation - all managers now compile without Firebase SDK
+2. ✅ Wrapped `#if FIREBASE_ENABLED` in 6 manager files
+3. ✅ Fixed all `_functions`, `_firestore`, `Timestamp` type errors
+
+**Immediate (Next Session):**
+1. ☐ Test Unity project compilation with/without `FIREBASE_ENABLED` symbol
+2. ☐ Begin Phase 7: Real Map Fantasy Overlay
+3. ☐ Import 3D building models for map variety
 
 **This Week:**
-1. ☐ Complete Phase 6 (Core Gameplay Loop)
-2. ☐ Start Phase 7 (Visual Excellence)
+1. ☐ Complete Phase 7 (Visual Excellence)
+2. ☐ Start Phase 8 (Audio & Feedback)
 
 **This Month:**
-1. ☐ Complete Phases 6-8
+1. ☐ Complete Phases 7-9
 2. ☐ Begin AR Integration Testing
 3. ☐ First internal playtest
 

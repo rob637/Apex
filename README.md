@@ -798,8 +798,11 @@ firebase deploy
 
 1. Open Unity Hub
 2. Add project: `unity/ApexCitadels`
-3. Install required packages (AR Foundation, Firebase)
-4. Build to your device
+3. Install required packages (AR Foundation)
+4. **Firebase is optional:** Project compiles without Firebase SDK
+   - To enable Firebase: Import Firebase packages and add `FIREBASE_ENABLED` to Scripting Define Symbols
+   - Without Firebase: Uses mock data for testing UI/gameplay
+5. Build to your device
 
 ### 5️⃣ Desktop Testing (Windows)
 

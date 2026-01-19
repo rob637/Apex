@@ -36,7 +36,9 @@ If any package fails to import:
 
 ---
 
-## Step 3: Import Firebase Unity SDK
+## Step 3: Import Firebase Unity SDK (Optional)
+
+> **Note:** As of January 19, 2026, all Firebase-dependent code is wrapped in `#if FIREBASE_ENABLED` preprocessor directives. The project will compile and run without Firebase SDK for testing purposes. Add the symbol when you're ready to connect to the backend.
 
 **Download:** https://firebase.google.com/docs/unity/setup
 
@@ -49,6 +51,12 @@ After importing:
 1. Copy `google-services.json` (Android) to `Assets/`
 2. Copy `GoogleService-Info.plist` (iOS) to `Assets/`
 3. Add `FIREBASE_ENABLED` to Player Settings → Scripting Define Symbols
+
+### Building Without Firebase (Testing Mode)
+To build without Firebase backend:
+1. Do NOT import Firebase Unity packages
+2. Do NOT add `FIREBASE_ENABLED` to Scripting Define Symbols
+3. Build normally - the project uses mock data fallbacks
 
 ---
 
