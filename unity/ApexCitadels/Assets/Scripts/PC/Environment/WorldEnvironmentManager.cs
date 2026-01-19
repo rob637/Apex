@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ApexCitadels.Core;
 using ApexCitadels.Map;
+using ApexCitadels.Building;
 
 namespace ApexCitadels.PC.Environment
 {
@@ -226,12 +227,12 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         private void EnsureBuildingModelProvider()
         {
-            var provider = FindFirstObjectByType<Buildings.BuildingModelProvider>();
+            var provider = FindFirstObjectByType<BuildingModelProvider>();
             if (provider == null)
             {
                 GameObject providerObj = new GameObject("BuildingModelProvider");
                 providerObj.transform.parent = transform;
-                providerObj.AddComponent<Buildings.BuildingModelProvider>();
+                providerObj.AddComponent<BuildingModelProvider>();
                 Debug.Log("[WorldEnv] Created BuildingModelProvider for real 3D models");
             }
         }
