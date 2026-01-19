@@ -22,7 +22,7 @@ namespace ApexCitadels.Map
         [Header("Tile Grid")]
         [SerializeField] private int gridSize = 7;  // 7x7 grid for better coverage
         [SerializeField] private float tileWorldSize = 100f;  // Size of each tile in world units
-        [SerializeField] private float groundHeight = -0.5f;  // Height of ground plane
+        [SerializeField] private float groundHeight = -1f;  // Height of ground plane (lowered to avoid z-fighting)
         
         [Header("Location")]
         [SerializeField] private double centerLatitude = 38.9012;  // Vienna, VA

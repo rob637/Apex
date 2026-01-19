@@ -117,6 +117,9 @@ namespace ApexCitadels.PC.Environment
         {
             Debug.Log($"[WorldEnv] Initializing environment. TerrainMode={terrainMode}, EnableTerrain={enableTerrain}");
 
+            // Step 0: Ensure BuildingModelProvider exists for real 3D models
+            EnsureBuildingModelProvider();
+
             // Step 1: Create terrain
             if (enableTerrain)
             {
@@ -215,6 +218,21 @@ namespace ApexCitadels.PC.Environment
                 terrainObj.transform.parent = transform;
                 _terrain = terrainObj.AddComponent<ProceduralTerrain>();
                 ApexLogger.Log("Created procedural terrain", ApexLogger.LogCategory.General);
+            }
+        }
+
+        /// <summary>
+        /// Ensure BuildingModelProvider exists for loading real 3D models
+        /// </summary>
+        private void EnsureBuildingModelProvider()
+        {
+            var provider = FindFirstObjectByType<Buildings.BuildingModelProvider>();
+            if (provider == null)
+            {
+                GameObject providerObj = new GameObject("BuildingModelProvider");
+                providerObj.transform.parent = transform;
+                providerObj.AddComponent<Buildings.BuildingModelProvider>();
+                Debug.Log("[WorldEnv] Created BuildingModelProvider for real 3D models");
             }
         }
 

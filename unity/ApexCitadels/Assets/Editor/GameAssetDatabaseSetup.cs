@@ -1,0 +1,208 @@
+using UnityEngine;
+using UnityEditor;
+using System.IO;
+using System.Collections.Generic;
+using ApexCitadels.Core.Assets;
+
+namespace ApexCitadels.Editor
+{
+    /// <summary>
+    /// Auto-creates and populates the GameAssetDatabase from the Art/Models folder
+    /// </summary>
+    public static class GameAssetDatabaseSetup
+    {
+        [MenuItem("Apex Citadels/Setup/Create Game Asset Database (Auto)", false, 200)]
+        public static void CreateAndPopulateDatabase()
+        {
+            // Ensure Resources folder exists
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            }
+
+            // Check if already exists
+            GameAssetDatabase existing = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
+            if (existing != null)
+            {
+                if (!EditorUtility.DisplayDialog("Database Exists",
+                    "GameAssetDatabase already exists. Repopulate it with models?",
+                    "Repopulate", "Cancel"))
+                {
+                    return;
+                }
+                PopulateDatabase(existing);
+                return;
+            }
+
+            // Create new database
+            GameAssetDatabase db = ScriptableObject.CreateInstance<GameAssetDatabase>();
+            AssetDatabase.CreateAsset(db, "Assets/Resources/GameAssetDatabase.asset");
+            
+            // Populate with models
+            PopulateDatabase(db);
+            
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            EditorUtility.DisplayDialog("✅ Game Asset Database Created!",
+                $"Created and populated GameAssetDatabase with:\n\n" +
+                $"• {db.BuildingModels.Count} Buildings\n" +
+                $"• {db.TowerModels.Count} Towers\n" +
+                $"• {db.WallModels.Count} Walls\n" +
+                $"• {db.FoundationModels.Count} Foundations\n" +
+                $"• {db.RoofModels.Count} Roofs\n\n" +
+                "The database is now in Assets/Resources/GameAssetDatabase.asset",
+                "OK");
+
+            Selection.activeObject = db;
+        }
+
+        private static void PopulateDatabase(GameAssetDatabase db)
+        {
+            db.BuildingModels.Clear();
+            db.TowerModels.Clear();
+            db.WallModels.Clear();
+            db.FoundationModels.Clear();
+            db.RoofModels.Clear();
+
+            // Scan for building models
+            ScanFolder(db, "Assets/Art/Models/Buildings", ModelType.Building);
+            ScanFolder(db, "Assets/Art/Models/Towers", ModelType.Tower);
+            ScanFolder(db, "Assets/Art/Models/Walls", ModelType.Wall);
+            ScanFolder(db, "Assets/Art/Models/Foundations", ModelType.Foundation);
+            ScanFolder(db, "Assets/Art/Models/Roofs", ModelType.Roof);
+
+            EditorUtility.SetDirty(db);
+            Debug.Log($"[AssetDB] Populated database: {db.BuildingModels.Count} buildings, " +
+                     $"{db.TowerModels.Count} towers, {db.WallModels.Count} walls");
+        }
+
+        private enum ModelType { Building, Tower, Wall, Foundation, Roof }
+
+        private static void ScanFolder(GameAssetDatabase db, string folderPath, ModelType type)
+        {
+            if (!AssetDatabase.IsValidFolder(folderPath))
+            {
+                Debug.LogWarning($"[AssetDB] Folder not found: {folderPath}");
+                return;
+            }
+
+            string[] guids = AssetDatabase.FindAssets("t:GameObject", new[] { folderPath });
+            
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                
+                if (model == null) continue;
+
+                string fileName = Path.GetFileNameWithoutExtension(path);
+                
+                switch (type)
+                {
+                    case ModelType.Building:
+                        var buildingEntry = new BuildingModelEntry
+                        {
+                            Id = fileName,
+                            Name = CleanName(fileName),
+                            Model = model,
+                            Category = GuessBuildingCategory(fileName)
+                        };
+                        db.BuildingModels.Add(buildingEntry);
+                        Debug.Log($"[AssetDB] Added building: {buildingEntry.Name}");
+                        break;
+
+                    case ModelType.Tower:
+                        var towerEntry = new TowerModelEntry
+                        {
+                            Id = fileName,
+                            Name = CleanName(fileName),
+                            Model = model,
+                            Type = GuessTowerType(fileName)
+                        };
+                        db.TowerModels.Add(towerEntry);
+                        Debug.Log($"[AssetDB] Added tower: {towerEntry.Name}");
+                        break;
+
+                    case ModelType.Wall:
+                        var wallEntry = new WallModelEntry
+                        {
+                            Id = fileName,
+                            Name = CleanName(fileName),
+                            Model = model,
+                            Type = GuessWallType(fileName),
+                            Material = WallMaterial.Stone
+                        };
+                        db.WallModels.Add(wallEntry);
+                        Debug.Log($"[AssetDB] Added wall: {wallEntry.Name}");
+                        break;
+
+                    case ModelType.Foundation:
+                        var foundationEntry = new ModelEntry
+                        {
+                            Id = fileName,
+                            Name = CleanName(fileName),
+                            Model = model
+                        };
+                        db.FoundationModels.Add(foundationEntry);
+                        break;
+
+                    case ModelType.Roof:
+                        var roofEntry = new ModelEntry
+                        {
+                            Id = fileName,
+                            Name = CleanName(fileName),
+                            Model = model
+                        };
+                        db.RoofModels.Add(roofEntry);
+                        break;
+                }
+            }
+        }
+
+        private static string CleanName(string fileName)
+        {
+            // Remove prefix like "B01_" and convert underscores to spaces
+            string name = fileName;
+            if (name.Length > 4 && name[3] == '_')
+                name = name.Substring(4);
+            return name.Replace("_", " ");
+        }
+
+        private static BuildingCategory GuessBuildingCategory(string name)
+        {
+            name = name.ToLower();
+            if (name.Contains("mine") || name.Contains("quarry")) return BuildingCategory.Resource;
+            if (name.Contains("farm") || name.Contains("lumber")) return BuildingCategory.Resource;
+            if (name.Contains("barracks") || name.Contains("armory")) return BuildingCategory.Military;
+            if (name.Contains("blacksmith") || name.Contains("siege")) return BuildingCategory.Military;
+            if (name.Contains("stable")) return BuildingCategory.Military;
+            if (name.Contains("market") || name.Contains("bank")) return BuildingCategory.Economic;
+            if (name.Contains("treasury") || name.Contains("warehouse")) return BuildingCategory.Economic;
+            if (name.Contains("magic") || name.Contains("library")) return BuildingCategory.Magic;
+            if (name.Contains("alchemist") || name.Contains("portal")) return BuildingCategory.Magic;
+            if (name.Contains("tavern") || name.Contains("hospital")) return BuildingCategory.Utility;
+            if (name.Contains("prison")) return BuildingCategory.Utility;
+            return BuildingCategory.Residential;
+        }
+
+        private static TowerType GuessTowerType(string name)
+        {
+            name = name.ToLower();
+            if (name.Contains("archer")) return TowerType.Archer;
+            if (name.Contains("mage") || name.Contains("magic")) return TowerType.Mage;
+            if (name.Contains("cannon") || name.Contains("siege")) return TowerType.Cannon;
+            if (name.Contains("watch") || name.Contains("guard")) return TowerType.WatchTower;
+            return TowerType.Basic;
+        }
+
+        private static WallType GuessWallType(string name)
+        {
+            name = name.ToLower();
+            if (name.Contains("corner")) return WallType.Corner;
+            if (name.Contains("gate")) return WallType.Gate;
+            if (name.Contains("battlement")) return WallType.Battlements;
+            return WallType.Straight;
+        }
+    }
+}
