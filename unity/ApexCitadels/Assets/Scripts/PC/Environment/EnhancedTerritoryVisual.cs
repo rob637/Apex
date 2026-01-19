@@ -263,7 +263,7 @@ namespace ApexCitadels.PC.Environment
                 if (useRealModels && BuildingModelProvider.Instance != null)
                 {
                     // Alternate between straight walls and gate on entry
-                    AssetWallType wallType = (i == 0) ? AssetWallType.GateSmall : AssetWallType.Straight;
+                    AssetWallType wallType = (i == 0) ? AssetWallType.Gate : AssetWallType.Straight;
                     wall = BuildingModelProvider.Instance.GetWallModel(wallType, AssetWallMaterial.Stone, transform);
                     
                     if (wall != null)
