@@ -706,6 +706,7 @@ namespace ApexCitadels.Cosmetics
 
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("purchaseCosmetic");
                 var data = new Dictionary<string, object>
                 {
@@ -759,6 +760,7 @@ namespace ApexCitadels.Cosmetics
                     string message = response.GetValueOrDefault("message", "Purchase failed")?.ToString();
                     ShowMessage(message);
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -782,6 +784,7 @@ namespace ApexCitadels.Cosmetics
 
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("equipCosmetic");
                 var data = new Dictionary<string, object>
                 {
@@ -816,6 +819,7 @@ namespace ApexCitadels.Cosmetics
 
                     ShowMessage($"{_selectedItem.Name} equipped!");
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -839,6 +843,7 @@ namespace ApexCitadels.Cosmetics
 
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("unequipCosmetic");
                 var data = new Dictionary<string, object>
                 {
@@ -861,6 +866,7 @@ namespace ApexCitadels.Cosmetics
 
                     ShowMessage($"{_selectedItem.Name} unequipped!");
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -882,6 +888,7 @@ namespace ApexCitadels.Cosmetics
 
             try
             {
+#if FIREBASE_ENABLED
                 var function = _functions.GetHttpsCallable("toggleFavorite");
                 var data = new Dictionary<string, object>
                 {
@@ -908,6 +915,7 @@ namespace ApexCitadels.Cosmetics
                     if (_currentView == "favorites")
                         RefreshItemGrid();
                 }
+#endif
             }
             catch (Exception ex)
             {
