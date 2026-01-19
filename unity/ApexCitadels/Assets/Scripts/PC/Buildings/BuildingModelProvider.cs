@@ -8,6 +8,12 @@ using System;
 using System.Collections.Generic;
 using ApexCitadels.Core.Assets;
 
+// Use type aliases to avoid conflicts with local BuildingCategory enum
+using AssetBuildingCategory = ApexCitadels.Core.Assets.BuildingCategory;
+using AssetTowerType = ApexCitadels.Core.Assets.TowerType;
+using AssetWallType = ApexCitadels.Core.Assets.WallType;
+using AssetWallMaterial = ApexCitadels.Core.Assets.WallMaterial;
+
 namespace ApexCitadels.PC.Buildings
 {
     /// <summary>
@@ -71,7 +77,7 @@ namespace ApexCitadels.PC.Buildings
         /// <summary>
         /// Get a building model by category
         /// </summary>
-        public GameObject GetBuildingModel(BuildingCategory category, Transform parent = null)
+        public GameObject GetBuildingModel(AssetBuildingCategory category, Transform parent = null)
         {
             if (assetDatabase == null)
                 return CreateFallbackCube(parent);
@@ -95,7 +101,7 @@ namespace ApexCitadels.PC.Buildings
         /// <summary>
         /// Get a tower model by type
         /// </summary>
-        public GameObject GetTowerModel(TowerType type, Transform parent = null)
+        public GameObject GetTowerModel(AssetTowerType type, Transform parent = null)
         {
             if (assetDatabase == null)
                 return CreateFallbackTower(parent);
@@ -107,7 +113,7 @@ namespace ApexCitadels.PC.Buildings
         /// <summary>
         /// Get a wall segment
         /// </summary>
-        public GameObject GetWallModel(WallType type, WallMaterial material = WallMaterial.Stone, Transform parent = null)
+        public GameObject GetWallModel(AssetWallType type, AssetWallMaterial material = AssetWallMaterial.Stone, Transform parent = null)
         {
             if (assetDatabase == null)
                 return CreateFallbackWall(parent);
@@ -318,12 +324,12 @@ namespace ApexCitadels.PC.Buildings
         /// <summary>
         /// Get all building categories that have at least one model
         /// </summary>
-        public List<BuildingCategory> GetAvailableCategories()
+        public List<AssetBuildingCategory> GetAvailableCategories()
         {
-            var categories = new List<BuildingCategory>();
+            var categories = new List<AssetBuildingCategory>();
             if (assetDatabase == null) return categories;
             
-            foreach (BuildingCategory cat in Enum.GetValues(typeof(BuildingCategory)))
+            foreach (AssetBuildingCategory cat in Enum.GetValues(typeof(AssetBuildingCategory)))
             {
                 bool hasAny = false;
                 foreach (var building in assetDatabase.BuildingModels)
