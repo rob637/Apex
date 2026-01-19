@@ -206,23 +206,26 @@ namespace ApexCitadels.Map
             
             if (_tiles.ContainsKey(key)) return;
             
-            // Create plane
-            GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            // Create plane using a Quad instead of Plane to avoid z-fighting
+            // Quad faces +Z, we rotate to face up
+            GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Quad);
             plane.name = $"Tile_{tileX}_{tileY}";
             plane.transform.parent = _tilesContainer;
             
-            // Position based on local offset
-            // Note: Y in tile coordinates goes down, so we negate
+            // Rotate to face up (Quad faces +Z by default)
+            plane.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            
+            // Position based on local offset with small Y offset per tile to prevent z-fighting
+            float zFightOffset = (localX + localY) * 0.001f; // Tiny offset per tile
             Vector3 position = new Vector3(
                 localX * tileWorldSize,
-                groundHeight,
+                groundHeight + zFightOffset,
                 -localY * tileWorldSize  // Negate because tile Y increases downward
             );
             plane.transform.localPosition = position;
             
-            // Scale to tile size (Unity plane is 10x10 by default)
-            float scale = tileWorldSize / 10f;
-            plane.transform.localScale = new Vector3(scale, 1, scale);
+            // Scale to tile size (Quad is 1x1 by default)
+            plane.transform.localScale = new Vector3(tileWorldSize, tileWorldSize, 1);
             
             // Create AAA-quality material
             Material mat = CreateTileMaterial();
