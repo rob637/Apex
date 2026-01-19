@@ -246,15 +246,16 @@ namespace ApexCitadels.PC.Environment
                 RenderSettings.fogColor = fogColor;
             }
 
-            // Apply sky
+            // Apply sky - only if we're using our own skybox material, not SkyboxEnvironmentSystem
             if (_skyboxMaterial != null)
             {
                 _skyboxMaterial.SetColor("_SkyTint", skyColor);
             }
-            else if (_mainCamera != null)
-            {
-                _mainCamera.backgroundColor = skyColor;
-            }
+            // Don't override camera background if SkyboxEnvironmentSystem is handling it
+            // else if (_mainCamera != null)
+            // {
+            //     _mainCamera.backgroundColor = skyColor;
+            // }
         }
 
         /// <summary>
