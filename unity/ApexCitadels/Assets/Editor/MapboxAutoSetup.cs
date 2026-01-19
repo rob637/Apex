@@ -68,6 +68,12 @@ namespace ApexCitadels.Editor
                 AssetDatabase.SaveAssets();
                 Debug.Log("[Mapbox] ✓ Updated MapboxConfig with API key");
                 Selection.activeObject = existing;
+                
+                EditorUtility.DisplayDialog("✅ Mapbox Updated",
+                    $"MapboxConfig already exists and has been updated with API key.\n\n" +
+                    $"Location: Assets/Resources/MapboxConfig.asset\n\n" +
+                    $"The asset is now selected in the Project window.",
+                    "OK");
                 return;
             }
             
@@ -89,6 +95,15 @@ namespace ApexCitadels.Editor
             
             Debug.Log("[Mapbox] ✓ Created MapboxConfig with your API key at Assets/Resources/MapboxConfig.asset");
             Selection.activeObject = config;
+            
+            EditorUtility.DisplayDialog("✅ Mapbox Configured!",
+                $"Created MapboxConfig.asset with your API key.\n\n" +
+                $"Location: Assets/Resources/MapboxConfig.asset\n\n" +
+                $"Style: Dark\n" +
+                $"Default Location: New York (40.7128, -74.0060)\n\n" +
+                $"The asset is now selected in the Project window.\n" +
+                $"You can change the location in the Inspector.",
+                "OK");
         }
     }
 }
