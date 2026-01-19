@@ -41,7 +41,7 @@ namespace ApexCitadels.PC.Editor
                     }
                     else
                     {
-                        MapboxAutoSetup.CreateMapboxConfig();
+                        ApexCitadels.Editor.MapboxAutoSetup.CreateMapboxConfig();
                         return;
                     }
                 }
