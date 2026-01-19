@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using InputAction = ApexCitadels.InputSystemStubs.InputAction;
+using UnityEngine.InputSystem;
 
 namespace ApexCitadels.PC.CameraControllers
 {

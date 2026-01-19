@@ -93,7 +93,7 @@ namespace ApexCitadels.PC.UI
         
         private void InitializePools()
         {
-            foreach (NotificationType type in Enum.GetValues(typeof(NotificationType)))
+            foreach (NotifyType type in Enum.GetValues(typeof(NotifyType)))
             {
                 _notificationPools[type] = new Queue<NotificationInstance>();
             }
@@ -322,7 +322,7 @@ namespace ApexCitadels.PC.UI
             OnNotificationShown?.Invoke(data);
         }
         
-        private NotificationInstance GetNotificationInstance(NotificationType type)
+        private NotificationInstance GetNotificationInstance(NotifyType type)
         {
             var pool = _notificationPools[type];
             

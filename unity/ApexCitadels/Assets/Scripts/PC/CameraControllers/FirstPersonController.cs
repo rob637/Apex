@@ -2,7 +2,7 @@ using Camera = UnityEngine.Camera;
 using UnityEngine;
 using System;
 using System.Collections;
-using InputAction = ApexCitadels.InputSystemStubs.InputAction;
+using UnityEngine.InputSystem;
 
 namespace ApexCitadels.PC.CameraControllers
 {
