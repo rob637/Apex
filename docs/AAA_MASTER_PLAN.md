@@ -1,6 +1,6 @@
 # 🏰 APEX CITADELS - AAA DEVELOPMENT MASTER PLAN
 
-**Document Version:** 2.1  
+**Document Version:** 2.2  
 **Last Updated:** January 19, 2026  
 **Status:** ACTIVE DEVELOPMENT  
 
@@ -572,6 +572,101 @@ Real Data Sources:                Fantasy Rendering Output:
 4. Performant (stylized = lower poly than photorealistic)
 5. Player-built structures stand out as "theirs"
 
+### Phase 12: AAA Polish Sprint ⭐ NEW (3 Weeks)
+**Goal:** Elevate all existing systems to world-class quality - no new features, pure polish
+
+> **Assessment:** Current AAA readiness is **70%**. This phase brings it to **95%**.
+
+#### Sprint 1: Critical Polish (Week 1)
+
+| # | Task | Effort | Impact | Details |
+|---|------|--------|--------|---------|
+| 1 | Create ApexLogger utility | 6h | ⭐⭐⭐⭐⭐ | Replace 200+ Debug.Log with conditional logging, add APEX_DEBUG symbol |
+| 2 | Add LoadingOverlay system | 2d | ⭐⭐⭐⭐⭐ | Spinner + progress bar for all async operations (Firebase, scenes, tiles) |
+| 3 | Create ErrorManager | 3d | ⭐⭐⭐⭐⭐ | Centralized error handling, user-friendly notifications, retry logic |
+| 4 | Integrate audio system | 3d | ⭐⭐⭐⭐ | Source music/SFX, connect MusicManager + UISoundManager to gameplay |
+
+**Files to Create:**
+- `ApexLogger.cs` - Conditional debug logging with categories
+- `LoadingOverlay.cs` - Reusable loading UI component
+- `ErrorManager.cs` - Centralized error handling with user notifications
+
+**Files Needing Debug.Log Cleanup (200+ instances):**
+- ProceduralTerrain.cs, WorldEnvironmentManager.cs, MapTileProvider.cs
+- RealWorldMapRenderer.cs, All Economy scripts, All Troop Training scripts
+- All Replay System scripts, All GeoMapping scripts
+
+#### Sprint 2: UX Enhancement (Week 2)
+
+| # | Task | Effort | Impact | Details |
+|---|------|--------|--------|---------|
+| 5 | UI transition animations | 4d | ⭐⭐⭐⭐⭐ | Fade/slide all 40+ panels, button press feedback, success/error bounces |
+| 6 | PerformanceMonitor | 2d | ⭐⭐⭐⭐ | FPS tracking, memory monitoring, auto-quality adjustment |
+| 7 | Unified tooltip system | 2d | ⭐⭐⭐ | Rich tooltips (title/body/icon), smart positioning, keyboard hints |
+| 8 | Notification integration | 1d | ⭐⭐⭐ | Connect NotificationManager to all major events, categories, queue |
+
+**Files to Create:**
+- `UIAnimator.cs` - Reusable animation utilities (FadeIn, SlideIn, Bounce)
+- `PerformanceMonitor.cs` - Runtime performance tracking
+- `TooltipManager.cs` - Unified rich tooltip system
+
+#### Sprint 3: Code Quality (Week 3)
+
+| # | Task | Effort | Impact | Details |
+|---|------|--------|--------|---------|
+| 9 | Resolve TODO comments | 1d | ⭐⭐⭐ | Audit 40+ TODOs, implement or convert to GitHub issues |
+| 10 | Null reference protection | 2d | ⭐⭐⭐⭐ | Add null checks on singleton accesses, implement service locator |
+| 11 | Object pooling expansion | 1d | ⭐⭐⭐ | Pool damage numbers, notifications, projectiles, building previews |
+| 12 | Post-processing art direction | 2d | ⭐⭐⭐⭐ | Scene-specific presets (menu, map, combat, editor) |
+| 13 | Quality presets | 1d | ⭐⭐⭐ | Low/Medium/High/Ultra settings for different devices |
+
+**Key TODOs to Resolve:**
+- `RealWorldMapRenderer.cs:154` - Geocoding service integration
+- `BaseEditorPanel.cs:338,1114,1152` - Player progression, templates, resources
+- `TroopTrainingPanel.cs:609,689` - Resource checks, refund implementation
+- `InsufficientResourcesPopup.cs:342` - Shop/IAP panel integration
+
+#### AAA Quality Checklist (Use for Every Feature)
+
+**Code Quality:**
+- [ ] No Debug.Log statements (use ApexLogger)
+- [ ] Proper error handling with user feedback
+- [ ] Null reference protection on all external calls
+- [ ] XML documentation on public APIs
+- [ ] No TODO comments (converted to issues)
+
+**User Experience:**
+- [ ] Loading indicator for operations >0.5s
+- [ ] Smooth animations for all UI transitions (0.3s ease)
+- [ ] Button press feedback (scale + sound)
+- [ ] Tooltips on all interactive elements
+- [ ] Error messages are user-friendly, not technical
+
+**Performance:**
+- [ ] No GC allocations in Update() loops
+- [ ] Object pooling for frequently spawned objects
+- [ ] Async operations use cancellation tokens
+- [ ] Quality settings for different devices
+
+**Audio/Visual:**
+- [ ] Sound effect on every user action
+- [ ] Background music appropriate to context
+- [ ] Post-processing adjusted for scene mood
+- [ ] Particle effects have satisfying impact
+
+#### Quality Metrics Dashboard
+
+| Metric | Before | After Phase 12 | Status |
+|--------|--------|----------------|--------|
+| Debug Statements | 200+ | 0 | 🔴 → ✅ |
+| Loading Indicators | 0% | 100% | 🔴 → ✅ |
+| UI Animations | 10% | 95% | 🔴 → ✅ |
+| Error Handling | 40% | 95% | 🔴 → ✅ |
+| Audio Integration | 10% | 100% | 🔴 → ✅ |
+| Null Protection | 60% | 95% | 🟡 → ✅ |
+| Performance Monitoring | 0% | 100% | 🔴 → ✅ |
+| **Overall AAA Readiness** | **70%** | **95%** | 🟡 → ✅ |
+
 ---
 
 ## TECHNICAL DEBT
@@ -660,20 +755,23 @@ Real Data Sources:                Fantasy Rendering Output:
 1. ✅ Firebase conditional compilation - all managers now compile without Firebase SDK
 2. ✅ Wrapped `#if FIREBASE_ENABLED` in 6 manager files
 3. ✅ Fixed all `_functions`, `_firestore`, `Timestamp` type errors
+4. ✅ Completed comprehensive AAA Quality Review (see Phase 12)
+5. ✅ Identified 200+ Debug.Log statements, 40+ TODOs, missing loading states
 
 **Immediate (Next Session):**
-1. ☐ Test Unity project compilation with/without `FIREBASE_ENABLED` symbol
-2. ☐ Begin Phase 7: Real Map Fantasy Overlay
-3. ☐ Import 3D building models for map variety
+1. ☐ **Start Phase 12 Sprint 1:** Create ApexLogger.cs utility
+2. ☐ Replace Debug.Log statements with ApexLogger (highest impact)
+3. ☐ Create LoadingOverlay.cs for async operations
 
 **This Week:**
-1. ☐ Complete Phase 7 (Visual Excellence)
-2. ☐ Start Phase 8 (Audio & Feedback)
+1. ☐ Complete Phase 12 Sprint 1 (Critical Polish)
+2. ☐ Create ErrorManager with user notifications
+3. ☐ Source and integrate audio assets
 
 **This Month:**
-1. ☐ Complete Phases 7-9
-2. ☐ Begin AR Integration Testing
-3. ☐ First internal playtest
+1. ☐ Complete Phase 12 (all 3 sprints - AAA Polish)
+2. ☐ Achieve 95% AAA readiness score
+3. ☐ Begin AR Integration Testing
 
 ---
 
