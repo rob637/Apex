@@ -127,6 +127,18 @@ namespace ApexCitadels.PC.Environment
         /// </summary>
         private void CreateProceduralSkybox()
         {
+            // Check if SkyboxEnvironmentSystem already set a panoramic skybox - don't override it!
+            if (RenderSettings.skybox != null)
+            {
+                string shaderName = RenderSettings.skybox.shader.name;
+                if (shaderName.Contains("Panoramic") || shaderName.Contains("Cubemap") || shaderName.Contains("6 Sided"))
+                {
+                    ApexLogger.Log($"[Atmosphere] Keeping existing skybox ({shaderName}) - not creating procedural", ApexLogger.LogCategory.General);
+                    _skyboxMaterial = null; // Don't manage external skybox
+                    return;
+                }
+            }
+            
             // Try to find existing skybox shader
             Shader skyShader = Shader.Find("Skybox/Procedural");
             

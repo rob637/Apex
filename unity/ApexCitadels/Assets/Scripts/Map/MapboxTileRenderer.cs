@@ -20,7 +20,7 @@ namespace ApexCitadels.Map
         [SerializeField] private MapboxConfiguration config;
         
         [Header("Tile Grid")]
-        [SerializeField] private int gridSize = 7;  // 7x7 grid for better coverage
+        [SerializeField] private int gridSize = 17;  // 17x17 grid for full world coverage
         [SerializeField] private float tileWorldSize = 100f;  // Size of each tile in world units
         [SerializeField] private float groundHeight = -1f;  // Height of ground plane (lowered to avoid z-fighting)
         
@@ -124,8 +124,11 @@ namespace ApexCitadels.Map
             
             ApexLogger.Log($"[Mapbox] Initializing at {centerLatitude}, {centerLongitude} zoom {zoomLevel}", ApexLogger.LogCategory.Map);
             
+            // Destroy conflicting terrain systems
+            DestroyConflictingTerrain();
+            
             // Create container
-            _tilesContainer = new GameObject("MapboxTiles").transform;
+            _tilesContainer = new GameObject("MapTiles").transform;
             _tilesContainer.parent = transform;
             _tilesContainer.localPosition = Vector3.zero;
             
@@ -139,6 +142,36 @@ namespace ApexCitadels.Map
             
             // Start loading tiles
             StartCoroutine(LoadAllTiles());
+        }
+        
+        /// <summary>
+        /// Destroy terrain systems that would conflict with Mapbox tiles
+        /// </summary>
+        private void DestroyConflictingTerrain()
+        {
+            // List of objects to destroy
+            string[] conflictingNames = { 
+                "GridOverlay", "FantasyTerrain", "ProceduralTerrain", 
+                "WorldTerrain", "TerrainMesh", "WaterPlane", "GroundPlane"
+            };
+            
+            foreach (var name in conflictingNames)
+            {
+                var obj = GameObject.Find(name);
+                if (obj != null)
+                {
+                    Debug.Log($"[Mapbox] Destroying conflicting object: {name}");
+                    Destroy(obj);
+                }
+            }
+            
+            // Also find and destroy any ProceduralTerrain component
+            var proceduralTerrain = FindFirstObjectByType<PC.Environment.ProceduralTerrain>();
+            if (proceduralTerrain != null)
+            {
+                Debug.Log("[Mapbox] Destroying ProceduralTerrain component");
+                Destroy(proceduralTerrain.gameObject);
+            }
         }
         
         /// <summary>

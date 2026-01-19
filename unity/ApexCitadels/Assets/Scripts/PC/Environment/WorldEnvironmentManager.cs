@@ -109,6 +109,22 @@ namespace ApexCitadels.PC.Environment
                 Debug.Log("[WorldEnv] Destroying ProceduralTerrain for Mapbox mode");
                 Destroy(proceduralTerrain.gameObject);
             }
+            
+            // Destroy any grid overlays
+            var gridOverlay = GameObject.Find("GridOverlay");
+            if (gridOverlay != null)
+            {
+                Debug.Log("[WorldEnv] Destroying GridOverlay for Mapbox mode");
+                Destroy(gridOverlay);
+            }
+            
+            // Destroy any FantasyTerrain
+            var fantasyTerrain = GameObject.Find("FantasyTerrain");
+            if (fantasyTerrain != null)
+            {
+                Debug.Log("[WorldEnv] Destroying FantasyTerrain for Mapbox mode");
+                Destroy(fantasyTerrain);
+            }
         }
 
         /// <summary>

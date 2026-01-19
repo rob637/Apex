@@ -13,6 +13,7 @@ namespace ApexCitadels.PC.Visual
     /// Manages the skybox, day/night cycle, and environmental lighting.
     /// Creates a visually stunning atmosphere for the game world.
     /// </summary>
+    [DefaultExecutionOrder(-500)] // Run before AtmosphericLighting and other systems
     public class SkyboxEnvironmentSystem : MonoBehaviour
     {
         public static SkyboxEnvironmentSystem Instance { get; private set; }
