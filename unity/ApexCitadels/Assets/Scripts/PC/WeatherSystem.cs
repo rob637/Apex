@@ -278,7 +278,9 @@ namespace ApexCitadels.PC
                 
                 var velocity = rainParticles.velocityOverLifetime;
                 velocity.enabled = true;
-                velocity.y = -25f;
+                velocity.x = new ParticleSystem.MinMaxCurve(0f);
+                velocity.y = new ParticleSystem.MinMaxCurve(-25f);
+                velocity.z = new ParticleSystem.MinMaxCurve(0f);
                 
                 ApexLogger.Log("[Weather] Created rain particle system", ApexLogger.LogCategory.General);
             }
@@ -310,8 +312,8 @@ namespace ApexCitadels.PC
                 
                 var velocity = snowParticles.velocityOverLifetime;
                 velocity.enabled = true;
-                velocity.y = -3f;
                 velocity.x = new ParticleSystem.MinMaxCurve(-1f, 1f);
+                velocity.y = new ParticleSystem.MinMaxCurve(-3f);
                 velocity.z = new ParticleSystem.MinMaxCurve(-1f, 1f);
                 
                 ApexLogger.Log("[Weather] Created snow particle system", ApexLogger.LogCategory.General);
@@ -372,8 +374,9 @@ namespace ApexCitadels.PC
                 
                 var velocity = dustParticles.velocityOverLifetime;
                 velocity.enabled = true;
-                velocity.x = 15f;
+                velocity.x = new ParticleSystem.MinMaxCurve(15f);
                 velocity.y = new ParticleSystem.MinMaxCurve(-2f, 2f);
+                velocity.z = new ParticleSystem.MinMaxCurve(0f);
                 
                 ApexLogger.Log("[Weather] Created dust particle system", ApexLogger.LogCategory.General);
             }
