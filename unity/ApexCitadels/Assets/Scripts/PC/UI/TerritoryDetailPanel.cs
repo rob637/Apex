@@ -355,7 +355,7 @@ Income Rate: +{_currentTerritory.Level * 10}/hr</color>
 
             if (upgradeCostText != null)
             {
-                upgradeCostText.text = $"Cost: {cost.Stone} Stone, {cost.Wood} Wood, {cost.Metal} Metal";
+                upgradeCostText.text = $"Cost: {cost.Stone} Stone, {cost.Wood} Wood, {cost.Iron} Iron";
             }
 
             if (upgradeRequirementsText != null)

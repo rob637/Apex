@@ -334,7 +334,7 @@ namespace ApexCitadels.PC.UI
             
             CreateSpacer();
             
-            CreateButtonSetting("🔊 Test Sound", () => ApexLogger.Log("[Settings] Playing test sound..."), ApexLogger.LogCategory.UI);
+            CreateButtonSetting("🔊 Test Sound", () => ApexLogger.Log("[Settings] Playing test sound...", ApexLogger.LogCategory.UI));
         }
 
         private void CreateGraphicsSettings()
@@ -399,13 +399,13 @@ namespace ApexCitadels.PC.UI
             
             CreateSpacer();
             
-            CreateButtonSetting("🔗 Link Account", () => ApexLogger.Log("[Settings] Link account clicked"), ApexLogger.LogCategory.UI);
-            CreateButtonSetting("🔄 Sync Data", () => ApexLogger.Log("[Settings] Syncing data..."), ApexLogger.LogCategory.UI);
+            CreateButtonSetting("🔗 Link Account", () => ApexLogger.Log("[Settings] Link account clicked", ApexLogger.LogCategory.UI));
+            CreateButtonSetting("🔄 Sync Data", () => ApexLogger.Log("[Settings] Syncing data...", ApexLogger.LogCategory.UI));
             
             CreateSpacer();
             
             CreateLabel("Support:");
-            CreateButtonSetting("📧 Contact Support", () => ApexLogger.Log("[Settings] Opening support..."), ApexLogger.LogCategory.UI);
+            CreateButtonSetting("📧 Contact Support", () => ApexLogger.Log("[Settings] Opening support...", ApexLogger.LogCategory.UI));
             CreateButtonSetting("📋 Copy Player ID", () => {
                 GUIUtility.systemCopyBuffer = "DEMO_USER_001";
                 ApexLogger.Log("[Settings] Player ID copied!", ApexLogger.LogCategory.UI);

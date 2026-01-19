@@ -247,7 +247,7 @@ namespace ApexCitadels.PC.UI
             if (buildingCostText != null)
             {
                 var cost = GetBuildingCost(blockType);
-                buildingCostText.text = $"Cost: {cost.Stone} Stone, {cost.Wood} Wood, {cost.Metal} Metal";
+                buildingCostText.text = $"Cost: {cost.Stone} Stone, {cost.Wood} Wood, {cost.Iron} Iron";
             }
 
             if (buildingPreviewImage != null)
@@ -370,15 +370,15 @@ namespace ApexCitadels.PC.UI
             {
                 BlockType.Stone => new ResourceCost { Stone = 10 },
                 BlockType.Wood => new ResourceCost { Wood = 10 },
-                BlockType.Metal => new ResourceCost { Metal = 10 },
+                BlockType.Metal => new ResourceCost { Iron = 10 },
                 BlockType.Tower => new ResourceCost { Stone = 100, Wood = 50 },
-                BlockType.ArrowTower => new ResourceCost { Stone = 150, Wood = 100, Metal = 25 },
-                BlockType.CannonTower => new ResourceCost { Stone = 200, Metal = 150 },
+                BlockType.ArrowTower => new ResourceCost { Stone = 150, Wood = 100, Iron = 25 },
+                BlockType.CannonTower => new ResourceCost { Stone = 200, Iron = 150 },
                 BlockType.MageTower => new ResourceCost { Stone = 150, Crystal = 100 },
-                BlockType.Mine => new ResourceCost { Stone = 200, Wood = 100, Metal = 50 },
-                BlockType.Quarry => new ResourceCost { Wood = 150, Metal = 50 },
-                BlockType.Sawmill => new ResourceCost { Stone = 100, Metal = 50 },
-                BlockType.CitadelCore => new ResourceCost { Stone = 500, Wood = 300, Metal = 200, Crystal = 100 },
+                BlockType.Mine => new ResourceCost { Stone = 200, Wood = 100, Iron = 50 },
+                BlockType.Quarry => new ResourceCost { Wood = 150, Iron = 50 },
+                BlockType.Sawmill => new ResourceCost { Stone = 100, Iron = 50 },
+                BlockType.CitadelCore => new ResourceCost { Stone = 500, Wood = 300, Iron = 200, Crystal = 100 },
                 _ => new ResourceCost { Stone = 20, Wood = 10 }
             };
         }

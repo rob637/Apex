@@ -521,7 +521,7 @@ namespace ApexCitadels.PC.UI
             if (rarity != "empty")
             {
                 Button btn = slot.AddComponent<Button>();
-                btn.onClick.AddListener(() => ApexLogger.Log($"[Profile] Selected item: {name}"), ApexLogger.LogCategory.UI);
+                btn.onClick.AddListener(() => ApexLogger.Log($"[Profile] Selected item: {name}", ApexLogger.LogCategory.UI));
             }
             
             // Icon
@@ -658,7 +658,7 @@ namespace ApexCitadels.PC.UI
             if (unlocked)
             {
                 Button btn = item.AddComponent<Button>();
-                btn.onClick.AddListener(() => ApexLogger.Log($"[Profile] Selected frame: {name}"), ApexLogger.LogCategory.UI);
+                btn.onClick.AddListener(() => ApexLogger.Log($"[Profile] Selected frame: {name}", ApexLogger.LogCategory.UI));
             }
             
             // Inner frame preview

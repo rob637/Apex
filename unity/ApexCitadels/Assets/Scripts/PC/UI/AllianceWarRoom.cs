@@ -394,9 +394,9 @@ namespace ApexCitadels.PC.UI
             actionsHL.childAlignment = TextAnchor.MiddleCenter;
             actionsHL.spacing = 15;
             
-            CreateActionButton(actions.transform, "⚔️ Attack", () => ApexLogger.Log("[War] Opening attack interface..."), ApexLogger.LogCategory.UI);
-            CreateActionButton(actions.transform, "🛡️ Defend", () => ApexLogger.Log("[War] Opening defense interface..."), ApexLogger.LogCategory.UI);
-            CreateActionButton(actions.transform, "📢 Rally", () => ApexLogger.Log("[War] Sending rally call..."), ApexLogger.LogCategory.UI);
+            CreateActionButton(actions.transform, "⚔️ Attack", () => ApexLogger.Log("[War] Opening attack interface...", ApexLogger.LogCategory.UI));
+            CreateActionButton(actions.transform, "🛡️ Defend", () => ApexLogger.Log("[War] Opening defense interface...", ApexLogger.LogCategory.UI));
+            CreateActionButton(actions.transform, "📢 Rally", () => ApexLogger.Log("[War] Sending rally call...", ApexLogger.LogCategory.UI));
         }
 
         private void CreateBattlesContent()
@@ -504,7 +504,7 @@ namespace ApexCitadels.PC.UI
             // Action button
             if (status != "Secured")
             {
-                CreateSmallButton(item.transform, "Join", () => ApexLogger.Log($"[War] Joining battlefield: {name}"), ApexLogger.LogCategory.UI);
+                CreateSmallButton(item.transform, "Join", () => ApexLogger.Log($"[War] Joining battlefield: {name}", ApexLogger.LogCategory.UI));
             }
         }
 
@@ -644,7 +644,7 @@ namespace ApexCitadels.PC.UI
             CreateText(info.transform, notes, 10, TextAlignmentOptions.Left, new Color(0.6f, 0.6f, 0.6f));
             
             // Attack button
-            CreateSmallButton(item.transform, "Attack", () => ApexLogger.Log($"[War] Attacking: {name}"), ApexLogger.LogCategory.UI);
+            CreateSmallButton(item.transform, "Attack", () => ApexLogger.Log($"[War] Attacking: {name}", ApexLogger.LogCategory.UI));
         }
 
         private void CreateDefenseItem(string location, string defenders, string status)
@@ -678,7 +678,7 @@ namespace ApexCitadels.PC.UI
             // Join button
             if (status != "Full")
             {
-                CreateSmallButton(item.transform, "Join", () => ApexLogger.Log($"[War] Joining defense: {location}"), ApexLogger.LogCategory.UI);
+                CreateSmallButton(item.transform, "Join", () => ApexLogger.Log($"[War] Joining defense: {location}", ApexLogger.LogCategory.UI));
             }
         }
 
@@ -885,7 +885,7 @@ namespace ApexCitadels.PC.UI
             bg.color = enemyColor;
             
             Button button = btn.AddComponent<Button>();
-            button.onClick.AddListener(() => ApexLogger.Log("[War] Opening war declaration interface..."), ApexLogger.LogCategory.UI);
+            button.onClick.AddListener(() => ApexLogger.Log("[War] Opening war declaration interface...", ApexLogger.LogCategory.UI));
             
             // Text as child
             GameObject textObj = new GameObject("Text");
