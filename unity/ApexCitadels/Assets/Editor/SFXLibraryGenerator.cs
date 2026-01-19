@@ -86,6 +86,8 @@ namespace ApexCitadels.Editor
             {
                 GenerateLibrary(library);
                 EditorUtility.SetDirty(library);
+                AssetDatabase.SaveAssets();
+                Debug.Log("[SFX] Library generated and saved!");
             }
 
             GUILayout.Space(10);
