@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -966,12 +967,12 @@ namespace ApexCitadels.PC.UI
             }
             
             RefreshContent();
-            Debug.Log($"[Diplomacy] War declared on {relation.PlayerName}");
+            ApexLogger.Log($"[Diplomacy] War declared on {relation.PlayerName}", ApexLogger.LogCategory.UI);
         }
 
         private void ProposePeace(DiplomaticRelation relation)
         {
-            Debug.Log($"[Diplomacy] Proposing peace to {relation.PlayerName}");
+            ApexLogger.Log($"[Diplomacy] Proposing peace to {relation.PlayerName}", ApexLogger.LogCategory.UI);
             
             if (NotificationSystem.Instance != null)
             {
@@ -981,19 +982,19 @@ namespace ApexCitadels.PC.UI
 
         private void ProposeTreaty(DiplomaticRelation relation)
         {
-            Debug.Log($"[Diplomacy] Opening treaty dialog for {relation.PlayerName}");
+            ApexLogger.Log($"[Diplomacy] Opening treaty dialog for {relation.PlayerName}", ApexLogger.LogCategory.UI);
             // TODO: Open treaty creation dialog
         }
 
         private void ProposeTrade(DiplomaticRelation relation)
         {
-            Debug.Log($"[Diplomacy] Opening trade dialog for {relation.PlayerName}");
+            ApexLogger.Log($"[Diplomacy] Opening trade dialog for {relation.PlayerName}", ApexLogger.LogCategory.UI);
             // TODO: Open trade panel
         }
 
         private void SendMessage(DiplomaticRelation relation)
         {
-            Debug.Log($"[Diplomacy] Opening message composer for {relation.PlayerName}");
+            ApexLogger.Log($"[Diplomacy] Opening message composer for {relation.PlayerName}", ApexLogger.LogCategory.UI);
             // TODO: Open message composer
         }
 
@@ -1011,7 +1012,7 @@ namespace ApexCitadels.PC.UI
             }
             
             RefreshContent();
-            Debug.Log($"[Diplomacy] Treaty accepted: {treaty.Type} with {treaty.PartnerName}");
+            ApexLogger.Log($"[Diplomacy] Treaty accepted: {treaty.Type} with {treaty.PartnerName}", ApexLogger.LogCategory.UI);
         }
 
         private void DeclineTreaty(Treaty treaty)
@@ -1024,14 +1025,14 @@ namespace ApexCitadels.PC.UI
             }
             
             RefreshContent();
-            Debug.Log($"[Diplomacy] Treaty declined: {treaty.Type} with {treaty.PartnerName}");
+            ApexLogger.Log($"[Diplomacy] Treaty declined: {treaty.Type} with {treaty.PartnerName}", ApexLogger.LogCategory.UI);
         }
 
         private void CancelTreaty(Treaty treaty)
         {
             _pendingTreaties.Remove(treaty);
             RefreshContent();
-            Debug.Log($"[Diplomacy] Treaty proposal cancelled");
+            ApexLogger.Log($"[Diplomacy] Treaty proposal cancelled", ApexLogger.LogCategory.UI);
         }
 
         private void BreakTreaty(Treaty treaty)
@@ -1053,20 +1054,20 @@ namespace ApexCitadels.PC.UI
             }
             
             RefreshContent();
-            Debug.Log($"[Diplomacy] Treaty broken with {treaty.PartnerName}");
+            ApexLogger.Log($"[Diplomacy] Treaty broken with {treaty.PartnerName}", ApexLogger.LogCategory.UI);
         }
 
         private void ReadMessage(DiplomaticMessage msg)
         {
             msg.IsRead = true;
             RefreshContent();
-            Debug.Log($"[Diplomacy] Reading message: {msg.Subject}");
+            ApexLogger.Log($"[Diplomacy] Reading message: {msg.Subject}", ApexLogger.LogCategory.UI);
             // TODO: Open full message view
         }
 
         private void ReplyToMessage(DiplomaticMessage msg)
         {
-            Debug.Log($"[Diplomacy] Replying to {msg.SenderName}");
+            ApexLogger.Log($"[Diplomacy] Replying to {msg.SenderName}", ApexLogger.LogCategory.UI);
             // TODO: Open message composer
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -410,7 +411,7 @@ namespace ApexCitadels.PC.UI
         {
             if (!_tutorials.ContainsKey(tutorialId))
             {
-                Debug.LogWarning($"[Tutorial] Tutorial not found: {tutorialId}");
+                ApexLogger.LogWarning($"[Tutorial] Tutorial not found: {tutorialId}", ApexLogger.LogCategory.UI);
                 return;
             }
             
@@ -422,7 +423,7 @@ namespace ApexCitadels.PC.UI
             ShowCurrentStep();
             
             OnTutorialStarted?.Invoke(tutorialId);
-            Debug.Log($"[Tutorial] Started: {tutorialId}");
+            ApexLogger.Log($"[Tutorial] Started: {tutorialId}", ApexLogger.LogCategory.UI);
         }
 
         public void NextStep()
@@ -466,7 +467,7 @@ namespace ApexCitadels.PC.UI
             PlayerPrefs.Save();
             
             OnTutorialCompleted?.Invoke(tutorialId);
-            Debug.Log($"[Tutorial] Completed: {tutorialId}");
+            ApexLogger.Log($"[Tutorial] Completed: {tutorialId}", ApexLogger.LogCategory.UI);
             
             // Show notification
             if (UI.NotificationSystem.Instance != null)

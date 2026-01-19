@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -934,7 +935,7 @@ namespace ApexCitadels.PC.UI
 
         private void JoinEvent(WorldEvent evt)
         {
-            Debug.Log($"[Events] Joining event: {evt.Name}");
+            ApexLogger.Log($"[Events] Joining event: {evt.Name}", ApexLogger.LogCategory.UI);
             OnEventJoined?.Invoke(evt);
             
             if (NotificationSystem.Instance != null)
@@ -945,7 +946,7 @@ namespace ApexCitadels.PC.UI
 
         private void SetReminder(WorldEvent evt)
         {
-            Debug.Log($"[Events] Setting reminder for: {evt.Name}");
+            ApexLogger.Log($"[Events] Setting reminder for: {evt.Name}", ApexLogger.LogCategory.UI);
             
             if (NotificationSystem.Instance != null)
             {
@@ -965,7 +966,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowAchievementUnlocked(reward.Name, 0);
             }
             
-            Debug.Log($"[Events] Claimed reward: {reward.Name}");
+            ApexLogger.Log($"[Events] Claimed reward: {reward.Name}", ApexLogger.LogCategory.UI);
         }
 
         #endregion

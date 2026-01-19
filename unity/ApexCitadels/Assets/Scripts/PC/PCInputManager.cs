@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -71,20 +72,20 @@ namespace ApexCitadels.PC
             Instance = this;
 
             InitializeDefaultKeyBindings();
-            Debug.Log("[PCInput] PCInputManager initialized");
+            ApexLogger.Log("[PCInput] PCInputManager initialized", ApexLogger.LogCategory.General);
         }
 
         private void Start()
         {
             _mainCamera = Camera.main;
-            Debug.Log($"[PCInput] Start - enableInput: {enableInput}, HasKeyboardMouse: {PlatformManager.HasKeyboardMouse}");
+            ApexLogger.Log($"[PCInput] Start - enableInput: {enableInput}, HasKeyboardMouse: {PlatformManager.HasKeyboardMouse}", ApexLogger.LogCategory.General);
         }
 
         private void Update()
         {
             if (!_loggedPlatformInfo)
             {
-                Debug.Log($"[PCInput] Platform: {PlatformManager.CurrentPlatform}, IsWebGL: {PlatformManager.IsWebGL}, HasKeyboardMouse: {PlatformManager.HasKeyboardMouse}");
+                ApexLogger.Log($"[PCInput] Platform: {PlatformManager.CurrentPlatform}, IsWebGL: {PlatformManager.IsWebGL}, HasKeyboardMouse: {PlatformManager.HasKeyboardMouse}", ApexLogger.LogCategory.General);
                 _loggedPlatformInfo = true;
             }
 
@@ -109,64 +110,64 @@ namespace ApexCitadels.PC
             // Debug: Log any key press
             if (Input.anyKeyDown)
             {
-                Debug.Log($"[PCInput] Key pressed: {Input.inputString}");
+                ApexLogger.Log($"[PCInput] Key pressed: {Input.inputString}", ApexLogger.LogCategory.General);
             }
 
             // Navigation keys
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("[PCInput] SPACE detected");
+                ApexLogger.Log("[PCInput] SPACE detected", ApexLogger.LogCategory.General);
                 OnToggleMapTerritoryView?.Invoke();
             }
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                Debug.Log("[PCInput] TAB detected");
+                ApexLogger.Log("[PCInput] TAB detected", ApexLogger.LogCategory.General);
                 OnOpenAlliancePanel?.Invoke();
             }
 
             if (Input.GetKeyDown(KeyCode.B))
             {
-                Debug.Log("[PCInput] B detected");
+                ApexLogger.Log("[PCInput] B detected", ApexLogger.LogCategory.General);
                 OnOpenBuildingMenu?.Invoke();
             }
 
             if (Input.GetKeyDown(KeyCode.I))
             {
-                Debug.Log("[PCInput] I detected");
+                ApexLogger.Log("[PCInput] I detected", ApexLogger.LogCategory.General);
                 OnOpenInventory?.Invoke();
             }
 
             if (Input.GetKeyDown(KeyCode.M))
             {
-                Debug.Log("[PCInput] M detected");
+                ApexLogger.Log("[PCInput] M detected", ApexLogger.LogCategory.General);
                 OnOpenWorldMap?.Invoke();
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Debug.Log("[PCInput] ESC detected");
+                ApexLogger.Log("[PCInput] ESC detected", ApexLogger.LogCategory.General);
                 OnOpenMenu?.Invoke();
             }
 
             // Engagement Panel Shortcuts (World-Class Feature Access)
             if (Input.GetKeyDown(KeyCode.L))
             {
-                Debug.Log("[PCInput] L detected - Leaderboard");
+                ApexLogger.Log("[PCInput] L detected - Leaderboard", ApexLogger.LogCategory.General);
                 if (ApexCitadels.PC.UI.LeaderboardPanel.Instance != null)
                     ApexCitadels.PC.UI.LeaderboardPanel.Instance.Toggle();
             }
 
             if (Input.GetKeyDown(KeyCode.P))
             {
-                Debug.Log("[PCInput] P detected - Season Pass");
+                ApexLogger.Log("[PCInput] P detected - Season Pass", ApexLogger.LogCategory.General);
                 if (ApexCitadels.PC.UI.SeasonPassPanel.Instance != null)
                     ApexCitadels.PC.UI.SeasonPassPanel.Instance.Toggle();
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                Debug.Log("[PCInput] R detected - Daily Rewards");
+                ApexLogger.Log("[PCInput] R detected - Daily Rewards", ApexLogger.LogCategory.General);
                 if (ApexCitadels.PC.UI.DailyRewardsUI.Instance != null)
                     ApexCitadels.PC.UI.DailyRewardsUI.Instance.Toggle();
             }
@@ -442,7 +443,7 @@ namespace ApexCitadels.PC
             }
 
             _keyBindings[key] = action;
-            Debug.Log($"[PCInput] Rebound {action} to {key}");
+            ApexLogger.Log($"[PCInput] Rebound {action} to {key}", ApexLogger.LogCategory.General);
         }
 
         /// <summary>

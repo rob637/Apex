@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Audio
 {
@@ -155,7 +156,7 @@ namespace ApexCitadels.Audio
             }
             else
             {
-                Debug.LogWarning($"[MusicManager] Track not found: {trackId}");
+                ApexLogger.LogWarning($"[MusicManager] Track not found: {trackId}", ApexLogger.LogCategory.Audio);
             }
         }
 
@@ -831,7 +832,7 @@ namespace ApexCitadels.Audio
             AddStinger("season_reward_stinger", "Season Reward", 0.9f);
 
             UnityEditor.EditorUtility.SetDirty(this);
-            Debug.Log($"[MusicLibrary] Generated {tracks.Count} tracks and {stingers.Count} stingers");
+            ApexLogger.Log($"[MusicLibrary] Generated {tracks.Count} tracks and {stingers.Count} stingers", ApexLogger.LogCategory.Audio);
         }
 
         private void AddTrack(string id, string name, MusicCategory category)

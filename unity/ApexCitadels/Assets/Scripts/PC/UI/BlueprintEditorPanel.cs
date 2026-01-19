@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.PC;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1175,7 +1176,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                Debug.Log($"[Blueprint] Cannot place {selectedBuildingDef.displayName} at ({x}, {y})");
+                ApexLogger.Log($"[Blueprint] Cannot place {selectedBuildingDef.displayName} at ({x}, {y})", ApexLogger.LogCategory.UI);
             }
         }
 
@@ -1237,7 +1238,7 @@ namespace ApexCitadels.PC.UI
             currentBlueprint.buildings.Add(newBuilding);
             RefreshGridDisplay();
             UpdateStats();
-            Debug.Log($"[Blueprint] Placed {building.displayName} at ({x}, {y})");
+            ApexLogger.Log($"[Blueprint] Placed {building.displayName} at ({x}, {y})", ApexLogger.LogCategory.UI);
         }
 
         private void RefreshGridDisplay()
@@ -1323,13 +1324,13 @@ namespace ApexCitadels.PC.UI
         {
             selectedBuildingDef = building;
             currentRotation = 0;
-            Debug.Log($"[Blueprint] Selected building: {building.displayName} ({building.size.x}x{building.size.y})");
+            ApexLogger.Log($"[Blueprint] Selected building: {building.displayName} ({building.size.x}x{building.size.y})", ApexLogger.LogCategory.UI);
         }
 
         private void SelectBlueprint(BlueprintData blueprint)
         {
             selectedBlueprint = blueprint;
-            Debug.Log($"[Blueprint] Selected blueprint: {blueprint.name}");
+            ApexLogger.Log($"[Blueprint] Selected blueprint: {blueprint.name}", ApexLogger.LogCategory.UI);
         }
 
         private void SwitchTab(BlueprintTab tab)
@@ -1337,13 +1338,13 @@ namespace ApexCitadels.PC.UI
             currentTab = tab;
             isEditing = tab == BlueprintTab.Editor;
             RefreshBlueprintList();
-            Debug.Log($"[Blueprint] Switched to tab: {tab}");
+            ApexLogger.Log($"[Blueprint] Switched to tab: {tab}", ApexLogger.LogCategory.UI);
         }
 
         private void OnSearchChanged(string query)
         {
             // Filter blueprints by search query
-            Debug.Log($"[Blueprint] Searching: {query}");
+            ApexLogger.Log($"[Blueprint] Searching: {query}", ApexLogger.LogCategory.UI);
         }
 
         // Toolbar actions
@@ -1364,14 +1365,14 @@ namespace ApexCitadels.PC.UI
             blueprintNameText.text = currentBlueprint.name;
             RefreshGridDisplay();
             UpdateStats();
-            Debug.Log("[Blueprint] Created new blueprint");
+            ApexLogger.Log("[Blueprint] Created new blueprint", ApexLogger.LogCategory.UI);
         }
 
         private void SaveBlueprint()
         {
             if (currentBlueprint == null)
             {
-                Debug.Log("[Blueprint] No blueprint to save");
+                ApexLogger.Log("[Blueprint] No blueprint to save", ApexLogger.LogCategory.UI);
                 return;
             }
             
@@ -1380,14 +1381,14 @@ namespace ApexCitadels.PC.UI
             {
                 myBlueprints.Add(currentBlueprint);
             }
-            Debug.Log($"[Blueprint] Saved: {currentBlueprint.name}");
+            ApexLogger.Log($"[Blueprint] Saved: {currentBlueprint.name}", ApexLogger.LogCategory.UI);
         }
 
         private void LoadBlueprint()
         {
             if (selectedBlueprint == null)
             {
-                Debug.Log("[Blueprint] No blueprint selected to load");
+                ApexLogger.Log("[Blueprint] No blueprint selected to load", ApexLogger.LogCategory.UI);
                 return;
             }
             
@@ -1396,19 +1397,19 @@ namespace ApexCitadels.PC.UI
             blueprintNameText.text = currentBlueprint.name;
             RefreshGridDisplay();
             UpdateStats();
-            Debug.Log($"[Blueprint] Loaded: {currentBlueprint.name}");
+            ApexLogger.Log($"[Blueprint] Loaded: {currentBlueprint.name}", ApexLogger.LogCategory.UI);
         }
 
         private void RotateBuilding()
         {
             currentRotation = (currentRotation + 90) % 360;
-            Debug.Log($"[Blueprint] Rotation: {currentRotation}°");
+            ApexLogger.Log($"[Blueprint] Rotation: {currentRotation}°", ApexLogger.LogCategory.UI);
         }
 
         private void DeleteBuilding()
         {
             // Would implement selection-based deletion
-            Debug.Log("[Blueprint] Delete mode");
+            ApexLogger.Log("[Blueprint] Delete mode", ApexLogger.LogCategory.UI);
         }
 
         private void UndoAction()
@@ -1419,19 +1420,19 @@ namespace ApexCitadels.PC.UI
                 RefreshGridDisplay();
                 UpdateStats();
             }
-            Debug.Log("[Blueprint] Undo");
+            ApexLogger.Log("[Blueprint] Undo", ApexLogger.LogCategory.UI);
         }
 
         private void ShareBlueprint()
         {
             if (currentBlueprint == null) return;
-            Debug.Log($"[Blueprint] Share dialog for: {currentBlueprint.name}");
+            ApexLogger.Log($"[Blueprint] Share dialog for: {currentBlueprint.name}", ApexLogger.LogCategory.UI);
         }
 
         private void ApplyBlueprint()
         {
             if (currentBlueprint == null) return;
-            Debug.Log($"[Blueprint] Applying blueprint to citadel: {currentBlueprint.name}");
+            ApexLogger.Log($"[Blueprint] Applying blueprint to citadel: {currentBlueprint.name}", ApexLogger.LogCategory.UI);
         }
 
         // Public API

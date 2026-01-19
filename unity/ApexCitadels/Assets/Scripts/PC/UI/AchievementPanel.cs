@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -644,7 +645,7 @@ namespace ApexCitadels.PC.UI
             _totalPoints += ach.Points;
             _unlockedCount++;
             
-            Debug.Log($"[Achievement] 🏆 UNLOCKED: {ach.Title} (+{ach.Points} points)");
+            ApexLogger.Log($"[Achievement] 🏆 UNLOCKED: {ach.Title} (+{ach.Points} points)", ApexLogger.LogCategory.UI);
             
             OnAchievementUnlocked?.Invoke(ach);
             UpdateSummary();

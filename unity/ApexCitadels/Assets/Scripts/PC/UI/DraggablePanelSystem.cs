@@ -5,6 +5,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -88,7 +89,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_panels.ContainsKey(panelId))
             {
-                Debug.LogWarning($"Panel {panelId} already registered");
+                ApexLogger.LogWarning($"Panel {panelId} already registered", ApexLogger.LogCategory.UI);
                 return _panels[panelId];
             }
             

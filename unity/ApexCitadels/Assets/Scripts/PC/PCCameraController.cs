@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using ApexCitadels.PC.WebGL;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -159,7 +160,7 @@ namespace ApexCitadels.PC
                     break;
             }
 
-            Debug.Log($"[PCCamera] Mode changed: {previousMode} -> {mode}");
+            ApexLogger.Log($"[PCCamera] Mode changed: {previousMode} -> {mode}", ApexLogger.LogCategory.General);
             OnModeChanged?.Invoke(mode);
         }
 
@@ -219,7 +220,7 @@ namespace ApexCitadels.PC
         {
             worldMapPanSpeed = Mathf.Clamp(sensitivity * 150f, 50f, 300f);
             territoryOrbitSpeed = Mathf.Clamp(sensitivity * 2f, 0.5f, 5f);
-            Debug.Log($"[PCCamera] Sensitivity set to {sensitivity:F2}");
+            ApexLogger.Log($"[PCCamera] Sensitivity set to {sensitivity:F2}", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -228,7 +229,7 @@ namespace ApexCitadels.PC
         public void SetEdgePanning(bool enabled)
         {
             _edgePanningEnabled = enabled;
-            Debug.Log($"[PCCamera] Edge panning: {enabled}");
+            ApexLogger.Log($"[PCCamera] Edge panning: {enabled}", ApexLogger.LogCategory.General);
         }
 
         private bool _edgePanningEnabled = true;

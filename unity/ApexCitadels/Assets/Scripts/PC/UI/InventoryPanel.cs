@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1078,7 +1079,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowSuccess($"Used {item.Name}: {item.Effect}");
             }
             
-            Debug.Log($"[Inventory] Used item: {item.Name}");
+            ApexLogger.Log($"[Inventory] Used item: {item.Name}", ApexLogger.LogCategory.UI);
         }
 
         private void EquipItem(InventoryItem item)
@@ -1147,7 +1148,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowResourceGained("Gold", totalGold);
             }
             
-            Debug.Log($"[Inventory] Sold {actualQty}x {item.Name} for {totalGold} gold");
+            ApexLogger.Log($"[Inventory] Sold {actualQty}x {item.Name} for {totalGold} gold", ApexLogger.LogCategory.UI);
         }
 
         private void DropItem(InventoryItem item, int quantity)

@@ -9,6 +9,7 @@ using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
 using ApexCitadels.PC.Compatibility;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Environment
 {
@@ -65,7 +66,7 @@ namespace ApexCitadels.PC.Environment
 
         private IEnumerator InitializeEffects()
         {
-            Debug.Log("[AAA Effects] Initializing visual effects...");
+            ApexLogger.Log("[AAA Effects] Initializing visual effects...", ApexLogger.LogCategory.General);
 
             // Setup post-processing
             if (enablePostProcessing)
@@ -99,7 +100,7 @@ namespace ApexCitadels.PC.Environment
             CreateFloatingClouds();
             yield return null;
 
-            Debug.Log("[AAA Effects] Visual effects initialization complete!");
+            ApexLogger.Log("[AAA Effects] Visual effects initialization complete!", ApexLogger.LogCategory.General);
         }
 
         #region Post-Processing
@@ -138,7 +139,7 @@ namespace ApexCitadels.PC.Environment
                 bloom.intensity.SetOverride(bloomIntensity);
                 bloom.scatter.SetOverride(0.7f);
                 bloom.tint.SetOverride(new Color(1f, 0.95f, 0.9f));
-                Debug.Log("[AAA Effects] Bloom added");
+                ApexLogger.Log("[AAA Effects] Bloom added", ApexLogger.LogCategory.General);
             }
 
             // Add Vignette
@@ -149,7 +150,7 @@ namespace ApexCitadels.PC.Environment
                 vignette.intensity.SetOverride(vignetteIntensity);
                 vignette.smoothness.SetOverride(0.4f);
                 vignette.color.SetOverride(new Color(0f, 0f, 0f));
-                Debug.Log("[AAA Effects] Vignette added");
+                ApexLogger.Log("[AAA Effects] Vignette added", ApexLogger.LogCategory.General);
             }
 
             // Add Color Adjustments (Color Grading)
@@ -160,7 +161,7 @@ namespace ApexCitadels.PC.Environment
                 colorAdj.saturation.SetOverride(colorGradingSaturation);
                 colorAdj.contrast.SetOverride(colorGradingContrast);
                 colorAdj.postExposure.SetOverride(0.2f);
-                Debug.Log("[AAA Effects] Color adjustments added");
+                ApexLogger.Log("[AAA Effects] Color adjustments added", ApexLogger.LogCategory.General);
             }
 
             // Note: LiftGammaGain was removed in Unity 6 URP - use ColorCurves instead if needed
@@ -174,7 +175,7 @@ namespace ApexCitadels.PC.Environment
                 grain.type.SetOverride(FilmGrainLookup.Medium1);
                 grain.intensity.SetOverride(0.15f);
                 grain.response.SetOverride(0.8f);
-                Debug.Log("[AAA Effects] Film grain added");
+                ApexLogger.Log("[AAA Effects] Film grain added", ApexLogger.LogCategory.General);
             }
 
             // Add Chromatic Aberration (very subtle)
@@ -183,7 +184,7 @@ namespace ApexCitadels.PC.Environment
                 ca = _volumeProfile.Add<ChromaticAberration>();
                 ca.active = true;
                 ca.intensity.SetOverride(0.05f);
-                Debug.Log("[AAA Effects] Chromatic aberration added");
+                ApexLogger.Log("[AAA Effects] Chromatic aberration added", ApexLogger.LogCategory.General);
             }
 
             // Add Depth of Field (subtle)
@@ -195,10 +196,10 @@ namespace ApexCitadels.PC.Environment
                 dof.focusDistance.SetOverride(100f);
                 dof.aperture.SetOverride(5.6f);
                 dof.focalLength.SetOverride(50f);
-                Debug.Log("[AAA Effects] Depth of field added");
+                ApexLogger.Log("[AAA Effects] Depth of field added", ApexLogger.LogCategory.General);
             }
 
-            Debug.Log("[AAA Effects] Post-processing setup complete");
+            ApexLogger.Log("[AAA Effects] Post-processing setup complete", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -261,7 +262,7 @@ namespace ApexCitadels.PC.Environment
             FollowCamera dustFollow = _dustParticles.AddComponent<FollowCamera>();
             dustFollow.offset = new Vector3(0, 30f, 0);
 
-            Debug.Log("[AAA Effects] Ambient dust particles created");
+            ApexLogger.Log("[AAA Effects] Ambient dust particles created", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -294,7 +295,7 @@ namespace ApexCitadels.PC.Environment
                 fogPlane.GetComponent<Renderer>().material = fogMat;
             }
 
-            Debug.Log("[AAA Effects] Volumetric fog layers created");
+            ApexLogger.Log("[AAA Effects] Volumetric fog layers created", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -354,7 +355,7 @@ namespace ApexCitadels.PC.Environment
             renderer.renderMode = ParticleSystemRenderMode.Stretch;
             renderer.lengthScale = 10f;
 
-            Debug.Log("[AAA Effects] God rays created");
+            ApexLogger.Log("[AAA Effects] God rays created", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -371,7 +372,7 @@ namespace ApexCitadels.PC.Environment
                 _cloudObjects.Add(cloud);
             }
 
-            Debug.Log($"[AAA Effects] Created {cloudCount} floating clouds");
+            ApexLogger.Log($"[AAA Effects] Created {cloudCount} floating clouds", ApexLogger.LogCategory.General);
         }
 
         private GameObject CreateCloudObject(int index)

@@ -197,7 +197,7 @@ namespace ApexCitadels.Notifications
                 SchedulePushNotification(notification);
             }
 
-            Debug.Log($"[NotificationManager] New notification: {title}");
+            ApexLogger.Log($"[NotificationManager] New notification: {title}", ApexLogger.LogCategory.Events);
         }
 
         /// <summary>
@@ -301,14 +301,14 @@ namespace ApexCitadels.Notifications
             // Note: iOS NotificationServices API was deprecated in Unity 2018+
             // Use Unity Mobile Notifications package for cross-platform notifications
             // For now, we just log that permissions would be requested
-            Debug.Log("[NotificationManager] Push notifications permission requested");
+            ApexLogger.Log("[NotificationManager] Push notifications permission requested", ApexLogger.LogCategory.Events);
         }
 
         private void SchedulePushNotification(GameNotification notification)
         {
             // This would integrate with Firebase Cloud Messaging or Unity Mobile Notifications
             // For local notifications, use Unity Mobile Notifications package
-            Debug.Log($"[NotificationManager] Would schedule notification: {notification.Title}");
+            ApexLogger.Log($"[NotificationManager] Would schedule notification: {notification.Title}", ApexLogger.LogCategory.Events);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             // Would use Unity Mobile Notifications package
@@ -338,12 +338,12 @@ namespace ApexCitadels.Notifications
 
                 if (tokenTask.IsFaulted)
                 {
-                    Debug.LogError($"[NotificationManager] Failed to get FCM token: {tokenTask.Exception}");
+                    ApexLogger.LogError($"[NotificationManager] Failed to get FCM token: {tokenTask.Exception}", ApexLogger.LogCategory.Events);
                     return;
                 }
 
                 string fcmToken = tokenTask.Result;
-                Debug.Log($"[NotificationManager] FCM Token: {fcmToken.Substring(0, 20)}...");
+                ApexLogger.Log($"[NotificationManager] FCM Token: {fcmToken.Substring(0, 20)}...", ApexLogger.LogCategory.Events);
 
                 // Register token with backend
                 var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
@@ -361,12 +361,12 @@ namespace ApexCitadels.Notifications
                         { "updatedAt", Timestamp.GetCurrentTimestamp() }
                     }, SetOptions.MergeAll);
 
-                    Debug.Log("[NotificationManager] FCM token registered with backend");
+                    ApexLogger.Log("[NotificationManager] FCM token registered with backend", ApexLogger.LogCategory.Events);
                 }
 
                 // Subscribe to topics
                 await FirebaseMessaging.SubscribeAsync("game_updates");
-                Debug.Log("[NotificationManager] Subscribed to game_updates topic");
+                ApexLogger.Log("[NotificationManager] Subscribed to game_updates topic", ApexLogger.LogCategory.Events);
 
                 // Listen for messages
                 FirebaseMessaging.MessageReceived += OnFirebaseMessageReceived;
@@ -374,18 +374,18 @@ namespace ApexCitadels.Notifications
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[NotificationManager] FCM registration error: {ex.Message}");
+                ApexLogger.LogError($"[NotificationManager] FCM registration error: {ex.Message}", ApexLogger.LogCategory.Events);
             }
 #else
             await Task.CompletedTask;
-            Debug.Log("[NotificationManager] Push notifications require Firebase Messaging SDK on Android");
+            ApexLogger.Log("[NotificationManager] Push notifications require Firebase Messaging SDK on Android", ApexLogger.LogCategory.Events);
 #endif
         }
 
 #if FIREBASE_MESSAGING && FIREBASE_ENABLED && UNITY_ANDROID && !UNITY_EDITOR
         private void OnFirebaseMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            Debug.Log($"[NotificationManager] FCM message received from: {e.Message.From}");
+            ApexLogger.Log($"[NotificationManager] FCM message received from: {e.Message.From}", ApexLogger.LogCategory.Events);
 
             // Extract notification data
             var data = e.Message.Data;
@@ -420,7 +420,7 @@ namespace ApexCitadels.Notifications
 
         private async void OnTokenReceived(object sender, TokenReceivedEventArgs e)
         {
-            Debug.Log($"[NotificationManager] New FCM token received");
+            ApexLogger.Log($"[NotificationManager] New FCM token received", ApexLogger.LogCategory.Events);
             
             // Update token on backend
             var playerId = PlayerManager.Instance?.GetCurrentPlayerId();
@@ -439,7 +439,7 @@ namespace ApexCitadels.Notifications
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"[NotificationManager] Failed to update FCM token: {ex.Message}");
+                    ApexLogger.LogError($"[NotificationManager] Failed to update FCM token: {ex.Message}", ApexLogger.LogCategory.Events);
                 }
             }
         }
@@ -580,11 +580,11 @@ namespace ApexCitadels.Notifications
                         }
                     }
                 }
-                Debug.Log($"[NotificationManager] Loaded {_notifications.Count} notifications");
+                ApexLogger.Log($"[NotificationManager] Loaded {_notifications.Count} notifications", ApexLogger.LogCategory.Events);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[NotificationManager] Failed to load notifications: {ex.Message}");
+                ApexLogger.LogError($"[NotificationManager] Failed to load notifications: {ex.Message}", ApexLogger.LogCategory.Events);
             }
         }
 
@@ -614,11 +614,11 @@ namespace ApexCitadels.Notifications
                 string json = JsonUtility.ToJson(wrapper);
                 PlayerPrefs.SetString("notifications", json);
                 PlayerPrefs.Save();
-                Debug.Log($"[NotificationManager] Saved {_notifications.Count} notifications");
+                ApexLogger.Log($"[NotificationManager] Saved {_notifications.Count} notifications", ApexLogger.LogCategory.Events);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[NotificationManager] Failed to save notifications: {ex.Message}");
+                ApexLogger.LogError($"[NotificationManager] Failed to save notifications: {ex.Message}", ApexLogger.LogCategory.Events);
             }
         }
 

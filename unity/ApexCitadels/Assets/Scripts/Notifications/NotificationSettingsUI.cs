@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Notifications
 {
@@ -303,7 +304,7 @@ namespace ApexCitadels.Notifications
         private void SendTestNotification()
         {
             // This would typically be an admin function or debug feature
-            Debug.Log("[NotificationSettingsUI] Test notification requested");
+            ApexLogger.Log("[NotificationSettingsUI] Test notification requested", ApexLogger.LogCategory.Events);
             
             // For testing, we can simulate a local notification
             var testNotification = new ReceivedNotification

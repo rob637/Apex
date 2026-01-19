@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Notifications
 {
@@ -148,26 +149,26 @@ namespace ApexCitadels.Notifications
 
         private void Start()
         {
-            Debug.LogWarning("[PushNotificationManager] Firebase Messaging not installed. Running in stub mode.");
+            ApexLogger.LogWarning("[PushNotificationManager] Firebase Messaging not installed. Running in stub mode.", ApexLogger.LogCategory.Events);
             _isInitialized = true;
             _hasPermission = true;
         }
 
         public void RequestPermission()
         {
-            Debug.Log("[PushNotificationManager] Permission requested (stub mode - auto granted)");
+            ApexLogger.Log("[PushNotificationManager] Permission requested (stub mode - auto granted)", ApexLogger.LogCategory.Events);
             _hasPermission = true;
             OnPermissionGranted?.Invoke();
         }
 
         public void SubscribeToTopic(string topic)
         {
-            Debug.Log($"[PushNotificationManager] Subscribed to topic: {topic} (stub mode)");
+            ApexLogger.Log($"[PushNotificationManager] Subscribed to topic: {topic} (stub mode)", ApexLogger.LogCategory.Events);
         }
 
         public void UnsubscribeFromTopic(string topic)
         {
-            Debug.Log($"[PushNotificationManager] Unsubscribed from topic: {topic} (stub mode)");
+            ApexLogger.Log($"[PushNotificationManager] Unsubscribed from topic: {topic} (stub mode)", ApexLogger.LogCategory.Events);
         }
 
         public void SetNotificationPreference(PushNotificationType type, bool enabled)

@@ -8,6 +8,7 @@ using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
 using ApexCitadels.Notifications;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.WorldEvents
 {
@@ -155,7 +156,7 @@ namespace ApexCitadels.WorldEvents
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to fetch world events: {e.Message}");
+                ApexLogger.LogError($"Failed to fetch world events: {e.Message}", ApexLogger.LogCategory.Events);
             }
         }
 
@@ -232,7 +233,7 @@ namespace ApexCitadels.WorldEvents
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to join event: {e.Message}");
+                ApexLogger.LogError($"Failed to join event: {e.Message}", ApexLogger.LogCategory.Events);
                 return false;
             }
         }
@@ -270,7 +271,7 @@ namespace ApexCitadels.WorldEvents
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to contribute to event: {e.Message}");
+                ApexLogger.LogError($"Failed to contribute to event: {e.Message}", ApexLogger.LogCategory.Events);
                 return false;
             }
         }
@@ -298,14 +299,14 @@ namespace ApexCitadels.WorldEvents
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to claim rewards: {e.Message}");
+                ApexLogger.LogError($"Failed to claim rewards: {e.Message}", ApexLogger.LogCategory.Events);
                 return null;
             }
         }
 #else
         private void Start()
         {
-            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("[WorldEventManager] Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Events);
         }
 
         private void Update()
@@ -316,25 +317,25 @@ namespace ApexCitadels.WorldEvents
 
         public Task RefreshEvents()
         {
-            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. RefreshEvents is a stub.");
+            ApexLogger.LogWarning("[WorldEventManager] Firebase SDK not installed. RefreshEvents is a stub.", ApexLogger.LogCategory.Events);
             return Task.CompletedTask;
         }
 
         public Task<bool> JoinEvent(string eventId)
         {
-            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. JoinEvent is a stub.");
+            ApexLogger.LogWarning("[WorldEventManager] Firebase SDK not installed. JoinEvent is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult(false);
         }
 
         public Task<bool> ContributeToEvent(string eventId, int amount, string contributionType)
         {
-            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. ContributeToEvent is a stub.");
+            ApexLogger.LogWarning("[WorldEventManager] Firebase SDK not installed. ContributeToEvent is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult(false);
         }
 
         public Task<EventRewards> ClaimEventRewards(string eventId)
         {
-            Debug.LogWarning("[WorldEventManager] Firebase SDK not installed. ClaimEventRewards is a stub.");
+            ApexLogger.LogWarning("[WorldEventManager] Firebase SDK not installed. ClaimEventRewards is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult<EventRewards>(null);
         }
 #endif

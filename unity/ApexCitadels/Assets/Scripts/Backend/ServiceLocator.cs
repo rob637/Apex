@@ -1,4 +1,5 @@
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Backend
 {
@@ -65,7 +66,7 @@ namespace ApexCitadels.Backend
                 _anchorService = GetOrCreateService<AnchorPersistenceService>("AnchorPersistenceService");
 
             _isInitialized = true;
-            Debug.Log("[ServiceLocator] All backend services initialized");
+            ApexLogger.Log("[ServiceLocator] All backend services initialized", ApexLogger.LogCategory.Firebase);
         }
 
         private T GetOrCreateService<T>(string name) where T : MonoBehaviour
@@ -88,7 +89,7 @@ namespace ApexCitadels.Backend
         {
             if (Instance == null)
             {
-                Debug.LogError("[ServiceLocator] Not initialized!");
+                ApexLogger.LogError("[ServiceLocator] Not initialized!", ApexLogger.LogCategory.Firebase);
                 return null;
             }
 
@@ -105,7 +106,7 @@ namespace ApexCitadels.Backend
             if (typeof(T) == typeof(AnchorPersistenceService))
                 return Instance._anchorService as T;
 
-            Debug.LogWarning($"[ServiceLocator] Unknown service type: {typeof(T).Name}");
+            ApexLogger.LogWarning($"[ServiceLocator] Unknown service type: {typeof(T).Name}", ApexLogger.LogCategory.Firebase);
             return null;
         }
 
@@ -118,7 +119,7 @@ namespace ApexCitadels.Backend
             Instance?._blueprintService?.InvalidateCache();
             Instance?._allianceWarService?.InvalidateCache();
             Instance?._locationService?.ClearCache();
-            Debug.Log("[ServiceLocator] All caches invalidated");
+            ApexLogger.Log("[ServiceLocator] All caches invalidated", ApexLogger.LogCategory.Firebase);
         }
     }
 }

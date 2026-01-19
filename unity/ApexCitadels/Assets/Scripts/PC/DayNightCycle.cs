@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -86,7 +87,7 @@ namespace ApexCitadels.PC
             UpdateSunPosition();
             UpdateLighting();
             
-            Debug.Log($"[DayNight] Started at {_currentHour:F1}:00 - IsDay: {IsDay}");
+            ApexLogger.Log($"[DayNight] Started at {_currentHour:F1}:00 - IsDay: {IsDay}", ApexLogger.LogCategory.General);
         }
 
         private void Update()
@@ -124,12 +125,12 @@ namespace ApexCitadels.PC
             if (previousHour < 6f && _currentHour >= 6f)
             {
                 OnSunrise?.Invoke();
-                Debug.Log("[DayNight] Sunrise!");
+                ApexLogger.Log("[DayNight] Sunrise!", ApexLogger.LogCategory.General);
             }
             if (previousHour < 18f && _currentHour >= 18f)
             {
                 OnSunset?.Invoke();
-                Debug.Log("[DayNight] Sunset!");
+                ApexLogger.Log("[DayNight] Sunset!", ApexLogger.LogCategory.General);
             }
             
             OnTimeChanged?.Invoke(_currentHour);

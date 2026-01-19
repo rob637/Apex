@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1225,7 +1226,7 @@ namespace ApexCitadels.PC.UI
         private void OnAddAttachment()
         {
             // In real implementation, would open inventory/resource selector
-            Debug.Log("[MailSystem] Add attachment clicked - would open selector");
+            ApexLogger.Log("[MailSystem] Add attachment clicked - would open selector", ApexLogger.LogCategory.UI);
         }
 
         private void OnSendClicked()

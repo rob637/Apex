@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using ApexCitadels.PC;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -610,11 +611,11 @@ namespace ApexCitadels.PC.UI
             
             // Build damage breakdown description
             // In a real implementation, this would render a pie chart
-            Debug.Log("[BattleReplayPanel] Damage breakdown:");
+            ApexLogger.Log("[BattleReplayPanel] Damage breakdown:", ApexLogger.LogCategory.UI);
             foreach (var kvp in damageByUnit)
             {
                 float percentage = (kvp.Value / totalDamage) * 100f;
-                Debug.Log($"  {kvp.Key}: {kvp.Value:N0} ({percentage:N1}%)");
+                ApexLogger.Log($"  {kvp.Key}: {kvp.Value:N0} ({percentage:N1}%)", ApexLogger.LogCategory.UI);
             }
         }
         

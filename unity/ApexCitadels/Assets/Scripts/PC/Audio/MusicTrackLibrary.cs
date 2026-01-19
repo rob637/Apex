@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Audio
 {
@@ -235,7 +236,7 @@ namespace ApexCitadels.PC.Audio
             
             if (_currentSet == null)
             {
-                Debug.LogWarning("DynamicCombatMusic: No music set available");
+                ApexLogger.LogWarning("DynamicCombatMusic: No music set available", ApexLogger.LogCategory.Audio);
                 return;
             }
             

@@ -3,6 +3,7 @@ using UnityEngine.Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Audio
 {
@@ -151,7 +152,7 @@ namespace ApexCitadels.PC.Audio
         {
             if (track == null || track.clip == null)
             {
-                Debug.LogWarning("MusicManager: Attempted to play null track");
+                ApexLogger.LogWarning("MusicManager: Attempted to play null track", ApexLogger.LogCategory.Audio);
                 return;
             }
             
@@ -281,7 +282,7 @@ namespace ApexCitadels.PC.Audio
         {
             if (trackLibrary == null)
             {
-                Debug.LogWarning("MusicManager: No track library assigned");
+                ApexLogger.LogWarning("MusicManager: No track library assigned", ApexLogger.LogCategory.Audio);
                 return null;
             }
             

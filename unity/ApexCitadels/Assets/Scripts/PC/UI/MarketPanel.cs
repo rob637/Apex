@@ -230,7 +230,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Error loading listings: {ex.Message}");
+                ApexLogger.LogError($"[Market] Error loading listings: {ex.Message}", ApexLogger.LogCategory.UI);
             }
 #else
             // Create mock listings for testing
@@ -447,12 +447,12 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Purchase failed: {ex.Message}");
+                ApexLogger.LogError($"[Market] Purchase failed: {ex.Message}", ApexLogger.LogCategory.UI);
                 return false;
             }
 #else
             await Task.Delay(100);
-            Debug.Log($"[Market] Mock purchase: {quantity} of {listingId}");
+            ApexLogger.Log($"[Market] Mock purchase: {quantity} of {listingId}", ApexLogger.LogCategory.UI);
             return true;
 #endif
         }
@@ -565,7 +565,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Error getting market price: {ex.Message}");
+                ApexLogger.LogError($"[Market] Error getting market price: {ex.Message}", ApexLogger.LogCategory.UI);
             }
 #else
             await Task.Delay(100);
@@ -655,17 +655,17 @@ namespace ApexCitadels.PC.UI
                 var craftingSystem = CraftingSystem.Instance;
                 craftingSystem?.ConsumeItem(itemId, quantity);
                 
-                Debug.Log($"[Market] Listed {quantity}x {itemId} at {pricePerUnit} each");
+                ApexLogger.Log($"[Market] Listed {quantity}x {itemId} at {pricePerUnit} each", ApexLogger.LogCategory.UI);
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Error creating listing: {ex.Message}");
+                ApexLogger.LogError($"[Market] Error creating listing: {ex.Message}", ApexLogger.LogCategory.UI);
                 return false;
             }
 #else
             await Task.Delay(100);
-            Debug.Log($"[Market] Mock listing: {quantity}x {itemId} at {pricePerUnit}");
+            ApexLogger.Log($"[Market] Mock listing: {quantity}x {itemId} at {pricePerUnit}", ApexLogger.LogCategory.UI);
             return true;
 #endif
         }
@@ -724,7 +724,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Error loading my listings: {ex.Message}");
+                ApexLogger.LogError($"[Market] Error loading my listings: {ex.Message}", ApexLogger.LogCategory.UI);
             }
 #endif
         }
@@ -783,12 +783,12 @@ namespace ApexCitadels.PC.UI
                 var craftingSystem = CraftingSystem.Instance;
                 craftingSystem?.AddItem(listing.ItemId, listing.Quantity);
                 
-                Debug.Log($"[Market] Cancelled listing {listingId}");
+                ApexLogger.Log($"[Market] Cancelled listing {listingId}", ApexLogger.LogCategory.UI);
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Error cancelling listing: {ex.Message}");
+                ApexLogger.LogError($"[Market] Error cancelling listing: {ex.Message}", ApexLogger.LogCategory.UI);
                 return false;
             }
 #else
@@ -877,7 +877,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Market] Error loading history: {ex.Message}");
+                ApexLogger.LogError($"[Market] Error loading history: {ex.Message}", ApexLogger.LogCategory.UI);
             }
 #endif
         }
@@ -984,7 +984,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[MarketListing] Parse error: {ex.Message}");
+                ApexLogger.LogError($"[MarketListing] Parse error: {ex.Message}", ApexLogger.LogCategory.UI);
                 return null;
             }
         }
@@ -1024,7 +1024,7 @@ namespace ApexCitadels.PC.UI
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[MarketTransaction] Parse error: {ex.Message}");
+                ApexLogger.LogError($"[MarketTransaction] Parse error: {ex.Message}", ApexLogger.LogCategory.UI);
                 return null;
             }
         }

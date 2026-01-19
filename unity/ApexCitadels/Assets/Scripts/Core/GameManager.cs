@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
+using ApexCitadels.Core;
 #endif
 
 namespace ApexCitadels.Core
@@ -98,7 +99,7 @@ namespace ApexCitadels.Core
             _initStartTime = Time.time;
             OnInitializationStarted?.Invoke();
 
-            Debug.Log("[GameManager] Starting initialization...");
+            ApexLogger.Log("[GameManager] Starting initialization...", ApexLogger.LogCategory.General);
 
             // Step 1: Initialize Firebase (20%)
             OnInitializationProgress?.Invoke(0.05f);
@@ -140,7 +141,7 @@ namespace ApexCitadels.Core
             _isInitialized = true;
             OnInitializationComplete?.Invoke();
 
-            Debug.Log("[GameManager] Initialization complete!");
+            ApexLogger.Log("[GameManager] Initialization complete!", ApexLogger.LogCategory.General);
 
             // Navigate to appropriate scene
             if (IsAuthenticated)
@@ -166,11 +167,11 @@ namespace ApexCitadels.Core
                 // Subscribe to auth state changes
                 _auth.StateChanged += OnAuthStateChanged;
 
-                Debug.Log("[GameManager] Firebase initialized successfully");
+                ApexLogger.Log("[GameManager] Firebase initialized successfully", ApexLogger.LogCategory.General);
             }
             else
             {
-                Debug.LogError($"[GameManager] Firebase initialization failed: {task.Result}");
+                ApexLogger.LogError($"[GameManager] Firebase initialization failed: {task.Result}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -178,7 +179,7 @@ namespace ApexCitadels.Core
         {
             if (skipAuthentication && enableDebugMode)
             {
-                Debug.Log("[GameManager] Skipping authentication (debug mode)");
+                ApexLogger.Log("[GameManager] Skipping authentication (debug mode)", ApexLogger.LogCategory.General);
                 yield break;
             }
 
@@ -186,12 +187,12 @@ namespace ApexCitadels.Core
 
             if (_currentUser != null)
             {
-                Debug.Log($"[GameManager] User already signed in: {_currentUser.UserId}");
+                ApexLogger.Log($"[GameManager] User already signed in: {_currentUser.UserId}", ApexLogger.LogCategory.General);
                 OnUserAuthenticated?.Invoke();
             }
             else
             {
-                Debug.Log("[GameManager] No user signed in");
+                ApexLogger.Log("[GameManager] No user signed in", ApexLogger.LogCategory.General);
             }
 
             yield return null;
@@ -210,7 +211,7 @@ namespace ApexCitadels.Core
 
                 if (!wasSignedIn && isSignedIn)
                 {
-                    Debug.Log($"[GameManager] User signed in: {_currentUser.UserId}");
+                    ApexLogger.Log($"[GameManager] User signed in: {_currentUser.UserId}", ApexLogger.LogCategory.General);
                     OnUserAuthenticated?.Invoke();
                     
                     // Track analytics
@@ -219,7 +220,7 @@ namespace ApexCitadels.Core
                 }
                 else if (wasSignedIn && !isSignedIn)
                 {
-                    Debug.Log("[GameManager] User signed out");
+                    ApexLogger.Log("[GameManager] User signed out", ApexLogger.LogCategory.General);
                     OnUserSignedOut?.Invoke();
                     
                     Analytics.AnalyticsManager.Instance?.TrackEvent("user_signed_out");
@@ -240,7 +241,7 @@ namespace ApexCitadels.Core
             }
             catch (Exception e)
             {
-                Debug.LogError($"[GameManager] Sign in failed: {e.Message}");
+                ApexLogger.LogError($"[GameManager] Sign in failed: {e.Message}", ApexLogger.LogCategory.General);
                 return false;
             }
         }
@@ -263,7 +264,7 @@ namespace ApexCitadels.Core
             }
             catch (Exception e)
             {
-                Debug.LogError($"[GameManager] Account creation failed: {e.Message}");
+                ApexLogger.LogError($"[GameManager] Account creation failed: {e.Message}", ApexLogger.LogCategory.General);
                 return false;
             }
         }
@@ -293,7 +294,7 @@ namespace ApexCitadels.Core
             _initStartTime = Time.time;
             OnInitializationStarted?.Invoke();
 
-            Debug.LogWarning("[GameManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("[GameManager] Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.General);
 
             OnInitializationProgress?.Invoke(0.20f);
             yield return null;
@@ -317,12 +318,12 @@ namespace ApexCitadels.Core
             _firebaseAppStub = true;
             OnInitializationComplete?.Invoke();
 
-            Debug.Log("[GameManager] Initialization complete (stub mode)!");
+            ApexLogger.Log("[GameManager] Initialization complete (stub mode)!", ApexLogger.LogCategory.General);
         }
 
         public Task<bool> SignInWithEmail(string email, string password)
         {
-            Debug.LogWarning("[GameManager] Firebase SDK not installed. SignInWithEmail is a stub.");
+            ApexLogger.LogWarning("[GameManager] Firebase SDK not installed. SignInWithEmail is a stub.", ApexLogger.LogCategory.General);
             _currentUserIdStub = "stub_user_id";
             OnUserAuthenticated?.Invoke();
             return Task.FromResult(true);
@@ -330,7 +331,7 @@ namespace ApexCitadels.Core
 
         public Task<bool> CreateAccount(string email, string password, string displayName)
         {
-            Debug.LogWarning("[GameManager] Firebase SDK not installed. CreateAccount is a stub.");
+            ApexLogger.LogWarning("[GameManager] Firebase SDK not installed. CreateAccount is a stub.", ApexLogger.LogCategory.General);
             _currentUserIdStub = "stub_user_id";
             OnUserAuthenticated?.Invoke();
             return Task.FromResult(true);
@@ -338,7 +339,7 @@ namespace ApexCitadels.Core
 
         public void SignOut()
         {
-            Debug.LogWarning("[GameManager] Firebase SDK not installed. SignOut is a stub.");
+            ApexLogger.LogWarning("[GameManager] Firebase SDK not installed. SignOut is a stub.", ApexLogger.LogCategory.General);
             _currentUserIdStub = null;
             OnUserSignedOut?.Invoke();
         }

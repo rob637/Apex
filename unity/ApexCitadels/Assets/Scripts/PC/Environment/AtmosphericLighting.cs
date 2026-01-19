@@ -5,6 +5,7 @@ using Camera = UnityEngine.Camera;
 // ============================================================================
 using UnityEngine;
 using UnityEngine.Rendering;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Environment
 {
@@ -97,7 +98,7 @@ namespace ApexCitadels.PC.Environment
                     sunObj.transform.parent = transform;
                     sunLight = sunObj.AddComponent<Light>();
                     sunLight.type = LightType.Directional;
-                    Debug.Log("[Atmosphere] Created sun light");
+                    ApexLogger.Log("[Atmosphere] Created sun light", ApexLogger.LogCategory.General);
                 }
             }
 
@@ -118,7 +119,7 @@ namespace ApexCitadels.PC.Environment
                 RenderSettings.fogDensity = fogDensity;
             }
 
-            Debug.Log("[Atmosphere] Lighting system initialized");
+            ApexLogger.Log("[Atmosphere] Lighting system initialized", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -140,7 +141,7 @@ namespace ApexCitadels.PC.Environment
                 _skyboxMaterial.SetFloat("_Exposure", 1.3f);
                 
                 RenderSettings.skybox = _skyboxMaterial;
-                Debug.Log("[Atmosphere] Procedural skybox created");
+                ApexLogger.Log("[Atmosphere] Procedural skybox created", ApexLogger.LogCategory.General);
             }
             else
             {
@@ -150,7 +151,7 @@ namespace ApexCitadels.PC.Environment
                     _mainCamera.clearFlags = CameraClearFlags.SolidColor;
                     _mainCamera.backgroundColor = daySkyColor;
                 }
-                Debug.Log("[Atmosphere] Using solid color sky (procedural shader not found)");
+                ApexLogger.Log("[Atmosphere] Using solid color sky (procedural shader not found)", ApexLogger.LogCategory.General);
             }
         }
 

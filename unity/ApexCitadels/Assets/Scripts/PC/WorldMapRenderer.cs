@@ -6,6 +6,7 @@ using ApexCitadels.Territory;
 using ApexCitadels.Map;
 using ApexCitadels.PC.WebGL;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -96,13 +97,13 @@ namespace ApexCitadels.PC
                 if (existing != null)
                 {
                     territoriesContainer = existing.transform;
-                    Debug.Log("[WorldMap] Found existing Territories container");
+                    ApexLogger.Log("[WorldMap] Found existing Territories container", ApexLogger.LogCategory.Map);
                 }
                 else
                 {
                     var container = new GameObject("Territories");
                     territoriesContainer = container.transform;
-                    Debug.Log("[WorldMap] Created new Territories container");
+                    ApexLogger.Log("[WorldMap] Created new Territories container", ApexLogger.LogCategory.Map);
                 }
             }
             
@@ -130,7 +131,7 @@ namespace ApexCitadels.PC
             {
                 var clientObj = new GameObject("FirebaseWebClient");
                 _firebaseClient = clientObj.AddComponent<FirebaseWebClient>();
-                Debug.Log("[WorldMap] Created FirebaseWebClient");
+                ApexLogger.Log("[WorldMap] Created FirebaseWebClient", ApexLogger.LogCategory.Map);
             }
 
             // Subscribe to territory updates
@@ -147,18 +148,18 @@ namespace ApexCitadels.PC
 
             try
             {
-                Debug.Log("[WorldMap] Loading territories from Firebase...");
+                ApexLogger.Log("[WorldMap] Loading territories from Firebase...", ApexLogger.LogCategory.Map);
                 var territories = await _firebaseClient.GetAllTerritories();
-                Debug.Log($"[WorldMap] Loaded {territories.Count} territories from Firebase");
+                ApexLogger.Log($"[WorldMap] Loaded {territories.Count} territories from Firebase", ApexLogger.LogCategory.Map);
 
                 _cachedTerritories = territories;
                 RefreshVisibleTerritories();
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[WorldMap] Failed to load territories: {ex.Message}");
+                ApexLogger.LogError($"[WorldMap] Failed to load territories: {ex.Message}", ApexLogger.LogCategory.Map);
                 // Fall back to mock data
-                Debug.Log("[WorldMap] Falling back to mock data");
+                ApexLogger.Log("[WorldMap] Falling back to mock data", ApexLogger.LogCategory.Map);
             }
             finally
             {
@@ -168,7 +169,7 @@ namespace ApexCitadels.PC
 
         private void OnFirebaseTerritoriesReceived(List<TerritorySnapshot> territories)
         {
-            Debug.Log($"[WorldMap] Received {territories.Count} territories from Firebase");
+            ApexLogger.Log($"[WorldMap] Received {territories.Count} territories from Firebase", ApexLogger.LogCategory.Map);
             _cachedTerritories = territories;
             RefreshVisibleTerritories();
         }
@@ -193,18 +194,18 @@ namespace ApexCitadels.PC
                     return;
                 }
                 
-                Debug.Log("[WorldMap] Direct click detected");
+                ApexLogger.Log("[WorldMap] Direct click detected", ApexLogger.LogCategory.Map);
                 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit, 10000f))
                 {
-                    Debug.Log($"[WorldMap] Raycast hit: {hit.collider.gameObject.name}");
+                    ApexLogger.Log($"[WorldMap] Raycast hit: {hit.collider.gameObject.name}", ApexLogger.LogCategory.Map);
                     
                     TerritoryVisual visual = hit.collider.GetComponent<TerritoryVisual>() ?? 
                                               hit.collider.GetComponentInParent<TerritoryVisual>();
                     if (visual != null)
                     {
-                        Debug.Log($"[WorldMap] Territory clicked: {visual.TerritoryId}");
+                        ApexLogger.Log($"[WorldMap] Territory clicked: {visual.TerritoryId}", ApexLogger.LogCategory.Map);
                         SelectTerritory(visual.TerritoryId);
                         OnTerritoryClicked?.Invoke(visual.TerritoryId);
                     }
@@ -242,11 +243,11 @@ namespace ApexCitadels.PC
             if (mat != null)
             {
                 _groundPlane.GetComponent<Renderer>().material = mat;
-                Debug.Log($"[WorldMap] Ground plane created with shader: {mat.shader.name}");
+                ApexLogger.Log($"[WorldMap] Ground plane created with shader: {mat.shader.name}", ApexLogger.LogCategory.Map);
             }
             else
             {
-                Debug.LogError("[WorldMap] Failed to create ground material!");
+                ApexLogger.LogError("[WorldMap] Failed to create ground material!", ApexLogger.LogCategory.Map);
             }
         }
 
@@ -260,7 +261,7 @@ namespace ApexCitadels.PC
             {
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
                 Camera.main.backgroundColor = skyBlue;
-                Debug.Log("[WorldMap] Camera background set to blue sky");
+                ApexLogger.Log("[WorldMap] Camera background set to blue sky", ApexLogger.LogCategory.Map);
             }
             
             // Also set on all cameras
@@ -333,7 +334,7 @@ namespace ApexCitadels.PC
             // Get ALL territories (bypass camera bounds for now to ensure they render)
             List<Territory.Territory> territories = GetAllTerritories();
             
-            Debug.Log($"[WorldMap] RefreshVisibleTerritories: {territories.Count} territories to render");
+            ApexLogger.Log($"[WorldMap] RefreshVisibleTerritories: {territories.Count} territories to render", ApexLogger.LogCategory.Map);
 
             // Remove territories no longer visible
             List<string> toRemove = new List<string>();
@@ -507,7 +508,7 @@ namespace ApexCitadels.PC
 
             _territoryObjects[territory.Id] = territoryObj;
 
-            Debug.Log($"[WorldMap] Created territory: {territory.Name} at {worldPos} (radius={radius})");
+            ApexLogger.Log($"[WorldMap] Created territory: {territory.Name} at {worldPos} (radius={radius})", ApexLogger.LogCategory.Map);
         }
 
         private void UpdateTerritoryObject(Territory.Territory territory)
@@ -582,11 +583,11 @@ namespace ApexCitadels.PC
             
             if (mat == null)
             {
-                Debug.LogError($"[WorldMap] Failed to create material for color {color}");
+                ApexLogger.LogError($"[WorldMap] Failed to create material for color {color}", ApexLogger.LogCategory.Map);
             }
             else
             {
-                Debug.Log($"[WorldMap] Created material: color={color}, shader={mat.shader?.name}");
+                ApexLogger.Log($"[WorldMap] Created material: color={color}, shader={mat.shader?.name}", ApexLogger.LogCategory.Map);
             }
             
             return mat;
@@ -724,7 +725,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public void HandleTerritoryClick(string territoryId)
         {
-            Debug.Log($"[WorldMap] Territory clicked via TerritoryVisual: {territoryId}");
+            ApexLogger.Log($"[WorldMap] Territory clicked via TerritoryVisual: {territoryId}", ApexLogger.LogCategory.Map);
             SelectTerritory(territoryId);
             OnTerritoryClicked?.Invoke(territoryId);
         }
@@ -782,7 +783,7 @@ namespace ApexCitadels.PC
             _refLatitude = latitude;
             _refLongitude = longitude;
             _refPointSet = true;
-            Debug.Log($"[WorldMap] Reference point set to ({latitude}, {longitude})");
+            ApexLogger.Log($"[WorldMap] Reference point set to ({latitude}, {longitude})", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -832,7 +833,7 @@ namespace ApexCitadels.PC
             // Use Firebase data if available
             if (_cachedTerritories != null && _cachedTerritories.Count > 0)
             {
-                Debug.Log($"[WorldMap] Using {_cachedTerritories.Count} territories from Firebase");
+                ApexLogger.Log($"[WorldMap] Using {_cachedTerritories.Count} territories from Firebase", ApexLogger.LogCategory.Map);
                 
                 // Set reference point to first territory (centers the map)
                 if (!_refPointSet && _cachedTerritories.Count > 0)
@@ -862,7 +863,7 @@ namespace ApexCitadels.PC
             }
 
             // Fall back to mock data for testing when no Firebase data
-            Debug.Log("[WorldMap] No Firebase data, using mock territories");
+            ApexLogger.Log("[WorldMap] No Firebase data, using mock territories", ApexLogger.LogCategory.Map);
             return GetMockTerritories();
         }
 

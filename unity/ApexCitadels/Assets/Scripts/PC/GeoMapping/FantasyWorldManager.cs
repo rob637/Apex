@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -187,7 +188,7 @@ namespace ApexCitadels.PC.GeoMapping
             // Request location permission and get GPS coordinates
             if (!Input.location.isEnabledByUser)
             {
-                Debug.LogWarning("[FantasyWorld] Location services disabled, using default");
+                ApexLogger.LogWarning("[FantasyWorld] Location services disabled, using default", ApexLogger.LogCategory.Map);
                 InitializeWorld(defaultLatitude, defaultLongitude);
                 yield break;
             }
@@ -209,7 +210,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             else
             {
-                Debug.LogWarning("[FantasyWorld] Could not get location, using default");
+                ApexLogger.LogWarning("[FantasyWorld] Could not get location, using default", ApexLogger.LogCategory.Map);
                 InitializeWorld(defaultLatitude, defaultLongitude);
             }
         }
@@ -224,7 +225,7 @@ namespace ApexCitadels.PC.GeoMapping
             _isLoading = true;
             OnWorldLoading?.Invoke();
             
-            Debug.Log($"[FantasyWorld] Initializing at ({latitude:F6}, {longitude:F6})");
+            ApexLogger.Log($"[FantasyWorld] Initializing at ({latitude:F6}, {longitude:F6})", ApexLogger.LogCategory.Map);
             
             _currentLatitude = latitude;
             _currentLongitude = longitude;
@@ -242,7 +243,7 @@ namespace ApexCitadels.PC.GeoMapping
                 if (terrainGenerator != null)
                 {
                     var terrain = terrainGenerator.GenerateProceduralTerrain(_worldOrigin, new Vector2d(latitude, longitude));
-                    Debug.Log("[FantasyWorld] Terrain generated");
+                    ApexLogger.Log("[FantasyWorld] Terrain generated", ApexLogger.LogCategory.Map);
                 }
                 
                 // Fetch OSM data using callback
@@ -264,7 +265,7 @@ namespace ApexCitadels.PC.GeoMapping
                             fetchComplete = true;
                         },
                         onError: (error) => {
-                            Debug.LogWarning($"[FantasyWorld] OSM fetch error: {error}");
+                            ApexLogger.LogWarning($"[FantasyWorld] OSM fetch error: {error}", ApexLogger.LogCategory.Map);
                             fetchComplete = true;
                         }
                     );
@@ -277,7 +278,7 @@ namespace ApexCitadels.PC.GeoMapping
                     
                     if (areaData != null)
                     {
-                        Debug.Log($"[FantasyWorld] OSM data: {areaData.buildings?.Count ?? 0} buildings, {areaData.roads?.Count ?? 0} roads");
+                        ApexLogger.Log($"[FantasyWorld] OSM data: {areaData.buildings?.Count ?? 0} buildings, {areaData.roads?.Count ?? 0} roads", ApexLogger.LogCategory.Map);
                         
                         // Generate buildings
                         buildingGenerator?.GenerateBuildings(areaData, _worldOrigin, metersPerUnit);
@@ -310,14 +311,14 @@ namespace ApexCitadels.PC.GeoMapping
                 OnWorldInitialized?.Invoke();
                 OnWorldLoaded?.Invoke();
                 
-                Debug.Log("[FantasyWorld] World initialization complete");
+                ApexLogger.Log("[FantasyWorld] World initialization complete", ApexLogger.LogCategory.Map);
                 
                 // Start periodic updates
                 StartCoroutine(PeriodicUpdateCoroutine());
             }
             catch (Exception e)
             {
-                Debug.LogError($"[FantasyWorld] Initialization failed: {e.Message}");
+                ApexLogger.LogError($"[FantasyWorld] Initialization failed: {e.Message}", ApexLogger.LogCategory.Map);
                 _isLoading = false;
             }
         }
@@ -385,7 +386,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             
             OnCameraModeChanged?.Invoke(mode);
-            Debug.Log($"[FantasyWorld] Camera mode: {mode}");
+            ApexLogger.Log($"[FantasyWorld] Camera mode: {mode}", ApexLogger.LogCategory.Map);
         }
         
         private void ConfigureStrategicView()

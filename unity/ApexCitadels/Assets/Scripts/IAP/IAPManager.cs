@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.IAP
 {
@@ -144,22 +145,22 @@ namespace ApexCitadels.IAP
 
         private void Start()
         {
-            Debug.LogWarning("[IAPManager] Unity IAP not installed. Running in stub mode. " +
-                "Install via Window > Package Manager > Unity IAP, then add UNITY_IAP_ENABLED to Scripting Define Symbols.");
+            ApexLogger.LogWarning("[IAPManager] Unity IAP not installed. Running in stub mode. " +
+                "Install via Window > Package Manager > Unity IAP, then add UNITY_IAP_ENABLED to Scripting Define Symbols.", ApexLogger.LogCategory.Economy);
             _isInitialized = true;
             OnInitialized?.Invoke();
         }
 
         public void Initialize()
         {
-            Debug.LogWarning("[IAPManager] Initialize called but Unity IAP is not installed.");
+            ApexLogger.LogWarning("[IAPManager] Initialize called but Unity IAP is not installed.", ApexLogger.LogCategory.Economy);
             _isInitialized = true;
             OnInitialized?.Invoke();
         }
 
         public async Task<bool> LoadProducts()
         {
-            Debug.LogWarning("[IAPManager] LoadProducts called but Unity IAP is not installed.");
+            ApexLogger.LogWarning("[IAPManager] LoadProducts called but Unity IAP is not installed.", ApexLogger.LogCategory.Economy);
             await Task.Delay(100);
             OnProductsLoaded?.Invoke(_products);
             return true;
@@ -177,7 +178,7 @@ namespace ApexCitadels.IAP
 
         public async Task<PurchaseResult> PurchaseProduct(string productId)
         {
-            Debug.LogWarning($"[IAPManager] PurchaseProduct({productId}) called but Unity IAP is not installed.");
+            ApexLogger.LogWarning($"[IAPManager] PurchaseProduct({productId}) called but Unity IAP is not installed.", ApexLogger.LogCategory.Economy);
             await Task.Delay(100);
             
             var result = new PurchaseResult
@@ -192,13 +193,13 @@ namespace ApexCitadels.IAP
 
         public void RestorePurchases()
         {
-            Debug.LogWarning("[IAPManager] RestorePurchases called but Unity IAP is not installed.");
+            ApexLogger.LogWarning("[IAPManager] RestorePurchases called but Unity IAP is not installed.", ApexLogger.LogCategory.Economy);
             OnRestoreCompleted?.Invoke(0);
         }
 
         public async Task LoadEntitlements()
         {
-            Debug.LogWarning("[IAPManager] LoadEntitlements called but Unity IAP is not installed.");
+            ApexLogger.LogWarning("[IAPManager] LoadEntitlements called but Unity IAP is not installed.", ApexLogger.LogCategory.Economy);
             await Task.Delay(100);
             OnEntitlementsUpdated?.Invoke();
         }

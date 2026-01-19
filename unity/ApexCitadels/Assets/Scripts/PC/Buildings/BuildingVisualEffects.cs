@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Buildings
 {
@@ -92,7 +93,7 @@ namespace ApexCitadels.PC.Buildings
         {
             if (_buildingEffects.ContainsKey(id))
             {
-                Debug.LogWarning($"[BuildingVFX] Building already registered: {id}");
+                ApexLogger.LogWarning($"[BuildingVFX] Building already registered: {id}", ApexLogger.LogCategory.Building);
                 return;
             }
             

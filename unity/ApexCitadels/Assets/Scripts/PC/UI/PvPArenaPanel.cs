@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1443,7 +1444,7 @@ namespace ApexCitadels.PC.UI
             _searchTime = 0;
             RefreshContent();
             
-            Debug.Log($"[PvPArena] Started matchmaking for {_selectedMode}");
+            ApexLogger.Log($"[PvPArena] Started matchmaking for {_selectedMode}", ApexLogger.LogCategory.UI);
         }
 
         private void CancelMatchmaking()
@@ -1456,7 +1457,7 @@ namespace ApexCitadels.PC.UI
                 RefreshContent();
             }
             
-            Debug.Log("[PvPArena] Cancelled matchmaking");
+            ApexLogger.Log("[PvPArena] Cancelled matchmaking", ApexLogger.LogCategory.UI);
         }
 
         private void FindMatch()
@@ -1472,7 +1473,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowAlert("Match Found!", $"Opponent: {opponent.Name} ({opponent.Rating})");
             }
             
-            Debug.Log($"[PvPArena] Match found! Opponent: {opponent.Name}");
+            ApexLogger.Log($"[PvPArena] Match found! Opponent: {opponent.Name}", ApexLogger.LogCategory.UI);
             
             RefreshContent();
         }
@@ -1494,7 +1495,7 @@ namespace ApexCitadels.PC.UI
 
         private void PlayTournamentMatch(Tournament tournament)
         {
-            Debug.Log($"[PvPArena] Playing tournament match: {tournament.Name}");
+            ApexLogger.Log($"[PvPArena] Playing tournament match: {tournament.Name}", ApexLogger.LogCategory.UI);
             
             if (NotificationSystem.Instance != null)
             {

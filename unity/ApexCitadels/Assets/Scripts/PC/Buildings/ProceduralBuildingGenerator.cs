@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Buildings
 {
@@ -210,7 +211,7 @@ namespace ApexCitadels.PC.Buildings
         {
             if (!_generatedBuildings.TryGetValue(baseId, out var baseBuilding))
             {
-                Debug.LogWarning($"[ProceduralBuilding] Base building not found: {baseId}");
+                ApexLogger.LogWarning($"[ProceduralBuilding] Base building not found: {baseId}", ApexLogger.LogCategory.Building);
                 return null;
             }
             

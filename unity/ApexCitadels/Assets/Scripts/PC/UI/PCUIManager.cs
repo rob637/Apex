@@ -6,6 +6,7 @@ using TMPro;
 using ApexCitadels.Territory;
 using ApexCitadels.Alliance;
 using ApexCitadels.Resources;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -93,7 +94,7 @@ namespace ApexCitadels.PC.UI
             Canvas canvas = FindFirstObjectByType<Canvas>();
             if (canvas == null)
             {
-                Debug.LogError("[PCUI] No Canvas found!");
+                ApexLogger.LogError("[PCUI] No Canvas found!", ApexLogger.LogCategory.UI);
                 return;
             }
 
@@ -117,7 +118,7 @@ namespace ApexCitadels.PC.UI
             if (chatPanel == null)
                 chatPanel = CreatePlaceholderPanel(canvas.transform, "Chat", "Chat", new Color(0.05f, 0.05f, 0.1f, 0.9f));
 
-            Debug.Log("[PCUI] Created placeholder panels for missing UI elements");
+            ApexLogger.Log("[PCUI] Created placeholder panels for missing UI elements", ApexLogger.LogCategory.UI);
         }
 
         private GameObject CreatePlaceholderPanel(Transform parent, string name, string title, Color bgColor)
@@ -206,7 +207,7 @@ namespace ApexCitadels.PC.UI
                     ClosePanel(p);
             });
 
-            Debug.Log($"[PCUI] Created placeholder panel: {name}");
+            ApexLogger.Log($"[PCUI] Created placeholder panel: {name}", ApexLogger.LogCategory.UI);
             return panel;
         }
 
@@ -257,7 +258,7 @@ namespace ApexCitadels.PC.UI
             tmp.alignment = TextAlignmentOptions.Center;
             tmp.color = Color.white;
 
-            Debug.Log("[PCUI] Created World Map HUD (minimal)");
+            ApexLogger.Log("[PCUI] Created World Map HUD (minimal)", ApexLogger.LogCategory.UI);
             return panel;
         }
 
@@ -410,7 +411,7 @@ namespace ApexCitadels.PC.UI
             TerritoryDetailPanel detailPanel = panel.AddComponent<TerritoryDetailPanel>();
             // Wire up serialized fields via reflection or let the component find them
             
-            Debug.Log("[PCUI] Created Territory Detail Panel with full layout");
+            ApexLogger.Log("[PCUI] Created Territory Detail Panel with full layout", ApexLogger.LogCategory.UI);
             return panel;
         }
 
@@ -450,17 +451,17 @@ namespace ApexCitadels.PC.UI
         {
             if (PCInputManager.Instance == null)
             {
-                Debug.Log("[PCUI] PCInputManager not ready, will retry...");
+                ApexLogger.Log("[PCUI] PCInputManager not ready, will retry...", ApexLogger.LogCategory.UI);
                 return;
             }
 
             if (_inputBindingsSetup) return;
 
-            Debug.Log("[PCUI] Setting up input bindings...");
+            ApexLogger.Log("[PCUI] Setting up input bindings...", ApexLogger.LogCategory.UI);
             
             // ESC - Close current panel OR open main menu if on world map
             PCInputManager.Instance.OnOpenMenu += () => {
-                Debug.Log($"[PCUI] ESC pressed - current panel: {_currentPanel}");
+                ApexLogger.Log($"[PCUI] ESC pressed - current panel: {_currentPanel}", ApexLogger.LogCategory.UI);
                 if (_currentPanel != PCUIPanel.WorldMap && _currentPanel != PCUIPanel.None)
                 {
                     // Close current panel, return to world map
@@ -473,24 +474,24 @@ namespace ApexCitadels.PC.UI
                 }
             };
             PCInputManager.Instance.OnOpenAlliancePanel += () => {
-                Debug.Log("[PCUI] TAB pressed - toggling Alliance");
+                ApexLogger.Log("[PCUI] TAB pressed - toggling Alliance", ApexLogger.LogCategory.UI);
                 TogglePanel(PCUIPanel.Alliance);
             };
             PCInputManager.Instance.OnOpenBuildingMenu += () => {
-                Debug.Log("[PCUI] B pressed - toggling BuildMenu");
+                ApexLogger.Log("[PCUI] B pressed - toggling BuildMenu", ApexLogger.LogCategory.UI);
                 TogglePanel(PCUIPanel.BuildMenu);
             };
             PCInputManager.Instance.OnOpenInventory += () => {
-                Debug.Log("[PCUI] I pressed - toggling Inventory");
+                ApexLogger.Log("[PCUI] I pressed - toggling Inventory", ApexLogger.LogCategory.UI);
                 TogglePanel(PCUIPanel.Inventory);
             };
             PCInputManager.Instance.OnOpenWorldMap += () => {
-                Debug.Log("[PCUI] M pressed - opening WorldMap");
+                ApexLogger.Log("[PCUI] M pressed - opening WorldMap", ApexLogger.LogCategory.UI);
                 OpenPanel(PCUIPanel.WorldMap);
             };
 
             _inputBindingsSetup = true;
-            Debug.Log("[PCUI] Input bindings setup complete!");
+            ApexLogger.Log("[PCUI] Input bindings setup complete!", ApexLogger.LogCategory.UI);
         }
 
         private void SetupButtonListeners()
@@ -520,7 +521,7 @@ namespace ApexCitadels.PC.UI
                 if (_panelMap.TryGetValue(_currentPanel, out GameObject currentObj) && currentObj != null)
                 {
                     currentObj.SetActive(false);
-                    Debug.Log($"[PCUI] Auto-closed panel: {_currentPanel}");
+                    ApexLogger.Log($"[PCUI] Auto-closed panel: {_currentPanel}", ApexLogger.LogCategory.UI);
                 }
             }
 
@@ -530,7 +531,7 @@ namespace ApexCitadels.PC.UI
                 panelObj.SetActive(true);
                 _currentPanel = panel;
                 OnPanelOpened?.Invoke(panel);
-                Debug.Log($"[PCUI] Opened panel: {panel}");
+                ApexLogger.Log($"[PCUI] Opened panel: {panel}", ApexLogger.LogCategory.UI);
             }
         }
 
@@ -543,7 +544,7 @@ namespace ApexCitadels.PC.UI
             {
                 panelObj.SetActive(false);
                 OnPanelClosed?.Invoke(panel);
-                Debug.Log($"[PCUI] Closed panel: {panel}");
+                ApexLogger.Log($"[PCUI] Closed panel: {panel}", ApexLogger.LogCategory.UI);
 
                 if (_currentPanel == panel)
                 {
@@ -580,7 +581,7 @@ namespace ApexCitadels.PC.UI
             }
             else
             {
-                Debug.LogWarning($"[PCUI] Unknown panel name: {panelName}");
+                ApexLogger.LogWarning($"[PCUI] Unknown panel name: {panelName}", ApexLogger.LogCategory.UI);
             }
         }
 
@@ -695,7 +696,7 @@ namespace ApexCitadels.PC.UI
         /// </summary>
         public void ShowNotification(string message, UINotificationType type = UINotificationType.Info)
         {
-            Debug.Log($"[PCUI] Notification ({type}): {message}");
+            ApexLogger.Log($"[PCUI] Notification ({type}): {message}", ApexLogger.LogCategory.UI);
             // TODO: Implement notification UI
         }
 

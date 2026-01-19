@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Audio
 {
@@ -291,14 +292,14 @@ namespace ApexCitadels.Audio
         {
             if (sfxLibrary == null)
             {
-                Debug.LogWarning($"[SFXManager] No SFX library assigned");
+                ApexLogger.LogWarning($"[SFXManager] No SFX library assigned", ApexLogger.LogCategory.Audio);
                 return null;
             }
 
             SFXEntry entry = sfxLibrary.GetEntry(sfxId);
             if (entry == null)
             {
-                Debug.LogWarning($"[SFXManager] SFX not found: {sfxId}");
+                ApexLogger.LogWarning($"[SFXManager] SFX not found: {sfxId}", ApexLogger.LogCategory.Audio);
             }
             return entry;
         }
@@ -696,7 +697,7 @@ namespace ApexCitadels.Audio
             AddEntry("typewriter", "Typewriter", SFXCategory.Misc, volume: 0.5f);
 
             UnityEditor.EditorUtility.SetDirty(this);
-            Debug.Log($"[SFXLibrary] Generated {entries.Count} default entries");
+            ApexLogger.Log($"[SFXLibrary] Generated {entries.Count} default entries", ApexLogger.LogCategory.Audio);
         }
 
         private void AddEntry(string id, string name, SFXCategory category, float volume = 1f, bool triggerHaptic = false)

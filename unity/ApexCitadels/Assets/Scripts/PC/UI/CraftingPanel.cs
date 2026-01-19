@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -619,7 +620,7 @@ namespace ApexCitadels.PC.UI
                 message += $"\nBonus: {result.BonusItemId} x{result.BonusAmount}!";
             }
             
-            Debug.Log($"[CraftingPanel] {message}");
+            ApexLogger.Log($"[CraftingPanel] {message}", ApexLogger.LogCategory.UI);
             
             // TODO: Show actual UI notification
         }

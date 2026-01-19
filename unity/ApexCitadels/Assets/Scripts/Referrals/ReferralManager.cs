@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Referrals
 {
@@ -74,7 +75,7 @@ namespace ApexCitadels.Referrals
 
         private void Start()
         {
-            Debug.LogWarning("[ReferralManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("[ReferralManager] Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Social);
         }
 
         public void LoadReferralData()
@@ -86,7 +87,7 @@ namespace ApexCitadels.Referrals
 
         public async Task<bool> ApplyReferralCode(string code)
         {
-            Debug.Log($"[ReferralManager] Applying referral code: {code} (stub mode)");
+            ApexLogger.Log($"[ReferralManager] Applying referral code: {code} (stub mode)", ApexLogger.LogCategory.Social);
             await Task.Delay(100);
             OnReferralCodeApplied?.Invoke(code);
             return true;
@@ -105,7 +106,7 @@ namespace ApexCitadels.Referrals
 
         public async Task<bool> ClaimReward(ReferralReward reward)
         {
-            Debug.Log($"[ReferralManager] Claiming reward: {reward.Type} (stub mode)");
+            ApexLogger.Log($"[ReferralManager] Claiming reward: {reward.Type} (stub mode)", ApexLogger.LogCategory.Social);
             await Task.Delay(100);
             reward.Claimed = true;
             OnRewardClaimed?.Invoke(reward);
@@ -119,7 +120,7 @@ namespace ApexCitadels.Referrals
 
         public void ShareReferralCode()
         {
-            Debug.Log($"[ReferralManager] Share link: {GetShareLink()}");
+            ApexLogger.Log($"[ReferralManager] Share link: {GetShareLink()}", ApexLogger.LogCategory.Social);
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.Building;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -260,7 +261,7 @@ namespace ApexCitadels.PC.UI
 
         private void SelectBuilding(BlockType blockType)
         {
-            Debug.Log($"[BuildMenu] Selected building: {blockType}");
+            ApexLogger.Log($"[BuildMenu] Selected building: {blockType}", ApexLogger.LogCategory.UI);
             OnBuildingSelected?.Invoke(blockType);
 
             // Enter placement mode

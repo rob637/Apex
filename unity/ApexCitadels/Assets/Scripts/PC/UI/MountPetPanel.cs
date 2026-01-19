@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.PC;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1047,7 +1048,7 @@ namespace ApexCitadels.PC.UI
         {
             selectedCompanion = companion;
             UpdatePreview();
-            Debug.Log($"[MountPet] Selected: {companion.name} (Lv.{companion.level} {companion.rarity})");
+            ApexLogger.Log($"[MountPet] Selected: {companion.name} (Lv.{companion.level} {companion.rarity})", ApexLogger.LogCategory.UI);
         }
 
         private void UpdatePreview()
@@ -1110,7 +1111,7 @@ namespace ApexCitadels.PC.UI
         {
             currentTab = tab;
             RefreshCompanionList();
-            Debug.Log($"[MountPet] Switched to tab: {tab}");
+            ApexLogger.Log($"[MountPet] Switched to tab: {tab}", ApexLogger.LogCategory.UI);
         }
 
         // Action handlers
@@ -1118,7 +1119,7 @@ namespace ApexCitadels.PC.UI
         {
             if (selectedCompanion == null)
             {
-                Debug.Log("[MountPet] No companion selected");
+                ApexLogger.Log("[MountPet] No companion selected", ApexLogger.LogCategory.UI);
                 return;
             }
 
@@ -1137,7 +1138,7 @@ namespace ApexCitadels.PC.UI
             selectedCompanion.isEquipped = true;
             RefreshCompanionList();
             UpdatePreview();
-            Debug.Log($"[MountPet] Equipped: {selectedCompanion.name}");
+            ApexLogger.Log($"[MountPet] Equipped: {selectedCompanion.name}", ApexLogger.LogCategory.UI);
         }
 
         private void FeedCompanion()
@@ -1146,13 +1147,13 @@ namespace ApexCitadels.PC.UI
             selectedCompanion.hunger = Mathf.Min(100, selectedCompanion.hunger + 30);
             selectedCompanion.happiness = Mathf.Min(100, selectedCompanion.happiness + 10);
             UpdatePreview();
-            Debug.Log($"[MountPet] Fed: {selectedCompanion.name}");
+            ApexLogger.Log($"[MountPet] Fed: {selectedCompanion.name}", ApexLogger.LogCategory.UI);
         }
 
         private void RenameCompanion()
         {
             if (selectedCompanion == null) return;
-            Debug.Log($"[MountPet] Rename dialog for: {selectedCompanion.name}");
+            ApexLogger.Log($"[MountPet] Rename dialog for: {selectedCompanion.name}", ApexLogger.LogCategory.UI);
         }
 
         private void LevelUpCompanion()
@@ -1164,7 +1165,7 @@ namespace ApexCitadels.PC.UI
                 selectedCompanion.experience = 0;
                 selectedCompanion.experienceToNext = (int)(selectedCompanion.experienceToNext * 1.2f);
                 UpdatePreview();
-                Debug.Log($"[MountPet] Leveled up: {selectedCompanion.name} to Lv.{selectedCompanion.level}");
+                ApexLogger.Log($"[MountPet] Leveled up: {selectedCompanion.name} to Lv.{selectedCompanion.level}", ApexLogger.LogCategory.UI);
             }
         }
 
@@ -1174,13 +1175,13 @@ namespace ApexCitadels.PC.UI
             selectedCompanion.isInStable = true;
             selectedCompanion.isEquipped = false;
             RefreshCompanionList();
-            Debug.Log($"[MountPet] Sent to stable: {selectedCompanion.name}");
+            ApexLogger.Log($"[MountPet] Sent to stable: {selectedCompanion.name}", ApexLogger.LogCategory.UI);
         }
 
         private void ReleaseCompanion()
         {
             if (selectedCompanion == null) return;
-            Debug.Log($"[MountPet] Release confirmation for: {selectedCompanion.name}");
+            ApexLogger.Log($"[MountPet] Release confirmation for: {selectedCompanion.name}", ApexLogger.LogCategory.UI);
         }
 
         // Public API

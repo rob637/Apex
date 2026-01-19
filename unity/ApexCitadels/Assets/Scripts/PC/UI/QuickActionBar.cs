@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -49,7 +50,7 @@ namespace ApexCitadels.PC.UI
         {
             if (IsOnCooldown(actionId))
             {
-                Debug.Log($"[QuickAction] {actionId} is on cooldown");
+                ApexLogger.Log($"[QuickAction] {actionId} is on cooldown", ApexLogger.LogCategory.UI);
                 return false;
             }
             
@@ -272,22 +273,22 @@ namespace ApexCitadels.PC.UI
             switch (actionId)
             {
                 case "attack":
-                    Debug.Log("[QuickAction] Attack mode - select target territory");
+                    ApexLogger.Log("[QuickAction] Attack mode - select target territory", ApexLogger.LogCategory.UI);
                     // Would enable attack targeting mode
                     break;
                     
                 case "defend":
-                    Debug.Log("[QuickAction] Fortifying defenses...");
+                    ApexLogger.Log("[QuickAction] Fortifying defenses...", ApexLogger.LogCategory.UI);
                     // Would open defense options
                     break;
                     
                 case "scout":
-                    Debug.Log("[QuickAction] Sending scouts...");
+                    ApexLogger.Log("[QuickAction] Sending scouts...", ApexLogger.LogCategory.UI);
                     // Would send scouts to reveal territory
                     break;
                     
                 case "build":
-                    Debug.Log("[QuickAction] Opening build menu");
+                    ApexLogger.Log("[QuickAction] Opening build menu", ApexLogger.LogCategory.UI);
                     // Open build menu
                     if (PCUIManager.Instance != null)
                     {
@@ -296,7 +297,7 @@ namespace ApexCitadels.PC.UI
                     break;
                     
                 case "special":
-                    Debug.Log("[QuickAction] Special ability activated!");
+                    ApexLogger.Log("[QuickAction] Special ability activated!", ApexLogger.LogCategory.UI);
                     // Use special ability
                     if (SeasonPassPanel.Instance != null)
                     {
@@ -306,7 +307,7 @@ namespace ApexCitadels.PC.UI
                     break;
                     
                 case "rally":
-                    Debug.Log("[QuickAction] Rally point set!");
+                    ApexLogger.Log("[QuickAction] Rally point set!", ApexLogger.LogCategory.UI);
                     // Set rally point for troops
                     if (MiniMapPanel.Instance != null && Camera.main != null)
                     {

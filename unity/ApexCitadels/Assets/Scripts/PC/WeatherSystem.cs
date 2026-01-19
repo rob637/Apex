@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -94,7 +95,7 @@ namespace ApexCitadels.PC
                 StartCoroutine(WeatherCycle());
             }
             
-            Debug.Log("[Weather] System initialized");
+            ApexLogger.Log("[Weather] System initialized", ApexLogger.LogCategory.General);
         }
 
         private void Update()
@@ -279,7 +280,7 @@ namespace ApexCitadels.PC
                 velocity.enabled = true;
                 velocity.y = -25f;
                 
-                Debug.Log("[Weather] Created rain particle system");
+                ApexLogger.Log("[Weather] Created rain particle system", ApexLogger.LogCategory.General);
             }
             
             // Create snow particles if not assigned
@@ -313,7 +314,7 @@ namespace ApexCitadels.PC
                 velocity.x = new ParticleSystem.MinMaxCurve(-1f, 1f);
                 velocity.z = new ParticleSystem.MinMaxCurve(-1f, 1f);
                 
-                Debug.Log("[Weather] Created snow particle system");
+                ApexLogger.Log("[Weather] Created snow particle system", ApexLogger.LogCategory.General);
             }
             
             // Create fog particles if not assigned
@@ -341,7 +342,7 @@ namespace ApexCitadels.PC
                 shape.shapeType = ParticleSystemShapeType.Box;
                 shape.scale = new Vector3(200, 10, 200);
                 
-                Debug.Log("[Weather] Created fog particle system");
+                ApexLogger.Log("[Weather] Created fog particle system", ApexLogger.LogCategory.General);
             }
             
             // Create dust/sand particles if not assigned
@@ -374,7 +375,7 @@ namespace ApexCitadels.PC
                 velocity.x = 15f;
                 velocity.y = new ParticleSystem.MinMaxCurve(-2f, 2f);
                 
-                Debug.Log("[Weather] Created dust particle system");
+                ApexLogger.Log("[Weather] Created dust particle system", ApexLogger.LogCategory.General);
             }
         }
 
@@ -466,7 +467,7 @@ namespace ApexCitadels.PC
                 StartCoroutine(TransitionCoroutine(transitionDuration));
             }
             
-            Debug.Log($"[Weather] Transitioning from {_currentWeather} to {_targetWeather}");
+            ApexLogger.Log($"[Weather] Transitioning from {_currentWeather} to {_targetWeather}", ApexLogger.LogCategory.General);
         }
 
         private IEnumerator TransitionCoroutine(float duration)
@@ -501,7 +502,7 @@ namespace ApexCitadels.PC
                 );
             }
             
-            Debug.Log($"[Weather] Now: {_currentWeather}");
+            ApexLogger.Log($"[Weather] Now: {_currentWeather}", ApexLogger.LogCategory.General);
         }
 
         private void UpdateWeatherTransition()

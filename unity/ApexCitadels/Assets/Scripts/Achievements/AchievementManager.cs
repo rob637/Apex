@@ -6,6 +6,7 @@ using ApexCitadels.Player;
 using ApexCitadels.Territory;
 using ApexCitadels.Notifications;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 #endif
@@ -199,7 +200,7 @@ namespace ApexCitadels.Achievements
             AddAchievement(new Achievement("play_30_days", "Committed", 
                 "Play 30 days in a row", AchievementCategory.Milestones, 30, 2500, 250, "Committed"));
 
-            Debug.Log($"[AchievementManager] Initialized {_achievements.Count} achievements");
+            ApexLogger.Log($"[AchievementManager] Initialized {_achievements.Count} achievements", ApexLogger.LogCategory.Events);
         }
 
         private void AddAchievement(Achievement achievement)
@@ -218,7 +219,7 @@ namespace ApexCitadels.Achievements
         {
             if (!_achievements.TryGetValue(achievementId, out var achievement))
             {
-                Debug.LogWarning($"[AchievementManager] Unknown achievement: {achievementId}");
+                ApexLogger.LogWarning($"[AchievementManager] Unknown achievement: {achievementId}", ApexLogger.LogCategory.Events);
                 return;
             }
 
@@ -278,7 +279,7 @@ namespace ApexCitadels.Achievements
             OnAchievementUnlocked?.Invoke(achievement);
             SaveProgress();
 
-            Debug.Log($"[AchievementManager] Unlocked: {achievement.Name}!");
+            ApexLogger.Log($"[AchievementManager] Unlocked: {achievement.Name}!", ApexLogger.LogCategory.Events);
         }
 
         #endregion
@@ -501,12 +502,12 @@ namespace ApexCitadels.Achievements
                             }
                         }
                     }
-                    Debug.Log($"[AchievementManager] Loaded {wrapper.achievements.Count} achievement progresses");
+                    ApexLogger.Log($"[AchievementManager] Loaded {wrapper.achievements.Count} achievement progresses", ApexLogger.LogCategory.Events);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AchievementManager] Failed to deserialize progress: {ex.Message}");
+                ApexLogger.LogError($"[AchievementManager] Failed to deserialize progress: {ex.Message}", ApexLogger.LogCategory.Events);
             }
         }
 
@@ -537,14 +538,14 @@ namespace ApexCitadels.Achievements
                 string json = JsonUtility.ToJson(wrapper);
                 PlayerPrefs.SetString("achievements", json);
                 PlayerPrefs.Save();
-                Debug.Log($"[AchievementManager] Saved {wrapper.achievements.Count} achievement progresses");
+                ApexLogger.Log($"[AchievementManager] Saved {wrapper.achievements.Count} achievement progresses", ApexLogger.LogCategory.Events);
 
                 // Also sync to cloud
                 SyncProgressToCloud(wrapper);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AchievementManager] Failed to save progress: {ex.Message}");
+                ApexLogger.LogError($"[AchievementManager] Failed to save progress: {ex.Message}", ApexLogger.LogCategory.Events);
             }
         }
 
@@ -592,13 +593,13 @@ namespace ApexCitadels.Achievements
                                 }
                             }
                         }
-                        Debug.Log("[AchievementManager] Synced progress from cloud");
+                        ApexLogger.Log("[AchievementManager] Synced progress from cloud", ApexLogger.LogCategory.Events);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AchievementManager] Failed to sync from cloud: {ex.Message}");
+                ApexLogger.LogError($"[AchievementManager] Failed to sync from cloud: {ex.Message}", ApexLogger.LogCategory.Events);
             }
 #endif
         }
@@ -640,11 +641,11 @@ namespace ApexCitadels.Achievements
                     { "updatedAt", Timestamp.GetCurrentTimestamp() }
                 }, SetOptions.MergeAll);
 
-                Debug.Log("[AchievementManager] Synced progress to cloud");
+                ApexLogger.Log("[AchievementManager] Synced progress to cloud", ApexLogger.LogCategory.Events);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[AchievementManager] Failed to sync to cloud: {ex.Message}");
+                ApexLogger.LogError($"[AchievementManager] Failed to sync to cloud: {ex.Message}", ApexLogger.LogCategory.Events);
             }
 #endif
         }

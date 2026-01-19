@@ -5,6 +5,7 @@ using UnityEngine;
 using ApexCitadels.Data;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
+using ApexCitadels.Core;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Extensions;
@@ -162,12 +163,12 @@ namespace ApexCitadels.Resources
             var node = _nearbyNodes.Find(n => n.Id == nodeId);
             if (node == null)
             {
-                Debug.Log("[ResourceManager] Node not found!");
+                ApexLogger.Log("[ResourceManager] Node not found!", ApexLogger.LogCategory.Economy);
                 return false;
             }
 
             _selectedNode = node;
-            Debug.Log($"[ResourceManager] Selected: {node.Name} ({node.CurrentAmount}/{node.MaxAmount})");
+            ApexLogger.Log($"[ResourceManager] Selected: {node.Name} ({node.CurrentAmount}/{node.MaxAmount})", ApexLogger.LogCategory.Economy);
             return true;
         }
 
@@ -178,18 +179,18 @@ namespace ApexCitadels.Resources
         {
             if (_selectedNode == null)
             {
-                Debug.Log("[ResourceManager] No node selected!");
+                ApexLogger.Log("[ResourceManager] No node selected!", ApexLogger.LogCategory.Economy);
                 return;
             }
 
             if (!_selectedNode.CanHarvest)
             {
-                Debug.Log("[ResourceManager] Node is depleted!");
+                ApexLogger.Log("[ResourceManager] Node is depleted!", ApexLogger.LogCategory.Economy);
                 return;
             }
 
             _isHarvesting = true;
-            Debug.Log($"[ResourceManager] Started harvesting {_selectedNode.Name}");
+            ApexLogger.Log($"[ResourceManager] Started harvesting {_selectedNode.Name}", ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace ApexCitadels.Resources
         public void StopHarvesting()
         {
             _isHarvesting = false;
-            Debug.Log("[ResourceManager] Stopped harvesting");
+            ApexLogger.Log("[ResourceManager] Stopped harvesting", ApexLogger.LogCategory.Economy);
         }
 
         /// <summary>
@@ -252,7 +253,7 @@ namespace ApexCitadels.Resources
             // Save node state to cloud
             _ = SaveNodeToCloud(_selectedNode);
 
-            Debug.Log($"[ResourceManager] Harvested {harvestAmount} {resourceType}");
+            ApexLogger.Log($"[ResourceManager] Harvested {harvestAmount} {resourceType}", ApexLogger.LogCategory.Economy);
             return (true, harvestAmount);
         }
 
@@ -330,11 +331,11 @@ namespace ApexCitadels.Resources
                     OnNodeDiscovered?.Invoke(node);
                 }
                 
-                Debug.Log($"[ResourceManager] Loaded {snapshot.Count} resource nodes from Firebase");
+                ApexLogger.Log($"[ResourceManager] Loaded {snapshot.Count} resource nodes from Firebase", ApexLogger.LogCategory.Economy);
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ResourceManager] Failed to load nodes from Firebase: {ex.Message}");
+                ApexLogger.LogWarning($"[ResourceManager] Failed to load nodes from Firebase: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
 #endif
 
@@ -372,7 +373,7 @@ namespace ApexCitadels.Resources
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"[ResourceManager] Failed to save node: {ex.Message}");
+                ApexLogger.LogWarning($"[ResourceManager] Failed to save node: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
 #else
             await Task.CompletedTask;
@@ -403,7 +404,7 @@ namespace ApexCitadels.Resources
                 OnNodeDiscovered?.Invoke(node);
             }
 
-            Debug.Log($"[ResourceManager] Generated {nodesToGenerate} resource nodes");
+            ApexLogger.Log($"[ResourceManager] Generated {nodesToGenerate} resource nodes", ApexLogger.LogCategory.Economy);
         }
 
         private ResourceNodeType GetRandomNodeType(System.Random random)
@@ -510,7 +511,7 @@ namespace ApexCitadels.Resources
                     if (amount > 0)
                     {
                         PlayerManager.Instance?.AddResource(kvp.Key, amount);
-                        Debug.Log($"[ResourceManager] Collected {amount} {kvp.Key} (passive)");
+                        ApexLogger.Log($"[ResourceManager] Collected {amount} {kvp.Key} (passive)", ApexLogger.LogCategory.Economy);
                     }
                 }
             }

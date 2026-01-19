@@ -95,12 +95,12 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Crafting] Error loading recipes: {ex.Message}");
+                ApexLogger.LogError($"[Crafting] Error loading recipes: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
 #endif
             
             OnRecipesLoaded?.Invoke();
-            Debug.Log($"[Crafting] Loaded {_recipes.Count} recipes");
+            ApexLogger.Log($"[Crafting] Loaded {_recipes.Count} recipes", ApexLogger.LogCategory.Economy);
         }
         
         private void LoadDefaultRecipes()
@@ -378,7 +378,7 @@ namespace ApexCitadels.PC
             var validation = CanCraft(recipeId);
             if (!validation.IsValid)
             {
-                Debug.LogWarning($"[Crafting] Cannot craft {recipeId}: {validation.Message}");
+                ApexLogger.LogWarning($"[Crafting] Cannot craft {recipeId}: {validation.Message}", ApexLogger.LogCategory.Economy);
                 return null;
             }
             
@@ -407,7 +407,7 @@ namespace ApexCitadels.PC
             await SaveCraftingState();
             
             OnCraftingStarted?.Invoke(job);
-            Debug.Log($"[Crafting] Started crafting {recipe.Name}");
+            ApexLogger.Log($"[Crafting] Started crafting {recipe.Name}", ApexLogger.LogCategory.Economy);
             
             return job;
         }
@@ -440,7 +440,7 @@ namespace ApexCitadels.PC
             await SaveCraftingState();
             
             OnCraftingCancelled?.Invoke(job);
-            Debug.Log($"[Crafting] Cancelled crafting job {jobId}");
+            ApexLogger.Log($"[Crafting] Cancelled crafting job {jobId}", ApexLogger.LogCategory.Economy);
             
             return true;
         }
@@ -533,7 +533,7 @@ namespace ApexCitadels.PC
             await SaveCraftingState();
             
             OnCraftingCompleted?.Invoke(job, result);
-            Debug.Log($"[Crafting] Completed {recipe.Name} x{result.Amount} (Quality: {result.Quality})");
+            ApexLogger.Log($"[Crafting] Completed {recipe.Name} x{result.Amount} (Quality: {result.Quality})", ApexLogger.LogCategory.Economy);
         }
         
         private CraftingQuality CalculateCraftingQuality(CraftingRecipe recipe)
@@ -646,7 +646,7 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Crafting] Error loading state: {ex.Message}");
+                ApexLogger.LogError($"[Crafting] Error loading state: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
 #endif
         }
@@ -678,7 +678,7 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[Crafting] Error saving state: {ex.Message}");
+                ApexLogger.LogError($"[Crafting] Error saving state: {ex.Message}", ApexLogger.LogCategory.Economy);
             }
 #endif
         }
@@ -742,7 +742,7 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[CraftingRecipe] Parse error: {ex.Message}");
+                ApexLogger.LogError($"[CraftingRecipe] Parse error: {ex.Message}", ApexLogger.LogCategory.Economy);
                 return null;
             }
         }

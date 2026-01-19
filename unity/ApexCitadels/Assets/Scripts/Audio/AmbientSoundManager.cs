@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Audio
 {
@@ -152,7 +153,7 @@ namespace ApexCitadels.Audio
             }
             else
             {
-                Debug.LogWarning($"[AmbientSoundManager] Preset not found: {presetId}");
+                ApexLogger.LogWarning($"[AmbientSoundManager] Preset not found: {presetId}", ApexLogger.LogCategory.Audio);
             }
         }
 
@@ -800,7 +801,7 @@ namespace ApexCitadels.Audio
             AddPreset("defeat", "Defeat", 0.4f, 0f);
 
             UnityEditor.EditorUtility.SetDirty(this);
-            Debug.Log($"[AmbientLibrary] Generated {presets.Count} presets");
+            ApexLogger.Log($"[AmbientLibrary] Generated {presets.Count} presets", ApexLogger.LogCategory.Audio);
         }
 
         private void AddPreset(string id, string name, float mainVolume, float secondaryVolume)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Core
 {
@@ -51,7 +52,7 @@ namespace ApexCitadels.Core
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError($"[MainThreadDispatcher] Error executing action: {ex.Message}");
+                        ApexLogger.LogError($"[MainThreadDispatcher] Error executing action: {ex.Message}", ApexLogger.LogCategory.General);
                     }
                 }
             }

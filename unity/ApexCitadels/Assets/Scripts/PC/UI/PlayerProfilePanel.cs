@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -520,7 +521,7 @@ namespace ApexCitadels.PC.UI
             if (rarity != "empty")
             {
                 Button btn = slot.AddComponent<Button>();
-                btn.onClick.AddListener(() => Debug.Log($"[Profile] Selected item: {name}"));
+                btn.onClick.AddListener(() => ApexLogger.Log($"[Profile] Selected item: {name}"), ApexLogger.LogCategory.UI);
             }
             
             // Icon
@@ -657,7 +658,7 @@ namespace ApexCitadels.PC.UI
             if (unlocked)
             {
                 Button btn = item.AddComponent<Button>();
-                btn.onClick.AddListener(() => Debug.Log($"[Profile] Selected frame: {name}"));
+                btn.onClick.AddListener(() => ApexLogger.Log($"[Profile] Selected frame: {name}"), ApexLogger.LogCategory.UI);
             }
             
             // Inner frame preview
@@ -842,7 +843,7 @@ namespace ApexCitadels.PC.UI
         {
             _profile.CurrentTitle = title;
             OnProfileUpdated?.Invoke(_profile);
-            Debug.Log($"[Profile] Equipped title: {title}");
+            ApexLogger.Log($"[Profile] Equipped title: {title}", ApexLogger.LogCategory.UI);
         }
 
         #region Public API
@@ -879,7 +880,7 @@ namespace ApexCitadels.PC.UI
                 _profile.Experience -= _profile.ExperienceToNextLevel;
                 _profile.Level++;
                 _profile.ExperienceToNextLevel = (int)(_profile.ExperienceToNextLevel * 1.15f);
-                Debug.Log($"[Profile] Level up! Now level {_profile.Level}");
+                ApexLogger.Log($"[Profile] Level up! Now level {_profile.Level}", ApexLogger.LogCategory.UI);
             }
             OnProfileUpdated?.Invoke(_profile);
         }

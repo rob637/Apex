@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1089,12 +1090,12 @@ namespace ApexCitadels.PC.UI
             RefreshHeroDetails();
             
             OnHeroSelected?.Invoke(hero);
-            Debug.Log($"[Hero] Selected: {hero.Name}");
+            ApexLogger.Log($"[Hero] Selected: {hero.Name}", ApexLogger.LogCategory.UI);
         }
 
         private void RecruitHero()
         {
-            Debug.Log("[Hero] Opening hero recruitment...");
+            ApexLogger.Log("[Hero] Opening hero recruitment...", ApexLogger.LogCategory.UI);
             // TODO: Implement hero recruitment gacha/shop
         }
 
@@ -1115,7 +1116,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowSuccess($"{_selectedHero.Name} leveled up to {_selectedHero.Level}!");
             }
             
-            Debug.Log($"[Hero] {_selectedHero.Name} leveled up to {_selectedHero.Level}");
+            ApexLogger.Log($"[Hero] {_selectedHero.Name} leveled up to {_selectedHero.Level}", ApexLogger.LogCategory.UI);
         }
 
         private void HealHero()
@@ -1166,7 +1167,7 @@ namespace ApexCitadels.PC.UI
 
         private void ChangeEquipment(string slotName)
         {
-            Debug.Log($"[Hero] Opening equipment selection for {slotName}...");
+            ApexLogger.Log($"[Hero] Opening equipment selection for {slotName}...", ApexLogger.LogCategory.UI);
             // TODO: Open equipment inventory
         }
 

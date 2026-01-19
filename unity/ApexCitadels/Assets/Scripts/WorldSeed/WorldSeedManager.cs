@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.WorldSeed
 {
@@ -130,7 +131,7 @@ namespace ApexCitadels.WorldSeed
             }
             catch (Exception e)
             {
-                Debug.LogError($"[WorldSeed] Failed to fetch seeds: {e.Message}");
+                ApexLogger.LogError($"[WorldSeed] Failed to fetch seeds: {e.Message}", ApexLogger.LogCategory.General);
             }
             finally
             {
@@ -183,7 +184,7 @@ namespace ApexCitadels.WorldSeed
             }
             catch (Exception e)
             {
-                Debug.LogError($"[WorldSeed] Discovery failed: {e.Message}");
+                ApexLogger.LogError($"[WorldSeed] Discovery failed: {e.Message}", ApexLogger.LogCategory.General);
                 return new DiscoveryResult { success = false, error = e.Message };
             }
         }
@@ -230,7 +231,7 @@ namespace ApexCitadels.WorldSeed
             }
             catch (Exception e)
             {
-                Debug.LogError($"[WorldSeed] Resource claim failed: {e.Message}");
+                ApexLogger.LogError($"[WorldSeed] Resource claim failed: {e.Message}", ApexLogger.LogCategory.General);
                 return new ResourceClaimResult { success = false, error = e.Message };
             }
         }
@@ -342,7 +343,7 @@ namespace ApexCitadels.WorldSeed
                 visual = visual
             };
 
-            Debug.Log($"[WorldSeed] Created seed: {seed.name} ({seed.type})");
+            ApexLogger.Log($"[WorldSeed] Created seed: {seed.name} ({seed.type})", ApexLogger.LogCategory.General);
         }
 
         private void RemoveSeedPointInstance(string seedId)
@@ -479,7 +480,7 @@ namespace ApexCitadels.WorldSeed
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"[WorldSeed] Failed to load discoveries: {e.Message}");
+                ApexLogger.LogWarning($"[WorldSeed] Failed to load discoveries: {e.Message}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -754,21 +755,21 @@ namespace ApexCitadels.WorldSeed
         {
             // This would be implemented with your UI system
             // For now, just log
-            Debug.Log($"[SeedInfoUI] {seed.name} (Level {seed.level})");
-            Debug.Log($"  Type: {seed.type}");
-            Debug.Log($"  Description: {seed.description}");
-            Debug.Log($"  Discovered: {discovered}");
+            ApexLogger.Log($"[SeedInfoUI] {seed.name} (Level {seed.level})", ApexLogger.LogCategory.General);
+            ApexLogger.Log($"  Type: {seed.type}", ApexLogger.LogCategory.General);
+            ApexLogger.Log($"  Description: {seed.description}", ApexLogger.LogCategory.General);
+            ApexLogger.Log($"  Discovered: {discovered}", ApexLogger.LogCategory.General);
 
             if (seed.resources != null && seed.resources.Count > 0)
             {
-                Debug.Log($"  Resources: {seed.resources.Count} types available");
+                ApexLogger.Log($"  Resources: {seed.resources.Count} types available", ApexLogger.LogCategory.General);
             }
 
             if (seed.bonuses != null && seed.bonuses.Count > 0)
             {
                 foreach (var bonus in seed.bonuses)
                 {
-                    Debug.Log($"  Bonus: {bonus.type} +{bonus.value}");
+                    ApexLogger.Log($"  Bonus: {bonus.type} +{bonus.value}", ApexLogger.LogCategory.General);
                 }
             }
         }

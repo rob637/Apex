@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -764,7 +765,7 @@ namespace ApexCitadels.PC.UI
             
             quest.IsClaimed = true;
             
-            Debug.Log($"[Quest] Claimed quest: {quest.Title}! Rewards: {quest.RewardGold}g, {quest.RewardCrystal}c, {quest.RewardXP}xp");
+            ApexLogger.Log($"[Quest] Claimed quest: {quest.Title}! Rewards: {quest.RewardGold}g, {quest.RewardCrystal}c, {quest.RewardXP}xp", ApexLogger.LogCategory.UI);
             
             OnQuestClaimed?.Invoke(quest);
             
@@ -811,7 +812,7 @@ namespace ApexCitadels.PC.UI
                         quest.CurrentAmount = quest.TargetAmount;
                         quest.IsCompleted = true;
                         OnQuestCompleted?.Invoke(quest);
-                        Debug.Log($"[Quest] Completed: {quest.Title}!");
+                        ApexLogger.Log($"[Quest] Completed: {quest.Title}!", ApexLogger.LogCategory.UI);
                     }
                 }
             }

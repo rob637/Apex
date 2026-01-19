@@ -114,7 +114,7 @@ namespace ApexCitadels.PC.UI
                 DateTime.TryParse(lastClaimStr, out _lastClaimDate);
             }
             
-            Debug.Log($"[DailyRewards] Loaded: Streak={_currentStreak}, Day={_currentDayInCycle}, LastClaim={_lastClaimDate}");
+            ApexLogger.Log($"[DailyRewards] Loaded: Streak={_currentStreak}, Day={_currentDayInCycle}, LastClaim={_lastClaimDate}", ApexLogger.LogCategory.UI);
         }
 
         private void SaveProgress()
@@ -136,13 +136,13 @@ namespace ApexCitadels.PC.UI
             {
                 // Already claimed today
                 _canClaimToday = false;
-                Debug.Log("[DailyRewards] Already claimed today");
+                ApexLogger.Log("[DailyRewards] Already claimed today", ApexLogger.LogCategory.UI);
             }
             else if (daysSinceLastClaim == 1)
             {
                 // Consecutive day - streak continues!
                 _canClaimToday = true;
-                Debug.Log("[DailyRewards] Streak continues! Can claim today.");
+                ApexLogger.Log("[DailyRewards] Streak continues! Can claim today.", ApexLogger.LogCategory.UI);
             }
             else if (daysSinceLastClaim > 1)
             {
@@ -151,7 +151,7 @@ namespace ApexCitadels.PC.UI
                 _currentDayInCycle = 0;
                 _canClaimToday = true;
                 OnStreakLost?.Invoke();
-                Debug.Log("[DailyRewards] Streak broken! Starting over.");
+                ApexLogger.Log("[DailyRewards] Streak broken! Starting over.", ApexLogger.LogCategory.UI);
             }
             else
             {
@@ -218,7 +218,7 @@ namespace ApexCitadels.PC.UI
         {
             if (!_canClaimToday)
             {
-                Debug.Log("[DailyRewards] Already claimed today!");
+                ApexLogger.Log("[DailyRewards] Already claimed today!", ApexLogger.LogCategory.UI);
                 return;
             }
             

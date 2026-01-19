@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.Buildings
 {
@@ -99,7 +100,7 @@ namespace ApexCitadels.PC.Buildings
         {
             if (_buildings.ContainsKey(id))
             {
-                Debug.LogWarning($"[BuildingLOD] Building already registered: {id}");
+                ApexLogger.LogWarning($"[BuildingLOD] Building already registered: {id}", ApexLogger.LogCategory.Building);
                 return;
             }
             

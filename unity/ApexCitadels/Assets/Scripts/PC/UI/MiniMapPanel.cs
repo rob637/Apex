@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
 using UIOutline = UnityEngine.UI.Outline;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -430,7 +431,7 @@ namespace ApexCitadels.PC.UI
             if (Camera.main != null)
             {
                 // PCCameraController would handle smooth transition
-                Debug.Log($"[MiniMap] Clicked map at world pos: {worldPos}");
+                ApexLogger.Log($"[MiniMap] Clicked map at world pos: {worldPos}", ApexLogger.LogCategory.UI);
             }
         }
 

@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.PC;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1260,38 +1261,38 @@ namespace ApexCitadels.PC.UI
             shopPanel.gameObject.SetActive(tab == 1);
             benefitsPanel.gameObject.SetActive(tab == 2);
             
-            Debug.Log($"[VIP] Switched to tab: {tab}");
+            ApexLogger.Log($"[VIP] Switched to tab: {tab}", ApexLogger.LogCategory.UI);
         }
 
         // Action handlers
         private void SubscribeToTier(VIPTierBenefits tier)
         {
-            Debug.Log($"[VIP] Subscribe to {tier.tierName} at ${tier.monthlyPrice / 100f:F2}/month");
+            ApexLogger.Log($"[VIP] Subscribe to {tier.tierName} at ${tier.monthlyPrice / 100f:F2}/month", ApexLogger.LogCategory.UI);
         }
 
         private void PurchaseItem(PremiumItem item)
         {
-            Debug.Log($"[VIP] Purchase {item.name} for {item.gemCost} gems");
+            ApexLogger.Log($"[VIP] Purchase {item.name} for {item.gemCost} gems", ApexLogger.LogCategory.UI);
         }
 
         private void BuyGems()
         {
-            Debug.Log("[VIP] Opening gem purchase dialog");
+            ApexLogger.Log("[VIP] Opening gem purchase dialog", ApexLogger.LogCategory.UI);
         }
 
         private void RedeemCode()
         {
-            Debug.Log("[VIP] Opening redeem code dialog");
+            ApexLogger.Log("[VIP] Opening redeem code dialog", ApexLogger.LogCategory.UI);
         }
 
         private void GiftPremium()
         {
-            Debug.Log("[VIP] Opening gift premium dialog");
+            ApexLogger.Log("[VIP] Opening gift premium dialog", ApexLogger.LogCategory.UI);
         }
 
         private void ManageSubscription()
         {
-            Debug.Log("[VIP] Opening subscription management");
+            ApexLogger.Log("[VIP] Opening subscription management", ApexLogger.LogCategory.UI);
         }
 
         // Public API

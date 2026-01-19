@@ -7,6 +7,7 @@ using Firebase.Firestore;
 using Firebase.Functions;
 #endif
 using Newtonsoft.Json;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.SeasonPass
 {
@@ -182,7 +183,7 @@ namespace ApexCitadels.SeasonPass
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load current season: {e.Message}");
+                ApexLogger.LogError($"Failed to load current season: {e.Message}", ApexLogger.LogCategory.Events);
             }
         }
 
@@ -254,7 +255,7 @@ namespace ApexCitadels.SeasonPass
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to purchase premium pass: {e.Message}");
+                ApexLogger.LogError($"Failed to purchase premium pass: {e.Message}", ApexLogger.LogCategory.Events);
                 return false;
             }
         }
@@ -266,7 +267,7 @@ namespace ApexCitadels.SeasonPass
         {
             if (!CanClaimReward(level, isPremium))
             {
-                Debug.LogWarning("Cannot claim reward - requirements not met");
+                ApexLogger.LogWarning("Cannot claim reward - requirements not met", ApexLogger.LogCategory.Events);
                 return null;
             }
 
@@ -309,7 +310,7 @@ namespace ApexCitadels.SeasonPass
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to claim reward: {e.Message}");
+                ApexLogger.LogError($"Failed to claim reward: {e.Message}", ApexLogger.LogCategory.Events);
                 return null;
             }
         }
@@ -361,7 +362,7 @@ namespace ApexCitadels.SeasonPass
                 if (response.ContainsKey("xpAwarded"))
                 {
                     var xpAwarded = Convert.ToInt32(response["xpAwarded"]);
-                    Debug.Log($"Challenge completed! Awarded {xpAwarded} XP");
+                    ApexLogger.Log($"Challenge completed! Awarded {xpAwarded} XP", ApexLogger.LogCategory.Events);
                     
                     // Remove completed challenge
                     _challenges.RemoveAll(c => c.Id == challengeId);
@@ -374,7 +375,7 @@ namespace ApexCitadels.SeasonPass
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to complete challenge: {e.Message}");
+                ApexLogger.LogError($"Failed to complete challenge: {e.Message}", ApexLogger.LogCategory.Events);
                 return false;
             }
         }
@@ -389,42 +390,42 @@ namespace ApexCitadels.SeasonPass
 #else
         private void Start()
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Events);
         }
 
         public Task LoadCurrentSeason()
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. LoadCurrentSeason is a stub.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. LoadCurrentSeason is a stub.", ApexLogger.LogCategory.Events);
             return Task.CompletedTask;
         }
 
         public Task<bool> PurchasePremiumPass()
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. PurchasePremiumPass is a stub.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. PurchasePremiumPass is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult(false);
         }
 
         public Task<RewardItem> ClaimReward(int level, bool isPremium)
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. ClaimReward is a stub.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. ClaimReward is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult<RewardItem>(null);
         }
 
         public Task<List<RewardItem>> ClaimAllAvailableRewards()
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. ClaimAllAvailableRewards is a stub.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. ClaimAllAvailableRewards is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult(new List<RewardItem>());
         }
 
         public Task<bool> CompleteChallenge(string challengeId)
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. CompleteChallenge is a stub.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. CompleteChallenge is a stub.", ApexLogger.LogCategory.Events);
             return Task.FromResult(false);
         }
 
         public void RefreshProgress()
         {
-            Debug.LogWarning("[SeasonPassManager] Firebase SDK not installed. RefreshProgress is a stub.");
+            ApexLogger.LogWarning("[SeasonPassManager] Firebase SDK not installed. RefreshProgress is a stub.", ApexLogger.LogCategory.Events);
         }
 #endif
 

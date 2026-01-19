@@ -98,7 +98,7 @@ namespace ApexCitadels.PC
                 
                 if (!doc.Exists)
                 {
-                    Debug.LogWarning($"[BattleReplay] Replay not found: {replayId}");
+                    ApexLogger.LogWarning($"[BattleReplay] Replay not found: {replayId}", ApexLogger.LogCategory.Combat);
                     return false;
                 }
                 
@@ -108,13 +108,13 @@ namespace ApexCitadels.PC
                 {
                     await SetupReplayScene();
                     OnReplayLoaded?.Invoke(_currentReplay);
-                    Debug.Log($"[BattleReplay] Loaded replay: {_currentReplay.Id}");
+                    ApexLogger.Log($"[BattleReplay] Loaded replay: {_currentReplay.Id}", ApexLogger.LogCategory.Combat);
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleReplay] Error loading replay: {ex.Message}");
+                ApexLogger.LogError($"[BattleReplay] Error loading replay: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
 #endif
             return false;
@@ -159,7 +159,7 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleReplay] Error getting territory replays: {ex.Message}");
+                ApexLogger.LogError($"[BattleReplay] Error getting territory replays: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
 #endif
             
@@ -219,7 +219,7 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleReplay] Error getting player replays: {ex.Message}");
+                ApexLogger.LogError($"[BattleReplay] Error getting player replays: {ex.Message}", ApexLogger.LogCategory.Combat);
             }
 #endif
             
@@ -259,7 +259,7 @@ namespace ApexCitadels.PC
             _isPlaying = true;
             _currentPlaybackSpeed = playbackSpeed;
             OnReplayStarted?.Invoke();
-            Debug.Log("[BattleReplay] Playing");
+            ApexLogger.Log("[BattleReplay] Playing", ApexLogger.LogCategory.Combat);
         }
         
         /// <summary>
@@ -269,7 +269,7 @@ namespace ApexCitadels.PC
         {
             _isPlaying = false;
             OnReplayPaused?.Invoke();
-            Debug.Log("[BattleReplay] Paused");
+            ApexLogger.Log("[BattleReplay] Paused", ApexLogger.LogCategory.Combat);
         }
         
         /// <summary>
@@ -823,7 +823,7 @@ namespace ApexCitadels.PC
         private void PlaySpecialAbilityEffect(BattleEvent evt)
         {
             // Play ability-specific effect based on evt.AbilityType
-            Debug.Log($"[BattleReplay] Special ability: {evt.AbilityType} at {evt.Position}");
+            ApexLogger.Log($"[BattleReplay] Special ability: {evt.AbilityType} at {evt.Position}", ApexLogger.LogCategory.Combat);
         }
         
         private System.Collections.IEnumerator FlashObject(GameObject obj, Color flashColor, float duration)
@@ -1055,7 +1055,7 @@ namespace ApexCitadels.PC
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[BattleReplay] Parse error: {ex.Message}");
+                ApexLogger.LogError($"[BattleReplay] Parse error: {ex.Message}", ApexLogger.LogCategory.Combat);
                 return null;
             }
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Core
 {
@@ -57,7 +58,7 @@ namespace ApexCitadels.Core
         {
             if (_isLoading)
             {
-                Debug.LogWarning($"[SceneLoader] Already loading a scene, ignoring request for {sceneName}");
+                ApexLogger.LogWarning($"[SceneLoader] Already loading a scene, ignoring request for {sceneName}", ApexLogger.LogCategory.Loading);
                 return;
             }
 
@@ -89,7 +90,7 @@ namespace ApexCitadels.Core
             _isLoading = true;
             OnSceneLoadStarted?.Invoke(sceneName);
 
-            Debug.Log($"[SceneLoader] Loading scene: {sceneName}");
+            ApexLogger.Log($"[SceneLoader] Loading scene: {sceneName}", ApexLogger.LogCategory.Loading);
 
             // Fade out
             if (useFade && fadeCanvasGroup != null)
@@ -157,7 +158,7 @@ namespace ApexCitadels.Core
             _isLoading = false;
             OnSceneLoadCompleted?.Invoke(sceneName);
 
-            Debug.Log($"[SceneLoader] Scene loaded: {sceneName}");
+            ApexLogger.Log($"[SceneLoader] Scene loaded: {sceneName}", ApexLogger.LogCategory.Loading);
         }
 
         private IEnumerator Fade(float targetAlpha)
@@ -203,7 +204,7 @@ namespace ApexCitadels.Core
                 yield return null;
             }
 
-            Debug.Log($"[SceneLoader] Additive scene loaded: {sceneName}");
+            ApexLogger.Log($"[SceneLoader] Additive scene loaded: {sceneName}", ApexLogger.LogCategory.Loading);
         }
 
         /// <summary>

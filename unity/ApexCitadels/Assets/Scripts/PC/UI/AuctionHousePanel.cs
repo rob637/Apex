@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1026,22 +1027,22 @@ namespace ApexCitadels.PC.UI
 
         private void ShowSellInterface()
         {
-            Debug.Log("[AuctionHouse] Opening sell interface...");
+            ApexLogger.Log("[AuctionHouse] Opening sell interface...", ApexLogger.LogCategory.UI);
         }
 
         private void ShowMyOrders()
         {
-            Debug.Log("[AuctionHouse] Showing my orders...");
+            ApexLogger.Log("[AuctionHouse] Showing my orders...", ApexLogger.LogCategory.UI);
         }
 
         private void ShowHistory()
         {
-            Debug.Log("[AuctionHouse] Showing transaction history...");
+            ApexLogger.Log("[AuctionHouse] Showing transaction history...", ApexLogger.LogCategory.UI);
         }
 
         private void ShowWatchlist()
         {
-            Debug.Log("[AuctionHouse] Showing watchlist...");
+            ApexLogger.Log("[AuctionHouse] Showing watchlist...", ApexLogger.LogCategory.UI);
         }
 
         private void OnBuyClicked()

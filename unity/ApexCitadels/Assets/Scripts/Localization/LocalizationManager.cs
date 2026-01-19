@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.Localization
 {
@@ -110,7 +111,7 @@ namespace ApexCitadels.Localization
             isInitialized = true;
             OnLocalizationReady?.Invoke();
 
-            Debug.Log($"[LocalizationManager] Initialized with language: {currentLanguage}");
+            ApexLogger.Log($"[LocalizationManager] Initialized with language: {currentLanguage}", ApexLogger.LogCategory.General);
         }
 
         private SystemLanguage GetInitialLanguage()
@@ -191,7 +192,7 @@ namespace ApexCitadels.Localization
                 return;
             }
 
-            Debug.LogWarning($"[LocalizationManager] Could not load language file for: {language} ({langCode})");
+            ApexLogger.LogWarning($"[LocalizationManager] Could not load language file for: {language} ({langCode})", ApexLogger.LogCategory.General);
         }
 
         private void ParseLanguageFile(string content, Dictionary<string, string> targetDict)
@@ -215,7 +216,7 @@ namespace ApexCitadels.Localization
             }
             catch (Exception e)
             {
-                Debug.LogError($"[LocalizationManager] Failed to parse language file: {e.Message}");
+                ApexLogger.LogError($"[LocalizationManager] Failed to parse language file: {e.Message}", ApexLogger.LogCategory.General);
                 
                 // Try simple key=value format as fallback
                 ParseKeyValueFormat(content, targetDict);
@@ -262,7 +263,7 @@ namespace ApexCitadels.Localization
         {
             if (!IsLanguageSupported(language))
             {
-                Debug.LogWarning($"[LocalizationManager] Language not supported: {language}");
+                ApexLogger.LogWarning($"[LocalizationManager] Language not supported: {language}", ApexLogger.LogCategory.General);
                 return;
             }
 
@@ -280,7 +281,7 @@ namespace ApexCitadels.Localization
             // Notify listeners
             OnLanguageChanged?.Invoke(currentLanguage);
 
-            Debug.Log($"[LocalizationManager] Language changed to: {language}");
+            ApexLogger.Log($"[LocalizationManager] Language changed to: {language}", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -326,7 +327,7 @@ namespace ApexCitadels.Localization
             }
 
             // Return key as fallback (useful for debugging)
-            Debug.LogWarning($"[LocalizationManager] Missing localization key: {key}");
+            ApexLogger.LogWarning($"[LocalizationManager] Missing localization key: {key}", ApexLogger.LogCategory.General);
             return $"[{key}]";
         }
 
@@ -343,7 +344,7 @@ namespace ApexCitadels.Localization
             }
             catch (FormatException)
             {
-                Debug.LogWarning($"[LocalizationManager] Format error for key: {key}");
+                ApexLogger.LogWarning($"[LocalizationManager] Format error for key: {key}", ApexLogger.LogCategory.General);
                 return template;
             }
         }

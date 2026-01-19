@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -587,7 +588,7 @@ namespace ApexCitadels.PC.UI
                 OnEventJoined?.Invoke(_displayedEvent);
                 
                 // Open event details panel
-                Debug.Log($"Joining event: {_displayedEvent.title}");
+                ApexLogger.Log($"Joining event: {_displayedEvent.title}", ApexLogger.LogCategory.UI);
             }
         }
         
@@ -614,7 +615,7 @@ namespace ApexCitadels.PC.UI
             if (_displayedEvent != null)
             {
                 // Would open detailed event panel
-                Debug.Log($"Opening details for: {_displayedEvent.title}");
+                ApexLogger.Log($"Opening details for: {_displayedEvent.title}", ApexLogger.LogCategory.UI);
             }
         }
         

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1104,7 +1105,7 @@ namespace ApexCitadels.PC.UI
             // Check if already researching something
             if (!string.IsNullOrEmpty(_currentResearchId))
             {
-                Debug.Log("[TechTree] Already researching another technology!");
+                ApexLogger.Log("[TechTree] Already researching another technology!", ApexLogger.LogCategory.UI);
                 return;
             }
             
@@ -1124,7 +1125,7 @@ namespace ApexCitadels.PC.UI
             RefreshTreeView();
             RefreshDetailPanel();
             
-            Debug.Log($"[TechTree] Started research: {tech.Name}");
+            ApexLogger.Log($"[TechTree] Started research: {tech.Name}", ApexLogger.LogCategory.UI);
         }
 
         private void UpdateResearch()
@@ -1186,7 +1187,7 @@ namespace ApexCitadels.PC.UI
             RefreshTreeView();
             RefreshDetailPanel();
             
-            Debug.Log($"[TechTree] Research complete: {tech.Name}");
+            ApexLogger.Log($"[TechTree] Research complete: {tech.Name}", ApexLogger.LogCategory.UI);
         }
 
         #endregion

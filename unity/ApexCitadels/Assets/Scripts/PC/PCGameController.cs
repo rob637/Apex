@@ -45,7 +45,7 @@ namespace ApexCitadels.PC
             // Only run on PC, WebGL, or Editor
             if (!PlatformManager.HasKeyboardMouse)
             {
-                Debug.Log("[PCGame] Not running on PC/WebGL, disabling PC controller");
+                ApexLogger.Log("[PCGame] Not running on PC/WebGL, disabling PC controller", ApexLogger.LogCategory.General);
                 gameObject.SetActive(false);
                 return;
             }
@@ -71,7 +71,7 @@ namespace ApexCitadels.PC
         /// </summary>
         public IEnumerator InitializePCClient()
         {
-            Debug.Log("[PCGame] Initializing PC client...");
+            ApexLogger.Log("[PCGame] Initializing PC client...", ApexLogger.LogCategory.General);
             SetState(PCClientState.Loading);
 
             // Wait for GameManager to be ready
@@ -90,7 +90,7 @@ namespace ApexCitadels.PC
             _isInitialized = true;
             SetState(PCClientState.WorldMap);
 
-            Debug.Log("[PCGame] PC client initialized");
+            ApexLogger.Log("[PCGame] PC client initialized", ApexLogger.LogCategory.General);
             OnPCClientInitialized?.Invoke();
 
             // Show welcome if first time
@@ -161,7 +161,7 @@ namespace ApexCitadels.PC
                 uiManager = FindFirstObjectByType<PCUIManager>();
             }
 
-            Debug.Log("[PCGame] All systems initialized");
+            ApexLogger.Log("[PCGame] All systems initialized", ApexLogger.LogCategory.General);
         }
 
         private void SetupEventBindings()
@@ -201,7 +201,7 @@ namespace ApexCitadels.PC
             PCClientState previousState = _currentState;
             _currentState = newState;
 
-            Debug.Log($"[PCGame] State changed: {previousState} -> {newState}");
+            ApexLogger.Log($"[PCGame] State changed: {previousState} -> {newState}", ApexLogger.LogCategory.General);
 
             // Handle state transitions
             switch (newState)
@@ -268,7 +268,7 @@ namespace ApexCitadels.PC
         {
             if (string.IsNullOrEmpty(_selectedTerritoryId))
             {
-                Debug.LogWarning("[PCGame] No territory selected for editing");
+                ApexLogger.LogWarning("[PCGame] No territory selected for editing", ApexLogger.LogCategory.General);
                 return;
             }
 
@@ -293,7 +293,7 @@ namespace ApexCitadels.PC
         private void HandleTerritoryClicked(string territoryId)
         {
             _selectedTerritoryId = territoryId;
-            Debug.Log($"[PCGame] Territory clicked: {territoryId}");
+            ApexLogger.Log($"[PCGame] Territory clicked: {territoryId}", ApexLogger.LogCategory.General);
 
             if (_currentState == PCClientState.WorldMap)
             {
@@ -371,7 +371,7 @@ namespace ApexCitadels.PC
         private void ShowWelcomeMessage()
         {
             string platform = PlatformManager.GetPlatformName();
-            Debug.Log($"[PCGame] Welcome to Apex Citadels - {platform}!");
+            ApexLogger.Log($"[PCGame] Welcome to Apex Citadels - {platform}!", ApexLogger.LogCategory.General);
 
             // Show in UI
             uiManager?.ShowNotification(
@@ -393,11 +393,11 @@ namespace ApexCitadels.PC
         {
             if (string.IsNullOrEmpty(territoryId))
             {
-                Debug.LogWarning("[PCGame] SelectTerritory called with null/empty ID");
+                ApexLogger.LogWarning("[PCGame] SelectTerritory called with null/empty ID", ApexLogger.LogCategory.General);
                 return;
             }
 
-            Debug.Log($"[PCGame] Selecting territory: {territoryId}");
+            ApexLogger.Log($"[PCGame] Selecting territory: {territoryId}", ApexLogger.LogCategory.General);
             ViewTerritory(territoryId);
         }
 

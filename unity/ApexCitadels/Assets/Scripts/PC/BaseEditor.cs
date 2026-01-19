@@ -4,6 +4,7 @@ using UnityEngine;
 using ApexCitadels.Building;
 using ApexCitadels.Territory;
 using ApexCitadels.Data;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC
 {
@@ -147,7 +148,7 @@ namespace ApexCitadels.PC
             // Load existing buildings
             LoadExistingBuildings();
 
-            Debug.Log($"[BaseEditor] Entered editor mode for territory: {territoryId}");
+            ApexLogger.Log($"[BaseEditor] Entered editor mode for territory: {territoryId}", ApexLogger.LogCategory.General);
             OnEditorModeEntered?.Invoke();
         }
 
@@ -172,7 +173,7 @@ namespace ApexCitadels.PC
             _currentTerritoryId = null;
             _currentTerritory = null;
 
-            Debug.Log("[BaseEditor] Exited editor mode");
+            ApexLogger.Log("[BaseEditor] Exited editor mode", ApexLogger.LogCategory.General);
             OnEditorModeExited?.Invoke();
         }
 
@@ -332,7 +333,7 @@ namespace ApexCitadels.PC
 
             if (!IsPlacementValid(position))
             {
-                Debug.Log("[BaseEditor] Invalid placement position");
+                ApexLogger.Log("[BaseEditor] Invalid placement position", ApexLogger.LogCategory.General);
                 return;
             }
 
@@ -393,7 +394,7 @@ namespace ApexCitadels.PC
             });
 
             OnBlockPlaced?.Invoke(blockData);
-            Debug.Log($"[BaseEditor] Placed {type} at {position}");
+            ApexLogger.Log($"[BaseEditor] Placed {type} at {position}", ApexLogger.LogCategory.General);
         }
 
         private void DeleteSelectedBlock()
@@ -418,7 +419,7 @@ namespace ApexCitadels.PC
             _selectedBlock = null;
 
             OnBlockRemoved?.Invoke(removedData);
-            Debug.Log($"[BaseEditor] Removed block: {blockId}");
+            ApexLogger.Log($"[BaseEditor] Removed block: {blockId}", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -475,7 +476,7 @@ namespace ApexCitadels.PC
             }
 
             _redoHistory.Add(action);
-            Debug.Log($"[BaseEditor] Undo: {action.Type}");
+            ApexLogger.Log($"[BaseEditor] Undo: {action.Type}", ApexLogger.LogCategory.General);
         }
 
         /// <summary>
@@ -513,7 +514,7 @@ namespace ApexCitadels.PC
             }
 
             _undoHistory.Add(action);
-            Debug.Log($"[BaseEditor] Redo: {action.Type}");
+            ApexLogger.Log($"[BaseEditor] Redo: {action.Type}", ApexLogger.LogCategory.General);
         }
 
         private void PlaceBlockWithoutRecord(BlockType type, Vector3 position, float rotation, string blockId)
@@ -584,7 +585,7 @@ namespace ApexCitadels.PC
             }
 
             OnBlueprintSaved?.Invoke(blueprint);
-            Debug.Log($"[BaseEditor] Saved blueprint: {name} with {blueprint.Buildings.Count} buildings");
+            ApexLogger.Log($"[BaseEditor] Saved blueprint: {name} with {blueprint.Buildings.Count} buildings", ApexLogger.LogCategory.General);
 
             return blueprint;
         }
@@ -614,7 +615,7 @@ namespace ApexCitadels.PC
             }
 
             OnBlueprintLoaded?.Invoke(blueprint);
-            Debug.Log($"[BaseEditor] Loaded blueprint: {blueprint.Name}");
+            ApexLogger.Log($"[BaseEditor] Loaded blueprint: {blueprint.Name}", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -798,7 +799,7 @@ namespace ApexCitadels.PC
         private void SaveChangesToBackend()
         {
             // TODO: Save to BuildingManager / Firebase
-            Debug.Log($"[BaseEditor] Saving {_editorBlocks.Count} blocks to backend");
+            ApexLogger.Log($"[BaseEditor] Saving {_editorBlocks.Count} blocks to backend", ApexLogger.LogCategory.General);
         }
 
         #endregion

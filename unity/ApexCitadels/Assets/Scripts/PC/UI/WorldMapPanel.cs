@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1250,12 +1251,12 @@ namespace ApexCitadels.PC.UI
 
         private void ViewRegionDetails(MapRegion region)
         {
-            Debug.Log($"[WorldMap] View details: {region.Name}");
+            ApexLogger.Log($"[WorldMap] View details: {region.Name}", ApexLogger.LogCategory.UI);
         }
 
         private void ReinforceRegion(MapRegion region)
         {
-            Debug.Log($"[WorldMap] Reinforce: {region.Name}");
+            ApexLogger.Log($"[WorldMap] Reinforce: {region.Name}", ApexLogger.LogCategory.UI);
             if (NotificationSystem.Instance != null)
             {
                 NotificationSystem.Instance.ShowInfo("Opening reinforcement panel...");
@@ -1264,7 +1265,7 @@ namespace ApexCitadels.PC.UI
 
         private void SendReinforcements(MapRegion region)
         {
-            Debug.Log($"[WorldMap] Send reinforcements to: {region.Name}");
+            ApexLogger.Log($"[WorldMap] Send reinforcements to: {region.Name}", ApexLogger.LogCategory.UI);
             if (NotificationSystem.Instance != null)
             {
                 NotificationSystem.Instance.ShowInfo($"Sending reinforcements to {region.Owner}...");
@@ -1273,7 +1274,7 @@ namespace ApexCitadels.PC.UI
 
         private void MessageOwner(MapRegion region)
         {
-            Debug.Log($"[WorldMap] Message: {region.Owner}");
+            ApexLogger.Log($"[WorldMap] Message: {region.Owner}", ApexLogger.LogCategory.UI);
         }
 
         private void AttackRegion(MapRegion region)
@@ -1285,7 +1286,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowAlert("Battle!", $"Attacking {region.Name}");
             }
             
-            Debug.Log($"[WorldMap] Attack initiated: {region.Name}");
+            ApexLogger.Log($"[WorldMap] Attack initiated: {region.Name}", ApexLogger.LogCategory.UI);
         }
 
         private void CaptureRegion(MapRegion region)
@@ -1295,7 +1296,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowInfo($"Marching to capture {region.Name}...");
             }
             
-            Debug.Log($"[WorldMap] Capture: {region.Name}");
+            ApexLogger.Log($"[WorldMap] Capture: {region.Name}", ApexLogger.LogCategory.UI);
         }
 
         private void RefreshMapDisplay()

@@ -9,6 +9,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.PC;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -966,7 +967,7 @@ namespace ApexCitadels.PC.UI
             isBattlefieldMode = siege.status == SiegeStatus.ActiveBattle || siege.status == SiegeStatus.PreparationPhase;
             
             UpdateBattleStatus();
-            Debug.Log($"[SiegeWarfare] Selected siege: {siege.targetCitadelName} - {siege.status}");
+            ApexLogger.Log($"[SiegeWarfare] Selected siege: {siege.targetCitadelName} - {siege.status}", ApexLogger.LogCategory.UI);
         }
 
         private void UpdateBattleStatus()
@@ -1050,7 +1051,7 @@ namespace ApexCitadels.PC.UI
         {
             currentTab = tab;
             RefreshSiegeList();
-            Debug.Log($"[SiegeWarfare] Switched to tab: {tab}");
+            ApexLogger.Log($"[SiegeWarfare] Switched to tab: {tab}", ApexLogger.LogCategory.UI);
         }
 
         // Action handlers
@@ -1058,39 +1059,39 @@ namespace ApexCitadels.PC.UI
         {
             if (currentSiege == null)
             {
-                Debug.Log("[SiegeWarfare] No siege selected for deployment");
+                ApexLogger.Log("[SiegeWarfare] No siege selected for deployment", ApexLogger.LogCategory.UI);
                 return;
             }
-            Debug.Log($"[SiegeWarfare] Deploying {type} units");
+            ApexLogger.Log($"[SiegeWarfare] Deploying {type} units", ApexLogger.LogCategory.UI);
         }
 
         private void JoinAttack()
         {
             if (currentSiege == null) return;
-            Debug.Log($"[SiegeWarfare] Joining attack on {currentSiege.targetCitadelName}");
+            ApexLogger.Log($"[SiegeWarfare] Joining attack on {currentSiege.targetCitadelName}", ApexLogger.LogCategory.UI);
         }
 
         private void JoinDefense()
         {
             if (currentSiege == null) return;
-            Debug.Log($"[SiegeWarfare] Joining defense of {currentSiege.targetCitadelName}");
+            ApexLogger.Log($"[SiegeWarfare] Joining defense of {currentSiege.targetCitadelName}", ApexLogger.LogCategory.UI);
         }
 
         private void RallyAllies()
         {
             if (currentSiege == null) return;
-            Debug.Log($"[SiegeWarfare] Rallying allies for {currentSiege.targetCitadelName}");
+            ApexLogger.Log($"[SiegeWarfare] Rallying allies for {currentSiege.targetCitadelName}", ApexLogger.LogCategory.UI);
         }
 
         private void Retreat()
         {
             if (currentSiege == null) return;
-            Debug.Log($"[SiegeWarfare] Retreating from {currentSiege.targetCitadelName}");
+            ApexLogger.Log($"[SiegeWarfare] Retreating from {currentSiege.targetCitadelName}", ApexLogger.LogCategory.UI);
         }
 
         private void ShowSiegeLog()
         {
-            Debug.Log("[SiegeWarfare] Showing siege log");
+            ApexLogger.Log("[SiegeWarfare] Showing siege log", ApexLogger.LogCategory.UI);
         }
 
         // Public API

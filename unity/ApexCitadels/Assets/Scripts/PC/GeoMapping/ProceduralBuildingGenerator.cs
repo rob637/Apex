@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -663,7 +664,7 @@ namespace ApexCitadels.PC.GeoMapping
             if (prefabSet == null || prefabSet.prefabs == null || prefabSet.prefabs.Length == 0)
             {
                 // Fallback to procedural
-                Debug.LogWarning($"No prefab set for {type}, using procedural");
+                ApexLogger.LogWarning($"No prefab set for {type}, using procedural", ApexLogger.LogCategory.Map);
                 return;
             }
             

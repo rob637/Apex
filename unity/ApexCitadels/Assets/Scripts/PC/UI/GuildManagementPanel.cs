@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.Data;
 using ApexCitadels.UI;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1624,7 +1625,7 @@ namespace ApexCitadels.PC.UI
 
         private void LeaveGuild()
         {
-            Debug.Log("[Guild] Leave guild requested - would show confirmation dialog");
+            ApexLogger.Log("[Guild] Leave guild requested - would show confirmation dialog", ApexLogger.LogCategory.UI);
             
             if (NotificationSystem.Instance != null)
             {

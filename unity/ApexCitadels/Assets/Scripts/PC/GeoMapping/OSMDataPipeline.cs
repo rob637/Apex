@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -79,7 +80,7 @@ namespace ApexCitadels.PC.GeoMapping
             {
                 if ((DateTime.Now - cached.timestamp).TotalHours < cacheExpirationHours)
                 {
-                    if (debugLogging) Debug.Log($"OSM: Returning cached data for {cacheKey}");
+                    if (debugLogging) ApexLogger.Log($"OSM: Returning cached data for {cacheKey}", ApexLogger.LogCategory.Map);
                     onComplete?.Invoke(cached);
                     OnDataLoaded?.Invoke(cached);
                     return;
@@ -132,7 +133,7 @@ namespace ApexCitadels.PC.GeoMapping
         public void ClearCache()
         {
             _cache.Clear();
-            if (debugLogging) Debug.Log("OSM: Cache cleared");
+            if (debugLogging) ApexLogger.Log("OSM: Cache cleared", ApexLogger.LogCategory.Map);
         }
         
         /// <summary>
@@ -191,7 +192,7 @@ namespace ApexCitadels.PC.GeoMapping
         
         private IEnumerator FetchBoundingBoxCoroutine(double south, double west, double north, double east, string cacheKey, Action<OSMAreaData> onComplete, Action<string> onError)
         {
-            if (debugLogging) Debug.Log($"OSM: Fetching bbox ({south:F4},{west:F4}) to ({north:F4},{east:F4})");
+            if (debugLogging) ApexLogger.Log($"OSM: Fetching bbox ({south:F4},{west:F4}) to ({north:F4},{east:F4})", ApexLogger.LogCategory.Map);
             
             OnLoadProgress?.Invoke(0.1f);
             
@@ -246,7 +247,7 @@ namespace ApexCitadels.PC.GeoMapping
             
             if (debugLogging)
             {
-                Debug.Log($"OSM: Loaded {areaData.buildings.Count} buildings, {areaData.roads.Count} roads, {areaData.naturalAreas.Count} natural areas, {areaData.pointsOfInterest.Count} POIs");
+                ApexLogger.Log($"OSM: Loaded {areaData.buildings.Count} buildings, {areaData.roads.Count} roads, {areaData.naturalAreas.Count} natural areas, {areaData.pointsOfInterest.Count} POIs", ApexLogger.LogCategory.Map);
             }
             
             onComplete?.Invoke(areaData);
@@ -268,7 +269,7 @@ namespace ApexCitadels.PC.GeoMapping
                 else
                 {
                     string error = $"OSM API Error: {request.error}";
-                    if (debugLogging) Debug.LogWarning(error);
+                    if (debugLogging) ApexLogger.LogWarning(error, ApexLogger.LogCategory.Map);
                     onError?.Invoke(error);
                     OnDataLoadError?.Invoke(error);
                 }
@@ -360,7 +361,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             catch (Exception ex)
             {
-                if (debugLogging) Debug.LogWarning($"OSM: Failed to parse buildings: {ex.Message}");
+                if (debugLogging) ApexLogger.LogWarning($"OSM: Failed to parse buildings: {ex.Message}", ApexLogger.LogCategory.Map);
             }
         }
         
@@ -407,7 +408,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             catch (Exception ex)
             {
-                if (debugLogging) Debug.LogWarning($"OSM: Failed to parse roads: {ex.Message}");
+                if (debugLogging) ApexLogger.LogWarning($"OSM: Failed to parse roads: {ex.Message}", ApexLogger.LogCategory.Map);
             }
         }
         
@@ -454,7 +455,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             catch (Exception ex)
             {
-                if (debugLogging) Debug.LogWarning($"OSM: Failed to parse natural areas: {ex.Message}");
+                if (debugLogging) ApexLogger.LogWarning($"OSM: Failed to parse natural areas: {ex.Message}", ApexLogger.LogCategory.Map);
             }
         }
         
@@ -493,7 +494,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
             catch (Exception ex)
             {
-                if (debugLogging) Debug.LogWarning($"OSM: Failed to parse POIs: {ex.Message}");
+                if (debugLogging) ApexLogger.LogWarning($"OSM: Failed to parse POIs: {ex.Message}", ApexLogger.LogCategory.Map);
             }
         }
         

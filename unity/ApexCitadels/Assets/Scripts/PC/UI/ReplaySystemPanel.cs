@@ -8,6 +8,7 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using ApexCitadels.PC;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1157,7 +1158,7 @@ namespace ApexCitadels.PC.UI
         private void SelectReplay(ReplayData replay)
         {
             selectedReplay = replay;
-            Debug.Log($"[Replay] Selected: {replay.title}");
+            ApexLogger.Log($"[Replay] Selected: {replay.title}", ApexLogger.LogCategory.UI);
         }
 
         private void LoadReplay(ReplayData replay)
@@ -1170,14 +1171,14 @@ namespace ApexCitadels.PC.UI
             timelineSlider.maxValue = 100;
             UpdateTimeDisplay();
             
-            Debug.Log($"[Replay] Loaded: {replay.title}");
+            ApexLogger.Log($"[Replay] Loaded: {replay.title}", ApexLogger.LogCategory.UI);
         }
 
         private void SwitchTab(ReplayTab tab)
         {
             currentTab = tab;
             RefreshReplayList();
-            Debug.Log($"[Replay] Switched to tab: {tab}");
+            ApexLogger.Log($"[Replay] Switched to tab: {tab}", ApexLogger.LogCategory.UI);
         }
 
         private void OnTimelineChanged(float value)
@@ -1205,7 +1206,7 @@ namespace ApexCitadels.PC.UI
             {
                 playbackState = PlaybackState.Playing;
             }
-            Debug.Log($"[Replay] {playbackState}");
+            ApexLogger.Log($"[Replay] {playbackState}", ApexLogger.LogCategory.UI);
         }
 
         private void SkipToStart()
@@ -1272,7 +1273,7 @@ namespace ApexCitadels.PC.UI
                 color = MARKER_COLOR
             };
             currentReplay.markers.Add(marker);
-            Debug.Log($"[Replay] Added marker at {FormatDuration(playbackTime)}");
+            ApexLogger.Log($"[Replay] Added marker at {FormatDuration(playbackTime)}", ApexLogger.LogCategory.UI);
         }
 
         private void ToggleBookmark()
@@ -1280,7 +1281,7 @@ namespace ApexCitadels.PC.UI
             if (selectedReplay != null)
             {
                 selectedReplay.isBookmarked = !selectedReplay.isBookmarked;
-                Debug.Log($"[Replay] Bookmark: {selectedReplay.isBookmarked}");
+                ApexLogger.Log($"[Replay] Bookmark: {selectedReplay.isBookmarked}", ApexLogger.LogCategory.UI);
             }
         }
 
@@ -1288,13 +1289,13 @@ namespace ApexCitadels.PC.UI
         {
             if (currentReplay != null)
             {
-                Debug.Log($"[Replay] Share dialog for: {currentReplay.title}");
+                ApexLogger.Log($"[Replay] Share dialog for: {currentReplay.title}", ApexLogger.LogCategory.UI);
             }
         }
 
         private void TakeScreenshot()
         {
-            Debug.Log("[Replay] Screenshot captured");
+            ApexLogger.Log("[Replay] Screenshot captured", ApexLogger.LogCategory.UI);
         }
 
         // Recording API
@@ -1302,7 +1303,7 @@ namespace ApexCitadels.PC.UI
         {
             isRecording = true;
             recordingTime = 0;
-            Debug.Log($"[Replay] Started recording: {title}");
+            ApexLogger.Log($"[Replay] Started recording: {title}", ApexLogger.LogCategory.UI);
         }
 
         public void StopRecording()
@@ -1322,7 +1323,7 @@ namespace ApexCitadels.PC.UI
             };
             
             allReplays.Insert(0, newReplay);
-            Debug.Log($"[Replay] Recording saved: {newReplay.title}");
+            ApexLogger.Log($"[Replay] Recording saved: {newReplay.title}", ApexLogger.LogCategory.UI);
         }
 
         public void RecordEvent(string eventType, string actorId, string targetId, Vector3 position)

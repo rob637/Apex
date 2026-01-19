@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1336,7 +1337,7 @@ namespace ApexCitadels.PC.UI
                 NotificationSystem.Instance.ShowInfo($"Opening {challenge.Category} menu...");
             }
             
-            Debug.Log($"[DailyChallenges] Go to challenge: {challenge.Title}");
+            ApexLogger.Log($"[DailyChallenges] Go to challenge: {challenge.Title}", ApexLogger.LogCategory.UI);
         }
 
         #endregion

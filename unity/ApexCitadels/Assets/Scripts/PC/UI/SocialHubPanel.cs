@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -1057,12 +1058,12 @@ namespace ApexCitadels.PC.UI
 
         private void OpenAddFriend()
         {
-            Debug.Log("[Social] Opening add friend dialog...");
+            ApexLogger.Log("[Social] Opening add friend dialog...", ApexLogger.LogCategory.UI);
         }
 
         private void ShareFriendCode()
         {
-            Debug.Log("[Social] Sharing friend code...");
+            ApexLogger.Log("[Social] Sharing friend code...", ApexLogger.LogCategory.UI);
             GUIUtility.systemCopyBuffer = "APEX-1234-ABCD-5678";
             
             if (NotificationSystem.Instance != null)
@@ -1078,12 +1079,12 @@ namespace ApexCitadels.PC.UI
 
         private void OpenChat(Friend friend)
         {
-            Debug.Log($"[Social] Opening chat with {friend.Name}...");
+            ApexLogger.Log($"[Social] Opening chat with {friend.Name}...", ApexLogger.LogCategory.UI);
         }
 
         private void InviteToBattle(Friend friend)
         {
-            Debug.Log($"[Social] Inviting {friend.Name} to battle...");
+            ApexLogger.Log($"[Social] Inviting {friend.Name} to battle...", ApexLogger.LogCategory.UI);
             
             if (NotificationSystem.Instance != null)
             {
@@ -1093,7 +1094,7 @@ namespace ApexCitadels.PC.UI
 
         private void SendOfflineMessage(Friend friend)
         {
-            Debug.Log($"[Social] Sending offline message to {friend.Name}...");
+            ApexLogger.Log($"[Social] Sending offline message to {friend.Name}...", ApexLogger.LogCategory.UI);
         }
 
         private void AcceptRequest(Friend request)
@@ -1119,12 +1120,12 @@ namespace ApexCitadels.PC.UI
 
         private void BrowseGuilds()
         {
-            Debug.Log("[Social] Opening guild browser...");
+            ApexLogger.Log("[Social] Opening guild browser...", ApexLogger.LogCategory.UI);
         }
 
         private void CreateGuild()
         {
-            Debug.Log("[Social] Opening guild creation...");
+            ApexLogger.Log("[Social] Opening guild creation...", ApexLogger.LogCategory.UI);
         }
 
         #endregion

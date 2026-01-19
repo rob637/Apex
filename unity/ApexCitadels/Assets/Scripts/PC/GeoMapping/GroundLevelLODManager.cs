@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -139,7 +140,7 @@ namespace ApexCitadels.PC.GeoMapping
             _worldOrigin = worldOrigin;
             _playerTransform = player;
             
-            Debug.Log($"[LOD] Initialized at ({latitude:F6}, {longitude:F6})");
+            ApexLogger.Log($"[LOD] Initialized at ({latitude:F6}, {longitude:F6})", ApexLogger.LogCategory.Map);
         }
         
         /// <summary>
@@ -279,7 +280,7 @@ namespace ApexCitadels.PC.GeoMapping
             
             OnViewModeChanged?.Invoke(mode);
             
-            Debug.Log($"[LOD] View mode changed: {previousMode} -> {mode}");
+            ApexLogger.Log($"[LOD] View mode changed: {previousMode} -> {mode}", ApexLogger.LogCategory.Map);
         }
         
         private IEnumerator TransitionCoroutine(ViewMode targetMode, float duration)
@@ -432,7 +433,7 @@ namespace ApexCitadels.PC.GeoMapping
                         fetchComplete = true;
                     },
                     onError: (error) => {
-                        Debug.LogWarning($"[LOD] OSM fetch error: {error}");
+                        ApexLogger.LogWarning($"[LOD] OSM fetch error: {error}", ApexLogger.LogCategory.Map);
                         fetchComplete = true;
                     }
                 );
@@ -466,7 +467,7 @@ namespace ApexCitadels.PC.GeoMapping
             
             OnChunkLoaded?.Invoke(coord);
             
-            Debug.Log($"[LOD] Loaded chunk {coord}");
+            ApexLogger.Log($"[LOD] Loaded chunk {coord}", ApexLogger.LogCategory.Map);
         }
         
         private void UnloadChunkAt(Vector2Int coord)
@@ -477,7 +478,7 @@ namespace ApexCitadels.PC.GeoMapping
                 _loadedChunks.Remove(coord);
                 OnChunkUnloaded?.Invoke(coord);
                 
-                Debug.Log($"[LOD] Unloaded chunk {coord}");
+                ApexLogger.Log($"[LOD] Unloaded chunk {coord}", ApexLogger.LogCategory.Map);
             }
         }
         

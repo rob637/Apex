@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -107,7 +108,7 @@ namespace ApexCitadels.PC.UI
             
             ApplySettings();
             OnSettingsSaved?.Invoke();
-            Debug.Log("[Settings] Settings saved!");
+            ApexLogger.Log("[Settings] Settings saved!", ApexLogger.LogCategory.UI);
         }
 
         private void ApplySettings()
@@ -333,7 +334,7 @@ namespace ApexCitadels.PC.UI
             
             CreateSpacer();
             
-            CreateButtonSetting("🔊 Test Sound", () => Debug.Log("[Settings] Playing test sound..."));
+            CreateButtonSetting("🔊 Test Sound", () => ApexLogger.Log("[Settings] Playing test sound..."), ApexLogger.LogCategory.UI);
         }
 
         private void CreateGraphicsSettings()
@@ -398,16 +399,16 @@ namespace ApexCitadels.PC.UI
             
             CreateSpacer();
             
-            CreateButtonSetting("🔗 Link Account", () => Debug.Log("[Settings] Link account clicked"));
-            CreateButtonSetting("🔄 Sync Data", () => Debug.Log("[Settings] Syncing data..."));
+            CreateButtonSetting("🔗 Link Account", () => ApexLogger.Log("[Settings] Link account clicked"), ApexLogger.LogCategory.UI);
+            CreateButtonSetting("🔄 Sync Data", () => ApexLogger.Log("[Settings] Syncing data..."), ApexLogger.LogCategory.UI);
             
             CreateSpacer();
             
             CreateLabel("Support:");
-            CreateButtonSetting("📧 Contact Support", () => Debug.Log("[Settings] Opening support..."));
+            CreateButtonSetting("📧 Contact Support", () => ApexLogger.Log("[Settings] Opening support..."), ApexLogger.LogCategory.UI);
             CreateButtonSetting("📋 Copy Player ID", () => {
                 GUIUtility.systemCopyBuffer = "DEMO_USER_001";
-                Debug.Log("[Settings] Player ID copied!");
+                ApexLogger.Log("[Settings] Player ID copied!", ApexLogger.LogCategory.UI);
             });
             
             CreateSpacer();
@@ -824,7 +825,7 @@ namespace ApexCitadels.PC.UI
         {
             _settings = new GameSettings();
             RefreshSettingsContent();
-            Debug.Log("[Settings] Reset to defaults");
+            ApexLogger.Log("[Settings] Reset to defaults", ApexLogger.LogCategory.UI);
         }
 
         #region Public API

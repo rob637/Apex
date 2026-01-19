@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -549,7 +550,7 @@ namespace ApexCitadels.PC.UI
             {
                 if (_trainingQueue.Count >= maxQueueSize)
                 {
-                    Debug.Log("[Barracks] Queue is full!");
+                    ApexLogger.Log("[Barracks] Queue is full!", ApexLogger.LogCategory.UI);
                     break;
                 }
                 
@@ -561,7 +562,7 @@ namespace ApexCitadels.PC.UI
                     
                     if (gold < def.GoldCost || stone < def.StoneCost)
                     {
-                        Debug.Log("[Barracks] Not enough resources!");
+                        ApexLogger.Log("[Barracks] Not enough resources!", ApexLogger.LogCategory.UI);
                         break;
                     }
                     
@@ -622,7 +623,7 @@ namespace ApexCitadels.PC.UI
                 
                 OnTroopsTrained?.Invoke(current.Type, 1);
                 
-                Debug.Log($"[Barracks] Trained 1 {current.Type}! Total: {_armyCounts[current.Type]}");
+                ApexLogger.Log($"[Barracks] Trained 1 {current.Type}! Total: {_armyCounts[current.Type]}", ApexLogger.LogCategory.UI);
             }
         }
 

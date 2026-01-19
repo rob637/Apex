@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.WebGL
 {
@@ -63,14 +64,14 @@ namespace ApexCitadels.PC.WebGL
         try
         {
             JS_SendGameReady();
-            Debug.Log("[WebGLBridge] Notified web page: Game Ready");
+            ApexLogger.Log("[WebGLBridge] Notified web page: Game Ready", ApexLogger.LogCategory.Network);
         }
         catch (Exception e)
         {
-            Debug.LogWarning($"[WebGLBridge] JS_SendGameReady failed: {e.Message}");
+            ApexLogger.LogWarning($"[WebGLBridge] JS_SendGameReady failed: {e.Message}", ApexLogger.LogCategory.Network);
         }
 #else
-        Debug.Log("[WebGLBridge] Game Ready (non-WebGL)");
+        ApexLogger.Log("[WebGLBridge] Game Ready (non-WebGL)", ApexLogger.LogCategory.Network);
 #endif
     }
 
@@ -79,7 +80,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
         JS_SendTerritorySelected(territoryId);
 #endif
-        Debug.Log($"[WebGLBridge] Territory selected: {territoryId}");
+        ApexLogger.Log($"[WebGLBridge] Territory selected: {territoryId}", ApexLogger.LogCategory.Network);
     }
 
     public void SendNotification(string title, string message)
@@ -87,7 +88,7 @@ namespace ApexCitadels.PC.WebGL
 #if UNITY_WEBGL && !UNITY_EDITOR
         JS_SendNotification(title, message);
 #endif
-        Debug.Log($"[WebGLBridge] Notification: {title} - {message}");
+        ApexLogger.Log($"[WebGLBridge] Notification: {title} - {message}", ApexLogger.LogCategory.Network);
     }
 
     public void RequestFullscreen()
@@ -103,13 +104,13 @@ namespace ApexCitadels.PC.WebGL
 
     public void ReceiveLoginToken(string token)
     {
-        Debug.Log("[WebGLBridge] Received login token");
+        ApexLogger.Log("[WebGLBridge] Received login token", ApexLogger.LogCategory.Network);
         OnLoginTokenReceived?.Invoke(token);
     }
 
     public void SelectTerritoryFromWeb(string territoryId)
     {
-        Debug.Log($"[WebGLBridge] Web requested territory: {territoryId}");
+        ApexLogger.Log($"[WebGLBridge] Web requested territory: {territoryId}", ApexLogger.LogCategory.Network);
         OnTerritorySelectedFromWeb?.Invoke(territoryId);
 
         // Forward to PC game controller
@@ -121,13 +122,13 @@ namespace ApexCitadels.PC.WebGL
 
     public void ExecuteCommand(string commandJson)
     {
-        Debug.Log($"[WebGLBridge] Command: {commandJson}");
+        ApexLogger.Log($"[WebGLBridge] Command: {commandJson}", ApexLogger.LogCategory.Network);
         OnCommandReceived?.Invoke(commandJson);
     }
 
     public void TogglePanel(string panelName)
     {
-        Debug.Log($"[WebGLBridge] Toggle panel: {panelName}");
+        ApexLogger.Log($"[WebGLBridge] Toggle panel: {panelName}", ApexLogger.LogCategory.Network);
         
         if (UI.PCUIManager.Instance != null)
         {

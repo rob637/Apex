@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Core;
 
 namespace ApexCitadels.PC.UI
 {
@@ -579,23 +580,23 @@ namespace ApexCitadels.PC.UI
             switch (notification.actionType)
             {
                 case PCNotificationAction.OpenMap:
-                    Debug.Log($"Opening map at: {notification.actionData}");
+                    ApexLogger.Log($"Opening map at: {notification.actionData}", ApexLogger.LogCategory.UI);
                     break;
                     
                 case PCNotificationAction.OpenAlliance:
-                    Debug.Log("Opening alliance panel");
+                    ApexLogger.Log("Opening alliance panel", ApexLogger.LogCategory.UI);
                     break;
                     
                 case PCNotificationAction.OpenEvent:
-                    Debug.Log($"Opening event: {notification.actionData}");
+                    ApexLogger.Log($"Opening event: {notification.actionData}", ApexLogger.LogCategory.UI);
                     break;
                     
                 case PCNotificationAction.OpenChat:
-                    Debug.Log($"Opening chat: {notification.actionData}");
+                    ApexLogger.Log($"Opening chat: {notification.actionData}", ApexLogger.LogCategory.UI);
                     break;
                     
                 case PCNotificationAction.OpenSettings:
-                    Debug.Log("Opening settings");
+                    ApexLogger.Log("Opening settings", ApexLogger.LogCategory.UI);
                     break;
                     
                 case PCNotificationAction.OpenURL:

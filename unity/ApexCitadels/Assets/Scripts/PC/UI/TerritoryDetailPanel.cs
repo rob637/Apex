@@ -140,7 +140,7 @@ namespace ApexCitadels.PC.UI
         {
             if (_currentTerritory == null) return;
 
-            Debug.Log($"[TerritoryPanel] Displaying territory: {_currentTerritory.Name}");
+            ApexLogger.Log($"[TerritoryPanel] Displaying territory: {_currentTerritory.Name}", ApexLogger.LogCategory.UI);
 
             // Header - use serialized or dynamic
             TextMeshProUGUI nameDisplay = territoryNameText ?? _dynamicNameText;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using ApexCitadels.Core;
 
 // Run before AR Foundation components
 [DefaultExecutionOrder(-1000)]
@@ -13,7 +14,7 @@ public class DesktopFallbackCamera : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("[DesktopFallback] Awake called - disabling AR first");
+        ApexLogger.Log("[DesktopFallback] Awake called - disabling AR first", ApexLogger.LogCategory.General);
         
         // IMMEDIATELY disable AR GameObjects before they initialize
         DisableARGameObjects();
@@ -22,7 +23,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         
         if (cam == null)
         {
-            Debug.LogError("[DesktopFallback] No Camera component found!");
+            ApexLogger.LogError("[DesktopFallback] No Camera component found!", ApexLogger.LogCategory.General);
             return;
         }
         
@@ -44,7 +45,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         rotationX = 15f;
         rotationY = 0f;
         
-        Debug.Log($"[DesktopFallback] Camera configured: enabled={cam.enabled}, depth={cam.depth}, pos={transform.position}");
+        ApexLogger.Log($"[DesktopFallback] Camera configured: enabled={cam.enabled}, depth={cam.depth}, pos={transform.position}", ApexLogger.LogCategory.General);
         
         // FORCE create objects immediately in Awake to ensure they exist
         CreateDebugEnvironmentImmediate();
@@ -52,14 +53,14 @@ public class DesktopFallbackCamera : MonoBehaviour
     
     void CreateDebugEnvironmentImmediate()
     {
-        Debug.Log("[DesktopFallback] Creating objects in Awake...");
+        ApexLogger.Log("[DesktopFallback] Creating objects in Awake...", ApexLogger.LogCategory.General);
         
         // Simple cube right in front of camera
         GameObject testCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         testCube.name = "TestCube_Immediate";
         testCube.transform.position = new Vector3(0, 0.5f, 2f);
         testCube.transform.localScale = Vector3.one * 0.5f;
-        Debug.Log($"[DesktopFallback] Created test cube at {testCube.transform.position}");
+        ApexLogger.Log($"[DesktopFallback] Created test cube at {testCube.transform.position}", ApexLogger.LogCategory.General);
     }
     
     void DisableARGameObjects()
@@ -68,7 +69,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         var arSession = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARSession>(FindObjectsInactive.Include);
         if (arSession != null)
         {
-            Debug.Log($"[DesktopFallback] Disabling AR Session GameObject: {arSession.gameObject.name}");
+            ApexLogger.Log($"[DesktopFallback] Disabling AR Session GameObject: {arSession.gameObject.name}", ApexLogger.LogCategory.General);
             arSession.gameObject.SetActive(false);
         }
         
@@ -76,23 +77,23 @@ public class DesktopFallbackCamera : MonoBehaviour
         var xrOrigin = FindFirstObjectByType<Unity.XR.CoreUtils.XROrigin>(FindObjectsInactive.Include);
         if (xrOrigin != null)
         {
-            Debug.Log($"[DesktopFallback] Disabling XR Origin GameObject: {xrOrigin.gameObject.name}");
+            ApexLogger.Log($"[DesktopFallback] Disabling XR Origin GameObject: {xrOrigin.gameObject.name}", ApexLogger.LogCategory.General);
             xrOrigin.gameObject.SetActive(false);
         }
     }
 
     void Start()
     {
-        Debug.Log("[DesktopFallback] Start called");
+        ApexLogger.Log("[DesktopFallback] Start called", ApexLogger.LogCategory.General);
         
         // Disable any remaining cameras
         Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
-        Debug.Log($"[DesktopFallback] Found {allCameras.Length} cameras");
+        ApexLogger.Log($"[DesktopFallback] Found {allCameras.Length} cameras", ApexLogger.LogCategory.General);
         foreach (var c in allCameras)
         {
             if (c != cam)
             {
-                Debug.Log($"[DesktopFallback] Disabling camera: {c.gameObject.name}");
+                ApexLogger.Log($"[DesktopFallback] Disabling camera: {c.gameObject.name}", ApexLogger.LogCategory.General);
                 c.enabled = false;
             }
         }
@@ -107,7 +108,7 @@ public class DesktopFallbackCamera : MonoBehaviour
             var light = lightGO.AddComponent<Light>();
             light.type = LightType.Directional;
             light.transform.rotation = Quaternion.Euler(50, -30, 0);
-            Debug.Log("[DesktopFallback] Created directional light");
+            ApexLogger.Log("[DesktopFallback] Created directional light", ApexLogger.LogCategory.General);
         }
     }
     
@@ -117,7 +118,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         var arSession = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARSession>();
         if (arSession != null)
         {
-            Debug.Log("[DesktopFallback] Disabling AR Session");
+            ApexLogger.Log("[DesktopFallback] Disabling AR Session", ApexLogger.LogCategory.General);
             arSession.enabled = false;
         }
         
@@ -125,7 +126,7 @@ public class DesktopFallbackCamera : MonoBehaviour
         var arCamBg = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARCameraBackground>();
         if (arCamBg != null)
         {
-            Debug.Log("[DesktopFallback] Disabling AR Camera Background");
+            ApexLogger.Log("[DesktopFallback] Disabling AR Camera Background", ApexLogger.LogCategory.General);
             arCamBg.enabled = false;
         }
         
@@ -133,14 +134,14 @@ public class DesktopFallbackCamera : MonoBehaviour
         var arCamMgr = FindFirstObjectByType<UnityEngine.XR.ARFoundation.ARCameraManager>();
         if (arCamMgr != null)
         {
-            Debug.Log("[DesktopFallback] Disabling AR Camera Manager");
+            ApexLogger.Log("[DesktopFallback] Disabling AR Camera Manager", ApexLogger.LogCategory.General);
             arCamMgr.enabled = false;
         }
     }
 
     void CreateDebugEnvironment()
     {
-        Debug.Log("[DesktopFallback] Creating debug environment...");
+        ApexLogger.Log("[DesktopFallback] Creating debug environment...", ApexLogger.LogCategory.General);
         
         // Create ground plane - use the default material from primitives
         GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
@@ -159,7 +160,7 @@ public class DesktopFallbackCamera : MonoBehaviour
                 groundRenderer.material.SetColor("_Color", new Color(0.3f, 0.5f, 0.3f));
         }
         
-        Debug.Log("[DesktopFallback] Ground created");
+        ApexLogger.Log("[DesktopFallback] Ground created", ApexLogger.LogCategory.General);
         
         // Create some reference cubes
         Color[] colors = { Color.red, Color.blue, Color.yellow, Color.magenta };
@@ -180,7 +181,7 @@ public class DesktopFallbackCamera : MonoBehaviour
             }
         }
         
-        Debug.Log("[DesktopFallback] Debug environment created with 4 cubes");
+        ApexLogger.Log("[DesktopFallback] Debug environment created with 4 cubes", ApexLogger.LogCategory.General);
     }
 
     void Update()
