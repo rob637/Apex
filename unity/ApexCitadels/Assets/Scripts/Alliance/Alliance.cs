@@ -471,7 +471,9 @@ namespace ApexCitadels.Alliance
             }
 
             return war;
-        }#endif    }
+        }
+#endif
+    }
 
     /// <summary>
     /// Individual battle in an alliance war
