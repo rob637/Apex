@@ -407,6 +407,7 @@ namespace ApexCitadels.PC.GeoMapping
             var velocityOverLifetime = _mistSystem.velocityOverLifetime;
             velocityOverLifetime.enabled = true;
             velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(mistScrollSpeed * 0.5f);
+            velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(0f);
             velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(mistScrollSpeed * 0.3f);
             
             var colorOverLifetime = _mistSystem.colorOverLifetime;
@@ -764,7 +765,9 @@ namespace ApexCitadels.PC.GeoMapping
             
             var velocityOverLifetime = auraSystem.velocityOverLifetime;
             velocityOverLifetime.enabled = true;
-            velocityOverLifetime.y = 2f;
+            velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(0f);
+            velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(2f);
+            velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(0f);
             
             var colorOverLifetime = auraSystem.colorOverLifetime;
             colorOverLifetime.enabled = true;

@@ -670,7 +670,9 @@ namespace ApexCitadels.PC.Buildings
             
             var velocityOverLifetime = ps.velocityOverLifetime;
             velocityOverLifetime.enabled = true;
-            velocityOverLifetime.y = 2f;
+            velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(0f);
+            velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(2f);
+            velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(0f);
             
             var noise = ps.noise;
             noise.enabled = true;
@@ -855,8 +857,9 @@ namespace ApexCitadels.PC.Buildings
             
             var velocityOverLifetime = ps.velocityOverLifetime;
             velocityOverLifetime.enabled = true;
+            velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(-1f, 1f);
             velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(0.5f, 2f);
-            velocityOverLifetime.radial = 2f;
+            velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(-1f, 1f);
             
             var noise = ps.noise;
             noise.enabled = true;

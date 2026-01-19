@@ -428,7 +428,9 @@ namespace ApexCitadels.PC.Buildings
             
             var velocityOverLifetime = ps.velocityOverLifetime;
             velocityOverLifetime.enabled = true;
+            velocityOverLifetime.x = new ParticleSystem.MinMaxCurve(-1f, 1f);
             velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(-2f, 2f);
+            velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(-1f, 1f);
             
             var colorOverLifetime = ps.colorOverLifetime;
             colorOverLifetime.enabled = true;
