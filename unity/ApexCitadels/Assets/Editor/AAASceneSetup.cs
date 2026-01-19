@@ -426,9 +426,12 @@ namespace ApexCitadels.Editor
 
             // Add OSMDataPipeline for road/building data
             mapSystemObj.AddComponent<PC.GeoMapping.OSMDataPipeline>();
+            
+            // Add Mapbox tile renderer for real geographic tiles
+            mapSystemObj.AddComponent<ApexCitadels.Map.MapboxTileRenderer>();
 
-            Debug.Log("[AAA Setup] Created GeoMapSystem with OpenStreetMap tiles");
-            Debug.Log("[AAA Setup] Map will load real-world tiles at runtime");
+            Debug.Log("[AAA Setup] Created GeoMapSystem with Mapbox tiles");
+            Debug.Log("[AAA Setup] Configure your Mapbox API key via Apex > PC > Configure Mapbox API");
         }
 
         #endregion
@@ -447,6 +450,7 @@ namespace ApexCitadels.Editor
                 camObj.AddComponent<AudioListener>();
                 Undo.RegisterCreatedObjectUndo(camObj, "Create Main Camera");
             }
+
 
             // Configure camera for AAA quality
             mainCam.clearFlags = CameraClearFlags.Skybox;
