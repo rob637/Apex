@@ -303,24 +303,24 @@ namespace ApexCitadels.PC.UI
             _countdownCoroutine = StartCoroutine(UpdateCountdown());
         }
         
-        private void SetTypeIcon(EventType type)
+        private void SetTypeIcon(LiveEventType type)
         {
-            territoryIcon?.SetActive(type == EventType.TerritoryContest);
-            warIcon?.SetActive(type == EventType.AllianceWar);
-            bonusIcon?.SetActive(type == EventType.ResourceBonus);
-            tournamentIcon?.SetActive(type == EventType.Tournament);
+            territoryIcon?.SetActive(type == LiveEventType.TerritoryContest);
+            warIcon?.SetActive(type == LiveEventType.AllianceWar);
+            bonusIcon?.SetActive(type == LiveEventType.ResourceBonus);
+            tournamentIcon?.SetActive(type == LiveEventType.Tournament);
         }
         
-        private Color GetTypeColor(EventType type)
+        private Color GetTypeColor(LiveEventType type)
         {
             return type switch
             {
-                EventType.TerritoryContest => new Color(0.2f, 0.7f, 0.3f),
-                EventType.ResourceBonus => new Color(0.9f, 0.7f, 0.2f),
-                EventType.AllianceWar => new Color(0.8f, 0.2f, 0.2f),
-                EventType.Tournament => new Color(0.9f, 0.5f, 0.2f),
-                EventType.SeasonPass => new Color(0.6f, 0.4f, 0.9f),
-                EventType.WorldBoss => new Color(0.6f, 0.1f, 0.6f),
+                LiveEventType.TerritoryContest => new Color(0.2f, 0.7f, 0.3f),
+                LiveEventType.ResourceBonus => new Color(0.9f, 0.7f, 0.2f),
+                LiveEventType.AllianceWar => new Color(0.8f, 0.2f, 0.2f),
+                LiveEventType.Tournament => new Color(0.9f, 0.5f, 0.2f),
+                LiveEventType.SeasonPass => new Color(0.6f, 0.4f, 0.9f),
+                LiveEventType.WorldBoss => new Color(0.6f, 0.1f, 0.6f),
                 _ => new Color(0.3f, 0.5f, 0.9f)
             };
         }

@@ -1211,7 +1211,17 @@ namespace ApexCitadels.PC
         DefenseFired,
         SpecialAbilityUsed,
         ResourceCaptured,
-        BattleEnded
+        BattleEnded,
+        // Combat action types
+        MeleeClash,
+        ArcherVolley,
+        CavalryCharge,
+        SiegeWeapon,
+        DefenseHold,
+        FireAttack,
+        Breakthrough,
+        Retreat,
+        Advance
     }
     
     #endregion

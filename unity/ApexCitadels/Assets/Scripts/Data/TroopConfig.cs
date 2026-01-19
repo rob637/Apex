@@ -101,6 +101,21 @@ namespace ApexCitadels.Data
                     StrongAgainst = new List<TroopType> { TroopType.Cavalry },
                     WeakAgainst = new List<TroopType> { TroopType.Siege }
                 }
+            },
+            {
+                TroopType.Elite,
+                new TroopDefinition
+                {
+                    Type = TroopType.Elite,
+                    DisplayName = "Elite Guard",
+                    BaseAttack = 30,
+                    BaseDefense = 25,
+                    BaseHealth = 150,
+                    TrainingTimeSeconds = 300,
+                    TrainingCost = new ResourceCost(iron: 50, crystal: 20, gems: 5),
+                    StrongAgainst = new List<TroopType> { TroopType.Infantry, TroopType.Archer },
+                    WeakAgainst = new List<TroopType> { TroopType.Siege }
+                }
             }
         };
 

@@ -496,7 +496,7 @@ namespace ApexCitadels.PC
                 var effects = CurrentEffects;
                 UI.NotificationSystem.Instance.ShowToast(
                     $"Weather: {GetWeatherDisplayName(_currentWeather)}\n{effects.Description}",
-                    UI.NotificationType.Info,
+                    UI.ToastNotificationType.Info,
                     "🌤️ Weather Update"
                 );
             }

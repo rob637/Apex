@@ -9,7 +9,7 @@ namespace ApexCitadels.Data
     // ============================================================================
 
     /// <summary>
-    /// Six troop types with rock-paper-scissors counters
+    /// Seven troop types with rock-paper-scissors counters
     /// Matches backend: TroopType in types/index.ts
     /// </summary>
     public enum TroopType
@@ -19,7 +19,8 @@ namespace ApexCitadels.Data
         Cavalry,    // Strong vs Archer+Siege, Weak vs Guardian
         Siege,      // Strong vs Buildings, Weak vs Cavalry
         Mage,       // Strong vs Groups, Weak vs Infantry
-        Guardian    // Strong vs Cavalry, Weak vs Siege
+        Guardian,   // Strong vs Cavalry, Weak vs Siege
+        Elite       // Special high-tier troops
     }
 
     /// <summary>

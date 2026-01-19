@@ -229,7 +229,7 @@ namespace ApexCitadels.PC.UI
 
         #region Resource Integration
 
-        private bool TryDeductResources(ResourceCost cost)
+        private bool TryDeductResources(Data.ResourceCost cost)
         {
             if (ResourceInventory.Instance == null)
             {
@@ -237,31 +237,37 @@ namespace ApexCitadels.PC.UI
                 return true; // Allow training without resource check in dev
             }
 
-            // Check if we have enough
-            if (!ResourceInventory.Instance.CanAfford(cost.Stone, cost.Wood, cost.Iron, 
-                cost.Crystal, cost.ArcaneEssence, cost.Gems))
+            // Check if we have enough of each resource
+            if (!ResourceInventory.Instance.HasResource(ResourceType.Stone, cost.Stone) ||
+                !ResourceInventory.Instance.HasResource(ResourceType.Wood, cost.Wood) ||
+                !ResourceInventory.Instance.HasResource(ResourceType.Iron, cost.Iron) ||
+                !ResourceInventory.Instance.HasResource(ResourceType.Crystal, cost.Crystal) ||
+                !ResourceInventory.Instance.HasResource(ResourceType.ArcaneEssence, cost.ArcaneEssence) ||
+                !ResourceInventory.Instance.HasResource(ResourceType.Gems, cost.Gems))
             {
                 return false;
             }
 
             // Deduct resources
-            return ResourceInventory.Instance.Spend(cost.Stone, cost.Wood, cost.Iron,
-                cost.Crystal, cost.ArcaneEssence, cost.Gems);
+            ResourceInventory.Instance.RemoveResource(ResourceType.Stone, cost.Stone, "Training");
+            ResourceInventory.Instance.RemoveResource(ResourceType.Wood, cost.Wood, "Training");
+            ResourceInventory.Instance.RemoveResource(ResourceType.Iron, cost.Iron, "Training");
+            ResourceInventory.Instance.RemoveResource(ResourceType.Crystal, cost.Crystal, "Training");
+            ResourceInventory.Instance.RemoveResource(ResourceType.ArcaneEssence, cost.ArcaneEssence, "Training");
+            ResourceInventory.Instance.RemoveResource(ResourceType.Gems, cost.Gems, "Training");
+            return true;
         }
 
-        private void RefundResources(ResourceCost cost, float ratio)
+        private void RefundResources(Data.ResourceCost cost, float ratio)
         {
             if (ResourceInventory.Instance == null) return;
 
-            int stoneRefund = Mathf.FloorToInt(cost.Stone * ratio);
-            int woodRefund = Mathf.FloorToInt(cost.Wood * ratio);
-            int ironRefund = Mathf.FloorToInt(cost.Iron * ratio);
-            int crystalRefund = Mathf.FloorToInt(cost.Crystal * ratio);
-            int arcaneRefund = Mathf.FloorToInt(cost.ArcaneEssence * ratio);
-            int gemsRefund = Mathf.FloorToInt(cost.Gems * ratio);
-
-            ResourceInventory.Instance.Add(stoneRefund, woodRefund, ironRefund,
-                crystalRefund, arcaneRefund, gemsRefund);
+            ResourceInventory.Instance.AddResource(ResourceType.Stone, Mathf.FloorToInt(cost.Stone * ratio), "Training refund");
+            ResourceInventory.Instance.AddResource(ResourceType.Wood, Mathf.FloorToInt(cost.Wood * ratio), "Training refund");
+            ResourceInventory.Instance.AddResource(ResourceType.Iron, Mathf.FloorToInt(cost.Iron * ratio), "Training refund");
+            ResourceInventory.Instance.AddResource(ResourceType.Crystal, Mathf.FloorToInt(cost.Crystal * ratio), "Training refund");
+            ResourceInventory.Instance.AddResource(ResourceType.ArcaneEssence, Mathf.FloorToInt(cost.ArcaneEssence * ratio), "Training refund");
+            ResourceInventory.Instance.AddResource(ResourceType.Gems, Mathf.FloorToInt(cost.Gems * ratio), "Training refund");
 
             Debug.Log($"[TrainingQueue] Refunded {ratio:P0} of resources");
         }

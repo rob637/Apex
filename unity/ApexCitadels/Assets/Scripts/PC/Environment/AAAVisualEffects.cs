@@ -163,17 +163,8 @@ namespace ApexCitadels.PC.Environment
                 Debug.Log("[AAA Effects] Color adjustments added");
             }
 
-            // Add Lift Gamma Gain for cinematic color
-            if (!_volumeProfile.TryGet<LiftGammaGain>(out var lgg))
-            {
-                lgg = _volumeProfile.Add<LiftGammaGain>();
-                lgg.active = true;
-                // Slight blue in shadows, warm in highlights
-                lgg.lift.SetOverride(new Vector4(0.95f, 0.95f, 1.05f, 0f));
-                lgg.gamma.SetOverride(new Vector4(1f, 1f, 1f, 0f));
-                lgg.gain.SetOverride(new Vector4(1.05f, 1.02f, 0.98f, 0f));
-                Debug.Log("[AAA Effects] Lift/Gamma/Gain added");
-            }
+            // Note: LiftGammaGain was removed in Unity 6 URP - use ColorCurves instead if needed
+            // Cinematic color grading achieved through ColorAdjustments above
 
             // Add Film Grain (subtle)
             if (!_volumeProfile.TryGet<FilmGrain>(out var grain))

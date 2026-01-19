@@ -567,7 +567,7 @@ namespace ApexCitadels.PC.UI
                     PCResourceSystem.Instance.SpendResource(ResourceType.Stone, def.StoneCost);
                 }
                 
-                _trainingQueue.Add(new TrainingQueueItem
+                _trainingQueue.Add(new BarracksQueueItem
                 {
                     Type = type,
                     TrainingTime = def.TrainingTime
@@ -592,7 +592,7 @@ namespace ApexCitadels.PC.UI
                 return;
             }
             
-            TrainingQueueItem current = _trainingQueue[0];
+            BarracksQueueItem current = _trainingQueue[0];
             TroopDefinition def = GetTroopDefinition(current.Type);
             
             _currentTrainingProgress += Time.deltaTime;
@@ -735,7 +735,7 @@ namespace ApexCitadels.PC.UI
         {
             if (index > 0 && index < _trainingQueue.Count)
             {
-                TrainingQueueItem item = _trainingQueue[index];
+                BarracksQueueItem item = _trainingQueue[index];
                 TroopDefinition def = GetTroopDefinition(item.Type);
                 
                 // Refund resources (partial)

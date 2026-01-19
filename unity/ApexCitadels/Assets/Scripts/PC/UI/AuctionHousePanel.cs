@@ -833,7 +833,7 @@ namespace ApexCitadels.PC.UI
                     Quantity = UnityEngine.Random.Range(1, 20),
                     SellerName = $"Player{UnityEngine.Random.Range(1000, 9999)}",
                     TimeRemaining = TimeSpan.FromHours(UnityEngine.Random.Range(1, 48)),
-                    Rarity = (ItemRarity)UnityEngine.Random.Range(0, 5),
+                    Rarity = (AuctionItemRarity)UnityEngine.Random.Range(0, 5),
                     ItemLevel = UnityEngine.Random.Range(1, 100)
                 };
                 

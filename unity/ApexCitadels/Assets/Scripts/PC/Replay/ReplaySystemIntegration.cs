@@ -478,7 +478,7 @@ namespace ApexCitadels.PC.Replay
             // Ensure directory exists
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
             
-            ScreenCapture.CaptureScreenshot(path);
+            UnityEngine.ScreenCapture.CaptureScreenshot(path);
             
             Debug.Log($"[ReplayIntegration] Screenshot saved: {path}");
             OnScreenshotTaken?.Invoke(path);

@@ -1,6 +1,7 @@
 using Camera = UnityEngine.Camera;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -867,7 +868,7 @@ namespace ApexCitadels.PC.CameraControllers
             string path = System.IO.Path.Combine(Application.persistentDataPath, "Screenshots", filename);
             
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
-            ScreenCapture.CaptureScreenshot(path);
+            UnityEngine.ScreenCapture.CaptureScreenshot(path);
             
             Debug.Log($"Screenshot saved: {path}");
             
@@ -893,7 +894,7 @@ namespace ApexCitadels.PC.CameraControllers
             if (currentFilterIndex == filterMaterials.Length)
             {
                 // No filter
-                photoCamera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>()?.SetRenderer(0);
+                photoCamera.GetComponent<UniversalAdditionalCameraData>()?.SetRenderer(0);
                 if (filterNameText != null) filterNameText.text = "No Filter";
             }
             else
