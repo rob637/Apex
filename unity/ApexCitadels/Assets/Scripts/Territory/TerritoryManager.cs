@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using ApexCitadels.Core;
+using ApexCitadels.PC.Buildings;
+using ApexCitadels.Core.Assets;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Extensions;
@@ -294,7 +296,40 @@ namespace ApexCitadels.Territory
         {
             if (territoryBoundaryPrefab == null)
             {
-                // Create a simple cylinder as fallback
+                // Try to use real 3D models from BuildingModelProvider
+                var provider = BuildingModelProvider.Instance;
+                if (provider != null && provider.HasDatabase)
+                {
+                    // Get a building model based on territory level
+                    GameObject model = provider.GetFoundationModel(territory.Level);
+                    if (model != null)
+                    {
+                        model.name = $"Territory_{territory.Id}";
+                        
+                        // Scale based on territory radius
+                        float scale = territory.RadiusMeters * 0.1f; // Adjust as needed
+                        model.transform.localScale = Vector3.one * scale;
+                        model.transform.position = new Vector3(0, 0.1f, 0);
+                        
+                        // Tint based on ownership
+                        var renderers = model.GetComponentsInChildren<Renderer>();
+                        Color tint = GetOwnershipColor(territory);
+                        foreach (var r in renderers)
+                        {
+                            if (r.material != null)
+                            {
+                                r.material.color = Color.Lerp(r.material.color, tint, 0.3f);
+                            }
+                        }
+                        
+                        _territoryVisuals[territory.Id] = model;
+                        Debug.Log($"[TerritoryManager] Created real 3D model for territory {territory.Id}");
+                        return;
+                    }
+                }
+                
+                // Fallback: Create a simple cylinder
+                Debug.Log($"[TerritoryManager] Fallback to cylinder primitive for territory {territory.Id}");
                 GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
                 visual.name = $"Territory_{territory.Id}";
                 
@@ -352,6 +387,22 @@ namespace ApexCitadels.Territory
                 {
                     renderer.material = GetTerritoryMaterial(territory);
                 }
+            }
+        }
+
+        private Color GetOwnershipColor(Territory territory)
+        {
+            if (territory.IsContested)
+            {
+                return new Color(1f, 0.5f, 0f, 1f); // Orange for contested
+            }
+            else if (territory.OwnerId == _currentPlayerId)
+            {
+                return new Color(0f, 0.8f, 0.2f, 1f); // Green for owned
+            }
+            else
+            {
+                return new Color(0.8f, 0.2f, 0.2f, 1f); // Red for enemy
             }
         }
 

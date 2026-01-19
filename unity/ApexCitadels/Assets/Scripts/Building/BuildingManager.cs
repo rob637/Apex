@@ -6,6 +6,8 @@ using ApexCitadels.Core;
 using ApexCitadels.Data;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
+using ApexCitadels.PC.Buildings;
+using ApexCitadels.Core.Assets;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 using Firebase.Extensions;
@@ -523,8 +525,39 @@ namespace ApexCitadels.Building
             {
                 return Instantiate(prefab);
             }
+            
+            // Try to use real 3D models from BuildingModelProvider
+            var provider = BuildingModelProvider.Instance;
+            if (provider != null && provider.HasDatabase)
+            {
+                GameObject model = null;
+                switch (type)
+                {
+                    case BlockType.Wall:
+                        model = provider.GetWallModel(WallType.Straight);
+                        break;
+                    case BlockType.Tower:
+                        model = provider.GetTowerModel(TowerType.Guard);
+                        break;
+                    case BlockType.Stone:
+                    case BlockType.Wood:
+                    case BlockType.Metal:
+                        model = provider.GetBuildingModel(BuildingCategory.Resource);
+                        break;
+                    default:
+                        model = provider.GetBuildingModel(BuildingCategory.Support);
+                        break;
+                }
+                
+                if (model != null)
+                {
+                    Debug.Log($"[BuildingManager] Using real 3D model for {type}: {model.name}");
+                    return model;
+                }
+            }
 
-            // Create primitive based on type
+            // Fallback: Create primitive based on type
+            Debug.Log($"[BuildingManager] Fallback to primitive for {type}");
             GameObject block;
             switch (type)
             {
