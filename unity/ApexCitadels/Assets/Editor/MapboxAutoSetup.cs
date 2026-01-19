@@ -22,7 +22,7 @@ namespace ApexCitadels.Editor
         private static void SetupMapboxConfig()
         {
             // Try to load existing config
-            MapboxConfiguration config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            MapboxConfiguration config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             
             if (config == null)
             {
@@ -60,7 +60,7 @@ namespace ApexCitadels.Editor
             }
             
             // Check if already exists
-            MapboxConfiguration existing = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            MapboxConfiguration existing = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             if (existing != null)
             {
                 existing.AccessToken = MAPBOX_API_KEY;

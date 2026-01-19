@@ -31,7 +31,7 @@ namespace ApexCitadels.Editor
         private void LoadOrCreateConfig()
         {
             // Try to load existing config
-            _config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            _config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             
             if (_config == null)
             {
