@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using ApexCitadels.Core;
 using ApexCitadels.PC.UI;
+using ApexCitadels.Map;
 
 #pragma warning disable 0414
 
@@ -248,6 +249,14 @@ namespace ApexCitadels.PC
 
         private void CreateGroundPlane()
         {
+            // Skip if Mapbox is providing the ground
+            var mapbox = FindFirstObjectByType<MapboxTileRenderer>();
+            if (mapbox != null && mapbox.gameObject.activeInHierarchy)
+            {
+                Debug.Log("[PCBootstrapper] Mapbox active - skipping ground plane");
+                return;
+            }
+            
             // Check if ground already exists
             if (GameObject.Find("GroundPlane") != null)
                 return;

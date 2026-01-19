@@ -132,9 +132,16 @@ namespace ApexCitadels.PC
         private void SetupEnhancedGround()
         {
             // Skip if Mapbox is providing the ground
-            var mapbox = FindFirstObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            var mapbox = FindFirstObjectByType<MapboxTileRenderer>();
             if (mapbox != null && mapbox.gameObject.activeInHierarchy)
             {
+                // Also destroy any existing ground plane that might have been created
+                var existingGround = GameObject.Find("GroundPlane");
+                if (existingGround != null)
+                {
+                    Debug.Log("[VisualEnhancements] Destroying existing GroundPlane since Mapbox is active");
+                    Destroy(existingGround);
+                }
                 ApexLogger.Log("[VisualEnhancements] Mapbox active - skipping ground plane", ApexLogger.LogCategory.General);
                 return;
             }
