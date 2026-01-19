@@ -73,7 +73,8 @@ namespace ApexCitadels.Editor
             ScanFolder(db, "Assets/Art/Models/Roofs", ModelType.Roof);
 
             EditorUtility.SetDirty(db);
-            Debug.Log($"[AssetDB] Populated database: {db.BuildingModels.Count} buildings, " +
+            AssetDatabase.SaveAssets();  // Force save immediately
+            Debug.Log($"[AssetDB] Populated and SAVED database: {db.BuildingModels.Count} buildings, " +
                      $"{db.TowerModels.Count} towers, {db.WallModels.Count} walls");
         }
 
@@ -248,6 +249,48 @@ namespace ApexCitadels.Editor
             if (name.Contains("gate")) return WallType.Gate;
             if (name.Contains("window")) return WallType.Window;
             return WallType.Straight;
+        }
+
+        [MenuItem("Apex Citadels/Debug/Verify GameAssetDatabase", false, 300)]
+        public static void VerifyDatabase()
+        {
+            // Try to load from Resources (like runtime does)
+            var db = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
+            
+            if (db == null)
+            {
+                EditorUtility.DisplayDialog("❌ Database Not Found!",
+                    "GameAssetDatabase.asset is NOT in Assets/Resources folder!\n\n" +
+                    "Run 'Apex Citadels > Setup > Create Game Asset Database (Auto)' first.",
+                    "OK");
+                return;
+            }
+
+            string report = $"GameAssetDatabase loaded successfully!\n\n" +
+                $"Buildings: {db.BuildingModels.Count}\n";
+            
+            for (int i = 0; i < Mathf.Min(5, db.BuildingModels.Count); i++)
+            {
+                var b = db.BuildingModels[i];
+                report += $"  [{i}] {b.Id}: Model={(b.Model != null ? b.Model.name : "NULL")}\n";
+            }
+            
+            report += $"\nTowers: {db.TowerModels.Count}\n";
+            for (int i = 0; i < Mathf.Min(3, db.TowerModels.Count); i++)
+            {
+                var t = db.TowerModels[i];
+                report += $"  [{i}] {t.Id}: Model={(t.Model != null ? t.Model.name : "NULL")}\n";
+            }
+            
+            report += $"\nWalls: {db.WallModels.Count}\n";
+            
+            EditorUtility.DisplayDialog("✅ Database Verification", report, "OK");
+            
+            Debug.Log("[AssetDB] Full database contents:");
+            foreach (var b in db.BuildingModels)
+            {
+                Debug.Log($"  Building: {b.Id} | {b.Name} | Model={b.Model?.name ?? "NULL"} | Prefab={b.Prefab?.name ?? "NULL"}");
+            }
         }
     }
 }

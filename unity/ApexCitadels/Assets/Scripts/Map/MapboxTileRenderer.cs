@@ -97,7 +97,20 @@ namespace ApexCitadels.Map
             centerLongitude = config.DefaultLongitude;
             zoomLevel = config.DefaultZoom;
             
-            Debug.Log($"[Mapbox] Initializing at {centerLatitude}, {centerLongitude} zoom {zoomLevel}");
+            Debug.Log($"[Mapbox] === LOCATION CHECK ===");
+            Debug.Log($"[Mapbox] Config values: lat={config.DefaultLatitude}, lon={config.DefaultLongitude}, zoom={config.DefaultZoom}");
+            Debug.Log($"[Mapbox] After assignment: lat={centerLatitude}, lon={centerLongitude}, zoom={zoomLevel}");
+            Debug.Log($"[Mapbox] Expected: Vienna Town Green, VA (38.9032, -77.2646)");
+            
+            // Safety check: if coordinates are way off, reset to Vienna
+            if (centerLatitude < 38.0 || centerLatitude > 40.0 || centerLongitude < -78.0 || centerLongitude > -76.0)
+            {
+                Debug.LogWarning($"[Mapbox] Coordinates look wrong! Resetting to Vienna, VA");
+                centerLatitude = 38.9032;
+                centerLongitude = -77.2646;
+            }
+            
+            Debug.Log($"[Mapbox] Final location: {centerLatitude}, {centerLongitude} zoom {zoomLevel}");
             
             Initialize();
         }
@@ -174,12 +187,22 @@ namespace ApexCitadels.Map
         
         private void CalculateCenterTile()
         {
-            // Convert lat/lon to tile coordinates
+            // Convert lat/lon to tile coordinates using Web Mercator projection
             double n = System.Math.Pow(2, zoomLevel);
             double latRad = centerLatitude * System.Math.PI / 180.0;
             
             _centerTileX = (int)((centerLongitude + 180.0) / 360.0 * n);
             _centerTileY = (int)((1.0 - System.Math.Log(System.Math.Tan(latRad) + 1.0 / System.Math.Cos(latRad)) / System.Math.PI) / 2.0 * n);
+            
+            Debug.Log($"[Mapbox] === TILE CALCULATION ===");
+            Debug.Log($"[Mapbox] Input: lat={centerLatitude}, lon={centerLongitude}, zoom={zoomLevel}");
+            Debug.Log($"[Mapbox] n = 2^{zoomLevel} = {n}");
+            Debug.Log($"[Mapbox] Center tile: X={_centerTileX}, Y={_centerTileY}");
+            
+            // Expected for Vienna (38.9, -77.3) at zoom 14: roughly X=4699, Y=6304
+            // Expected for Vienna (38.9, -77.3) at zoom 15: roughly X=9398, Y=12609
+            Debug.Log($"[Mapbox] Expected Vienna zoom 14: ~X=4699, Y=6304");
+            Debug.Log($"[Mapbox] Expected Vienna zoom 15: ~X=9398, Y=12609");
             
             ApexLogger.Log($"[Mapbox] Center tile: {_centerTileX}, {_centerTileY}", ApexLogger.LogCategory.Map);
         }

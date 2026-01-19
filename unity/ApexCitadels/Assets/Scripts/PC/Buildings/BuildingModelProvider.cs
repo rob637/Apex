@@ -56,19 +56,30 @@ namespace ApexCitadels.PC.Buildings
         
         private void LoadAssetDatabase()
         {
+            Debug.Log("[BuildingModelProvider] LoadAssetDatabase called...");
+            
             if (assetDatabase == null)
             {
+                Debug.Log("[BuildingModelProvider] Trying to load GameAssetDatabase from Resources...");
                 assetDatabase = UnityEngine.Resources.Load<GameAssetDatabase>("GameAssetDatabase");
             }
             
             if (assetDatabase == null)
             {
-                Debug.LogWarning("[BuildingModelProvider] GameAssetDatabase not found! Using fallback primitives.");
+                Debug.LogWarning("[BuildingModelProvider] GameAssetDatabase not found in Resources folder! " +
+                    "Make sure GameAssetDatabase.asset exists in Assets/Resources/GameAssetDatabase.asset");
             }
             else
             {
-                Debug.Log($"[BuildingModelProvider] Loaded asset database with {assetDatabase.BuildingModels.Count} buildings, " +
+                Debug.Log($"[BuildingModelProvider] ✓ Loaded asset database with {assetDatabase.BuildingModels.Count} buildings, " +
                          $"{assetDatabase.TowerModels.Count} towers, {assetDatabase.WallModels.Count} walls");
+                
+                // Log first few entries to verify
+                for (int i = 0; i < Mathf.Min(3, assetDatabase.BuildingModels.Count); i++)
+                {
+                    var b = assetDatabase.BuildingModels[i];
+                    Debug.Log($"[BuildingModelProvider]   Building[{i}]: {b.Id}, Model={b.Model?.name ?? "NULL"}");
+                }
             }
         }
         
@@ -144,30 +155,38 @@ namespace ApexCitadels.PC.Buildings
         
         /// <summary>
         /// Get a foundation/platform model based on citadel level
+        /// Buildings are named B01_*, B02_*, etc. We pick appropriate buildings as foundations.
         /// </summary>
         public GameObject GetFoundationModel(int level, Transform parent = null)
         {
+            Debug.Log($"[BuildingModelProvider] GetFoundationModel called, level={level}, database={assetDatabase != null}");
+            
             if (assetDatabase == null)
+            {
+                Debug.Log("[BuildingModelProvider] No database, returning fallback cylinder");
                 return CreateFallbackCylinder(parent);
+            }
             
-            // Search for appropriate foundation in building models
-            // Foundations are typically in the building list with identifiers like F01, F06, F08
-            string[] foundationIds = level switch
-            {
-                >= 5 => new[] { "F08", "F19", "F06" }, // Large crystal or stone foundation
-                >= 3 => new[] { "F06", "F16", "F04" }, // Medium reinforced foundation
-                _ => new[] { "F01", "F09", "F02" }     // Small stone or wood
-            };
+            Debug.Log($"[BuildingModelProvider] Database has {assetDatabase.BuildingModels.Count} buildings");
             
-            foreach (var id in foundationIds)
+            // First: just use ANY available building model - we know we have 27 of them
+            if (assetDatabase.BuildingModels.Count > 0)
             {
-                var entry = assetDatabase.GetBuilding(id);
+                // Pick a building based on level for variety
+                int index = (level * 3) % assetDatabase.BuildingModels.Count;
+                var entry = assetDatabase.BuildingModels[index];
                 if (entry != null && entry.Model != null)
                 {
+                    Debug.Log($"[BuildingModelProvider] Using building [{index}]: {entry.Id} = {entry.Model.name}");
                     return InstantiateModel(entry, parent);
+                }
+                else
+                {
+                    Debug.LogWarning($"[BuildingModelProvider] Entry or Model is null at index {index}");
                 }
             }
             
+            Debug.Log("[BuildingModelProvider] Returning fallback cylinder");
             return CreateFallbackCylinder(parent);
         }
         

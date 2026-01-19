@@ -102,9 +102,12 @@ namespace ApexCitadels.PC.Environment
         private void CreateBasePlatform(Color color)
         {
             // Try to use real foundation model
+            Debug.Log($"[Territory] CreateBasePlatform: useRealModels={useRealModels}, Provider={BuildingModelProvider.Instance != null}");
+            
             if (useRealModels && BuildingModelProvider.Instance != null)
             {
                 citadelBase = BuildingModelProvider.Instance.GetFoundationModel(Level, transform);
+                Debug.Log($"[Territory] Got foundation model: {citadelBase != null}");
                 if (citadelBase != null)
                 {
                     citadelBase.name = "CitadelBase";
@@ -116,6 +119,7 @@ namespace ApexCitadels.PC.Environment
                 }
             }
             
+            Debug.Log("[Territory] Using fallback primitive for base");
             // Fallback to primitive
             citadelBase = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             citadelBase.name = "CitadelBase";
