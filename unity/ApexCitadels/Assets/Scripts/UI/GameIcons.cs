@@ -563,14 +563,14 @@ namespace ApexCitadels.UI
                 if (TMP_Settings.defaultSpriteAsset == null)
                 {
                     // Can't set directly, but we can add to fallback list
-                    ApexLogger.LogVerbose("Sprite asset loaded successfully", LogCategory.UI);
+                    ApexLogger.LogVerbose("Sprite asset loaded successfully", ApexLogger.LogCategory.UI);
                 }
                 _useFallback = false;
             }
             else
             {
                 ApexLogger.Log("Sprite asset not found, using styled text fallback. " +
-                         "Run Window > Apex Citadels > Generate Icon Sprites to create the sprite sheet.", LogCategory.UI);
+                         "Run Window > Apex Citadels > Generate Icon Sprites to create the sprite sheet.", ApexLogger.LogCategory.UI);
                 _useFallback = true;
             }
         }

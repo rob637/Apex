@@ -48,7 +48,7 @@ namespace ApexCitadels.Data
 
         private void Start()
         {
-            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.Firebase);
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Firebase);
             CheckConnectivity();
         }
 

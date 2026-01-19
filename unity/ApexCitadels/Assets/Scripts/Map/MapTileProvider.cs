@@ -135,7 +135,7 @@ namespace ApexCitadels.Map
             ClearCache();
             OnProviderChanged?.Invoke();
 
-            ApexLogger.Log($"Provider set to: {provider}", LogCategory.Map);
+            ApexLogger.Log($"Provider set to: {provider}", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace ApexCitadels.Map
             ClearCache();
             OnProviderChanged?.Invoke();
 
-            ApexLogger.Log($"Style set to: {style}", LogCategory.Map);
+            ApexLogger.Log($"Style set to: {style}", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace ApexCitadels.Map
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                ApexLogger.LogWarning("Mapbox requires an API key", LogCategory.Map);
+                ApexLogger.LogWarning("Mapbox requires an API key", ApexLogger.LogCategory.Map);
                 return GetOpenStreetMapUrl(x, y, zoom);
             }
 
@@ -232,7 +232,7 @@ namespace ApexCitadels.Map
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                ApexLogger.LogWarning("Google Maps requires an API key", LogCategory.Map);
+                ApexLogger.LogWarning("Google Maps requires an API key", ApexLogger.LogCategory.Map);
                 return GetOpenStreetMapUrl(x, y, zoom);
             }
 
@@ -253,7 +253,7 @@ namespace ApexCitadels.Map
         {
             if (string.IsNullOrEmpty(apiKey))
             {
-                ApexLogger.LogWarning("MapTiler requires an API key", LogCategory.Map);
+                ApexLogger.LogWarning("MapTiler requires an API key", ApexLogger.LogCategory.Map);
                 return GetOpenStreetMapUrl(x, y, zoom);
             }
 
@@ -463,7 +463,7 @@ namespace ApexCitadels.Map
             _tileCache.Clear();
             _tileCacheOrder.Clear();
 
-            ApexLogger.Log("Cache cleared", LogCategory.Map);
+            ApexLogger.Log("Cache cleared", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace ApexCitadels.Map
 
             // Load from persistent storage
             // In production, use proper file I/O or SQLite
-            ApexLogger.LogVerbose("Offline cache loading not implemented in stub", LogCategory.Map);
+            ApexLogger.LogVerbose("Offline cache loading not implemented in stub", ApexLogger.LogCategory.Map);
         }
 
         private void SaveOfflineCache()
@@ -500,7 +500,7 @@ namespace ApexCitadels.Map
             if (!enableOfflineCache) return;
 
             // Save to persistent storage
-            ApexLogger.LogVerbose("Offline cache saving not implemented in stub", LogCategory.Map);
+            ApexLogger.LogVerbose("Offline cache saving not implemented in stub", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>
@@ -523,7 +523,7 @@ namespace ApexCitadels.Map
                 totalTiles += tilesAtZoom;
             }
 
-            ApexLogger.Log($"Downloading {totalTiles} tiles for offline use", LogCategory.Map);
+            ApexLogger.Log($"Downloading {totalTiles} tiles for offline use", ApexLogger.LogCategory.Map);
 
             for (int zoom = minZoom; zoom <= maxZoom; zoom++)
             {
@@ -559,7 +559,7 @@ namespace ApexCitadels.Map
                 }
             }
 
-            ApexLogger.Log($"Downloaded {downloadedTiles} tiles", LogCategory.Map);
+            ApexLogger.Log($"Downloaded {downloadedTiles} tiles", ApexLogger.LogCategory.Map);
             SaveOfflineCache();
         }
 

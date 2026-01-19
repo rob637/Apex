@@ -173,6 +173,30 @@ namespace ApexCitadels.Building
                 EnterPlacementMode();
         }
 
+        /// <summary>
+        /// Confirm placement - place the block at preview position
+        /// </summary>
+        public async void ConfirmPlacement()
+        {
+            var result = await PlaceBlock();
+            if (!result.Success)
+            {
+                ApexLogger.LogWarning($"[BuildingManager] Failed to place block: {result.Message}", ApexLogger.LogCategory.Building);
+            }
+        }
+
+        /// <summary>
+        /// Rotate the placement preview by the specified degrees
+        /// </summary>
+        public void RotatePreview(float degrees)
+        {
+            if (_placementPreview != null)
+            {
+                _placementPreview.transform.Rotate(Vector3.up, degrees);
+                ApexLogger.LogVerbose($"[BuildingManager] Rotated preview by {degrees} degrees", ApexLogger.LogCategory.Building);
+            }
+        }
+
         private void CreatePlacementPreview()
         {
             DestroyPlacementPreview();

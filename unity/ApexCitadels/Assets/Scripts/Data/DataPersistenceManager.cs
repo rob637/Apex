@@ -743,13 +743,13 @@ namespace ApexCitadels.Data
         {
             if (enableDebugLogs)
             {
-                ApexLogger.LogVerbose(message, LogCategory.Firebase);
+                ApexLogger.LogVerbose(message, ApexLogger.LogCategory.Firebase);
             }
         }
 
         private void LogError(string message)
         {
-            ApexLogger.LogError(message, LogCategory.Firebase);
+            ApexLogger.LogError(message, ApexLogger.LogCategory.Firebase);
         }
 
         #endregion

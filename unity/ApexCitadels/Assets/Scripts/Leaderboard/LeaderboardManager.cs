@@ -230,7 +230,7 @@ namespace ApexCitadels.Leaderboard
             };
 
             await SaveScoreToCloud(category, entry);
-            ApexLogger.Log($"Submitted score: {score} for {category}", LogCategory.Network);
+            ApexLogger.Log($"Submitted score: {score} for {category}", ApexLogger.LogCategory.Network);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace ApexCitadels.Leaderboard
             await SubmitScore(LeaderboardCategory.DefensesWon, player.DefensesWon);
             await SubmitScore(LeaderboardCategory.BuildingsPlaced, player.BuildingsPlaced);
 
-            ApexLogger.Log("All stats updated", LogCategory.Network);
+            ApexLogger.Log("All stats updated", ApexLogger.LogCategory.Network);
         }
 
         #endregion
@@ -471,7 +471,7 @@ namespace ApexCitadels.Leaderboard
             _lastRefresh = DateTime.MinValue;
             _cachedLeaderboards.Clear();
             await GetGlobalLeaderboard();
-            ApexLogger.Log("Leaderboards refreshed", LogCategory.Network);
+            ApexLogger.Log("Leaderboards refreshed", ApexLogger.LogCategory.Network);
         }
 
         #endregion

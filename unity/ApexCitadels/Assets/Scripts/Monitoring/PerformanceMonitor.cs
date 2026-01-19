@@ -179,7 +179,7 @@ namespace ApexCitadels.Monitoring
                 ["memory_mb"] = SystemInfo.systemMemorySize
             });
 
-            ApexLogger.Log($"Initialized - Session: {_sessionId}", LogCategory.Performance);
+            ApexLogger.Log($"Initialized - Session: {_sessionId}", ApexLogger.LogCategory.Performance);
         }
 
         private void Update()
@@ -355,7 +355,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning($"Failed to log screen view: {ex.Message}", LogCategory.Performance);
+                ApexLogger.LogWarning($"Failed to log screen view: {ex.Message}", ApexLogger.LogCategory.Performance);
             }
         }
 
@@ -395,7 +395,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning($"Failed to log event: {ex.Message}", LogCategory.Performance);
+                ApexLogger.LogWarning($"Failed to log event: {ex.Message}", ApexLogger.LogCategory.Performance);
             }
         }
 
@@ -434,7 +434,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning($"Failed to log error: {ex.Message}", LogCategory.Performance);
+                ApexLogger.LogWarning($"Failed to log error: {ex.Message}", ApexLogger.LogCategory.Performance);
             }
         }
 
@@ -470,7 +470,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning($"Failed to log exception: {ex.Message}", LogCategory.Performance);
+                ApexLogger.LogWarning($"Failed to log exception: {ex.Message}", ApexLogger.LogCategory.Performance);
             }
         }
 
@@ -518,7 +518,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning($"Failed to set user property: {ex.Message}", LogCategory.Performance);
+                ApexLogger.LogWarning($"Failed to set user property: {ex.Message}", ApexLogger.LogCategory.Performance);
             }
         }
 
@@ -540,7 +540,7 @@ namespace ApexCitadels.Monitoring
             }
             catch (Exception ex)
             {
-                ApexLogger.LogWarning($"Failed to set user ID: {ex.Message}", LogCategory.Performance);
+                ApexLogger.LogWarning($"Failed to set user ID: {ex.Message}", ApexLogger.LogCategory.Performance);
             }
         }
 
@@ -638,7 +638,7 @@ namespace ApexCitadels.Monitoring
                 ["memory_freed_mb"] = beforeMb - afterMb
             });
 
-            ApexLogger.LogVerbose($"GC: {beforeMb}MB -> {afterMb}MB (freed {beforeMb - afterMb}MB)", LogCategory.Performance);
+            ApexLogger.LogVerbose($"GC: {beforeMb}MB -> {afterMb}MB (freed {beforeMb - afterMb}MB)", ApexLogger.LogCategory.Performance);
         }
 
         #if UNITY_EDITOR || DEVELOPMENT_BUILD

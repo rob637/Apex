@@ -14,16 +14,16 @@ namespace ApexCitadels.Demo
         private static void AutoSetup()
         {
             var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            ApexLogger.Log($"Current scene: '{sceneName}'", LogCategory.General);
+            ApexLogger.Log($"Current scene: '{sceneName}'", ApexLogger.LogCategory.General);
             
             // Run in any scene that contains "Persistent" or "Demo" (case insensitive)
             if (!sceneName.ToLower().Contains("persistent") && !sceneName.ToLower().Contains("demo"))
             {
-                ApexLogger.LogVerbose("Not a demo scene, skipping setup", LogCategory.General);
+                ApexLogger.LogVerbose("Not a demo scene, skipping setup", ApexLogger.LogCategory.General);
                 return;
             }
 
-            ApexLogger.Log("Setting up demo scene...", LogCategory.General);
+            ApexLogger.Log("Setting up demo scene...", ApexLogger.LogCategory.General);
 
             // Fix EventSystem for new Input System
             FixEventSystem();
@@ -39,7 +39,7 @@ namespace ApexCitadels.Demo
             if (managersGO.GetComponent<PersistentCubeDemo>() == null)
             {
                 managersGO.AddComponent<PersistentCubeDemo>();
-                ApexLogger.LogVerbose("Added PersistentCubeDemo component", LogCategory.General);
+                ApexLogger.LogVerbose("Added PersistentCubeDemo component", ApexLogger.LogCategory.General);
             }
 
             // Add SpatialAnchorManager if missing
@@ -52,7 +52,7 @@ namespace ApexCitadels.Demo
             if (samGO.GetComponent<AR.SpatialAnchorManager>() == null)
             {
                 samGO.AddComponent<AR.SpatialAnchorManager>();
-                ApexLogger.LogVerbose("Added SpatialAnchorManager component", LogCategory.General);
+                ApexLogger.LogVerbose("Added SpatialAnchorManager component", ApexLogger.LogCategory.General);
             }
 
             // Add AnchorPersistenceService if missing
@@ -65,10 +65,10 @@ namespace ApexCitadels.Demo
             if (apsGO.GetComponent<Backend.AnchorPersistenceService>() == null)
             {
                 apsGO.AddComponent<Backend.AnchorPersistenceService>();
-                ApexLogger.LogVerbose("Added AnchorPersistenceService component", LogCategory.General);
+                ApexLogger.LogVerbose("Added AnchorPersistenceService component", ApexLogger.LogCategory.General);
             }
 
-            ApexLogger.Log("Demo scene setup complete!", LogCategory.General);
+            ApexLogger.Log("Demo scene setup complete!", ApexLogger.LogCategory.General);
         }
 
         private static void FixEventSystem()
@@ -78,7 +78,7 @@ namespace ApexCitadels.Demo
             {
                 eventSystem = new GameObject("EventSystem");
                 eventSystem.AddComponent<EventSystem>();
-                ApexLogger.LogVerbose("Created EventSystem", LogCategory.General);
+                ApexLogger.LogVerbose("Created EventSystem", ApexLogger.LogCategory.General);
             }
 
             // Ensure EventSystem component exists
@@ -97,7 +97,7 @@ namespace ApexCitadels.Demo
                     if (existingModule == null)
                     {
                         eventSystem.AddComponent(moduleType);
-                        ApexLogger.LogVerbose("Added InputSystemUIInputModule", LogCategory.General);
+                        ApexLogger.LogVerbose("Added InputSystemUIInputModule", ApexLogger.LogCategory.General);
                     }
                 }
                 else
@@ -106,13 +106,13 @@ namespace ApexCitadels.Demo
                     if (eventSystem.GetComponent<StandaloneInputModule>() == null)
                     {
                         eventSystem.AddComponent<StandaloneInputModule>();
-                        ApexLogger.LogVerbose("Added StandaloneInputModule (fallback)", LogCategory.General);
+                        ApexLogger.LogVerbose("Added StandaloneInputModule (fallback)", ApexLogger.LogCategory.General);
                     }
                 }
             }
             catch (System.Exception e)
             {
-                ApexLogger.LogWarning($"Could not add input module: {e.Message}", LogCategory.General);
+                ApexLogger.LogWarning($"Could not add input module: {e.Message}", ApexLogger.LogCategory.General);
                 // Fallback
                 if (eventSystem.GetComponent<StandaloneInputModule>() == null)
                 {

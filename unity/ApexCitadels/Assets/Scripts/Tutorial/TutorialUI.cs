@@ -247,7 +247,7 @@ namespace ApexCitadels.Tutorial
             var target = FindTargetByName(targetName);
             if (target == null)
             {
-                ApexLogger.LogWarning($"Highlight target not found: {targetName}", LogCategory.UI);
+                ApexLogger.LogWarning($"Highlight target not found: {targetName}", ApexLogger.LogCategory.UI);
                 return;
             }
 

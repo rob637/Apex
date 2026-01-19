@@ -245,27 +245,27 @@ namespace ApexCitadels.Privacy
                     
                     if (success)
                     {
-                        ApexLogger.Log(LogCategory.General, "Consent submitted successfully");
+                        ApexLogger.Log(ApexLogger.LogCategory.General, "Consent submitted successfully");
                         Hide();
                         OnConsentSubmitted?.Invoke(consent);
                     }
                     else
                     {
-                        ApexLogger.LogError(LogCategory.General, "Failed to submit consent");
+                        ApexLogger.LogError(ApexLogger.LogCategory.General, "Failed to submit consent");
                         _isSubmitting = false;
                     }
                 }
                 else
                 {
                     // Fallback if manager not available
-                    ApexLogger.LogWarning(LogCategory.General, "GDPRManager not found, using local storage");
+                    ApexLogger.LogWarning(ApexLogger.LogCategory.General, "GDPRManager not found, using local storage");
                     Hide();
                     OnConsentSubmitted?.Invoke(consent);
                 }
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Error submitting consent: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.General, $"Error submitting consent: {ex.Message}");
                 _isSubmitting = false;
             }
         }
@@ -279,7 +279,7 @@ namespace ApexCitadels.Privacy
         {
             // Expand detailed settings if collapsed
             // Or navigate to privacy settings page
-            ApexLogger.Log(LogCategory.General, "Manage settings clicked");
+            ApexLogger.Log(ApexLogger.LogCategory.General, "Manage settings clicked");
         }
     }
 }

@@ -60,7 +60,7 @@ namespace ApexCitadels.Demo
             });
 #else
             SetStatus("Firebase not enabled.\n\nAdd FIREBASE_ENABLED to\nPlayer Settings → Scripting Define Symbols");
-            ApexLogger.LogWarning("Firebase is not enabled. Add FIREBASE_ENABLED to Scripting Define Symbols.", LogCategory.General);
+            ApexLogger.LogWarning("Firebase is not enabled. Add FIREBASE_ENABLED to Scripting Define Symbols.", ApexLogger.LogCategory.General);
 #endif
         }
 
@@ -146,7 +146,7 @@ namespace ApexCitadels.Demo
         {
             if (statusText != null)
                 statusText.text = message;
-            ApexLogger.Log(message, LogCategory.General);
+            ApexLogger.Log(message, ApexLogger.LogCategory.General);
         }
     }
 }

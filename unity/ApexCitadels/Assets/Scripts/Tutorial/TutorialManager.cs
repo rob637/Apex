@@ -220,7 +220,7 @@ namespace ApexCitadels.Tutorial
 #else
         private void Start()
         {
-            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.UI);
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.UI);
             
             // Load progress
             LoadProgress();
@@ -777,13 +777,13 @@ namespace ApexCitadels.Tutorial
         {
             if (enableDebugLogs)
             {
-                ApexLogger.LogVerbose(message, LogCategory.UI);
+                ApexLogger.LogVerbose(message, ApexLogger.LogCategory.UI);
             }
         }
 
         private void LogError(string message)
         {
-            ApexLogger.LogError(message, LogCategory.UI);
+            ApexLogger.LogError(message, ApexLogger.LogCategory.UI);
         }
     }
 }

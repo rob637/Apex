@@ -238,18 +238,18 @@ namespace ApexCitadels.Moderation
 #else
         private void Start()
         {
-            ApexLogger.LogWarning(LogCategory.Network, "Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning(ApexLogger.LogCategory.Network, "Firebase SDK not installed. Running in stub mode.");
         }
 
         public void CheckBanStatus()
         {
-            ApexLogger.LogWarning(LogCategory.Network, "Firebase SDK not installed. CheckBanStatus is a stub.");
+            ApexLogger.LogWarning(ApexLogger.LogCategory.Network, "Firebase SDK not installed. CheckBanStatus is a stub.");
             _banStatus = new BanStatus { Banned = false };
         }
 
         public Task<ModerationResult> ModerateContent(string content, string contentType = "chat")
         {
-            ApexLogger.LogWarning(LogCategory.Network, "Firebase SDK not installed. ModerateContent is a stub.");
+            ApexLogger.LogWarning(ApexLogger.LogCategory.Network, "Firebase SDK not installed. ModerateContent is a stub.");
             if (enableClientSideFilter)
             {
                 var result = QuickClientFilter(content);
@@ -447,7 +447,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.Network, $"Failed to submit report: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Network, $"Failed to submit report: {ex.Message}");
                 return new ReportResult
                 {
                     Success = false,
@@ -481,7 +481,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.Network, $"Failed to submit appeal: {ex.Message}");
+                ApexLogger.LogError(ApexLogger.LogCategory.Network, $"Failed to submit appeal: {ex.Message}");
                 return false;
             }
         }

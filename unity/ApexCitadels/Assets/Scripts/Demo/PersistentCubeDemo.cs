@@ -62,7 +62,7 @@ namespace ApexCitadels.Demo
 
         private void CreateUI()
         {
-            ApexLogger.LogVerbose("Auto-creating UI...", LogCategory.General);
+            ApexLogger.LogVerbose("Auto-creating UI...", ApexLogger.LogCategory.General);
 
             // Create Canvas
             var canvasGO = new GameObject("DemoCanvas_AutoCreated");
@@ -130,19 +130,19 @@ namespace ApexCitadels.Demo
 
             // Connect button listeners immediately
             _placeCubeButton.onClick.AddListener(() => {
-                ApexLogger.LogVerbose("PLACE CUBE clicked!", LogCategory.General);
+                ApexLogger.LogVerbose("PLACE CUBE clicked!", ApexLogger.LogCategory.General);
                 OnPlaceCubeClicked();
             });
             _loadCubesButton.onClick.AddListener(() => {
-                ApexLogger.LogVerbose("LOAD CUBES clicked!", LogCategory.General);
+                ApexLogger.LogVerbose("LOAD CUBES clicked!", ApexLogger.LogCategory.General);
                 OnLoadCubesClicked();
             });
             _clearCubesButton.onClick.AddListener(() => {
-                ApexLogger.LogVerbose("CLEAR ALL clicked!", LogCategory.General);
+                ApexLogger.LogVerbose("CLEAR ALL clicked!", ApexLogger.LogCategory.General);
                 OnClearCubesClicked();
             });
 
-            ApexLogger.LogVerbose("UI created and listeners connected!", LogCategory.General);
+            ApexLogger.LogVerbose("UI created and listeners connected!", ApexLogger.LogCategory.General);
         }
 
         private Button CreateButton(Transform parent, string text, Color color)
@@ -219,7 +219,7 @@ namespace ApexCitadels.Demo
 
         private void OnPlaceCubeClicked()
         {
-            ApexLogger.LogVerbose("Place Cube button clicked!", LogCategory.General);
+            ApexLogger.LogVerbose("Place Cube button clicked!", ApexLogger.LogCategory.General);
             _isPlacementMode = true;
             UpdateStatus("Tap on a surface to place a cube...");
         }
@@ -363,7 +363,7 @@ namespace ApexCitadels.Demo
 
         private void UpdateStatus(string message)
         {
-            ApexLogger.Log(message, LogCategory.General);
+            ApexLogger.Log(message, ApexLogger.LogCategory.General);
             if (_statusText != null)
             {
                 _statusText.text = message;

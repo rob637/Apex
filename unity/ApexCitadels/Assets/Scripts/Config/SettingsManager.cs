@@ -74,7 +74,7 @@ namespace ApexCitadels.Config
             TargetFrameRate = PlayerPrefs.GetInt(KEY_FRAME_RATE, defaultFrameRate);
             Language = PlayerPrefs.GetString(KEY_LANGUAGE, "en");
 
-            ApexLogger.Log("Settings loaded", LogCategory.General);
+            ApexLogger.Log("Settings loaded", ApexLogger.LogCategory.General);
         }
 
         public void SaveSettings()
@@ -89,7 +89,7 @@ namespace ApexCitadels.Config
             PlayerPrefs.SetString(KEY_LANGUAGE, Language);
             PlayerPrefs.Save();
 
-            ApexLogger.Log("Settings saved", LogCategory.General);
+            ApexLogger.Log("Settings saved", ApexLogger.LogCategory.General);
         }
 
         public void ResetToDefaults()
@@ -107,7 +107,7 @@ namespace ApexCitadels.Config
             ApplySettings();
             OnSettingsChanged?.Invoke();
 
-            ApexLogger.Log("Settings reset to defaults", LogCategory.General);
+            ApexLogger.Log("Settings reset to defaults", ApexLogger.LogCategory.General);
         }
 
         #endregion
@@ -125,7 +125,7 @@ namespace ApexCitadels.Config
             // Apply frame rate
             Application.targetFrameRate = TargetFrameRate;
 
-            ApexLogger.Log("Settings applied", LogCategory.General);
+            ApexLogger.Log("Settings applied", ApexLogger.LogCategory.General);
         }
 
         #endregion

@@ -256,14 +256,14 @@ namespace ApexCitadels.UI
         private void OnSaveClicked()
         {
             SettingsManager.Instance?.SaveSettings();
-            ApexLogger.Log("Settings saved", LogCategory.UI);
+            ApexLogger.Log("Settings saved", ApexLogger.LogCategory.UI);
         }
 
         private void OnResetClicked()
         {
             SettingsManager.Instance?.ResetToDefaults();
             LoadCurrentSettings();
-            ApexLogger.Log("Settings reset", LogCategory.UI);
+            ApexLogger.Log("Settings reset", ApexLogger.LogCategory.UI);
         }
 
         private void OnCloseClicked()

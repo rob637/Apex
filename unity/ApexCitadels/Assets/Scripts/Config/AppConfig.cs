@@ -57,11 +57,11 @@ namespace ApexCitadels.Config
             if (configJson != null)
             {
                 _config = JsonUtility.FromJson<ConfigData>(configJson.text);
-                ApexLogger.Log($"Loaded config for project: {_config.firebase.projectId}", LogCategory.General);
+                ApexLogger.Log($"Loaded config for project: {_config.firebase.projectId}", ApexLogger.LogCategory.General);
             }
             else
             {
-                ApexLogger.LogError("AppConfig.json not found in Resources folder!", LogCategory.General);
+                ApexLogger.LogError("AppConfig.json not found in Resources folder!", ApexLogger.LogCategory.General);
                 _config = new ConfigData();
             }
         }

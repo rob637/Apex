@@ -122,7 +122,7 @@ namespace ApexCitadels.Map
             // Request location permission
             if (!Input.location.isEnabledByUser)
             {
-                ApexLogger.Log("Location not enabled", LogCategory.Map);
+                ApexLogger.Log("Location not enabled", ApexLogger.LogCategory.Map);
                 // Use default location for testing
                 SetCenter(37.7749, -122.4194); // San Francisco
                 yield break;
@@ -219,7 +219,7 @@ namespace ApexCitadels.Map
         public void ToggleFollowPlayer()
         {
             _followPlayer = !_followPlayer;
-            ApexLogger.Log($"Follow player: {_followPlayer}", LogCategory.Map);
+            ApexLogger.Log($"Follow player: {_followPlayer}", ApexLogger.LogCategory.Map);
         }
 
         /// <summary>

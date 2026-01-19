@@ -78,13 +78,13 @@ namespace ApexCitadels.AntiCheat
 
         private void Start()
         {
-            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", LogCategory.Network);
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Network);
         }
 
         public void StartLocationValidation()
         {
             _isLocationServiceRunning = true;
-            ApexLogger.Log("Location validation started (stub mode)", LogCategory.Network);
+            ApexLogger.Log("Location validation started (stub mode)", ApexLogger.LogCategory.Network);
         }
 
         public void StopLocationValidation()

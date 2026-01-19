@@ -151,7 +151,7 @@ namespace ApexCitadels.UI
 
         private void OnPlayClicked()
         {
-            ApexLogger.LogVerbose("Play clicked", LogCategory.UI);
+            ApexLogger.LogVerbose("Play clicked", ApexLogger.LogCategory.UI);
             
             if (SceneLoader.Instance != null)
             {
@@ -166,13 +166,13 @@ namespace ApexCitadels.UI
 
         private void OnSettingsClicked()
         {
-            ApexLogger.LogVerbose("Settings clicked", LogCategory.UI);
+            ApexLogger.LogVerbose("Settings clicked", ApexLogger.LogCategory.UI);
             ShowSettingsPanel();
         }
 
         private void OnLogoutClicked()
         {
-            ApexLogger.LogVerbose("Logout clicked", LogCategory.UI);
+            ApexLogger.LogVerbose("Logout clicked", ApexLogger.LogCategory.UI);
             
             if (PlayerManager.Instance != null)
             {
@@ -184,7 +184,7 @@ namespace ApexCitadels.UI
 
         private void OnQuitClicked()
         {
-            ApexLogger.LogVerbose("Quit clicked", LogCategory.UI);
+            ApexLogger.LogVerbose("Quit clicked", ApexLogger.LogCategory.UI);
             
             #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

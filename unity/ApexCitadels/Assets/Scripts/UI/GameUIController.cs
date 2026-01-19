@@ -152,7 +152,7 @@ namespace ApexCitadels.UI
                 statusText.text = message;
                 _statusTimer = statusDisplayTime;
             }
-            ApexLogger.Log(message, LogCategory.UI);
+            ApexLogger.Log(message, ApexLogger.LogCategory.UI);
         }
 
         public void ShowTerritoryInfo(Territory.Territory territory)
