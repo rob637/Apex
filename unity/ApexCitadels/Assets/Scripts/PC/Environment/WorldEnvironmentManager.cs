@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using ApexCitadels.Core;
+using ApexCitadels.Map;
 
 namespace ApexCitadels.PC.Environment
 {
@@ -16,6 +17,17 @@ namespace ApexCitadels.PC.Environment
     public class WorldEnvironmentManager : MonoBehaviour
     {
         public static WorldEnvironmentManager Instance { get; private set; }
+
+        public enum TerrainMode
+        {
+            Procedural,  // Generated terrain with noise (offline/demo mode)
+            Mapbox       // Real-world map tiles from Mapbox API
+        }
+
+        [Header("Terrain Mode")]
+        [SerializeField] private TerrainMode terrainMode = TerrainMode.Mapbox;
+        [Tooltip("Fallback to procedural if Mapbox fails")]
+        [SerializeField] private bool fallbackToProcedural = true;
 
         [Header("Environment Systems")]
         [SerializeField] private bool enableTerrain = true;
@@ -31,6 +43,7 @@ namespace ApexCitadels.PC.Environment
 
         // References
         private ProceduralTerrain _terrain;
+        private MapboxTileRenderer _mapboxRenderer;
         private AtmosphericLighting _atmosphere;
         private AAAVisualEffects _aaaEffects;
         private EnvironmentalProps _props;
@@ -97,9 +110,55 @@ namespace ApexCitadels.PC.Environment
         }
 
         /// <summary>
-        /// Create the procedural terrain system
+        /// Create the terrain system based on selected mode
         /// </summary>
         private void CreateTerrain()
+        {
+            if (terrainMode == TerrainMode.Mapbox)
+            {
+                CreateMapboxTerrain();
+            }
+            else
+            {
+                CreateProceduralTerrain();
+            }
+        }
+
+        /// <summary>
+        /// Create Mapbox real-world map tiles
+        /// </summary>
+        private void CreateMapboxTerrain()
+        {
+            // Check if Mapbox renderer already exists
+            _mapboxRenderer = FindFirstObjectByType<MapboxTileRenderer>();
+            
+            if (_mapboxRenderer == null)
+            {
+                // Check if MapboxConfig exists
+                var config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
+                if (config == null || !config.IsValid)
+                {
+                    ApexLogger.LogWarning("[WorldEnv] No valid Mapbox config found! Go to: Apex Citadels > PC > Setup Mapbox (Auto)", ApexLogger.LogCategory.Map);
+                    
+                    if (fallbackToProcedural)
+                    {
+                        ApexLogger.Log("[WorldEnv] Falling back to procedural terrain", ApexLogger.LogCategory.General);
+                        CreateProceduralTerrain();
+                        return;
+                    }
+                }
+                
+                GameObject mapboxObj = new GameObject("MapboxTileRenderer");
+                mapboxObj.transform.parent = transform;
+                _mapboxRenderer = mapboxObj.AddComponent<MapboxTileRenderer>();
+                ApexLogger.Log("[WorldEnv] Created Mapbox tile renderer for real-world maps", ApexLogger.LogCategory.Map);
+            }
+        }
+
+        /// <summary>
+        /// Create procedural terrain (fallback/offline mode)
+        /// </summary>
+        private void CreateProceduralTerrain()
         {
             // Check if terrain already exists
             _terrain = FindFirstObjectByType<ProceduralTerrain>();

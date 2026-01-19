@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using ApexCitadels.PC.Environment;
+using ApexCitadels.Map;
 
 namespace ApexCitadels.PC.Editor
 {
@@ -10,9 +11,42 @@ namespace ApexCitadels.PC.Editor
     /// </summary>
     public static class EnvironmentEditorTools
     {
-        [MenuItem("Apex Citadels/Environment/Add AAA Environment", false, 60)]
-        public static void AddAAAEnvironment()
+        [MenuItem("Apex Citadels/Environment/Add AAA Environment (Mapbox)", false, 59)]
+        public static void AddAAAEnvironmentMapbox()
         {
+            AddAAAEnvironmentWithMode(WorldEnvironmentManager.TerrainMode.Mapbox);
+        }
+
+        [MenuItem("Apex Citadels/Environment/Add AAA Environment (Procedural)", false, 60)]
+        public static void AddAAAEnvironmentProcedural()
+        {
+            AddAAAEnvironmentWithMode(WorldEnvironmentManager.TerrainMode.Procedural);
+        }
+
+        private static void AddAAAEnvironmentWithMode(WorldEnvironmentManager.TerrainMode mode)
+        {
+            // Check if Mapbox is configured when using Mapbox mode
+            if (mode == WorldEnvironmentManager.TerrainMode.Mapbox)
+            {
+                var config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
+                if (config == null || !config.IsValid)
+                {
+                    if (!EditorUtility.DisplayDialog("Mapbox Not Configured",
+                        "Mapbox API is not configured yet.\n\n" +
+                        "Would you like to set it up now?\n\n" +
+                        "Go to: Apex Citadels > PC > Setup Mapbox (Auto)",
+                        "Setup Now", "Use Procedural Instead"))
+                    {
+                        mode = WorldEnvironmentManager.TerrainMode.Procedural;
+                    }
+                    else
+                    {
+                        MapboxAutoSetup.CreateMapboxConfig();
+                        return;
+                    }
+                }
+            }
+
             // Check if already exists
             if (Object.FindFirstObjectByType<WorldEnvironmentManager>() != null)
             {
@@ -33,14 +67,27 @@ namespace ApexCitadels.PC.Editor
 
             // Create environment manager
             GameObject envObj = new GameObject("WorldEnvironment");
-            envObj.AddComponent<WorldEnvironmentManager>();
-
-            Debug.Log("[Editor] AAA Environment added to scene! Press Play to see it.");
+            var manager = envObj.AddComponent<WorldEnvironmentManager>();
             
-            EditorUtility.DisplayDialog("✅ AAA Environment Added",
-                "The World Environment Manager has been added!\n\n" +
+            // Set terrain mode via SerializedObject
+            var so = new SerializedObject(manager);
+            var terrainModeProp = so.FindProperty("terrainMode");
+            if (terrainModeProp != null)
+            {
+                terrainModeProp.enumValueIndex = (int)mode;
+                so.ApplyModifiedProperties();
+            }
+
+            string terrainDescription = mode == WorldEnvironmentManager.TerrainMode.Mapbox
+                ? "• Real-world Mapbox map tiles"
+                : "• Procedural terrain with hills & water";
+
+            Debug.Log($"[Editor] AAA Environment added with {mode} terrain mode!");
+            
+            EditorUtility.DisplayDialog($"✅ AAA Environment Added ({mode})",
+                $"The World Environment Manager has been added!\n\n" +
                 "Press PLAY to see:\n" +
-                "• Procedural terrain with hills & water\n" +
+                $"{terrainDescription}\n" +
                 "• Dynamic skybox & lighting\n" +
                 "• Demo territories with citadels\n" +
                 "• Atmospheric effects\n\n" +
@@ -117,9 +164,20 @@ namespace ApexCitadels.PC.Editor
             }
             else
             {
-                EditorUtility.DisplayDialog("No Terrain System",
-                    "Add the AAA Environment first!\n\nGo to: Window > Apex Citadels > Add AAA Environment",
-                    "OK");
+                // Check if environment manager exists but terrain hasn't spawned yet (not in play mode)
+                var envManager = Object.FindFirstObjectByType<WorldEnvironmentManager>();
+                if (envManager != null)
+                {
+                    EditorUtility.DisplayDialog("Enter Play Mode",
+                        "The terrain is created at runtime.\n\nPress PLAY first, then use this menu option to regenerate terrain.",
+                        "OK");
+                }
+                else
+                {
+                    EditorUtility.DisplayDialog("No Terrain System",
+                        "Add the AAA Environment first!\n\nGo to: Apex Citadels > Environment > Add AAA Environment",
+                        "OK");
+                }
             }
         }
 

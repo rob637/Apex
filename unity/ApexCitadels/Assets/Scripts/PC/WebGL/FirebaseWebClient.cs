@@ -131,10 +131,33 @@ namespace ApexCitadels.PC.WebGL
 
         /// <summary>
         /// Get territories in a geographic area
+        /// Falls back to direct Firestore REST API if callable function fails
         /// </summary>
         public async Task<List<TerritorySnapshot>> GetTerritoriesInArea(
             double north, double south, double east, double west, int limit = 100)
         {
+            // First try: Use direct Firestore REST API (more reliable)
+            try
+            {
+                ApexLogger.Log($"Fetching territories in area via Firestore REST API...", ApexLogger.LogCategory.Network);
+                var allTerritories = await GetAllTerritories();
+                
+                // Filter by bounds client-side
+                var filtered = allTerritories.FindAll(t => 
+                    t.latitude >= south && t.latitude <= north &&
+                    t.longitude >= west && t.longitude <= east
+                );
+                
+                ApexLogger.Log($"Found {filtered.Count} territories in area (filtered from {allTerritories.Count})", ApexLogger.LogCategory.Network);
+                OnTerritoriesReceived?.Invoke(filtered);
+                return filtered;
+            }
+            catch (Exception ex)
+            {
+                ApexLogger.LogWarning($"Firestore REST failed, trying callable function: {ex.Message}", ApexLogger.LogCategory.Network);
+            }
+
+            // Fallback: Try callable function
             try
             {
                 var request = new GetTerritoriesRequest
@@ -148,14 +171,14 @@ namespace ApexCitadels.PC.WebGL
 
                 var response = await CallFunction<GetTerritoriesResponse>("getTerritoriesInArea", request);
                 
-                ApexLogger.Log($"Received {response.count} territories", ApexLogger.LogCategory.Network);
+                ApexLogger.Log($"Received {response.count} territories via callable", ApexLogger.LogCategory.Network);
                 OnTerritoriesReceived?.Invoke(response.territories);
                 
                 return response.territories;
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError($"GetTerritoriesInArea failed: {ex.Message}", ApexLogger.LogCategory.Network);
+                ApexLogger.LogError($"GetTerritoriesInArea failed completely: {ex.Message}", ApexLogger.LogCategory.Network);
                 return new List<TerritorySnapshot>();
             }
         }
