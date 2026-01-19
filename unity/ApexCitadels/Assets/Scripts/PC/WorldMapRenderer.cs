@@ -9,6 +9,7 @@ using ApexCitadels.PC.Buildings;
 using ApexCitadels.UI;
 using ApexCitadels.Core;
 using ApexCitadels.Core.Assets;
+using AssetBuildingCategory = ApexCitadels.Core.Assets.BuildingCategory;
 
 namespace ApexCitadels.PC
 {
@@ -403,8 +404,7 @@ namespace ApexCitadels.PC
 
             // Add TerritoryVisual component
             var visual = territoryObj.AddComponent<TerritoryVisual>();
-            visual.Initialize(territory.Id, territory.Name, territory.OwnerId, 
-                            territory.OwnerName ?? "Unclaimed", territory.Level);
+            visual.Initialize(territory);
 
             // Enable interaction
             var collider = territoryObj.GetComponent<Collider>();
@@ -435,7 +435,7 @@ namespace ApexCitadels.PC
             baseObj.GetComponent<Renderer>().material = baseMat;
             
             // === CENTRAL CASTLE/CITADEL (3D Model) ===
-            GameObject citadel = modelProvider.GetBuildingModel(BuildingCategory.Citadel, territoryObj.transform);
+            GameObject citadel = modelProvider.GetBuildingModel(AssetBuildingCategory.Citadel, territoryObj.transform);
             if (citadel != null)
             {
                 citadel.name = "Citadel";
@@ -460,7 +460,7 @@ namespace ApexCitadels.PC
             
             foreach (var pos in towerPositions)
             {
-                GameObject tower = modelProvider.GetTowerModel(TowerType.Defense, territoryObj.transform);
+                GameObject tower = modelProvider.GetTowerModel(TowerType.Guard, territoryObj.transform);
                 if (tower != null)
                 {
                     tower.name = "DefenseTower";
@@ -485,7 +485,7 @@ namespace ApexCitadels.PC
                     Mathf.Cos(angle * Mathf.Deg2Rad) * dist
                 );
 
-                BuildingCategory category = (BuildingCategory)(i % 5); // Cycle through categories
+                AssetBuildingCategory category = (AssetBuildingCategory)(i % 5); // Cycle through categories
                 GameObject building = modelProvider.GetBuildingModel(category, territoryObj.transform);
                 if (building != null)
                 {
@@ -520,7 +520,7 @@ namespace ApexCitadels.PC
                     float t = (j + 0.5f) / wallSegments;
                     Vector3 wallPos = Vector3.Lerp(start, end, t);
                     
-                    GameObject wall = modelProvider.GetWallModel(WallType.Fortified, WallMaterial.Stone, parent);
+                    GameObject wall = modelProvider.GetWallModel(WallType.Straight, WallMaterial.Stone, parent);
                     if (wall != null)
                     {
                         wall.name = $"Wall_{i}_{j}";
