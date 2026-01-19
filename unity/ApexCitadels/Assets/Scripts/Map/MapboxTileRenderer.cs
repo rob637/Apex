@@ -152,7 +152,8 @@ namespace ApexCitadels.Map
             // List of objects to destroy
             string[] conflictingNames = { 
                 "GridOverlay", "FantasyTerrain", "ProceduralTerrain", 
-                "WorldTerrain", "TerrainMesh", "WaterPlane", "GroundPlane"
+                "WorldTerrain", "TerrainMesh", "WaterPlane", "GroundPlane",
+                "ProceduralTerrainSystem"  // Also catch the terrain system by name
             };
             
             foreach (var name in conflictingNames)
@@ -163,14 +164,6 @@ namespace ApexCitadels.Map
                     Debug.Log($"[Mapbox] Destroying conflicting object: {name}");
                     Destroy(obj);
                 }
-            }
-            
-            // Also find and destroy any ProceduralTerrain component
-            var proceduralTerrain = FindFirstObjectByType<PC.Environment.ProceduralTerrain>();
-            if (proceduralTerrain != null)
-            {
-                Debug.Log("[Mapbox] Destroying ProceduralTerrain component");
-                Destroy(proceduralTerrain.gameObject);
             }
         }
         
