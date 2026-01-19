@@ -3,6 +3,7 @@
 // Compatibility layer for Unity 6 URP Volume API changes
 // ============================================================================
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace ApexCitadels.PC.Compatibility
 {
