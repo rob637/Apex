@@ -126,7 +126,9 @@ namespace ApexCitadels.PC.CameraControllers
         {
             if (path == null || path.waypoints.Count < 2)
             {
-            ApexLogger.LogWarning("Invalid cinematic path", ApexLogger.LogCategory.General);
+                ApexLogger.LogWarning("Invalid cinematic path", ApexLogger.LogCategory.General);
+                return;
+            }
             
             _currentPath = path;
             _currentWaypointIndex = 0;

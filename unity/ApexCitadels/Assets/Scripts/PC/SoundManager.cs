@@ -216,6 +216,8 @@ namespace ApexCitadels.PC
             if (!_musicTracks.ContainsKey(trackId))
             {
                 ApexLogger.LogWarning(ApexLogger.LogCategory.General, $"Music track not found: {trackId}");
+                return;
+            }
             
             _isPlayingPlaylist = false;
             
