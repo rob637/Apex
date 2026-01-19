@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using ApexCitadels.Data;
 using ApexCitadels.Territory;
 using ApexCitadels.Player;
 #if FIREBASE_ENABLED
