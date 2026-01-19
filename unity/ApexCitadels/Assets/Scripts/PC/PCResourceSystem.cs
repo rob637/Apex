@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using ApexCitadels.Data;
 
 namespace ApexCitadels.PC
 {
+    // Note: Uses ResourceType from ApexCitadels.Data namespace
+    
     /// <summary>
     /// PC Resource Management System.
     /// Handles resource generation, collection, display, and syncing with Firebase.
@@ -438,15 +441,5 @@ namespace ApexCitadels.PC
             if (data.TryGetValue("crystal", out int crystal)) _crystal = crystal;
             UpdateUI();
         }
-    }
-
-    public enum ResourceType
-    {
-        Gold,
-        Stone,
-        Wood,
-        Iron,
-        Crystal,
-        ApexCoins // Premium currency
     }
 }

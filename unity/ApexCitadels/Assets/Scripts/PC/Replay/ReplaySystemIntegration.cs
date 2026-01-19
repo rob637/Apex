@@ -509,7 +509,7 @@ namespace ApexCitadels.PC.Replay
         /// <summary>
         /// Get replay duration
         /// </summary>
-        public float ReplayDuration => replaySystem?.CurrentReplayDuration ?? 0f;
+        public float ReplayDuration => replaySystem?.TotalDuration ?? 0f;
         
         /// <summary>
         /// Get list of local replay IDs

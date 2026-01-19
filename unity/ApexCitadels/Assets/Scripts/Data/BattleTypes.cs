@@ -279,10 +279,22 @@ namespace ApexCitadels.Data
     [Serializable]
     public class TrainingQueueItem
     {
+        // Legacy fields (for Firebase compatibility)
         public TroopType TroopType;
         public int Count;
         public DateTime StartedAt;
         public DateTime CompletesAt;
+
+        // New fields for UI/Manager usage
+        public string Id;
+        public TroopType Type;
+        public int TotalTimeSeconds;
+        public float ElapsedTime;
+        public bool IsComplete;
+
+        // Computed properties
+        public float Progress => TotalTimeSeconds > 0 ? ElapsedTime / TotalTimeSeconds : GetProgress();
+        public int RemainingSeconds => Mathf.Max(0, Mathf.CeilToInt(TotalTimeSeconds - ElapsedTime));
 
         public float GetProgress()
         {

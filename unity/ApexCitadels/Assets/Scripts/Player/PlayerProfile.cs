@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ApexCitadels.Data;
 #if FIREBASE_ENABLED
 using Firebase.Firestore;
 #endif
@@ -203,17 +204,7 @@ namespace ApexCitadels.Player
 #endif
     }
 
-    /// <summary>
-    /// Resource types in the game
-    /// </summary>
-    public enum ResourceType
-    {
-        Stone,
-        Wood,
-        Metal,
-        Crystal,
-        Gems
-    }
+    // Note: ResourceType is now defined in ApexCitadels.Data.ResourceTypes
 
     /// <summary>
     /// Resource node that can be harvested

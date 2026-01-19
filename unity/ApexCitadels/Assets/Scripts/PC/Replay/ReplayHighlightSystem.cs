@@ -163,7 +163,7 @@ namespace ApexCitadels.PC.Replay
             }
             
             // Add shadow/outline
-            var outline = _highlightTextObj.AddComponent<Outline>();
+            var outline = _highlightTextObj.AddComponent<UnityEngine.UI.Outline>();
             outline.effectColor = Color.black;
             outline.effectDistance = new Vector2(2, -2);
             

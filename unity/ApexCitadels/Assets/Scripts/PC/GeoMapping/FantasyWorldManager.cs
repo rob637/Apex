@@ -245,18 +245,35 @@ namespace ApexCitadels.PC.GeoMapping
                     Debug.Log("[FantasyWorld] Terrain generated");
                 }
                 
-                // Fetch OSM data
+                // Fetch OSM data using callback
                 if (osmPipeline != null)
                 {
                     double latRange = worldRadius / 111320.0;
                     double lonRange = worldRadius / (111320.0 * Math.Cos(latitude * Math.PI / 180));
                     
-                    var areaData = await osmPipeline.FetchBoundingBox(
+                    OSMAreaData areaData = null;
+                    bool fetchComplete = false;
+                    
+                    osmPipeline.FetchBoundingBox(
                         latitude - latRange,
                         latitude + latRange,
                         longitude - lonRange,
-                        longitude + lonRange
+                        longitude + lonRange,
+                        onComplete: (data) => {
+                            areaData = data;
+                            fetchComplete = true;
+                        },
+                        onError: (error) => {
+                            Debug.LogWarning($"[FantasyWorld] OSM fetch error: {error}");
+                            fetchComplete = true;
+                        }
                     );
+                    
+                    // Wait for fetch to complete
+                    while (!fetchComplete)
+                    {
+                        await Task.Yield();
+                    }
                     
                     if (areaData != null)
                     {

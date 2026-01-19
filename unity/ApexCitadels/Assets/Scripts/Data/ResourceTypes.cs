@@ -24,7 +24,8 @@ namespace ApexCitadels.Data
         Gold,           // Currency
         Food,           // Troop upkeep
         Energy,         // Action resource
-        Influence       // Social/political resource
+        Influence,      // Social/political resource
+        ApexCoins       // Premium currency (alias for Gems)
     }
 
     /// <summary>

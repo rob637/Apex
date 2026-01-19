@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
+using ApexCitadels.PC.Compatibility;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -177,37 +178,37 @@ namespace ApexCitadels.PC.GeoMapping
             // Setup Color Adjustments
             if (!profile.TryGet(out _colorAdjustments))
             {
-                _colorAdjustments = profile.Add<ColorAdjustments>(true);
+                _colorAdjustments = profile.Add<ColorAdjustments>();
             }
             
             // Setup Bloom
             if (!profile.TryGet(out _bloom))
             {
-                _bloom = profile.Add<Bloom>(true);
+                _bloom = profile.Add<Bloom>();
             }
             
             // Setup Vignette
             if (!profile.TryGet(out _vignette))
             {
-                _vignette = profile.Add<Vignette>(true);
+                _vignette = profile.Add<Vignette>();
             }
             
             // Setup Film Grain
             if (!profile.TryGet(out _filmGrain))
             {
-                _filmGrain = profile.Add<FilmGrain>(true);
+                _filmGrain = profile.Add<FilmGrain>();
             }
             
             // Setup Chromatic Aberration
             if (!profile.TryGet(out _chromaticAberration))
             {
-                _chromaticAberration = profile.Add<ChromaticAberration>(true);
+                _chromaticAberration = profile.Add<ChromaticAberration>();
             }
             
             // Setup Lens Distortion
             if (!profile.TryGet(out _lensDistortion))
             {
-                _lensDistortion = profile.Add<LensDistortion>(true);
+                _lensDistortion = profile.Add<LensDistortion>();
             }
             
             Debug.Log("[FantasyAtmosphere] Post-processing volume configured");
@@ -408,46 +409,46 @@ namespace ApexCitadels.PC.GeoMapping
         {
             if (_colorAdjustments != null)
             {
-                _colorAdjustments.colorFilter.Override(settings.ColorFilter);
-                _colorAdjustments.postExposure.Override(0f);
-                _colorAdjustments.contrast.Override(settings.Contrast);
-                _colorAdjustments.saturation.Override(settings.Saturation);
+                _colorAdjustments.colorFilter.SetOverride(settings.ColorFilter);
+                _colorAdjustments.postExposure.SetOverride(0f);
+                _colorAdjustments.contrast.SetOverride(settings.Contrast);
+                _colorAdjustments.saturation.SetOverride(settings.Saturation);
             }
             
             if (_bloom != null && enableBloom)
             {
                 _bloom.active = true;
-                _bloom.intensity.Override(settings.BloomIntensity);
-                _bloom.threshold.Override(settings.BloomThreshold);
-                _bloom.tint.Override(settings.BloomTint);
-                _bloom.scatter.Override(bloomScatter);
+                _bloom.intensity.SetOverride(settings.BloomIntensity);
+                _bloom.threshold.SetOverride(settings.BloomThreshold);
+                _bloom.tint.SetOverride(settings.BloomTint);
+                _bloom.scatter.SetOverride(bloomScatter);
             }
             
             if (_vignette != null && enableVignette)
             {
                 _vignette.active = true;
-                _vignette.intensity.Override(settings.VignetteIntensity);
-                _vignette.smoothness.Override(vignetteSmoothness);
-                _vignette.color.Override(settings.VignetteColor);
+                _vignette.intensity.SetOverride(settings.VignetteIntensity);
+                _vignette.smoothness.SetOverride(vignetteSmoothness);
+                _vignette.color.SetOverride(settings.VignetteColor);
             }
             
             if (_filmGrain != null && enableFilmGrain)
             {
                 _filmGrain.active = true;
-                _filmGrain.intensity.Override(settings.FilmGrainIntensity);
-                _filmGrain.type.Override(FilmGrainLookup.Medium1);
+                _filmGrain.intensity.SetOverride(settings.FilmGrainIntensity);
+                _filmGrain.type.SetOverride(FilmGrainLookup.Medium1);
             }
             
             if (_chromaticAberration != null)
             {
                 _chromaticAberration.active = enableChromaticAberration;
-                _chromaticAberration.intensity.Override(chromaticIntensity);
+                _chromaticAberration.intensity.SetOverride(chromaticIntensity);
             }
             
             if (_lensDistortion != null)
             {
                 _lensDistortion.active = enableLensDistortion;
-                _lensDistortion.intensity.Override(lensDistortionIntensity);
+                _lensDistortion.intensity.SetOverride(lensDistortionIntensity);
             }
         }
         
@@ -469,18 +470,18 @@ namespace ApexCitadels.PC.GeoMapping
             {
                 // Adjust exposure based on time
                 float exposure = Mathf.Lerp(-1f, 0.5f, lightIntensity);
-                _colorAdjustments.postExposure.Override(exposure);
+                _colorAdjustments.postExposure.SetOverride(exposure);
                 
                 // Subtle color shift
                 Color timeFilter = Color.Lerp(_currentSettings?.ColorFilter ?? Color.white, skyColor, 0.3f);
-                _colorAdjustments.colorFilter.Override(timeFilter);
+                _colorAdjustments.colorFilter.SetOverride(timeFilter);
             }
             
             // Update vignette intensity (darker at night)
             if (_vignette != null)
             {
                 float nightVignette = Mathf.Lerp(0.6f, 0.3f, lightIntensity);
-                _vignette.intensity.Override(nightVignette);
+                _vignette.intensity.SetOverride(nightVignette);
             }
             
             // Update main directional light if exists
@@ -522,7 +523,7 @@ namespace ApexCitadels.PC.GeoMapping
         public void SetBloomIntensity(float intensity)
         {
             bloomIntensity = Mathf.Clamp(intensity, 0f, 5f);
-            if (_bloom != null) _bloom.intensity.Override(bloomIntensity);
+            if (_bloom != null) _bloom.intensity.SetOverride(bloomIntensity);
         }
         
         /// <summary>
@@ -531,7 +532,7 @@ namespace ApexCitadels.PC.GeoMapping
         public void SetVignetteIntensity(float intensity)
         {
             vignetteIntensity = Mathf.Clamp01(intensity);
-            if (_vignette != null) _vignette.intensity.Override(vignetteIntensity);
+            if (_vignette != null) _vignette.intensity.SetOverride(vignetteIntensity);
         }
         
         /// <summary>

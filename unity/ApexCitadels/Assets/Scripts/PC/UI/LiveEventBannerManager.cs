@@ -116,7 +116,7 @@ namespace ApexCitadels.PC.UI
                 id = "territory_rush",
                 title = "TERRITORY RUSH",
                 description = "Capture 5 territories for bonus rewards!",
-                type = EventType.TerritoryContest,
+                type = LiveEventType.TerritoryContest,
                 endTime = DateTime.Now.AddHours(2),
                 rewards = new[] { "500 Gold", "100 Gems", "Rare Banner" },
                 participants = 1247
@@ -127,7 +127,7 @@ namespace ApexCitadels.PC.UI
                 id = "double_resources",
                 title = "DOUBLE RESOURCES",
                 description = "All resource production doubled!",
-                type = EventType.ResourceBonus,
+                type = LiveEventType.ResourceBonus,
                 endTime = DateTime.Now.AddMinutes(45),
                 rewards = new[] { "2x Production" },
                 participants = 3892
@@ -138,7 +138,7 @@ namespace ApexCitadels.PC.UI
                 id = "alliance_war",
                 title = "ALLIANCE WAR: FINALS",
                 description = "Top 8 alliances battle for supremacy!",
-                type = EventType.AllianceWar,
+                type = LiveEventType.AllianceWar,
                 endTime = DateTime.Now.AddHours(6),
                 rewards = new[] { "Legendary Chest", "1000 Gems", "Exclusive Title" },
                 participants = 8
@@ -306,17 +306,17 @@ namespace ApexCitadels.PC.UI
             }
         }
         
-        private Color GetEventColor(EventType type)
+        private Color GetEventColor(LiveEventType type)
         {
             return type switch
             {
-                EventType.TerritoryContest => new Color(0.2f, 0.6f, 0.3f),
-                EventType.ResourceBonus => new Color(0.8f, 0.7f, 0.2f),
-                EventType.AllianceWar => new Color(0.7f, 0.2f, 0.2f),
-                EventType.SeasonPass => new Color(0.6f, 0.4f, 0.8f),
-                EventType.LimitedOffer => new Color(0.2f, 0.5f, 0.8f),
-                EventType.Tournament => new Color(0.8f, 0.5f, 0.2f),
-                EventType.WorldBoss => new Color(0.5f, 0.1f, 0.5f),
+                LiveEventType.TerritoryContest => new Color(0.2f, 0.6f, 0.3f),
+                LiveEventType.ResourceBonus => new Color(0.8f, 0.7f, 0.2f),
+                LiveEventType.AllianceWar => new Color(0.7f, 0.2f, 0.2f),
+                LiveEventType.SeasonPass => new Color(0.6f, 0.4f, 0.8f),
+                LiveEventType.LimitedOffer => new Color(0.2f, 0.5f, 0.8f),
+                LiveEventType.Tournament => new Color(0.8f, 0.5f, 0.2f),
+                LiveEventType.WorldBoss => new Color(0.5f, 0.1f, 0.5f),
                 _ => normalColor
             };
         }

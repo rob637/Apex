@@ -93,7 +93,7 @@ namespace ApexCitadels.PC.Combat
             text.fontSize = 2;
             text.fontStyle = FontStyles.Bold;
             text.alignment = TextAlignmentOptions.Center;
-            text.enableWordWrapping = false;
+            text.textWrappingMode = TextWrappingModes.NoWrap;
             text.overflowMode = TextOverflowModes.Overflow;
 
             // Outline for readability

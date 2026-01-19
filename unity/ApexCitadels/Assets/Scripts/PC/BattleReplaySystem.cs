@@ -46,6 +46,12 @@ namespace ApexCitadels.PC
         private int _currentEventIndex;
         private float _currentPlaybackSpeed;
         
+        // Public properties for timeline integration
+        public float ReplayTime => _replayTime;
+        public float TotalDuration => _currentReplay?.Duration ?? 0f;
+        public bool IsPlaying => _isPlaying;
+        public BattleReplay CurrentReplay => _currentReplay;
+        
         // Replay visualization
         private Dictionary<string, GameObject> _replayUnits = new Dictionary<string, GameObject>();
         private Dictionary<string, GameObject> _replayBuildings = new Dictionary<string, GameObject>();

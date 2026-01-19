@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.UI
 {
@@ -575,19 +576,7 @@ namespace ApexCitadels.PC.UI
         public float currentCapacity;
     }
     
-    public enum ResourceType
-    {
-        Gold,
-        Wood,
-        Stone,
-        Iron,
-        Food,
-        Mana,
-        Gems,
-        Energy,
-        Population,
-        Influence
-    }
+    // Note: ResourceType is now defined in ApexCitadels.Data.ResourceTypes
     
     #endregion
 }

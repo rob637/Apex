@@ -869,7 +869,10 @@ namespace ApexCitadels.PC.GeoMapping
         CobblestoneStreet,
         StoneAlley,
         DirtPath,
-        ForestTrail
+        ForestTrail,
+        MarketSquare,
+        Alley,
+        Bridge
     }
     
     public enum NaturalAreaType
@@ -891,7 +894,10 @@ namespace ApexCitadels.PC.GeoMapping
         MeadowField,
         MysticalSwamp,
         CoastalShore,
-        DragonPeak
+        DragonPeak,
+        MagicalRiver,
+        EnchantedLake,
+        MysticalGrove
     }
     
     public enum POIType

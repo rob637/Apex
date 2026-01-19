@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
+using ApexCitadels.PC.Compatibility;
 
 namespace ApexCitadels.PC.Combat
 {
@@ -382,7 +383,7 @@ namespace ApexCitadels.PC.Combat
             if (_chromaticAberration == null) yield break;
             
             _chromaticAberration.active = true;
-            _chromaticAberration.intensity.Override(0f);
+            _chromaticAberration.intensity.SetOverride(0f);
             
             float elapsed = 0f;
             while (elapsed < chromaticDuration)
@@ -401,11 +402,11 @@ namespace ApexCitadels.PC.Combat
                     intensity = Mathf.Lerp(chromaticIntensity, 0f, (t - 0.2f) / 0.8f);
                 }
                 
-                _chromaticAberration.intensity.Override(intensity);
+                _chromaticAberration.intensity.SetOverride(intensity);
                 yield return null;
             }
             
-            _chromaticAberration.intensity.Override(0f);
+            _chromaticAberration.intensity.SetOverride(0f);
         }
 
         private IEnumerator DoVignettePulse(Color color)
@@ -413,7 +414,7 @@ namespace ApexCitadels.PC.Combat
             if (_vignette == null) yield break;
             
             _vignette.active = true;
-            _vignette.color.Override(color);
+            _vignette.color.SetOverride(color);
             
             float elapsed = 0f;
             float duration = 0.5f;
@@ -425,12 +426,12 @@ namespace ApexCitadels.PC.Combat
                 
                 // Pulse
                 float intensity = Mathf.Sin(t * Mathf.PI) * 0.4f;
-                _vignette.intensity.Override(0.3f + intensity);
+                _vignette.intensity.SetOverride(0.3f + intensity);
                 
                 yield return null;
             }
             
-            _vignette.intensity.Override(0.3f);
+            _vignette.intensity.SetOverride(0.3f);
         }
 
         private IEnumerator VictorySequence()
@@ -483,8 +484,8 @@ namespace ApexCitadels.PC.Combat
             if (_vignette != null)
             {
                 _vignette.active = true;
-                _vignette.color.Override(new Color(0.5f, 0f, 0f));
-                _vignette.intensity.Override(0.5f);
+                _vignette.color.SetOverride(new Color(0.5f, 0f, 0f));
+                _vignette.intensity.SetOverride(0.5f);
             }
             
             // Desaturate
@@ -495,7 +496,7 @@ namespace ApexCitadels.PC.Combat
                 while (elapsed < 0.5f)
                 {
                     elapsed += Time.unscaledDeltaTime;
-                    _colorAdjustments.saturation.Override(Mathf.Lerp(0f, -50f, elapsed / 0.5f));
+                    _colorAdjustments.saturation.SetOverride(Mathf.Lerp(0f, -50f, elapsed / 0.5f));
                     yield return null;
                 }
             }
@@ -516,14 +517,14 @@ namespace ApexCitadels.PC.Combat
                 while (elapsed < 0.5f)
                 {
                     elapsed += Time.deltaTime;
-                    _colorAdjustments.saturation.Override(Mathf.Lerp(-50f, 0f, elapsed / 0.5f));
+                    _colorAdjustments.saturation.SetOverride(Mathf.Lerp(-50f, 0f, elapsed / 0.5f));
                     yield return null;
                 }
             }
             
             if (_vignette != null)
             {
-                _vignette.intensity.Override(0.3f);
+                _vignette.intensity.SetOverride(0.3f);
             }
         }
 

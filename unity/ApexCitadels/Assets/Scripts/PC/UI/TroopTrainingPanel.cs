@@ -465,7 +465,7 @@ namespace ApexCitadels.PC.UI
             // Total power
             totalPowerText = CreateText(armyPanel, "⚡ Total Power: 0", 16, FontStyles.Bold);
             SetAnchors(totalPowerText.rectTransform, new Vector2(0.5f, 1), new Vector2(0.8f, 1), new Vector2(0, -30), new Vector2(0, 0));
-            totalPowerText.alignment = TextAlignmentOptions.MidlineCenter;
+            totalPowerText.alignment = TextAlignmentOptions.Center;
             totalPowerText.color = TEXT_HIGHLIGHT;
 
             // Total troops
@@ -933,7 +933,7 @@ namespace ApexCitadels.PC.UI
             tmp.fontStyle = style;
             tmp.color = TEXT_PRIMARY;
             tmp.alignment = TextAlignmentOptions.Center;
-            tmp.enableWordWrapping = true;
+            tmp.textWrappingMode = TextWrappingModes.Normal;
             tmp.overflowMode = TextOverflowModes.Ellipsis;
 
             return tmp;

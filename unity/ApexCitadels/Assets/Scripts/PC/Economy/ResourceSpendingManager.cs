@@ -6,24 +6,11 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.Economy
 {
-    /// <summary>
-    /// Unified resource types (matches ResourceTypes.cs)
-    /// </summary>
-    public enum ResourceType
-    {
-        Stone,
-        Wood,
-        Iron,
-        Crystal,
-        ArcaneEssence,
-        Gems,
-        Gold,      // Soft currency
-        Food,      // Troop upkeep
-        Energy     // Action points
-    }
+    // Note: ResourceType is now defined in ApexCitadels.Data.ResourceTypes
 
     /// <summary>
     /// Resource cost structure for any purchase

@@ -233,8 +233,10 @@ namespace ApexCitadels.PC.GeoMapping
                     Debug.Log($"[MapTileProvider] Fetching: {url}");
                 }
 
-                using (var request = UnityWebRequestTexture.GetTexture(url))
+                using (var request = UnityWebRequest.Get(url))
                 {
+                    var downloadHandler = new DownloadHandlerTexture(true);
+                    request.downloadHandler = downloadHandler;
                     request.timeout = (int)config.RequestTimeoutSeconds;
                     
                     // Add headers to be a good citizen
@@ -249,7 +251,7 @@ namespace ApexCitadels.PC.GeoMapping
 
                     if (request.result == UnityWebRequest.Result.Success)
                     {
-                        var texture = DownloadHandlerTexture.GetContent(request);
+                        var texture = downloadHandler.texture;
                         texture.wrapMode = TextureWrapMode.Clamp;
                         texture.filterMode = FilterMode.Bilinear;
 

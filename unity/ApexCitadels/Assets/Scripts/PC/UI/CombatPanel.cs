@@ -1,5 +1,6 @@
 using System.Linq;
 using System;
+using ApexCitadels.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -1110,14 +1111,7 @@ namespace ApexCitadels.PC.UI
         }
     }
 
-    public enum TroopType
-    {
-        Infantry,
-        Archer,
-        Cavalry,
-        Siege,
-        Elite
-    }
+    // Note: TroopType is defined in ApexCitadels.Data.BattleTypes
 
     public class BattleSimulation
     {
@@ -1136,7 +1130,8 @@ namespace ApexCitadels.PC.UI
         public int StoneLooted;
     }
 
-    public enum BattleEventType
+    // Note: This BattleEventType is for UI display - different from replay BattleEventType
+    public enum CombatEventType
     {
         MeleeClash,
         ArcherVolley,

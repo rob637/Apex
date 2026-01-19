@@ -8,6 +8,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
+using ApexCitadels.PC.Compatibility;
 
 namespace ApexCitadels.PC.Environment
 {
@@ -129,80 +130,80 @@ namespace ApexCitadels.PC.Environment
             }
 
             // Add Bloom
-            if (!_volumeProfile.Has<Bloom>())
+            if (!_volumeProfile.TryGet<Bloom>(out var bloom))
             {
-                var bloom = _volumeProfile.Add<Bloom>(true);
+                bloom = _volumeProfile.Add<Bloom>();
                 bloom.active = true;
-                bloom.threshold.Override(bloomThreshold);
-                bloom.intensity.Override(bloomIntensity);
-                bloom.scatter.Override(0.7f);
-                bloom.tint.Override(new Color(1f, 0.95f, 0.9f));
+                bloom.threshold.SetOverride(bloomThreshold);
+                bloom.intensity.SetOverride(bloomIntensity);
+                bloom.scatter.SetOverride(0.7f);
+                bloom.tint.SetOverride(new Color(1f, 0.95f, 0.9f));
                 Debug.Log("[AAA Effects] Bloom added");
             }
 
             // Add Vignette
-            if (!_volumeProfile.Has<Vignette>())
+            if (!_volumeProfile.TryGet<Vignette>(out var vignette))
             {
-                var vignette = _volumeProfile.Add<Vignette>(true);
+                vignette = _volumeProfile.Add<Vignette>();
                 vignette.active = true;
-                vignette.intensity.Override(vignetteIntensity);
-                vignette.smoothness.Override(0.4f);
-                vignette.color.Override(new Color(0f, 0f, 0f));
+                vignette.intensity.SetOverride(vignetteIntensity);
+                vignette.smoothness.SetOverride(0.4f);
+                vignette.color.SetOverride(new Color(0f, 0f, 0f));
                 Debug.Log("[AAA Effects] Vignette added");
             }
 
             // Add Color Adjustments (Color Grading)
-            if (!_volumeProfile.Has<ColorAdjustments>())
+            if (!_volumeProfile.TryGet<ColorAdjustments>(out var colorAdj))
             {
-                var colorAdj = _volumeProfile.Add<ColorAdjustments>(true);
+                colorAdj = _volumeProfile.Add<ColorAdjustments>();
                 colorAdj.active = true;
-                colorAdj.saturation.Override(colorGradingSaturation);
-                colorAdj.contrast.Override(colorGradingContrast);
-                colorAdj.postExposure.Override(0.2f);
+                colorAdj.saturation.SetOverride(colorGradingSaturation);
+                colorAdj.contrast.SetOverride(colorGradingContrast);
+                colorAdj.postExposure.SetOverride(0.2f);
                 Debug.Log("[AAA Effects] Color adjustments added");
             }
 
             // Add Lift Gamma Gain for cinematic color
-            if (!_volumeProfile.Has<LiftGammaGain>())
+            if (!_volumeProfile.TryGet<LiftGammaGain>(out var lgg))
             {
-                var lgg = _volumeProfile.Add<LiftGammaGain>(true);
+                lgg = _volumeProfile.Add<LiftGammaGain>();
                 lgg.active = true;
                 // Slight blue in shadows, warm in highlights
-                lgg.lift.Override(new Vector4(0.95f, 0.95f, 1.05f, 0f));
-                lgg.gamma.Override(new Vector4(1f, 1f, 1f, 0f));
-                lgg.gain.Override(new Vector4(1.05f, 1.02f, 0.98f, 0f));
+                lgg.lift.SetOverride(new Vector4(0.95f, 0.95f, 1.05f, 0f));
+                lgg.gamma.SetOverride(new Vector4(1f, 1f, 1f, 0f));
+                lgg.gain.SetOverride(new Vector4(1.05f, 1.02f, 0.98f, 0f));
                 Debug.Log("[AAA Effects] Lift/Gamma/Gain added");
             }
 
             // Add Film Grain (subtle)
-            if (!_volumeProfile.Has<FilmGrain>())
+            if (!_volumeProfile.TryGet<FilmGrain>(out var grain))
             {
-                var grain = _volumeProfile.Add<FilmGrain>(true);
+                grain = _volumeProfile.Add<FilmGrain>();
                 grain.active = true;
-                grain.type.Override(FilmGrainLookup.Medium1);
-                grain.intensity.Override(0.15f);
-                grain.response.Override(0.8f);
+                grain.type.SetOverride(FilmGrainLookup.Medium1);
+                grain.intensity.SetOverride(0.15f);
+                grain.response.SetOverride(0.8f);
                 Debug.Log("[AAA Effects] Film grain added");
             }
 
             // Add Chromatic Aberration (very subtle)
-            if (!_volumeProfile.Has<ChromaticAberration>())
+            if (!_volumeProfile.TryGet<ChromaticAberration>(out var ca))
             {
-                var ca = _volumeProfile.Add<ChromaticAberration>(true);
+                ca = _volumeProfile.Add<ChromaticAberration>();
                 ca.active = true;
-                ca.intensity.Override(0.05f);
+                ca.intensity.SetOverride(0.05f);
                 Debug.Log("[AAA Effects] Chromatic aberration added");
             }
 
             // Add Depth of Field (subtle)
-            if (!_volumeProfile.Has<DepthOfField>())
+            if (!_volumeProfile.TryGet<DepthOfField>(out var dof))
             {
-                var dof = _volumeProfile.Add<DepthOfField>(true);
+                dof = _volumeProfile.Add<DepthOfField>();
                 dof.active = true;
-                dof.mode.Override(DepthOfFieldMode.Bokeh);
-                dof.focusDistance.Override(100f);
-                dof.aperture.Override(5.6f);
-                dof.focalLength.Override(50f);
+                dof.mode.SetOverride(DepthOfFieldMode.Bokeh);
+                dof.focusDistance.SetOverride(100f);
+                dof.aperture.SetOverride(5.6f);
+                dof.focalLength.SetOverride(50f);
                 Debug.Log("[AAA Effects] Depth of field added");
             }
 
@@ -452,7 +453,7 @@ namespace ApexCitadels.PC.Environment
             bloomIntensity = intensity;
             if (_volumeProfile != null && _volumeProfile.TryGet<Bloom>(out var bloom))
             {
-                bloom.intensity.Override(intensity);
+                bloom.intensity.SetOverride(intensity);
             }
         }
 
@@ -464,7 +465,7 @@ namespace ApexCitadels.PC.Environment
             vignetteIntensity = intensity;
             if (_volumeProfile != null && _volumeProfile.TryGet<Vignette>(out var vignette))
             {
-                vignette.intensity.Override(intensity);
+                vignette.intensity.SetOverride(intensity);
             }
         }
 
@@ -492,18 +493,18 @@ namespace ApexCitadels.PC.Environment
             {
                 if (timeOfDay < 6f || timeOfDay >= 20f) // Night
                 {
-                    colorAdj.saturation.Override(-10f);
-                    colorAdj.colorFilter.Override(new Color(0.7f, 0.75f, 1f));
+                    colorAdj.saturation.SetOverride(-10f);
+                    colorAdj.colorFilter.SetOverride(new Color(0.7f, 0.75f, 1f));
                 }
                 else if (timeOfDay < 8f || timeOfDay >= 18f) // Dawn/Dusk
                 {
-                    colorAdj.saturation.Override(20f);
-                    colorAdj.colorFilter.Override(new Color(1f, 0.9f, 0.8f));
+                    colorAdj.saturation.SetOverride(20f);
+                    colorAdj.colorFilter.SetOverride(new Color(1f, 0.9f, 0.8f));
                 }
                 else // Day
                 {
-                    colorAdj.saturation.Override(colorGradingSaturation);
-                    colorAdj.colorFilter.Override(Color.white);
+                    colorAdj.saturation.SetOverride(colorGradingSaturation);
+                    colorAdj.colorFilter.SetOverride(Color.white);
                 }
             }
 
@@ -511,7 +512,7 @@ namespace ApexCitadels.PC.Environment
             if (_volumeProfile.TryGet<Bloom>(out var bloom))
             {
                 float timeBloom = (timeOfDay < 8f || timeOfDay >= 17f) ? bloomIntensity * 1.5f : bloomIntensity;
-                bloom.intensity.Override(timeBloom);
+                bloom.intensity.SetOverride(timeBloom);
             }
         }
 

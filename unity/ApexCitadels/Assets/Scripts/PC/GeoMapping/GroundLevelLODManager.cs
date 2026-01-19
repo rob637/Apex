@@ -418,22 +418,33 @@ namespace ApexCitadels.PC.GeoMapping
             chunk.root.transform.position = chunkCenter;
             chunk.root.transform.SetParent(transform);
             
-            // Fetch OSM data for chunk
+            // Fetch OSM data for chunk using callback
             if (osmPipeline != null)
             {
-                var fetchTask = osmPipeline.FetchBoundingBox(
+                bool fetchComplete = false;
+                OSMAreaData fetchedData = null;
+                
+                osmPipeline.FetchBoundingBox(
                     geoCenter.latitude - 0.002, geoCenter.latitude + 0.002,
-                    geoCenter.longitude - 0.003, geoCenter.longitude + 0.003
+                    geoCenter.longitude - 0.003, geoCenter.longitude + 0.003,
+                    onComplete: (data) => {
+                        fetchedData = data;
+                        fetchComplete = true;
+                    },
+                    onError: (error) => {
+                        Debug.LogWarning($"[LOD] OSM fetch error: {error}");
+                        fetchComplete = true;
+                    }
                 );
                 
-                while (!fetchTask.IsCompleted)
+                while (!fetchComplete)
                 {
                     yield return null;
                 }
                 
-                if (fetchTask.Result != null)
+                if (fetchedData != null)
                 {
-                    chunk.osmData = fetchTask.Result;
+                    chunk.osmData = fetchedData;
                     
                     // Generate buildings
                     if (buildingGenerator != null)

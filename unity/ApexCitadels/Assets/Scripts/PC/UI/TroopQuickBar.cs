@@ -239,7 +239,7 @@ namespace ApexCitadels.PC.UI
             armyStatusText.rectTransform.anchorMax = Vector2.one;
             armyStatusText.rectTransform.offsetMin = Vector2.zero;
             armyStatusText.rectTransform.offsetMax = Vector2.zero;
-            armyStatusText.alignment = TextAlignmentOptions.MidlineCenter;
+            armyStatusText.alignment = TextAlignmentOptions.Center;
             armyStatusText.color = TEXT_SECONDARY;
         }
 
@@ -420,7 +420,7 @@ namespace ApexCitadels.PC.UI
             tmp.fontSize = fontSize;
             tmp.color = TEXT_PRIMARY;
             tmp.alignment = TextAlignmentOptions.Center;
-            tmp.enableWordWrapping = false;
+            tmp.textWrappingMode = TextWrappingModes.NoWrap;
 
             return tmp;
         }
