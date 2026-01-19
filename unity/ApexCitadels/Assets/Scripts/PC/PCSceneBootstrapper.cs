@@ -348,12 +348,18 @@ namespace ApexCitadels.PC
             {
                 inputManager.OnToggleMapTerritoryView += cameraController.ToggleMapTerritoryView;
                 inputManager.OnCycleCameraMode += CycleCameraMode;
+                ApexLogger.Log("[Bootstrapper] ✓ Connected: InputManager -> CameraController (Space/T = ToggleView, C = CycleCamera)", ApexLogger.LogCategory.General);
+            }
+            else
+            {
+                ApexLogger.LogWarning($"[Bootstrapper] ✗ Cannot connect input: inputManager={inputManager != null}, cameraController={cameraController != null}", ApexLogger.LogCategory.General);
             }
 
             // Connect world map to territory selection
             if (worldMapRenderer != null && gameController != null)
             {
                 worldMapRenderer.OnTerritoryClicked += (id) => gameController.ViewTerritory(id);
+                ApexLogger.Log("[Bootstrapper] ✓ Connected: WorldMapRenderer -> GameController (territory clicks)", ApexLogger.LogCategory.General);
             }
 
             // Connect territory manager (if exists)
@@ -363,6 +369,7 @@ namespace ApexCitadels.PC
                 // Will be refreshed when territory data changes
                 territoryManager.OnTerritoryClaimed += (t) => worldMapRenderer.RefreshVisibleTerritories();
                 territoryManager.OnTerritoryLost += (t) => worldMapRenderer.RefreshVisibleTerritories();
+                ApexLogger.Log("[Bootstrapper] ✓ Connected: TerritoryManager -> WorldMapRenderer", ApexLogger.LogCategory.General);
             }
 
             ApexLogger.Log("Systems connected", ApexLogger.LogCategory.General);

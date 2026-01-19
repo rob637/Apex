@@ -172,7 +172,12 @@ namespace ApexCitadels.PC
                     ApexCitadels.PC.UI.DailyRewardsUI.Instance.Toggle();
             }
 
-            // T is handled by ChatPanel itself for chat focus
+            // T key - Toggle Territory View (same as Space)
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                ApexLogger.Log("[PCInput] T detected - Territory View", ApexLogger.LogCategory.General);
+                OnToggleMapTerritoryView?.Invoke();
+            }
 
             // Building controls
             if (Input.GetKeyDown(KeyCode.Q))

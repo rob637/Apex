@@ -203,9 +203,30 @@ namespace ApexCitadels.PC
         /// </summary>
         public void ToggleMapTerritoryView()
         {
-            if (_currentMode == PCCameraMode.WorldMap && !string.IsNullOrEmpty(_focusedTerritoryId))
+            ApexLogger.Log($"[PCCamera] ToggleMapTerritoryView called. Current mode: {_currentMode}, Focused territory: {_focusedTerritoryId ?? "none"}", ApexLogger.LogCategory.General);
+            
+            if (_currentMode == PCCameraMode.WorldMap)
             {
-                SetMode(PCCameraMode.Territory);
+                // If no territory focused, try to focus on the first available one
+                if (string.IsNullOrEmpty(_focusedTerritoryId))
+                {
+                    var territories = FindObjectsByType<ApexCitadels.PC.UI.TerritoryVisual>(FindObjectsSortMode.None);
+                    if (territories != null && territories.Length > 0)
+                    {
+                        _focusedTerritoryId = territories[0].TerritoryId;
+                        _orbitCenter = territories[0].transform.position;
+                        ApexLogger.Log($"[PCCamera] Auto-focused on territory: {_focusedTerritoryId}", ApexLogger.LogCategory.General);
+                    }
+                }
+                
+                if (!string.IsNullOrEmpty(_focusedTerritoryId))
+                {
+                    SetMode(PCCameraMode.Territory);
+                }
+                else
+                {
+                    ApexLogger.Log("[PCCamera] No territories available to focus on", ApexLogger.LogCategory.General);
+                }
             }
             else
             {
