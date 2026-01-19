@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using ApexCitadels.Building;
 using ApexCitadels.Core;
-using ApexCitadels.Economy;
+using ApexCitadels.Data;
 
 namespace ApexCitadels.PC.UI
 {
