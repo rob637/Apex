@@ -78,6 +78,15 @@ namespace ApexCitadels.Audio
         public float UIVolume => uiVolume;
         public float VoiceVolume => voiceVolume;
         public bool IsMuted => isMuted;
+
+        /// <summary>
+        /// Play a sound effect by name (stub method for compatibility)
+        /// </summary>
+        public void PlaySFX(string soundName)
+        {
+            // Stub implementation - can be enhanced with actual SFX playback
+            ApexLogger.Log($"[AudioManager] PlaySFX: {soundName}", ApexLogger.LogCategory.Audio);
+        }
         public bool VibrationEnabled => enableVibration;
         public bool Is3DAudioEnabled => enable3DAudio;
 

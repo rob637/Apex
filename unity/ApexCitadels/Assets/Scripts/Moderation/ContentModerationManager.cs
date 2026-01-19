@@ -152,7 +152,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.Network, $"Failed to check ban status: {ex.Message}");
+                ApexLogger.LogError($"Failed to check ban status: {ex.Message}", LogCategory.Network);
             }
         }
 
@@ -222,7 +222,7 @@ namespace ApexCitadels.Moderation
                 }
                 catch (Exception ex)
                 {
-                    ApexLogger.LogError(LogCategory.Network, $"Server validation failed: {ex.Message}");
+                    ApexLogger.LogError($"Server validation failed: {ex.Message}", LogCategory.Network);
                     
                     // Fall back to client-side result
                     if (enableClientSideFilter)
@@ -238,18 +238,18 @@ namespace ApexCitadels.Moderation
 #else
         private void Start()
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.Network, "Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.Network);
         }
 
         public void CheckBanStatus()
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.Network, "Firebase SDK not installed. CheckBanStatus is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. CheckBanStatus is a stub.", ApexLogger.LogCategory.Network);
             _banStatus = new BanStatus { Banned = false };
         }
 
         public Task<ModerationResult> ModerateContent(string content, string contentType = "chat")
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.Network, "Firebase SDK not installed. ModerateContent is a stub.");
+            ApexLogger.LogWarning("Firebase SDK not installed. ModerateContent is a stub.", ApexLogger.LogCategory.Network);
             if (enableClientSideFilter)
             {
                 var result = QuickClientFilter(content);
@@ -447,7 +447,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Network, $"Failed to submit report: {ex.Message}");
+                ApexLogger.LogError($"Failed to submit report: {ex.Message}", ApexLogger.LogCategory.Network);
                 return new ReportResult
                 {
                     Success = false,
@@ -481,7 +481,7 @@ namespace ApexCitadels.Moderation
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(ApexLogger.LogCategory.Network, $"Failed to submit appeal: {ex.Message}");
+                ApexLogger.LogError($"Failed to submit appeal: {ex.Message}", ApexLogger.LogCategory.Network);
                 return false;
             }
         }

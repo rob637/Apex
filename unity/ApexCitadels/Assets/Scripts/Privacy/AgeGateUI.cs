@@ -201,7 +201,7 @@ namespace ApexCitadels.Privacy
             PlayerPrefs.SetString(DOB_HASH_KEY, HashDate(birthDate));
             PlayerPrefs.Save();
 
-            ApexLogger.Log(ApexLogger.LogCategory.General, $"Age verified: {age} years old");
+            ApexLogger.Log($"Age verified: {age} years old", ApexLogger.LogCategory.General);
             
             Hide();
             OnAgeVerified?.Invoke();
@@ -257,7 +257,7 @@ namespace ApexCitadels.Privacy
             }
             else
             {
-                ApexLogger.LogWarning(ApexLogger.LogCategory.General, message);
+                ApexLogger.LogWarning(message, ApexLogger.LogCategory.General);
             }
         }
 

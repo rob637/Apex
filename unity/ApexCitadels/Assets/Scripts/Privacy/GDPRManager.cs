@@ -123,7 +123,7 @@ namespace ApexCitadels.Privacy
 #else
         private void Start()
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "Firebase SDK not installed. Running in stub mode.");
+            ApexLogger.LogWarning("Firebase SDK not installed. Running in stub mode.", ApexLogger.LogCategory.General);
             LoadLocalPreferences();
             // Check local consent only in stub mode
             if (!_hasValidConsent)
@@ -180,7 +180,7 @@ namespace ApexCitadels.Privacy
 
             if (debugMode)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.General, $"Loaded consent: {consentJson}, version: {_storedConsentVersion}, valid: {_hasValidConsent}");
+                ApexLogger.Log($"Loaded consent: {consentJson}, version: {_storedConsentVersion}, valid: {_hasValidConsent}", ApexLogger.LogCategory.General);
             }
         }
 
@@ -217,7 +217,7 @@ namespace ApexCitadels.Privacy
             {
                 if (debugMode)
                 {
-                    ApexLogger.LogError(LogCategory.General, $"Failed to check consent status: {ex.Message}");
+                    ApexLogger.LogError($"Failed to check consent status: {ex.Message}", LogCategory.General);
                 }
                 // On error, use local state
             }
@@ -271,7 +271,7 @@ namespace ApexCitadels.Privacy
 
                     if (debugMode)
                     {
-                        ApexLogger.Log(LogCategory.General, "Consent updated successfully");
+                        ApexLogger.Log("Consent updated successfully", LogCategory.General);
                     }
 
                     return true;
@@ -281,14 +281,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to update consent: {ex.Message}");
+                ApexLogger.LogError($"Failed to update consent: {ex.Message}", LogCategory.General);
                 return false;
             }
         }
 #else
         public Task<bool> UpdateConsent(ConsentPreferences consent)
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "UpdateConsent called but Firebase SDK not installed. Saving locally only.");
+            ApexLogger.LogWarning("UpdateConsent called but Firebase SDK not installed. Saving locally only.", ApexLogger.LogCategory.General);
             
             // Save locally in stub mode
             _currentConsent = consent;
@@ -342,7 +342,7 @@ namespace ApexCitadels.Privacy
 
                     if (debugMode)
                     {
-                        ApexLogger.Log(LogCategory.General, "Privacy settings updated successfully");
+                        ApexLogger.Log("Privacy settings updated successfully", LogCategory.General);
                     }
 
                     return true;
@@ -352,14 +352,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to update privacy settings: {ex.Message}");
+                ApexLogger.LogError($"Failed to update privacy settings: {ex.Message}", LogCategory.General);
                 return false;
             }
         }
 #else
         public Task<bool> UpdatePrivacySettings(PrivacySettings settings)
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "UpdatePrivacySettings called but Firebase SDK not installed. Saving locally only.");
+            ApexLogger.LogWarning("UpdatePrivacySettings called but Firebase SDK not installed. Saving locally only.", ApexLogger.LogCategory.General);
             
             _privacySettings = settings;
             PlayerPrefs.SetString(PRIVACY_PREFS_KEY, JsonConvert.SerializeObject(settings));
@@ -407,13 +407,13 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to load privacy settings: {ex.Message}");
+                ApexLogger.LogError($"Failed to load privacy settings: {ex.Message}", LogCategory.General);
             }
         }
 #else
         public Task LoadPrivacySettings()
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "LoadPrivacySettings called but Firebase SDK not installed. Using local settings.");
+            ApexLogger.LogWarning("LoadPrivacySettings called but Firebase SDK not installed. Using local settings.", ApexLogger.LogCategory.General);
             OnPrivacySettingsUpdated?.Invoke(_privacySettings);
             return Task.CompletedTask;
         }
@@ -445,14 +445,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to request data export: {ex.Message}");
+                ApexLogger.LogError($"Failed to request data export: {ex.Message}", LogCategory.General);
                 return new DataExportStatus { Status = "failed", ErrorMessage = ex.Message };
             }
         }
 #else
         public Task<DataExportStatus> RequestDataExport(string format = "json")
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "RequestDataExport called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("RequestDataExport called but Firebase SDK not installed.", ApexLogger.LogCategory.General);
             var status = new DataExportStatus { Status = "unavailable", ErrorMessage = "Firebase not installed" };
             OnExportStatusChanged?.Invoke(status);
             return Task.FromResult(status);
@@ -507,14 +507,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to get export status: {ex.Message}");
+                ApexLogger.LogError($"Failed to get export status: {ex.Message}", LogCategory.General);
                 return new DataExportStatus { Status = "error", ErrorMessage = ex.Message };
             }
         }
 #else
         public Task<DataExportStatus> GetExportStatus(string requestId = null)
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "GetExportStatus called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("GetExportStatus called but Firebase SDK not installed.", ApexLogger.LogCategory.General);
             return Task.FromResult(new DataExportStatus { Status = "unavailable", ErrorMessage = "Firebase not installed" });
         }
 #endif
@@ -559,14 +559,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to request data deletion: {ex.Message}");
+                ApexLogger.LogError($"Failed to request data deletion: {ex.Message}", LogCategory.General);
                 return new DataDeletionStatus { Status = "error" };
             }
         }
 #else
         public Task<DataDeletionStatus> RequestDataDeletion()
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "RequestDataDeletion called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("RequestDataDeletion called but Firebase SDK not installed.", ApexLogger.LogCategory.General);
             var status = new DataDeletionStatus { Status = "unavailable" };
             OnDeletionStatusChanged?.Invoke(status);
             return Task.FromResult(status);
@@ -601,14 +601,14 @@ namespace ApexCitadels.Privacy
             }
             catch (Exception ex)
             {
-                ApexLogger.LogError(LogCategory.General, $"Failed to cancel deletion: {ex.Message}");
+                ApexLogger.LogError($"Failed to cancel deletion: {ex.Message}", LogCategory.General);
                 return false;
             }
         }
 #else
         public Task<bool> CancelDataDeletion(string requestId)
         {
-            ApexLogger.LogWarning(ApexLogger.LogCategory.General, "CancelDataDeletion called but Firebase SDK not installed.");
+            ApexLogger.LogWarning("CancelDataDeletion called but Firebase SDK not installed.", ApexLogger.LogCategory.General);
             return Task.FromResult(false);
         }
 #endif
@@ -660,7 +660,7 @@ namespace ApexCitadels.Privacy
 
             if (debugMode)
             {
-                ApexLogger.Log(ApexLogger.LogCategory.General, "Local data cleared");
+                ApexLogger.Log("Local data cleared", ApexLogger.LogCategory.General);
             }
         }
     }
