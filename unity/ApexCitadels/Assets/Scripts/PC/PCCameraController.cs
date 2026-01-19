@@ -210,7 +210,7 @@ namespace ApexCitadels.PC
                 // If no territory focused, try to focus on the first available one
                 if (string.IsNullOrEmpty(_focusedTerritoryId))
                 {
-                    var territories = FindObjectsByType<ApexCitadels.PC.UI.TerritoryVisual>(FindObjectsSortMode.None);
+                    var territories = FindObjectsByType<TerritoryVisual>(FindObjectsSortMode.None);
                     if (territories != null && territories.Length > 0)
                     {
                         _focusedTerritoryId = territories[0].TerritoryId;
