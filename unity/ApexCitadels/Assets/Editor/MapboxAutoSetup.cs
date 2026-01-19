@@ -81,8 +81,8 @@ namespace ApexCitadels.Editor
             MapboxConfiguration config = ScriptableObject.CreateInstance<MapboxConfiguration>();
             config.AccessToken = MAPBOX_API_KEY;
             config.Style = MapboxStyle.Streets;  // Streets style for visible roads
-            config.DefaultLatitude = 38.9012;  // Vienna, VA
-            config.DefaultLongitude = -77.2653;
+            config.DefaultLatitude = 38.9032;  // Vienna Town Green, VA
+            config.DefaultLongitude = -77.2646;
             config.DefaultZoom = 14;
             config.TileSize = 512;
             config.UseRetinaScale = true;

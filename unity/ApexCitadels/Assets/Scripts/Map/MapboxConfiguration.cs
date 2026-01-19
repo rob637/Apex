@@ -19,10 +19,10 @@ namespace ApexCitadels.Map
         
         [Header("Default Location")]
         [Tooltip("Default latitude when no GPS is available")]
-        public double DefaultLatitude = 38.9012; // Vienna, VA
+        public double DefaultLatitude = 38.9032; // Vienna Town Green, VA
         
         [Tooltip("Default longitude when no GPS is available")]
-        public double DefaultLongitude = -77.2653;
+        public double DefaultLongitude = -77.2646;
         
         [Tooltip("Default zoom level (1-18, higher = more zoomed in)")]
         [Range(1, 18)]

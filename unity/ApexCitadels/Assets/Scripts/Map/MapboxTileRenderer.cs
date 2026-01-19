@@ -25,8 +25,8 @@ namespace ApexCitadels.Map
         [SerializeField] private float groundHeight = -1f;  // Height of ground plane (lowered to avoid z-fighting)
         
         [Header("Location")]
-        [SerializeField] private double centerLatitude = 38.9012;  // Vienna, VA
-        [SerializeField] private double centerLongitude = -77.2653;
+        [SerializeField] private double centerLatitude = 38.9032;  // Vienna Town Green, VA
+        [SerializeField] private double centerLongitude = -77.2646;
         [SerializeField] private int zoomLevel = 15;
         
         [Header("AAA Visual Quality")]

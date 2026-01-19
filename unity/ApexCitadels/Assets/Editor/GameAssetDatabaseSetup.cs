@@ -87,76 +87,121 @@ namespace ApexCitadels.Editor
                 return;
             }
 
-            string[] guids = AssetDatabase.FindAssets("t:GameObject", new[] { folderPath });
+            // Search for all model types: prefabs, fbx, glb, gltf
+            string[] guids = AssetDatabase.FindAssets("t:GameObject t:Model", new[] { folderPath });
             
+            // Also find GLB/GLTF files directly
+            string[] allFiles = System.IO.Directory.GetFiles(folderPath, "*.*", System.IO.SearchOption.AllDirectories);
+            var modelFiles = new List<string>();
+            
+            foreach (string file in allFiles)
+            {
+                string ext = System.IO.Path.GetExtension(file).ToLower();
+                if (ext == ".glb" || ext == ".gltf" || ext == ".fbx" || ext == ".obj")
+                {
+                    string unityPath = file.Replace("\\", "/");
+                    if (unityPath.StartsWith(Application.dataPath))
+                    {
+                        unityPath = "Assets" + unityPath.Substring(Application.dataPath.Length);
+                    }
+                    modelFiles.Add(unityPath);
+                }
+            }
+            
+            Debug.Log($"[AssetDB] Found {guids.Length} GameObjects and {modelFiles.Count} model files in {folderPath}");
+            
+            // Process GameObjects from GUIDs
             foreach (string guid in guids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
+                ProcessModelFile(db, path, type);
+            }
+            
+            // Process model files directly
+            foreach (string path in modelFiles)
+            {
+                // Try to load as GameObject (Unity imports GLB as prefab)
                 GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                
-                if (model == null) continue;
-
-                string fileName = Path.GetFileNameWithoutExtension(path);
-                
-                switch (type)
+                if (model != null)
                 {
-                    case ModelType.Building:
-                        var buildingEntry = new BuildingModelEntry
-                        {
-                            Id = fileName,
-                            Name = CleanName(fileName),
-                            Model = model,
-                            Category = GuessBuildingCategory(fileName)
-                        };
-                        db.BuildingModels.Add(buildingEntry);
-                        Debug.Log($"[AssetDB] Added building: {buildingEntry.Name}");
-                        break;
-
-                    case ModelType.Tower:
-                        var towerEntry = new TowerModelEntry
-                        {
-                            Id = fileName,
-                            Name = CleanName(fileName),
-                            Model = model,
-                            Type = GuessTowerType(fileName)
-                        };
-                        db.TowerModels.Add(towerEntry);
-                        Debug.Log($"[AssetDB] Added tower: {towerEntry.Name}");
-                        break;
-
-                    case ModelType.Wall:
-                        var wallEntry = new WallModelEntry
-                        {
-                            Id = fileName,
-                            Name = CleanName(fileName),
-                            Model = model,
-                            Type = GuessWallType(fileName),
-                            WallMaterial = WallMaterial.Stone
-                        };
-                        db.WallModels.Add(wallEntry);
-                        Debug.Log($"[AssetDB] Added wall: {wallEntry.Name}");
-                        break;
-
-                    case ModelType.Foundation:
-                        var foundationEntry = new ModelEntry
-                        {
-                            Id = fileName,
-                            Name = CleanName(fileName),
-                            Model = model
-                        };
-                        db.FoundationModels.Add(foundationEntry);
-                        break;
-
-                    case ModelType.Roof:
-                        var roofEntry = new ModelEntry
-                        {
-                            Id = fileName,
-                            Name = CleanName(fileName),
-                            Model = model
-                        };
-                        db.RoofModels.Add(roofEntry);
-                        break;
+                    ProcessModelAsset(db, model, path, type);
                 }
+                else
+                {
+                    Debug.LogWarning($"[AssetDB] Could not load model: {path}. Unity may need to import it first. Try reimporting the Assets/Art/Models folder.");
+                }
+            }
+        }
+        
+        private static void ProcessModelFile(GameAssetDatabase db, string path, ModelType type)
+        {
+            GameObject model = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (model == null) return;
+            ProcessModelAsset(db, model, path, type);
+        }
+        
+        private static void ProcessModelAsset(GameAssetDatabase db, GameObject model, string path, ModelType type)
+        {
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
+            
+            switch (type)
+            {
+                case ModelType.Building:
+                    var buildingEntry = new BuildingModelEntry
+                    {
+                        Id = fileName,
+                        Name = CleanName(fileName),
+                        Model = model,
+                        Category = GuessBuildingCategory(fileName)
+                    };
+                    db.BuildingModels.Add(buildingEntry);
+                    Debug.Log($"[AssetDB] Added building: {buildingEntry.Name}");
+                    break;
+
+                case ModelType.Tower:
+                    var towerEntry = new TowerModelEntry
+                    {
+                        Id = fileName,
+                        Name = CleanName(fileName),
+                        Model = model,
+                        Type = GuessTowerType(fileName)
+                    };
+                    db.TowerModels.Add(towerEntry);
+                    Debug.Log($"[AssetDB] Added tower: {towerEntry.Name}");
+                    break;
+
+                case ModelType.Wall:
+                    var wallEntry = new WallModelEntry
+                    {
+                        Id = fileName,
+                        Name = CleanName(fileName),
+                        Model = model,
+                        Type = GuessWallType(fileName),
+                        WallMaterial = WallMaterial.Stone
+                    };
+                    db.WallModels.Add(wallEntry);
+                    Debug.Log($"[AssetDB] Added wall: {wallEntry.Name}");
+                    break;
+
+                case ModelType.Foundation:
+                    var foundationEntry = new ModelEntry
+                    {
+                        Id = fileName,
+                        Name = CleanName(fileName),
+                        Model = model
+                    };
+                    db.FoundationModels.Add(foundationEntry);
+                    break;
+
+                case ModelType.Roof:
+                    var roofEntry = new ModelEntry
+                    {
+                        Id = fileName,
+                        Name = CleanName(fileName),
+                        Model = model
+                    };
+                    db.RoofModels.Add(roofEntry);
+                    break;
             }
         }
 
