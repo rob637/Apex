@@ -131,7 +131,7 @@ namespace ApexCitadels.Editor
                             Name = CleanName(fileName),
                             Model = model,
                             Type = GuessWallType(fileName),
-                            Material = WallMaterial.Stone
+                            WallMaterial = WallMaterial.Stone
                         };
                         db.WallModels.Add(wallEntry);
                         Debug.Log($"[AssetDB] Added wall: {wallEntry.Name}");
@@ -181,9 +181,9 @@ namespace ApexCitadels.Editor
             if (name.Contains("treasury") || name.Contains("warehouse")) return BuildingCategory.Economic;
             if (name.Contains("magic") || name.Contains("library")) return BuildingCategory.Magic;
             if (name.Contains("alchemist") || name.Contains("portal")) return BuildingCategory.Magic;
-            if (name.Contains("tavern") || name.Contains("hospital")) return BuildingCategory.Utility;
-            if (name.Contains("prison")) return BuildingCategory.Utility;
-            return BuildingCategory.Residential;
+            if (name.Contains("tavern") || name.Contains("hospital")) return BuildingCategory.Support;
+            if (name.Contains("prison")) return BuildingCategory.Support;
+            return BuildingCategory.Support;
         }
 
         private static TowerType GuessTowerType(string name)
@@ -191,9 +191,9 @@ namespace ApexCitadels.Editor
             name = name.ToLower();
             if (name.Contains("archer")) return TowerType.Archer;
             if (name.Contains("mage") || name.Contains("magic")) return TowerType.Mage;
-            if (name.Contains("cannon") || name.Contains("siege")) return TowerType.Cannon;
-            if (name.Contains("watch") || name.Contains("guard")) return TowerType.WatchTower;
-            return TowerType.Basic;
+            if (name.Contains("cannon") || name.Contains("siege")) return TowerType.Siege;
+            if (name.Contains("watch") || name.Contains("guard")) return TowerType.Guard;
+            return TowerType.Guard;
         }
 
         private static WallType GuessWallType(string name)
@@ -201,7 +201,7 @@ namespace ApexCitadels.Editor
             name = name.ToLower();
             if (name.Contains("corner")) return WallType.Corner;
             if (name.Contains("gate")) return WallType.Gate;
-            if (name.Contains("battlement")) return WallType.Battlements;
+            if (name.Contains("window")) return WallType.Window;
             return WallType.Straight;
         }
     }
