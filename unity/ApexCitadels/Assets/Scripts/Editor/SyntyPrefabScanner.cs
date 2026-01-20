@@ -273,15 +273,17 @@ namespace ApexCitadels.Editor
             
             Undo.RecordObject(_targetLibrary, "Assign Prefabs");
             
-            var field = typeof(FantasyPrefabLibrary).GetField(CategoryToFieldName(category));
+            string fieldName = CategoryToFieldName(category);
+            var field = typeof(FantasyPrefabLibrary).GetField(fieldName, 
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
             if (field != null)
             {
                 field.SetValue(_targetLibrary, prefabs);
-                Debug.Log($"Assigned {prefabs.Length} prefabs to {category}");
+                Debug.Log($"Assigned {prefabs.Length} prefabs to {fieldName}");
             }
             else
             {
-                Debug.LogWarning($"No field found for category: {category}");
+                Debug.LogWarning($"No field found for category: {category} (tried field: {fieldName})");
             }
             
             EditorUtility.SetDirty(_targetLibrary);
@@ -294,20 +296,32 @@ namespace ApexCitadels.Editor
             
             Undo.RecordObject(_targetLibrary, "Auto-Assign All Prefabs");
             
+            int assigned = 0;
+            int failed = 0;
+            
             foreach (var category in _categorizedPrefabs)
             {
-                var field = typeof(FantasyPrefabLibrary).GetField(CategoryToFieldName(category.Key));
+                string fieldName = CategoryToFieldName(category.Key);
+                var field = typeof(FantasyPrefabLibrary).GetField(fieldName,
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
                 if (field != null)
                 {
                     field.SetValue(_targetLibrary, category.Value.ToArray());
+                    assigned++;
+                    Debug.Log($"Assigned {category.Value.Count} prefabs to {fieldName}");
+                }
+                else
+                {
+                    failed++;
+                    Debug.LogWarning($"No field '{fieldName}' for category: {category.Key}");
                 }
             }
             
             EditorUtility.SetDirty(_targetLibrary);
             AssetDatabase.SaveAssets();
             
-            _status = "All categories assigned!";
-            Debug.Log("Auto-assigned all prefab categories to library");
+            _status = $"Assigned {assigned} categories, {failed} failed";
+            Debug.Log($"Auto-assigned {assigned} categories to library ({failed} failed)");
         }
         
         private string CategoryToFieldName(string category)
