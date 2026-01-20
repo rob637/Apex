@@ -417,9 +417,60 @@ namespace ApexCitadels.FantasyWorld
                 yield return StartCoroutine(GeneratePropsCoroutine(osmData.Buildings));
             }
             
+            // Generate street signs
+            OnGenerationProgress?.Invoke("Placing street signs...");
+            GenerateStreetSigns(osmData.Roads);
+            
+            // Register with mini-map
+            RegisterWithMiniMap(osmData);
+            
             _isGenerating = false;
             OnGenerationProgress?.Invoke("World generation complete!");
             Logger.Log("Fantasy world generation complete", "FantasyWorld");
+        }
+        
+        private void GenerateStreetSigns(List<OSMRoad> roads)
+        {
+            var signGenerator = GetComponent<FantasyStreetSigns>();
+            if (signGenerator == null)
+            {
+                signGenerator = gameObject.AddComponent<FantasyStreetSigns>();
+            }
+            
+            // Create signs parent
+            Transform signsParent = transform.Find("StreetSigns");
+            if (signsParent == null)
+            {
+                signsParent = new GameObject("StreetSigns").transform;
+                signsParent.SetParent(transform);
+            }
+            
+            signGenerator.GenerateSigns(roads, signsParent);
+        }
+        
+        private void RegisterWithMiniMap(OSMData osmData)
+        {
+            var miniMap = FindFirstObjectByType<MiniMapUI>();
+            if (miniMap == null) return;
+            
+            // Collect building positions
+            var buildingPositions = new System.Collections.Generic.List<Vector3>();
+            foreach (Transform child in buildingsParent)
+            {
+                buildingPositions.Add(child.position);
+            }
+            miniMap.RegisterBuildings(buildingPositions);
+            
+            // Collect road paths
+            var roadPaths = new System.Collections.Generic.List<System.Collections.Generic.List<Vector3>>();
+            foreach (var road in osmData.Roads)
+            {
+                if (road.Points != null && road.Points.Count > 1)
+                {
+                    roadPaths.Add(road.Points);
+                }
+            }
+            miniMap.RegisterRoads(roadPaths);
         }
         
         /// <summary>
@@ -822,52 +873,112 @@ namespace ApexCitadels.FantasyWorld
         {
             int count = 0;
             
+            // Pre-generate road texture (share across all roads)
+            Color c1 = new Color(0.35f, 0.28f, 0.18f); // Dark Cobblestone
+            Color c2 = new Color(0.5f, 0.42f, 0.32f);  // Light Cobblestone
+            Texture2D roadTex = GenerateNoiseTexture(128, 128, c1, c2, 8f);
+            
+            Material sharedRoadMat = null;
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            if (shader != null)
+            {
+                sharedRoadMat = new Material(shader);
+                sharedRoadMat.SetFloat("_Smoothness", 0.2f);
+                sharedRoadMat.mainTexture = roadTex;
+            }
+            
             foreach (var road in roads)
             {
                 if (road.Points == null || road.Points.Count < 2) continue;
                 
-                GameObject roadObj = new GameObject($"Road_{count}");
+                // Create road mesh instead of LineRenderer for better visuals
+                GameObject roadObj = new GameObject($"Road_{road.Name ?? count.ToString()}");
                 roadObj.transform.SetParent(pathsParent);
                 roadObj.transform.localPosition = Vector3.zero;
                 
-                LineRenderer lr = roadObj.AddComponent<LineRenderer>();
-                lr.useWorldSpace = false;
-                lr.alignment = LineAlignment.TransformZ;
+                // Use mesh-based road for better appearance
+                MeshFilter meshFilter = roadObj.AddComponent<MeshFilter>();
+                MeshRenderer meshRenderer = roadObj.AddComponent<MeshRenderer>();
                 
-                Vector3[] points = new Vector3[road.Points.Count];
-                for (int i = 0; i < road.Points.Count; i++)
+                // Generate road mesh
+                float width = (road.Width > 0 ? road.Width : config.pathWidth) * 1.5f;
+                Mesh roadMesh = GenerateRoadMesh(road.Points, width);
+                meshFilter.mesh = roadMesh;
+                
+                if (sharedRoadMat != null)
                 {
-                    // Raise roads higher to avoid z-fighting with terrain
-                    points[i] = road.Points[i] + Vector3.up * 0.2f;
+                    meshRenderer.material = sharedRoadMat;
                 }
                 
-                lr.positionCount = points.Length;
-                lr.SetPositions(points);
-                
-                float width = road.Width > 0 ? road.Width : config.pathWidth;
-                lr.widthMultiplier = width * 1.5f; // Make roads wider for visibility
-                
-                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-                if (shader != null)
-                {
-                    lr.material = new Material(shader);
-                    lr.material.SetFloat("_Smoothness", 0.1f);
-                    
-                    // Generate Dirt/Path Texture
-                    Color c1 = new Color(0.35f, 0.25f, 0.15f); // Dark Dirt
-                    Color c2 = new Color(0.45f, 0.35f, 0.25f); // Light Dirt
-                    
-                    // Use static texture if possible, but per-road is fine for prototype
-                    Texture2D tex = GenerateNoiseTexture(64, 64, c1, c2, 10f);
-                    lr.material.mainTexture = tex;
-                }
-                
-                lr.numCornerVertices = 4;
-                lr.numCapVertices = 4;
+                meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                meshRenderer.receiveShadows = true;
 
                 count++;
-                if (count % 20 == 0) yield return null;
+                if (count % 10 == 0) yield return null;
             }
+            
+            Logger.Log($"Generated {count} roads", "FantasyWorld");
+        }
+        
+        private Mesh GenerateRoadMesh(List<Vector3> points, float width)
+        {
+            if (points.Count < 2) return null;
+            
+            Mesh mesh = new Mesh();
+            
+            int vertCount = points.Count * 2;
+            Vector3[] vertices = new Vector3[vertCount];
+            Vector2[] uvs = new Vector2[vertCount];
+            int[] triangles = new int[(points.Count - 1) * 6];
+            
+            float roadHeight = 0.15f; // Slightly above ground
+            float uvDistance = 0f;
+            
+            for (int i = 0; i < points.Count; i++)
+            {
+                // Calculate perpendicular direction
+                Vector3 forward;
+                if (i < points.Count - 1)
+                    forward = (points[i + 1] - points[i]).normalized;
+                else
+                    forward = (points[i] - points[i - 1]).normalized;
+                
+                Vector3 right = Vector3.Cross(Vector3.up, forward).normalized;
+                
+                // Left and right vertices
+                vertices[i * 2] = points[i] + right * (width / 2f) + Vector3.up * roadHeight;
+                vertices[i * 2 + 1] = points[i] - right * (width / 2f) + Vector3.up * roadHeight;
+                
+                // UVs
+                if (i > 0)
+                    uvDistance += Vector3.Distance(points[i], points[i - 1]);
+                
+                uvs[i * 2] = new Vector2(0, uvDistance / width);
+                uvs[i * 2 + 1] = new Vector2(1, uvDistance / width);
+            }
+            
+            // Triangles
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                int baseIndex = i * 6;
+                int vertIndex = i * 2;
+                
+                triangles[baseIndex] = vertIndex;
+                triangles[baseIndex + 1] = vertIndex + 2;
+                triangles[baseIndex + 2] = vertIndex + 1;
+                
+                triangles[baseIndex + 3] = vertIndex + 1;
+                triangles[baseIndex + 4] = vertIndex + 2;
+                triangles[baseIndex + 5] = vertIndex + 3;
+            }
+            
+            mesh.vertices = vertices;
+            mesh.uv = uvs;
+            mesh.triangles = triangles;
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+            
+            return mesh;
         }
     }
     

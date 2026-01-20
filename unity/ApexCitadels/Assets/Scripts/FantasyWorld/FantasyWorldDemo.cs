@@ -49,10 +49,24 @@ namespace ApexCitadels.FantasyWorld
         
         private void Awake()
         {
-            // Add Visual Polish Component
-            if (GetComponent<FantasyWorldVisuals>() == null)
+            // Add Realistic Sky (replaces skybox)
+            if (GetComponent<RealisticSkySystem>() == null)
             {
-                gameObject.AddComponent<FantasyWorldVisuals>();
+                var sky = gameObject.AddComponent<RealisticSkySystem>();
+                sky.latitude = latitude;
+                sky.longitude = longitude;
+            }
+            
+            // Add Demo UI
+            if (GetComponent<DemoUI>() == null)
+            {
+                gameObject.AddComponent<DemoUI>();
+            }
+            
+            // Add Mini Map
+            if (GetComponent<MiniMapUI>() == null)
+            {
+                gameObject.AddComponent<MiniMapUI>();
             }
 
             // Get or create generator
