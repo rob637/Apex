@@ -82,9 +82,9 @@ namespace ApexCitadels.FantasyWorld
             if (Input.GetKey(KeyCode.A)) move -= transform.right;
             if (Input.GetKey(KeyCode.D)) move += transform.right;
             
-            // Space/Ctrl for up/down
+            // Space/Q for up/down
             if (Input.GetKey(KeyCode.Space)) move += Vector3.up;
-            if (Input.GetKey(KeyCode.LeftControl)) move -= Vector3.up;
+            if (Input.GetKey(KeyCode.Q)) move -= Vector3.up;
             
             // Arrow keys also work
             if (Input.GetKey(KeyCode.UpArrow)) move += transform.forward;
@@ -101,7 +101,7 @@ namespace ApexCitadels.FantasyWorld
             GUILayout.BeginArea(new Rect(10, Screen.height - 80, 400, 70));
             GUILayout.Label("<b>Controls:</b> WASD to move, Right-click + Mouse to look", 
                 new GUIStyle(GUI.skin.label) { richText = true });
-            GUILayout.Label("Space = Up, Ctrl = Down, Shift = Fast");
+            GUILayout.Label("Space = Up, Q = Down, Shift = Fast");
             GUILayout.EndArea();
         }
     }

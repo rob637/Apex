@@ -83,19 +83,19 @@ namespace ApexCitadels.FantasyWorld
         [Header("Vegetation Settings")]
         public bool generateVegetation = true;
         [Range(0f, 1f)]
-        public float treeDensity = 0.3f;
+        public float treeDensity = 0.7f;
         [Range(0f, 1f)]
-        public float bushDensity = 0.5f;
-        public float minTreeSpacing = 5f;
+        public float bushDensity = 0.8f;
+        public float minTreeSpacing = 4f;
         
         [Header("Roads/Paths")]
         public bool generatePaths = true;
-        public float pathWidth = 3f;
+        public float pathWidth = 4f;
         
         [Header("Props & Details")]
         public bool generateProps = true;
         [Range(0f, 1f)]
-        public float propDensity = 0.3f;
+        public float propDensity = 0.5f;
         
         [Header("Performance")]
         public int maxBuildingsPerFrame = 5;
@@ -310,6 +310,26 @@ namespace ApexCitadels.FantasyWorld
                 );
             }
             
+            // Generate ground
+            CreateGround();
+            
+            // Generate roads
+            if (config.generatePaths)
+            {
+                OnGenerationProgress?.Invoke("Paving roads...");
+                yield return StartCoroutine(GenerateRoadsCoroutine(osmData.Roads));
+            }
+
+            // Generate ground
+            CreateGround();
+            
+            // Generate roads
+            if (config.generatePaths)
+            {
+                OnGenerationProgress?.Invoke("Paving roads...");
+                yield return StartCoroutine(GenerateRoadsCoroutine(osmData.Roads));
+            }
+
             // Generate buildings
             if (config.generateBuildings)
             {
@@ -660,6 +680,87 @@ namespace ApexCitadels.FantasyWorld
             float z = (float)((lat - _originLat) * metersPerDegreeLat);
             
             return new Vector3(x, 0, z);
+        }
+
+        private void CreateGround()
+        {
+            // Check if ground already exists
+            Transform existingGround = transform.Find("GeneratedGround");
+            if (existingGround != null) DestroyImmediate(existingGround.gameObject);
+
+            // Create a large plane
+            GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ground.name = "GeneratedGround";
+            ground.transform.SetParent(transform);
+            ground.transform.localPosition = new Vector3(0, -0.1f, 0); // Slightly below 0
+            
+            // Texture tiling
+            float planeSize = 10f;
+            float targetSize = config.radiusMeters * 2.5f;
+            float scale = targetSize / planeSize;
+            
+            ground.transform.localScale = new Vector3(scale, 1, scale);
+            
+            var renderer = ground.GetComponent<Renderer>();
+            if (groundMaterial != null)
+            {
+                renderer.material = groundMaterial;
+                float tileCount = targetSize / 10f;
+                renderer.material.mainTextureScale = new Vector2(tileCount, tileCount);
+            }
+            else
+            {
+                // Fallback lush green if no material assigned
+                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+                if (shader != null)
+                {
+                    renderer.material = new Material(shader);
+                    renderer.material.color = new Color(0.15f, 0.35f, 0.1f); // Lush Green
+                }
+            }
+        }
+
+        private IEnumerator GenerateRoadsCoroutine(List<OSMRoad> roads)
+        {
+            int count = 0;
+            
+            foreach (var road in roads)
+            {
+                if (road.WorldPoints == null || road.WorldPoints.Count < 2) continue;
+                
+                GameObject roadObj = new GameObject($"Road_{count}");
+                roadObj.transform.SetParent(pathsParent);
+                roadObj.transform.localPosition = Vector3.zero;
+                
+                LineRenderer lr = roadObj.AddComponent<LineRenderer>();
+                lr.useWorldSpace = false;
+                lr.alignment = LineAlignment.TransformZ;
+                
+                Vector3[] points = new Vector3[road.WorldPoints.Count];
+                for (int i = 0; i < road.WorldPoints.Count; i++)
+                {
+                    points[i] = road.WorldPoints[i] + Vector3.up * 0.05f;
+                }
+                
+                lr.positionCount = points.Length;
+                lr.SetPositions(points);
+                
+                float width = road.RoadWidth > 0 ? road.RoadWidth : config.pathWidth;
+                lr.widthMultiplier = width;
+                
+                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+                if (shader != null)
+                {
+                    lr.material = new Material(shader);
+                    lr.material.color = new Color(0.4f, 0.35f, 0.25f); // Dirt road
+                }
+                
+                lr.numCornerVertices = 4;
+                lr.numCapVertices = 4;
+
+                count++;
+                if (count % 20 == 0) yield return null;
+            }
         }
     }
     
