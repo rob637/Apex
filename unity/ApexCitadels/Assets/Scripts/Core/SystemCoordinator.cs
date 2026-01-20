@@ -6,6 +6,9 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using ApexCitadels.PC;
+using ApexCitadels.PC.Environment;
+using ApexCitadels.PC.Visual;
 
 namespace ApexCitadels.Core
 {
@@ -136,14 +139,14 @@ namespace ApexCitadels.Core
         
         // Terrain systems
         private Map.MapboxTileRenderer _mapboxRenderer;
-        private PC.Environment.ProceduralTerrain _proceduralTerrain;
+        private ProceduralTerrain _proceduralTerrain;
         
         // Camera controllers
-        private PC.PCCameraController _pcCameraController;
+        private PCCameraController _pcCameraController;
         
         // Atmosphere systems
-        private PC.Environment.AtmosphericLighting _atmosphericLighting;
-        private PC.Visual.SkyboxEnvironmentSystem _skyboxSystem;
+        private AtmosphericLighting _atmosphericLighting;
+        private SkyboxEnvironmentSystem _skyboxSystem;
         
         // Track what we've disabled so we can re-enable
         private HashSet<MonoBehaviour> _disabledSystems = new HashSet<MonoBehaviour>();
@@ -198,14 +201,14 @@ namespace ApexCitadels.Core
             
             // Terrain
             _mapboxRenderer = FindFirstObjectByType<Map.MapboxTileRenderer>();
-            _proceduralTerrain = FindFirstObjectByType<PC.Environment.ProceduralTerrain>();
+            _proceduralTerrain = FindFirstObjectByType<ProceduralTerrain>();
             
             // Camera controllers
-            _pcCameraController = FindFirstObjectByType<PC.PCCameraController>();
+            _pcCameraController = FindFirstObjectByType<PCCameraController>();
             
             // Atmosphere
-            _atmosphericLighting = FindFirstObjectByType<PC.Environment.AtmosphericLighting>();
-            _skyboxSystem = FindFirstObjectByType<PC.Visual.SkyboxEnvironmentSystem>();
+            _atmosphericLighting = FindFirstObjectByType<AtmosphericLighting>();
+            _skyboxSystem = FindFirstObjectByType<SkyboxEnvironmentSystem>();
             
             // Log what we found
             LogDiscoveredSystems();

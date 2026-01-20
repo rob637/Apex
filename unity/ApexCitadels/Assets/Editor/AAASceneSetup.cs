@@ -421,8 +421,8 @@ namespace ApexCitadels.Editor
             // Add RealWorldMapRenderer
             mapSystemObj.AddComponent<PC.GeoMapping.RealWorldMapRenderer>();
 
-            // Add MapTileProvider
-            mapSystemObj.AddComponent<PC.GeoMapping.MapTileProvider>();
+            // Add MapTileProvider (consolidated in Map namespace)
+            mapSystemObj.AddComponent<ApexCitadels.Map.MapTileProvider>();
 
             // Add OSMDataPipeline for road/building data
             mapSystemObj.AddComponent<PC.GeoMapping.OSMDataPipeline>();

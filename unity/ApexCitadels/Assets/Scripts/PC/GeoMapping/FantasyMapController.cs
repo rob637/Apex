@@ -1,5 +1,6 @@
 using UnityEngine;
 using ApexCitadels.Core;
+using ApexCitadels.Environment;
 
 namespace ApexCitadels.PC.GeoMapping
 {

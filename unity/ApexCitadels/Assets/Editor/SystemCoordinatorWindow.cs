@@ -246,11 +246,10 @@ namespace ApexCitadels.Editor
         {
             using (new EditorGUI.IndentLevelScope())
             {
-                // Check for duplicate audio managers
+                // Check for audio managers (consolidated to single implementation)
                 var audioManagerTypes = new[] {
-                    "ApexCitadels.Audio.AudioManager",
-                    "ApexCitadels.PC.Audio.AudioManager",
-                    "ApexCitadels.PC.Visual.AudioManager"
+                    "ApexCitadels.Audio.AudioManager"
+                    // Old duplicates removed: PC.Audio.AudioManager, PC.Visual.AudioManager
                 };
                 
                 foreach (var typeName in audioManagerTypes)
