@@ -366,9 +366,12 @@ namespace ApexCitadels.FantasyWorld
         #region Inspector Fields
         
         [Header("API Settings")]
-        [SerializeField] private string overpassUrl = "https://overpass-api.de/api/interpreter";
-        [SerializeField] private float requestTimeout = 60f;
+        // Primary and backup Overpass API endpoints
+        [SerializeField] private string overpassUrl = "https://overpass.kumi.systems/api/interpreter";
+        [SerializeField] private string backupOverpassUrl = "https://overpass-api.de/api/interpreter";
+        [SerializeField] private float requestTimeout = 90f;
         [SerializeField] private float minRequestInterval = 1f; // Rate limiting
+        [SerializeField] private bool useMockDataOnFailure = true;
         
         [Header("Cache")]
         [SerializeField] private bool enableCache = true;
@@ -517,49 +520,170 @@ out skel qt;";
             string postData = "data=" + UnityWebRequest.EscapeURL(query);
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(postData);
             
-            using (UnityWebRequest request = new UnityWebRequest(overpassUrl, "POST"))
+            // Try primary URL first, then backup
+            string[] urlsToTry = new string[] { overpassUrl, backupOverpassUrl };
+            
+            foreach (string apiUrl in urlsToTry)
             {
-                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                request.timeout = (int)requestTimeout;
-                
-                if (logRequests)
-                    ApexLogger.Log($"[OSM] Sending request to {overpassUrl}", ApexLogger.LogCategory.Map);
-                
-                yield return request.SendWebRequest();
-                
-                if (request.result != UnityWebRequest.Result.Success)
+                using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
                 {
-                    string error = $"OSM fetch failed: {request.error} (Response: {request.downloadHandler?.text?.Substring(0, Math.Min(200, request.downloadHandler?.text?.Length ?? 0))})";
-                    ApexLogger.LogError(error, ApexLogger.LogCategory.Map);
-                    OnFetchError?.Invoke(error);
-                    callback?.Invoke(null);
-                    yield break;
+                    request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                    request.downloadHandler = new DownloadHandlerBuffer();
+                    request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    request.timeout = (int)requestTimeout;
+                    
+                    if (logRequests)
+                        ApexLogger.Log($"[OSM] Sending request to {apiUrl}", ApexLogger.LogCategory.Map);
+                    
+                    yield return request.SendWebRequest();
+                    
+                    if (request.result == UnityWebRequest.Result.Success)
+                    {
+                        // Parse response
+                        string json = request.downloadHandler.text;
+                        
+                        if (logRequests)
+                            ApexLogger.Log($"[OSM] Received {json.Length} bytes", ApexLogger.LogCategory.Map);
+                        
+                        OSMAreaData data = ParseOverpassResponse(json);
+                        data.Center = new Vector2((float)((south + north) / 2), (float)((west + east) / 2));
+                        data.FetchTime = DateTime.Now;
+                        
+                        // Cache
+                        if (enableCache)
+                        {
+                            _cache[cacheKey] = data;
+                        }
+                        
+                        if (logRequests)
+                            ApexLogger.Log($"[OSM] Parsed {data.Buildings.Count} buildings, {data.Roads.Count} roads", ApexLogger.LogCategory.Map);
+                        
+                        callback?.Invoke(data);
+                        OnDataReceived?.Invoke(data);
+                        yield break; // Success!
+                    }
+                    else
+                    {
+                        ApexLogger.LogWarning($"[OSM] Failed with {apiUrl}: {request.error}, trying next...", ApexLogger.LogCategory.Map);
+                    }
                 }
-                
-                // Parse response
-                string json = request.downloadHandler.text;
-                
-                if (logRequests)
-                    ApexLogger.Log($"[OSM] Received {json.Length} bytes", ApexLogger.LogCategory.Map);
-                
-                OSMAreaData data = ParseOverpassResponse(json);
-                data.Center = new Vector2((float)((south + north) / 2), (float)((west + east) / 2));
-                data.FetchTime = DateTime.Now;
-                
-                // Cache
-                if (enableCache)
-                {
-                    _cache[cacheKey] = data;
-                }
-                
-                if (logRequests)
-                    ApexLogger.Log($"[OSM] Parsed {data.Buildings.Count} buildings, {data.Roads.Count} roads", ApexLogger.LogCategory.Map);
-                
-                callback?.Invoke(data);
-                OnDataReceived?.Invoke(data);
             }
+            
+            // All URLs failed - use mock data if enabled
+            if (useMockDataOnFailure)
+            {
+                ApexLogger.LogWarning("[OSM] All API endpoints failed, using mock data for testing", ApexLogger.LogCategory.Map);
+                OSMAreaData mockData = GenerateMockData(south, west, north, east);
+                callback?.Invoke(mockData);
+                OnDataReceived?.Invoke(mockData);
+            }
+            else
+            {
+                string error = "OSM fetch failed: All API endpoints timed out";
+                ApexLogger.LogError(error, ApexLogger.LogCategory.Map);
+                OnFetchError?.Invoke(error);
+                callback?.Invoke(null);
+            }
+        }
+        
+        /// <summary>
+        /// Generate mock OSM data for testing when API fails
+        /// </summary>
+        private OSMAreaData GenerateMockData(double south, double west, double north, double east)
+        {
+            var data = new OSMAreaData();
+            data.Center = new Vector2((float)((west + east) / 2), (float)((south + north) / 2));
+            data.FetchTime = DateTime.Now;
+            
+            double centerLat = (south + north) / 2;
+            double centerLon = (west + east) / 2;
+            
+            // Generate some fake buildings in a grid pattern
+            int gridSize = 5;
+            double latStep = (north - south) / gridSize;
+            double lonStep = (east - west) / gridSize;
+            
+            for (int i = 0; i < gridSize; i++)
+            {
+                for (int j = 0; j < gridSize; j++)
+                {
+                    // Skip some cells randomly for variety
+                    if (UnityEngine.Random.value < 0.3f) continue;
+                    
+                    double lat = south + latStep * (i + 0.5);
+                    double lon = west + lonStep * (j + 0.5);
+                    
+                    // Random building size
+                    float size = UnityEngine.Random.Range(0.0001f, 0.0003f);
+                    
+                    var building = new OSMBuilding
+                    {
+                        Id = i * 100 + j,
+                        BuildingType = UnityEngine.Random.value < 0.7f ? "house" : "commercial",
+                        Levels = UnityEngine.Random.Range(1, 3),
+                        FootprintPoints = new System.Collections.Generic.List<Vector2>
+                        {
+                            new Vector2((float)lon - size, (float)lat - size),
+                            new Vector2((float)lon + size, (float)lat - size),
+                            new Vector2((float)lon + size, (float)lat + size),
+                            new Vector2((float)lon - size, (float)lat + size)
+                        }
+                    };
+                    building.CalculateMetrics();
+                    data.Buildings.Add(building);
+                }
+            }
+            
+            // Generate a main road
+            var mainRoad = new OSMRoad
+            {
+                Id = 1,
+                RoadType = "residential",
+                Name = "Fantasy Lane",
+                LatLonPoints = new System.Collections.Generic.List<Vector2>
+                {
+                    new Vector2((float)west, (float)centerLat),
+                    new Vector2((float)east, (float)centerLat)
+                }
+            };
+            mainRoad.DetermineRoadClass();
+            data.Roads.Add(mainRoad);
+            
+            // Add a cross street
+            var crossRoad = new OSMRoad
+            {
+                Id = 2,
+                RoadType = "residential",
+                Name = "Dragon Way",
+                LatLonPoints = new System.Collections.Generic.List<Vector2>
+                {
+                    new Vector2((float)centerLon, (float)south),
+                    new Vector2((float)centerLon, (float)north)
+                }
+            };
+            crossRoad.DetermineRoadClass();
+            data.Roads.Add(crossRoad);
+            
+            // Add a park area
+            var park = new OSMArea
+            {
+                Id = 1,
+                AreaType = "park",
+                Name = "Citadel Green",
+                FeatureType = OSMFeatureType.Park,
+                Polygon = new System.Collections.Generic.List<Vector2>
+                {
+                    new Vector2((float)(centerLon - 0.0005), (float)(centerLat - 0.0005)),
+                    new Vector2((float)(centerLon + 0.0005), (float)(centerLat - 0.0005)),
+                    new Vector2((float)(centerLon + 0.0005), (float)(centerLat + 0.0005)),
+                    new Vector2((float)(centerLon - 0.0005), (float)(centerLat + 0.0005))
+                }
+            };
+            data.Parks.Add(park);
+            
+            ApexLogger.Log($"[OSM] Generated mock data: {data.Buildings.Count} buildings, {data.Roads.Count} roads, {data.Parks.Count} parks", ApexLogger.LogCategory.Map);
+            
+            return data;
         }
         
         #endregion
