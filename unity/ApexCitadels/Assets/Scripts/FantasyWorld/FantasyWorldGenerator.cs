@@ -215,14 +215,14 @@ namespace ApexCitadels.FantasyWorld
             // Try to load prefab library from Resources if not assigned
             if (prefabLibrary == null)
             {
-                prefabLibrary = Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
+                prefabLibrary = UnityEngine.Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
                 if (prefabLibrary == null)
-                    prefabLibrary = Resources.Load<FantasyPrefabLibrary>("FantasyPrefabLibrary");
+                    prefabLibrary = UnityEngine.Resources.Load<FantasyPrefabLibrary>("FantasyPrefabLibrary");
                 
                 // Also try finding any library in the project
                 if (prefabLibrary == null)
                 {
-                    var allLibraries = Resources.FindObjectsOfTypeAll<FantasyPrefabLibrary>();
+                    var allLibraries = UnityEngine.Resources.FindObjectsOfTypeAll<FantasyPrefabLibrary>();
                     if (allLibraries != null && allLibraries.Length > 0)
                     {
                         prefabLibrary = allLibraries[0];
