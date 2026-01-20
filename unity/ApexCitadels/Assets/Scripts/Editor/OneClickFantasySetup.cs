@@ -4,11 +4,9 @@
 // Unity Menu: Apex Citadels > One-Click Fantasy Setup
 // ============================================================================
 #if UNITY_EDITOR
-using System.IO;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using ApexCitadels.FantasyWorld;
 
 namespace ApexCitadels.Editor
 {
@@ -47,38 +45,33 @@ namespace ApexCitadels.Editor
             AssetDatabase.Refresh();
         }
         
-        private static FantasyPrefabLibrary FindOrCreateLibrary()
+        private static FantasyWorld.FantasyPrefabLibrary FindOrCreateLibrary()
         {
             // Find existing library
             string[] guids = AssetDatabase.FindAssets("t:FantasyPrefabLibrary");
             
-            FantasyPrefabLibrary library = null;
-            string bestPath = null;
+            FantasyWorld.FantasyPrefabLibrary library = null;
             
             foreach (var guid in guids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
-                var lib = AssetDatabase.LoadAssetAtPath<FantasyPrefabLibrary>(path);
+                var lib = AssetDatabase.LoadAssetAtPath<FantasyWorld.FantasyPrefabLibrary>(path);
                 if (lib != null)
                 {
-                    // Prefer the larger file (more likely to have prefabs assigned)
-                    if (library == null || new FileInfo(path).Length > new FileInfo(bestPath).Length)
-                    {
-                        library = lib;
-                        bestPath = path;
-                    }
+                    library = lib;
+                    Debug.Log($"Found existing prefab library: {path}");
+                    break;
                 }
             }
             
             if (library != null)
             {
-                Debug.Log($"Found existing prefab library: {bestPath}");
                 return library;
             }
             
             // Create new library
             Debug.Log("Creating new FantasyPrefabLibrary...");
-            library = ScriptableObject.CreateInstance<FantasyPrefabLibrary>();
+            library = ScriptableObject.CreateInstance<FantasyWorld.FantasyPrefabLibrary>();
             
             // Ensure directory exists
             if (!AssetDatabase.IsValidFolder("Assets/Resources"))
@@ -90,11 +83,11 @@ namespace ApexCitadels.Editor
             return library;
         }
         
-        private static void ScanAndAssignPrefabs(FantasyPrefabLibrary library)
+        private static void ScanAndAssignPrefabs(FantasyWorld.FantasyPrefabLibrary library)
         {
             Debug.Log("Scanning for Synty prefabs...");
             
-            var categorizedPrefabs = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<GameObject>>();
+            var categorizedPrefabs = new Dictionary<string, List<GameObject>>();
             
             string[] guids = AssetDatabase.FindAssets("t:Prefab");
             int syntyCount = 0;
@@ -117,7 +110,7 @@ namespace ApexCitadels.Editor
                 if (!string.IsNullOrEmpty(category))
                 {
                     if (!categorizedPrefabs.ContainsKey(category))
-                        categorizedPrefabs[category] = new System.Collections.Generic.List<GameObject>();
+                        categorizedPrefabs[category] = new List<GameObject>();
                     
                     categorizedPrefabs[category].Add(prefab);
                     syntyCount++;
@@ -155,7 +148,7 @@ namespace ApexCitadels.Editor
             Debug.Log($"Assigned {assigned} categories to library");
         }
         
-        private static void CopyLibraryToResources(FantasyPrefabLibrary library)
+        private static void CopyLibraryToResources(FantasyWorld.FantasyPrefabLibrary library)
         {
             string currentPath = AssetDatabase.GetAssetPath(library);
             string targetPath = "Assets/Resources/MainFantasyPrefabLibrary.asset";
@@ -169,7 +162,7 @@ namespace ApexCitadels.Editor
             if (currentPath != targetPath)
             {
                 // Check if target already exists
-                var existingAtTarget = AssetDatabase.LoadAssetAtPath<FantasyPrefabLibrary>(targetPath);
+                var existingAtTarget = AssetDatabase.LoadAssetAtPath<FantasyWorld.FantasyPrefabLibrary>(targetPath);
                 if (existingAtTarget != null && existingAtTarget != library)
                 {
                     // Copy data to existing
@@ -186,14 +179,14 @@ namespace ApexCitadels.Editor
             }
         }
         
-        private static void AssignLibraryToScene(FantasyPrefabLibrary library)
+        private static void AssignLibraryToScene(FantasyWorld.FantasyPrefabLibrary library)
         {
             // Find the library from Resources (the one we just placed there)
-            var resourcesLibrary = Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
+            var resourcesLibrary = Resources.Load<FantasyWorld.FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
             if (resourcesLibrary == null) resourcesLibrary = library;
             
             // Find all FantasyWorldGenerator components in scene
-            var generators = Object.FindObjectsByType<FantasyWorldGenerator>(FindObjectsSortMode.None);
+            var generators = Object.FindObjectsByType<FantasyWorld.FantasyWorldGenerator>(FindObjectsSortMode.None);
             
             foreach (var gen in generators)
             {
