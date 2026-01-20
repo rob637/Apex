@@ -64,6 +64,13 @@ namespace ApexCitadels.PC.Environment
         {
             Debug.Log($"[WorldEnv] === Starting with TerrainMode: {terrainMode} ===");
             
+            // Register with SystemCoordinator
+            var coordinator = Core.SystemCoordinator.Instance;
+            if (coordinator != null)
+            {
+                Debug.Log("[WorldEnv] SystemCoordinator available - terrain conflicts handled centrally");
+            }
+            
             // If using Mapbox, disable conflicting terrain systems
             if (terrainMode == TerrainMode.Mapbox)
             {

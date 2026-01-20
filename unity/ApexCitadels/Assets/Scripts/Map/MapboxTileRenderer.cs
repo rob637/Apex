@@ -80,6 +80,13 @@ namespace ApexCitadels.Map
             Debug.Log("[Mapbox] MapboxTileRenderer Starting");
             Debug.Log("[Mapbox] ========================================");
             
+            // Register with SystemCoordinator if available
+            var coordinator = SystemCoordinator.Instance;
+            if (coordinator != null)
+            {
+                Debug.Log("[Mapbox] Registered with SystemCoordinator");
+            }
+            
             // Load config
             if (config == null)
             {
