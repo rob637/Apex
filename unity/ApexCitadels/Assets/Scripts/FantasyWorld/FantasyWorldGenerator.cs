@@ -486,14 +486,6 @@ namespace ApexCitadels.FantasyWorld
                 var fantasyType = BuildingClassifier.ClassifyBuilding(osmBuilding, context);
                 var size = BuildingClassifier.ClassifySize(osmBuilding.CalculateArea());
                 
-                // Get appropriate prefab
-                var prefab = prefabLibrary.GetBuilding(size, fantasyType);
-                if (prefab == null)
-                {
-                    Logger.LogWarning($"No prefab found for {fantasyType} ({size})", "FantasyWorld");
-                    continue;
-                }
-                
                 // Calculate position (centroid of building footprint)
                 var position = osmBuilding.CalculateCentroid();
                 
@@ -509,20 +501,31 @@ namespace ApexCitadels.FantasyWorld
                     }
                 }
                 
-                // Calculate scale based on real-world footprint
+                // Calculate dimensions from OSM data
                 var dimensions = osmBuilding.CalculateDimensions();
-                var prefabBounds = GetPrefabBounds(prefab);
                 
-                float scaleX = dimensions.x / Mathf.Max(prefabBounds.size.x, 0.1f);
-                float scaleZ = dimensions.z / Mathf.Max(prefabBounds.size.z, 0.1f);
-                float scale = Mathf.Max(scaleX, scaleZ) * config.buildingScaleMultiplier;
+                // Get appropriate prefab - or use procedural fallback
+                GameObject building;
+                var prefab = prefabLibrary?.GetBuilding(size, fantasyType);
+                if (prefab != null)
+                {
+                    // Use Synty prefab
+                    var prefabBounds = GetPrefabBounds(prefab);
+                    float scaleX = dimensions.x / Mathf.Max(prefabBounds.size.x, 0.1f);
+                    float scaleZ = dimensions.z / Mathf.Max(prefabBounds.size.z, 0.1f);
+                    float scale = Mathf.Max(scaleX, scaleZ) * config.buildingScaleMultiplier;
+                    scale = Mathf.Clamp(scale, 0.5f, 3f);
+                    
+                    building = Instantiate(prefab, position, Quaternion.Euler(0, rotation, 0), buildingsParent);
+                    building.transform.localScale = Vector3.one * scale;
+                }
+                else
+                {
+                    // Create procedural fantasy building as fallback
+                    building = CreateProceduralBuilding(position, rotation, dimensions, fantasyType, size);
+                    building.transform.SetParent(buildingsParent);
+                }
                 
-                // Clamp scale to reasonable bounds
-                scale = Mathf.Clamp(scale, 0.5f, 3f);
-                
-                // Instantiate building
-                var building = Instantiate(prefab, position, Quaternion.Euler(0, rotation, 0), buildingsParent);
-                building.transform.localScale = Vector3.one * scale;
                 building.name = $"Building_{fantasyType}_{count}";
                 
                 // Add metadata component
@@ -594,16 +597,24 @@ namespace ApexCitadels.FantasyWorld
                     }
                     if (blocked) continue;
                     
-                    // Get tree prefab
+                    // Get tree prefab or create procedural tree
                     bool useFantasyTree = area.AreaType == "forest" || UnityEngine.Random.value < 0.2f;
-                    var treePrefab = prefabLibrary.GetTree(useFantasyTree);
-                    if (treePrefab == null) continue;
+                    var treePrefab = prefabLibrary?.GetTree(useFantasyTree);
                     
-                    // Instantiate tree
+                    GameObject tree;
                     float rotation = UnityEngine.Random.Range(0f, 360f);
                     float scale = UnityEngine.Random.Range(0.8f, 1.2f);
                     
-                    var tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                    if (treePrefab != null)
+                    {
+                        tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                    }
+                    else
+                    {
+                        tree = CreateProceduralTree(pos, rotation);
+                        tree.transform.SetParent(vegetationParent);
+                    }
+                    
                     tree.transform.localScale = Vector3.one * scale;
                     tree.name = $"Tree_{treeCount}";
                     
@@ -619,13 +630,22 @@ namespace ApexCitadels.FantasyWorld
                     var offset = UnityEngine.Random.insideUnitCircle * radius;
                     var pos = new Vector3(centroid.x + offset.x, 0, centroid.z + offset.y);
                     
-                    var bushPrefab = prefabLibrary.GetBush();
-                    if (bushPrefab == null) continue;
+                    var bushPrefab = prefabLibrary?.GetBush();
                     
                     float rotation = UnityEngine.Random.Range(0f, 360f);
                     float scale = UnityEngine.Random.Range(0.6f, 1.0f);
                     
-                    var bush = Instantiate(bushPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                    GameObject bush;
+                    if (bushPrefab != null)
+                    {
+                        bush = Instantiate(bushPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                    }
+                    else
+                    {
+                        bush = CreateProceduralBush(pos, rotation);
+                        bush.transform.SetParent(vegetationParent);
+                    }
+                    
                     bush.transform.localScale = Vector3.one * scale;
                     bush.name = $"Bush_{bushCount}";
                     
@@ -676,10 +696,20 @@ namespace ApexCitadels.FantasyWorld
                         }
                         if (blocked) continue;
                         
-                        var treePrefab = prefabLibrary.GetTree(false);
-                        if (treePrefab == null) continue;
+                        var treePrefab = prefabLibrary?.GetTree(false);
+                        float treeRotation = UnityEngine.Random.Range(0f, 360f);
                         
-                        var tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0), vegetationParent);
+                        GameObject tree;
+                        if (treePrefab != null)
+                        {
+                            tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, treeRotation, 0), vegetationParent);
+                        }
+                        else
+                        {
+                            tree = CreateProceduralTree(pos, treeRotation);
+                            tree.transform.SetParent(vegetationParent);
+                        }
+                        
                         tree.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.1f);
                         tree.name = $"StreetTree_{treeCount}";
                         
@@ -719,10 +749,19 @@ namespace ApexCitadels.FantasyWorld
                     
                     // Choose prop type
                     PropType propType = (PropType)UnityEngine.Random.Range(0, 8);
-                    var propPrefab = prefabLibrary.GetProp(propType);
-                    if (propPrefab == null) continue;
+                    var propPrefab = prefabLibrary?.GetProp(propType);
                     
-                    var prop = Instantiate(propPrefab, pos, Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0), propsParent);
+                    GameObject prop;
+                    if (propPrefab != null)
+                    {
+                        prop = Instantiate(propPrefab, pos, Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0), propsParent);
+                    }
+                    else
+                    {
+                        prop = CreateProceduralProp(pos, propType);
+                        prop.transform.SetParent(propsParent);
+                    }
+                    
                     prop.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.2f);
                     prop.name = $"Prop_{propType}_{propCount}";
                     
@@ -758,6 +797,508 @@ namespace ApexCitadels.FantasyWorld
             return bounds;
         }
         
+        /// <summary>
+        /// Create a procedural fantasy building when no Synty prefab is available
+        /// </summary>
+        private GameObject CreateProceduralBuilding(Vector3 position, float rotation, Vector3 dimensions, FantasyBuildingType type, BuildingSize size)
+        {
+            GameObject building = new GameObject("ProceduralBuilding");
+            building.transform.position = position;
+            building.transform.rotation = Quaternion.Euler(0, rotation, 0);
+            
+            // Determine building height based on size
+            float height = size switch
+            {
+                BuildingSize.Tiny => UnityEngine.Random.Range(2f, 3f),
+                BuildingSize.Small => UnityEngine.Random.Range(3f, 5f),
+                BuildingSize.Medium => UnityEngine.Random.Range(5f, 8f),
+                BuildingSize.Large => UnityEngine.Random.Range(8f, 12f),
+                BuildingSize.VeryLarge => UnityEngine.Random.Range(10f, 15f),
+                BuildingSize.Huge => UnityEngine.Random.Range(12f, 20f),
+                _ => 6f
+            };
+            
+            // Ensure dimensions are reasonable
+            float width = Mathf.Max(dimensions.x, 3f);
+            float depth = Mathf.Max(dimensions.z, 3f);
+            
+            // Create main building body (cube)
+            GameObject body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            body.name = "Body";
+            body.transform.SetParent(building.transform);
+            body.transform.localPosition = new Vector3(0, height / 2f, 0);
+            body.transform.localScale = new Vector3(width, height, depth);
+            body.transform.localRotation = Quaternion.identity;
+            
+            // Choose colors based on building type
+            Color wallColor = GetBuildingWallColor(type);
+            Color roofColor = GetBuildingRoofColor(type);
+            
+            // Apply material to body
+            var bodyRenderer = body.GetComponent<Renderer>();
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            if (shader != null)
+            {
+                var wallMat = new Material(shader);
+                wallMat.color = wallColor;
+                wallMat.SetFloat("_Smoothness", 0.1f);
+                bodyRenderer.material = wallMat;
+            }
+            
+            // Create peaked roof
+            GameObject roof = CreateRoof(width, depth, height, roofColor);
+            roof.transform.SetParent(building.transform);
+            roof.transform.localPosition = new Vector3(0, height, 0);
+            roof.transform.localRotation = Quaternion.identity;
+            
+            // Add some variety - tower for special buildings
+            if (type == FantasyBuildingType.MageTower || type == FantasyBuildingType.GuardTower || type == FantasyBuildingType.Church)
+            {
+                AddTower(building.transform, Mathf.Min(width, depth) * 0.4f, height * 1.5f, roofColor);
+            }
+            
+            // Add chimney for residential
+            if (type == FantasyBuildingType.House || type == FantasyBuildingType.Cottage || type == FantasyBuildingType.Manor)
+            {
+                AddChimney(building.transform, width, depth, height);
+            }
+            
+            return building;
+        }
+        
+        private Color GetBuildingWallColor(FantasyBuildingType type)
+        {
+            return type switch
+            {
+                FantasyBuildingType.Tavern => new Color(0.45f, 0.30f, 0.18f),    // Warm brown
+                FantasyBuildingType.Blacksmith => new Color(0.25f, 0.22f, 0.20f), // Dark gray
+                FantasyBuildingType.Church => new Color(0.85f, 0.82f, 0.75f),    // Light stone
+                FantasyBuildingType.Castle => new Color(0.55f, 0.52f, 0.48f),    // Gray stone
+                FantasyBuildingType.MageTower => new Color(0.30f, 0.28f, 0.45f), // Purple-ish
+                FantasyBuildingType.Barn => new Color(0.55f, 0.25f, 0.15f),      // Red barn
+                FantasyBuildingType.Mill => new Color(0.50f, 0.45f, 0.35f),      // Tan
+                _ => new Color(
+                    UnityEngine.Random.Range(0.7f, 0.9f),
+                    UnityEngine.Random.Range(0.65f, 0.85f),
+                    UnityEngine.Random.Range(0.55f, 0.75f)
+                ) // Varied warm colors (cottage whites, creams, tans)
+            };
+        }
+        
+        private Color GetBuildingRoofColor(FantasyBuildingType type)
+        {
+            return type switch
+            {
+                FantasyBuildingType.Church => new Color(0.35f, 0.32f, 0.28f),    // Dark slate
+                FantasyBuildingType.Castle => new Color(0.25f, 0.25f, 0.30f),    // Blue-gray
+                FantasyBuildingType.MageTower => new Color(0.20f, 0.18f, 0.35f), // Deep purple
+                FantasyBuildingType.Barn => new Color(0.30f, 0.15f, 0.10f),      // Dark red
+                _ => new Color(
+                    UnityEngine.Random.Range(0.35f, 0.50f),
+                    UnityEngine.Random.Range(0.20f, 0.35f),
+                    UnityEngine.Random.Range(0.10f, 0.20f)
+                ) // Varied browns/terracotta
+            };
+        }
+        
+        private GameObject CreateRoof(float width, float depth, float baseHeight, Color roofColor)
+        {
+            GameObject roof = new GameObject("Roof");
+            
+            // Create a simple peaked roof using stretched cube (wedge approximation)
+            float roofHeight = Mathf.Min(width, depth) * 0.4f;
+            float roofOverhang = 0.5f;
+            
+            // Main roof - use two rotated planes to form a peak
+            for (int i = 0; i < 2; i++)
+            {
+                GameObject roofSide = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                roofSide.name = $"RoofSide_{i}";
+                roofSide.transform.SetParent(roof.transform);
+                
+                float angle = (i == 0) ? 35f : -35f;
+                float xOffset = (i == 0) ? -width * 0.25f : width * 0.25f;
+                
+                roofSide.transform.localPosition = new Vector3(xOffset, roofHeight * 0.5f, 0);
+                roofSide.transform.localRotation = Quaternion.Euler(0, 0, angle);
+                roofSide.transform.localScale = new Vector3(width * 0.65f, 0.15f, depth + roofOverhang);
+                
+                var renderer = roofSide.GetComponent<Renderer>();
+                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+                if (shader != null)
+                {
+                    var mat = new Material(shader);
+                    mat.color = roofColor;
+                    mat.SetFloat("_Smoothness", 0.2f);
+                    renderer.material = mat;
+                }
+            }
+            
+            return roof;
+        }
+        
+        private void AddTower(Transform parent, float radius, float height, Color roofColor)
+        {
+            GameObject tower = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            tower.name = "Tower";
+            tower.transform.SetParent(parent);
+            
+            // Position at corner
+            float offset = radius * 1.5f;
+            tower.transform.localPosition = new Vector3(offset, height / 2f, offset);
+            tower.transform.localScale = new Vector3(radius * 2f, height / 2f, radius * 2f);
+            
+            var renderer = tower.GetComponent<Renderer>();
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.6f, 0.58f, 0.55f); // Stone color
+                mat.SetFloat("_Smoothness", 0.1f);
+                renderer.material = mat;
+            }
+            
+            // Conical roof on tower
+            GameObject cone = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            cone.name = "TowerRoof";
+            cone.transform.SetParent(tower.transform);
+            cone.transform.localPosition = new Vector3(0, 0.6f, 0);
+            cone.transform.localScale = new Vector3(1.3f, 0.4f, 1.3f);
+            
+            var coneRenderer = cone.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = roofColor;
+                mat.SetFloat("_Smoothness", 0.2f);
+                coneRenderer.material = mat;
+            }
+        }
+        
+        private void AddChimney(Transform parent, float buildingWidth, float buildingDepth, float buildingHeight)
+        {
+            GameObject chimney = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            chimney.name = "Chimney";
+            chimney.transform.SetParent(parent);
+            
+            float chimneyHeight = 2f;
+            float chimneySize = 0.6f;
+            
+            // Position on roof
+            chimney.transform.localPosition = new Vector3(
+                buildingWidth * 0.3f,
+                buildingHeight + chimneyHeight / 2f + 0.5f,
+                buildingDepth * 0.2f
+            );
+            chimney.transform.localScale = new Vector3(chimneySize, chimneyHeight, chimneySize);
+            
+            var renderer = chimney.GetComponent<Renderer>();
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.45f, 0.25f, 0.15f); // Brick color
+                mat.SetFloat("_Smoothness", 0.1f);
+                renderer.material = mat;
+            }
+        }
+        
+        /// <summary>
+        /// Create a procedural tree when no prefab is available
+        /// </summary>
+        private GameObject CreateProceduralTree(Vector3 position, float rotation)
+        {
+            GameObject tree = new GameObject("ProceduralTree");
+            tree.transform.position = position;
+            tree.transform.rotation = Quaternion.Euler(0, rotation, 0);
+            
+            float trunkHeight = UnityEngine.Random.Range(3f, 5f);
+            float trunkRadius = UnityEngine.Random.Range(0.15f, 0.25f);
+            float canopyRadius = UnityEngine.Random.Range(2f, 3.5f);
+            
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            
+            // Trunk (cylinder)
+            GameObject trunk = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            trunk.name = "Trunk";
+            trunk.transform.SetParent(tree.transform);
+            trunk.transform.localPosition = new Vector3(0, trunkHeight / 2f, 0);
+            trunk.transform.localScale = new Vector3(trunkRadius * 2f, trunkHeight / 2f, trunkRadius * 2f);
+            
+            var trunkRenderer = trunk.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.35f, 0.22f, 0.12f); // Brown bark
+                mat.SetFloat("_Smoothness", 0.1f);
+                trunkRenderer.material = mat;
+            }
+            
+            // Canopy (multiple spheres for fullness)
+            Color leafColor = new Color(
+                UnityEngine.Random.Range(0.15f, 0.35f),
+                UnityEngine.Random.Range(0.4f, 0.6f),
+                UnityEngine.Random.Range(0.1f, 0.25f)
+            );
+            
+            // Main canopy sphere
+            GameObject canopy = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            canopy.name = "Canopy";
+            canopy.transform.SetParent(tree.transform);
+            canopy.transform.localPosition = new Vector3(0, trunkHeight + canopyRadius * 0.5f, 0);
+            canopy.transform.localScale = Vector3.one * canopyRadius * 2f;
+            
+            var canopyRenderer = canopy.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = leafColor;
+                mat.SetFloat("_Smoothness", 0.05f);
+                canopyRenderer.material = mat;
+            }
+            
+            // Add smaller side spheres for natural look
+            for (int i = 0; i < 3; i++)
+            {
+                float angle = i * 120f * Mathf.Deg2Rad;
+                float offsetDist = canopyRadius * 0.5f;
+                float smallerRadius = canopyRadius * UnityEngine.Random.Range(0.5f, 0.7f);
+                
+                GameObject subCanopy = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                subCanopy.name = $"Canopy_{i}";
+                subCanopy.transform.SetParent(tree.transform);
+                subCanopy.transform.localPosition = new Vector3(
+                    Mathf.Cos(angle) * offsetDist,
+                    trunkHeight + canopyRadius * 0.3f + UnityEngine.Random.Range(-0.3f, 0.3f),
+                    Mathf.Sin(angle) * offsetDist
+                );
+                subCanopy.transform.localScale = Vector3.one * smallerRadius * 2f;
+                
+                var subRenderer = subCanopy.GetComponent<Renderer>();
+                if (shader != null)
+                {
+                    var mat = new Material(shader);
+                    mat.color = leafColor * UnityEngine.Random.Range(0.9f, 1.1f);
+                    mat.SetFloat("_Smoothness", 0.05f);
+                    subRenderer.material = mat;
+                }
+            }
+            
+            return tree;
+        }
+        
+        /// <summary>
+        /// Create a procedural bush when no prefab is available
+        /// </summary>
+        private GameObject CreateProceduralBush(Vector3 position, float rotation)
+        {
+            GameObject bush = new GameObject("ProceduralBush");
+            bush.transform.position = position;
+            bush.transform.rotation = Quaternion.Euler(0, rotation, 0);
+            
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            
+            Color leafColor = new Color(
+                UnityEngine.Random.Range(0.15f, 0.30f),
+                UnityEngine.Random.Range(0.35f, 0.55f),
+                UnityEngine.Random.Range(0.08f, 0.20f)
+            );
+            
+            // Create 2-4 overlapping spheres for bushy look
+            int numSpheres = UnityEngine.Random.Range(2, 5);
+            for (int i = 0; i < numSpheres; i++)
+            {
+                float radius = UnityEngine.Random.Range(0.4f, 0.8f);
+                Vector3 offset = new Vector3(
+                    UnityEngine.Random.Range(-0.3f, 0.3f),
+                    radius * 0.8f,
+                    UnityEngine.Random.Range(-0.3f, 0.3f)
+                );
+                
+                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sphere.name = $"BushPart_{i}";
+                sphere.transform.SetParent(bush.transform);
+                sphere.transform.localPosition = offset;
+                sphere.transform.localScale = Vector3.one * radius * 2f;
+                
+                var renderer = sphere.GetComponent<Renderer>();
+                if (shader != null)
+                {
+                    var mat = new Material(shader);
+                    mat.color = leafColor * UnityEngine.Random.Range(0.9f, 1.1f);
+                    mat.SetFloat("_Smoothness", 0.05f);
+                    renderer.material = mat;
+                }
+            }
+            
+            return bush;
+        }
+        
+        /// <summary>
+        /// Create a procedural prop when no prefab is available
+        /// </summary>
+        private GameObject CreateProceduralProp(Vector3 position, PropType propType)
+        {
+            GameObject prop = new GameObject("ProceduralProp");
+            prop.transform.position = position;
+            prop.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0);
+            
+            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            
+            switch (propType)
+            {
+                case PropType.Barrel:
+                    CreateBarrel(prop, shader);
+                    break;
+                case PropType.Crate:
+                    CreateCrate(prop, shader);
+                    break;
+                case PropType.Well:
+                    CreateWell(prop, shader);
+                    break;
+                case PropType.Lantern:
+                    CreateLantern(prop, shader);
+                    break;
+                default:
+                    // Default to a simple barrel
+                    CreateBarrel(prop, shader);
+                    break;
+            }
+            
+            return prop;
+        }
+        
+        private void CreateBarrel(GameObject parent, Shader shader)
+        {
+            GameObject barrel = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            barrel.name = "Barrel";
+            barrel.transform.SetParent(parent.transform);
+            barrel.transform.localPosition = new Vector3(0, 0.5f, 0);
+            barrel.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            
+            var renderer = barrel.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.45f, 0.30f, 0.15f);
+                mat.SetFloat("_Smoothness", 0.2f);
+                renderer.material = mat;
+            }
+        }
+        
+        private void CreateCrate(GameObject parent, Shader shader)
+        {
+            GameObject crate = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            crate.name = "Crate";
+            crate.transform.SetParent(parent.transform);
+            crate.transform.localPosition = new Vector3(0, 0.4f, 0);
+            crate.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            
+            var renderer = crate.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.55f, 0.40f, 0.20f);
+                mat.SetFloat("_Smoothness", 0.1f);
+                renderer.material = mat;
+            }
+        }
+        
+        private void CreateWell(GameObject parent, Shader shader)
+        {
+            // Base cylinder
+            GameObject wellBase = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            wellBase.name = "WellBase";
+            wellBase.transform.SetParent(parent.transform);
+            wellBase.transform.localPosition = new Vector3(0, 0.5f, 0);
+            wellBase.transform.localScale = new Vector3(1.2f, 0.5f, 1.2f);
+            
+            var baseRenderer = wellBase.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.55f, 0.52f, 0.48f);
+                mat.SetFloat("_Smoothness", 0.1f);
+                baseRenderer.material = mat;
+            }
+            
+            // Roof posts
+            for (int i = 0; i < 2; i++)
+            {
+                GameObject post = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                post.name = $"Post_{i}";
+                post.transform.SetParent(parent.transform);
+                float xPos = (i == 0) ? -0.5f : 0.5f;
+                post.transform.localPosition = new Vector3(xPos, 1.5f, 0);
+                post.transform.localScale = new Vector3(0.1f, 2f, 0.1f);
+                
+                var postRenderer = post.GetComponent<Renderer>();
+                if (shader != null)
+                {
+                    var mat = new Material(shader);
+                    mat.color = new Color(0.35f, 0.22f, 0.12f);
+                    mat.SetFloat("_Smoothness", 0.1f);
+                    postRenderer.material = mat;
+                }
+            }
+            
+            // Roof
+            GameObject roof = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            roof.name = "Roof";
+            roof.transform.SetParent(parent.transform);
+            roof.transform.localPosition = new Vector3(0, 2.7f, 0);
+            roof.transform.localScale = new Vector3(1.4f, 0.15f, 0.8f);
+            roof.transform.localRotation = Quaternion.Euler(0, 0, 15f);
+            
+            var roofRenderer = roof.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.40f, 0.28f, 0.15f);
+                mat.SetFloat("_Smoothness", 0.15f);
+                roofRenderer.material = mat;
+            }
+        }
+        
+        private void CreateLantern(GameObject parent, Shader shader)
+        {
+            // Post
+            GameObject post = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            post.name = "Post";
+            post.transform.SetParent(parent.transform);
+            post.transform.localPosition = new Vector3(0, 1.5f, 0);
+            post.transform.localScale = new Vector3(0.08f, 1.5f, 0.08f);
+            
+            var postRenderer = post.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.2f, 0.18f, 0.15f);
+                mat.SetFloat("_Smoothness", 0.4f);
+                postRenderer.material = mat;
+            }
+            
+            // Lantern box
+            GameObject lantern = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            lantern.name = "LanternBox";
+            lantern.transform.SetParent(parent.transform);
+            lantern.transform.localPosition = new Vector3(0, 3.2f, 0);
+            lantern.transform.localScale = new Vector3(0.3f, 0.4f, 0.3f);
+            
+            var lanternRenderer = lantern.GetComponent<Renderer>();
+            if (shader != null)
+            {
+                var mat = new Material(shader);
+                mat.color = new Color(0.9f, 0.75f, 0.3f);
+                mat.SetFloat("_Smoothness", 0.1f);
+                mat.SetFloat("_Metallic", 0f);
+                // Make it emissive for a glow effect
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", new Color(1f, 0.8f, 0.4f) * 0.5f);
+                lanternRenderer.material = mat;
+            }
+        }
+
         /// <summary>
         /// Clear all generated content
         /// </summary>
