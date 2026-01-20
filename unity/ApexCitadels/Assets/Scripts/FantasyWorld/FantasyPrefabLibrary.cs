@@ -335,6 +335,18 @@ namespace ApexCitadels.FantasyWorld
                 };
             }
             
+            // ULTIMATE FALLBACK: If specific size fallback failed, just return ANY house
+            // This prevents "No prefab found" errors from deleting buildings
+            if (options == null || options.Length == 0)
+            {
+                // Try to find ANY valid array to return
+                if (houses != null && houses.Length > 0) options = houses;
+                else if (smallHouses != null && smallHouses.Length > 0) options = smallHouses;
+                else if (cottages != null && cottages.Length > 0) options = cottages;
+                else if (townHouses != null && townHouses.Length > 0) options = townHouses;
+                else if (shops != null && shops.Length > 0) options = shops;
+            }
+            
             if (options == null || options.Length == 0) return null;
             return options[UnityEngine.Random.Range(0, options.Length)];
         }
