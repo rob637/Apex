@@ -4,7 +4,9 @@
     "references": [
         "ApexCitadels.Core",
         "ApexCitadels.PC",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime"
     ],
     "includePlatforms": [
         "Editor"
