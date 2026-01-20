@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using ApexCitadels.Core;
 using ApexCitadels.PC.UI;
 using ApexCitadels.Map;
+using ApexCitadels.Environment;
 
 #pragma warning disable 0414
 

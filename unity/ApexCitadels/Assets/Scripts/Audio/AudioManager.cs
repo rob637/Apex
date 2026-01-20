@@ -731,6 +731,22 @@ namespace ApexCitadels.Audio
         public void PlayDefend() => PlaySFX("defend");
         public void PlayVictory() => PlaySFX("victory");
         public void PlayDefeat() => PlaySFX("defeat");
+        public void PlayWarHorn() => PlaySFX("war_horn");
+        public void PlayCombat(string clipName) => PlaySFX(clipName);
+        
+        // Ambient control
+        /// <summary>Set ambient audio based on time of day (day vs night).</summary>
+        public void SetAmbientForTimeOfDay(bool isDaytime)
+        {
+            string ambientName = isDaytime ? "day_ambient" : "night_ambient";
+            PlayAmbient(ambientName);
+        }
+        
+        /// <summary>Set ambient audio based on location type.</summary>
+        public void SetAmbientForLocation(string locationType)
+        {
+            PlayAmbient($"ambient_{locationType}");
+        }
         
         #endregion
         

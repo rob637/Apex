@@ -735,6 +735,20 @@ namespace ApexCitadels.Environment
             useOverrideTime = false;
         }
         
+        /// <summary>Enable or disable real-time mode (syncs to system clock).</summary>
+        public void SetRealTimeMode(bool useRealTime)
+        {
+            if (useRealTime)
+            {
+                timeMode = TimeMode.RealTime;
+                useOverrideTime = false;
+            }
+            else
+            {
+                timeMode = TimeMode.GameTime;
+            }
+        }
+        
         /// <summary>Resume real-time sync.</summary>
         public void ResumeRealTime()
         {

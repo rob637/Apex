@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using ApexCitadels.Core;
 using ApexCitadels.Territory;
-using ApexCitadels.Map;
 using ApexCitadels.PC.WebGL;
+using MapTileProvider = ApexCitadels.Map.MapTileProvider;
+using MapTileCoordinate = ApexCitadels.Map.TileCoordinate;
 
 namespace ApexCitadels.PC.GeoMapping
 {
@@ -292,8 +293,8 @@ namespace ApexCitadels.PC.GeoMapping
             renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             renderer.receiveShadows = enableShadowReceive;
 
-            // Request tile texture
-            var texture = _tileProvider.GetTile(coord);
+            // Request tile texture (using x,y,zoom overload to avoid type conversion)
+            var texture = _tileProvider.GetTile(coord.X, coord.Y, coord.Zoom);
             if (texture != null)
             {
                 renderer.material.mainTexture = texture;
@@ -315,7 +316,7 @@ namespace ApexCitadels.PC.GeoMapping
             tileObj.transform.localPosition = new Vector3(x, mapHeight, z);
         }
 
-        private void OnTileLoaded(TileCoordinate coord, Texture2D texture)
+        private void OnTileLoaded(MapTileCoordinate coord, Texture2D texture)
         {
             string key = coord.ToString();
             if (_tileObjects.TryGetValue(key, out var tileObj))
@@ -329,7 +330,7 @@ namespace ApexCitadels.PC.GeoMapping
             }
         }
 
-        private void OnTileFailed(TileCoordinate coord, string error)
+        private void OnTileFailed(MapTileCoordinate coord, string error)
         {
             string key = coord.ToString();
             if (_tileObjects.TryGetValue(key, out var tileObj))
