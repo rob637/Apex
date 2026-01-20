@@ -90,8 +90,8 @@ namespace ApexCitadels.FantasyWorld
             switch (preset)
             {
                 case LocationPreset.ViennaVA:
-                    latitude = 38.8977;
-                    longitude = -77.2520;
+                    latitude = 38.9065;
+                    longitude = -77.2477;
                     break;
                 case LocationPreset.SanFrancisco:
                     latitude = 37.7879;
