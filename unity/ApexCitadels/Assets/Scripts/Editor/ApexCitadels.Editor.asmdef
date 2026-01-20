@@ -4,7 +4,9 @@
     "references": [
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "Unity.TextMeshPro",
-        "ApexCitadels.FantasyWorld"
+        "ApexCitadels.FantasyWorld",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime"
     ],
     "includePlatforms": [
         "Editor"
