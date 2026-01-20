@@ -36,6 +36,12 @@ namespace ApexCitadels.Map
         [SerializeField] private bool generateMipmaps = true;  // Crisp at all distances
         [SerializeField] private bool useHighQualityMaterial = true;
         
+        [Header("Dynamic Loading")]
+        [SerializeField] private bool enableDynamicLoading = true;  // Load tiles as camera moves
+        [SerializeField] private float loadDistance = 200f;  // How far ahead to load tiles
+        [SerializeField] private float unloadDistance = 1000f;  // How far before unloading tiles
+        [SerializeField] private float updateInterval = 0.5f;  // How often to check for new tiles
+        
         // Runtime state
         private Dictionary<string, TileData> _tiles = new Dictionary<string, TileData>();
         private Transform _tilesContainer;
@@ -43,6 +49,9 @@ namespace ApexCitadels.Map
         private int _centerTileY;
         private bool _isInitialized;
         private Material _sharedTileMaterial;
+        private Camera _mainCamera;
+        private Vector3 _lastCameraPosition;
+        private float _lastUpdateTime;
         
         // Events
         public System.Action OnMapLoaded;
@@ -132,6 +141,13 @@ namespace ApexCitadels.Map
             _tilesContainer.parent = transform;
             _tilesContainer.localPosition = Vector3.zero;
             
+            // Get main camera for dynamic loading
+            _mainCamera = Camera.main;
+            if (_mainCamera != null)
+            {
+                _lastCameraPosition = _mainCamera.transform.position;
+            }
+            
             // Calculate center tile coordinates
             CalculateCenterTile();
             
@@ -142,6 +158,110 @@ namespace ApexCitadels.Map
             
             // Start loading tiles
             StartCoroutine(LoadAllTiles());
+        }
+        
+        private void Update()
+        {
+            if (!_isInitialized || !enableDynamicLoading) return;
+            
+            // Throttle updates
+            if (Time.time - _lastUpdateTime < updateInterval) return;
+            _lastUpdateTime = Time.time;
+            
+            // Get camera if we don't have it
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+                if (_mainCamera == null) return;
+                _lastCameraPosition = _mainCamera.transform.position;
+            }
+            
+            // Check if camera moved significantly
+            Vector3 cameraPos = _mainCamera.transform.position;
+            float moveDistance = Vector3.Distance(cameraPos, _lastCameraPosition);
+            
+            if (moveDistance > tileWorldSize * 0.5f)
+            {
+                _lastCameraPosition = cameraPos;
+                UpdateTilesAroundCamera(cameraPos);
+            }
+        }
+        
+        /// <summary>
+        /// Load tiles around the camera position
+        /// </summary>
+        private void UpdateTilesAroundCamera(Vector3 cameraPos)
+        {
+            // Convert camera world position to tile offset from center
+            int cameraTileOffsetX = Mathf.RoundToInt(cameraPos.x / tileWorldSize);
+            int cameraTileOffsetY = Mathf.RoundToInt(-cameraPos.z / tileWorldSize);  // Negate Z
+            
+            int halfGrid = gridSize / 2;
+            int tilesLoaded = 0;
+            
+            // Check tiles around camera
+            for (int dy = -halfGrid; dy <= halfGrid; dy++)
+            {
+                for (int dx = -halfGrid; dx <= halfGrid; dx++)
+                {
+                    int localX = cameraTileOffsetX + dx;
+                    int localY = cameraTileOffsetY + dy;
+                    int tileX = _centerTileX + localX;
+                    int tileY = _centerTileY + localY;
+                    
+                    string key = $"{zoomLevel}/{tileX}/{tileY}";
+                    
+                    // Create tile if it doesn't exist
+                    if (!_tiles.ContainsKey(key))
+                    {
+                        CreateTilePlane(tileX, tileY, localX, localY);
+                        StartCoroutine(LoadTileTexture(key, tileX, tileY));
+                        tilesLoaded++;
+                    }
+                }
+            }
+            
+            if (tilesLoaded > 0)
+            {
+                Debug.Log($"[Mapbox] Dynamic loading: added {tilesLoaded} new tiles around camera");
+            }
+            
+            // Optional: Unload distant tiles to save memory
+            UnloadDistantTiles(cameraPos);
+        }
+        
+        /// <summary>
+        /// Unload tiles that are too far from camera
+        /// </summary>
+        private void UnloadDistantTiles(Vector3 cameraPos)
+        {
+            List<string> tilesToRemove = new List<string>();
+            
+            foreach (var kvp in _tiles)
+            {
+                if (kvp.Value.GameObject == null) continue;
+                
+                float distance = Vector3.Distance(kvp.Value.GameObject.transform.position, cameraPos);
+                if (distance > unloadDistance)
+                {
+                    tilesToRemove.Add(kvp.Key);
+                }
+            }
+            
+            foreach (var key in tilesToRemove)
+            {
+                if (_tiles.TryGetValue(key, out TileData tile))
+                {
+                    if (tile.Texture != null) Destroy(tile.Texture);
+                    if (tile.GameObject != null) Destroy(tile.GameObject);
+                    _tiles.Remove(key);
+                }
+            }
+            
+            if (tilesToRemove.Count > 0)
+            {
+                Debug.Log($"[Mapbox] Unloaded {tilesToRemove.Count} distant tiles");
+            }
         }
         
         /// <summary>
