@@ -215,7 +215,10 @@ namespace ApexCitadels.Map
                     if (!_tiles.ContainsKey(key))
                     {
                         CreateTilePlane(tileX, tileY, localX, localY);
-                        StartCoroutine(LoadTileTexture(key, tileX, tileY));
+                        if (_tiles.TryGetValue(key, out var tile))
+                        {
+                            StartCoroutine(LoadTile(key, tile));
+                        }
                         tilesLoaded++;
                     }
                 }
