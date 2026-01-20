@@ -20,14 +20,14 @@ namespace ApexCitadels.Map
         [SerializeField] private MapboxConfiguration config;
         
         [Header("Tile Grid")]
-        [SerializeField] private int gridSize = 9;  // 9x9 grid (81 tiles) for initial coverage
-        [SerializeField] private float tileWorldSize = 50f;  // Smaller tiles for higher zoom
+        [SerializeField] private int gridSize = 11;  // 11x11 grid (121 tiles) for good coverage
+        [SerializeField] private float tileWorldSize = 80f;  // Size of each tile in world units
         [SerializeField] private float groundHeight = -1f;  // Height of ground plane (lowered to avoid z-fighting)
         
         [Header("Location")]
         [SerializeField] private double centerLatitude = 38.9032;  // Vienna Town Green, VA
         [SerializeField] private double centerLongitude = -77.2646;
-        [SerializeField] private int zoomLevel = 17;  // Higher zoom = more detail, fewer tiles needed
+        [SerializeField] private int zoomLevel = 16;  // Zoom 16 for good balance of detail and coverage
         
         [Header("AAA Visual Quality")]
         [SerializeField] private bool useUnlit = true;  // Unlit for map tiles looks cleaner
@@ -490,50 +490,24 @@ namespace ApexCitadels.Map
             int loaded = 0;
             int failed = 0;
             int total = _tiles.Count;
-            int batchSize = 5;  // Load 5 tiles at once for faster loading
-            int currentBatch = 0;
             
-            Debug.Log($"[Mapbox] Starting to load {total} tiles (batch size: {batchSize})...");
+            Debug.Log($"[Mapbox] Starting to load {total} tiles...");
             
-            // Collect tiles to load
-            var tilesToLoad = new List<KeyValuePair<string, TileData>>();
             foreach (var kvp in _tiles)
             {
                 if (!kvp.Value.IsLoading && kvp.Value.Texture == null)
                 {
-                    tilesToLoad.Add(kvp);
+                    yield return StartCoroutine(LoadTile(kvp.Key, kvp.Value));
+                    
+                    if (kvp.Value.Texture != null)
+                        loaded++;
+                    else
+                        failed++;
                 }
             }
-            
-            // Load in batches for smoother performance
-            for (int i = 0; i < tilesToLoad.Count; i++)
-            {
-                var kvp = tilesToLoad[i];
-                StartCoroutine(LoadTileSilent(kvp.Key, kvp.Value, (success) => {
-                    if (success) loaded++; else failed++;
-                }));
-                
-                currentBatch++;
-                
-                // Wait every batchSize tiles to let them load
-                if (currentBatch >= batchSize)
-                {
-                    currentBatch = 0;
-                    yield return new WaitForSeconds(0.1f);  // Small delay between batches
-                }
-            }
-            
-            // Wait for all tiles to finish
-            yield return new WaitForSeconds(1f);
             
             Debug.Log($"[Mapbox] COMPLETE: {loaded} tiles loaded, {failed} failed out of {total}");
             OnMapLoaded?.Invoke();
-        }
-        
-        private IEnumerator LoadTileSilent(string key, TileData tile, System.Action<bool> onComplete)
-        {
-            yield return StartCoroutine(LoadTile(key, tile));
-            onComplete?.Invoke(tile.Texture != null);
         }
         
         private IEnumerator LoadTile(string key, TileData tile)
