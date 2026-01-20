@@ -245,10 +245,11 @@ namespace ApexCitadels.FantasyWorld
             Logger.Log($"OSM Data: {osmData.Buildings.Count} buildings, {osmData.Roads.Count} roads, {osmData.Areas.Count} areas", "FantasyWorld");
             
             // Check for empty data and use fallback if necessary
-            if (osmData.Buildings.Count == 0 && osmData.Roads.Count == 0)
+            // If less than 5 buildings found, assume data is too sparse and fill it in
+            if (osmData.Buildings.Count < 5)
             {
-                Logger.LogWarning("No OSM data found! Generating procedural fallback city...", "FantasyWorld");
-                OnGenerationProgress?.Invoke("No map data found. Generating fallback city...");
+                Logger.LogWarning($"Only found {osmData.Buildings.Count} buildings - triggering procedural fallback...", "FantasyWorld");
+                OnGenerationProgress?.Invoke("Map data sparse. Filling with fantasy city...");
                 GenerateFallbackCity(osmData);
             }
 
@@ -820,20 +821,21 @@ namespace ApexCitadels.FantasyWorld
                 Vector3[] points = new Vector3[road.Points.Count];
                 for (int i = 0; i < road.Points.Count; i++)
                 {
-                    points[i] = road.Points[i] + Vector3.up * 0.05f;
+                    // Raise roads higher to avoid z-fighting with terrain
+                    points[i] = road.Points[i] + Vector3.up * 0.2f;
                 }
                 
                 lr.positionCount = points.Length;
                 lr.SetPositions(points);
                 
                 float width = road.Width > 0 ? road.Width : config.pathWidth;
-                lr.widthMultiplier = width;
+                lr.widthMultiplier = width * 1.5f; // Make roads wider for visibility
                 
                 var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
                 if (shader != null)
                 {
                     lr.material = new Material(shader);
-                    lr.material.color = new Color(0.4f, 0.35f, 0.25f); // Dirt road
+                    lr.material.color = new Color(0.6f, 0.5f, 0.3f); // Light Dirt road for contrast
                 }
                 
                 lr.numCornerVertices = 4;
