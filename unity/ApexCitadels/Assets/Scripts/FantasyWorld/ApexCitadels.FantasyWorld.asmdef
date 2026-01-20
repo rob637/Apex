@@ -1,0 +1,16 @@
+{
+    "name": "ApexCitadels.FantasyWorld",
+    "rootNamespace": "ApexCitadels.FantasyWorld",
+    "references": [
+        "ApexCitadels.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
