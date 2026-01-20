@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using ApexCitadels.Environment;
 
 namespace ApexCitadels.PC.GeoMapping
 {

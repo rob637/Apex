@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ApexCitadels.Core;
 using ApexCitadels.Territory;
+using ApexCitadels.Map;
 using ApexCitadels.PC.WebGL;
 
 namespace ApexCitadels.PC.GeoMapping
