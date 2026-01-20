@@ -21,7 +21,7 @@ namespace ApexCitadels.Map
         [Header("Tile Grid")]
         [SerializeField] private int gridSize = 11;           // 11x11 = 121 tiles
         [SerializeField] private float tileWorldSize = 80f;   // World units per tile
-        [SerializeField] private float groundHeight = -0.5f;  // Y position of tiles
+        [SerializeField] private float groundHeight = 0f;  // Y position of tiles (0 = aligned with buildings)
         
         [Header("Location")]
         [SerializeField] private double centerLatitude = 38.9032;   // Vienna, VA

@@ -540,17 +540,33 @@ out skel qt;";
                     if (request.result == UnityWebRequest.Result.Success)
                     {
                         // Parse response
-                        string json = request.downloadHandler.text;
+                        string responseText = request.downloadHandler.text;
                         
                         if (logRequests)
                         {
-                            ApexLogger.Log($"[OSM] Received {json.Length} bytes", ApexLogger.LogCategory.Map);
+                            ApexLogger.Log($"[OSM] Received {responseText.Length} bytes", ApexLogger.LogCategory.Map);
                             // Log first 500 chars to see what we got
-                            string preview = json.Length > 500 ? json.Substring(0, 500) + "..." : json;
+                            string preview = responseText.Length > 500 ? responseText.Substring(0, 500) + "..." : responseText;
                             ApexLogger.Log($"[OSM] Response preview: {preview}", ApexLogger.LogCategory.Map);
                         }
                         
-                        OSMAreaData data = ParseOverpassResponse(json);
+                        // Check if response is actually JSON (not HTML error page)
+                        string trimmed = responseText.TrimStart();
+                        if (!trimmed.StartsWith("{") && !trimmed.StartsWith("["))
+                        {
+                            ApexLogger.LogWarning($"[OSM] Got HTML response (not JSON) from {apiUrl}, trying next...", ApexLogger.LogCategory.Map);
+                            continue; // Try next URL
+                        }
+                        
+                        OSMAreaData data = ParseOverpassResponse(responseText);
+                        
+                        // Check if we actually got useful data
+                        if (data.Buildings.Count == 0 && data.Roads.Count == 0 && data.Areas.Count == 0)
+                        {
+                            ApexLogger.LogWarning($"[OSM] Empty data from {apiUrl}, trying next...", ApexLogger.LogCategory.Map);
+                            continue; // Try next URL
+                        }
+                        
                         data.Center = new Vector2((float)((south + north) / 2), (float)((west + east) / 2));
                         data.FetchTime = DateTime.Now;
                         
