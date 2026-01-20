@@ -212,10 +212,33 @@ namespace ApexCitadels.FantasyWorld
                 return;
             }
             
+            // Try to load prefab library from Resources if not assigned
             if (prefabLibrary == null)
             {
-                Logger.LogError("No prefab library assigned!", "FantasyWorld");
-                return;
+                prefabLibrary = Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
+                if (prefabLibrary == null)
+                    prefabLibrary = Resources.Load<FantasyPrefabLibrary>("FantasyPrefabLibrary");
+                
+                // Also try finding any library in the project
+                if (prefabLibrary == null)
+                {
+                    var allLibraries = Resources.FindObjectsOfTypeAll<FantasyPrefabLibrary>();
+                    if (allLibraries != null && allLibraries.Length > 0)
+                    {
+                        prefabLibrary = allLibraries[0];
+                        Logger.Log($"Found prefab library: {prefabLibrary.name}", "FantasyWorld");
+                    }
+                }
+            }
+            
+            if (prefabLibrary == null)
+            {
+                Logger.LogWarning("No prefab library assigned! Using procedural fallback buildings.", "FantasyWorld");
+                // Continue anyway - we'll use procedural buildings
+            }
+            else
+            {
+                Logger.Log($"Using prefab library: {prefabLibrary.name}", "FantasyWorld");
             }
             
             OnGenerationProgress?.Invoke("Fetching map data...");

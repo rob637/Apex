@@ -133,14 +133,20 @@ namespace ApexCitadels.Editor
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 
-                // Check if it's likely a Synty prefab (in a POLYGON folder or has SM_ prefix)
-                if (!path.Contains("POLYGON") && !path.Contains("Synty")) continue;
+                // Check if it's likely a Synty prefab (in a POLYGON folder or has SM_ prefix or Synty folder)
+                bool isSynty = path.Contains("Polygon") || 
+                               path.Contains("POLYGON") || 
+                               path.Contains("Synty") ||
+                               path.Contains("/SM_") ||
+                               path.Contains("_SM_");
+                               
+                if (!isSynty) continue;
                 
                 GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 if (prefab == null) continue;
                 
                 string name = prefab.name;
-                string category = CategorizeByName(name);
+                string category = CategorizeByName(name, path);
                 
                 if (!string.IsNullOrEmpty(category))
                 {
@@ -156,35 +162,50 @@ namespace ApexCitadels.Editor
             _status = $"Found {syntyCount} Synty prefabs in {_categorizedPrefabs.Count} categories";
         }
         
-        private string CategorizeByName(string name)
+        private string CategorizeByName(string name, string path)
         {
             // Normalize name for matching
             string lower = name.ToLower();
+            string pathLower = path.ToLower();
+            
+            // BUILDINGS - Check path for context (PolygonTown, PolygonVikings, etc.)
+            bool isTown = pathLower.Contains("polygontown");
+            bool isViking = pathLower.Contains("polygonviking");
+            bool isKnight = pathLower.Contains("polygonknight");
+            bool isFarm = pathLower.Contains("polygonfarm");
+            bool isAdventure = pathLower.Contains("polygonadventure");
+            bool isDungeon = pathLower.Contains("polygondungeon");
+            bool isNature = pathLower.Contains("polygonnature");
+            
+            // Synty uses "Bld_" prefix for buildings, "SM_" for static meshes
+            bool isBuilding = lower.Contains("bld_") || lower.Contains("building");
+            bool isEnvironment = lower.Contains("env_");
             
             // BUILDINGS
             if (lower.Contains("hut") && !lower.Contains("shutter")) return "PeasantHuts";
             if (lower.Contains("cottage")) return "Cottages";
             if (lower.Contains("house_small") || lower.Contains("smallhouse")) return "SmallHouses";
-            if (lower.Contains("house") && !lower.Contains("town") && !lower.Contains("farm") && !lower.Contains("gate") && !lower.Contains("ware")) return "Houses";
+            if ((lower.Contains("house") || lower.Contains("bld_house")) && !lower.Contains("town") && !lower.Contains("farm") && !lower.Contains("gate") && !lower.Contains("ware")) return "Houses";
             if (lower.Contains("townhouse") || lower.Contains("town_house")) return "TownHouses";
             if (lower.Contains("manor")) return "Manors";
             if (lower.Contains("noble") || lower.Contains("estate")) return "NobleEstates";
             if (lower.Contains("market") || lower.Contains("stall")) return "MarketStalls";
-            if (lower.Contains("tavern")) return "Taverns";
+            if (lower.Contains("tavern") || lower.Contains("pub")) return "Taverns";
             if (lower.Contains("inn")) return "Inns";
-            if (lower.Contains("blacksmith") || lower.Contains("forge") || lower.Contains("anvil")) return "Blacksmiths";
+            if (lower.Contains("blacksmith") || lower.Contains("forge") || lower.Contains("anvil") || lower.Contains("smithy")) return "Blacksmiths";
             if (lower.Contains("bakery") || lower.Contains("baker")) return "Bakeries";
             if (lower.Contains("shop") && !lower.Contains("workshop")) return "Shops";
             if (lower.Contains("guard") && lower.Contains("tower")) return "GuardTowers";
+            if (lower.Contains("watchtower") || lower.Contains("watch_tower")) return "GuardTowers";
             if (lower.Contains("barracks")) return "Barracks";
-            if (lower.Contains("fortress")) return "Fortresses";
+            if (lower.Contains("fortress") || lower.Contains("fort_")) return "Fortresses";
             if (lower.Contains("castle") && !lower.Contains("small")) return "CastleParts";
-            if (lower.Contains("wall") && (lower.Contains("bld") || lower.Contains("env"))) return "Walls";
-            if (lower.Contains("gate") && lower.Contains("bld")) return "Gates";
+            if (lower.Contains("wall") && (lower.Contains("bld") || lower.Contains("env") || isBuilding)) return "Walls";
+            if (lower.Contains("gate") && (lower.Contains("bld") || isBuilding)) return "Gates";
             if (lower.Contains("chapel")) return "Chapels";
             if (lower.Contains("church") && !lower.Contains("yard")) return "Churches";
             if (lower.Contains("cathedral")) return "Cathedrals";
-            if (lower.Contains("townhall") || lower.Contains("town_hall")) return "TownHalls";
+            if (lower.Contains("townhall") || lower.Contains("town_hall") || lower.Contains("guildhall")) return "TownHalls";
             if (lower.Contains("mill") && !lower.Contains("saw")) return "Mills";
             if (lower.Contains("warehouse")) return "Warehouses";
             if (lower.Contains("workshop")) return "Workshops";
@@ -197,7 +218,12 @@ namespace ApexCitadels.Editor
             if (lower.Contains("monument") || lower.Contains("statue")) return "Monuments";
             if (lower.Contains("fountain")) return "Fountains";
             if (lower.Contains("well") && !lower.Contains("dwell")) return "Wells";
-            if (lower.Contains("tower") && !lower.Contains("guard") && !lower.Contains("mage") && !lower.Contains("water")) return "GuardTowers";
+            if (lower.Contains("tower") && !lower.Contains("guard") && !lower.Contains("mage") && !lower.Contains("water") && !lower.Contains("clock")) return "GuardTowers";
+            
+            // Generic building detection from Synty packs
+            if (isBuilding && isTown && !lower.Contains("wall") && !lower.Contains("fence")) return "Houses";
+            if (isBuilding && isViking) return "Houses";
+            if (isBuilding && isFarm) return "Farmhouses";
             
             // NATURE
             if (lower.Contains("tree_oak") || (lower.Contains("tree") && lower.Contains("oak"))) return "TreesOak";
@@ -336,8 +362,96 @@ namespace ApexCitadels.Editor
         private string CategoryToFieldName(string category)
         {
             // Convert category name to field name (camelCase)
-            if (string.IsNullOrEmpty(category)) return "";
-            return char.ToLower(category[0]) + category.Substring(1);
+            // Some categories need explicit mapping due to naming differences
+            return category switch
+            {
+                "PeasantHuts" => "peasantHuts",
+                "Cottages" => "cottages",
+                "SmallHouses" => "smallHouses",
+                "Houses" => "houses",
+                "TownHouses" => "townHouses",
+                "Manors" => "manors",
+                "NobleEstates" => "nobleEstates",
+                "MarketStalls" => "marketStalls",
+                "Taverns" => "taverns",
+                "Inns" => "inns",
+                "Blacksmiths" => "blacksmiths",
+                "Bakeries" => "bakeries",
+                "GeneralStores" => "generalStores",
+                "Shops" => "shops",
+                "GuardTowers" => "guardTowers",
+                "Barracks" => "barracks",
+                "Fortresses" => "fortresses",
+                "CastleParts" => "castleParts",
+                "Walls" => "walls",
+                "Gates" => "gates",
+                "Chapels" => "chapels",
+                "Churches" => "churches",
+                "Cathedrals" => "cathedrals",
+                "TownHalls" => "townHalls",
+                "Mills" => "mills",
+                "Warehouses" => "warehouses",
+                "Workshops" => "workshops",
+                "Barns" => "barns",
+                "Farmhouses" => "farmhouses",
+                "Silos" => "silos",
+                "MageTowers" => "mageTowers",
+                "Ruins" => "ruins",
+                "Monuments" => "monuments",
+                "Fountains" => "fountains",
+                "Wells" => "wells",
+                "TreesOak" => "treesOak",
+                "TreesPine" => "treesPine",
+                "TreesWillow" => "treesWillow",
+                "TreesFantasy" => "treesFantasy",
+                "TreesDead" => "treesDead",
+                "BushesSmall" => "bushesSmall",
+                "BushesLarge" => "bushesLarge",
+                "BushesFlower" => "bushesFlower",
+                "FlowerPatches" => "flowerPatches",
+                "GrassClumps" => "grassClumps",
+                "RocksSmall" => "rocksSmall",
+                "RocksMedium" => "rocksMedium",
+                "RocksLarge" => "rocksLarge",
+                "Boulders" => "boulders",
+                "Logs" => "logs",
+                "Mushrooms" => "mushrooms",
+                "Stumps" => "stumps",
+                "Barrels" => "barrels",
+                "Crates" => "crates",
+                "Sacks" => "sacks",
+                "Chests" => "chests",
+                "Carts" => "carts",
+                "Wagons" => "wagons",
+                "Boats" => "boats",
+                "Benches" => "benches",
+                "Tables" => "tables",
+                "Chairs" => "chairs",
+                "Signs" => "signs",
+                "Lanterns" => "lanterns",
+                "Torches" => "torches",
+                "Braziers" => "braziers",
+                "Campfires" => "campfires",
+                "FenceWood" => "fenceWood",
+                "FenceStone" => "fenceStone",
+                "Hedges" => "hedges",
+                "Flags" => "flags",
+                "Banners" => "banners",
+                "Scarecrows" => "scarecrows",
+                "Haystacks" => "haystacks",
+                "Peasants" => "peasants",
+                "Merchants" => "merchants",
+                "Guards" => "guards",
+                "Knights" => "knights",
+                "Nobles" => "nobles",
+                "Chickens" => "chickens",
+                "Pigs" => "pigs",
+                "Cows" => "cows",
+                "Horses" => "horses",
+                "Dogs" => "dogs",
+                "Cats" => "cats",
+                _ => char.ToLower(category[0]) + category.Substring(1)
+            };
         }
     }
 }
