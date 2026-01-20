@@ -11,7 +11,11 @@ namespace ApexCitadels.FantasyWorld
     public class FantasyWorldVisuals : MonoBehaviour
     {
         [Header("Atmosphere")]
+        [Tooltip("Assign a Skybox Material here (e.g. from Synty folder)")]
         public Material skyboxMaterial;
+        [Tooltip("OR Assign a panoramic texture here to auto-create a skybox")]
+        public Texture2D skyboxTexture;
+        
         public Color fogColor = new Color(0.35f, 0.4f, 0.5f);
         public float fogDensity = 0.005f;
         public float skyboxExposure = 1.0f;
@@ -53,6 +57,21 @@ namespace ApexCitadels.FantasyWorld
             {
                 RenderSettings.skybox = skyboxMaterial;
                 return;
+            }
+            
+            if (skyboxTexture != null)
+            {
+                // Auto-create material
+                Shader skyShader = Shader.Find("Skybox/Panoramic");
+                if (skyShader != null)
+                {
+                    Material mat = new Material(skyShader);
+                    mat.SetTexture("_MainTex", skyboxTexture);
+                    mat.SetFloat("_Exposure", skyboxExposure);
+                    mat.SetFloat("_ImageType", 0); // 0 = 360 degrees
+                    RenderSettings.skybox = mat;
+                    return;
+                }
             }
             
             // Try auto-find if missing

@@ -12,6 +12,7 @@ namespace ApexCitadels.FantasyWorld
     /// Demo component for testing fantasy world generation.
     /// Add this to a GameObject in your scene for quick testing.
     /// </summary>
+    [RequireComponent(typeof(FantasyWorldVisuals))]
     public class FantasyWorldDemo : MonoBehaviour
     {
         [Header("Location")]
