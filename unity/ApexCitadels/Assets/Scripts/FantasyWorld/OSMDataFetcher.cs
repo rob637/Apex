@@ -561,7 +561,7 @@ out skel qt;";
                         OSMAreaData data = ParseOverpassResponse(responseText);
                         
                         // Check if we actually got useful data
-                        if (data.Buildings.Count == 0 && data.Roads.Count == 0 && data.Areas.Count == 0)
+                        if (data.Buildings.Count == 0 && data.Roads.Count == 0 && data.Parks.Count == 0)
                         {
                             ApexLogger.LogWarning($"[OSM] Empty data from {apiUrl}, trying next...", ApexLogger.LogCategory.Map);
                             continue; // Try next URL
