@@ -6,6 +6,7 @@
 using UnityEngine;
 using UnityEditor;
 using ApexCitadels.PC.GeoMapping;
+using MapProvider = ApexCitadels.Map.MapProvider;
 
 namespace ApexCitadels.PC.Editor
 {
