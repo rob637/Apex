@@ -802,6 +802,8 @@ namespace ApexCitadels.FantasyWorld
         /// </summary>
         private GameObject CreateProceduralBuilding(Vector3 position, float rotation, Vector3 dimensions, FantasyBuildingType type, BuildingSize size)
         {
+            Logger.Log($"Creating PROCEDURAL building at {position} - Type: {type}, Size: {size}", "FantasyWorld");
+            
             GameObject building = new GameObject("ProceduralBuilding");
             building.transform.position = position;
             building.transform.rotation = Quaternion.Euler(0, rotation, 0);
@@ -843,6 +845,12 @@ namespace ApexCitadels.FantasyWorld
                 wallMat.color = wallColor;
                 wallMat.SetFloat("_Smoothness", 0.1f);
                 bodyRenderer.material = wallMat;
+            }
+            else
+            {
+                // Fallback: bright magenta so we can see it
+                bodyRenderer.material.color = Color.magenta;
+                Logger.LogWarning("No shader found for building material!", "FantasyWorld");
             }
             
             // Create peaked roof
