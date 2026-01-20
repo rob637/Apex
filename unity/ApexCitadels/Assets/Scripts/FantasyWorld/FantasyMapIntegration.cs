@@ -54,7 +54,7 @@ namespace ApexCitadels.FantasyWorld
                 generator = GetComponent<FantasyWorldGenerator>();
             
             // Load or find Mapbox config
-            _mapboxConfig = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            _mapboxConfig = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             
             if (_mapboxConfig == null || !_mapboxConfig.IsValid)
             {
@@ -141,7 +141,7 @@ namespace ApexCitadels.FantasyWorld
         /// </summary>
         public static bool IsMapboxConfigured()
         {
-            var config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            var config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             return config != null && config.IsValid;
         }
         
