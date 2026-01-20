@@ -53,6 +53,26 @@ namespace ApexCitadels.FantasyWorld
             }
             
             _generator.OnGenerationProgress += (msg) => _statusMessage = msg;
+            
+            // Setup camera for exploration
+            SetupCamera();
+        }
+        
+        private void SetupCamera()
+        {
+            var mainCam = Camera.main;
+            if (mainCam != null)
+            {
+                // Position camera at eye level in the center
+                mainCam.transform.position = new Vector3(0, 5f, 0);
+                mainCam.transform.rotation = Quaternion.Euler(10f, 0, 0);
+                
+                // Add fly camera if not present
+                if (mainCam.GetComponent<SimpleFlyCamera>() == null)
+                {
+                    mainCam.gameObject.AddComponent<SimpleFlyCamera>();
+                }
+            }
         }
         
         private void Start()
@@ -106,6 +126,9 @@ namespace ApexCitadels.FantasyWorld
                 return;
             }
             
+            // Create ground plane if it doesn't exist
+            CreateGround();
+            
             _statusMessage = "Starting generation...";
             _generator.config.radiusMeters = radiusMeters;
             _generator.Initialize(latitude, longitude);
@@ -158,6 +181,30 @@ namespace ApexCitadels.FantasyWorld
             }
             
             GUILayout.EndArea();
+        }
+        
+        private void CreateGround()
+        {
+            // Check if ground already exists
+            if (GameObject.Find("FantasyGround") != null) return;
+            
+            // Create a large ground plane
+            GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ground.name = "FantasyGround";
+            ground.transform.position = Vector3.zero;
+            ground.transform.localScale = new Vector3(radiusMeters / 5f, 1, radiusMeters / 5f);
+            
+            // Create a simple grass-colored material
+            var renderer = ground.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                Material grassMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                if (grassMat != null)
+                {
+                    grassMat.color = new Color(0.3f, 0.5f, 0.2f); // Grass green
+                    renderer.material = grassMat;
+                }
+            }
         }
         
         private void OnDrawGizmos()
