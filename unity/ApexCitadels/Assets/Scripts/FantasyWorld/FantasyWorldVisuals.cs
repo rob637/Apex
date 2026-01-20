@@ -11,6 +11,7 @@ namespace ApexCitadels.FantasyWorld
     public class FantasyWorldVisuals : MonoBehaviour
     {
         [Header("Atmosphere")]
+        public Material skyboxMaterial;
         public Color fogColor = new Color(0.35f, 0.4f, 0.5f);
         public float fogDensity = 0.005f;
         public float skyboxExposure = 1.0f;
@@ -34,6 +35,7 @@ namespace ApexCitadels.FantasyWorld
             SetupLighting();
             SetupPostProcessing();
             SetupFog();
+            SetupSkybox();
         }
 
         [ContextMenu("Apply Visuals")]
@@ -42,6 +44,25 @@ namespace ApexCitadels.FantasyWorld
             SetupLighting();
             SetupPostProcessing();
             SetupFog();
+            SetupSkybox();
+        }
+        
+        private void SetupSkybox()
+        {
+            if (skyboxMaterial != null)
+            {
+                RenderSettings.skybox = skyboxMaterial;
+                return;
+            }
+            
+            // Try auto-find if missing
+            if (RenderSettings.skybox == null || RenderSettings.skybox.name == "Default-Skybox")
+            {
+                // Look for known skybox names in project (only works if in Resources or specialized loader)
+                // Since we can't search assets easily at runtime, we rely on the inspector assignment.
+                // However, we can set a nice gradient backup if no skybox.
+                RenderSettings.ambientMode = AmbientMode.Trilight;
+            }
         }
 
         private void SetupLighting()

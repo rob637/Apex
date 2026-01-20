@@ -758,11 +758,11 @@ namespace ApexCitadels.FantasyWorld
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "GeneratedGround";
             ground.transform.SetParent(transform);
-            ground.transform.localPosition = new Vector3(0, -0.1f, 0); // Slightly below 0
+            ground.transform.localPosition = new Vector3(0, -0.6f, 0); // Lowered more to prevent Z-fighting
             
             // Texture tiling
             float planeSize = 10f;
-            float targetSize = config.radiusMeters * 2.5f;
+            float targetSize = config.radiusMeters * 3.0f;
             float scale = targetSize / planeSize;
             
             ground.transform.localScale = new Vector3(scale, 1, scale);
@@ -776,30 +776,41 @@ namespace ApexCitadels.FantasyWorld
             }
             else
             {
-                // Fallback lush green if no material assigned
+                // Fallback lush green with Noise
                 var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
                 if (shader != null)
                 {
                     renderer.material = new Material(shader);
+                    renderer.material.SetFloat("_Smoothness", 0.05f); // Rough
                     
-                    // Create a simple checkerboard texture for scale context
-                    Texture2D tex = new Texture2D(256, 256);
-                    Color c1 = new Color(0.15f, 0.35f, 0.1f);  // Dark Grass
-                    Color c2 = new Color(0.18f, 0.38f, 0.12f); // Light Grass
+                    // Generate Organic Grass Texture
+                    Color c1 = new Color(0.12f, 0.28f, 0.08f); // Deep Forest Green
+                    Color c2 = new Color(0.25f, 0.45f, 0.15f); // Vibrant Grass Green
                     
-                    for (int y = 0; y < 256; y++)
-                    {
-                        for (int x = 0; x < 256; x++)
-                        {
-                            bool check = ((x / 32) + (y / 32)) % 2 == 0;
-                            tex.SetPixel(x, y, check ? c1 : c2);
-                        }
-                    }
-                    tex.Apply();
+                    Texture2D tex = GenerateNoiseTexture(512, 512, c1, c2, 15f);
                     renderer.material.mainTexture = tex;
-                    renderer.material.mainTextureScale = new Vector2(targetSize / 10f, targetSize / 10f);
+                    renderer.material.mainTextureScale = new Vector2(targetSize / 30f, targetSize / 30f);
                 }
             }
+        }
+
+        private Texture2D GenerateNoiseTexture(int width, int height, Color colorA, Color colorB, float scale)
+        {
+            Texture2D tex = new Texture2D(width, height);
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    float xCoord = (float)x / width * scale;
+                    float yCoord = (float)y / height * scale;
+                    float sample = Mathf.PerlinNoise(xCoord, yCoord);
+                    // Add some high frequency noise for detail
+                    float detail = Mathf.PerlinNoise(xCoord * 10f, yCoord * 10f) * 0.2f;
+                    tex.SetPixel(x, y, Color.Lerp(colorA, colorB, Mathf.Clamp01(sample + detail)));
+                }
+            }
+            tex.Apply();
+            return tex;
         }
 
         private IEnumerator GenerateRoadsCoroutine(List<OSMRoad> roads)
@@ -835,7 +846,15 @@ namespace ApexCitadels.FantasyWorld
                 if (shader != null)
                 {
                     lr.material = new Material(shader);
-                    lr.material.color = new Color(0.6f, 0.5f, 0.3f); // Light Dirt road for contrast
+                    lr.material.SetFloat("_Smoothness", 0.1f);
+                    
+                    // Generate Dirt/Path Texture
+                    Color c1 = new Color(0.35f, 0.25f, 0.15f); // Dark Dirt
+                    Color c2 = new Color(0.45f, 0.35f, 0.25f); // Light Dirt
+                    
+                    // Use static texture if possible, but per-road is fine for prototype
+                    Texture2D tex = GenerateNoiseTexture(64, 64, c1, c2, 10f);
+                    lr.material.mainTexture = tex;
                 }
                 
                 lr.numCornerVertices = 4;

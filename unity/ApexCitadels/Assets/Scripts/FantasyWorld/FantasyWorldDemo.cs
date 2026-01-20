@@ -20,11 +20,14 @@ namespace ApexCitadels.FantasyWorld
         public double longitude = -77.2520;
         
         [Header("Presets")]
-        public LocationPreset preset = LocationPreset.Custom;
+        public LocationPreset preset = LocationPreset.ViennaVA;
         
         [Header("Generation")]
         public float radiusMeters = 500f;
         public bool generateOnStart = true;
+        
+        [Header("Controls")]
+        public bool useFirstPersonController = true;
         
         [Header("Debug")]
         public bool showDebugInfo = true;
@@ -59,26 +62,6 @@ namespace ApexCitadels.FantasyWorld
             }
             
             _generator.OnGenerationProgress += (msg) => _statusMessage = msg;
-            
-            // Setup camera for exploration
-            SetupCamera();
-        }
-        
-        private void SetupCamera()
-        {
-            var mainCam = Camera.main;
-            if (mainCam != null)
-            {
-                // Position camera at eye level in the center
-                mainCam.transform.position = new Vector3(0, 5f, 0);
-                mainCam.transform.rotation = Quaternion.Euler(10f, 0, 0);
-                
-                // Add fly camera if not present
-                if (mainCam.GetComponent<SimpleFlyCamera>() == null)
-                {
-                    mainCam.gameObject.AddComponent<SimpleFlyCamera>();
-                }
-            }
         }
         
         private void Start()
@@ -91,6 +74,63 @@ namespace ApexCitadels.FantasyWorld
             }
         }
         
+        private void SetupControls()
+        {
+            var mainCam = Camera.main;
+            
+            if (useFirstPersonController)
+            {
+                // Create Player Object if not exists
+                var player = FindObjectOfType<FirstPersonPlayer>();
+                if (player == null)
+                {
+                    GameObject playerObj = new GameObject("Player_FPS");
+                    player = playerObj.AddComponent<FirstPersonPlayer>();
+                    
+                    // Add CharacterController properties
+                    CharacterController cc = playerObj.GetComponent<CharacterController>();
+                    cc.center = new Vector3(0, 1, 0);
+                    cc.radius = 0.5f;
+                    cc.height = 2f;
+                    
+                    // Initial Position
+                    playerObj.transform.position = new Vector3(0, 15f, 0); // Drop in
+                }
+
+                // If Main Camera exists, attach it to player
+                if (mainCam != null)
+                {
+                    mainCam.transform.SetParent(player.transform);
+                    mainCam.transform.localPosition = new Vector3(0, 1.6f, 0);
+                    mainCam.transform.localRotation = Quaternion.identity;
+                    
+                    // Remove FlyCam if it exists
+                    var flyCam = mainCam.GetComponent<SimpleFlyCamera>();
+                    if (flyCam != null) Destroy(flyCam);
+                }
+            }
+            else
+            {
+                if (mainCam != null)
+                {
+                    // Position camera for Fly Mode
+                    mainCam.transform.SetParent(null);
+                    mainCam.transform.position = new Vector3(0, 50f, -50f); 
+                    mainCam.transform.rotation = Quaternion.Euler(45f, 0, 0);
+                    
+                    // Add fly camera if not present
+                    if (mainCam.GetComponent<SimpleFlyCamera>() == null)
+                    {
+                        mainCam.gameObject.AddComponent<SimpleFlyCamera>();
+                    }
+                    
+                    // Remove Player if exists
+                    var player = FindObjectOfType<FirstPersonPlayer>();
+                    if (player != null) Destroy(player.gameObject);
+                }
+            }
+        }
+
         private void ApplyPreset()
         {
             switch (preset)
@@ -101,7 +141,7 @@ namespace ApexCitadels.FantasyWorld
                     break;
                 case LocationPreset.SanFrancisco:
                     latitude = 37.7879;
-                    longitude = -122.4074;
+                    longitude = -122.4075;
                     break;
                 case LocationPreset.NewYorkCity:
                     latitude = 40.7580;
@@ -113,7 +153,7 @@ namespace ApexCitadels.FantasyWorld
                     break;
                 case LocationPreset.Paris:
                     latitude = 48.8698;
-                    longitude = 2.3078;
+                    longitude = 2.3075;
                     break;
                 case LocationPreset.Tokyo:
                     latitude = 35.6595;
@@ -128,17 +168,15 @@ namespace ApexCitadels.FantasyWorld
             if (_generator.prefabLibrary == null)
             {
                 _statusMessage = "ERROR: Assign prefab library first!";
-                ApexLogger.LogError("[Demo] No prefab library assigned to FantasyWorldGenerator!", ApexLogger.LogCategory.Map);
+                ApexLogger.LogError("[Demo] No prefab library assigned!", ApexLogger.LogCategory.Map);
                 return;
             }
             
-            // Create ground plane if it doesn't exist
-            CreateGround();
-            
-            _statusMessage = "Starting generation...";
             _generator.config.radiusMeters = radiusMeters;
             _generator.Initialize(latitude, longitude);
             _generator.GenerateWorld();
+            
+            SetupControls();
         }
         
         [ContextMenu("Clear World")]
@@ -164,18 +202,6 @@ namespace ApexCitadels.FantasyWorld
             GUILayout.Label($"Status: {_statusMessage}");
             GUILayout.Space(10);
             
-            if (_generator.prefabLibrary == null)
-            {
-                GUILayout.Label("<color=red>⚠ No Prefab Library assigned!</color>", new GUIStyle(GUI.skin.label) { richText = true });
-                GUILayout.Label("Create via: Assets > Create > Apex Citadels > Fantasy Prefab Library");
-            }
-            else
-            {
-                GUILayout.Label("<color=green>✓ Prefab Library assigned</color>", new GUIStyle(GUI.skin.label) { richText = true });
-            }
-            
-            GUILayout.Space(10);
-            
             if (GUILayout.Button("Generate", GUILayout.Width(150)))
             {
                 Generate();
@@ -186,36 +212,25 @@ namespace ApexCitadels.FantasyWorld
                 Clear();
             }
             
+            GUILayout.Space(10);
+            GUILayout.Label(useFirstPersonController ? "Mode: FPS (WASD + Mouse)" : "Mode: Fly Camera (Right Click + WASD)");
+            
             GUILayout.EndArea();
-        }
-        
-        private void CreateGround()
-        {
-            // Check if ground already exists
-            if (GameObject.Find("FantasyGround") != null) return;
             
-            // Create a large ground plane
-            GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            ground.name = "FantasyGround";
-            ground.transform.position = Vector3.zero;
-            ground.transform.localScale = new Vector3(radiusMeters / 5f, 1, radiusMeters / 5f);
-            
-            // Create a simple grass-colored material
-            var renderer = ground.GetComponent<Renderer>();
-            if (renderer != null)
+            // Crosshair for FPS
+            if (useFirstPersonController)
             {
-                Material grassMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-                if (grassMat != null)
-                {
-                    grassMat.color = new Color(0.3f, 0.5f, 0.2f); // Grass green
-                    renderer.material = grassMat;
-                }
+                float x = Screen.width / 2;
+                float y = Screen.height / 2;
+                var style = new GUIStyle(GUI.skin.label);
+                style.alignment = TextAnchor.MiddleCenter;
+                style.fontSize = 20;
+                GUI.Label(new Rect(x - 10, y - 10, 20, 20), "+", style);
             }
         }
         
         private void OnDrawGizmos()
         {
-            // Draw generation radius
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transform.position, radiusMeters);
         }
