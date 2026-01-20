@@ -758,7 +758,7 @@ namespace ApexCitadels.FantasyWorld
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "GeneratedGround";
             ground.transform.SetParent(transform);
-            ground.transform.localPosition = new Vector3(0, -0.6f, 0); // Lowered more to prevent Z-fighting
+            ground.transform.localPosition = new Vector3(0, -0.05f, 0); // Just barely below buildings
             
             // Texture tiling
             float planeSize = 10f;
@@ -782,6 +782,7 @@ namespace ApexCitadels.FantasyWorld
                 {
                     renderer.material = new Material(shader);
                     renderer.material.SetFloat("_Smoothness", 0.05f); // Rough
+                    renderer.material.color = new Color(0.2f, 0.4f, 0.15f); // Base green color
                     
                     // Generate Organic Grass Texture
                     Color c1 = new Color(0.12f, 0.28f, 0.08f); // Deep Forest Green
@@ -792,6 +793,10 @@ namespace ApexCitadels.FantasyWorld
                     renderer.material.mainTextureScale = new Vector2(targetSize / 30f, targetSize / 30f);
                 }
             }
+            
+            // Ensure the ground receives shadows
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderer.receiveShadows = true;
         }
 
         private Texture2D GenerateNoiseTexture(int width, int height, Color colorA, Color colorB, float scale)
