@@ -82,7 +82,7 @@ namespace ApexCitadels.Map
         {
             if (MapTileProvider.Instance != null)
             {
-                MapTileProvider.Instance.OnTileLoaded += OnTileLoaded;
+                MapTileProvider.Instance.OnTileLoaded += OnTileLoadedHandler;
                 MapTileProvider.Instance.OnProviderChanged += RefreshAllTiles;
             }
         }
@@ -91,7 +91,7 @@ namespace ApexCitadels.Map
         {
             if (MapTileProvider.Instance != null)
             {
-                MapTileProvider.Instance.OnTileLoaded -= OnTileLoaded;
+                MapTileProvider.Instance.OnTileLoaded -= OnTileLoadedHandler;
                 MapTileProvider.Instance.OnProviderChanged -= RefreshAllTiles;
             }
         }
@@ -453,15 +453,15 @@ namespace ApexCitadels.Map
             rt.pivot = new Vector2(0, 1); // Top-left pivot
         }
 
-        private void OnTileLoaded(MapTile tile)
+        private void OnTileLoadedHandler(TileCoordinate coord, Texture2D texture)
         {
-            string key = tile.Key;
+            string key = coord.Key;
 
             if (_tileImages.TryGetValue(key, out RawImage tileImage))
             {
-                if (tile.Texture != null)
+                if (texture != null)
                 {
-                    tileImage.texture = tile.Texture;
+                    tileImage.texture = texture;
                     tileImage.color = Color.white;
                 }
             }

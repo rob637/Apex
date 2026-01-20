@@ -6,9 +6,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using ApexCitadels.PC;
-using ApexCitadels.PC.Environment;
-using ApexCitadels.PC.Visual;
 
 namespace ApexCitadels.Core
 {
@@ -139,14 +136,14 @@ namespace ApexCitadels.Core
         
         // Terrain systems
         private Map.MapboxTileRenderer _mapboxRenderer;
-        private ProceduralTerrain _proceduralTerrain;
+        private MonoBehaviour _proceduralTerrain;
         
         // Camera controllers
-        private PCCameraController _pcCameraController;
+        private MonoBehaviour _pcCameraController;
         
         // Atmosphere systems
-        private AtmosphericLighting _atmosphericLighting;
-        private SkyboxEnvironmentSystem _skyboxSystem;
+        private MonoBehaviour _atmosphericLighting;
+        private MonoBehaviour _skyboxSystem;
         
         // Track what we've disabled so we can re-enable
         private HashSet<MonoBehaviour> _disabledSystems = new HashSet<MonoBehaviour>();
@@ -201,17 +198,30 @@ namespace ApexCitadels.Core
             
             // Terrain
             _mapboxRenderer = FindFirstObjectByType<Map.MapboxTileRenderer>();
-            _proceduralTerrain = FindFirstObjectByType<ProceduralTerrain>();
+            _proceduralTerrain = FindFirstObjectByTypeName("ProceduralTerrain");
             
             // Camera controllers
-            _pcCameraController = FindFirstObjectByType<PCCameraController>();
+            _pcCameraController = FindFirstObjectByTypeName("PCCameraController");
             
             // Atmosphere
-            _atmosphericLighting = FindFirstObjectByType<AtmosphericLighting>();
-            _skyboxSystem = FindFirstObjectByType<SkyboxEnvironmentSystem>();
+            _atmosphericLighting = FindFirstObjectByTypeName("AtmosphericLighting");
+            _skyboxSystem = FindFirstObjectByTypeName("SkyboxEnvironmentSystem");
             
             // Log what we found
             LogDiscoveredSystems();
+        }
+        
+        /// <summary>
+        /// Find a MonoBehaviour by type name to avoid cross-assembly dependencies.
+        /// </summary>
+        private MonoBehaviour FindFirstObjectByTypeName(string typeName)
+        {
+            foreach (var mb in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+            {
+                if (mb.GetType().Name == typeName)
+                    return mb;
+            }
+            return null;
         }
         
         private void LogDiscoveredSystems()

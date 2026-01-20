@@ -17,12 +17,20 @@ namespace ApexCitadels.Audio
     /// </summary>
     public enum SFXCategory
     {
-        UI,         // Button clicks, panel opens
-        Combat,     // Attacks, hits, abilities
-        Building,   // Construction, upgrades
-        Environment,// Footsteps, doors, ambient objects
-        Notification,// Achievements, rewards
-        Voice       // Character voice lines
+        UI,           // Button clicks, panel opens
+        Combat,       // Attacks, hits, abilities
+        Building,     // Construction, upgrades
+        Environment,  // Footsteps, doors, ambient objects
+        Notification, // Achievements, rewards
+        Voice,        // Character voice lines
+        Resource,     // Resource collection
+        Social,       // Social interactions
+        Achievement,  // Achievement unlocks
+        Territory,    // Territory actions
+        Ambient,      // Ambient sounds
+        Explosion,    // Explosions
+        Music,        // Music cues
+        Misc          // Miscellaneous
     }
     
     /// <summary>

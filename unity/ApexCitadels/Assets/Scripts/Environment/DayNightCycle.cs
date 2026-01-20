@@ -112,9 +112,9 @@ namespace ApexCitadels.Environment
         private float _gameTimeHours;
         private bool _wasDaytime;
         
-        // Integration references
-        private FantasyAtmosphere _atmosphere;
-        private MapMagicParticles _particles;
+        // Integration references (using MonoBehaviour to avoid PC assembly dependency)
+        private MonoBehaviour _atmosphere;
+        private MonoBehaviour _particles;
         
         #endregion
         

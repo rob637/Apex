@@ -507,24 +507,7 @@ namespace ApexCitadels.Audio
         #endregion
     }
 
-    /// <summary>
-    /// Categories for sound effects
-    /// </summary>
-    public enum SFXCategory
-    {
-        Combat,
-        Building,
-        Resource,
-        UI,
-        Social,
-        Achievement,
-        Territory,
-        Ambient,
-        Voice,
-        Explosion,
-        Music,
-        Misc
-    }
+    // NOTE: SFXCategory enum is defined in AudioManager.cs to avoid duplication
 
     /// <summary>
     /// Priority levels for sound effects
