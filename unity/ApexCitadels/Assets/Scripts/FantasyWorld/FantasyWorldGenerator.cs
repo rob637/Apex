@@ -726,7 +726,7 @@ namespace ApexCitadels.FantasyWorld
             
             foreach (var road in roads)
             {
-                if (road.WorldPoints == null || road.WorldPoints.Count < 2) continue;
+                if (road.Points == null || road.Points.Count < 2) continue;
                 
                 GameObject roadObj = new GameObject($"Road_{count}");
                 roadObj.transform.SetParent(pathsParent);
@@ -736,16 +736,16 @@ namespace ApexCitadels.FantasyWorld
                 lr.useWorldSpace = false;
                 lr.alignment = LineAlignment.TransformZ;
                 
-                Vector3[] points = new Vector3[road.WorldPoints.Count];
-                for (int i = 0; i < road.WorldPoints.Count; i++)
+                Vector3[] points = new Vector3[road.Points.Count];
+                for (int i = 0; i < road.Points.Count; i++)
                 {
-                    points[i] = road.WorldPoints[i] + Vector3.up * 0.05f;
+                    points[i] = road.Points[i] + Vector3.up * 0.05f;
                 }
                 
                 lr.positionCount = points.Length;
                 lr.SetPositions(points);
                 
-                float width = road.RoadWidth > 0 ? road.RoadWidth : config.pathWidth;
+                float width = road.Width > 0 ? road.Width : config.pathWidth;
                 lr.widthMultiplier = width;
                 
                 var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
