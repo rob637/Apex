@@ -543,7 +543,12 @@ out skel qt;";
                         string json = request.downloadHandler.text;
                         
                         if (logRequests)
+                        {
                             ApexLogger.Log($"[OSM] Received {json.Length} bytes", ApexLogger.LogCategory.Map);
+                            // Log first 500 chars to see what we got
+                            string preview = json.Length > 500 ? json.Substring(0, 500) + "..." : json;
+                            ApexLogger.Log($"[OSM] Response preview: {preview}", ApexLogger.LogCategory.Map);
+                        }
                         
                         OSMAreaData data = ParseOverpassResponse(json);
                         data.Center = new Vector2((float)((south + north) / 2), (float)((west + east) / 2));

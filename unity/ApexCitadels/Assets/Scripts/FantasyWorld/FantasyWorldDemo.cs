@@ -16,11 +16,12 @@ namespace ApexCitadels.FantasyWorld
     public class FantasyWorldDemo : MonoBehaviour
     {
         [Header("Location")]
-        [Tooltip("Your home location")]
-        public double latitude = 38.8977;   // Vienna, VA area (Mashie Drive)
-        public double longitude = -77.2520;
+        [Tooltip("Your home location - 504 Mashie Drive, Vienna, VA")]
+        public double latitude = 38.9065;   // 504 Mashie Drive, Vienna, VA
+        public double longitude = -77.2477;
         
         [Header("Presets")]
+        [Tooltip("Select ViennaVA for 504 Mashie Drive")]
         public LocationPreset preset = LocationPreset.ViennaVA;
         
         [Header("Generation")]

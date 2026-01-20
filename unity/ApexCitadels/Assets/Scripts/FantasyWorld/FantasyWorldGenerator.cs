@@ -72,7 +72,8 @@ namespace ApexCitadels.FantasyWorld
     public class FantasyWorldConfig
     {
         [Header("Generation Area")]
-        public float radiusMeters = 500f;
+        [Tooltip("Radius in meters. 300-500m recommended for suburbs")]
+        public float radiusMeters = 300f;
         public float cellSize = 100f; // For chunked loading
         
         [Header("Building Settings")]
@@ -838,19 +839,23 @@ namespace ApexCitadels.FantasyWorld
             
             // Apply material to body
             var bodyRenderer = body.GetComponent<Renderer>();
-            var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+            var shader = Shader.Find("Universal Render Pipeline/Lit");
+            if (shader == null) shader = Shader.Find("Universal Render Pipeline/Simple Lit");
+            if (shader == null) shader = Shader.Find("Standard");
+            
             if (shader != null)
             {
                 var wallMat = new Material(shader);
                 wallMat.color = wallColor;
-                wallMat.SetFloat("_Smoothness", 0.1f);
+                if (wallMat.HasProperty("_Smoothness"))
+                    wallMat.SetFloat("_Smoothness", 0.1f);
                 bodyRenderer.material = wallMat;
             }
             else
             {
-                // Fallback: bright magenta so we can see it
-                bodyRenderer.material.color = Color.magenta;
-                Logger.LogWarning("No shader found for building material!", "FantasyWorld");
+                // Ultimate fallback: just set the color on whatever material is there
+                bodyRenderer.material.color = wallColor;
+                Logger.LogWarning("No URP shader found - using default material!", "FantasyWorld");
             }
             
             // Create peaked roof
