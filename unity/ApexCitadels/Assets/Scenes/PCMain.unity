@@ -14,19 +14,19 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
-  m_FogColor: {r: 0.6, g: 0.7, b: 0.8, a: 1}
-  m_FogMode: 1
-  m_FogDensity: 0.01
+  m_Fog: 0
+  m_FogColor: {r: 0.7, g: 0.8, b: 0.9, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.0005
   m_LinearFogStart: 200
   m_LinearFogEnd: 1500
-  m_AmbientSkyColor: {r: 0.5, g: 0.6, b: 0.8, a: 1}
-  m_AmbientEquatorColor: {r: 0.4, g: 0.45, b: 0.5, a: 1}
-  m_AmbientGroundColor: {r: 0.2, g: 0.2, b: 0.25, a: 1}
+  m_AmbientSkyColor: {r: 0.6, g: 0.7, b: 0.9, a: 1}
+  m_AmbientEquatorColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  m_AmbientGroundColor: {r: 0.3, g: 0.35, b: 0.3, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -35,7 +35,7 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0.5
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_UseRadianceAmbientProbe: 0
@@ -166,6 +166,98 @@ MonoBehaviour:
   enableInput: 1
   doubleClickTime: 0.3
   dragThreshold: 5
+--- !u!1 &101233194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 101233196}
+  - component: {fileID: 101233195}
+  m_Layer: 0
+  m_Name: MountPetPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &101233195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101233194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24452539aa65a5643b636ebc4ad5ba94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.MountPetPanel
+--- !u!4 &101233196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101233194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &148455873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 148455875}
+  - component: {fileID: 148455874}
+  m_Layer: 0
+  m_Name: AllianceWarRoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &148455874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148455873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25ec215ebfd143478acc2cf3523df80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.AllianceWarRoom
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  allyColor: {r: 0.2, g: 0.7, b: 0.4, a: 1}
+  enemyColor: {r: 0.8, g: 0.3, b: 0.3, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+--- !u!4 &148455875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148455873}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &151493920
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +334,164 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151493920}
   m_CullTransparentMesh: 1
+--- !u!1 &180824194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180824196}
+  - component: {fileID: 180824195}
+  m_Layer: 0
+  m_Name: VisualWorldManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &180824195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180824194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a606c893687378845b1b6612b7480188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.Visual.VisualWorldManager
+  enableTerrain: 1
+  enableSkybox: 1
+  enableCitadels: 1
+  enableAudio: 1
+  enablePostProcessing: 1
+--- !u!4 &180824196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180824194}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &210820267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210820269}
+  - component: {fileID: 210820268}
+  m_Layer: 0
+  m_Name: DailyRewardsUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &210820268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210820267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d52177b08a76764082a4fa8e08baa97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.DailyRewardsUI
+  rewardsPanel: {fileID: 0}
+  closeButton: {fileID: 0}
+  claimButton: {fileID: 0}
+  streakText: {fileID: 0}
+  nextRewardText: {fileID: 0}
+  streakProgressBar: {fileID: 0}
+  rewardsContainer: {fileID: 0}
+  rewardDayPrefab: {fileID: 0}
+  daysInCycle: 7
+  baseGoldReward: 100
+  streakMultiplier: 0.1
+  celebrationParticles: {fileID: 0}
+  screenFlash: {fileID: 0}
+  flashDuration: 0.3
+  flashColor: {r: 1, g: 0.84, b: 0, a: 0.5}
+--- !u!4 &210820269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210820267}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &217474595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 217474597}
+  - component: {fileID: 217474596}
+  m_Layer: 0
+  m_Name: SpectatorModePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &217474596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217474595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054008d50b8b6fa4daa2f2a97140f33f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.SpectatorModePanel
+  accentColor: {r: 0.9, g: 0.3, b: 0.3, a: 1}
+  panelColor: {r: 0.08, g: 0.08, b: 0.12, a: 0.9}
+  liveColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+  highlightColor: {r: 0.3, g: 0.5, b: 0.7, a: 1}
+  player1Color: {r: 0.3, g: 0.5, b: 0.9, a: 1}
+  player2Color: {r: 0.9, g: 0.4, b: 0.3, a: 1}
+--- !u!4 &217474597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217474595}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &219102790
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,6 +527,106 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &231499333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 231499335}
+  - component: {fileID: 231499334}
+  m_Layer: 0
+  m_Name: WorldMapPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &231499334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231499333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d13b96a622eae4f42aca63de8b2a892a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.WorldMapPanel
+  accentColor: {r: 0.3, g: 0.7, b: 0.5, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  allyColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  enemyColor: {r: 0.9, g: 0.3, b: 0.3, a: 1}
+  neutralColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  ownedColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
+--- !u!4 &231499335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231499333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &238421190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 238421192}
+  - component: {fileID: 238421191}
+  m_Layer: 0
+  m_Name: FirebaseWebClient
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &238421191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238421190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d65427c43ca7f248968b10590b53dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.WebGL.FirebaseWebClient
+  projectId: apex-citadels-dev
+  region: us-central1
+  useEmulator: 0
+  emulatorHost: localhost
+  emulatorPort: 5001
+  firestoreEmulatorPort: 8080
+--- !u!4 &238421192
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238421190}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &254046371
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +662,159 @@ RectTransform:
   m_AnchoredPosition: {x: 150, y: 0}
   m_SizeDelta: {x: 300, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &305933004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 305933006}
+  - component: {fileID: 305933005}
+  m_Layer: 0
+  m_Name: PCSceneBootstrapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &305933005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305933004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dcc06597f50a344896708a7493d9b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.PCSceneBootstrapper
+  autoSetup: 1
+  createUI: 1
+  createEnvironment: 1
+  skyColor: {r: 0.4, g: 0.6, b: 0.9, a: 1}
+  startHeight: 200
+  createLighting: 1
+  sunColor: {r: 1, g: 0.95, b: 0.8, a: 1}
+  sunIntensity: 1.2
+  createGround: 1
+  groundSize: 10000
+  groundColor: {r: 0.25, g: 0.4, b: 0.25, a: 1}
+  gameController: {fileID: 0}
+  cameraController: {fileID: 0}
+  inputManager: {fileID: 0}
+  worldMapRenderer: {fileID: 0}
+  baseEditor: {fileID: 0}
+  uiManager: {fileID: 0}
+--- !u!4 &305933006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305933004}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &316796851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 316796853}
+  - component: {fileID: 316796852}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &316796852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82417381f277eae438505e99863225d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.Core::UnityEngine.Rendering.Universal.Volume
+  profile: {fileID: 11400000, guid: 0e73c441661ee74488b9f6ddd3ab874c, type: 2}
+  isGlobal: 1
+  weight: 1
+  priority: 0
+--- !u!4 &316796853
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &344148738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 344148740}
+  - component: {fileID: 344148739}
+  m_Layer: 0
+  m_Name: TopBarHUD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &344148739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344148738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb54ba9526251cf4691e4f65cf82ae70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.TopBarHUD
+--- !u!4 &344148740
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344148738}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &366557705
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +850,56 @@ RectTransform:
   m_AnchoredPosition: {x: -150, y: 0}
   m_SizeDelta: {x: 300, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &374009811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374009813}
+  - component: {fileID: 374009812}
+  m_Layer: 0
+  m_Name: InventoryPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &374009812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374009811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b16c5af1da693848a551db9e65c87bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.InventoryPanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  legendaryColor: {r: 0.9, g: 0.6, b: 0.2, a: 1}
+  epicColor: {r: 0.6, g: 0.3, b: 0.9, a: 1}
+  rareColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  commonColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!4 &374009813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374009811}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &417352617
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +956,105 @@ MonoBehaviour:
   timelineSlider: {fileID: 0}
   playPauseButton: {fileID: 0}
   replayPanel: {fileID: 0}
+--- !u!1 &445762439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 445762441}
+  - component: {fileID: 445762440}
+  m_Layer: 0
+  m_Name: TechTreePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &445762440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445762439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e902b494f8eda4fbb81174d4b7484a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.TechTreePanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  unlockedColor: {r: 0.3, g: 0.7, b: 0.3, a: 1}
+  lockedColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  researchingColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+--- !u!4 &445762441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445762439}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &473035041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473035043}
+  - component: {fileID: 473035042}
+  m_Layer: 0
+  m_Name: BarracksPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &473035042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473035041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63147191f93c38544b546c5065cca507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.BarracksPanel
+  baseTrainingTime: 10
+  maxQueueSize: 20
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  stoneColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  woodColor: {r: 0.6, g: 0.4, b: 0.2, a: 1}
+  progressColor: {r: 0.3, g: 0.7, b: 0.3, a: 1}
+--- !u!4 &473035043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473035041}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &491942029
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +1105,81 @@ MonoBehaviour:
   splashMinDuration: 2
   enableDebugMode: 0
   skipAuthentication: 0
+--- !u!1 &497530457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 497530458}
+  - component: {fileID: 497530460}
+  - component: {fileID: 497530459}
+  m_Layer: 0
+  m_Name: CenterPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &497530458
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497530457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 629818828}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 600, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &497530459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497530457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1, g: 0.1, b: 0.15, a: 0.85}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &497530460
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497530457}
+  m_CullTransparentMesh: 1
 --- !u!1 &509158309
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +1210,54 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1746170588}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &510075985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510075987}
+  - component: {fileID: 510075986}
+  m_Layer: 0
+  m_Name: ResourceCollectionPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &510075986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510075985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f68433492a1ca564ca1285af2b147825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.ResourceCollectionPanel
+  accentColor: {r: 0.4, g: 0.75, b: 0.4, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  warningColor: {r: 0.9, g: 0.6, b: 0.2, a: 1}
+  dangerColor: {r: 0.9, g: 0.3, b: 0.3, a: 1}
+--- !u!4 &510075987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510075985}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &511903608
@@ -563,21 +1338,78 @@ MonoBehaviour:
   tileSize: 100
   viewRadius: 5
   updateInterval: 1
-  ownedTerritoryMaterial: {fileID: 0}
-  enemyTerritoryMaterial: {fileID: 0}
-  allianceTerritoryMaterial: {fileID: 0}
-  neutralTerritoryMaterial: {fileID: 0}
-  contestedTerritoryMaterial: {fileID: 0}
-  groundMaterial: {fileID: 0}
+  use3DModels: 1
+  modelScale: 5
+  ownedTerritoryMaterial: {fileID: 2100000, guid: e9fe1818ee6b59e458d29cc6c574463b, type: 2}
+  enemyTerritoryMaterial: {fileID: 2100000, guid: f9bdee44b28ab5a4cb6d6fdbf8fc1f34, type: 2}
+  allianceTerritoryMaterial: {fileID: 2100000, guid: 827e99e80a1458a4cb0a9bf02964c2e1, type: 2}
+  neutralTerritoryMaterial: {fileID: 2100000, guid: d97031022b911e447ab508f55c93e368, type: 2}
+  contestedTerritoryMaterial: {fileID: 2100000, guid: 142379950d731a34494970a79c7cadce, type: 2}
+  groundMaterial: {fileID: 2100000, guid: c8fd123137c6818468c7f6cb4d41f6a2, type: 2}
   waterColor: {r: 0.2, g: 0.4, b: 0.8, a: 1}
   landColor: {r: 0.3, g: 0.5, b: 0.3, a: 1}
   gridLineWidth: 0.5
   showGridLines: 1
-  territoryMarkerPrefab: {fileID: 0}
+  territoryMarkerPrefab: {fileID: 1115442172827059090, guid: 7ffa882f0d9cc2946bfbac5d91c1bdd5, type: 3}
   playerMarkerPrefab: {fileID: 0}
   resourceMarkerPrefab: {fileID: 0}
   eventMarkerPrefab: {fileID: 0}
   markerHoverHeight: 5
+  territoriesContainer: {fileID: 1552669625}
+--- !u!1 &546531347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546531349}
+  - component: {fileID: 546531348}
+  m_Layer: 0
+  m_Name: WorldEnvironment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &546531348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546531347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca5261ee8ee7564ea9bb58ca8932014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.Environment.WorldEnvironmentManager
+  terrainMode: 1
+  fallbackToProcedural: 1
+  enableTerrain: 1
+  enableAtmosphere: 1
+  enableEnhancedTerritories: 1
+  enableAAAEffects: 1
+  enableEnvironmentalProps: 1
+  enableTerritoryEffects: 1
+  createDemoTerritories: 1
+  demoTerritoryCount: 25
+--- !u!4 &546531349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546531347}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &559614866
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,6 +1445,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 40}
   m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &574340423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 574340425}
+  - component: {fileID: 574340424}
+  m_Layer: 0
+  m_Name: ReplaySystemPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &574340424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574340423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2edd619035846d94fa5477dce8af39fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.ReplaySystemPanel
+--- !u!4 &574340425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574340423}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592933685
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +1520,105 @@ Transform:
   m_Children:
   - {fileID: 629818828}
   - {fileID: 1746816815}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &615254113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615254115}
+  - component: {fileID: 615254114}
+  m_Layer: 0
+  m_Name: ChatPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &615254114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615254113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8155152272b445e44ba4b9dd7a78cc9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.ChatPanel
+  maxMessages: 100
+  messageTimeout: 300
+  worldColor: {r: 1, g: 1, b: 1, a: 1}
+  allianceColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
+  privateColor: {r: 0.8, g: 0.5, b: 0.9, a: 1}
+  systemColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+--- !u!4 &615254115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615254113}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &626508976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 626508978}
+  - component: {fileID: 626508977}
+  m_Layer: 0
+  m_Name: DiplomacyPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &626508977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626508976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b597dffc69391504eab45a96ac7099fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.DiplomacyPanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  allyColor: {r: 0.3, g: 0.7, b: 0.3, a: 1}
+  neutralColor: {r: 0.7, g: 0.7, b: 0.5, a: 1}
+  hostileColor: {r: 0.8, g: 0.3, b: 0.3, a: 1}
+  warColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+--- !u!4 &626508978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626508976}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629818827
@@ -684,6 +1659,7 @@ RectTransform:
   - {fileID: 366557706}
   - {fileID: 219102791}
   - {fileID: 1485757439}
+  - {fileID: 497530458}
   m_Father: {fileID: 592933686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -703,15 +1679,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f18dce1905d697418c6f162f4b3c512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.PCUIManager
-  mainMenuPanel: {fileID: 0}
+  mainMenuPanel: {fileID: 522936383053198124, guid: 634bfd6bcbd6a154186a5ff275791e0a, type: 3}
   worldMapPanel: {fileID: 0}
-  territoryDetailPanel: {fileID: 0}
-  alliancePanel: {fileID: 0}
-  buildMenuPanel: {fileID: 0}
-  inventoryPanel: {fileID: 0}
-  statisticsPanel: {fileID: 0}
-  settingsPanel: {fileID: 0}
-  chatPanel: {fileID: 0}
+  territoryDetailPanel: {fileID: 3240334547905970429, guid: c0fa3dbdacc2ef645bad90b4d781a181, type: 3}
+  alliancePanel: {fileID: 5403090230631388535, guid: 408a6da7aada1b2459ad4d5e3329c24e, type: 3}
+  buildMenuPanel: {fileID: 8794530366475963861, guid: aa0fd66a55fc79742b0776ad10c0250a, type: 3}
+  inventoryPanel: {fileID: 2311682673271347811, guid: 499ec7057302f5f42ba2bd3dbb85b401, type: 3}
+  statisticsPanel: {fileID: 1735938372833150578, guid: e498e75ec45a18a4382e5a44a4aff389, type: 3}
+  settingsPanel: {fileID: 7825742866405817275, guid: c28df5cc9c9940f4daaebbb580479192, type: 3}
+  chatPanel: {fileID: 1838495632744817538, guid: 6ebc0b22bbe83b74bb169fbe25400f91, type: 3}
   resourceBar: {fileID: 0}
   minimap: {fileID: 0}
   notificationArea: {fileID: 0}
@@ -791,6 +1767,215 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &651419534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651419536}
+  - component: {fileID: 651419535}
+  m_Layer: 0
+  m_Name: QuestPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &651419535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651419534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7842d6c90b008c7409a841d63ef07fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.QuestPanel
+  dailyQuestCount: 5
+  weeklyQuestCount: 3
+  dailyColor: {r: 0.3, g: 0.7, b: 0.3, a: 1}
+  weeklyColor: {r: 0.3, g: 0.5, b: 0.8, a: 1}
+  storyColor: {r: 0.8, g: 0.6, b: 0.2, a: 1}
+  completedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  progressColor: {r: 0.2, g: 0.8, b: 0.3, a: 1}
+--- !u!4 &651419536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651419534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &676360929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676360931}
+  - component: {fileID: 676360930}
+  m_Layer: 0
+  m_Name: CosmeticsPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &676360930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676360929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b53472e9d3444fb4c8bc2ab7e47cf35d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.CosmeticsPanel
+  accentColor: {r: 0.8, g: 0.4, b: 0.8, a: 1}
+  panelColor: {r: 0.1, g: 0.1, b: 0.15, a: 0.95}
+  commonColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  rareColor: {r: 0.3, g: 0.5, b: 0.9, a: 1}
+  epicColor: {r: 0.7, g: 0.3, b: 0.9, a: 1}
+  legendaryColor: {r: 1, g: 0.6, b: 0.1, a: 1}
+  ownedColor: {r: 0.3, g: 0.6, b: 0.3, a: 1}
+  lockedColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+--- !u!4 &676360931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676360929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &712764362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 712764364}
+  - component: {fileID: 712764363}
+  m_Layer: 0
+  m_Name: VIPPremiumPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &712764363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712764362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0258ed94ce2c6e41aa24dcbd94c0a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.VIPPremiumPanel
+--- !u!4 &712764364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712764362}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &724323672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 724323674}
+  - component: {fileID: 724323673}
+  m_Layer: 0
+  m_Name: PCResourceSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &724323673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724323672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca866070fc06e04a94c1ebeaa91e470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.PCResourceSystem
+  tickInterval: 10
+  goldPerTick: 5
+  stonePerTick: 3
+  woodPerTick: 4
+  ironPerTick: 1
+  crystalPerTick: 0.5
+  maxGold: 10000
+  maxStone: 5000
+  maxWood: 5000
+  maxIron: 2000
+  maxCrystal: 1000
+  goldText: {fileID: 0}
+  stoneText: {fileID: 0}
+  woodText: {fileID: 0}
+  ironText: {fileID: 0}
+  crystalText: {fileID: 0}
+  showTickEffects: 1
+  resourceGainPrefab: {fileID: 0}
+--- !u!4 &724323674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724323672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &735606549
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,6 +2006,63 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1551158644}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &788523439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 788523441}
+  - component: {fileID: 788523440}
+  m_Layer: 0
+  m_Name: VisualEnhancements
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &788523440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788523439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9252dca0127f3345bb6bfe0874aabb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.VisualEnhancements
+  skyTop: {r: 0.2, g: 0.35, b: 0.7, a: 1}
+  skyMiddle: {r: 0.5, g: 0.65, b: 0.9, a: 1}
+  skyBottom: {r: 0.7, g: 0.8, b: 0.95, a: 1}
+  horizonColor: {r: 1, g: 0.95, b: 0.85, a: 1}
+  groundBaseColor: {r: 0.15, g: 0.4, b: 0.2, a: 1}
+  gridLineColor: {r: 0.2, g: 0.5, b: 0.25, a: 1}
+  gridSize: 50
+  gridLineWidth: 1
+  fogColor: {r: 0.7, g: 0.8, b: 0.9, a: 1}
+  fogDensity: 0.001
+  enableFog: 1
+  enableAmbientParticles: 1
+  particleCount: 200
+--- !u!4 &788523441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788523439}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &899363517
 GameObject:
@@ -869,6 +2111,122 @@ MonoBehaviour:
   dataRefreshInterval: 5
   maxVisibleTerritories: 100
   loadRadius: 50000
+--- !u!1 &950045445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 950045447}
+  - component: {fileID: 950045446}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &950045446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950045445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aee6671349c6c8f4594bb517b5d184fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.Core::ApexCitadels.Audio.AudioManager
+  masterMixer: {fileID: 0}
+  masterGroup: {fileID: 0}
+  musicGroup: {fileID: 0}
+  sfxGroup: {fileID: 0}
+  ambientGroup: {fileID: 0}
+  uiGroup: {fileID: 0}
+  voiceGroup: {fileID: 0}
+  masterVolumeParam: MasterVolume
+  musicVolumeParam: MusicVolume
+  sfxVolumeParam: SFXVolume
+  ambientVolumeParam: AmbientVolume
+  uiVolumeParam: UIVolume
+  voiceVolumeParam: VoiceVolume
+  musicSource: {fileID: 0}
+  ambientSource: {fileID: 0}
+  uiSource: {fileID: 0}
+  loadClipsOnStart: 1
+  sfxResourcePath: Audio/SFX
+  musicResourcePath: Audio/Music
+  ambientResourcePath: Audio/Ambient
+  default3DMinDistance: 1
+  default3DMaxDistance: 50
+  musicCrossfadeDuration: 2
+  ambientCrossfadeDuration: 3
+--- !u!4 &950045447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950045445}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &992735575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992735577}
+  - component: {fileID: 992735576}
+  m_Layer: 0
+  m_Name: SocialHubPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &992735576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992735575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c50db5aa59ef54c85c79cd1ba67d88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.SocialHubPanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  onlineColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
+  offlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+--- !u!4 &992735577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992735575}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1067190993
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,6 +2289,100 @@ MonoBehaviour:
   gridColor: {r: 1, g: 1, b: 1, a: 0.2}
   gridHighlightColor: {r: 0, g: 1, b: 0, a: 0.5}
   buildingPrefabs: []
+--- !u!1 &1182556123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1182556125}
+  - component: {fileID: 1182556124}
+  m_Layer: 0
+  m_Name: BlueprintEditorPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1182556124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182556123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e5b20a2f2779945812ceb8bad3f0fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.BlueprintEditorPanel
+--- !u!4 &1182556125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182556123}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1206854572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1206854574}
+  - component: {fileID: 1206854573}
+  m_Layer: 0
+  m_Name: HeroPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1206854573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206854572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff2bf22a216447448c2479fe03e8a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.HeroPanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  legendaryColor: {r: 0.9, g: 0.6, b: 0.2, a: 1}
+  epicColor: {r: 0.6, g: 0.3, b: 0.9, a: 1}
+  rareColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  commonColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!4 &1206854574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1206854572}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1222138541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +2482,7 @@ GameObject:
   - component: {fileID: 1273981420}
   - component: {fileID: 1273981419}
   m_Layer: 0
-  m_Name: PCCameraRig
+  m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1084,8 +2536,8 @@ Camera:
   m_GameObject: {fileID: 1273981418}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.5, g: 0.7, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1106,8 +2558,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 2000
+  near clip plane: 0.3
+  far clip plane: 5000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1134,8 +2586,253 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1273981418}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 100, z: -50}
+  m_LocalRotation: {x: 0.57357645, y: 0, z: 0, w: 0.81915206}
+  m_LocalPosition: {x: 0, y: 200, z: -100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1289521433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1289521435}
+  - component: {fileID: 1289521434}
+  m_Layer: 0
+  m_Name: QuickActionBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1289521434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289521433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc95bcb243743b4eb78ebc47cde74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.QuickActionBar
+  cooldownDuration: 5
+--- !u!4 &1289521435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289521433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1292594094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1292594096}
+  - component: {fileID: 1292594095}
+  m_Layer: 0
+  m_Name: TutorialSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1292594095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292594094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc837ef362c0684495bd6c91f0c2309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.TutorialSystem
+  highlightColor: {r: 0.3, g: 0.7, b: 1, a: 0.8}
+  tooltipBgColor: {r: 0.1, g: 0.1, b: 0.15, a: 0.95}
+--- !u!4 &1292594096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292594094}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1301332493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1301332495}
+  - component: {fileID: 1301332494}
+  m_Layer: 0
+  m_Name: WeatherSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1301332494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301332493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3feda11278a804aa533deb44c79a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.WeatherSystem
+  weatherCheckInterval: 300
+  transitionDuration: 30
+  enableDynamicWeather: 1
+  rainParticles: {fileID: 0}
+  snowParticles: {fileID: 0}
+  fogParticles: {fileID: 0}
+  dustParticles: {fileID: 0}
+  lightningFlash: {fileID: 0}
+  weatherAudioSource: {fileID: 0}
+  rainSound: {fileID: 0}
+  thunderSound: {fileID: 0}
+  windSound: {fileID: 0}
+  snowAmbience: {fileID: 0}
+  sunLight: {fileID: 0}
+  fogDensityMultiplier: 1
+--- !u!4 &1301332495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301332493}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1404959836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1404959838}
+  - component: {fileID: 1404959837}
+  m_Layer: 0
+  m_Name: SkyboxEnvironmentSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1404959837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404959836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8caead5751f60d46956074dd1763a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.Visual.SkyboxEnvironmentSystem
+  dayDuration: 600
+  currentTimeOfDay: 0.3
+  enableDayNightCycle: 1
+--- !u!4 &1404959838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404959836}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1429537927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1429537929}
+  - component: {fileID: 1429537928}
+  m_Layer: 0
+  m_Name: BuildingUpgradePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1429537928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429537927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc14c7c081cb124c88e3218f6c168be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.BuildingUpgradePanel
+  accentColor: {r: 0.4, g: 0.6, b: 0.8, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  upgradeColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
+  maxLevelColor: {r: 0.8, g: 0.6, b: 0.2, a: 1}
+--- !u!4 &1429537929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429537927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1353,6 +3050,105 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1485757438}
   m_CullTransparentMesh: 1
+--- !u!1 &1501872436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501872438}
+  - component: {fileID: 1501872437}
+  m_Layer: 0
+  m_Name: MailSystemPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1501872437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501872436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19842e3f5deb111489f1962dc62593f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.MailSystemPanel
+  accentColor: {r: 0.4, g: 0.6, b: 0.9, a: 1}
+  panelColor: {r: 0.12, g: 0.12, b: 0.18, a: 0.95}
+  unreadColor: {r: 0.3, g: 0.5, b: 0.8, a: 1}
+  readColor: {r: 0.2, g: 0.2, b: 0.25, a: 1}
+  systemColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+  attachmentColor: {r: 0.3, g: 0.7, b: 0.4, a: 1}
+--- !u!4 &1501872438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501872436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1506959072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1506959074}
+  - component: {fileID: 1506959073}
+  m_Layer: 0
+  m_Name: AchievementPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1506959073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506959072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16195f6d7029008409d61671dc6d8702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.AchievementPanel
+  bronzeColor: {r: 0.8, g: 0.5, b: 0.2, a: 1}
+  silverColor: {r: 0.75, g: 0.75, b: 0.8, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  platinumColor: {r: 0.9, g: 0.9, b: 1, a: 1}
+  lockedColor: {r: 0.3, g: 0.3, b: 0.35, a: 1}
+--- !u!4 &1506959074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506959072}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1518312208
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,13 +3193,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc18069fe7c816e42abbf9a2f2ac7791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.PCGameController
-  cameraController: {fileID: 0}
-  inputManager: {fileID: 0}
-  worldMapRenderer: {fileID: 0}
-  baseEditor: {fileID: 0}
-  uiManager: {fileID: 0}
+  cameraController: {fileID: 1273981419}
+  inputManager: {fileID: 90883056}
+  worldMapRenderer: {fileID: 533556927}
+  baseEditor: {fileID: 1067190995}
+  uiManager: {fileID: 629818829}
   autoInitialize: 1
   showWelcomeScreen: 1
+--- !u!1 &1533313871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1533313873}
+  - component: {fileID: 1533313872}
+  m_Layer: 0
+  m_Name: PlayerProfilePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1533313872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533313871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ae036eabdb6df41bd28b00c1fbb257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.PlayerProfilePanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  activeTabColor: {r: 0.2, g: 0.4, b: 0.6, a: 1}
+--- !u!4 &1533313873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533313871}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1551158643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,6 +3312,345 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1551158644}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1555765393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1555765395}
+  - component: {fileID: 1555765394}
+  m_Layer: 0
+  m_Name: WebGLBridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1555765394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555765393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965f4880e6237c1489d352e3c3d4464e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.WebGL.WebGLBridgeComponent
+--- !u!4 &1555765395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555765393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1579443309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1579443311}
+  - component: {fileID: 1579443310}
+  m_Layer: 0
+  m_Name: CombatPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1579443310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579443309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c81b5f5629c9d43aa09e571d51f076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.CombatPanel
+  battleSimulationSpeed: 1
+  maxTroopsPerAttack: 50
+  attackerColor: {r: 0.2, g: 0.8, b: 0.3, a: 1}
+  defenderColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
+  victoryColor: {r: 1, g: 0.84, b: 0, a: 1}
+  defeatColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!4 &1579443311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579443309}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1592379700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1592379702}
+  - component: {fileID: 1592379701}
+  m_Layer: 0
+  m_Name: BuildingModelProvider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1592379701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592379700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06211138ff0c24e41a6ea2b0b9c19602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.Core::ApexCitadels.Building.BuildingModelProvider
+  assetDatabase: {fileID: 0}
+  useFallbackPrimitives: 1
+  fallbackMaterial: {fileID: 0}
+  defaultScale: 1
+  randomizeScale: 1
+  scaleVariation: {x: 0.9, y: 1.1}
+--- !u!4 &1592379702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592379700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1605939913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605939915}
+  - component: {fileID: 1605939914}
+  m_Layer: 0
+  m_Name: GuildManagementPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1605939914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605939913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6d6c9e6d5a5bf49918e39d308f1f39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.GuildManagementPanel
+  accentColor: {r: 0.4, g: 0.7, b: 0.3, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  officerColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  leaderColor: {r: 0.9, g: 0.6, b: 0.2, a: 1}
+--- !u!4 &1605939915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605939913}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1662853971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662853973}
+  - component: {fileID: 1662853972}
+  m_Layer: 0
+  m_Name: DailyChallengesPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1662853972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662853971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef23646d9bba654e9d9f52e5b70f8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.DailyChallengesPanel
+  accentColor: {r: 0.9, g: 0.65, b: 0.2, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  completedColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
+  lockedColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+--- !u!4 &1662853973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662853971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1710768713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1710768715}
+  - component: {fileID: 1710768714}
+  m_Layer: 0
+  m_Name: LeaderboardPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1710768714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710768713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47dd27f2572fe24439e029d4c7a640d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.LeaderboardPanel
+  displayCount: 10
+  refreshInterval: 30
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  silverColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+  bronzeColor: {r: 0.8, g: 0.5, b: 0.2, a: 1}
+  selfHighlight: {r: 0.2, g: 0.5, b: 0.8, a: 0.3}
+--- !u!4 &1710768715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710768713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1719427929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719427931}
+  - component: {fileID: 1719427930}
+  m_Layer: 0
+  m_Name: AuctionHousePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1719427930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719427929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1086a4b8bba8b849a9b2a76c18dfc17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.AuctionHousePanel
+  accentColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+  panelColor: {r: 0.12, g: 0.12, b: 0.18, a: 0.95}
+  buyColor: {r: 0.3, g: 0.7, b: 0.4, a: 1}
+  sellColor: {r: 0.8, g: 0.4, b: 0.3, a: 1}
+  highlightColor: {r: 0.3, g: 0.35, b: 0.5, a: 1}
+--- !u!4 &1719427931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719427929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1746170587
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,8 +3663,9 @@ GameObject:
   - component: {fileID: 1746170589}
   - component: {fileID: 1746170590}
   - component: {fileID: 1746170591}
+  - component: {fileID: 1746170592}
   m_Layer: 0
-  m_Name: Sun
+  m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1513,7 +3696,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.95, b: 0.9, a: 1}
+  m_Color: {r: 1, g: 0.96, b: 0.88, a: 1}
   m_Intensity: 1.2
   m_Range: 10
   m_SpotAngle: 30
@@ -1523,7 +3706,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.8
+    m_Strength: 0.7
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1612,6 +3795,257 @@ MonoBehaviour:
   syncWithRealTime: 1
   timeScale: 100
   updateInterval: 60
+  useOverrideTime: 0
+  overrideHour: 12
+  sunColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  sunIntensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  daySkyColor: {r: 0.4, g: 0.6, b: 0.9, a: 1}
+  sunsetSkyColor: {r: 0.9, g: 0.5, b: 0.3, a: 1}
+  nightSkyColor: {r: 0.05, g: 0.05, b: 0.15, a: 1}
+  dayAmbient: {r: 0.6, g: 0.7, b: 0.8, a: 1}
+  nightAmbient: {r: 0.1, g: 0.1, b: 0.2, a: 1}
+--- !u!114 &1746170592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746170587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1acb9cc288a8d4b81c9451f1cbcac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.Core::ApexCitadels.Environment.DayNightCycle
+  enableCycle: 1
+  timeMode: 0
+  currentTime: 12
+  dayLengthMinutes: 24
+  timeScale: 1
+  updateInterval: 0.5
+  useOverrideTime: 0
+  overrideHour: 12
+  sunLight: {fileID: 0}
+  sunIntensityDay: 1.2
+  sunIntensityNight: 0.05
+  sunColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  sunIntensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  moonLight: {fileID: 0}
+  moonIntensity: 0.15
+  moonColor: {r: 0.7, g: 0.8, b: 1, a: 1}
+  ambientColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  fogColorGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  fogDensityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fogDensityMultiplier: 0.01
+  skyboxMaterial: {fileID: 0}
+  skyTintGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  horizonGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  atmosphereThicknessCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  starSystem: {fileID: 0}
+  starVisibilityCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  starFadeSpeed: 2
+  starCount: 500
+  syncAtmosphere: 1
+  syncParticles: 1
+  syncVisualEnhancements: 1
 --- !u!1 &1746816814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,6 +4114,210 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &1795824675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1795824677}
+  - component: {fileID: 1795824676}
+  m_Layer: 0
+  m_Name: TournamentPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1795824676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795824675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdcc242003efc6e4ea2e9fb020ffb69b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.TournamentPanel
+  accentColor: {r: 0.85, g: 0.5, b: 0.2, a: 1}
+  panelColor: {r: 0.1, g: 0.1, b: 0.15, a: 0.95}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  silverColor: {r: 0.75, g: 0.75, b: 0.8, a: 1}
+  bronzeColor: {r: 0.8, g: 0.5, b: 0.2, a: 1}
+  winColor: {r: 0.3, g: 0.7, b: 0.3, a: 1}
+  loseColor: {r: 0.7, g: 0.3, b: 0.3, a: 1}
+--- !u!4 &1795824677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795824675}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1806094497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1806094499}
+  - component: {fileID: 1806094498}
+  m_Layer: 0
+  m_Name: WorldEventsPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1806094498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806094497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013479a080d731046a8ba30eb7bcca72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.WorldEventsPanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  urgentColor: {r: 0.9, g: 0.3, b: 0.3, a: 1}
+  rareColor: {r: 0.6, g: 0.3, b: 0.9, a: 1}
+--- !u!4 &1806094499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806094497}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1806557029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1806557031}
+  - component: {fileID: 1806557030}
+  m_Layer: 0
+  m_Name: SeasonPassPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1806557030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806557029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd14c6b9f30c194d80ad276bb38774e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.SeasonPassPanel
+  seasonName: 'Season 1: Rise of Citadels'
+  totalTiers: 100
+  xpPerTier: 1000
+  freeTrackColor: {r: 0.4, g: 0.6, b: 0.4, a: 1}
+  premiumTrackColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+  lockedColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  claimedColor: {r: 0.2, g: 0.8, b: 0.2, a: 1}
+--- !u!4 &1806557031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806557029}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1862778841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1862778843}
+  - component: {fileID: 1862778842}
+  m_Layer: 0
+  m_Name: ActivityFeedPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1862778842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862778841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adbb9d69eccc8964f963c8ca7d4284b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.ActivityFeedPanel
+  maxEntries: 20
+  entryLifetime: 60
+  fadeOutDuration: 2
+  entriesContainer: {fileID: 0}
+  scrollRect: {fileID: 0}
+  attackColor: {r: 1, g: 0.5, b: 0.3, a: 1}
+  defenseColor: {r: 0.3, g: 0.7, b: 1, a: 1}
+  conquestColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+  allianceColor: {r: 0.5, g: 0.8, b: 0.5, a: 1}
+  achievementColor: {r: 0.9, g: 0.6, b: 0.9, a: 1}
+--- !u!4 &1862778843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862778841}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1879664093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,6 +4362,150 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b25fd55d011b3c41a9524eadf080714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.WebGL.WebGLBridge
+--- !u!1 &1905396198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1905396200}
+  - component: {fileID: 1905396199}
+  m_Layer: 0
+  m_Name: SettingsPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1905396199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905396198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9dd3d793af922e49badce346961131d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.SettingsPanel
+  accentColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  activeTabColor: {r: 0.2, g: 0.4, b: 0.6, a: 1}
+--- !u!4 &1905396200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905396198}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1934087136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1934087138}
+  - component: {fileID: 1934087137}
+  m_Layer: 0
+  m_Name: NotificationSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1934087137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934087136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7795a66524ee56e4d8a67fc836639dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.NotificationSystem
+  defaultDuration: 4
+  fadeOutDuration: 0.5
+  maxVisibleNotifications: 5
+  infoColor: {r: 0.3, g: 0.6, b: 0.9, a: 1}
+  successColor: {r: 0.2, g: 0.7, b: 0.3, a: 1}
+  warningColor: {r: 0.9, g: 0.7, b: 0.2, a: 1}
+  errorColor: {r: 0.8, g: 0.3, b: 0.3, a: 1}
+  resourceColor: {r: 0.9, g: 0.8, b: 0.2, a: 1}
+  combatColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
+  allianceColor: {r: 0.5, g: 0.3, b: 0.8, a: 1}
+--- !u!4 &1934087138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934087136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1943551130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1943551132}
+  - component: {fileID: 1943551131}
+  m_Layer: 0
+  m_Name: SiegeWarfarePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1943551131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943551130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abedbb131e5e084abf21e1bd347955f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.SiegeWarfarePanel
+--- !u!4 &1943551132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943551130}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950622227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,6 +4537,321 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2027569347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2027569349}
+  - component: {fileID: 2027569348}
+  m_Layer: 0
+  m_Name: PvPArenaPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2027569348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027569347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf34c55ab6a99c9438ea3d7202b90f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.PvPArenaPanel
+  accentColor: {r: 0.9, g: 0.3, b: 0.3, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  silverColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+  bronzeColor: {r: 0.8, g: 0.5, b: 0.2, a: 1}
+  championColor: {r: 0.9, g: 0.2, b: 0.9, a: 1}
+--- !u!4 &2027569349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027569347}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2029259449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2029259451}
+  - component: {fileID: 2029259450}
+  m_Layer: 0
+  m_Name: SpyIntelligencePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2029259450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029259449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca187703bb4fa84791fd8a51757500b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.SpyIntelligencePanel
+  accentColor: {r: 0.5, g: 0.3, b: 0.7, a: 1}
+  goldColor: {r: 1, g: 0.84, b: 0, a: 1}
+  successColor: {r: 0.3, g: 0.8, b: 0.3, a: 1}
+  dangerColor: {r: 0.9, g: 0.3, b: 0.3, a: 1}
+  warningColor: {r: 0.9, g: 0.6, b: 0.2, a: 1}
+--- !u!4 &2029259451
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029259449}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2082893084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2082893086}
+  - component: {fileID: 2082893085}
+  m_Layer: 0
+  m_Name: MiniMapPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2082893085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082893084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94594218b65e6c3479dfbeec243e4768, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.UI.MiniMapPanel
+  mapSize: 200
+  worldSize: 1000
+  pingDuration: 3
+  ownedColor: {r: 0.2, g: 0.8, b: 0.2, a: 1}
+  enemyColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
+  neutralColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  allyColor: {r: 0.2, g: 0.5, b: 0.8, a: 1}
+  playerMarkerColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!4 &2082893086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082893084}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2123505993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2123505997}
+  - component: {fileID: 2123505996}
+  - component: {fileID: 2123505995}
+  - component: {fileID: 2123505994}
+  m_Layer: 0
+  m_Name: GeoMapSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2123505994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123505993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca3e42644f827e40a06a3adc3021a37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.GeoMapping.OSMDataPipeline
+  overpassApiUrl: https://overpass-api.de/api/interpreter
+  requestTimeout: 30
+  minTimeBetweenRequests: 1
+  defaultQueryRadius: 500
+  maxBuildingsPerQuery: 500
+  maxRoadsPerQuery: 200
+  enableCaching: 1
+  cacheExpirationHours: 24
+  debugLogging: 1
+--- !u!114 &2123505995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123505993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa5b9e4f7bc6684eb067f703ce92beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.GeoMapping.MapTileProvider
+  config:
+    Provider: 4
+    Style: 0
+    TileSize: 256
+    MinZoom: 1
+    MaxZoom: 19
+    CacheMaxTiles: 500
+    RequestTimeoutSeconds: 10
+    MapboxAccessToken: 
+    CustomUrlTemplate: 
+  showDebugInfo: 0
+--- !u!114 &2123505996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123505993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1642e021dff2db42b4f4463aaed1448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.GeoMapping.RealWorldMapRenderer
+  startLocation:
+    Latitude: 38.8951
+    Longitude: -77.0364
+    Altitude: 0
+  defaultZoom: 16
+  minZoom: 10
+  maxZoom: 19
+  tilesPerDirection: 5
+  tileWorldSize: 100
+  mapHeight: 0
+  enableShadowReceive: 1
+  mapTileMaterial: {fileID: 0}
+  territoryHeight: 5
+  showTerritoryBoundaries: 1
+  showTerritoryLabels: 1
+  boundaryLineWidth: 2
+  panSpeed: 50
+  zoomSpeed: 2
+  minCameraHeight: 50
+  maxCameraHeight: 2000
+  ownedColor: {r: 0.2, g: 0.8, b: 0.3, a: 0.6}
+  allianceColor: {r: 0.2, g: 0.5, b: 0.9, a: 0.6}
+  enemyColor: {r: 0.9, g: 0.2, b: 0.2, a: 0.6}
+  neutralColor: {r: 0.7, g: 0.7, b: 0.7, a: 0.4}
+  contestedColor: {r: 0.9, g: 0.7, b: 0.1, a: 0.6}
+--- !u!4 &2123505997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123505993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2128288602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2128288604}
+  - component: {fileID: 2128288603}
+  m_Layer: 0
+  m_Name: BuildingModelProvider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2128288603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128288602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a345d3a91ad624fbeab983c1f735da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ApexCitadels.PC::ApexCitadels.PC.Buildings.BuildingModelProvider
+  assetDatabase: {fileID: 0}
+  useFallbackPrimitives: 1
+  fallbackMaterial: {fileID: 0}
+  defaultScale: 1
+  randomizeScale: 1
+  scaleVariation: {x: 0.9, y: 1.1}
+--- !u!4 &2128288604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128288602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1766,3 +4863,57 @@ SceneRoots:
   - {fileID: 1273981422}
   - {fileID: 509158310}
   - {fileID: 1879664094}
+  - {fileID: 238421192}
+  - {fileID: 1555765395}
+  - {fileID: 788523441}
+  - {fileID: 724323674}
+  - {fileID: 1862778843}
+  - {fileID: 1710768715}
+  - {fileID: 1806557031}
+  - {fileID: 615254115}
+  - {fileID: 210820269}
+  - {fileID: 344148740}
+  - {fileID: 2082893086}
+  - {fileID: 1289521435}
+  - {fileID: 1934087138}
+  - {fileID: 1292594096}
+  - {fileID: 1506959074}
+  - {fileID: 651419536}
+  - {fileID: 1206854574}
+  - {fileID: 445762441}
+  - {fileID: 1533313873}
+  - {fileID: 1905396200}
+  - {fileID: 1806094499}
+  - {fileID: 374009813}
+  - {fileID: 2027569349}
+  - {fileID: 1605939915}
+  - {fileID: 1429537929}
+  - {fileID: 231499335}
+  - {fileID: 510075987}
+  - {fileID: 1662853973}
+  - {fileID: 2029259451}
+  - {fileID: 473035043}
+  - {fileID: 1579443311}
+  - {fileID: 626508978}
+  - {fileID: 992735577}
+  - {fileID: 148455875}
+  - {fileID: 1301332495}
+  - {fileID: 1719427931}
+  - {fileID: 1501872438}
+  - {fileID: 1795824677}
+  - {fileID: 676360931}
+  - {fileID: 217474597}
+  - {fileID: 1943551132}
+  - {fileID: 101233196}
+  - {fileID: 1182556125}
+  - {fileID: 574340425}
+  - {fileID: 712764364}
+  - {fileID: 305933006}
+  - {fileID: 1404959838}
+  - {fileID: 316796853}
+  - {fileID: 2123505997}
+  - {fileID: 950045447}
+  - {fileID: 2128288604}
+  - {fileID: 546531349}
+  - {fileID: 1592379702}
+  - {fileID: 180824196}

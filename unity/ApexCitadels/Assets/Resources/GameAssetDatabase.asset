@@ -1,0 +1,3205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc87309dddc2030418e0edd353425371, type: 3}
+  m_Name: GameAssetDatabase
+  m_EditorClassIdentifier: ApexCitadels.Core::ApexCitadels.Core.Assets.GameAssetDatabase
+  BuildingModels:
+  - Id: B01
+    Name: Gold Mine
+    Model: {fileID: 1899824663561904589, guid: 79616c8133760d0439ce19c9ff1fddc0, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B02
+    Name: Gold Mine Variant Advanced
+    Model: {fileID: 1899824663561904589, guid: cdcafb2ade600744e9415116fa450505, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 1
+    VariantType: Advanced
+  - Id: B03
+    Name: Lumber Mill
+    Model: {fileID: 1899824663561904589, guid: 71e0d21c742bdb24db636520a0dfae6a, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B04
+    Name: Lumber Mill Variant Advanced
+    Model: {fileID: 1899824663561904589, guid: 5a42ae5840e49ea4c9acb068f8c7923b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 1
+    VariantType: Advanced
+  - Id: B05
+    Name: Quarry
+    Model: {fileID: 1899824663561904589, guid: f8f3df9dc83a6b74da2a1efb5d155034, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B06
+    Name: Crystal Mine
+    Model: {fileID: 1899824663561904589, guid: afc12a9d7f6ca22429cb7b7c2758edce, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B07
+    Name: Farm
+    Model: {fileID: 1899824663561904589, guid: 71463307dd434e84cb047fe08e08b2ce, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B08
+    Name: Farm Variant Advanced
+    Model: {fileID: 1899824663561904589, guid: 3e1e9cdf7b0ec3045b88b0b582344785, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 0
+    Level: 1
+    IsVariant: 1
+    VariantType: Advanced
+  - Id: B09
+    Name: Barracks Basic
+    Model: {fileID: 1899824663561904589, guid: 0ff6d916f1bf63a45b531edcb01a7c7e, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B10
+    Name: Barracks Advanced
+    Model: {fileID: 1899824663561904589, guid: 2b84c5ad7d260384c94e6b4a00bcb4d2, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B11
+    Name: Blacksmith
+    Model: {fileID: 1899824663561904589, guid: 7404c2d0ac264194897f42a61df169ae, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B12
+    Name: Blacksmith Variant Master
+    Model: {fileID: 1899824663561904589, guid: 1c694e1f348de514cb292ef00ddd50f6, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 1
+    VariantType: Master
+  - Id: B13
+    Name: Armory
+    Model: {fileID: 1899824663561904589, guid: 6e912df5291702e4f9229a7f0be6f8ce, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B14
+    Name: Siege Workshop
+    Model: {fileID: 1899824663561904589, guid: 061768e9be476a74a93f8434a7f61a0e, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B15
+    Name: Stable
+    Model: {fileID: 1899824663561904589, guid: 70e3fb1f33ff32147b4d7c0b5952777f, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B16
+    Name: Market Stall
+    Model: {fileID: 1899824663561904589, guid: edee02ae4596a2644a25c12bb7b198e3, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B17
+    Name: Market Hall
+    Model: {fileID: 1899824663561904589, guid: 3dad77cd0d0447e40bfabf9cf68bfd40, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B18
+    Name: Treasury
+    Model: {fileID: 1899824663561904589, guid: 6caa0368b82b47c44a72e9c7470804ad, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B19
+    Name: Bank
+    Model: {fileID: 1899824663561904589, guid: 3b54e106d9f1d8941a2672fbad380b1d, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B20
+    Name: Warehouse
+    Model: {fileID: 1899824663561904589, guid: c767a9c303568bc4ba0bc5492cae26a9, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B23
+    Name: Magic Academy
+    Model: {fileID: 1899824663561904589, guid: 74b1bf9e037e2e94aa46804162139c72, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 3
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B24
+    Name: Alchemist Lab
+    Model: {fileID: 1899824663561904589, guid: 7d1c86071ab68054d9b1e21710d3059b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 3
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B25
+    Name: Library
+    Model: {fileID: 1899824663561904589, guid: 606a9940bd1bf9240ab873c30173e95b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B26
+    Name: Portal Nexus
+    Model: {fileID: 1899824663561904589, guid: 27f588fa8b20fe642bc99c9c650fafb2, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 3
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B27
+    Name: Tavern
+    Model: {fileID: 1899824663561904589, guid: a6de174a0708a2348a055ef61cedd23f, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B28
+    Name: Hospital
+    Model: {fileID: 1899824663561904589, guid: a1f23048a0913cf46bdd6f68e5aac009, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: B29
+    Name: Prison
+    Model: {fileID: 1899824663561904589, guid: ef5774178c5936041bc384a9aee4bce6, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Category: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  TowerModels:
+  - Id: T01
+    Name: Guard Tower Basic
+    Model: {fileID: 1899824663561904589, guid: 6e3c249c57e6da14ea3bd8b8578e6ef1, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T02
+    Name: Guard Tower Basic Variant Damaged
+    Model: {fileID: 1899824663561904589, guid: 600f00b01d0ae7e4bbf5d25bf645f15d, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 1
+    VariantType: Damaged
+  - Id: T03
+    Name: Guard Tower Basic Variant Upgraded
+    Model: {fileID: 1899824663561904589, guid: b4a6cd7b471cc884e88cc66653d3490e, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 1
+    VariantType: Upgraded
+  - Id: T04
+    Name: Guard Tower Round
+    Model: {fileID: 1899824663561904589, guid: 7d68180e7a6a29c45990579950a71aa7, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T05
+    Name: Guard Tower Corner
+    Model: {fileID: 1899824663561904589, guid: 04943c468105bf84c990ac1c0ed4920a, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T06
+    Name: Archer Tower Basic
+    Model: {fileID: 1899824663561904589, guid: a4cf8efffa547dc44bedffbad6b5ad19, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T07
+    Name: Archer Tower Advanced
+    Model: {fileID: 1899824663561904589, guid: a62073cf224aa434e8750fda9636c79c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T08
+    Name: Archer Tower Elven
+    Model: {fileID: 1899824663561904589, guid: 6f657c43577f7cc438c0126e81a40a1b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 1
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T09
+    Name: Mage Tower Basic
+    Model: {fileID: 1899824663561904589, guid: 5344f7059a83a254388aead9af9341e5, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T10
+    Name: Mage Tower Fire
+    Model: {fileID: 1899824663561904589, guid: 630e007924790604f8dc0b46a64c3663, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T11
+    Name: Mage Tower Ice
+    Model: {fileID: 1899824663561904589, guid: 6005ecd83515c1b47ba8150723d23264, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T12
+    Name: Mage Tower Shadow
+    Model: {fileID: 1899824663561904589, guid: 8e20780f4d67dd24eb2a5161633b633f, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T13
+    Name: Mage Tower Nature
+    Model: {fileID: 1899824663561904589, guid: c346ef148dd67bf4c9f3fd17c5089e60, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 2
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T14
+    Name: Siege Tower Basic
+    Model: {fileID: 1899824663561904589, guid: 44e67a02b08e5f7478f099c6adaaa9cf, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 3
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T15
+    Name: Siege Tower Armored
+    Model: {fileID: 1899824663561904589, guid: 3795e0134e7d47642b0059769653aba1, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 3
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T16
+    Name: Bell Tower
+    Model: {fileID: 1899824663561904589, guid: 166d517d823e86e47abfcd2b4aad4e05, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T17
+    Name: Clock Tower
+    Model: {fileID: 1899824663561904589, guid: b25b34b1f1831d7428542c8794f51aea, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T18
+    Name: Lighthouse Tower
+    Model: {fileID: 1899824663561904589, guid: aacf23881e389db4694b51d1e5d42e04, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T19
+    Name: Watch Tower Wood
+    Model: {fileID: 1899824663561904589, guid: d3c3eb36f74210c45a5d9e6bef556468, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T20
+    Name: Windmill Tower
+    Model: {fileID: 1899824663561904589, guid: 505dcddfa863fbb40a8114e66773f5b7, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T21
+    Name: Signal Tower
+    Model: {fileID: 1899824663561904589, guid: 8a15dfa83f16a46448f3f758becebfad, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T22
+    Name: Treasury Tower
+    Model: {fileID: 1899824663561904589, guid: 0662da3eda190f7438869ce200869f46, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T23
+    Name: Prison Tower
+    Model: {fileID: 1899824663561904589, guid: a96687a2d4cb5c14ea9478d4940ed42d, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: T24
+    Name: Astronomical Tower
+    Model: {fileID: 1899824663561904589, guid: e9d00207b1563224baa69277f797f4bb, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    Level: 1
+    IsVariant: 0
+    VariantType: 
+  WallModels:
+  - Id: W01
+    Name: Stone Wall Straight 2m
+    Model: {fileID: 1899824663561904589, guid: bad2953b05d523c46b3c97f38186caed, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W02
+    Name: Stone Wall Straight 2m Variant Ivy
+    Model: {fileID: 1899824663561904589, guid: 26a6f46b11670444fb225497b8413958, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 1
+    VariantType: Ivy
+  - Id: W03
+    Name: Stone Wall Straight 2m Variant Damaged
+    Model: {fileID: 1899824663561904589, guid: d2639408fa17a4944a86cc7b5a1fbba9, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 1
+    VariantType: Damaged
+  - Id: W04
+    Name: Stone Wall Straight 2m Variant Reinforced
+    Model: {fileID: 1899824663561904589, guid: 24910bfa57143fb4cb8a8386728d4410, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 1
+    VariantType: Reinforced
+  - Id: W05
+    Name: Stone Wall Straight 4m
+    Model: {fileID: 1899824663561904589, guid: ca119688f771e3944b248a54447d5402, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W06
+    Name: Stone Wall Corner Outer
+    Model: {fileID: 1899824663561904589, guid: 8a7f639729f79314eb7668c65161de16, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 1
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 1
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W07
+    Name: Stone Wall Corner Inner
+    Model: {fileID: 1899824663561904589, guid: c144f4c7a6f86f24fb175c46c3837669, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 1
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 1
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W08
+    Name: Stone Wall T-Junction
+    Model: {fileID: 1899824663561904589, guid: 703ab97c72fbc84469785b600b8be03c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 2
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W09
+    Name: Stone Wall End Cap
+    Model: {fileID: 1899824663561904589, guid: 29d4de7487ff55b4b9ad1bc08bfce9e9, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 3
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W10
+    Name: Stone Wall Gate Small
+    Model: {fileID: 1899824663561904589, guid: bc65b8b1a4cbf0245b1ba8e76df42a1b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: W11
+    Name: Stone Wall Gate Large
+    Model: {fileID: 1899824663561904589, guid: 11529d5dfa096ab4791278e42249b072, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: W12
+    Name: Stone Wall Gate Reinforced
+    Model: {fileID: 1899824663561904589, guid: 7935f0cdfae4b584fa74a9ecce68edfc, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: W13
+    Name: Stone Wall Window Arrow Slit
+    Model: {fileID: 1899824663561904589, guid: 5c63dfd0ff0881e40a6998cf86bc0463, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 5
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W14
+    Name: Stone Wall Window Large
+    Model: {fileID: 1899824663561904589, guid: 6e1e75d53c08ce1478154f78755f1bd0, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 5
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W15
+    Name: Stone Wall Window Stained Glass
+    Model: {fileID: 1899824663561904589, guid: 7dc491b9258e3b742bfab09b11a286f4, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 5
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W16
+    Name: Wood Palisade Straight
+    Model: {fileID: 1899824663561904589, guid: a4aadd27aa10eb845897b7e4a67c10e7, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W17
+    Name: Wood Palisade Straight Variant Reinforced
+    Model: {fileID: 1899824663561904589, guid: 3dfac886ced92294bb49cfa83709c27a, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 1
+    VariantType: Reinforced
+  - Id: W18
+    Name: Wood Palisade Corner
+    Model: {fileID: 1899824663561904589, guid: 4bb5bf75882a9c6428a5cccb563af1a0, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 1
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 1
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W19
+    Name: Wood Palisade Gate
+    Model: {fileID: 1899824663561904589, guid: e36388c8af3475d40a1085f797e1a999, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 4
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 1
+    IsVariant: 0
+    VariantType: 
+  - Id: W20
+    Name: Wood Wall Plank
+    Model: {fileID: 1899824663561904589, guid: d5d1f0bbc312bf64fb6927f07f7d5e0a, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W21
+    Name: Wood Wall Plank Window
+    Model: {fileID: 1899824663561904589, guid: fcad70712697ea646a7987a0523953cc, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 5
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W22
+    Name: Wood Wall Half-Timber
+    Model: {fileID: 1899824663561904589, guid: 9eb227cb061b5754195f9cc300b23eeb, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 6
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W23
+    Name: Magic Barrier Wall
+    Model: {fileID: 1899824663561904589, guid: fe661ff9b00f0e34d9c98c7a3da1f063, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 10
+    WallMaterial: 3
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W24
+    Name: Magic Barrier Wall Variant Fire
+    Model: {fileID: 1899824663561904589, guid: 24afc24d24b18674a9c8263bce2c4c66, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 10
+    WallMaterial: 3
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 1
+    VariantType: Fire
+  - Id: W25
+    Name: Magic Barrier Wall Variant Shadow
+    Model: {fileID: 1899824663561904589, guid: c47e24a82c48ba646983dac4572151f6, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 10
+    WallMaterial: 3
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 1
+    VariantType: Shadow
+  - Id: W26
+    Name: Ice Wall
+    Model: {fileID: 1899824663561904589, guid: 768aaa0c441f0254ebf6c83e1b8752ae, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 4
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W27
+    Name: Bone Wall
+    Model: {fileID: 1899824663561904589, guid: 1028586c2dba9574a83a20e5ee023ce9, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 5
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W29
+    Name: Half Wall Stone
+    Model: {fileID: 1899824663561904589, guid: ee1a005c8b7dfb14785bb14703af3525, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 6
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W30
+    Name: Half Wall Battle
+    Model: {fileID: 1899824663561904589, guid: 064821b65f231574d9ed0e7e30bce959, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 6
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W31
+    Name: Fence Iron
+    Model: {fileID: 1899824663561904589, guid: 135943bde1f967d46b0dfb9ad269e19b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 7
+    WallMaterial: 2
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W32
+    Name: Fence Wood
+    Model: {fileID: 1899824663561904589, guid: a3f7ce424a1b56e45acd0514f18a911f, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 7
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W33
+    Name: Barricade Wood
+    Model: {fileID: 1899824663561904589, guid: aebde2bb6c7cc7d4aa3b4f8f1c8b7bb9, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 8
+    WallMaterial: 1
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W34
+    Name: Barricade Spikes
+    Model: {fileID: 1899824663561904589, guid: c303ae41769767d409b734e08b272101, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 8
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W35
+    Name: Sandbag Wall
+    Model: {fileID: 1899824663561904589, guid: 382ad19a98c8e8b4abdbfc69cc2d395c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 0
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  - Id: W36
+    Name: Trench Section
+    Model: {fileID: 1899824663561904589, guid: 3b6b9c41c24ae114f985d182485d8ac8, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+    Type: 9
+    WallMaterial: 0
+    Length: 2
+    IsCorner: 0
+    IsGate: 0
+    IsVariant: 0
+    VariantType: 
+  FoundationModels:
+  - Id: F01
+    Name: Stone Foundation 1x1
+    Model: {fileID: 1899824663561904589, guid: 60c3f14448800bc47ae0e6bda41eb3d6, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F02
+    Name: Stone Foundation 1x1 Variant A Cracked
+    Model: {fileID: 1899824663561904589, guid: bc4e256c4c6acfd48846e454de4f7c15, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F03
+    Name: Stone Foundation 1x1 Variant B Mossy
+    Model: {fileID: 1899824663561904589, guid: 892e84960013c6644af5ac385097bc5a, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F04
+    Name: Stone Foundation 2x1
+    Model: {fileID: 1899824663561904589, guid: c7c2697f555ad8c45a8b76a7440a9ec9, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F05
+    Name: Stone Foundation 2x1 Variant Battle-worn
+    Model: {fileID: 1899824663561904589, guid: 4c3907e28c01ca848b1cac3dae39fb25, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F06
+    Name: Stone Foundation 2x2
+    Model: {fileID: 1899824663561904589, guid: fecd7c9e48fef844ca060e516f45a1c5, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F07
+    Name: Stone Foundation 2x2 Variant Runic
+    Model: {fileID: 1899824663561904589, guid: d05458459fd5f314c8ffda9d08b7563c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F08
+    Name: Stone Foundation 3x3
+    Model: {fileID: 1899824663561904589, guid: 15720cd3bd918f845b62a1915be6c34b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F09
+    Name: Wood Platform 1x1
+    Model: {fileID: 1899824663561904589, guid: 6959882fe4b46f14db6f4974e9fd9c17, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F10
+    Name: Wood Platform 1x1 Variant New
+    Model: {fileID: 1899824663561904589, guid: d5c9b9b4dc0725c45805d5baaeb560ce, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F11
+    Name: Wood Platform 1x1 Variant Rotting
+    Model: {fileID: 1899824663561904589, guid: 3603d7f47dc3c984a8185214a6f1de4c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F12
+    Name: Wood Platform 2x1
+    Model: {fileID: 1899824663561904589, guid: b84779ba7d3b12b43b0a580b208835b8, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F13
+    Name: Wood Platform 2x2
+    Model: {fileID: 1899824663561904589, guid: b76296f8e7a2d6b4aa6b5018b64f174b, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F14
+    Name: Wood Platform 2x2 Variant Elevated
+    Model: {fileID: 1899824663561904589, guid: e5fdef375567f8443931eae59d7a6a07, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F15
+    Name: Iron-Reinforced Foundation 1x1
+    Model: {fileID: 1899824663561904589, guid: 0bec3178ee05a59478c83070e9426e49, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F16
+    Name: Iron-Reinforced Foundation 2x2
+    Model: {fileID: 1899824663561904589, guid: 4a888d12ce9981641af6349981a390bb, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F17
+    Name: Steel Foundation 1x1
+    Model: {fileID: 1899824663561904589, guid: b7b409aa3c7406e46b4f7ce4fc42fb5f, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F18
+    Name: Crystal Foundation 1x1
+    Model: {fileID: 1899824663561904589, guid: 5c9b3b4fe43ad3644b3ea87d0832fa68, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F19
+    Name: Crystal Foundation 2x2
+    Model: {fileID: 1899824663561904589, guid: f3595afcd694b1147bcc073d2962f22d, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F20
+    Name: Floating Foundation 1x1
+    Model: {fileID: 1899824663561904589, guid: 810913fff823ef04fa83a341b8330c19, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F21
+    Name: Dark Stone Foundation 1x1
+    Model: {fileID: 1899824663561904589, guid: 1716691efbd8e214c91c2bdd037e7c00, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F22
+    Name: Ancient Ruins Foundation
+    Model: {fileID: 1899824663561904589, guid: 52649246f9ba2ce44954c0d48de18e20, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F23
+    Name: Water Foundation
+    Model: {fileID: 1899824663561904589, guid: 956aee0ebdbb3354586dbf42275399da, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: F24
+    Name: Lava Foundation
+    Model: {fileID: 1899824663561904589, guid: f58b2a652aa2c194a8b7fe8eed92e181, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  RoofModels:
+  - Id: R01
+    Name: Peaked Roof Small 1x1
+    Model: {fileID: 1899824663561904589, guid: 76e22e1bc4a101644be38c959a669bd0, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R02
+    Name: Peaked Roof Small Variant Thatched
+    Model: {fileID: 1899824663561904589, guid: 132646020775390489bf749e54402963, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R03
+    Name: Peaked Roof Small Variant Slate
+    Model: {fileID: 1899824663561904589, guid: 5490c91767112bd4a80f067e1e8d1c83, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R04
+    Name: Peaked Roof Medium 2x1
+    Model: {fileID: 1899824663561904589, guid: ef3e49cfb8b893c48b704e77b00eb77a, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R05
+    Name: Peaked Roof Large 2x2
+    Model: {fileID: 1899824663561904589, guid: f1f92368bd3bd9f48b512bd52c95a1c2, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R06
+    Name: Peaked Roof Extra Large 3x3
+    Model: {fileID: 1899824663561904589, guid: aeee3f4d4f154d1478abbc3ee30c139c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R07
+    Name: Flat Roof Battlement 1x1
+    Model: {fileID: 1899824663561904589, guid: e3280ff82d2e72a4c847aaea70146792, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R08
+    Name: Flat Roof Battlement 2x2
+    Model: {fileID: 1899824663561904589, guid: ee27310b4c89e2745852722475ba0b18, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R09
+    Name: Flat Roof Garden
+    Model: {fileID: 1899824663561904589, guid: 2c34ac02a4b6ed1429da6a50ceaa05ac, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R10
+    Name: Flat Roof Platform
+    Model: {fileID: 1899824663561904589, guid: ed087591d6873294bb5f352ae5087865, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R11
+    Name: Dome Roof Small
+    Model: {fileID: 1899824663561904589, guid: a32b2cde4b612334b8067f7bae298532, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R12
+    Name: Dome Roof Large
+    Model: {fileID: 1899824663561904589, guid: 9e26b458a561c77408b9964e4d87ad11, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R13
+    Name: Conical Roof Tower
+    Model: {fileID: 1899824663561904589, guid: fac7c90bd8f88a342aed6320baba2190, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R14
+    Name: Pyramid Roof
+    Model: {fileID: 1899824663561904589, guid: 8d44422cd5a3c774da2de23e194e9b17, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R15
+    Name: Pagoda Roof
+    Model: {fileID: 1899824663561904589, guid: ad349757745befc4f88871b53e26307f, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R16
+    Name: Crystal Roof
+    Model: {fileID: 1899824663561904589, guid: a096377f9d2a33d48a479719638f3947, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R17
+    Name: Living Roof
+    Model: {fileID: 1899824663561904589, guid: f50d82e196c44a5419fc3da5bb79d6fd, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  - Id: R18
+    Name: Bone Roof
+    Model: {fileID: 1899824663561904589, guid: 9823786437f2008409953d8a43f6d95c, type: 3}
+    Prefab: {fileID: 0}
+    Icon: {fileID: 0}
+    Tags: []
+  Skyboxes:
+  - Name: SKY02
+    Texture: {fileID: 2800000, guid: 63183732cfa586f4898aac1fac9f06bd, type: 3}
+    Material: {fileID: 2100000, guid: 5a3cfb45f1de91648aa99b8d3f941d22, type: 2}
+    TimeOfDay: 5
+  - Name: SKY04
+    Texture: {fileID: 2800000, guid: 68c15e7a2e21ca549bf8c6ae8ce054bd, type: 3}
+    Material: {fileID: 2100000, guid: 1720737e4a5da0346a203c2e900c32c6, type: 2}
+    TimeOfDay: 5
+  - Name: SKY17
+    Texture: {fileID: 2800000, guid: 82074d171d8b3e744bb60ac2f140365e, type: 3}
+    Material: {fileID: 2100000, guid: fdf8b9f0a6f2d634eae9cf8516b5e113, type: 2}
+    TimeOfDay: 5
+  - Name: SKY19
+    Texture: {fileID: 2800000, guid: 37ab2d73464caa847976117467885bf3, type: 3}
+    Material: {fileID: 2100000, guid: 20357fbc35ad17142a96bae9e7e8071d, type: 2}
+    TimeOfDay: 5
+  - Name: SKY32
+    Texture: {fileID: 2800000, guid: 5732bdb7c868605439b419f4284dbeb8, type: 3}
+    Material: {fileID: 2100000, guid: f45b69d587d1b5e44a1b0c537dad81e9, type: 2}
+    TimeOfDay: 5
+  - Name: SKY33
+    Texture: {fileID: 2800000, guid: bfb5b4ae435c08b4187e0e633ab7bdaa, type: 3}
+    Material: {fileID: 2100000, guid: 5ada312d191cdc6428173aa7d39c4bd8, type: 2}
+    TimeOfDay: 5
+  - Name: SKY34
+    Texture: {fileID: 2800000, guid: 42539a4aaab32f541be510aaabf18787, type: 3}
+    Material: {fileID: 2100000, guid: 75f050a1c3789cb4c87ceb7da11b2b85, type: 2}
+    TimeOfDay: 5
+  - Name: SKY39
+    Texture: {fileID: 2800000, guid: 6c5b654e261c3924bbe12480e0aed813, type: 3}
+    Material: {fileID: 2100000, guid: f896941679eb27b4982288c17cff9ba5, type: 2}
+    TimeOfDay: 5
+  - Name: SKY65
+    Texture: {fileID: 2800000, guid: dc18d42909a47444aae1cd252d6d38cc, type: 3}
+    Material: {fileID: 2100000, guid: aa446194d69744041917d7334006396a, type: 2}
+    TimeOfDay: 5
+  - Name: SKY66
+    Texture: {fileID: 2800000, guid: 689cbd9fc86fcbb45b2d48b2ac7dfb77, type: 3}
+    Material: {fileID: 2100000, guid: 10d28a4c34c991142970ba8bb447bef9, type: 2}
+    TimeOfDay: 5
+  - Name: SKY67
+    Texture: {fileID: 2800000, guid: 348d7e4b56c69634dbed1adc296c5095, type: 3}
+    Material: {fileID: 2100000, guid: f13d81921df27c747a1ba3d23e2868aa, type: 2}
+    TimeOfDay: 5
+  - Name: SKY68
+    Texture: {fileID: 2800000, guid: 05843718ee339cc469029d509e03f8e9, type: 3}
+    Material: {fileID: 2100000, guid: 8972d98b99c5fc947a8a626496cd5c41, type: 2}
+    TimeOfDay: 5
+  - Name: SKY69
+    Texture: {fileID: 2800000, guid: c2314b56597a51944b68bd20700b9b0c, type: 3}
+    Material: {fileID: 2100000, guid: 3b4d8fbc46c91704f904044c84b8e14e, type: 2}
+    TimeOfDay: 5
+  - Name: SKY70
+    Texture: {fileID: 2800000, guid: 42e4f06c95f0e8b409e19c7dc4938dfe, type: 3}
+    Material: {fileID: 2100000, guid: bd21d845b94eaa846bda8ccb707e6733, type: 2}
+    TimeOfDay: 5
+  - Name: SKY72
+    Texture: {fileID: 2800000, guid: 25e30e42138c41b438a8c26009c619b8, type: 3}
+    Material: {fileID: 2100000, guid: d6b91d0346ef2b144b8597e1d7035bfd, type: 2}
+    TimeOfDay: 5
+  SFX:
+    AllClips:
+    - Id: BLD01
+      Name: hammer_hit_wood
+      Category: 0
+      Clip: {fileID: 8300000, guid: 294d1ff6ea10fcd4b94f3ad34e471091, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD02
+      Name: hammer_hit_stone
+      Category: 0
+      Clip: {fileID: 8300000, guid: 915b59ba916b4434da48477a58b18a49, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD03
+      Name: hammer_hit_metal
+      Category: 0
+      Clip: {fileID: 8300000, guid: 6f9a92dcda3bb7f4792c9db829887c4f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD04
+      Name: saw_wood
+      Category: 0
+      Clip: {fileID: 8300000, guid: a400f835c09923b4dbb88e7805988fc2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD05
+      Name: chisel_stone
+      Category: 0
+      Clip: {fileID: 8300000, guid: f49b455a0c224fd4295021d32a5eac26, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD06
+      Name: construction_ambient
+      Category: 0
+      Clip: {fileID: 8300000, guid: ca6ceebb92f089f4a9b26b7ab259a02b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD07
+      Name: scaffolding_creak
+      Category: 0
+      Clip: {fileID: 8300000, guid: b95da9f1f32e08547b17d96953bc6151, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD08
+      Name: rope_pull
+      Category: 0
+      Clip: {fileID: 8300000, guid: ffb3b6e8aa0817743a8bf1be64d97553, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD09
+      Name: foundation_place
+      Category: 0
+      Clip: {fileID: 8300000, guid: 6ae1c9d7ec414ca4480a0b5d785fc71f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD10
+      Name: wall_place
+      Category: 0
+      Clip: {fileID: 8300000, guid: fb4804378918d7a47accf4fa03132f2e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD11
+      Name: tower_place
+      Category: 0
+      Clip: {fileID: 8300000, guid: 09923468615954b42a8b2b4bf10f93e8, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD12
+      Name: roof_place
+      Category: 0
+      Clip: {fileID: 8300000, guid: 746036b8fed803d40b97ec7c10994728, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD13
+      Name: building_complete
+      Category: 0
+      Clip: {fileID: 8300000, guid: a63927145d76e7841b2eb5ab64e60996, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD14
+      Name: building_upgrade_start
+      Category: 0
+      Clip: {fileID: 8300000, guid: d20563ef75ac48e43b64745462f52191, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD15
+      Name: building_upgrade_complete
+      Category: 0
+      Clip: {fileID: 8300000, guid: 030d31db6e09e2a4493faa8e389233dc, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD16
+      Name: building_rotate
+      Category: 0
+      Clip: {fileID: 8300000, guid: 704a2678ef74cbb41b80f9b6e4a9b904, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD17
+      Name: building_move
+      Category: 0
+      Clip: {fileID: 8300000, guid: 958cbba47ed9a644495b4846e46d56c7, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD18
+      Name: wood_crack
+      Category: 0
+      Clip: {fileID: 8300000, guid: f6e9371313734184e901b6c23e2ffc7a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD19
+      Name: wood_collapse
+      Category: 0
+      Clip: {fileID: 8300000, guid: 16850b4109e957d4eb15856a5d19deee, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD20
+      Name: stone_crack
+      Category: 0
+      Clip: {fileID: 8300000, guid: 4e53415d3ad616f4d8c370523a42c579, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD21
+      Name: stone_collapse
+      Category: 0
+      Clip: {fileID: 8300000, guid: d174df222c8c5b14593aab8734690d7a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD22
+      Name: wall_breach
+      Category: 0
+      Clip: {fileID: 8300000, guid: fae42398b6a7f7c4b929a49545ae1e17, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD23
+      Name: tower_fall
+      Category: 0
+      Clip: {fileID: 8300000, guid: fa251cb35d162fb49a191de0122fd01e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD24
+      Name: demolish_small
+      Category: 0
+      Clip: {fileID: 8300000, guid: 8846bb3b3537ce14d9bfa1c9b3c64fad, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD25
+      Name: demolish_large
+      Category: 0
+      Clip: {fileID: 8300000, guid: 12cb9e00172da5740a4ce10855140fb1, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD26
+      Name: debris_fall
+      Category: 0
+      Clip: {fileID: 8300000, guid: 5422f5390c452414a89f90e862cde7e5, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD27
+      Name: gate_open
+      Category: 0
+      Clip: {fileID: 8300000, guid: 31495e04a56df1f469c156be1f758fdb, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD28
+      Name: gate_close
+      Category: 0
+      Clip: {fileID: 8300000, guid: a29abee93c9b7034ba23923f5694f4eb, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD29
+      Name: drawbridge_lower
+      Category: 0
+      Clip: {fileID: 8300000, guid: 7c82ae8898dc4224298847c0badaeb0e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD30
+      Name: drawbridge_raise
+      Category: 0
+      Clip: {fileID: 8300000, guid: a1e0e09087b8f774795c131eaa7ab6d3, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD31
+      Name: door_wood_open
+      Category: 0
+      Clip: {fileID: 8300000, guid: 704d302765089744abfc3b4e16123b2a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD32
+      Name: door_wood_close
+      Category: 0
+      Clip: {fileID: 8300000, guid: 3e20ad0bbd3297e40a440ffb7049e498, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD33
+      Name: door_metal_open
+      Category: 0
+      Clip: {fileID: 8300000, guid: 29c594d77b795114f8d306fa27f939c4, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD34
+      Name: door_metal_close
+      Category: 0
+      Clip: {fileID: 8300000, guid: f54ac4e4eb4d1874aa7ad58f6153d720, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD35
+      Name: forge_fire
+      Category: 0
+      Clip: {fileID: 8300000, guid: ef919b1f771ca924bad1ae4082955ff7, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: BLD36
+      Name: mill_grinding
+      Category: 0
+      Clip: {fileID: 8300000, guid: a5836d08ea5e37a42a156c1735489d49, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR01
+      Name: footstep_grass
+      Category: 1
+      Clip: {fileID: 8300000, guid: 24a54691b871e294e96a056a87afb51a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR02
+      Name: footstep_stone
+      Category: 1
+      Clip: {fileID: 8300000, guid: 1a6fb3c94d328d947962a8c634609468, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR03
+      Name: footstep_wood
+      Category: 1
+      Clip: {fileID: 8300000, guid: cf705e72689992d40bfe675e459c9db2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR04
+      Name: footstep_dirt
+      Category: 1
+      Clip: {fileID: 8300000, guid: 0c160cb65094a9547a66764960a67d3a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR05
+      Name: footstep_metal
+      Category: 1
+      Clip: {fileID: 8300000, guid: df4080bf1b6e0e740a03cd3edc3e7c34, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR06
+      Name: footstep_water
+      Category: 1
+      Clip: {fileID: 8300000, guid: ce7f9e6567af6bc46aaeb10ce0dff7e3, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR07
+      Name: run_light
+      Category: 1
+      Clip: {fileID: 8300000, guid: 3a91f5647d47ced45b0e935ae356aa17, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR08
+      Name: run_heavy
+      Category: 1
+      Clip: {fileID: 8300000, guid: f04fa0ac4794da2479a528c7396bf538, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR09
+      Name: jump
+      Category: 1
+      Clip: {fileID: 8300000, guid: 9ecc05deef8f37842aacf7a68120fef3, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR10
+      Name: land
+      Category: 1
+      Clip: {fileID: 8300000, guid: 72d631a59f8a07e41b0e89962a901d24, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR11
+      Name: roll_dodge
+      Category: 1
+      Clip: {fileID: 8300000, guid: 79c84f1da67b0f8489e933fd4983003e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR12
+      Name: climb
+      Category: 1
+      Clip: {fileID: 8300000, guid: 6651d03a929ac4142b482de79f48bd1d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR13
+      Name: crowd_cheer
+      Category: 1
+      Clip: {fileID: 8300000, guid: 757281045d0a27b42a6477e140a48576, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR14
+      Name: crowd_murmur
+      Category: 1
+      Clip: {fileID: 8300000, guid: a7aa1dcf349813a4883dea048becaed1, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR15
+      Name: market_ambient
+      Category: 1
+      Clip: {fileID: 8300000, guid: 349a8ca0a8a430d48a306c515a4434c1, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR16
+      Name: soldier_march
+      Category: 1
+      Clip: {fileID: 8300000, guid: cbc14e77db400ef4d9df4a9b4f38ee59, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR17
+      Name: worker_ambient
+      Category: 1
+      Clip: {fileID: 8300000, guid: 8f62556f5328eef4883fa5cda39a3f99, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR18
+      Name: npc_greet
+      Category: 1
+      Clip: {fileID: 8300000, guid: 1d1248bf14c24c84d85f5afc5aeb1c3b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR19
+      Name: npc_confirm
+      Category: 1
+      Clip: {fileID: 8300000, guid: 1ff4239a1440ba94d8d43e9c2c8d2838, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR20
+      Name: npc_decline
+      Category: 1
+      Clip: {fileID: 8300000, guid: 44a7b60b453b5e141bc28e189173347b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR21
+      Name: shop_welcome
+      Category: 1
+      Clip: {fileID: 8300000, guid: 041091457d512354ea0e7738762edb45, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR22
+      Name: merchant_transaction
+      Category: 1
+      Clip: {fileID: 8300000, guid: 35f89009f5a462f409282037c3be47e9, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR23
+      Name: guard_alert
+      Category: 1
+      Clip: {fileID: 8300000, guid: 73d62bd3da63f654e807cb79d400e979, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CHR24
+      Name: villager_idle
+      Category: 1
+      Clip: {fileID: 8300000, guid: 660b3515352357640ae8e0fb4d802eb5, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB01
+      Name: sword_swing
+      Category: 2
+      Clip: {fileID: 8300000, guid: 6ab93bd9a23028a4cae02fdf49d32e7d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB02
+      Name: sword_hit_metal
+      Category: 2
+      Clip: {fileID: 8300000, guid: b0ee577bddd99cb42ac1b68aa347ec66, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB03
+      Name: sword_hit_flesh
+      Category: 2
+      Clip: {fileID: 8300000, guid: b17c488b3d7d6e54890ecaaa897bcf8d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB04
+      Name: sword_clash
+      Category: 2
+      Clip: {fileID: 8300000, guid: f00151d618fa147418b66094df6bbe9b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB05
+      Name: sword_draw
+      Category: 2
+      Clip: {fileID: 8300000, guid: 5fc5ecfdc3cadb34d832d0a21d619979, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB06
+      Name: sword_sheathe
+      Category: 2
+      Clip: {fileID: 8300000, guid: 98bc71c73f82f084a84ac56a859346aa, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB07
+      Name: axe_swing
+      Category: 2
+      Clip: {fileID: 8300000, guid: 76af12218b1e4074a984b2c9147b91ef, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB08
+      Name: axe_hit
+      Category: 2
+      Clip: {fileID: 8300000, guid: 7feccfd89c89d6e44a0d485ddaa49902, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB09
+      Name: mace_swing
+      Category: 2
+      Clip: {fileID: 8300000, guid: 03ae01ddf5f5a0a48b7a1d311e16456e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB10
+      Name: mace_hit
+      Category: 2
+      Clip: {fileID: 8300000, guid: 8832106f9bc965240b377d0fea1f3086, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB11
+      Name: spear_thrust
+      Category: 2
+      Clip: {fileID: 8300000, guid: 960af8bb8cba8bb42852ee3769ecf115, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB12
+      Name: spear_hit
+      Category: 2
+      Clip: {fileID: 8300000, guid: 72ddde5475955f84eaa4550d047f8e35, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB13
+      Name: bow_draw
+      Category: 2
+      Clip: {fileID: 8300000, guid: 717d6588c1764d34ab032d40531dc077, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB14
+      Name: bow_release
+      Category: 2
+      Clip: {fileID: 8300000, guid: f3a59a6ae59159c458705c856838d51b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB15
+      Name: arrow_fly
+      Category: 2
+      Clip: {fileID: 8300000, guid: bb917d678d4631d45a86542588a26d2b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB16
+      Name: arrow_hit_wood
+      Category: 2
+      Clip: {fileID: 8300000, guid: 2cb6a161015835a4e81017a8faf5c460, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB17
+      Name: arrow_hit_stone
+      Category: 2
+      Clip: {fileID: 8300000, guid: d107ae00734df8f43bf392a0f57ea972, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB18
+      Name: arrow_hit_flesh
+      Category: 2
+      Clip: {fileID: 8300000, guid: 1bf4c6543eb02b042b16848c7e8c0ae9, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB19
+      Name: crossbow_load
+      Category: 2
+      Clip: {fileID: 8300000, guid: 6f70b70d25ecf8c4694a9556c6cff8d5, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB20
+      Name: crossbow_fire
+      Category: 2
+      Clip: {fileID: 8300000, guid: 76f52df38bd323748adc02c64fec6774, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB21
+      Name: bolt_impact
+      Category: 2
+      Clip: {fileID: 8300000, guid: 144ac6b5bd3bcbc468a552370914f6aa, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB22
+      Name: catapult_load
+      Category: 2
+      Clip: {fileID: 8300000, guid: 887707de68ae46247a2ce16d9e98538d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB23
+      Name: catapult_fire
+      Category: 2
+      Clip: {fileID: 8300000, guid: 370972313f24ba24d929babe046ece1f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB24
+      Name: catapult_impact
+      Category: 2
+      Clip: {fileID: 8300000, guid: a5be3561b4d250f4092cec5609a4de2d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB25
+      Name: trebuchet_release
+      Category: 2
+      Clip: {fileID: 8300000, guid: 0a1d33185a6cd8345bb3502c3b40ae5c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB26
+      Name: trebuchet_impact
+      Category: 2
+      Clip: {fileID: 8300000, guid: 01f90b2bf0f56e74f9cd20fffa42b37a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB27
+      Name: battering_ram_hit
+      Category: 2
+      Clip: {fileID: 8300000, guid: 4a792d4de81370e45b4f8dc40b13cec0, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB28
+      Name: siege_tower_move
+      Category: 2
+      Clip: {fileID: 8300000, guid: 977ee966a0a748148a25cc2f27683b90, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB29
+      Name: ballista_fire
+      Category: 2
+      Clip: {fileID: 8300000, guid: a71f6ff0f3b70e14ca8dc70c2a5e2111, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB30
+      Name: ballista_impact
+      Category: 2
+      Clip: {fileID: 8300000, guid: 7ab7c2284ea361a4d8eac86b47ff8b21, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB31
+      Name: shield_raise
+      Category: 2
+      Clip: {fileID: 8300000, guid: 1533b933d09b94d4a93a613efe64b90c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB32
+      Name: shield_block_sword
+      Category: 2
+      Clip: {fileID: 8300000, guid: 5d4d73e0124ded842a13b027a8e86bc7, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB33
+      Name: shield_block_arrow
+      Category: 2
+      Clip: {fileID: 8300000, guid: a7c6cc3315881aa4eb2f57015bb8fa66, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB34
+      Name: shield_block_heavy
+      Category: 2
+      Clip: {fileID: 8300000, guid: 7cbeae78e6e88194a8002c622604c4dd, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB35
+      Name: shield_break
+      Category: 2
+      Clip: {fileID: 8300000, guid: a1858e9ca15021448b395264415fbbc9, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB36
+      Name: armor_hit
+      Category: 2
+      Clip: {fileID: 8300000, guid: f160dac8d29da8745a0036f2d27aadec, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB37
+      Name: armor_move
+      Category: 2
+      Clip: {fileID: 8300000, guid: 025e36dd578501f4da1b1248129b1710, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB38
+      Name: spell_cast_fire
+      Category: 2
+      Clip: {fileID: 8300000, guid: a06c12fad28f3ff41aafcde5801a015e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB39
+      Name: spell_impact_fire
+      Category: 2
+      Clip: {fileID: 8300000, guid: 80fae311cbd546a46ad7a84534748de6, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB40
+      Name: spell_cast_ice
+      Category: 2
+      Clip: {fileID: 8300000, guid: b890c16bad77adb4e9a0f61c0e40c644, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB41
+      Name: spell_impact_ice
+      Category: 2
+      Clip: {fileID: 8300000, guid: 30ec9fc2a5b82554b91b752404a1f70f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB42
+      Name: spell_cast_lightning
+      Category: 2
+      Clip: {fileID: 8300000, guid: 70891a5c1c40a514ab4a79f4bc0c46d0, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB43
+      Name: spell_impact_lightning
+      Category: 2
+      Clip: {fileID: 8300000, guid: 6a61d60951de4d0489edcf1d02c2362e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB44
+      Name: spell_cast_heal
+      Category: 2
+      Clip: {fileID: 8300000, guid: deb888cb5090c8841a4de01e1ceba007, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB45
+      Name: spell_cast_buff
+      Category: 2
+      Clip: {fileID: 8300000, guid: ca14b2d49c61c834e9e3258b6fe4b1ce, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB46
+      Name: spell_cast_debuff
+      Category: 2
+      Clip: {fileID: 8300000, guid: 6ab125858ee50a14481c7dc614b5d562, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB47
+      Name: magic_charge
+      Category: 2
+      Clip: {fileID: 8300000, guid: 01addd89dc41f564eb35154dd358245f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB48
+      Name: magic_release
+      Category: 2
+      Clip: {fileID: 8300000, guid: 9d296a7723f9e4f4a9d26d77ccb56b45, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB49
+      Name: hit_reaction_light
+      Category: 2
+      Clip: {fileID: 8300000, guid: 6a7e2c4b352a4244e9b0c288f4f52285, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB50
+      Name: hit_reaction_heavy
+      Category: 2
+      Clip: {fileID: 8300000, guid: 3bb0b93dadd4dd74ab282199799051c1, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB51
+      Name: critical_hit
+      Category: 2
+      Clip: {fileID: 8300000, guid: 148348976b60d2e46bb0e2fb9a239d8d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB52
+      Name: dodge
+      Category: 2
+      Clip: {fileID: 8300000, guid: e30f057eb98138e4b9f1a84d77e03402, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB53
+      Name: parry
+      Category: 2
+      Clip: {fileID: 8300000, guid: d98b2889de1c63f4bae6dc7555cfa230, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB54
+      Name: death_small
+      Category: 2
+      Clip: {fileID: 8300000, guid: 0be27e35de9d8d04fb313acc7fa85d8c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB55
+      Name: death_large
+      Category: 2
+      Clip: {fileID: 8300000, guid: 3aac794239686ed468b38a64f4d1620e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB56
+      Name: battle_ambient_light
+      Category: 2
+      Clip: {fileID: 8300000, guid: 83dd17d6634a4e844b6e93462c2c81d2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB57
+      Name: battle_ambient_heavy
+      Category: 2
+      Clip: {fileID: 8300000, guid: 621384a7b1d2d2f428527779b63efc27, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB58
+      Name: siege_ambient
+      Category: 2
+      Clip: {fileID: 8300000, guid: 7bd72e01fd8f42d4fb9f5aac41c3ea7d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB59
+      Name: war_horn
+      Category: 2
+      Clip: {fileID: 8300000, guid: 69d669483b37b574a9a03e2b6872493a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: CMB60
+      Name: victory_horn
+      Category: 2
+      Clip: {fileID: 8300000, guid: 3e1b84f2880fe2d428c22ffbd78042cf, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV01
+      Name: rain_light
+      Category: 3
+      Clip: {fileID: 8300000, guid: 2b640d5131f1ce9469a8935356fa2f62, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV02
+      Name: rain_heavy
+      Category: 3
+      Clip: {fileID: 8300000, guid: aa14311a2311c9147b2d11fe2b9f24d2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV03
+      Name: thunder_distant
+      Category: 3
+      Clip: {fileID: 8300000, guid: 67e9ea7cd01e2c74bb18ada0e8678040, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV04
+      Name: thunder_close
+      Category: 3
+      Clip: {fileID: 8300000, guid: 287723b5ab4ee5b4d958f44d9d29c11d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV05
+      Name: wind_light
+      Category: 3
+      Clip: {fileID: 8300000, guid: d00ff6499ae790a4aba5bd877f2ff407, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV06
+      Name: wind_strong
+      Category: 3
+      Clip: {fileID: 8300000, guid: 8c3d36555aeab98438bc78a706e151fe, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV07
+      Name: snow_falling
+      Category: 3
+      Clip: {fileID: 8300000, guid: 1d2b4ecf94ec3b145b9bbe9b3704f528, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV08
+      Name: hail
+      Category: 3
+      Clip: {fileID: 8300000, guid: 2f107789878165841886950a1b514675, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV09
+      Name: birds_morning
+      Category: 3
+      Clip: {fileID: 8300000, guid: e30e3afc94acd38418443a1710cc0e0d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV10
+      Name: birds_day
+      Category: 3
+      Clip: {fileID: 8300000, guid: 942f9bdd131bcb24a90063a61a967957, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV11
+      Name: crickets_night
+      Category: 3
+      Clip: {fileID: 8300000, guid: 7bee6db5a60d9bc4c8ab60379a33ef6c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV12
+      Name: owl_night
+      Category: 3
+      Clip: {fileID: 8300000, guid: 56fda444ae675cb45bd3e76b79f3e0bb, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV13
+      Name: wolf_howl
+      Category: 3
+      Clip: {fileID: 8300000, guid: b73133d1a684365498c7ffa881947b7b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV14
+      Name: forest_ambient
+      Category: 3
+      Clip: {fileID: 8300000, guid: fec52e91bc0b38c43a361a794078ee8c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV15
+      Name: water_stream
+      Category: 3
+      Clip: {fileID: 8300000, guid: 15d3f7e849c188e4c8d57e44b7c9bd72, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV16
+      Name: water_river
+      Category: 3
+      Clip: {fileID: 8300000, guid: 4592b98b90bd92140845eefadbba812b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV17
+      Name: water_waterfall
+      Category: 3
+      Clip: {fileID: 8300000, guid: 37b12c7cc9711fc4e84dbc56bed63e90, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV18
+      Name: fire_crackling
+      Category: 3
+      Clip: {fileID: 8300000, guid: 16738dafa726ba84f95633e4c1ed688c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV19
+      Name: castle_interior
+      Category: 3
+      Clip: {fileID: 8300000, guid: de630249340ca764d99f8807b670e608, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV20
+      Name: castle_courtyard
+      Category: 3
+      Clip: {fileID: 8300000, guid: aa946cb8ef54d58428d1f2062a07eb6c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV21
+      Name: dungeon_ambient
+      Category: 3
+      Clip: {fileID: 8300000, guid: 749447c4105c83c40a3652390e28f172, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV22
+      Name: throne_room
+      Category: 3
+      Clip: {fileID: 8300000, guid: f2dc0ccfe2a509e49a0414fd7c1cae78, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV23
+      Name: tower_wind
+      Category: 3
+      Clip: {fileID: 8300000, guid: d493d6add926f384096fb67da7d003f2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV24
+      Name: wall_patrol
+      Category: 3
+      Clip: {fileID: 8300000, guid: be7e8f64b9e070f4e8d84fe86b72d9c4, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV25
+      Name: village_day
+      Category: 3
+      Clip: {fileID: 8300000, guid: 5ae3ec1aba5f7aa41b86535bec49e192, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV26
+      Name: village_night
+      Category: 3
+      Clip: {fileID: 8300000, guid: f483ec9702462a747812fab1265cd986, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV27
+      Name: blacksmith_ambient
+      Category: 3
+      Clip: {fileID: 8300000, guid: 8e5029fbb5cc26946934ec632c188ebf, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV28
+      Name: tavern_ambient
+      Category: 3
+      Clip: {fileID: 8300000, guid: 10c6ddfae33665c4ca9b1a1bf59b6ee8, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV29
+      Name: church_bells
+      Category: 3
+      Clip: {fileID: 8300000, guid: 1677929e55aed7f4b9d1f2ab9445363c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV30
+      Name: town_clock
+      Category: 3
+      Clip: {fileID: 8300000, guid: 0f5f4c6b96fd6aa4c92b16c7ac4dfd6b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV31
+      Name: magic_ambient
+      Category: 3
+      Clip: {fileID: 8300000, guid: 7d8c3a2ac6346664c8b65f4fab9e5fb2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV32
+      Name: portal_ambient
+      Category: 3
+      Clip: {fileID: 8300000, guid: 1d8b08b99b9818045b36c4f10bcd5ca2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV33
+      Name: crystal_hum
+      Category: 3
+      Clip: {fileID: 8300000, guid: bacdb55e25fee304a86a4514acd64e76, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV34
+      Name: enchanted_forest
+      Category: 3
+      Clip: {fileID: 8300000, guid: 170f0b6d01b1ea74eada18ed05d3c427, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV35
+      Name: dragon_distant
+      Category: 3
+      Clip: {fileID: 8300000, guid: 6136b68e37807db4b8d7a98019b2351e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: ENV36
+      Name: magical_storm
+      Category: 3
+      Clip: {fileID: 8300000, guid: 42095d4e019c5d14d94d89e92440f866, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX01
+      Name: magic_sparkle
+      Category: 4
+      Clip: {fileID: 8300000, guid: 22a57d990a3061449816f966bf259868, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX02
+      Name: magic_whoosh
+      Category: 4
+      Clip: {fileID: 8300000, guid: 6f323a0ab91e8d0499b936b01b54c4c8, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX03
+      Name: magic_shimmer
+      Category: 4
+      Clip: {fileID: 8300000, guid: a20cfe5f617764d4e895eeca4e8571b7, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX04
+      Name: teleport_in
+      Category: 4
+      Clip: {fileID: 8300000, guid: da84c67ddb8f05a47a5eee6c2997febb, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX05
+      Name: teleport_out
+      Category: 4
+      Clip: {fileID: 8300000, guid: 12850e2bc4215244dbc045c17b41eafd, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX06
+      Name: power_up
+      Category: 4
+      Clip: {fileID: 8300000, guid: cbf2a30109632ec4fb492ca03f067200, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX07
+      Name: power_down
+      Category: 4
+      Clip: {fileID: 8300000, guid: 4462355ac0a735d4baa7235f38dc1c5c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX08
+      Name: transformation
+      Category: 4
+      Clip: {fileID: 8300000, guid: 2eefa12a618b51d409042d3b1c777c74, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX09
+      Name: explosion_small
+      Category: 4
+      Clip: {fileID: 8300000, guid: 05263a94669b6284c9388d03259c63ea, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX10
+      Name: explosion_large
+      Category: 4
+      Clip: {fileID: 8300000, guid: 8b0a89eeaae4cf544abf906f7f2dc7c8, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX11
+      Name: fire_burst
+      Category: 4
+      Clip: {fileID: 8300000, guid: f662262bb5c45884db5ac29c82e35460, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX12
+      Name: ice_shatter
+      Category: 4
+      Clip: {fileID: 8300000, guid: 39b6ef2a0a204a84cbe2c7320fabea91, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX13
+      Name: electric_zap
+      Category: 4
+      Clip: {fileID: 8300000, guid: cbb9334279b701647a1e003051f791f8, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX14
+      Name: smoke_puff
+      Category: 4
+      Clip: {fileID: 8300000, guid: a7ae00d3d9061bd45a3e8ac42efb059a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX15
+      Name: dust_cloud
+      Category: 4
+      Clip: {fileID: 8300000, guid: 5d14a460973fd1c4ca7fe00906d48c80, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX16
+      Name: water_splash
+      Category: 4
+      Clip: {fileID: 8300000, guid: 6d0405e74afdaa24d80e841a5c2c4c21, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX17
+      Name: objective_complete
+      Category: 4
+      Clip: {fileID: 8300000, guid: dd421a9eb3990c841a7be4ea17b2720f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX18
+      Name: quest_start
+      Category: 4
+      Clip: {fileID: 8300000, guid: eaba56a2178ac6741b8a4416b992dafe, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX19
+      Name: quest_complete
+      Category: 4
+      Clip: {fileID: 8300000, guid: 5cc78174b3c2101439c28d2fba4dfee6, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX20
+      Name: rare_event
+      Category: 4
+      Clip: {fileID: 8300000, guid: cfc41aeba451ff7419658dc9c48416fe, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX21
+      Name: boss_appear
+      Category: 4
+      Clip: {fileID: 8300000, guid: e8be213c197a8b54289eabc434d11fe9, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX22
+      Name: timer_warning
+      Category: 4
+      Clip: {fileID: 8300000, guid: 1c03129205244ac469c833126124906e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX23
+      Name: timer_expired
+      Category: 4
+      Clip: {fileID: 8300000, guid: 85932d7c4d1cf6741aea897b1643afe5, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: FX24
+      Name: secret_found
+      Category: 4
+      Clip: {fileID: 8300000, guid: 296d4d4ab5adf3646a033f1b8c2450d2, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI01
+      Name: button_click_standard
+      Category: 5
+      Clip: {fileID: 8300000, guid: 9dc2df2d05f811b429b8db2519fc638b, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI02
+      Name: button_click_confirm
+      Category: 5
+      Clip: {fileID: 8300000, guid: 28deccc0afda6454189ad31338bb2e99, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI03
+      Name: button_click_cancel
+      Category: 5
+      Clip: {fileID: 8300000, guid: 9505d3d79b0948a4e81fb13cdcb1d799, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI04
+      Name: button_click_special
+      Category: 5
+      Clip: {fileID: 8300000, guid: 5912687706b6af54a9293eb691ace5a6, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI05
+      Name: button_hover
+      Category: 5
+      Clip: {fileID: 8300000, guid: 62e1b3c248bd2db4bb4fa9b7ba43a664, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI06
+      Name: button_disabled
+      Category: 5
+      Clip: {fileID: 8300000, guid: b1901b731a80a364cac03124a8b4c4e3, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI07
+      Name: toggle_on
+      Category: 5
+      Clip: {fileID: 8300000, guid: b487a08778a110a4d923bb0fd6cf55bd, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI08
+      Name: toggle_off
+      Category: 5
+      Clip: {fileID: 8300000, guid: 31ddec2a726614f4290a6e48513fe8c4, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI09
+      Name: slider_tick
+      Category: 5
+      Clip: {fileID: 8300000, guid: be2fc4b02472b5a4d934ac90c6b0fd2d, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI10
+      Name: slider_end
+      Category: 5
+      Clip: {fileID: 8300000, guid: 25423848eec4ce44b84ef0aa48cdd300, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI11
+      Name: panel_open
+      Category: 5
+      Clip: {fileID: 8300000, guid: 0a5b1f53d606d694da8cabd749bdd424, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI12
+      Name: panel_close
+      Category: 5
+      Clip: {fileID: 8300000, guid: f84f615709c0d1b4089582f9fef470b3, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI13
+      Name: popup_appear
+      Category: 5
+      Clip: {fileID: 8300000, guid: 71ae7dfda81f7134688c03682d21726a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI14
+      Name: popup_dismiss
+      Category: 5
+      Clip: {fileID: 8300000, guid: 9c3dc503c67130c4f92975b8df67055e, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI15
+      Name: tab_switch
+      Category: 5
+      Clip: {fileID: 8300000, guid: 304aab2c4db13c24eb7a764f27aebc88, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI16
+      Name: scroll_tick
+      Category: 5
+      Clip: {fileID: 8300000, guid: d5b7cc13c2a14f44996622e2dfaaeb69, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI17
+      Name: drawer_open
+      Category: 5
+      Clip: {fileID: 8300000, guid: 3878d99e9d7ac314d97827410730e976, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI18
+      Name: drawer_close
+      Category: 5
+      Clip: {fileID: 8300000, guid: bc267950830237e4c9211c838e5ecb42, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI19
+      Name: notification_info
+      Category: 5
+      Clip: {fileID: 8300000, guid: 9d10c04be10e56044a331f337d5456aa, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI20
+      Name: notification_success
+      Category: 5
+      Clip: {fileID: 8300000, guid: f04c8c733ac27494e997986e327a5ed5, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI21
+      Name: notification_warning
+      Category: 5
+      Clip: {fileID: 8300000, guid: 6118a703d18a4fd43be011d32ed3bafb, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI22
+      Name: notification_error
+      Category: 5
+      Clip: {fileID: 8300000, guid: ef9fbccdb56d03644b463141dcda0099, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI23
+      Name: notification_message
+      Category: 5
+      Clip: {fileID: 8300000, guid: 7a5d3b037420fe048915fc2a3de55527, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI24
+      Name: notification_friend
+      Category: 5
+      Clip: {fileID: 8300000, guid: 1aa864c06cdbfdf42a77e66f29cc92a5, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI25
+      Name: notification_achievement
+      Category: 5
+      Clip: {fileID: 8300000, guid: 199f64a748f2b2d498572fc24c8487fb, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI26
+      Name: notification_quest
+      Category: 5
+      Clip: {fileID: 8300000, guid: 475236da7077cd34780994ab46342e42, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI27
+      Name: coin_single
+      Category: 5
+      Clip: {fileID: 8300000, guid: 3eccd8199a379024f8d63b132dd57602, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI28
+      Name: coin_multiple
+      Category: 5
+      Clip: {fileID: 8300000, guid: c46be449c096e3b42acb2773929ce68c, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI29
+      Name: coin_large
+      Category: 5
+      Clip: {fileID: 8300000, guid: 4258b3e9cd6522e46a7a8d6f8060e3a3, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI30
+      Name: gem_collect
+      Category: 5
+      Clip: {fileID: 8300000, guid: 8d96dd4dc81ae0949962d5b308db532a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI31
+      Name: resource_collect
+      Category: 5
+      Clip: {fileID: 8300000, guid: a1aca0b65a4875e4a8fd953d06f558af, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI32
+      Name: xp_gain
+      Category: 5
+      Clip: {fileID: 8300000, guid: e9d1a325da7727b4180fe6c07226819f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI33
+      Name: level_up
+      Category: 5
+      Clip: {fileID: 8300000, guid: 1d53444ffd2cba74381fa04f90646290, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI34
+      Name: reward_chest_open
+      Category: 5
+      Clip: {fileID: 8300000, guid: a279cda0eb4ab1d40a80eefbf1e35c60, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI35
+      Name: reward_item_reveal
+      Category: 5
+      Clip: {fileID: 8300000, guid: ae0592371509fa64c9f179e898631a25, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI36
+      Name: reward_rare
+      Category: 5
+      Clip: {fileID: 8300000, guid: 1924c1119857deb4bb844206625ab9ad, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI37
+      Name: reward_legendary
+      Category: 5
+      Clip: {fileID: 8300000, guid: 58c07952005fab743a76fac39adfb3df, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI38
+      Name: menu_navigate
+      Category: 5
+      Clip: {fileID: 8300000, guid: cd79693e4c463784286e723d61cb30ce, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI39
+      Name: menu_select
+      Category: 5
+      Clip: {fileID: 8300000, guid: 7e9eea1dd41434945a18a7fd58a025af, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI40
+      Name: menu_back
+      Category: 5
+      Clip: {fileID: 8300000, guid: 59fc8778f78bd124482e0b791b66c64f, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI41
+      Name: loading_start
+      Category: 5
+      Clip: {fileID: 8300000, guid: 0c5d18b69373ad841ba95e146873669a, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI42
+      Name: loading_complete
+      Category: 5
+      Clip: {fileID: 8300000, guid: a8887dcac8561df4b82559574d8afba7, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI43
+      Name: screenshot
+      Category: 5
+      Clip: {fileID: 8300000, guid: 7cd8f2d8f9e14804a99427509ba11b18, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI44
+      Name: countdown_tick
+      Category: 5
+      Clip: {fileID: 8300000, guid: cfa79df55a563b5488e750e9278f0e37, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI45
+      Name: countdown_final
+      Category: 5
+      Clip: {fileID: 8300000, guid: a870731d9b9a5084eaeb6b9bbc1bcf48, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI46
+      Name: typing_key
+      Category: 5
+      Clip: {fileID: 8300000, guid: aebe6d8938dc73c4392f1e3ade976120, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI47
+      Name: error_buzz
+      Category: 5
+      Clip: {fileID: 8300000, guid: c2e7147717ce473418f8f5c63a25f7a9, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+    - Id: UI48
+      Name: confirm_chime
+      Category: 5
+      Clip: {fileID: 8300000, guid: cb46e368ae8010b48b10b98fb99b41ff, type: 3}
+      DefaultVolume: 1
+      PitchVariation: 0.05
+  Animations:
+    AllClips:
+    - Id: 001
+      Name: Walking
+      Type: 0
+      Clip: {fileID: -203655887218126122, guid: 57a8252e606773a49b62a4abe89a2576, type: 3}
+      IsLooping: 1
+    - Id: 002
+      Name: Walking Backwards
+      Type: 0
+      Clip: {fileID: -203655887218126122, guid: b6e973d3b147b3441abaf11b51819947, type: 3}
+      IsLooping: 1
+    - Id: 003
+      Name: Left Strafe Walk
+      Type: 2
+      Clip: {fileID: -203655887218126122, guid: b1322b97f7b449846bd23734affcf60e, type: 3}
+      IsLooping: 1
+    - Id: 004
+      Name: Right Strafe Walk
+      Type: 3
+      Clip: {fileID: -203655887218126122, guid: d3c1fd1403ea94042b53a805ddb04d07, type: 3}
+      IsLooping: 1
+    - Id: 005
+      Name: Injured Walk
+      Type: 4
+      Clip: {fileID: -203655887218126122, guid: 5c5f669ffa71fe74f96416af28d1bc87, type: 3}
+      IsLooping: 1
+    - Id: 006
+      Name: Sneaking
+      Type: 5
+      Clip: {fileID: -203655887218126122, guid: 4f9bd060895f9a144a23261e38a85946, type: 3}
+      IsLooping: 0
+    - Id: 007
+      Name: Confident Walk
+      Type: 0
+      Clip: {fileID: -203655887218126122, guid: 4ad1db730d8216f46b83449d50636a8b, type: 3}
+      IsLooping: 1
+    - Id: 008
+      Name: Running
+      Type: 6
+      Clip: {fileID: -203655887218126122, guid: fff220a24fde909428e8ab9c50d67578, type: 3}
+      IsLooping: 1
+    - Id: 009
+      Name: Running Backward
+      Type: 6
+      Clip: {fileID: -203655887218126122, guid: b5873dcb2d506fd4cb45757ce3bbba63, type: 3}
+      IsLooping: 1
+    - Id: 010
+      Name: Left Strafe
+      Type: 22
+      Clip: {fileID: -203655887218126122, guid: 744c138624868c1489010138fb13b0a8, type: 3}
+      IsLooping: 1
+    - Id: 011
+      Name: Right Strafe
+      Type: 22
+      Clip: {fileID: -203655887218126122, guid: 52c3e8c339376b5499aedc8acf9b853e, type: 3}
+      IsLooping: 1
+    - Id: 012
+      Name: Fast Run
+      Type: 8
+      Clip: {fileID: -203655887218126122, guid: c07a68a274bac464a8085cedcc85b3a3, type: 3}
+      IsLooping: 1
+    - Id: 013
+      Name: Injured Run
+      Type: 9
+      Clip: {fileID: -203655887218126122, guid: 4ea97f1a9c5043e42a1f3896bec91ec8, type: 3}
+      IsLooping: 1
+    - Id: 014
+      Name: Combat Run
+      Type: 9
+      Clip: {fileID: -203655887218126122, guid: 1a5c0af93e90a1f4389137ef527f6d5e, type: 3}
+      IsLooping: 1
+    - Id: 015
+      Name: Left Turn 90
+      Type: 20
+      Clip: {fileID: -203655887218126122, guid: aecdf973a0a876a47aab5c7f4e1c0b9a, type: 3}
+      IsLooping: 0
+    - Id: 016
+      Name: Right Turn 90
+      Type: 21
+      Clip: {fileID: -203655887218126122, guid: a416d284d72e0e0449fe5b32c93c4516, type: 3}
+      IsLooping: 0
+    - Id: 017
+      Name: Turn
+      Type: 19
+      Clip: {fileID: -203655887218126122, guid: 7711d1d835e87764ba202d6023ecb12a, type: 3}
+      IsLooping: 0
+    - Id: 018
+      Name: Jump
+      Type: 10
+      Clip: {fileID: -203655887218126122, guid: 155f85b43e2b0404c89c90473d1d975e, type: 3}
+      IsLooping: 0
+    - Id: 019
+      Name: Falling Idle
+      Type: 11
+      Clip: {fileID: -203655887218126122, guid: d5d24d9d3cd980d45a14c50ea4a94fcd, type: 3}
+      IsLooping: 1
+    - Id: 020
+      Name: Landing
+      Type: 12
+      Clip: {fileID: -203655887218126122, guid: 0d19cee0184086e4382c032642382086, type: 3}
+      IsLooping: 0
+    - Id: 021
+      Name: Running Jump
+      Type: 6
+      Clip: {fileID: -203655887218126122, guid: dfe6c3d49485a9b44852b0eb2d3391d5, type: 3}
+      IsLooping: 1
+    - Id: 022
+      Name: Falling
+      Type: 11
+      Clip: {fileID: -203655887218126122, guid: f9aedeaef13475047a87fe8016836be7, type: 3}
+      IsLooping: 0
+    - Id: 023
+      Name: Hard Landing
+      Type: 13
+      Clip: {fileID: -203655887218126122, guid: fee8958b96e2acf43b372f26eecc22cb, type: 3}
+      IsLooping: 0
+    - Id: 024
+      Name: Dodge Left
+      Type: 15
+      Clip: {fileID: -203655887218126122, guid: 05ba481a8ff473340b05550aa102b25d, type: 3}
+      IsLooping: 0
+    - Id: 025
+      Name: Dodge Right
+      Type: 16
+      Clip: {fileID: -203655887218126122, guid: ee81414ccca163d4ea94bcf1bb252e7f, type: 3}
+      IsLooping: 0
+    - Id: 026
+      Name: Dodge Back
+      Type: 17
+      Clip: {fileID: -203655887218126122, guid: 84fe7e14482afbb47b227ff0e3c59a68, type: 3}
+      IsLooping: 0
+    - Id: 027
+      Name: Combat Roll
+      Type: 18
+      Clip: {fileID: -203655887218126122, guid: bec55f7e1dc2a5041adc75e161a1bc98, type: 3}
+      IsLooping: 0
+    - Id: 028
+      Name: Idle
+      Type: 22
+      Clip: {fileID: -203655887218126122, guid: 5216fd0672086e6428a7659e7a1bcb7e, type: 3}
+      IsLooping: 1
+    - Id: 029
+      Name: Alert Idle
+      Type: 23
+      Clip: {fileID: -203655887218126122, guid: 1359611b1e8c3544791d87a6b9240938, type: 3}
+      IsLooping: 1
+    - Id: 030
+      Name: Tired Idle
+      Type: 24
+      Clip: {fileID: -203655887218126122, guid: 86a2533b7fa418544aa5a4fe7c0da052, type: 3}
+      IsLooping: 1
+    - Id: 031
+      Name: Happy Idle
+      Type: 25
+      Clip: {fileID: -203655887218126122, guid: ba4d7cad1ccf5254da2f2a96b6cecbb0, type: 3}
+      IsLooping: 1
+    - Id: 032
+      Name: Sad Idle
+      Type: 26
+      Clip: {fileID: -203655887218126122, guid: 1c1beb6e3ab99af41a806c7127a56cba, type: 3}
+      IsLooping: 1
+    - Id: 033
+      Name: Breathing Idle
+      Type: 27
+      Clip: {fileID: -203655887218126122, guid: 8cdf5a3beb31b10418d7ffd03fdad8de, type: 3}
+      IsLooping: 1
+    - Id: 034
+      Name: Sword Idle
+      Type: 28
+      Clip: {fileID: -203655887218126122, guid: 51ee05086bfd95f42aa62db51b9032a4, type: 3}
+      IsLooping: 1
+    - Id: 035
+      Name: Two Hand Sword Idle
+      Type: 29
+      Clip: {fileID: -203655887218126122, guid: 14751ccb74854204d9d4a958557824e3, type: 3}
+      IsLooping: 1
+    - Id: 036
+      Name: Bow Idle
+      Type: 30
+      Clip: {fileID: -203655887218126122, guid: f21bd01ff41a370418c06f64af2dfae0, type: 3}
+      IsLooping: 1
+    - Id: 037
+      Name: Shield Idle
+      Type: 31
+      Clip: {fileID: -203655887218126122, guid: 5e2fced361144eb4c867ca8c58609612, type: 3}
+      IsLooping: 1
+    - Id: 038
+      Name: Spear Idle
+      Type: 32
+      Clip: {fileID: -203655887218126122, guid: 9ef467fba2af62d49909ec77431ef2d5, type: 3}
+      IsLooping: 1
+    - Id: 039
+      Name: Looking Around
+      Type: 22
+      Clip: {fileID: -203655887218126122, guid: bef85e7513a6dc84c9467fcc4036abd2, type: 3}
+      IsLooping: 1
+    - Id: 040
+      Name: Scratching Head
+      Type: 22
+      Clip: {fileID: -203655887218126122, guid: 3feeaf4d60d63e34c99ab57ac2394dd1, type: 3}
+      IsLooping: 1
+    - Id: 041
+      Name: Stretching
+      Type: 35
+      Clip: {fileID: -203655887218126122, guid: 76780e78e320beb419993840709e28b3, type: 3}
+      IsLooping: 0
+    - Id: 042
+      Name: Yawning
+      Type: 36
+      Clip: {fileID: -203655887218126122, guid: 342c99a4a09dd4d49afd7261674bde72, type: 3}
+      IsLooping: 0
+    - Id: 043
+      Name: Check Watch
+      Type: 37
+      Clip: {fileID: -203655887218126122, guid: 0636b01435f43b24f8fcf671f883e135, type: 3}
+      IsLooping: 0
+    - Id: 044
+      Name: Sword Slash
+      Type: 38
+      Clip: {fileID: -203655887218126122, guid: 305b83f77280f6f48950759886e558a2, type: 3}
+      IsLooping: 0
+    - Id: 045
+      Name: Sword And Shield Slash
+      Type: 43
+      Clip: {fileID: -203655887218126122, guid: bf265e8e168832c4697afcd4ea742882, type: 3}
+      IsLooping: 0
+    - Id: 046
+      Name: Great Sword Slash
+      Type: 45
+      Clip: {fileID: -203655887218126122, guid: 5c1b1495da876d64aa3a600577e0a439, type: 3}
+      IsLooping: 0
+    - Id: 047
+      Name: Sword Block
+      Type: 39
+      Clip: {fileID: -203655887218126122, guid: 1fec62cf5b9110340b545565f6ecc66e, type: 3}
+      IsLooping: 0
+    - Id: 048
+      Name: Sword Parry
+      Type: 40
+      Clip: {fileID: -203655887218126122, guid: 549bc78f416f7ce44bceee17fef61b0d, type: 3}
+      IsLooping: 0
+    - Id: 049
+      Name: Draw Sword
+      Type: 41
+      Clip: {fileID: -203655887218126122, guid: 71fb1b402884f0c42bf593d9c78332fd, type: 3}
+      IsLooping: 0
+    - Id: 050
+      Name: Sheathe Sword
+      Type: 42
+      Clip: {fileID: -203655887218126122, guid: 9954f66e2746e4848a598c1b6ec18e61, type: 3}
+      IsLooping: 0
+    - Id: 051
+      Name: Two Hand Sword Attack
+      Type: 48
+      Clip: {fileID: -203655887218126122, guid: 9b788e84d674f1041aad13f31cbb1005, type: 3}
+      IsLooping: 0
+    - Id: 052
+      Name: Great Sword Attack
+      Type: 46
+      Clip: {fileID: -203655887218126122, guid: 2d315c850099a7e499802413f05d4ebb, type: 3}
+      IsLooping: 0
+    - Id: 053
+      Name: Great Sword Overhead
+      Type: 47
+      Clip: {fileID: -203655887218126122, guid: 72e01bcc9dc222247a248a459dfe18a7, type: 3}
+      IsLooping: 0
+    - Id: 054
+      Name: Two Hand Block
+      Type: 49
+      Clip: {fileID: -203655887218126122, guid: 76f9d344b2943f84abc34d292d1f3ac5, type: 3}
+      IsLooping: 0
+    - Id: 055
+      Name: Axe Slash
+      Type: 50
+      Clip: {fileID: -203655887218126122, guid: 6e862dd3bf9bcc8428f8daf3256d8131, type: 3}
+      IsLooping: 0
+    - Id: 056
+      Name: Axe Attack
+      Type: 51
+      Clip: {fileID: -203655887218126122, guid: 6f85a5ca6f948f44bb8b26c6c497309c, type: 3}
+      IsLooping: 0
+    - Id: 057
+      Name: Spear Thrust
+      Type: 52
+      Clip: {fileID: -203655887218126122, guid: 4014e01dbe083cf4aa74ab4265084ab2, type: 3}
+      IsLooping: 0
+    - Id: 058
+      Name: Spear Swing
+      Type: 53
+      Clip: {fileID: -203655887218126122, guid: 1ab8ad32730cc704d87704fb39148a38, type: 3}
+      IsLooping: 0
+    - Id: 059
+      Name: Spear Block
+      Type: 54
+      Clip: {fileID: -203655887218126122, guid: 9eff0b7b40225794abccc0d75af3acca, type: 3}
+      IsLooping: 0
+    - Id: 060
+      Name: Throw
+      Type: 58
+      Clip: {fileID: -203655887218126122, guid: cccec04e9b98d4b42a3c43ff063f922a, type: 3}
+      IsLooping: 0
+    - Id: 061
+      Name: Shield Block
+      Type: 55
+      Clip: {fileID: -203655887218126122, guid: 44da2ab9dcab27a49a5b8622fdac8e99, type: 3}
+      IsLooping: 0
+    - Id: 062
+      Name: Shield Block High
+      Type: 56
+      Clip: {fileID: -203655887218126122, guid: e14f835d1063d62489701d726a30ea6f, type: 3}
+      IsLooping: 0
+    - Id: 063
+      Name: Shield Bash
+      Type: 57
+      Clip: {fileID: -203655887218126122, guid: 766ceee696eaaab4eb7f661d70602ced, type: 3}
+      IsLooping: 0
+    - Id: 064
+      Name: Sword And Shield Attack
+      Type: 44
+      Clip: {fileID: -203655887218126122, guid: ae1b1cbf63705d648b176dc981a5ed54, type: 3}
+      IsLooping: 0
+    - Id: 065
+      Name: Draw Arrow
+      Type: 59
+      Clip: {fileID: -203655887218126122, guid: 5b7233154d915d94a97522cccfb855d6, type: 3}
+      IsLooping: 0
+    - Id: 066
+      Name: Aim Idle
+      Type: 22
+      Clip: {fileID: -203655887218126122, guid: 91b8a922ff1e7ef41bd15688325d922b, type: 3}
+      IsLooping: 1
+    - Id: 067
+      Name: Bow Fire
+      Type: 61
+      Clip: {fileID: -203655887218126122, guid: c83b048d52c12c140b18db4d52bfba25, type: 3}
+      IsLooping: 0
+    - Id: 068
+      Name: Running Bow Fire
+      Type: 6
+      Clip: {fileID: -203655887218126122, guid: 64a2b9842c597b84ebeefafe081411ba, type: 3}
+      IsLooping: 1
+    - Id: 069
+      Name: Crossbow Reload
+      Type: 63
+      Clip: {fileID: -203655887218126122, guid: 81abc97b0fa25224fa440436de0af5d8, type: 3}
+      IsLooping: 0
+    - Id: 070
+      Name: Crossbow Fire
+      Type: 61
+      Clip: {fileID: -203655887218126122, guid: eeb9b10a54bc5f046b3e1aec608e6447, type: 3}
+      IsLooping: 0
+    - Id: 071
+      Name: Casting Spell
+      Type: 65
+      Clip: {fileID: -203655887218126122, guid: b8bb93d2f6ad3744c98748d4466e295a, type: 3}
+      IsLooping: 0
+    - Id: 072
+      Name: Magic Attack
+      Type: 66
+      Clip: {fileID: -203655887218126122, guid: 5696baff22b81e14eb0d2a5f94eb6908, type: 3}
+      IsLooping: 0
+    - Id: 073
+      Name: Channeling
+      Type: 67
+      Clip: {fileID: -203655887218126122, guid: 45677aa37b277fa4784a78fd5bcfa953, type: 3}
+      IsLooping: 0
+    - Id: 074
+      Name: Blessing
+      Type: 68
+      Clip: {fileID: -203655887218126122, guid: 619ee87bd58d2594cacf497bf9832e2b, type: 3}
+      IsLooping: 0
+    - Id: 075
+      Name: Magic AOE
+      Type: 69
+      Clip: {fileID: -203655887218126122, guid: b35059891f369714a9180ee6478612d9, type: 3}
+      IsLooping: 0
+    - Id: 076
+      Name: Summoning
+      Type: 70
+      Clip: {fileID: -203655887218126122, guid: a461e3ded1d7c6045996e59516bf4704, type: 3}
+      IsLooping: 0
+    - Id: 077
+      Name: Hit Reaction
+      Type: 71
+      Clip: {fileID: -203655887218126122, guid: 362deffa8273720468201ee56501625f, type: 3}
+      IsLooping: 0
+    - Id: 078
+      Name: Hit From Back
+      Type: 72
+      Clip: {fileID: -203655887218126122, guid: a045e3daf8612b641933f2c8f2d4ad33, type: 3}
+      IsLooping: 0
+    - Id: 079
+      Name: Hit Reaction Left
+      Type: 73
+      Clip: {fileID: -203655887218126122, guid: 14190ef7006ef734f97baad4657c6425, type: 3}
+      IsLooping: 0
+    - Id: 080
+      Name: Hit Reaction Right
+      Type: 74
+      Clip: {fileID: -203655887218126122, guid: 2afb0c371ffc3c44db05aa9c3b86fd49, type: 3}
+      IsLooping: 0
+    - Id: 081
+      Name: Heavy Hit
+      Type: 75
+      Clip: {fileID: -203655887218126122, guid: e9e5451f96be40a4886dabe65fde8d1b, type: 3}
+      IsLooping: 0
+    - Id: 082
+      Name: Knockback
+      Type: 76
+      Clip: {fileID: -203655887218126122, guid: 57af46d5f97677544a508ca9c42e2160, type: 3}
+      IsLooping: 0
+    - Id: 083
+      Name: Knocked Down
+      Type: 77
+      Clip: {fileID: -203655887218126122, guid: 5cb77ecb1a8d2934ebb7202c18404b24, type: 3}
+      IsLooping: 0
+    - Id: 084
+      Name: Getting Up
+      Type: 78
+      Clip: {fileID: -203655887218126122, guid: 241d841a00b5f3e47b3926f767e12c92, type: 3}
+      IsLooping: 0
+    - Id: 085
+      Name: Death Forward
+      Type: 79
+      Clip: {fileID: -203655887218126122, guid: 03b1040704bdd30408c4c2099bdf09d0, type: 3}
+      IsLooping: 0
+    - Id: 086
+      Name: Death Backward
+      Type: 80
+      Clip: {fileID: -203655887218126122, guid: fc92cbedae5a3624f9e33a3585094bb0, type: 3}
+      IsLooping: 0
+    - Id: 087
+      Name: Death Left
+      Type: 81
+      Clip: {fileID: -203655887218126122, guid: d5a1f4581b9a4614494a15c0bd5fe86c, type: 3}
+      IsLooping: 0
+    - Id: 088
+      Name: Death Right
+      Type: 82
+      Clip: {fileID: -203655887218126122, guid: 5fc42390c4230f04dbcdce609140deeb, type: 3}
+      IsLooping: 0
+    - Id: 089
+      Name: Dramatic Death
+      Type: 83
+      Clip: {fileID: -203655887218126122, guid: 266731d55d7fd9548891604eb4a650fc, type: 3}
+      IsLooping: 0
+    - Id: 090
+      Name: Rising From Ground
+      Type: 84
+      Clip: {fileID: -203655887218126122, guid: 92701fae20847f84eb01370210dc1b8c, type: 3}
+      IsLooping: 0
+    - Id: 091
+      Name: Picking Up
+      Type: 85
+      Clip: {fileID: -203655887218126122, guid: f2bb5904b25793a40b9eb2ddfbaa147b, type: 3}
+      IsLooping: 0
+    - Id: 092
+      Name: Reaching Up
+      Type: 86
+      Clip: {fileID: -203655887218126122, guid: fd72154bb67ee5441a65ce385eb71d11, type: 3}
+      IsLooping: 0
+    - Id: 093
+      Name: Put Down
+      Type: 87
+      Clip: {fileID: -203655887218126122, guid: df8c29cb29c6c3b4787472069e745afa, type: 3}
+      IsLooping: 0
+    - Id: 094
+      Name: Pushing
+      Type: 88
+      Clip: {fileID: -203655887218126122, guid: fa9b7dd146cce0c489f63778828d8a8f, type: 3}
+      IsLooping: 0
+    - Id: 095
+      Name: Pulling
+      Type: 89
+      Clip: {fileID: -203655887218126122, guid: 56dfb3a7656973948a4e53707cc532f8, type: 3}
+      IsLooping: 0
+    - Id: 096
+      Name: Opening Chest
+      Type: 90
+      Clip: {fileID: -203655887218126122, guid: 94ddff14f63ef99489c22b38b9b3c874, type: 3}
+      IsLooping: 0
+    - Id: 097
+      Name: Open Door
+      Type: 91
+      Clip: {fileID: -203655887218126122, guid: 5d241f9e3182f1945a267de98923f44f, type: 3}
+      IsLooping: 0
+    - Id: 098
+      Name: Lever Pull
+      Type: 92
+      Clip: {fileID: -203655887218126122, guid: 9f49e0ace91dfc54eaced20590f4cf15, type: 3}
+      IsLooping: 0
+    - Id: 099
+      Name: Waving
+      Type: 93
+      Clip: {fileID: -203655887218126122, guid: c659693f24838bd499baab80a8f46565, type: 3}
+      IsLooping: 0
+    - Id: 100
+      Name: Bowing
+      Type: 94
+      Clip: {fileID: -203655887218126122, guid: 98b1111ce49b20f44839ff60081a5107, type: 3}
+      IsLooping: 0
+    - Id: 101
+      Name: Salute
+      Type: 95
+      Clip: {fileID: -203655887218126122, guid: 558d708204b57334ea22ed3db9d3b5fb, type: 3}
+      IsLooping: 0
+    - Id: 102
+      Name: Clapping
+      Type: 96
+      Clip: {fileID: -203655887218126122, guid: 0d8ef9cb90c3cb2499456473a4ad123d, type: 3}
+      IsLooping: 0
+    - Id: 103
+      Name: Victory Cheer
+      Type: 97
+      Clip: {fileID: -203655887218126122, guid: b492d98970407664283ff5c442cbf5ad, type: 3}
+      IsLooping: 0
+    - Id: 104
+      Name: Head Shake
+      Type: 98
+      Clip: {fileID: -203655887218126122, guid: 30606f25b6dabdc48a8d3018299e040b, type: 3}
+      IsLooping: 0
+    - Id: 105
+      Name: Head Nod
+      Type: 99
+      Clip: {fileID: -203655887218126122, guid: e430c487d6eeda64889c5408a057f682, type: 3}
+      IsLooping: 0
+    - Id: 106
+      Name: Pointing
+      Type: 100
+      Clip: {fileID: -203655887218126122, guid: 45965c535e134994eb052632d0c375ed, type: 3}
+      IsLooping: 0
+    - Id: 107
+      Name: Hammering
+      Type: 101
+      Clip: {fileID: -203655887218126122, guid: 092c9007641b35a468e6f76fdd759d26, type: 3}
+      IsLooping: 0
+  GeneratedPrefabs: []

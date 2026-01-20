@@ -1,0 +1,255 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: UISoundLibrary
+  m_EditorClassIdentifier: ApexCitadels.PC:ApexCitadels.PC.Audio:UISoundLibrary
+  sounds:
+  - type: 0
+    clip: {fileID: 8300000, guid: 9dc2df2d05f811b429b8db2519fc638b, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 1
+    clip: {fileID: 8300000, guid: 28deccc0afda6454189ad31338bb2e99, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 2
+    clip: {fileID: 8300000, guid: 9505d3d79b0948a4e81fb13cdcb1d799, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 3
+    clip: {fileID: 8300000, guid: 5912687706b6af54a9293eb691ace5a6, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 4
+    clip: {fileID: 8300000, guid: 62e1b3c248bd2db4bb4fa9b7ba43a664, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 48
+    clip: {fileID: 8300000, guid: b1901b731a80a364cac03124a8b4c4e3, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 6
+    clip: {fileID: 8300000, guid: b487a08778a110a4d923bb0fd6cf55bd, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 7
+    clip: {fileID: 8300000, guid: 31ddec2a726614f4290a6e48513fe8c4, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 8
+    clip: {fileID: 8300000, guid: be2fc4b02472b5a4d934ac90c6b0fd2d, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 9
+    clip: {fileID: 8300000, guid: 25423848eec4ce44b84ef0aa48cdd300, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 10
+    clip: {fileID: 8300000, guid: 0a5b1f53d606d694da8cabd749bdd424, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 11
+    clip: {fileID: 8300000, guid: f84f615709c0d1b4089582f9fef470b3, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 12
+    clip: {fileID: 8300000, guid: 71ae7dfda81f7134688c03682d21726a, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 13
+    clip: {fileID: 8300000, guid: 9c3dc503c67130c4f92975b8df67055e, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 14
+    clip: {fileID: 8300000, guid: 304aab2c4db13c24eb7a764f27aebc88, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 15
+    clip: {fileID: 8300000, guid: d5b7cc13c2a14f44996622e2dfaaeb69, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 16
+    clip: {fileID: 8300000, guid: 3878d99e9d7ac314d97827410730e976, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 17
+    clip: {fileID: 8300000, guid: bc267950830237e4c9211c838e5ecb42, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 18
+    clip: {fileID: 8300000, guid: 9d10c04be10e56044a331f337d5456aa, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 19
+    clip: {fileID: 8300000, guid: f04c8c733ac27494e997986e327a5ed5, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 20
+    clip: {fileID: 8300000, guid: 6118a703d18a4fd43be011d32ed3bafb, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 21
+    clip: {fileID: 8300000, guid: ef9fbccdb56d03644b463141dcda0099, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 22
+    clip: {fileID: 8300000, guid: 7a5d3b037420fe048915fc2a3de55527, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 23
+    clip: {fileID: 8300000, guid: 1aa864c06cdbfdf42a77e66f29cc92a5, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 24
+    clip: {fileID: 8300000, guid: 199f64a748f2b2d498572fc24c8487fb, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 25
+    clip: {fileID: 8300000, guid: 475236da7077cd34780994ab46342e42, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 26
+    clip: {fileID: 8300000, guid: 3eccd8199a379024f8d63b132dd57602, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 27
+    clip: {fileID: 8300000, guid: c46be449c096e3b42acb2773929ce68c, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 28
+    clip: {fileID: 8300000, guid: 4258b3e9cd6522e46a7a8d6f8060e3a3, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 29
+    clip: {fileID: 8300000, guid: 8d96dd4dc81ae0949962d5b308db532a, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 30
+    clip: {fileID: 8300000, guid: a1aca0b65a4875e4a8fd953d06f558af, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 31
+    clip: {fileID: 8300000, guid: e9d1a325da7727b4180fe6c07226819f, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 32
+    clip: {fileID: 8300000, guid: 1d53444ffd2cba74381fa04f90646290, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 33
+    clip: {fileID: 8300000, guid: a279cda0eb4ab1d40a80eefbf1e35c60, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 34
+    clip: {fileID: 8300000, guid: ae0592371509fa64c9f179e898631a25, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 35
+    clip: {fileID: 8300000, guid: 1924c1119857deb4bb844206625ab9ad, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 36
+    clip: {fileID: 8300000, guid: 58c07952005fab743a76fac39adfb3df, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 37
+    clip: {fileID: 8300000, guid: cd79693e4c463784286e723d61cb30ce, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 38
+    clip: {fileID: 8300000, guid: 7e9eea1dd41434945a18a7fd58a025af, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 39
+    clip: {fileID: 8300000, guid: 59fc8778f78bd124482e0b791b66c64f, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 40
+    clip: {fileID: 8300000, guid: 0c5d18b69373ad841ba95e146873669a, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 41
+    clip: {fileID: 8300000, guid: a8887dcac8561df4b82559574d8afba7, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 42
+    clip: {fileID: 8300000, guid: 7cd8f2d8f9e14804a99427509ba11b18, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 43
+    clip: {fileID: 8300000, guid: cfa79df55a563b5488e750e9278f0e37, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 44
+    clip: {fileID: 8300000, guid: a870731d9b9a5084eaeb6b9bbc1bcf48, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 45
+    clip: {fileID: 8300000, guid: aebe6d8938dc73c4392f1e3ade976120, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 46
+    clip: {fileID: 8300000, guid: c2e7147717ce473418f8f5c63a25f7a9, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
+  - type: 47
+    clip: {fileID: 8300000, guid: cb46e368ae8010b48b10b98fb99b41ff, type: 3}
+    volume: 1
+    pitch: 1
+    pitchVariation: 0.05
