@@ -13,6 +13,7 @@ using ApexCitadels.PC.WebGL;
 using ApexCitadels.PC.Visual;
 using ApexCitadels.PC.Environment;
 using ApexCitadels.Building;
+using ApexCitadels.Environment;
 
 namespace ApexCitadels.PC.Editor
 {

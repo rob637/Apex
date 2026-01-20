@@ -4,6 +4,7 @@ using UnityEngine.Rendering;
 using ApexCitadels.PC;
 using ApexCitadels.PC.UI;
 using ApexCitadels.PC.WebGL;
+using ApexCitadels.Environment;
 
 namespace ApexCitadels.PC.Editor
 {
