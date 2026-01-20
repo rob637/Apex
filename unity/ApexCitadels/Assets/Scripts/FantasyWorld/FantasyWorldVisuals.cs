@@ -105,8 +105,8 @@ namespace ApexCitadels.FantasyWorld
             // 1. BLOOM (The "Glow")
             if (enableBloom)
             {
-                Bloom bloom;
-                if (!_profile.TryGet(out bloom)) bloom = _profile.Add<Bloom>();
+                UnityEngine.Rendering.Universal.Bloom bloom;
+                if (!_profile.TryGet(out bloom)) bloom = _profile.Add<UnityEngine.Rendering.Universal.Bloom>();
                 
                 bloom.intensity.value = 1.5f;
                 bloom.intensity.overrideState = true;
@@ -123,8 +123,8 @@ namespace ApexCitadels.FantasyWorld
             // 2. TONEMAPPING (Cinema Color)
             if (enableTonemapping)
             {
-                Tonemapping tonemapping;
-                if (!_profile.TryGet(out tonemapping)) tonemapping = _profile.Add<Tonemapping>();
+                UnityEngine.Rendering.Universal.Tonemapping tonemapping;
+                if (!_profile.TryGet(out tonemapping)) tonemapping = _profile.Add<UnityEngine.Rendering.Universal.Tonemapping>();
                 
                 tonemapping.mode.value = TonemappingMode.ACES;
                 tonemapping.mode.overrideState = true;
@@ -135,8 +135,8 @@ namespace ApexCitadels.FantasyWorld
             // 3. COLOR ADJUSTMENTS (Vibrancy)
             if (enableColorAdjustments)
             {
-                ColorAdjustments colorAdj;
-                if (!_profile.TryGet(out colorAdj)) colorAdj = _profile.Add<ColorAdjustments>();
+                UnityEngine.Rendering.Universal.ColorAdjustments colorAdj;
+                if (!_profile.TryGet(out colorAdj)) colorAdj = _profile.Add<UnityEngine.Rendering.Universal.ColorAdjustments>();
                 
                 colorAdj.postExposure.value = 0.2f;
                 colorAdj.postExposure.overrideState = true;
@@ -153,8 +153,8 @@ namespace ApexCitadels.FantasyWorld
             // 4. VIGNETTE (Focus)
             if (enableVignette)
             {
-                Vignette vignette;
-                if (!_profile.TryGet(out vignette)) vignette = _profile.Add<Vignette>();
+                UnityEngine.Rendering.Universal.Vignette vignette;
+                if (!_profile.TryGet(out vignette)) vignette = _profile.Add<UnityEngine.Rendering.Universal.Vignette>();
                 
                 vignette.intensity.value = 0.25f;
                 vignette.intensity.overrideState = true;
