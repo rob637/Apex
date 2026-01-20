@@ -26,8 +26,8 @@ namespace ApexCitadels.FantasyWorld
         public bool enableVignette = true;
         public bool enableColorAdjustments = true;
 
-        private Volume _globalVolume;
-        private VolumeProfile _profile;
+        private UnityEngine.Rendering.Volume _globalVolume;
+        private UnityEngine.Rendering.VolumeProfile _profile;
 
         private void Start()
         {
@@ -88,17 +88,17 @@ namespace ApexCitadels.FantasyWorld
         private void SetupPostProcessing()
         {
             // Find or Create Global Volume
-            _globalVolume = GetComponent<Volume>();
+            _globalVolume = GetComponent<UnityEngine.Rendering.Volume>();
             if (_globalVolume == null)
             {
-                _globalVolume = gameObject.AddComponent<Volume>();
+                _globalVolume = gameObject.AddComponent<UnityEngine.Rendering.Volume>();
                 _globalVolume.isGlobal = true;
             }
 
             // Create a new profile if needed (runtime only to avoid asset clutter)
             if (_profile == null)
             {
-                _profile = ScriptableObject.CreateInstance<VolumeProfile>();
+                _profile = ScriptableObject.CreateInstance<UnityEngine.Rendering.VolumeProfile>();
                 _globalVolume.profile = _profile;
             }
 
