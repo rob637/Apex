@@ -2,7 +2,9 @@
     "name": "ApexCitadels.FantasyWorld",
     "rootNamespace": "ApexCitadels.FantasyWorld",
     "references": [
-        "ApexCitadels.Core"
+        "ApexCitadels.Core",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
