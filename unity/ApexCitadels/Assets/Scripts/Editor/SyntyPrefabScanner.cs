@@ -271,44 +271,53 @@ namespace ApexCitadels.Editor
         {
             if (_targetLibrary == null) return;
             
-            Undo.RecordObject(_targetLibrary, "Assign Prefabs");
-            
             string fieldName = CategoryToFieldName(category);
-            var field = typeof(FantasyPrefabLibrary).GetField(fieldName, 
-                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            if (field != null)
+            
+            // Use SerializedObject for proper Unity serialization
+            SerializedObject so = new SerializedObject(_targetLibrary);
+            SerializedProperty prop = so.FindProperty(fieldName);
+            
+            if (prop != null && prop.isArray)
             {
-                field.SetValue(_targetLibrary, prefabs);
+                prop.ClearArray();
+                for (int i = 0; i < prefabs.Length; i++)
+                {
+                    prop.InsertArrayElementAtIndex(i);
+                    prop.GetArrayElementAtIndex(i).objectReferenceValue = prefabs[i];
+                }
+                so.ApplyModifiedProperties();
                 Debug.Log($"Assigned {prefabs.Length} prefabs to {fieldName}");
             }
             else
             {
                 Debug.LogWarning($"No field found for category: {category} (tried field: {fieldName})");
             }
-            
-            EditorUtility.SetDirty(_targetLibrary);
-            AssetDatabase.SaveAssets();
         }
         
         private void AutoAssignAll()
         {
             if (_targetLibrary == null) return;
             
-            Undo.RecordObject(_targetLibrary, "Auto-Assign All Prefabs");
-            
+            SerializedObject so = new SerializedObject(_targetLibrary);
             int assigned = 0;
             int failed = 0;
             
             foreach (var category in _categorizedPrefabs)
             {
                 string fieldName = CategoryToFieldName(category.Key);
-                var field = typeof(FantasyPrefabLibrary).GetField(fieldName,
-                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-                if (field != null)
+                SerializedProperty prop = so.FindProperty(fieldName);
+                
+                if (prop != null && prop.isArray)
                 {
-                    field.SetValue(_targetLibrary, category.Value.ToArray());
+                    prop.ClearArray();
+                    var prefabs = category.Value;
+                    for (int i = 0; i < prefabs.Count; i++)
+                    {
+                        prop.InsertArrayElementAtIndex(i);
+                        prop.GetArrayElementAtIndex(i).objectReferenceValue = prefabs[i];
+                    }
                     assigned++;
-                    Debug.Log($"Assigned {category.Value.Count} prefabs to {fieldName}");
+                    Debug.Log($"Assigned {prefabs.Count} prefabs to {fieldName}");
                 }
                 else
                 {
@@ -317,7 +326,7 @@ namespace ApexCitadels.Editor
                 }
             }
             
-            EditorUtility.SetDirty(_targetLibrary);
+            so.ApplyModifiedProperties();
             AssetDatabase.SaveAssets();
             
             _status = $"Assigned {assigned} categories, {failed} failed";

@@ -367,7 +367,7 @@ namespace ApexCitadels.FantasyWorld
         
         [Header("API Settings")]
         [SerializeField] private string overpassUrl = "https://overpass-api.de/api/interpreter";
-        [SerializeField] private float requestTimeout = 30f;
+        [SerializeField] private float requestTimeout = 60f;
         [SerializeField] private float minRequestInterval = 1f; // Rate limiting
         
         [Header("Cache")]
@@ -495,31 +495,15 @@ namespace ApexCitadels.FantasyWorld
         
         private IEnumerator FetchBBoxCoroutine(double south, double west, double north, double east, string cacheKey, Action<OSMAreaData> callback)
         {
-            // Build Overpass query
+            // Build Overpass query - simplified for speed
             string bbox = $"{south:F6},{west:F6},{north:F6},{east:F6}";
             
-            string query = $@"
-[out:json][timeout:25];
+            // Simpler query - just buildings and roads for now (faster response)
+            string query = $@"[out:json][timeout:60];
 (
-  // Buildings
   way[""building""]({bbox});
-  relation[""building""]({bbox});
-  
-  // Roads
   way[""highway""]({bbox});
-  
-  // Parks and green areas
   way[""leisure""=""park""]({bbox});
-  way[""landuse""=""grass""]({bbox});
-  relation[""leisure""=""park""]({bbox});
-  
-  // Water
-  way[""natural""=""water""]({bbox});
-  way[""waterway""]({bbox});
-  relation[""natural""=""water""]({bbox});
-  
-  // Forests
-  way[""landuse""=""forest""]({bbox});
   way[""natural""=""wood""]({bbox});
 );
 out body;
@@ -529,16 +513,25 @@ out skel qt;";
             if (logRequests)
                 ApexLogger.Log($"[OSM] Fetching data for bbox {bbox}", ApexLogger.LogCategory.Map);
             
-            // Make request
-            using (UnityWebRequest request = UnityWebRequest.Post(overpassUrl, query, "application/x-www-form-urlencoded"))
+            // Make request - Overpass API expects data= prefix
+            string postData = "data=" + UnityWebRequest.EscapeURL(query);
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(postData);
+            
+            using (UnityWebRequest request = new UnityWebRequest(overpassUrl, "POST"))
             {
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 request.timeout = (int)requestTimeout;
+                
+                if (logRequests)
+                    ApexLogger.Log($"[OSM] Sending request to {overpassUrl}", ApexLogger.LogCategory.Map);
                 
                 yield return request.SendWebRequest();
                 
                 if (request.result != UnityWebRequest.Result.Success)
                 {
-                    string error = $"OSM fetch failed: {request.error}";
+                    string error = $"OSM fetch failed: {request.error} (Response: {request.downloadHandler?.text?.Substring(0, Math.Min(200, request.downloadHandler?.text?.Length ?? 0))})";
                     ApexLogger.LogError(error, ApexLogger.LogCategory.Map);
                     OnFetchError?.Invoke(error);
                     callback?.Invoke(null);
@@ -547,6 +540,10 @@ out skel qt;";
                 
                 // Parse response
                 string json = request.downloadHandler.text;
+                
+                if (logRequests)
+                    ApexLogger.Log($"[OSM] Received {json.Length} bytes", ApexLogger.LogCategory.Map);
+                
                 OSMAreaData data = ParseOverpassResponse(json);
                 data.Center = new Vector2((float)((south + north) / 2), (float)((west + east) / 2));
                 data.FetchTime = DateTime.Now;
@@ -558,7 +555,7 @@ out skel qt;";
                 }
                 
                 if (logRequests)
-                    ApexLogger.Log($"[OSM] Received {data.Buildings.Count} buildings, {data.Roads.Count} roads", ApexLogger.LogCategory.Map);
+                    ApexLogger.Log($"[OSM] Parsed {data.Buildings.Count} buildings, {data.Roads.Count} roads", ApexLogger.LogCategory.Map);
                 
                 callback?.Invoke(data);
                 OnDataReceived?.Invoke(data);
