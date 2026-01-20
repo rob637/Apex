@@ -400,17 +400,7 @@ namespace ApexCitadels.FantasyWorld
                 );
             }
             
-            // Generate ground
-            CreateGround();
-            
-            // Generate roads
-            if (config.generatePaths)
-            {
-                OnGenerationProgress?.Invoke("Paving roads...");
-                yield return StartCoroutine(GenerateRoadsCoroutine(osmData.Roads));
-            }
-
-            // Generate ground
+            // Generate ground (only if Mapbox isn't providing it)
             CreateGround();
             
             // Generate roads
@@ -1378,9 +1368,20 @@ namespace ApexCitadels.FantasyWorld
 
         private void CreateGround()
         {
+            // Check if Mapbox is providing the ground - skip procedural ground if so
+            var mapIntegration = GetComponent<FantasyMapIntegration>();
+            if (mapIntegration != null && mapIntegration.useMapboxGround)
+            {
+                Logger.Log("Skipping procedural ground - Mapbox is providing map tiles", "FantasyWorld");
+                // Remove any existing procedural ground
+                Transform existingGround = transform.Find("GeneratedGround");
+                if (existingGround != null) DestroyImmediate(existingGround.gameObject);
+                return;
+            }
+            
             // Check if ground already exists
-            Transform existingGround = transform.Find("GeneratedGround");
-            if (existingGround != null) DestroyImmediate(existingGround.gameObject);
+            Transform existingGround2 = transform.Find("GeneratedGround");
+            if (existingGround2 != null) DestroyImmediate(existingGround2.gameObject);
 
             // Create a large plane
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
