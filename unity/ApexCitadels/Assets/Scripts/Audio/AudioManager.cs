@@ -49,6 +49,18 @@ namespace ApexCitadels.Audio
         public bool HapticEnabled;
         public bool SubtitlesEnabled;
         public bool Enable3DAudio;
+        public bool MuteWhenUnfocused;
+        
+        // Lowercase aliases for compatibility
+        public float masterVolume => MasterVolume;
+        public float musicVolume => MusicVolume;
+        public float sfxVolume => SFXVolume;
+        public float ambientVolume => AmbientVolume;
+        public float uiVolume => UIVolume;
+        public float voiceVolume => VoiceVolume;
+        public bool vibrationEnabled => HapticEnabled;
+        public bool enable3DAudio => Enable3DAudio;
+        public bool muteWhenUnfocused => MuteWhenUnfocused;
         
         public static AudioSettings Default => new AudioSettings
         {
@@ -61,7 +73,8 @@ namespace ApexCitadels.Audio
             IsMuted = false,
             HapticEnabled = true,
             SubtitlesEnabled = false,
-            Enable3DAudio = true
+            Enable3DAudio = true,
+            MuteWhenUnfocused = true
         };
     }
     
@@ -195,7 +208,7 @@ namespace ApexCitadels.Audio
         public bool IsMuted
         {
             get => _isMuted;
-            set { _isMuted = value; ApplyMute(); OnMuteChanged?.Invoke(_isMuted); SaveSettings(); }
+            set { _isMuted = value; ApplyMute(); OnMuteChanged?.Invoke(_isMuted); OnMuteStateChanged?.Invoke(_isMuted); SaveSettings(); }
         }
         
         public bool HapticEnabled
@@ -216,6 +229,23 @@ namespace ApexCitadels.Audio
             set { _enable3DAudio = value; SaveSettings(); }
         }
         
+        // AudioMixerGroup accessors for other audio managers
+        public AudioMixerGroup SFXGroup => sfxGroup;
+        public AudioMixerGroup MusicGroup => musicGroup;
+        public AudioMixerGroup AmbientGroup => ambientGroup;
+        public AudioMixerGroup UIGroup => uiGroup;
+        public AudioMixerGroup VoiceGroup => voiceGroup;
+        
+        // Additional settings state
+        private bool _muteWhenUnfocused = true;
+        public bool MuteWhenUnfocused
+        {
+            get => _muteWhenUnfocused;
+            set { _muteWhenUnfocused = value; SaveSettings(); }
+        }
+        
+        public bool Is3DAudioEnabled => _enable3DAudio;
+        
         #endregion
         
         #region Events
@@ -227,6 +257,7 @@ namespace ApexCitadels.Audio
         public event Action<float> OnUIVolumeChanged;
         public event Action<float> OnVoiceVolumeChanged;
         public event Action<bool> OnMuteChanged;
+        public event Action<bool> OnMuteStateChanged; // Alias for OnMuteChanged
         public event Action<bool> OnSubtitlesChanged;
         
         #endregion
@@ -364,21 +395,21 @@ namespace ApexCitadels.Audio
             if (_clipsLoaded) return;
             
             // Load SFX
-            var sfxClips = Resources.LoadAll<AudioClip>(sfxResourcePath);
+            var sfxClips = UnityEngine.Resources.LoadAll<AudioClip>(sfxResourcePath);
             foreach (var clip in sfxClips)
             {
                 _sfxCache[clip.name.ToLower()] = clip;
             }
             
             // Load Music
-            var musicClips = Resources.LoadAll<AudioClip>(musicResourcePath);
+            var musicClips = UnityEngine.Resources.LoadAll<AudioClip>(musicResourcePath);
             foreach (var clip in musicClips)
             {
                 _musicCache[clip.name.ToLower()] = clip;
             }
             
             // Load Ambient
-            var ambientClips = Resources.LoadAll<AudioClip>(ambientResourcePath);
+            var ambientClips = UnityEngine.Resources.LoadAll<AudioClip>(ambientResourcePath);
             foreach (var clip in ambientClips)
             {
                 _ambientCache[clip.name.ToLower()] = clip;
@@ -703,6 +734,55 @@ namespace ApexCitadels.Audio
         
         #endregion
         
+        #region Volume Setter Methods
+        
+        // Method-style setters for compatibility with UI callbacks
+        public void SetMasterVolume(float value) => MasterVolume = value;
+        public void SetMusicVolume(float value) => MusicVolume = value;
+        public void SetSFXVolume(float value) => SFXVolume = value;
+        public void SetAmbientVolume(float value) => AmbientVolume = value;
+        public void SetUIVolume(float value) => UIVolume = value;
+        public void SetVoiceVolume(float value) => VoiceVolume = value;
+        
+        public void SetVibrationEnabled(bool enabled) => HapticEnabled = enabled;
+        public void Set3DAudioEnabled(bool enabled) => Enable3DAudio = enabled;
+        public void SetMuteWhenUnfocused(bool enabled) => MuteWhenUnfocused = enabled;
+        
+        public void ToggleMute() => IsMuted = !IsMuted;
+        
+        public void ResetToDefaults()
+        {
+            ApplySettings(AudioSettings.Default);
+        }
+        
+        // Haptic convenience methods
+        public void PlayHapticLight() => PlayHaptic(HapticType.Light);
+        public void PlayHapticMedium() => PlayHaptic(HapticType.Medium);
+        public void PlayHapticHeavy() => PlayHaptic(HapticType.Heavy);
+        
+        /// <summary>
+        /// Play audio clip at 3D position with specified mixer group.
+        /// </summary>
+        public AudioSource PlayClipAtPoint(AudioClip clip, Vector3 position, float volume = 1f, AudioMixerGroup mixerGroup = null)
+        {
+            if (clip == null) return null;
+            
+            var source = GetPooledAudioSource();
+            source.transform.position = position;
+            source.clip = clip;
+            source.volume = volume;
+            source.spatialBlend = _enable3DAudio ? 1f : 0f;
+            source.minDistance = default3DMinDistance;
+            source.maxDistance = default3DMaxDistance;
+            if (mixerGroup != null) source.outputAudioMixerGroup = mixerGroup;
+            source.Play();
+            
+            StartCoroutine(ReturnToPoolWhenDone(source, clip.length + 0.1f));
+            return source;
+        }
+        
+        #endregion
+        
         #region Scene Transitions
         
         /// <summary>
@@ -979,7 +1059,8 @@ namespace ApexCitadels.Audio
                 IsMuted = _isMuted,
                 HapticEnabled = _hapticEnabled,
                 SubtitlesEnabled = _subtitlesEnabled,
-                Enable3DAudio = _enable3DAudio
+                Enable3DAudio = _enable3DAudio,
+                MuteWhenUnfocused = _muteWhenUnfocused
             };
         }
         
@@ -995,6 +1076,7 @@ namespace ApexCitadels.Audio
             _hapticEnabled = settings.HapticEnabled;
             _subtitlesEnabled = settings.SubtitlesEnabled;
             _enable3DAudio = settings.Enable3DAudio;
+            _muteWhenUnfocused = settings.MuteWhenUnfocused;
             
             ApplyAllVolumes();
             SaveSettings();

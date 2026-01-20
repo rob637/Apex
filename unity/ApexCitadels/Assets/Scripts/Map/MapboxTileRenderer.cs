@@ -90,7 +90,7 @@ namespace ApexCitadels.Map
             // Load config
             if (config == null)
             {
-                config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+                config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             }
             
             if (config == null || !config.IsValid)
@@ -339,11 +339,21 @@ namespace ApexCitadels.Map
             }
             
             // Disable WorldMapRenderer ground creation
-            var worldMapRenderer = FindFirstObjectByType<PC.WorldMapRenderer>();
+            var worldMapRenderer = FindFirstObjectByTypeName("WorldMapRenderer");
             if (worldMapRenderer != null)
             {
                 Debug.Log("[Mapbox] WorldMapRenderer found - it should skip ground plane creation");
             }
+        }
+        
+        private MonoBehaviour FindFirstObjectByTypeName(string typeName)
+        {
+            foreach (var mb in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+            {
+                if (mb.GetType().Name == typeName)
+                    return mb;
+            }
+            return null;
         }
         
         #endregion

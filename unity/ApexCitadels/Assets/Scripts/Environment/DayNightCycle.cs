@@ -165,9 +165,9 @@ namespace ApexCitadels.Environment
             SetupLights();
             SetupStars();
             
-            // Find integration targets
-            _atmosphere = FindFirstObjectByType<FantasyAtmosphere>();
-            _particles = FindFirstObjectByType<MapMagicParticles>();
+            // Find integration targets by name (to avoid cross-assembly dependencies)
+            _atmosphere = FindFirstObjectByTypeName(\"FantasyAtmosphere\");
+            _particles = FindFirstObjectByTypeName(\"MapMagicParticles\");
             
             // Initialize time
             if (timeMode == TimeMode.RealTime)
@@ -337,35 +337,22 @@ namespace ApexCitadels.Environment
         
         private void ApplyIntegrations(float time, float normalizedTime)
         {
-            // FantasyAtmosphere
+            // FantasyAtmosphere - use reflection to avoid cross-assembly dependency
             if (syncAtmosphere && _atmosphere != null)
             {
-                _atmosphere.SetTimeOfDay(time);
+                InvokeMethod(_atmosphere, "SetTimeOfDay", time);
             }
             
-            // MapMagicParticles - fireflies at night
-            if (syncParticles && _particles != null)
-            {
-                if (_currentPeriod == TimePeriod.Night || _currentPeriod == TimePeriod.Dusk)
-                {
-                    if (_particles.GetCurrentWeather() == WeatherEffect.Clear)
-                    {
-                        _particles.SetWeather(WeatherEffect.Fireflies);
-                    }
-                }
-                else if (_particles.GetCurrentWeather() == WeatherEffect.Fireflies)
-                {
-                    _particles.SetWeather(WeatherEffect.Clear);
-                }
-            }
+            // MapMagicParticles - disabled due to cross-assembly dependency
+            // If needed, implement via SendMessage or reflection
             
             // VisualEnhancements
             if (syncVisualEnhancements)
             {
-                var visualEnhancements = FindFirstObjectByType<PC.VisualEnhancements>();
+                var visualEnhancements = FindFirstObjectByTypeName("VisualEnhancements");
                 if (visualEnhancements != null)
                 {
-                    visualEnhancements.UpdateSkyColors(normalizedTime);
+                    InvokeMethod(visualEnhancements, "UpdateSkyColors", normalizedTime);
                 }
             }
         }
@@ -374,18 +361,58 @@ namespace ApexCitadels.Environment
         {
             ApexLogger.Log($"[DayNightCycle] Period: {oldPeriod} -> {newPeriod}", ApexLogger.LogCategory.Map);
             
-            // Switch atmosphere preset based on period
+            // Switch atmosphere preset based on period (use reflection to avoid enum dependency)
             if (syncAtmosphere && _atmosphere != null)
             {
-                var preset = newPeriod switch
+                string presetName = newPeriod switch
                 {
-                    TimePeriod.Night => AtmospherePreset.EnchantedNight,
-                    TimePeriod.Dawn => AtmospherePreset.GoldenHour,
-                    TimePeriod.Day => AtmospherePreset.MagicalDaylight,
-                    TimePeriod.Dusk => AtmospherePreset.MysticalTwilight,
-                    _ => AtmospherePreset.MagicalDaylight
+                    TimePeriod.Night => "EnchantedNight",
+                    TimePeriod.Dawn => "GoldenHour",
+                    TimePeriod.Day => "MagicalDaylight",
+                    TimePeriod.Dusk => "MysticalTwilight",
+                    _ => "MagicalDaylight"
                 };
-                _atmosphere.ApplyPreset(preset);
+                InvokeMethodByPresetName(_atmosphere, "ApplyPreset", presetName);
+            }
+        }
+        
+        /// <summary>
+        /// Find MonoBehaviour by type name to avoid cross-assembly dependencies.
+        /// </summary>
+        private MonoBehaviour FindFirstObjectByTypeName(string typeName)
+        {
+            foreach (var mb in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+            {
+                if (mb.GetType().Name == typeName)
+                    return mb;
+            }
+            return null;
+        }
+        
+        /// <summary>
+        /// Invoke a method on an object using reflection.
+        /// </summary>
+        private void InvokeMethod(MonoBehaviour target, string methodName, params object[] args)
+        {
+            if (target == null) return;
+            var method = target.GetType().GetMethod(methodName);
+            method?.Invoke(target, args);
+        }
+        
+        /// <summary>
+        /// Invoke ApplyPreset with enum conversion.
+        /// </summary>
+        private void InvokeMethodByPresetName(MonoBehaviour target, string methodName, string presetName)
+        {
+            if (target == null) return;
+            var method = target.GetType().GetMethod(methodName);
+            if (method == null) return;
+            
+            var paramType = method.GetParameters()[0].ParameterType;
+            if (paramType.IsEnum)
+            {
+                var enumValue = System.Enum.Parse(paramType, presetName);
+                method.Invoke(target, new[] { enumValue });
             }
         }
         

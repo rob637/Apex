@@ -522,7 +522,7 @@ namespace ApexCitadels.Core
             if (_includeStackTrace && level >= LogLevel.Error)
             {
                 sb.AppendLine();
-                sb.Append(Environment.StackTrace);
+                sb.Append(System.Environment.StackTrace);
             }
 
             return sb.ToString();

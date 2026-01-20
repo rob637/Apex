@@ -360,8 +360,8 @@ namespace ApexCitadels.Map
                     string key = $"{_zoom}/{tileX}/{tileY}";
                     _visibleTileKeys.Add(key);
 
-                    // Request tile
-                    MapTileProvider.Instance.GetTile(tileX, tileY, _zoom, null);
+                    // Request tile (GetTile will handle caching and async fetch)
+                    MapTileProvider.Instance.GetTile(tileX, tileY, _zoom);
 
                     // Create or update tile image
                     UpdateTileImage(tileX, tileY, _zoom);
@@ -413,11 +413,11 @@ namespace ApexCitadels.Map
             // Position tile
             PositionTile(tileImage, tileX, tileY, zoom);
 
-            // Set texture if available
-            var tile = MapTileProvider.Instance.GetTileCached(tileX, tileY, zoom);
-            if (tile != null && tile.Texture != null)
+            // Set texture if available (GetTile returns cached texture if available)
+            var texture = MapTileProvider.Instance.GetTile(tileX, tileY, zoom);
+            if (texture != null)
             {
-                tileImage.texture = tile.Texture;
+                tileImage.texture = texture;
                 tileImage.color = Color.white;
             }
             else

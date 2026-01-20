@@ -676,7 +676,7 @@ namespace ApexCitadels.UI
             {
                 Info = info,
                 Timestamp = DateTime.Now,
-                StackTrace = info.Exception?.StackTrace ?? Environment.StackTrace
+                StackTrace = info.Exception?.StackTrace ?? System.Environment.StackTrace
             });
 
             // Trim history
