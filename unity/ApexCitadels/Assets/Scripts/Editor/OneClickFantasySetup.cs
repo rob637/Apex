@@ -182,7 +182,7 @@ namespace ApexCitadels.Editor
         private static void AssignLibraryToScene(FantasyWorld.FantasyPrefabLibrary library)
         {
             // Find the library from Resources (the one we just placed there)
-            var resourcesLibrary = Resources.Load<FantasyWorld.FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
+            var resourcesLibrary = UnityEngine.Resources.Load<FantasyWorld.FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
             if (resourcesLibrary == null) resourcesLibrary = library;
             
             // Find all FantasyWorldGenerator components in scene

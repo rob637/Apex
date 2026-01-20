@@ -213,7 +213,7 @@ namespace ApexCitadels.Editor
         
         private void CheckMapboxConfiguration()
         {
-            var config = Resources.Load<ApexCitadels.Map.MapboxConfiguration>("MapboxConfig");
+            var config = UnityEngine.Resources.Load<ApexCitadels.Map.MapboxConfiguration>("MapboxConfig");
             
             _results.Add(new DiagnosticResult
             {
