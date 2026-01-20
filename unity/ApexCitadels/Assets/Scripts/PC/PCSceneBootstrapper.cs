@@ -242,10 +242,14 @@ namespace ApexCitadels.PC
             {
                 CreateGroundPlane();
             }
+            
+            // Create Weather and Procedural Sky systems
+            CreateAtmosphericSystems();
 
-            // Only set solid color if SkyboxEnvironmentSystem isn't handling it
+            // Only set solid color if no sky system is handling it
             var skyboxSystem = FindFirstObjectByType<Visual.SkyboxEnvironmentSystem>();
-            if (skyboxSystem == null)
+            var proceduralSky = FindFirstObjectByType<ProceduralSky>();
+            if (skyboxSystem == null && proceduralSky == null)
             {
                 Camera.main.clearFlags = CameraClearFlags.SolidColor;
                 Camera.main.backgroundColor = skyColor;
@@ -305,6 +309,31 @@ namespace ApexCitadels.PC
             ground.isStatic = true;
 
             ApexLogger.Log("Ground plane created", ApexLogger.LogCategory.General);
+        }
+        
+        private void CreateAtmosphericSystems()
+        {
+            // Create Weather System if not present
+            if (FindFirstObjectByType<WeatherSystem>() == null)
+            {
+                GameObject weatherObj = new GameObject("WeatherSystem");
+                weatherObj.AddComponent<WeatherSystem>();
+                ApexLogger.Log("WeatherSystem created", ApexLogger.LogCategory.General);
+            }
+            
+            // Create Procedural Sky if not present
+            if (FindFirstObjectByType<ProceduralSky>() == null)
+            {
+                GameObject skyObj = new GameObject("ProceduralSky");
+                skyObj.AddComponent<ProceduralSky>();
+                ApexLogger.Log("ProceduralSky created", ApexLogger.LogCategory.General);
+                
+                // Let procedural sky handle the camera
+                if (Camera.main != null)
+                {
+                    Camera.main.clearFlags = CameraClearFlags.Skybox;
+                }
+            }
         }
 
         #endregion
