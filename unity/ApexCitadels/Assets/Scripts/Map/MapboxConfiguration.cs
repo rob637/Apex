@@ -26,7 +26,7 @@ namespace ApexCitadels.Map
         
         [Tooltip("Default zoom level (1-18, higher = more zoomed in)")]
         [Range(1, 18)]
-        public int DefaultZoom = 14;
+        public int DefaultZoom = 17;  // Zoom 17 for street-level detail
         
         [Header("Tile Settings")]
         [Tooltip("Size of map tiles in pixels")]
