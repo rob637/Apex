@@ -96,7 +96,7 @@ namespace ApexCitadels.FantasyWorld
             if (useFirstPersonController)
             {
                 // Create Player Object if not exists
-                var player = FindObjectOfType<FirstPersonPlayer>();
+                var player = FindAnyObjectByType<FirstPersonPlayer>();
                 if (player == null)
                 {
                     GameObject playerObj = new GameObject("Player_FPS");
@@ -140,7 +140,7 @@ namespace ApexCitadels.FantasyWorld
                     }
                     
                     // Remove Player if exists
-                    var player = FindObjectOfType<FirstPersonPlayer>();
+                    var player = FindAnyObjectByType<FirstPersonPlayer>();
                     if (player != null) Destroy(player.gameObject);
                 }
             }

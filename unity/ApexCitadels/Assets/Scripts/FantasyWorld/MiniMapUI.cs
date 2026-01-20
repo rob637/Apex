@@ -122,7 +122,7 @@ namespace ApexCitadels.FantasyWorld
             northObj.transform.SetParent(_canvas.transform);
             var northText = northObj.AddComponent<Text>();
             northText.text = "N";
-            northText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            northText.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             northText.fontSize = 14;
             northText.fontStyle = FontStyle.Bold;
             northText.color = Color.red;
