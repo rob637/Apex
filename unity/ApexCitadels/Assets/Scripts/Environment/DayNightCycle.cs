@@ -166,8 +166,8 @@ namespace ApexCitadels.Environment
             SetupStars();
             
             // Find integration targets by name (to avoid cross-assembly dependencies)
-            _atmosphere = FindFirstObjectByTypeName(\"FantasyAtmosphere\");
-            _particles = FindFirstObjectByTypeName(\"MapMagicParticles\");
+            _atmosphere = FindFirstObjectByTypeName("FantasyAtmosphere");
+            _particles = FindFirstObjectByTypeName("MapMagicParticles");
             
             // Initialize time
             if (timeMode == TimeMode.RealTime)
