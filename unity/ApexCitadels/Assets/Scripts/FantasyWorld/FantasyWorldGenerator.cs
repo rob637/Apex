@@ -244,8 +244,68 @@ namespace ApexCitadels.FantasyWorld
             OnGenerationProgress?.Invoke($"Found {osmData.Buildings.Count} buildings, {osmData.Roads.Count} roads");
             Logger.Log($"OSM Data: {osmData.Buildings.Count} buildings, {osmData.Roads.Count} roads, {osmData.Areas.Count} areas", "FantasyWorld");
             
+            // Check for empty data and use fallback if necessary
+            if (osmData.Buildings.Count == 0 && osmData.Roads.Count == 0)
+            {
+                Logger.LogWarning("No OSM data found! Generating procedural fallback city...", "FantasyWorld");
+                OnGenerationProgress?.Invoke("No map data found. Generating fallback city...");
+                GenerateFallbackCity(osmData);
+            }
+
             // Generate the world
             StartCoroutine(GenerateWorldCoroutine(osmData));
+        }
+
+        private void GenerateFallbackCity(OSMData osmData)
+        {
+            // Create a procedural grid typical of American suburbs
+            float blockSize = 80f; // meters
+            int gridSize = 4;
+            
+            // Generate roads
+            for (int x = -gridSize; x <= gridSize; x++)
+            {
+                // Vertical road
+                var vRoad = new OSMRoad { Width = 6f, RoadType = "residential" };
+                vRoad.Points.Add(new Vector3(x * blockSize, 0, -gridSize * blockSize));
+                vRoad.Points.Add(new Vector3(x * blockSize, 0, gridSize * blockSize));
+                osmData.Roads.Add(vRoad);
+                
+                // Horizontal road
+                var hRoad = new OSMRoad { Width = 6f, RoadType = "residential" };
+                hRoad.Points.Add(new Vector3(-gridSize * blockSize, 0, x * blockSize));
+                hRoad.Points.Add(new Vector3(gridSize * blockSize, 0, x * blockSize));
+                osmData.Roads.Add(hRoad);
+            }
+            
+            // Generate houses in blocks
+            for (int x = -gridSize; x < gridSize; x++)
+            {
+                for (int z = -gridSize; z < gridSize; z++)
+                {
+                    // 4 houses per block
+                    CreateFallbackHouse(osmData, (x + 0.25f) * blockSize, (z + 0.25f) * blockSize);
+                    CreateFallbackHouse(osmData, (x + 0.75f) * blockSize, (z + 0.25f) * blockSize);
+                    CreateFallbackHouse(osmData, (x + 0.25f) * blockSize, (z + 0.75f) * blockSize);
+                    CreateFallbackHouse(osmData, (x + 0.75f) * blockSize, (z + 0.75f) * blockSize);
+                }
+            }
+        }
+        
+        private void CreateFallbackHouse(OSMData data, float x, float z)
+        {
+            if (UnityEngine.Random.value < 0.2f) return; // Leave some empty lots
+            
+            var building = new OSMBuilding { BuildingType = "residential", Levels = 1 };
+            float size = 12f;
+            
+            // Create world points directly
+            building.WorldPoints.Add(new Vector3(x - size/2, 0, z - size/2));
+            building.WorldPoints.Add(new Vector3(x + size/2, 0, z - size/2));
+            building.WorldPoints.Add(new Vector3(x + size/2, 0, z + size/2));
+            building.WorldPoints.Add(new Vector3(x - size/2, 0, z + size/2));
+            
+            data.Buildings.Add(building);
         }
         
         /// <summary>
@@ -295,6 +355,11 @@ namespace ApexCitadels.FantasyWorld
         private IEnumerator GenerateWorldCoroutine(OSMData osmData)
         {
             _isGenerating = true;
+            
+            // Show stats in console
+            string stats = $"Generating World: {osmData.Buildings.Count} Buildings, {osmData.Roads.Count} Roads, {osmData.Areas.Count} Areas";
+            Logger.Log(stats, "FantasyWorld");
+            OnGenerationProgress?.Invoke(stats);
             
             // Analyze neighborhood context
             var context = NeighborhoodContext.DefaultSuburban();
@@ -715,7 +780,23 @@ namespace ApexCitadels.FantasyWorld
                 if (shader != null)
                 {
                     renderer.material = new Material(shader);
-                    renderer.material.color = new Color(0.15f, 0.35f, 0.1f); // Lush Green
+                    
+                    // Create a simple checkerboard texture for scale context
+                    Texture2D tex = new Texture2D(256, 256);
+                    Color c1 = new Color(0.15f, 0.35f, 0.1f);  // Dark Grass
+                    Color c2 = new Color(0.18f, 0.38f, 0.12f); // Light Grass
+                    
+                    for (int y = 0; y < 256; y++)
+                    {
+                        for (int x = 0; x < 256; x++)
+                        {
+                            bool check = ((x / 32) + (y / 32)) % 2 == 0;
+                            tex.SetPixel(x, y, check ? c1 : c2);
+                        }
+                    }
+                    tex.Apply();
+                    renderer.material.mainTexture = tex;
+                    renderer.material.mainTextureScale = new Vector2(targetSize / 10f, targetSize / 10f);
                 }
             }
         }

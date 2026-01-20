@@ -23,8 +23,8 @@ namespace ApexCitadels.FantasyWorld
         public LocationPreset preset = LocationPreset.Custom;
         
         [Header("Generation")]
-        public float radiusMeters = 300f;
-        public bool generateOnStart = false;
+        public float radiusMeters = 500f;
+        public bool generateOnStart = true;
         
         [Header("Debug")]
         public bool showDebugInfo = true;
