@@ -106,10 +106,17 @@ namespace ApexCitadels.FantasyWorld
             if (enableBloom)
             {
                 Bloom bloom;
-                if (!_profile.TryGet(out bloom)) bloom = _profile.Add<Bloom>(true);
-                bloom.intensity.Override(1.5f);
-                bloom.threshold.Override(0.9f);
-                bloom.scatter.Override(0.7f);
+                if (!_profile.TryGet(out bloom)) bloom = _profile.Add<Bloom>();
+                
+                bloom.intensity.value = 1.5f;
+                bloom.intensity.overrideState = true;
+                
+                bloom.threshold.value = 0.9f;
+                bloom.threshold.overrideState = true;
+                
+                bloom.scatter.value = 0.7f;
+                bloom.scatter.overrideState = true;
+                
                 bloom.active = true;
             }
 
@@ -117,8 +124,11 @@ namespace ApexCitadels.FantasyWorld
             if (enableTonemapping)
             {
                 Tonemapping tonemapping;
-                if (!_profile.TryGet(out tonemapping)) tonemapping = _profile.Add<Tonemapping>(true);
-                tonemapping.mode.Override(TonemappingMode.ACES);
+                if (!_profile.TryGet(out tonemapping)) tonemapping = _profile.Add<Tonemapping>();
+                
+                tonemapping.mode.value = TonemappingMode.ACES;
+                tonemapping.mode.overrideState = true;
+                
                 tonemapping.active = true;
             }
 
@@ -126,10 +136,17 @@ namespace ApexCitadels.FantasyWorld
             if (enableColorAdjustments)
             {
                 ColorAdjustments colorAdj;
-                if (!_profile.TryGet(out colorAdj)) colorAdj = _profile.Add<ColorAdjustments>(true);
-                colorAdj.postExposure.Override(0.2f);
-                colorAdj.contrast.Override(15f);
-                colorAdj.saturation.Override(20f); // Synty assets need saturation!
+                if (!_profile.TryGet(out colorAdj)) colorAdj = _profile.Add<ColorAdjustments>();
+                
+                colorAdj.postExposure.value = 0.2f;
+                colorAdj.postExposure.overrideState = true;
+                
+                colorAdj.contrast.value = 15f;
+                colorAdj.contrast.overrideState = true;
+                
+                colorAdj.saturation.value = 20f; // Synty assets need saturation!
+                colorAdj.saturation.overrideState = true;
+                
                 colorAdj.active = true;
             }
 
@@ -137,9 +154,14 @@ namespace ApexCitadels.FantasyWorld
             if (enableVignette)
             {
                 Vignette vignette;
-                if (!_profile.TryGet(out vignette)) vignette = _profile.Add<Vignette>(true);
-                vignette.intensity.Override(0.25f);
-                vignette.smoothness.Override(0.5f);
+                if (!_profile.TryGet(out vignette)) vignette = _profile.Add<Vignette>();
+                
+                vignette.intensity.value = 0.25f;
+                vignette.intensity.overrideState = true;
+                
+                vignette.smoothness.value = 0.5f;
+                vignette.smoothness.overrideState = true;
+                
                 vignette.active = true;
             }
         }
