@@ -45,6 +45,12 @@ namespace ApexCitadels.FantasyWorld
         
         private void Awake()
         {
+            // Add Visual Polish Component
+            if (GetComponent<FantasyWorldVisuals>() == null)
+            {
+                gameObject.AddComponent<FantasyWorldVisuals>();
+            }
+
             // Get or create generator
             _generator = GetComponent<FantasyWorldGenerator>();
             if (_generator == null)
