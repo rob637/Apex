@@ -58,6 +58,24 @@ namespace ApexCitadels.FantasyWorld
                 sky.longitude = longitude;
             }
             
+            // Add Map Integration (Mapbox ground tiles)
+            if (GetComponent<FantasyMapIntegration>() == null)
+            {
+                var mapIntegration = gameObject.AddComponent<FantasyMapIntegration>();
+                
+                // Check if Mapbox is configured
+                if (!FantasyMapIntegration.IsMapboxConfigured())
+                {
+                    Debug.LogWarning("[FantasyWorld] ========================================");
+                    Debug.LogWarning("[FantasyWorld] MAPBOX NOT CONFIGURED!");
+                    Debug.LogWarning("[FantasyWorld] To see real street maps:");
+                    Debug.LogWarning("[FantasyWorld] 1. Go to https://mapbox.com (free account)");
+                    Debug.LogWarning("[FantasyWorld] 2. Copy your public access token");
+                    Debug.LogWarning("[FantasyWorld] 3. Unity Menu: Apex Citadels > PC > Configure Mapbox API");
+                    Debug.LogWarning("[FantasyWorld] ========================================");
+                }
+            }
+            
             // Add Demo UI
             if (GetComponent<DemoUI>() == null)
             {
