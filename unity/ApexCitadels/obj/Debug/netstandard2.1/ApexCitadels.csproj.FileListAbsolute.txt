@@ -1,6 +1,0 @@
-/workspaces/Apex/unity/ApexCitadels/obj/Debug/netstandard2.1/ApexCitadels.csproj.AssemblyReference.cache
-/workspaces/Apex/unity/ApexCitadels/obj/Debug/netstandard2.1/ApexCitadels.GeneratedMSBuildEditorConfig.editorconfig
-/workspaces/Apex/unity/ApexCitadels/obj/Debug/netstandard2.1/ApexCitadels.AssemblyInfoInputs.cache
-/workspaces/Apex/unity/ApexCitadels/obj/Debug/netstandard2.1/ApexCitadels.AssemblyInfo.cs
-/workspaces/Apex/unity/ApexCitadels/obj/Debug/netstandard2.1/ApexCitadels.csproj.CoreCompileInputs.cache
-/workspaces/Apex/unity/ApexCitadels/obj/Debug/netstandard2.1/ApexCitadels.sourcelink.json

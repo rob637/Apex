@@ -1,8 +1,0 @@
-is_global = true
-build_property.RootNamespace = ApexCitadels
-build_property.ProjectDir = /workspaces/Apex/unity/ApexCitadels/
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.CsWinRTUseWindowsUIXamlProjections = false
-build_property.EffectiveAnalysisLevelStyle = 
-build_property.EnableCodeStyleSeverity = 
