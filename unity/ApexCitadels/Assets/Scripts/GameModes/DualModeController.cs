@@ -392,6 +392,13 @@ namespace ApexCitadels.GameModes
                 worldGen = StartCoroutine(_fantasyGenerator.GenerateWorldCoroutine());
             }
             
+            // Hide Mapbox satellite tiles - we use fantasy grass ground instead
+            var mapbox = FindAnyObjectByType<Map.MapboxTileRenderer>();
+            if (mapbox != null)
+            {
+                mapbox.gameObject.SetActive(false);
+            }
+            
             // Animate camera down
             float elapsed = 0f;
             while (elapsed < transitionDuration)
@@ -660,20 +667,9 @@ namespace ApexCitadels.GameModes
         
         private void EnsureGroundIsVisible()
         {
-            // Make sure Mapbox tiles are at the correct height and visible
-            var mapboxRenderer = FindAnyObjectByType<Map.MapboxTileRenderer>();
-            bool hasMapboxGround = false;
-            
-            if (mapboxRenderer != null && mapboxRenderer.gameObject.activeInHierarchy)
-            {
-                // Make sure tiles are active
-                mapboxRenderer.gameObject.SetActive(true);
-                hasMapboxGround = !mapboxRenderer.IsLoading;
-                Debug.Log($"[DualMode] Mapbox tiles: active={mapboxRenderer.gameObject.activeInHierarchy}, loading={mapboxRenderer.IsLoading}");
-            }
-            
-            // Always create a fallback ground to ensure something is visible
-            // The Mapbox tiles are positioned high up for map view, so we need a ground plane at player level
+            // We use fantasy grass ground, not Mapbox satellite tiles
+            // The FantasyWorldGenerator creates its own procedural ground
+            // But we also create a fallback ground here for safety
             CreateFallbackGround();
             
             Debug.Log("[DualMode] Ground setup complete");

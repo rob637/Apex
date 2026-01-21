@@ -506,9 +506,6 @@ namespace ApexCitadels.FantasyWorld
                 yield return StartCoroutine(GenerateRoadsCoroutine(osmData.Roads));
             }
 
-            // DEBUG: Create origin marker so we can see where (0,0,0) is
-            CreateOriginMarker();
-
             // Generate buildings
             if (config.generateBuildings)
             {
@@ -1684,30 +1681,12 @@ namespace ApexCitadels.FantasyWorld
 
         private void CreateGround()
         {
-            // Check if Mapbox is providing the ground - skip procedural ground if so
-            var mapIntegration = GetComponent<FantasyMapIntegration>();
-            
-            if (mapIntegration != null && mapIntegration.useMapboxGround)
-            {
-                // Verify that Mapbox tiles are actually loaded and visible
-                var mapboxRenderer = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
-                if (mapboxRenderer != null && mapboxRenderer.gameObject.activeInHierarchy && !mapboxRenderer.IsLoading)
-                {
-                    Logger.Log("Skipping procedural ground - Mapbox is providing map tiles", "FantasyWorld");
-                    // Remove any existing procedural ground
-                    Transform existingGround = transform.Find("GeneratedGround");
-                    if (existingGround != null) DestroyImmediate(existingGround.gameObject);
-                    return;
-                }
-                else
-                {
-                    Logger.LogWarning("Mapbox tiles not ready - creating procedural ground as fallback", "FantasyWorld");
-                }
-            }
+            // Always create fantasy grass ground for immersive experience
+            Logger.Log("Creating fantasy grass ground", "FantasyWorld");
             
             // Check if ground already exists
-            Transform existingGround2 = transform.Find("GeneratedGround");
-            if (existingGround2 != null) DestroyImmediate(existingGround2.gameObject);
+            Transform existingGround = transform.Find("GeneratedGround");
+            if (existingGround != null) DestroyImmediate(existingGround.gameObject);
 
             // Create a large plane
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);

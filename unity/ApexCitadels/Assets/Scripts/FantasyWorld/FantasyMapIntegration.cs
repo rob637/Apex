@@ -17,8 +17,8 @@ namespace ApexCitadels.FantasyWorld
     public class FantasyMapIntegration : MonoBehaviour
     {
         [Header("Map Settings")]
-        [Tooltip("Use Mapbox for ground textures instead of procedural")]
-        public bool useMapboxGround = true;
+        [Tooltip("Use Mapbox for ground textures instead of procedural (set false for fantasy grass)")]
+        public bool useMapboxGround = false; // Fantasy grass ground by default
         
         [Tooltip("Mapbox map style")]
         public MapboxStyle mapStyle = MapboxStyle.Satellite;
