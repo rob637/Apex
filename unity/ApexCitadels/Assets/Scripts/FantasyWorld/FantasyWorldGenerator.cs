@@ -77,12 +77,12 @@ namespace ApexCitadels.FantasyWorld
         public float cellSize = 100f; // For chunked loading
         
         [Header("Building Settings")]
-        public bool generateBuildings = false; // DISABLED - focus on roads first
+        public bool generateBuildings = true; // ENABLED: Spawn fantasy buildings!
         public float buildingScaleMultiplier = 1f;
         public bool randomizeRotation = true;
         
         [Header("Vegetation Settings")]
-        public bool generateVegetation = false; // DISABLED - focus on roads first
+        public bool generateVegetation = true; // ENABLED: Trees, bushes, ground cover!
         [Range(0f, 1f)]
         public float treeDensity = 0.7f;
         [Range(0f, 1f)]
@@ -94,7 +94,7 @@ namespace ApexCitadels.FantasyWorld
         public float pathWidth = 4f;
         
         [Header("Props & Details")]
-        public bool generateProps = false; // DISABLED - focus on roads first
+        public bool generateProps = true; // ENABLED: Barrels, crates, market stalls!
         [Range(0f, 1f)]
         public float propDensity = 0.5f;
         
@@ -745,7 +745,7 @@ namespace ApexCitadels.FantasyWorld
             // ROADS ONLY MODE - Disable everything except roads for debugging
             // Set to false when ready to add more elements
             // ============================================
-            bool ROADS_ONLY_MODE = true;
+            bool ROADS_ONLY_MODE = false; // ENABLED: Full fantasy world generation!
             
             // Show stats in console
             string stats = $"Generating World: {osmData.Buildings.Count} Buildings, {osmData.Roads.Count} Roads, {osmData.Areas.Count} Areas";
