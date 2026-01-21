@@ -160,6 +160,7 @@ namespace ApexCitadels.FantasyWorld
         private int _proceduralBuildingCount; // Debug counter
         private float _worldScale = 1f; // Meters per world unit (from Mapbox)
         private float _prefabScale = 1f; // Scale to apply to prefabs (1/worldScale)
+        private float _roadWidthMultiplier = 3f; // Make roads wider to match real road widths
         
         // Fallback material for pink/missing shader prefabs
         private Material _fallbackRoadMaterial;
@@ -406,8 +407,22 @@ namespace ApexCitadels.FantasyWorld
             
             OnGenerationProgress?.Invoke("Fetching map data...");
             
-            // Fetch OSM data for the area (callback-based)
-            _osmFetcher.FetchArea(_originLat, _originLon, config.radiusMeters, OnOSMDataReceived);
+            // Fetch OSM data centered on the TILE CENTER (where player spawns at world 0,0,0)
+            // not the user-specified coordinates which may be offset within the tile
+            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            double fetchLat = _originLat;
+            double fetchLon = _originLon;
+            
+            if (mapbox != null)
+            {
+                // Get tile center coordinates - this is where world (0,0,0) is
+                var tileCenter = mapbox.GetTileCenterLatLon();
+                fetchLat = tileCenter.lat;
+                fetchLon = tileCenter.lon;
+                Logger.Log($"Fetching OSM data centered on tile center: {fetchLat:F6}, {fetchLon:F6}", "FantasyWorld");
+            }
+            
+            _osmFetcher.FetchArea(fetchLat, fetchLon, config.radiusMeters, OnOSMDataReceived);
         }
         
         /// <summary>
@@ -2139,8 +2154,14 @@ namespace ApexCitadels.FantasyWorld
                     var prefab = singlePrefab;
                     
                     // Instantiate and SCALE to match world
+                    // Roads need to be WIDER to match actual road widths
+                    // Scale X (width) by multiplier, keep Z (length) normal for tiling
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
-                    segment.transform.localScale = Vector3.one * _prefabScale;
+                    segment.transform.localScale = new Vector3(
+                        _prefabScale * _roadWidthMultiplier,  // Wider
+                        _prefabScale,                          // Normal height
+                        _prefabScale                           // Normal length for tiling
+                    );
                     segment.name = $"Cobble_{prefabsPlaced}";
                     
                     // Fix pink/magenta materials (Synty uses Standard shader, URP shows as pink)

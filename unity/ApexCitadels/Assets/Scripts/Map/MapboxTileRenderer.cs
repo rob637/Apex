@@ -50,6 +50,11 @@ namespace ApexCitadels.Map
         public bool IsLoading => _isLoading;
         public float LoadProgress => _totalCount > 0 ? (float)_loadedCount / _totalCount : 0f;
         
+        /// <summary>
+        /// Get the geometric center of the center tile (where world 0,0,0 is)
+        /// </summary>
+        public (double lat, double lon) GetTileCenterLatLon() => (_tileCenterLat, _tileCenterLon);
+        
         private class TileData
         {
             public GameObject GameObject;
