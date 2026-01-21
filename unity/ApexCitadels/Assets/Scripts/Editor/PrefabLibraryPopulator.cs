@@ -109,7 +109,7 @@ namespace ApexCitadels.FantasyWorld
         
         private void PopulateAll()
         {
-            Debug.Log("[PrefabPopulator] === POPULATE ALL v2.0 - Multi-Pack Search ===");
+            Debug.Log("[PrefabPopulator] === POPULATE ALL v3.0 - Comprehensive Multi-Pack Search ===");
             Undo.RecordObject(targetLibrary, "Populate All Prefabs");
             
             int totalAdded = 0;
@@ -119,10 +119,13 @@ namespace ApexCitadels.FantasyWorld
             totalAdded += PopulateTrees();
             totalAdded += PopulateBushes();
             totalAdded += PopulateProps();
+            totalAdded += PopulateCharacters();
+            totalAdded += PopulateAnimals();
             
             EditorUtility.SetDirty(targetLibrary);
             AssetDatabase.SaveAssets();
             
+            Debug.Log($"[PrefabPopulator] === COMPLETE: Added {totalAdded} prefabs total ===");
             EditorUtility.DisplayDialog("Complete", $"Added {totalAdded} prefabs to the library.", "OK");
         }
         
@@ -182,8 +185,16 @@ namespace ApexCitadels.FantasyWorld
             
             Debug.Log("[PrefabPopulator] Searching all Synty packs for buildings...");
             
-            // Houses - search all packs for variety
-            var allHouses = FindBuildingsAcrossAllPacks("House", "Cottage", "Home", "Hut", "Cabin");
+            // === EXPANDED SEARCH: Get ALL building prefabs first ===
+            var allBuildingPrefabs = FindAllBuildingPrefabs();
+            Debug.Log($"[PrefabPopulator] Found {allBuildingPrefabs.Length} total building prefabs");
+            
+            // Houses - search all packs for variety (expanded patterns)
+            var allHouses = FindBuildingsAcrossAllPacks(
+                "House", "Cottage", "Home", "Hut", "Cabin", "Dwelling",
+                "SM_Bld_House", "SM_Bld_Cottage", "SM_Bld_Hut", "Bld_House",
+                "Building_House", "Building_Cottage", "Residential"
+            );
             if (allHouses.Length > 0)
             {
                 // Split into small, medium, large based on naming
@@ -211,8 +222,11 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Houses: {smallHouses.Length} small, {mediumHouses.Length} medium, {largeHouses.Length} large (total {allHouses.Length})");
             }
             
-            // Churches/Temples
-            var churches = FindBuildingsAcrossAllPacks("Church", "Chapel", "Temple", "Shrine", "Cathedral");
+            // Churches/Temples (expanded patterns)
+            var churches = FindBuildingsAcrossAllPacks(
+                "Church", "Chapel", "Temple", "Shrine", "Cathedral", "Monastery",
+                "SM_Bld_Church", "SM_Bld_Chapel", "SM_Bld_Temple", "Religious"
+            );
             if (churches.Length > 0)
             {
                 targetLibrary.churches = churches;
@@ -222,8 +236,11 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {churches.Length} churches/temples");
             }
             
-            // Blacksmith/Forge
-            var blacksmiths = FindBuildingsAcrossAllPacks("Blacksmith", "Forge", "Smithy", "Armorer");
+            // Blacksmith/Forge (expanded patterns)
+            var blacksmiths = FindBuildingsAcrossAllPacks(
+                "Blacksmith", "Forge", "Smithy", "Armorer", "Workshop",
+                "SM_Bld_Blacksmith", "SM_Bld_Forge", "SM_Bld_Workshop"
+            );
             if (blacksmiths.Length > 0)
             {
                 targetLibrary.blacksmiths = blacksmiths;
@@ -231,8 +248,11 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {blacksmiths.Length} blacksmiths");
             }
             
-            // Tavern/Inn/Pub
-            var taverns = FindBuildingsAcrossAllPacks("Tavern", "Inn", "Pub", "Alehouse");
+            // Tavern/Inn/Pub (expanded patterns)
+            var taverns = FindBuildingsAcrossAllPacks(
+                "Tavern", "Inn", "Pub", "Alehouse", "Bar", "Drinking",
+                "SM_Bld_Tavern", "SM_Bld_Inn", "SM_Bld_Pub"
+            );
             if (taverns.Length > 0)
             {
                 targetLibrary.taverns = taverns;
@@ -241,8 +261,12 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {taverns.Length} taverns/inns");
             }
             
-            // Shops/Stores
-            var shops = FindBuildingsAcrossAllPacks("Shop", "Store", "Market", "Merchant", "Trade");
+            // Shops/Stores (expanded patterns)
+            var shops = FindBuildingsAcrossAllPacks(
+                "Shop", "Store", "Market", "Merchant", "Trade", "Bakery", "Butcher",
+                "SM_Bld_Shop", "SM_Bld_Store", "SM_Bld_Market", "SM_Bld_Bakery",
+                "Commercial", "Retail"
+            );
             if (shops.Length > 0)
             {
                 targetLibrary.shops = shops;
@@ -258,8 +282,12 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log("[PrefabPopulator] Using houses as shops (fallback)");
             }
             
-            // Guard towers/Watchtowers
-            var towers = FindBuildingsAcrossAllPacks("Tower", "Watchtower", "Guard_Tower", "Lookout");
+            // Guard towers/Watchtowers (expanded patterns)
+            var towers = FindBuildingsAcrossAllPacks(
+                "Tower", "Watchtower", "Guard_Tower", "Lookout", "Turret",
+                "SM_Bld_Tower", "SM_Bld_Watchtower", "SM_Bld_GuardTower",
+                "DefenseTower", "BellTower"
+            );
             if (towers.Length > 0)
             {
                 // Filter out wall towers (those are in walls category)
@@ -269,8 +297,12 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {targetLibrary.guardTowers.Length} guard towers");
             }
             
-            // Barns/Warehouses/Storage
-            var barns = FindBuildingsAcrossAllPacks("Barn", "Warehouse", "Storage", "Granary", "Silo");
+            // Barns/Warehouses/Storage (expanded patterns)
+            var barns = FindBuildingsAcrossAllPacks(
+                "Barn", "Warehouse", "Storage", "Granary", "Silo", "Storehouse",
+                "SM_Bld_Barn", "SM_Bld_Warehouse", "SM_Bld_Storage", "SM_Bld_Silo",
+                "Industrial", "Farm_"
+            );
             if (barns.Length > 0)
             {
                 targetLibrary.barns = barns.Where(p => p.name.Contains("Barn")).ToArray();
@@ -281,8 +313,11 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {barns.Length} barns/warehouses");
             }
             
-            // Windmills/Mills
-            var mills = FindBuildingsAcrossAllPacks("Windmill", "Mill", "Watermill");
+            // Windmills/Mills (expanded patterns)
+            var mills = FindBuildingsAcrossAllPacks(
+                "Windmill", "Mill", "Watermill", "Sawmill", "Grindmill",
+                "SM_Bld_Windmill", "SM_Bld_Mill", "SM_Bld_Watermill"
+            );
             if (mills.Length > 0)
             {
                 targetLibrary.windmills = mills;
@@ -290,8 +325,12 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {mills.Length} mills");
             }
             
-            // Castles/Keeps
-            var castles = FindBuildingsAcrossAllPacks("Castle", "Keep", "Fortress", "Citadel", "Palace");
+            // Castles/Keeps (expanded patterns)
+            var castles = FindBuildingsAcrossAllPacks(
+                "Castle", "Keep", "Fortress", "Citadel", "Palace", "Stronghold",
+                "SM_Bld_Castle", "SM_Bld_Keep", "SM_Bld_Fortress", "SM_Bld_Palace",
+                "Royal", "Throne"
+            );
             if (castles.Length > 0)
             {
                 targetLibrary.castles = castles;
@@ -301,8 +340,12 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {castles.Length} castles/keeps");
             }
             
-            // Walls/Gates
-            var walls = FindBuildingsAcrossAllPacks("Wall_", "Gate", "Gatehouse", "Portcullis");
+            // Walls/Gates (expanded patterns)
+            var walls = FindBuildingsAcrossAllPacks(
+                "Wall_", "Gate", "Gatehouse", "Portcullis", "Rampart", "Battlement",
+                "SM_Bld_Wall", "SM_Bld_Gate", "SM_Bld_Gatehouse",
+                "CastleWall", "Fortification", "Defense"
+            );
             if (walls.Length > 0)
             {
                 targetLibrary.walls = walls.Where(p => p.name.Contains("Wall") && !p.name.Contains("Gate")).ToArray();
@@ -311,8 +354,11 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {walls.Length} walls/gates");
             }
             
-            // Stables
-            var stables = FindBuildingsAcrossAllPacks("Stable", "Horse", "Pen");
+            // Stables (expanded patterns)
+            var stables = FindBuildingsAcrossAllPacks(
+                "Stable", "Horse", "Pen", "Corral", "Livestock",
+                "SM_Bld_Stable", "SM_Bld_Pen", "SM_Bld_Corral"
+            );
             if (stables.Length > 0)
             {
                 targetLibrary.stables = stables;
@@ -320,8 +366,12 @@ namespace ApexCitadels.FantasyWorld
                 Debug.Log($"[PrefabPopulator] Added {stables.Length} stables");
             }
             
-            // Docks/Piers (for waterfront areas)
-            var docks = FindBuildingsAcrossAllPacks("Dock", "Pier", "Wharf", "Harbor");
+            // Docks/Piers (for waterfront areas - expanded patterns)
+            var docks = FindBuildingsAcrossAllPacks(
+                "Dock", "Pier", "Wharf", "Harbor", "Jetty", "Marina", "Boat",
+                "SM_Bld_Dock", "SM_Bld_Pier", "SM_Bld_Wharf", "SM_Bld_Harbor",
+                "Fishing", "Port"
+            );
             if (docks.Length > 0)
             {
                 targetLibrary.docks = docks;
@@ -641,6 +691,156 @@ namespace ApexCitadels.FantasyWorld
         // =====================================================================
         
         /// <summary>
+        /// Find ALL building prefabs across all Synty packs
+        /// </summary>
+        private GameObject[] FindAllBuildingPrefabs()
+        {
+            var prefabs = new List<GameObject>();
+            string[] buildingFolders = new[]
+            {
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Buildings",
+                "Assets/Synty/PolygonGeneric/Prefabs/Buildings",
+                "Assets/PolygonKnights/Prefabs/Buildings",
+                "Assets/PolygonVikings/Prefabs/Buildings",
+                "Assets/PolygonAdventure/Prefabs/Buildings",
+                "Assets/PolygonTown/Prefabs/Buildings",
+                "Assets/PolygonFarm/Prefabs/Buildings",
+                "Assets/PolygonPirates/Prefabs/Buildings",
+                "Assets/PolygonSamurai/Prefabs/Buildings",
+                "Assets/PolygonDungeon/Prefabs/Environments"
+            };
+            
+            foreach (var folder in buildingFolders)
+            {
+                if (!AssetDatabase.IsValidFolder(folder)) continue;
+                
+                // Search recursively in each folder
+                var guids = AssetDatabase.FindAssets("t:Prefab", new[] { folder });
+                foreach (var guid in guids)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    if (prefab != null && !prefabs.Any(p => p.name == prefab.name))
+                    {
+                        prefabs.Add(prefab);
+                    }
+                }
+            }
+            
+            return prefabs.ToArray();
+        }
+        
+        /// <summary>
+        /// Populate Characters from all packs
+        /// </summary>
+        private int PopulateCharacters()
+        {
+            int count = 0;
+            Debug.Log("[PrefabPopulator] Searching for characters...");
+            
+            string[] charFolders = new[]
+            {
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Characters",
+                "Assets/PolygonKnights/Prefabs/Characters",
+                "Assets/PolygonVikings/Prefabs/Characters",
+                "Assets/PolygonAdventure/Prefabs/Characters",
+                "Assets/PolygonTown/Prefabs/Characters",
+                "Assets/PolygonFarm/Prefabs/Characters",
+                "Assets/PolygonPirates/Prefabs/Characters",
+                "Assets/PolygonSamurai/Prefabs/Characters",
+                "Assets/PolygonFantasyCharacters/Prefabs",
+                "Assets/PolygonFantasyHeroCharacters/Prefabs/Characters_Presets",
+                "Assets/PolygonFantasyRivals/Prefabs/Characters"
+            };
+            
+            var allChars = new List<GameObject>();
+            foreach (var folder in charFolders)
+            {
+                if (!AssetDatabase.IsValidFolder(folder)) continue;
+                var guids = AssetDatabase.FindAssets("t:Prefab", new[] { folder });
+                foreach (var guid in guids)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    if (prefab != null && !allChars.Any(p => p.name == prefab.name))
+                        allChars.Add(prefab);
+                }
+            }
+            
+            Debug.Log($"[PrefabPopulator] Found {allChars.Count} total character prefabs");
+            
+            // Categorize characters
+            var peasantChars = allChars.Where(p => 
+                p.name.Contains("Peasant") || p.name.Contains("Villager") || 
+                p.name.Contains("Civilian") || p.name.Contains("Farmer")).ToArray();
+            var merchantChars = allChars.Where(p => 
+                p.name.Contains("Merchant") || p.name.Contains("Trader") || 
+                p.name.Contains("Shopkeeper") || p.name.Contains("Vendor")).ToArray();
+            var guardChars = allChars.Where(p => 
+                p.name.Contains("Guard") || p.name.Contains("Soldier") || 
+                p.name.Contains("Warrior") || p.name.Contains("Fighter")).ToArray();
+            var knightChars = allChars.Where(p => 
+                p.name.Contains("Knight") || p.name.Contains("Paladin") || 
+                p.name.Contains("Crusader") || p.name.Contains("Champion")).ToArray();
+            var nobleChars = allChars.Where(p => 
+                p.name.Contains("Noble") || p.name.Contains("King") || 
+                p.name.Contains("Queen") || p.name.Contains("Prince") || p.name.Contains("Lord")).ToArray();
+            
+            if (peasantChars.Length > 0) { targetLibrary.peasants = peasantChars; count += peasantChars.Length; }
+            if (merchantChars.Length > 0) { targetLibrary.merchants = merchantChars; count += merchantChars.Length; }
+            if (guardChars.Length > 0) { targetLibrary.guards = guardChars; count += guardChars.Length; }
+            if (knightChars.Length > 0) { targetLibrary.knights = knightChars; count += knightChars.Length; }
+            if (nobleChars.Length > 0) { targetLibrary.nobles = nobleChars; count += nobleChars.Length; }
+            
+            // If categories are sparse, distribute remaining characters
+            var unassigned = allChars.Where(p => 
+                !peasantChars.Contains(p) && !merchantChars.Contains(p) && 
+                !guardChars.Contains(p) && !knightChars.Contains(p) && !nobleChars.Contains(p)).ToArray();
+            
+            if (unassigned.Length > 0)
+            {
+                // Add unassigned to peasants as generic NPCs
+                var combined = new List<GameObject>(peasantChars);
+                combined.AddRange(unassigned);
+                targetLibrary.peasants = combined.ToArray();
+                count += unassigned.Length;
+            }
+            
+            Debug.Log($"[PrefabPopulator] Characters: {peasantChars.Length} peasants, {merchantChars.Length} merchants, {guardChars.Length} guards, {knightChars.Length} knights");
+            return count;
+        }
+        
+        /// <summary>
+        /// Populate Animals from all packs
+        /// </summary>
+        private int PopulateAnimals()
+        {
+            int count = 0;
+            Debug.Log("[PrefabPopulator] Searching for animals...");
+            
+            var animals = FindPrefabsInAllSyntyPacks(
+                "Chicken", "Pig", "Cow", "Horse", "Dog", "Cat", "Sheep", "Goat",
+                "SM_Chr_Chicken", "SM_Chr_Pig", "SM_Chr_Cow", "SM_Chr_Horse",
+                "Animal_", "SM_Animal"
+            );
+            
+            if (animals.Length > 0)
+            {
+                targetLibrary.chickens = animals.Where(p => p.name.Contains("Chicken")).ToArray();
+                targetLibrary.pigs = animals.Where(p => p.name.Contains("Pig")).ToArray();
+                targetLibrary.cows = animals.Where(p => p.name.Contains("Cow")).ToArray();
+                targetLibrary.horses = animals.Where(p => p.name.Contains("Horse")).ToArray();
+                targetLibrary.dogs = animals.Where(p => p.name.Contains("Dog")).ToArray();
+                targetLibrary.cats = animals.Where(p => p.name.Contains("Cat")).ToArray();
+                
+                count = animals.Length;
+                Debug.Log($"[PrefabPopulator] Found {animals.Length} animals");
+            }
+            
+            return count;
+        }
+        
+        /// <summary>
         /// All Synty pack paths to search for consistent art style
         /// Updated to match actual folder structure from your Assets folder
         /// Includes both Prefabs and Models folders
@@ -677,8 +877,24 @@ namespace ApexCitadels.FantasyWorld
             "Assets/PolygonPirates/Models",
             "Assets/PolygonSamurai/Models",
             "Assets/PolygonTown/Models",
-            "Assets/PolygonVikings/Models"
-            "Assets/PolygonVikings/Prefabs"
+            "Assets/PolygonVikings/Models",
+            // Additional subfolder searches
+            "Assets/PolygonKnights/Prefabs/Buildings",
+            "Assets/PolygonKnights/Prefabs/Environments",
+            "Assets/PolygonVikings/Prefabs/Buildings",
+            "Assets/PolygonVikings/Prefabs/Environments",
+            "Assets/PolygonAdventure/Prefabs/Buildings",
+            "Assets/PolygonAdventure/Prefabs/Environments",
+            "Assets/PolygonTown/Prefabs/Buildings",
+            "Assets/PolygonTown/Prefabs/Environment",
+            "Assets/PolygonFarm/Prefabs/Buildings",
+            "Assets/PolygonFarm/Prefabs/Environments",
+            "Assets/PolygonPirates/Prefabs/Buildings",
+            "Assets/PolygonPirates/Prefabs/Environments",
+            "Assets/PolygonSamurai/Prefabs/Buildings",
+            "Assets/PolygonSamurai/Prefabs/Environments",
+            "Assets/PolygonDungeon/Prefabs/Environments",
+            "Assets/PolygonNature/Prefabs"
         };
         
         /// <summary>
