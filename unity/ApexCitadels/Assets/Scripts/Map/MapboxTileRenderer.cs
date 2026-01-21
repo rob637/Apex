@@ -37,6 +37,8 @@ namespace ApexCitadels.Map
         private Transform _tilesContainer;
         private int _centerTileX;
         private int _centerTileY;
+        private double _tileCenterLat;  // Geometric center of the center tile
+        private double _tileCenterLon;  // Geometric center of the center tile
         private bool _isInitialized;
         private bool _isLoading;
         private int _loadedCount;
@@ -169,7 +171,14 @@ namespace ApexCitadels.Map
             _centerTileX = (int)((centerLongitude + 180.0) / 360.0 * n);
             _centerTileY = (int)((1.0 - System.Math.Log(System.Math.Tan(latRad) + 1.0 / System.Math.Cos(latRad)) / System.Math.PI) / 2.0 * n);
             
+            // Calculate the lat/lon of the GEOMETRIC CENTER of the center tile
+            // This is the actual origin for world space (0,0,0)
+            _tileCenterLon = (_centerTileX + 0.5) / n * 360.0 - 180.0;
+            double tileCenterLatRad = System.Math.Atan(System.Math.Sinh(System.Math.PI * (1.0 - 2.0 * (_centerTileY + 0.5) / n)));
+            _tileCenterLat = tileCenterLatRad * 180.0 / System.Math.PI;
+            
             Debug.Log($"[Mapbox] Center tile: {_centerTileX}, {_centerTileY}");
+            Debug.Log($"[Mapbox] Tile center lat/lon: {_tileCenterLat:F6}, {_tileCenterLon:F6} (user specified: {centerLatitude:F6}, {centerLongitude:F6})");
         }
         
         private void CreateTileGrid()
@@ -388,28 +397,32 @@ namespace ApexCitadels.Map
         
         /// <summary>
         /// Convert world position to lat/lon
+        /// Uses the geometric center of the center tile as origin (0,0,0)
         /// </summary>
         public (double lat, double lon) WorldToLatLon(Vector3 worldPos)
         {
             double metersPerUnit = GetMetersPerWorldUnit();
-            double latRad = centerLatitude * Mathf.Deg2Rad;
+            double latRad = _tileCenterLat * Mathf.Deg2Rad;
             
-            double lon = centerLongitude + (worldPos.x * metersPerUnit) / (111320 * System.Math.Cos(latRad));
-            double lat = centerLatitude + (worldPos.z * metersPerUnit) / 110540;
+            double lon = _tileCenterLon + (worldPos.x * metersPerUnit) / (111320 * System.Math.Cos(latRad));
+            double lat = _tileCenterLat + (worldPos.z * metersPerUnit) / 110540;
             
             return (lat, lon);
         }
         
         /// <summary>
         /// Convert lat/lon to world position
+        /// Uses the geometric center of the center tile as origin (0,0,0)
         /// </summary>
         public Vector3 LatLonToWorld(double latitude, double longitude)
         {
             double metersPerUnit = GetMetersPerWorldUnit();
-            double latRad = centerLatitude * Mathf.Deg2Rad;
+            double latRad = _tileCenterLat * Mathf.Deg2Rad;
             
-            float x = (float)((longitude - centerLongitude) * 111320 * System.Math.Cos(latRad) / metersPerUnit);
-            float z = (float)((latitude - centerLatitude) * 110540 / metersPerUnit);
+            // Calculate relative to TILE CENTER (which is at world 0,0,0)
+            // not the user-specified center coordinates
+            float x = (float)((longitude - _tileCenterLon) * 111320 * System.Math.Cos(latRad) / metersPerUnit);
+            float z = (float)((latitude - _tileCenterLat) * 110540 / metersPerUnit);
             
             return new Vector3(x, 0, z);
         }
