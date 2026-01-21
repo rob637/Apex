@@ -42,12 +42,33 @@ namespace ApexCitadels.FantasyWorld
             
             if (targetLibrary == null)
             {
-                // Try to find the main library
-                var guids = AssetDatabase.FindAssets("t:FantasyPrefabLibrary");
-                if (guids.Length > 0)
+                // PRIORITY: Use Resources folder version since that's what runtime loads
+                string resourcesPath = "Assets/Resources/MainFantasyPrefabLibrary.asset";
+                targetLibrary = AssetDatabase.LoadAssetAtPath<FantasyPrefabLibrary>(resourcesPath);
+                
+                // Fallback to any library found
+                if (targetLibrary == null)
                 {
-                    var path = AssetDatabase.GUIDToAssetPath(guids[0]);
-                    targetLibrary = AssetDatabase.LoadAssetAtPath<FantasyPrefabLibrary>(path);
+                    var guids = AssetDatabase.FindAssets("t:FantasyPrefabLibrary");
+                    if (guids.Length > 0)
+                    {
+                        // Prefer Resources folder
+                        foreach (var guid in guids)
+                        {
+                            var path = AssetDatabase.GUIDToAssetPath(guid);
+                            if (path.Contains("/Resources/"))
+                            {
+                                targetLibrary = AssetDatabase.LoadAssetAtPath<FantasyPrefabLibrary>(path);
+                                break;
+                            }
+                        }
+                        // If still null, use first found
+                        if (targetLibrary == null)
+                        {
+                            var path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                            targetLibrary = AssetDatabase.LoadAssetAtPath<FantasyPrefabLibrary>(path);
+                        }
+                    }
                 }
             }
             

@@ -431,10 +431,14 @@ namespace ApexCitadels.FantasyWorld
         
         /// <summary>
         /// Convert all lat/lon coordinates to world space relative to origin
+        /// Uses same scale as MapboxTileRenderer for alignment
         /// </summary>
         private void ConvertCoordinatesToWorldSpace(OSMData osmData)
         {
-            double metersPerDegreeLat = 111320;
+            // Get scale from Mapbox if available, otherwise use default
+            float scale = GetMapboxScale();
+            
+            double metersPerDegreeLat = 110540; // More accurate value
             double metersPerDegreeLon = 111320 * Math.Cos(_originLat * Math.PI / 180);
             
             // Convert buildings
@@ -444,8 +448,8 @@ namespace ApexCitadels.FantasyWorld
                 foreach (var p in building.FootprintPoints)
                 {
                     // p.x is lon, p.y is lat (from OSM parser)
-                    float x = (float)((p.x - _originLon) * metersPerDegreeLon);
-                    float z = (float)((p.y - _originLat) * metersPerDegreeLat);
+                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / scale);
+                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / scale);
                     building.WorldPoints.Add(new Vector3(x, 0, z));
                 }
             }
@@ -453,7 +457,7 @@ namespace ApexCitadels.FantasyWorld
             // Convert roads
             foreach (var road in osmData.Roads)
             {
-                road.ConvertToWorldSpace(_originLat, _originLon);
+                road.ConvertToWorldSpaceScaled(_originLat, _originLon, scale);
             }
             
             // Convert areas
@@ -462,11 +466,32 @@ namespace ApexCitadels.FantasyWorld
                 area.WorldPoints = new List<Vector3>();
                 foreach (var p in area.Polygon)
                 {
-                    float x = (float)((p.x - _originLon) * metersPerDegreeLon);
-                    float z = (float)((p.y - _originLat) * metersPerDegreeLat);
+                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / scale);
+                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / scale);
                     area.WorldPoints.Add(new Vector3(x, 0, z));
                 }
             }
+        }
+        
+        /// <summary>
+        /// Get the meters-per-unit scale from MapboxTileRenderer for alignment
+        /// </summary>
+        private float GetMapboxScale()
+        {
+            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapbox != null)
+            {
+                // MapboxTileRenderer uses tileWorldSize = 80 units for each tile
+                // At zoom 14, each tile is about 1222m at equator, less at higher latitudes
+                // Calculate meters per world unit to match Mapbox coordinate system
+                double tileMeters = 40075016.686 * Math.Cos(_originLat * Math.PI / 180) / Math.Pow(2, 14);
+                float tileWorldSize = 80f; // Default from MapboxTileRenderer
+                float scale = (float)(tileMeters / tileWorldSize);
+                Logger.Log($"Mapbox scale: {scale:F2} meters per world unit (tile size: {tileMeters:F0}m)", "FantasyWorld");
+                return scale;
+            }
+            Logger.LogWarning("No MapboxTileRenderer found - using 1:1 meter scale", "FantasyWorld");
+            return 1f; // No scaling if no Mapbox
         }
 
         
@@ -1807,6 +1832,7 @@ namespace ApexCitadels.FantasyWorld
         {
             int count = 0;
             int prefabsPlaced = 0;
+            System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
             
             // Build list of valid (non-null) prefabs
             var validPrefabs = new List<GameObject>();
@@ -1821,6 +1847,16 @@ namespace ApexCitadels.FantasyWorld
                 yield return GenerateRoadsWithMesh(roads);
                 yield break;
             }
+            
+            // Pre-calculate segment length from sample prefab
+            var samplePrefab = validPrefabs[0];
+            var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
+            float baseSegmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
+            if (baseSegmentLength < 0.5f) baseSegmentLength = 2f;
+            
+            // Batch instantiation for performance
+            int instantiationsPerFrame = 50; // Higher = faster but may hitch
+            int instantiationCount = 0;
             
             foreach (var road in roads)
             {
@@ -1838,11 +1874,7 @@ namespace ApexCitadels.FantasyWorld
                     totalLength += Vector3.Distance(road.Points[i], road.Points[i - 1]);
                 }
                 
-                // Get a random prefab to determine segment size
-                var samplePrefab = validPrefabs[0];
-                var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
-                float segmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
-                if (segmentLength < 0.5f) segmentLength = 2f; // Minimum segment length
+                float segmentLength = baseSegmentLength;
                 
                 // Walk along the path and place prefabs
                 float distanceCovered = 0f;
@@ -1874,11 +1906,15 @@ namespace ApexCitadels.FantasyWorld
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
                     segment.name = $"Cobble_{prefabsPlaced}";
                     
-                    // Scale to match road width if needed
-                    float roadWidth = road.Width > 0 ? road.Width : config.pathWidth;
-                    // Don't scale prefabs too much - they look better at native size
-                    
                     prefabsPlaced++;
+                    instantiationCount++;
+                    
+                    // Yield occasionally for responsiveness
+                    if (instantiationCount >= instantiationsPerFrame)
+                    {
+                        instantiationCount = 0;
+                        yield return null;
+                    }
                     
                     // Move along the path
                     segmentProgress += segmentLength * 0.9f; // Slight overlap
@@ -1899,10 +1935,10 @@ namespace ApexCitadels.FantasyWorld
                 }
                 
                 count++;
-                if (count % 5 == 0) yield return null;
             }
             
-            Logger.Log($"Generated {count} roads with {prefabsPlaced} prefab segments", "FantasyWorld");
+            sw.Stop();
+            Logger.Log($"Generated {count} roads with {prefabsPlaced} prefab segments in {sw.ElapsedMilliseconds}ms", "FantasyWorld");
         }
         
         /// <summary>

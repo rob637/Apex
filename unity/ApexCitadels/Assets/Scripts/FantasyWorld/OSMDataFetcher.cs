@@ -222,14 +222,22 @@ namespace ApexCitadels.FantasyWorld
         /// </summary>
         public void ConvertToWorldSpace(double originLat, double originLon)
         {
+            ConvertToWorldSpaceScaled(originLat, originLon, 1f);
+        }
+        
+        /// <summary>
+        /// Convert lat/lon points to world space with Mapbox scale alignment
+        /// </summary>
+        public void ConvertToWorldSpaceScaled(double originLat, double originLon, float scale)
+        {
             Points.Clear();
-            double metersPerDegreeLat = 111320;
+            double metersPerDegreeLat = 110540; // More accurate value
             double metersPerDegreeLon = 111320 * Math.Cos(originLat * Math.PI / 180);
             
             foreach (var p in LatLonPoints)
             {
-                float x = (float)((p.x - originLon) * metersPerDegreeLon); // lon to X
-                float z = (float)((p.y - originLat) * metersPerDegreeLat); // lat to Z
+                float x = (float)((p.x - originLon) * metersPerDegreeLon / scale); // lon to X
+                float z = (float)((p.y - originLat) * metersPerDegreeLat / scale); // lat to Z
                 Points.Add(new Vector3(x, 0, z));
             }
         }
