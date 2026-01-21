@@ -395,6 +395,19 @@ namespace ApexCitadels.FantasyWorld
         }
         
         /// <summary>
+        /// Get a random grass clump
+        /// </summary>
+        public GameObject GetGrassClump()
+        {
+            // First try grass clumps, then flower patches as fallback
+            if (grassClumps != null && grassClumps.Length > 0)
+                return grassClumps[UnityEngine.Random.Range(0, grassClumps.Length)];
+            if (flowerPatches != null && flowerPatches.Length > 0)
+                return flowerPatches[UnityEngine.Random.Range(0, flowerPatches.Length)];
+            return null;
+        }
+        
+        /// <summary>
         /// Get a random prop
         /// </summary>
         public GameObject GetProp(PropType type)

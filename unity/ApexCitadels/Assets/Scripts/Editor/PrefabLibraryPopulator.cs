@@ -417,26 +417,45 @@ namespace ApexCitadels.FantasyWorld
                 count += flowers.Length;
             }
             
-            // Grass
+            // Grass - search both FantasyKingdom and Generic
             var grass = FindPrefabsMatching(envPath, "SM_Env_Grass");
-            if (grass.Length > 0)
+            string genericEnvPath = "Assets/Synty/PolygonGeneric/Prefabs/Environment";
+            var genericGrass = FindPrefabsMatching(genericEnvPath, "SM_Gen_Env_Grass");
+            
+            var allGrass = new List<GameObject>();
+            allGrass.AddRange(grass);
+            allGrass.AddRange(genericGrass);
+            
+            if (allGrass.Count > 0)
             {
-                targetLibrary.grassClumps = grass;
-                count += grass.Length;
+                targetLibrary.grassClumps = allGrass.ToArray();
+                count += allGrass.Count;
+                Debug.Log($"[PrefabPopulator] Added {allGrass.Count} grass clumps ({grass.Length} fantasy + {genericGrass.Length} generic)");
             }
             
-            // Rocks
+            // Rocks - search both paths
             var rocks = FindPrefabsMatching(envPath, "SM_Env_Rock", "SM_Env_Stone");
-            if (rocks.Length > 0)
+            var genericRocks = FindPrefabsMatching(genericEnvPath, "SM_Gen_Env_Rock", "SM_Gen_Env_Stone");
+            
+            var allRocks = new List<GameObject>();
+            allRocks.AddRange(rocks);
+            allRocks.AddRange(genericRocks);
+            
+            if (allRocks.Count > 0)
             {
-                var small = rocks.Where(p => p.name.Contains("Small") || p.name.Contains("01")).ToArray();
-                var large = rocks.Where(p => p.name.Contains("Large") || p.name.Contains("Boulder")).ToArray();
+                var small = allRocks.Where(p => p.name.Contains("Small") || p.name.Contains("01")).ToArray();
+                var large = allRocks.Where(p => p.name.Contains("Large") || p.name.Contains("Boulder")).ToArray();
+                var medium = allRocks.Where(p => !small.Contains(p) && !large.Contains(p)).ToArray();
                 
                 if (small.Length > 0) targetLibrary.rocksSmall = small;
+                else if (medium.Length > 0) targetLibrary.rocksSmall = medium.Take(medium.Length / 2).ToArray();
+                
+                if (medium.Length > 0) targetLibrary.rocksMedium = medium;
+                
                 if (large.Length > 0) { targetLibrary.rocksLarge = large; targetLibrary.boulders = large; }
                 
-                count += rocks.Length;
-                Debug.Log($"[PrefabPopulator] Added {rocks.Length} rocks");
+                count += allRocks.Count;
+                Debug.Log($"[PrefabPopulator] Added {allRocks.Count} rocks ({rocks.Length} fantasy + {genericRocks.Length} generic)");
             }
             
             return count;

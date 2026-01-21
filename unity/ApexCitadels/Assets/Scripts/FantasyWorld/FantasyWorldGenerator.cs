@@ -521,6 +521,10 @@ namespace ApexCitadels.FantasyWorld
             {
                 OnGenerationProgress?.Invoke("Growing forests...");
                 yield return StartCoroutine(GenerateVegetationCoroutine(osmData));
+                
+                // Generate ground cover (grass clumps, rocks) in open areas
+                OnGenerationProgress?.Invoke("Spreading grass and ground cover...");
+                yield return StartCoroutine(GenerateGroundCoverCoroutine(osmData));
             }
             
             // Generate props
@@ -863,6 +867,189 @@ namespace ApexCitadels.FantasyWorld
             }
             
             Logger.Log($"Generated {treeCount} trees, {bushCount} bushes", "FantasyWorld");
+        }
+        
+        /// <summary>
+        /// Generate ground cover (grass clumps, rocks, small details) scattered across the area
+        /// This fills in the "empty" spaces to make the world feel lush and alive
+        /// </summary>
+        private IEnumerator GenerateGroundCoverCoroutine(OSMData osmData)
+        {
+            int grassCount = 0;
+            int rockCount = 0;
+            
+            // Build exclusion zones (buildings, roads)
+            var exclusionZones = new List<Bounds>();
+            
+            // Add building footprints with padding
+            foreach (var building in osmData.Buildings)
+            {
+                var centroid = building.CalculateCentroid();
+                var dims = building.CalculateDimensions();
+                exclusionZones.Add(new Bounds(centroid, dims * 1.5f)); // Extra padding around buildings
+            }
+            
+            // Add road corridors
+            foreach (var road in osmData.Roads)
+            {
+                if (road.Points == null || road.Points.Count < 2) continue;
+                for (int i = 0; i < road.Points.Count - 1; i++)
+                {
+                    var p1 = road.Points[i];
+                    var p2 = road.Points[i + 1];
+                    var mid = (p1 + p2) / 2f;
+                    var length = Vector3.Distance(p1, p2);
+                    exclusionZones.Add(new Bounds(mid, new Vector3(road.Width + 2f, 5f, length)));
+                }
+            }
+            
+            // Scatter grass clumps in a grid pattern with randomization
+            float radius = config.radiusMeters;
+            float spacing = 4f; // Base spacing for grass clumps
+            
+            for (float x = -radius; x < radius; x += spacing)
+            {
+                for (float z = -radius; z < radius; z += spacing)
+                {
+                    // Random offset within cell
+                    float offsetX = UnityEngine.Random.Range(-spacing * 0.4f, spacing * 0.4f);
+                    float offsetZ = UnityEngine.Random.Range(-spacing * 0.4f, spacing * 0.4f);
+                    var pos = new Vector3(x + offsetX, 0, z + offsetZ);
+                    
+                    // Skip if outside generation radius
+                    if (pos.magnitude > radius) continue;
+                    
+                    // Skip if in exclusion zone
+                    bool excluded = false;
+                    foreach (var zone in exclusionZones)
+                    {
+                        if (zone.Contains(pos))
+                        {
+                            excluded = true;
+                            break;
+                        }
+                    }
+                    if (excluded) continue;
+                    
+                    // Random chance to skip (variety)
+                    if (UnityEngine.Random.value > 0.7f) continue;
+                    
+                    // Choose grass or rock
+                    bool isRock = UnityEngine.Random.value < 0.1f; // 10% rocks
+                    
+                    GameObject groundItem;
+                    float rotation = UnityEngine.Random.Range(0f, 360f);
+                    float scale = UnityEngine.Random.Range(0.6f, 1.2f);
+                    
+                    if (isRock)
+                    {
+                        var rockPrefab = prefabLibrary?.GetRock();
+                        if (rockPrefab != null)
+                        {
+                            groundItem = Instantiate(rockPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                        }
+                        else
+                        {
+                            groundItem = CreateProceduralRock(pos);
+                            groundItem.transform.SetParent(vegetationParent);
+                        }
+                        groundItem.name = $"Rock_{rockCount}";
+                        rockCount++;
+                    }
+                    else
+                    {
+                        var grassPrefab = prefabLibrary?.GetGrassClump();
+                        if (grassPrefab != null)
+                        {
+                            groundItem = Instantiate(grassPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                        }
+                        else
+                        {
+                            groundItem = CreateProceduralGrass(pos);
+                            groundItem.transform.SetParent(vegetationParent);
+                        }
+                        groundItem.name = $"Grass_{grassCount}";
+                        grassCount++;
+                    }
+                    
+                    groundItem.transform.localScale = Vector3.one * scale;
+                    
+                    // Yield occasionally for smooth performance
+                    if ((grassCount + rockCount) % 50 == 0)
+                    {
+                        yield return null;
+                    }
+                }
+            }
+            
+            Logger.Log($"Generated ground cover: {grassCount} grass clumps, {rockCount} rocks", "FantasyWorld");
+        }
+        
+        /// <summary>
+        /// Create a simple procedural grass clump
+        /// </summary>
+        private GameObject CreateProceduralGrass(Vector3 position)
+        {
+            var grass = new GameObject("ProceduralGrass");
+            grass.transform.position = position;
+            
+            // Create several thin quads for grass blades
+            for (int i = 0; i < 5; i++)
+            {
+                var blade = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                blade.transform.SetParent(grass.transform);
+                blade.transform.localPosition = new Vector3(
+                    UnityEngine.Random.Range(-0.3f, 0.3f),
+                    0.25f,
+                    UnityEngine.Random.Range(-0.3f, 0.3f)
+                );
+                blade.transform.localScale = new Vector3(0.1f, 0.5f, 0.1f);
+                blade.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), UnityEngine.Random.Range(-15f, 15f));
+                
+                var renderer = blade.GetComponent<Renderer>();
+                var mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
+                mat.color = new Color(
+                    UnityEngine.Random.Range(0.2f, 0.35f),
+                    UnityEngine.Random.Range(0.45f, 0.6f),
+                    UnityEngine.Random.Range(0.1f, 0.2f)
+                );
+                renderer.material = mat;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                
+                // Remove collider from grass
+                var collider = blade.GetComponent<Collider>();
+                if (collider != null) DestroyImmediate(collider);
+            }
+            
+            return grass;
+        }
+        
+        /// <summary>
+        /// Create a simple procedural rock
+        /// </summary>
+        private GameObject CreateProceduralRock(Vector3 position)
+        {
+            var rock = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            rock.transform.position = position;
+            rock.transform.localScale = new Vector3(
+                UnityEngine.Random.Range(0.3f, 0.8f),
+                UnityEngine.Random.Range(0.2f, 0.5f),
+                UnityEngine.Random.Range(0.3f, 0.8f)
+            );
+            rock.transform.rotation = Quaternion.Euler(
+                UnityEngine.Random.Range(-10f, 10f),
+                UnityEngine.Random.Range(0f, 360f),
+                UnityEngine.Random.Range(-10f, 10f)
+            );
+            
+            var renderer = rock.GetComponent<Renderer>();
+            var mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
+            float gray = UnityEngine.Random.Range(0.35f, 0.55f);
+            mat.color = new Color(gray, gray * 0.95f, gray * 0.9f);
+            mat.SetFloat("_Smoothness", 0.1f);
+            renderer.material = mat;
+            
+            return rock;
         }
         
         /// <summary>
