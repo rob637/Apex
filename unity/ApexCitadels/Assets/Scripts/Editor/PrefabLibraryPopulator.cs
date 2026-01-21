@@ -109,12 +109,26 @@ namespace ApexCitadels.FantasyWorld
         
         private void PopulateAll()
         {
-            Debug.Log("[PrefabPopulator] === POPULATE ALL v3.0 - Comprehensive Multi-Pack Search ===");
+            if (targetLibrary == null)
+            {
+                Debug.LogError("[PrefabPopulator] No target library assigned!");
+                EditorUtility.DisplayDialog("Error", "Please assign a FantasyPrefabLibrary asset first.", "OK");
+                return;
+            }
+            
+            Debug.Log("[PrefabPopulator] === POPULATE ALL v4.0 - Direct Search ===");
+            Debug.Log($"[PrefabPopulator] Target library: {targetLibrary.name} at {AssetDatabase.GetAssetPath(targetLibrary)}");
+            
             Undo.RecordObject(targetLibrary, "Populate All Prefabs");
             
             int totalAdded = 0;
             totalAdded += PopulateAllBuildings();
-            totalAdded += PopulateCobblestoneSegments();
+            
+            // Cobblestone paths - with detailed logging
+            int cobbleCount = PopulateCobblestoneSegments();
+            Debug.Log($"[PrefabPopulator] After PopulateCobblestoneSegments: library has {targetLibrary.cobblestoneSegments?.Length ?? 0} cobblestones");
+            totalAdded += cobbleCount;
+            
             totalAdded += PopulateDirtPaths();
             totalAdded += PopulateTrees();
             totalAdded += PopulateBushes();
@@ -122,11 +136,15 @@ namespace ApexCitadels.FantasyWorld
             totalAdded += PopulateCharacters();
             totalAdded += PopulateAnimals();
             
+            // Force save
             EditorUtility.SetDirty(targetLibrary);
+            AssetDatabase.SaveAssetIfDirty(targetLibrary);
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
             
             Debug.Log($"[PrefabPopulator] === COMPLETE: Added {totalAdded} prefabs total ===");
-            EditorUtility.DisplayDialog("Complete", $"Added {totalAdded} prefabs to the library.", "OK");
+            Debug.Log($"[PrefabPopulator] Final cobblestone count in library: {targetLibrary.cobblestoneSegments?.Length ?? 0}");
+            EditorUtility.DisplayDialog("Complete", $"Added {totalAdded} prefabs to the library.\n\nCobblestones: {targetLibrary.cobblestoneSegments?.Length ?? 0}", "OK");
         }
         
         private void PopulateLibrary()
@@ -388,26 +406,59 @@ namespace ApexCitadels.FantasyWorld
         // =====================================================================
         private int PopulateCobblestoneSegments()
         {
-            // Search all packs for cobblestone/brick paths - EXPANDED patterns
-            // PolygonFantasyKingdom has: SM_Env_Path_01 through SM_Env_Path_05, SM_Env_Path_Brick_Group_01-07
-            var cobblestones = FindPrefabsInAllSyntyPacks(
-                // Numbered paths (SM_Env_Path_01, _02, _03, _04, _05)
-                "SM_Env_Path_01", "SM_Env_Path_02", "SM_Env_Path_03", "SM_Env_Path_04", "SM_Env_Path_05",
-                // Brick groups
-                "SM_Env_Path_Brick", "Path_Brick_Group",
-                // Raised paths
-                "SM_Env_Path_Raised",
-                // Generic patterns
-                "SM_Env_Path_Cobble", "SM_Env_Path_Stone",
-                "SM_Gen_Path_Brick", "SM_Gen_Path_Cobble", "SM_Gen_Path_Stone",
-                "Cobblestone", "Brick_Path",
-                // Floor tiles that can work as paths
-                "SM_Bld_Base_Floor"
-            );
+            // DIRECT SEARCH - don't rely on patterns, just find all path prefabs
+            var cobblestones = new List<GameObject>();
             
-            targetLibrary.cobblestoneSegments = cobblestones;
-            Debug.Log($"[PrefabPopulator] Populated {cobblestones.Length} cobblestone segments from all Synty packs");
-            return cobblestones.Length;
+            // Search the exact folder where we KNOW the paths exist
+            string[] directPaths = new[]
+            {
+                "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments",
+                "Assets/PolygonVikings/Prefabs/Environments",
+                "Assets/PolygonKnights/Prefabs/Environments",
+                "Assets/PolygonAdventure/Prefabs/Environments"
+            };
+            
+            foreach (var folder in directPaths)
+            {
+                if (!AssetDatabase.IsValidFolder(folder))
+                {
+                    Debug.Log($"[PrefabPopulator] Folder not valid: {folder}");
+                    continue;
+                }
+                
+                var guids = AssetDatabase.FindAssets("t:Prefab", new[] { folder });
+                Debug.Log($"[PrefabPopulator] Found {guids.Length} prefabs in {folder}");
+                
+                foreach (var guid in guids)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    var name = System.IO.Path.GetFileNameWithoutExtension(path);
+                    
+                    // Match path prefabs - be generous
+                    if (name.Contains("Path") || name.Contains("Road") || name.Contains("Cobble") || name.Contains("Brick"))
+                    {
+                        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                        if (prefab != null && !cobblestones.Any(p => p.name == prefab.name))
+                        {
+                            cobblestones.Add(prefab);
+                            Debug.Log($"[PrefabPopulator] Added cobblestone: {name}");
+                        }
+                    }
+                }
+            }
+            
+            // CRITICAL: Actually assign to the library
+            if (cobblestones.Count > 0)
+            {
+                targetLibrary.cobblestoneSegments = cobblestones.ToArray();
+                Debug.Log($"[PrefabPopulator] ASSIGNED {cobblestones.Count} cobblestone segments to library");
+            }
+            else
+            {
+                Debug.LogError("[PrefabPopulator] NO COBBLESTONES FOUND! Check folder paths.");
+            }
+            
+            return cobblestones.Count;
         }
         
         private int PopulateDirtPaths()
