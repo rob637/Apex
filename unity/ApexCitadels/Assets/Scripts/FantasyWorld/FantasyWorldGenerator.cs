@@ -585,6 +585,8 @@ namespace ApexCitadels.FantasyWorld
         private IEnumerator GenerateBuildingsCoroutine(List<OSMBuilding> buildings, NeighborhoodContext context)
         {
             int count = 0;
+            int prefabCount = 0;
+            int proceduralCount = 0;
             
             foreach (var osmBuilding in buildings)
             {
@@ -594,6 +596,12 @@ namespace ApexCitadels.FantasyWorld
                 
                 // Calculate position (centroid of building footprint)
                 var position = osmBuilding.CalculateCentroid();
+                
+                // Log first few buildings for debugging
+                if (count < 3)
+                {
+                    Logger.Log($"Building {count}: Type={fantasyType}, Size={size}, Position={position}, OSMType={osmBuilding.BuildingType}", "FantasyWorld");
+                }
                 
                 // Calculate rotation
                 float rotation = 0f;
@@ -624,12 +632,14 @@ namespace ApexCitadels.FantasyWorld
                     
                     building = Instantiate(prefab, position, Quaternion.Euler(0, rotation, 0), buildingsParent);
                     building.transform.localScale = Vector3.one * scale;
+                    prefabCount++;
                 }
                 else
                 {
                     // Create procedural fantasy building as fallback
                     building = CreateProceduralBuilding(position, rotation, dimensions, fantasyType, size);
                     building.transform.SetParent(buildingsParent);
+                    proceduralCount++;
                 }
                 
                 building.name = $"Building_{fantasyType}_{count}";
@@ -651,7 +661,7 @@ namespace ApexCitadels.FantasyWorld
                 }
             }
             
-            Logger.Log($"Generated {count} buildings", "FantasyWorld");
+            Logger.Log($"Generated {count} buildings ({prefabCount} prefabs, {proceduralCount} procedural)", "FantasyWorld");
         }
         
         /// <summary>
