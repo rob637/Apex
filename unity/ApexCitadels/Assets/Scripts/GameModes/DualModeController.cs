@@ -279,7 +279,18 @@ namespace ApexCitadels.GameModes
             
             // Setup third-person camera
             _mapCamera.enabled = false;
-            // Camera will be controlled by GroundViewController
+            
+            // Position camera behind player for third person view
+            if (mainCamera != null)
+            {
+                mainCamera.transform.position = new Vector3(0, thirdPersonHeight, -thirdPersonDistance);
+                mainCamera.transform.rotation = Quaternion.Euler(15f, 0, 0);
+            }
+            
+            // Setup ground controller
+            _groundController.enabled = true;
+            _groundController.SetPlayer(playerCharacter);
+            _groundController.SetCamera(mainCamera);
             
             // Generate fantasy world around player
             if (_fantasyGenerator != null)
@@ -289,7 +300,11 @@ namespace ApexCitadels.GameModes
                 yield return _fantasyGenerator.GenerateWorldCoroutine();
             }
             
-            // Keep Mapbox tiles but they'll be under the fantasy elements
+            // Setup sky and ensure ground is visible
+            SetupGroundViewSky();
+            EnsureGroundIsVisible();
+            
+            Debug.Log("[DualMode] Ground View initialized");
             yield return null;
         }
         
@@ -388,6 +403,10 @@ namespace ApexCitadels.GameModes
             _groundController.enabled = true;
             _groundController.SetPlayer(playerCharacter);
             _groundController.SetCamera(mainCamera);
+            
+            // Setup sky and ground for ground view
+            SetupGroundViewSky();
+            EnsureGroundIsVisible();
             
             _currentMode = ViewMode.GroundView;
             OnModeChanged?.Invoke(ViewMode.GroundView);
@@ -491,25 +510,48 @@ namespace ApexCitadels.GameModes
             // Simple capsule as placeholder
             var player = new GameObject("PlaceholderCharacter");
             
-            // Body
+            // Body - capsule at chest level
             var body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
             body.name = "Body";
             body.transform.SetParent(player.transform);
-            body.transform.localPosition = new Vector3(0, 1f, 0);
-            body.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            body.transform.localPosition = new Vector3(0, 0.9f, 0);  // Center of 1.8m tall character
+            body.transform.localScale = new Vector3(0.5f, 0.9f, 0.5f);  // Taller capsule
             
-            // Remove collider from visual
+            // Remove collider from visual (CharacterController provides collision)
             var col = body.GetComponent<Collider>();
-            if (col != null) Destroy(col);
+            if (col != null) DestroyImmediate(col);
             
-            // Set material
+            // Set material - bright color for visibility
             var renderer = body.GetComponent<Renderer>();
             if (renderer != null)
             {
-                var mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
-                mat.color = new Color(0.3f, 0.5f, 0.8f); // Blue-ish
-                renderer.material = mat;
+                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+                if (shader != null)
+                {
+                    var mat = new Material(shader);
+                    mat.color = new Color(0.2f, 0.6f, 0.9f); // Bright blue
+                    mat.SetFloat("_Smoothness", 0.3f);
+                    renderer.material = mat;
+                }
             }
+            
+            // Add a head sphere for more character-like appearance
+            var head = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            head.name = "Head";
+            head.transform.SetParent(player.transform);
+            head.transform.localPosition = new Vector3(0, 1.7f, 0);
+            head.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            
+            var headCol = head.GetComponent<Collider>();
+            if (headCol != null) DestroyImmediate(headCol);
+            
+            var headRenderer = head.GetComponent<Renderer>();
+            if (headRenderer != null && renderer != null)
+            {
+                headRenderer.material = renderer.sharedMaterial;
+            }
+            
+            Debug.Log("[DualMode] Created placeholder character");
             
             return player;
         }
@@ -534,6 +576,115 @@ namespace ApexCitadels.GameModes
                 RenderSettings.skybox = skyMat;
                 mainCamera.clearFlags = CameraClearFlags.Skybox;
             }
+        }
+        
+        private void SetupGroundViewSky()
+        {
+            // Try to use a proper skybox for ground view
+            var skyMat = UnityEngine.Resources.Load<Material>("Skyboxes/DaySkybox");
+            if (skyMat == null)
+            {
+                skyMat = UnityEngine.Resources.Load<Material>("Skyboxes/FantasySkybox");
+            }
+            
+            if (skyMat != null)
+            {
+                RenderSettings.skybox = skyMat;
+                if (mainCamera != null)
+                {
+                    mainCamera.clearFlags = CameraClearFlags.Skybox;
+                }
+            }
+            else
+            {
+                // Fallback: Use a gradient sky color instead of solid blue
+                if (mainCamera != null)
+                {
+                    mainCamera.clearFlags = CameraClearFlags.SolidColor;
+                    // Light blue sky color
+                    mainCamera.backgroundColor = new Color(0.53f, 0.81f, 0.92f); // Sky blue
+                }
+            }
+            
+            // Set up ambient lighting for ground view
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.6f, 0.7f, 0.9f);
+            RenderSettings.ambientEquatorColor = new Color(0.5f, 0.6f, 0.7f);
+            RenderSettings.ambientGroundColor = new Color(0.3f, 0.35f, 0.25f);
+            
+            // Set camera clip planes appropriate for ground level view
+            if (mainCamera != null)
+            {
+                mainCamera.nearClipPlane = 0.1f;
+                mainCamera.farClipPlane = 1000f;
+                mainCamera.fieldOfView = 60f;
+            }
+            
+            Debug.Log("[DualMode] Ground View sky setup complete");
+        }
+        
+        private void EnsureGroundIsVisible()
+        {
+            // Make sure Mapbox tiles are at the correct height and visible
+            var mapboxRenderer = FindAnyObjectByType<Map.MapboxTileRenderer>();
+            bool hasMapboxGround = false;
+            
+            if (mapboxRenderer != null && mapboxRenderer.gameObject.activeInHierarchy)
+            {
+                // Make sure tiles are active
+                mapboxRenderer.gameObject.SetActive(true);
+                hasMapboxGround = !mapboxRenderer.IsLoading;
+                Debug.Log($"[DualMode] Mapbox tiles: active={mapboxRenderer.gameObject.activeInHierarchy}, loading={mapboxRenderer.IsLoading}");
+            }
+            
+            // Always create a fallback ground to ensure something is visible
+            // The Mapbox tiles are positioned high up for map view, so we need a ground plane at player level
+            CreateFallbackGround();
+            
+            Debug.Log("[DualMode] Ground setup complete");
+        }
+        
+        private void CreateFallbackGround()
+        {
+            // Check if we already have one
+            var existing = groundViewContainer.Find("FallbackGround");
+            if (existing != null)
+            {
+                existing.gameObject.SetActive(true);
+                return;
+            }
+            
+            Debug.Log("[DualMode] Creating fallback ground plane");
+            
+            // Create a large ground plane
+            var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ground.name = "FallbackGround";
+            ground.transform.SetParent(groundViewContainer);
+            ground.transform.localPosition = new Vector3(0, -0.05f, 0); // Slightly below origin to avoid z-fighting
+            
+            // Make it big enough - 30x the radius
+            float size = groundViewRadius * 3f / 10f; // Plane is 10 units by default
+            ground.transform.localScale = new Vector3(size, 1, size);
+            
+            // Give it a grassy material
+            var renderer = ground.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
+                if (shader != null)
+                {
+                    var mat = new Material(shader);
+                    mat.color = new Color(0.2f, 0.45f, 0.15f); // Green grass color
+                    mat.SetFloat("_Smoothness", 0.1f);
+                    renderer.material = mat;
+                    
+                    // Make sure it renders on both sides just in case
+                    renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    renderer.receiveShadows = true;
+                }
+            }
+            
+            Debug.Log($"[DualMode] Ground plane created at scale {size}");
         }
         
         #endregion

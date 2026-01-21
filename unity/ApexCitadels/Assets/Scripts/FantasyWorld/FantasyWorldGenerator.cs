@@ -1431,13 +1431,25 @@ namespace ApexCitadels.FantasyWorld
         {
             // Check if Mapbox is providing the ground - skip procedural ground if so
             var mapIntegration = GetComponent<FantasyMapIntegration>();
+            bool mapboxIsActive = false;
+            
             if (mapIntegration != null && mapIntegration.useMapboxGround)
             {
-                Logger.Log("Skipping procedural ground - Mapbox is providing map tiles", "FantasyWorld");
-                // Remove any existing procedural ground
-                Transform existingGround = transform.Find("GeneratedGround");
-                if (existingGround != null) DestroyImmediate(existingGround.gameObject);
-                return;
+                // Verify that Mapbox tiles are actually loaded and visible
+                var mapboxRenderer = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+                if (mapboxRenderer != null && mapboxRenderer.gameObject.activeInHierarchy && !mapboxRenderer.IsLoading)
+                {
+                    mapboxIsActive = true;
+                    Logger.Log("Skipping procedural ground - Mapbox is providing map tiles", "FantasyWorld");
+                    // Remove any existing procedural ground
+                    Transform existingGround = transform.Find("GeneratedGround");
+                    if (existingGround != null) DestroyImmediate(existingGround.gameObject);
+                    return;
+                }
+                else
+                {
+                    Logger.LogWarning("Mapbox tiles not ready - creating procedural ground as fallback", "FantasyWorld");
+                }
             }
             
             // Check if ground already exists
