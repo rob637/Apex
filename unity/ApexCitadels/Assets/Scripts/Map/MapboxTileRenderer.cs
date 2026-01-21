@@ -127,6 +127,15 @@ namespace ApexCitadels.Map
                 return;
             }
             
+            // DEBUG: Log and FORCE map style to SatelliteStreets
+            Debug.Log($"[Mapbox] Config loaded - Style in asset: {config.Style}");
+            if (config.Style != MapboxStyle.SatelliteStreets)
+            {
+                Debug.LogWarning($"[Mapbox] FORCING style from {config.Style} to SatelliteStreets!");
+                config.Style = MapboxStyle.SatelliteStreets;
+            }
+            Debug.Log($"[Mapbox] Using style: {config.Style} -> URL will use: {config.GetTileUrl(0, 0, 14)?.Split('?')[0]}");
+            
             // Use config values
             centerLatitude = config.DefaultLatitude;
             centerLongitude = config.DefaultLongitude;
