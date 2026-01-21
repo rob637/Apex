@@ -1765,19 +1765,37 @@ namespace ApexCitadels.FantasyWorld
 
         private IEnumerator GenerateRoadsCoroutine(List<OSMRoad> roads)
         {
-            // Check if we have Synty prefabs to use
-            bool usePrefabs = prefabLibrary != null && 
-                              prefabLibrary.cobblestoneSegments != null && 
-                              prefabLibrary.cobblestoneSegments.Length > 0;
+            // Check if we have Synty prefabs to use - validate they actually exist
+            bool usePrefabs = false;
+            if (prefabLibrary != null && 
+                prefabLibrary.cobblestoneSegments != null && 
+                prefabLibrary.cobblestoneSegments.Length > 0)
+            {
+                // Verify at least one prefab is not null (GUIDs may be invalid)
+                int validPrefabs = 0;
+                foreach (var prefab in prefabLibrary.cobblestoneSegments)
+                {
+                    if (prefab != null) validPrefabs++;
+                }
+                
+                if (validPrefabs > 0)
+                {
+                    usePrefabs = true;
+                    Logger.Log($"Using {validPrefabs} valid Synty cobblestone prefabs for roads", "FantasyWorld");
+                }
+                else
+                {
+                    Logger.LogWarning($"Cobblestone prefabs array has {prefabLibrary.cobblestoneSegments.Length} entries but all are null/missing. Run 'Apex Citadels > Populate Prefab Library' to fix.", "FantasyWorld");
+                }
+            }
             
             if (usePrefabs)
             {
-                Logger.Log($"Using {prefabLibrary.cobblestoneSegments.Length} Synty cobblestone prefabs for roads", "FantasyWorld");
                 yield return GenerateRoadsWithPrefabs(roads);
             }
             else
             {
-                Logger.Log("No path prefabs found - using procedural cobblestone mesh", "FantasyWorld");
+                Logger.Log("No valid path prefabs found - using procedural cobblestone mesh", "FantasyWorld");
                 yield return GenerateRoadsWithMesh(roads);
             }
         }
@@ -1789,6 +1807,20 @@ namespace ApexCitadels.FantasyWorld
         {
             int count = 0;
             int prefabsPlaced = 0;
+            
+            // Build list of valid (non-null) prefabs
+            var validPrefabs = new List<GameObject>();
+            foreach (var p in prefabLibrary.cobblestoneSegments)
+            {
+                if (p != null) validPrefabs.Add(p);
+            }
+            
+            if (validPrefabs.Count == 0)
+            {
+                Logger.LogError("No valid cobblestone prefabs found - falling back to mesh", "FantasyWorld");
+                yield return GenerateRoadsWithMesh(roads);
+                yield break;
+            }
             
             foreach (var road in roads)
             {
@@ -1807,7 +1839,7 @@ namespace ApexCitadels.FantasyWorld
                 }
                 
                 // Get a random prefab to determine segment size
-                var samplePrefab = prefabLibrary.cobblestoneSegments[0];
+                var samplePrefab = validPrefabs[0];
                 var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
                 float segmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
                 if (segmentLength < 0.5f) segmentLength = 2f; // Minimum segment length
@@ -1835,9 +1867,8 @@ namespace ApexCitadels.FantasyWorld
                         Quaternion.LookRotation(direction, Vector3.up) : 
                         Quaternion.identity;
                     
-                    // Pick a random prefab variant
-                    var prefab = prefabLibrary.cobblestoneSegments[
-                        UnityEngine.Random.Range(0, prefabLibrary.cobblestoneSegments.Length)];
+                    // Pick a random valid prefab variant
+                    var prefab = validPrefabs[UnityEngine.Random.Range(0, validPrefabs.Count)];
                     
                     // Instantiate
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);

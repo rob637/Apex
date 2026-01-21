@@ -914,28 +914,8 @@ MonoBehaviour:
   - {fileID: 7170295694990207602, guid: 4425216ae0e345c43adc010abcdd90f1, type: 3}
   - {fileID: 7196810933511123041, guid: 29cecbe5f22b8f248abca9b49e8fe3ef, type: 3}
   - {fileID: 5329577460968038239, guid: 38d257c588f863747bd31ff57651e099, type: 3}
-  cobblestoneSegments:
-  - {fileID: 1000000000000000, guid: 052cd3834c8c6834f861073823aef120, type: 3}
-  - {fileID: 1000000000000000, guid: 5ebc15668b87a1a4296b3a904c79c4a9, type: 3}
-  - {fileID: 1000000000000000, guid: c225a3ed8b986064d80f7f42715f6b95, type: 3}
-  - {fileID: 1000000000000000, guid: b94a2ecc941802442b948e915803ab73, type: 3}
-  - {fileID: 1000000000000000, guid: f939751d9cee72548a501f9b199ffa20, type: 3}
-  - {fileID: 1000000000000000, guid: 5e4ec47aa6d9b0d4bb155e143efb196c, type: 3}
-  - {fileID: 1000000000000000, guid: 61dec9ef4e7b7714997c18437830f38f, type: 3}
-  - {fileID: 1000000000000000, guid: 54d1030f92cc25f45b7160cfd220d63a, type: 3}
-  - {fileID: 1000000000000000, guid: 562cfbd9ad2b3fb4699c1b13b4ce2917, type: 3}
-  - {fileID: 1000000000000000, guid: 104cacfdfac39d64793682999fe9c1b4, type: 3}
-  - {fileID: 1000000000000000, guid: 122c63babb1a78f4eb14ae5dee342079, type: 3}
-  - {fileID: 1000000000000000, guid: bb7c9b9cec34f6f49ba023837a1ec668, type: 3}
-  - {fileID: 1000000000000000, guid: 73b2f680083c13740bb62dcaca1ef9b4, type: 3}
-  - {fileID: 1000000000000000, guid: 5060cee4354d6e84599aac604f90b57a, type: 3}
-  dirtPathSegments:
-  - {fileID: 1000000000000000, guid: 9697177fedbac3649907adbcfa9bc15d, type: 3}
-  - {fileID: 1000000000000000, guid: 1cdddbe316e423642a24dd51eef32515, type: 3}
-  - {fileID: 1000000000000000, guid: 81eee2803704cfc4f907203e8771e94b, type: 3}
-  - {fileID: 1000000000000000, guid: d3f475dd16e018846819c0234e9d6886, type: 3}
-  - {fileID: 1000000000000000, guid: f06b24ae061d75747ba31e16e9f70adc, type: 3}
-  - {fileID: 1000000000000000, guid: 1edd506c1924a254aabf8c68861196af, type: 3}
+  cobblestoneSegments: []
+  dirtPathSegments: []
   bridges: []
   steps: []
   barrels:
