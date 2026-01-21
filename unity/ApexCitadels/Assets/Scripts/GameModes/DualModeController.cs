@@ -269,6 +269,9 @@ namespace ApexCitadels.GameModes
             // Setup sky for map view (blue sky)
             SetupMapViewSky();
             
+            // Disable ground view fog - need clear visibility for map
+            DisableGroundViewFog();
+            
             // Make sure Mapbox tiles are rendering
             var mapbox = FindAnyObjectByType<Map.MapboxTileRenderer>();
             if (mapbox != null)
@@ -594,6 +597,7 @@ namespace ApexCitadels.GameModes
             {
                 mainCamera.clearFlags = CameraClearFlags.SolidColor;
                 mainCamera.backgroundColor = new Color(0.4f, 0.6f, 0.9f); // Nice sky blue
+                mainCamera.farClipPlane = 1000f; // Need to see far in map view
             }
             
             // Or use skybox if available
@@ -640,12 +644,16 @@ namespace ApexCitadels.GameModes
             RenderSettings.ambientGroundColor = new Color(0.3f, 0.35f, 0.25f);
             
             // Set camera clip planes appropriate for ground level view
+            // Limit view distance for immersion - like real life, you can't see very far at street level
             if (mainCamera != null)
             {
                 mainCamera.nearClipPlane = 0.1f;
-                mainCamera.farClipPlane = 1000f;
+                mainCamera.farClipPlane = 150f; // Limit to 150m for immersive ground-level feel
                 mainCamera.fieldOfView = 60f;
             }
+            
+            // Enable atmospheric fog for immersive view distance limiting
+            SetupGroundViewFog();
             
             Debug.Log("[DualMode] Ground View sky setup complete");
         }
@@ -712,6 +720,35 @@ namespace ApexCitadels.GameModes
             }
             
             Debug.Log($"[DualMode] Ground plane created at scale {size}");
+        }
+        
+        /// <summary>
+        /// Setup atmospheric fog for immersive ground-level view distance
+        /// Player should only see ~50-100m like real life - not distant objects
+        /// </summary>
+        private void SetupGroundViewFog()
+        {
+            // Enable fog
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.ExponentialSquared;
+            
+            // Fog density tuned for 50-100m visibility
+            // ExponentialSquared fog: visibility = 3/sqrt(density) for 95% opacity
+            // For 80m visibility: density = (3/80)^2 = 0.0014
+            RenderSettings.fogDensity = 0.012f; // Soft fade starting ~60m, fully obscured ~100m
+            
+            // Use a soft blue-gray atmospheric fog color that blends with sky
+            RenderSettings.fogColor = new Color(0.65f, 0.75f, 0.85f); // Atmospheric blue-gray
+            
+            Debug.Log("[DualMode] Ground view fog enabled - visibility ~80m");
+        }
+        
+        /// <summary>
+        /// Disable fog for map view (need to see far)
+        /// </summary>
+        private void DisableGroundViewFog()
+        {
+            RenderSettings.fog = false;
         }
         
         #endregion

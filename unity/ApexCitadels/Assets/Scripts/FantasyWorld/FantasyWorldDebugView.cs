@@ -88,14 +88,14 @@ namespace ApexCitadels.FantasyWorld
             {
                 showDebugView = !showDebugView;
                 
-                if (showDebugView && !_isVisualized)
+                if (showDebugView)
                 {
+                    // Always recreate debug visuals when enabling - buildings may have changed
                     CreateDebugVisuals();
                 }
-                
-                if (_debugContainer != null)
+                else if (_debugContainer != null)
                 {
-                    _debugContainer.SetActive(showDebugView);
+                    _debugContainer.SetActive(false);
                 }
                 
                 Debug.Log($"[DebugView] Debug visualization {(showDebugView ? "ENABLED" : "DISABLED")} - Press {toggleKey} to toggle");
@@ -169,6 +169,7 @@ namespace ApexCitadels.FantasyWorld
         {
             // Find all buildings with metadata
             var allMeta = FindObjectsByType<FantasyBuildingMeta>(FindObjectsSortMode.None);
+            Debug.Log($"[DebugView] Found {allMeta.Length} buildings with FantasyBuildingMeta components");
             
             int buildingCount = 0;
             foreach (var meta in allMeta)
