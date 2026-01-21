@@ -507,8 +507,15 @@ namespace ApexCitadels.FantasyWorld
         {
             _isGenerating = true;
             
+            // ============================================
+            // ROADS ONLY MODE - Disable everything except roads for debugging
+            // Set to false when ready to add more elements
+            // ============================================
+            bool ROADS_ONLY_MODE = true;
+            
             // Show stats in console
             string stats = $"Generating World: {osmData.Buildings.Count} Buildings, {osmData.Roads.Count} Roads, {osmData.Areas.Count} Areas";
+            if (ROADS_ONLY_MODE) stats += " [ROADS ONLY MODE]";
             Logger.Log(stats, "FantasyWorld");
             OnGenerationProgress?.Invoke(stats);
             
@@ -534,6 +541,18 @@ namespace ApexCitadels.FantasyWorld
             {
                 OnGenerationProgress?.Invoke("Paving roads...");
                 yield return StartCoroutine(GenerateRoadsCoroutine(osmData.Roads));
+            }
+
+            // ============================================
+            // SKIP EVERYTHING BELOW IN ROADS ONLY MODE
+            // ============================================
+            if (ROADS_ONLY_MODE)
+            {
+                Logger.Log("ROADS ONLY MODE: Skipping buildings, vegetation, props", "FantasyWorld");
+                _isGenerating = false;
+                OnGenerationProgress?.Invoke("Roads complete! (ROADS ONLY MODE)");
+                Logger.Log("Fantasy world generation complete", "FantasyWorld");
+                yield break;
             }
 
             // Generate buildings
