@@ -629,6 +629,11 @@ namespace ApexCitadels.Map
                         tile.Texture = texture;
                         tile.Material.mainTexture = texture;
                         tile.Material.color = Color.white;
+                        // NOW show the tile - texture is ready
+                        if (tile.Renderer != null)
+                        {
+                            tile.Renderer.enabled = true;
+                        }
                         tile.IsLoaded = true;
                         _loadedCount++;
                     }
