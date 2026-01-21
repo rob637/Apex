@@ -1939,7 +1939,7 @@ namespace ApexCitadels.FantasyWorld
             Vector2[] uvs = new Vector2[vertCount];
             int[] triangles = new int[(points.Count - 1) * 6];
             
-            float roadHeight = 0.15f; // Slightly above ground
+            float roadHeight = 0.25f; // Above Mapbox tiles to be visible
             float uvDistance = 0f;
             
             for (int i = 0; i < points.Count; i++)

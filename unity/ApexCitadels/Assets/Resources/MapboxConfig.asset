@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MapboxConfig
   m_EditorClassIdentifier: 
   AccessToken: pk.eyJ1IjoicnBmbGVnaGEiLCJhIjoiY21rbGtua2l5MDY0czNkbzl6bHM0eW53OSJ9.iQu8VXGO5dxKzVaBui9bwA
-  Style: 0
+  Style: 4
   DefaultLatitude: 38.9065479
   DefaultLongitude: -77.247697
   DefaultZoom: 16
