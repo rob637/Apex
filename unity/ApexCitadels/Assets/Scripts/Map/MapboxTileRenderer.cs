@@ -39,6 +39,8 @@ namespace ApexCitadels.Map
         private int _centerTileY;
         private double _tileCenterLat;  // Geometric center of the center tile
         private double _tileCenterLon;  // Geometric center of the center tile
+        private float _tileOffsetX;     // Offset to center tiles on user location
+        private float _tileOffsetZ;     // Offset to center tiles on user location
         private bool _isInitialized;
         private bool _isLoading;
         private int _loadedCount;
@@ -177,13 +179,19 @@ namespace ApexCitadels.Map
             _centerTileY = (int)((1.0 - System.Math.Log(System.Math.Tan(latRad) + 1.0 / System.Math.Cos(latRad)) / System.Math.PI) / 2.0 * n);
             
             // Calculate the lat/lon of the GEOMETRIC CENTER of the center tile
-            // This is the actual origin for world space (0,0,0)
             _tileCenterLon = (_centerTileX + 0.5) / n * 360.0 - 180.0;
             double tileCenterLatRad = System.Math.Atan(System.Math.Sinh(System.Math.PI * (1.0 - 2.0 * (_centerTileY + 0.5) / n)));
             _tileCenterLat = tileCenterLatRad * 180.0 / System.Math.PI;
             
+            // Calculate tile offset: how far tile center is from user position
+            // This offset will be applied to tile positions so user is at world (0,0,0)
+            double metersPerUnit = GetMetersPerWorldUnit();
+            _tileOffsetX = (float)((_tileCenterLon - centerLongitude) * 111320 * System.Math.Cos(latRad) / metersPerUnit);
+            _tileOffsetZ = (float)((_tileCenterLat - centerLatitude) * 110540 / metersPerUnit);
+            
             Debug.Log($"[Mapbox] Center tile: {_centerTileX}, {_centerTileY}");
-            Debug.Log($"[Mapbox] Tile center lat/lon: {_tileCenterLat:F6}, {_tileCenterLon:F6} (user specified: {centerLatitude:F6}, {centerLongitude:F6})");
+            Debug.Log($"[Mapbox] Tile center lat/lon: {_tileCenterLat:F6}, {_tileCenterLon:F6} (user: {centerLatitude:F6}, {centerLongitude:F6})");
+            Debug.Log($"[Mapbox] Tile offset to center on user: ({_tileOffsetX:F2}, {_tileOffsetZ:F2})");
         }
         
         private void CreateTileGrid()
@@ -216,11 +224,12 @@ namespace ApexCitadels.Map
             quad.name = $"Tile_{localX}_{localY}";
             quad.transform.SetParent(_tilesContainer);
             
-            // Position and rotate
+            // Position tiles with offset so USER is at world (0,0,0)
+            // The offset accounts for user not being at exact tile center
             quad.transform.localPosition = new Vector3(
-                localX * tileWorldSize,
+                localX * tileWorldSize + _tileOffsetX,
                 groundHeight,
-                -localY * tileWorldSize
+                -localY * tileWorldSize + _tileOffsetZ
             );
             quad.transform.localRotation = Quaternion.Euler(90, 0, 0);
             quad.transform.localScale = new Vector3(tileWorldSize, tileWorldSize, 1);
@@ -407,27 +416,28 @@ namespace ApexCitadels.Map
         public (double lat, double lon) WorldToLatLon(Vector3 worldPos)
         {
             double metersPerUnit = GetMetersPerWorldUnit();
-            double latRad = _tileCenterLat * Mathf.Deg2Rad;
+            double latRad = centerLatitude * Mathf.Deg2Rad;
             
-            double lon = _tileCenterLon + (worldPos.x * metersPerUnit) / (111320 * System.Math.Cos(latRad));
-            double lat = _tileCenterLat + (worldPos.z * metersPerUnit) / 110540;
+            // Use user's location as origin (consistent with LatLonToWorld)
+            double lon = centerLongitude + (worldPos.x * metersPerUnit) / (111320 * System.Math.Cos(latRad));
+            double lat = centerLatitude + (worldPos.z * metersPerUnit) / 110540;
             
             return (lat, lon);
         }
         
         /// <summary>
         /// Convert lat/lon to world position
-        /// Uses the geometric center of the center tile as origin (0,0,0)
+        /// Uses the USER'S LOCATION as origin (0,0,0) so player is centered
         /// </summary>
         public Vector3 LatLonToWorld(double latitude, double longitude)
         {
             double metersPerUnit = GetMetersPerWorldUnit();
-            double latRad = _tileCenterLat * Mathf.Deg2Rad;
+            double latRad = centerLatitude * Mathf.Deg2Rad;
             
-            // Calculate relative to TILE CENTER (which is at world 0,0,0)
-            // not the user-specified center coordinates
-            float x = (float)((longitude - _tileCenterLon) * 111320 * System.Math.Cos(latRad) / metersPerUnit);
-            float z = (float)((latitude - _tileCenterLat) * 110540 / metersPerUnit);
+            // Calculate relative to USER'S LOCATION (centerLatitude/centerLongitude)
+            // This ensures the player (at world 0,0,0) is at their requested location
+            float x = (float)((longitude - centerLongitude) * 111320 * System.Math.Cos(latRad) / metersPerUnit);
+            float z = (float)((latitude - centerLatitude) * 110540 / metersPerUnit);
             
             return new Vector3(x, 0, z);
         }

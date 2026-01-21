@@ -527,6 +527,13 @@ namespace ApexCitadels.GameModes
             _mapCamera.enabled = true;
             _mapCamera.SetPosition(_currentLatitude, _currentLongitude);
             
+            // Ensure Mapbox tiles are refreshed when returning to map view
+            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapbox != null)
+            {
+                mapbox.RefreshTiles();
+            }
+            
             // Setup map sky
             SetupMapViewSky();
             
