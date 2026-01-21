@@ -239,7 +239,39 @@ namespace ApexCitadels.FantasyWorld
             if (_isRegenerating) yield break;
             _isRegenerating = true;
             
-            Logger.Log($\"Player moved {_regenerationDistance}m - regenerating roads at new position\", \"FantasyWorld\");\n            \n            // Get player's world position and convert to lat/lon\n            Vector3 playerPos = playerTransform.position;\n            _lastGenerationPosition = playerPos;\n            \n            // Convert world position to lat/lon using MapboxTileRenderer\n            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();\n            if (mapbox != null)\n            {\n                var (newLat, newLon) = mapbox.WorldToLatLon(playerPos);\n                _originLat = newLat;\n                _originLon = newLon;\n                \n                Logger.Log($\"New origin: {_originLat:F6}, {_originLon:F6}\", \"FantasyWorld\");\n                \n                // Clear existing roads\n                if (pathsParent != null)\n                {\n                    foreach (Transform child in pathsParent)\n                    {\n                        Destroy(child.gameObject);\n                    }\n                }\n                \n                // Fetch and generate new roads\n                yield return StartCoroutine(GenerateWorldCoroutine());\n            }\n            \n            _isRegenerating = false;\n        }\n        \n        /// <summary>
+            Logger.Log($"Player moved {_regenerationDistance}m - regenerating roads at new position", "FantasyWorld");
+            
+            // Get player's world position and convert to lat/lon
+            Vector3 playerPos = playerTransform.position;
+            _lastGenerationPosition = playerPos;
+            
+            // Convert world position to lat/lon using MapboxTileRenderer
+            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapbox != null)
+            {
+                var (newLat, newLon) = mapbox.WorldToLatLon(playerPos);
+                _originLat = newLat;
+                _originLon = newLon;
+                
+                Logger.Log($"New origin: {_originLat:F6}, {_originLon:F6}", "FantasyWorld");
+                
+                // Clear existing roads
+                if (pathsParent != null)
+                {
+                    foreach (Transform child in pathsParent)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+                
+                // Fetch and generate new roads
+                yield return StartCoroutine(GenerateWorldCoroutine());
+            }
+            
+            _isRegenerating = false;
+        }
+        
+        /// <summary>
         /// Create a fallback URP-compatible material for pink/missing shader prefabs
         /// </summary>
         private void CreateFallbackMaterial()
