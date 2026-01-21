@@ -354,6 +354,7 @@ namespace ApexCitadels.Map
             renderer.material = material;
             renderer.shadowCastingMode = ShadowCastingMode.Off;
             renderer.receiveShadows = false;
+            renderer.enabled = false; // HIDE until texture loads - prevents blinking
             
             // Store tile data
             var tileData = new TileData
@@ -415,6 +416,11 @@ namespace ApexCitadels.Map
                             {
                                 tile.Material.mainTexture = texture;
                                 tile.Material.color = Color.white;
+                                // NOW show the tile - texture is ready
+                                if (tile.Renderer != null)
+                                {
+                                    tile.Renderer.enabled = true;
+                                }
                             }
                             catch (MissingReferenceException)
                             {
@@ -556,6 +562,7 @@ namespace ApexCitadels.Map
             renderer.material = material;
             renderer.shadowCastingMode = ShadowCastingMode.Off;
             renderer.receiveShadows = false;
+            renderer.enabled = false; // HIDE until texture loads - prevents blinking
             
             // Store tile data
             _tiles[key] = new TileData
