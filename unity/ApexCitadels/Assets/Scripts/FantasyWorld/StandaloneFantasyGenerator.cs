@@ -129,13 +129,13 @@ namespace ApexCitadels.FantasyWorld
             // Try to load config from Resources if not assigned
             if (config == null)
             {
-                config = Resources.Load<FantasyKingdomConfig>("FantasyKingdomConfig");
+                config = UnityEngine.Resources.Load<FantasyKingdomConfig>("FantasyKingdomConfig");
             }
             
             // Try to load prefab library
             if (prefabLibrary == null)
             {
-                prefabLibrary = Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
+                prefabLibrary = UnityEngine.Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
             }
         }
         
@@ -568,23 +568,23 @@ namespace ApexCitadels.FantasyWorld
         {
             if (prefabLibrary == null) yield break;
             
-            int objectsThisFrame = 0;
             float innerRadius = 30f; // Keep center clear for castle
             float maxRadius = config.wallRadius - 15f; // Stay inside walls
             
             // Generate each building type
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.House, config.residentialCount, innerRadius, maxRadius, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.GeneralStore, config.commercialCount / 3, innerRadius, maxRadius * 0.7f, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Tavern, config.commercialCount / 3, innerRadius, maxRadius * 0.7f, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Blacksmith, config.commercialCount / 3, innerRadius, maxRadius * 0.8f, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Barracks, config.militaryCount, maxRadius * 0.6f, maxRadius, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Chapel, config.religiousCount, innerRadius, maxRadius * 0.5f, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Barn, config.industrialCount / 2, maxRadius * 0.5f, maxRadius, ref objectsThisFrame));
-            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Mill, config.industrialCount / 2, maxRadius * 0.7f, maxRadius * 1.1f, ref objectsThisFrame));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.House, config.residentialCount, innerRadius, maxRadius));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.GeneralStore, config.commercialCount / 3, innerRadius, maxRadius * 0.7f));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Tavern, config.commercialCount / 3, innerRadius, maxRadius * 0.7f));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Blacksmith, config.commercialCount / 3, innerRadius, maxRadius * 0.8f));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Barracks, config.militaryCount, maxRadius * 0.6f, maxRadius));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Chapel, config.religiousCount, innerRadius, maxRadius * 0.5f));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Barn, config.industrialCount / 2, maxRadius * 0.5f, maxRadius));
+            yield return StartCoroutine(PlaceBuildingType(FantasyBuildingType.Mill, config.industrialCount / 2, maxRadius * 0.7f, maxRadius * 1.1f));
         }
         
-        private IEnumerator PlaceBuildingType(FantasyBuildingType type, int count, float minRadius, float maxRadius, ref int objectsThisFrame)
+        private IEnumerator PlaceBuildingType(FantasyBuildingType type, int count, float minRadius, float maxRadius)
         {
+            int objectsThisFrame = 0;
             for (int i = 0; i < count; i++)
             {
                 Vector3 position = FindValidBuildingPosition(minRadius, maxRadius, 10f);
@@ -778,7 +778,7 @@ namespace ApexCitadels.FantasyWorld
                 Vector3 pos = GetRandomForestPosition();
                 if (pos == Vector3.zero) continue;
                 
-                var treePrefab = prefabLibrary.GetRandomTree();
+                var treePrefab = prefabLibrary.GetTree();
                 if (treePrefab == null) continue;
                 
                 float scale = UnityEngine.Random.Range(0.8f, 1.3f);
@@ -805,7 +805,7 @@ namespace ApexCitadels.FantasyWorld
                 Vector3 pos = GetRandomVegetationPosition(config.townRadius * 0.5f, config.kingdomSize / 2f);
                 if (pos == Vector3.zero) continue;
                 
-                var bushPrefab = prefabLibrary.GetRandomBush();
+                var bushPrefab = prefabLibrary.GetBush();
                 if (bushPrefab == null) continue;
                 
                 float scale = UnityEngine.Random.Range(0.7f, 1.2f);
@@ -927,7 +927,10 @@ namespace ApexCitadels.FantasyWorld
                 Vector3 pos = FindValidBuildingPosition(20f, config.wallRadius - 10f, 2f);
                 if (pos == Vector3.zero) continue;
                 
-                var propPrefab = prefabLibrary.GetRandomProp();
+                // Get random prop type
+                var propTypes = new PropType[] { PropType.Barrel, PropType.Crate, PropType.Cart, PropType.Bench, PropType.Lantern };
+                var propType = propTypes[UnityEngine.Random.Range(0, propTypes.Length)];
+                var propPrefab = prefabLibrary.GetProp(propType);
                 if (propPrefab == null) continue;
                 
                 float rotation = UnityEngine.Random.Range(0f, 360f);
