@@ -26,7 +26,7 @@ namespace ApexCitadels.Map
         
         [Tooltip("Default zoom level (1-18, higher = more zoomed in)")]
         [Range(1, 18)]
-        public int DefaultZoom = 16;  // Zoom 16 for good balance
+        public int DefaultZoom = 18;  // Zoom 18 for maximum detail - buildings/houses visible
         
         [Header("Tile Settings")]
         [Tooltip("Size of map tiles in pixels")]

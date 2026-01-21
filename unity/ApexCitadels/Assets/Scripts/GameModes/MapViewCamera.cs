@@ -163,6 +163,9 @@ namespace ApexCitadels.GameModes
         
         private void HandleZoom()
         {
+            // DISABLED: Zoom locked at maximum detail level to reduce tile loading
+            // and ensure consistent close-up view of buildings/landmarks
+            return;
             // Mouse scroll to adjust height
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (Mathf.Abs(scroll) > 0.01f)

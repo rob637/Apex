@@ -16,7 +16,7 @@ MonoBehaviour:
   Style: 5
   DefaultLatitude: 38.9065479
   DefaultLongitude: -77.247697
-  DefaultZoom: 16
+  DefaultZoom: 18
   TileSize: 512
   UseRetinaScale: 1
   MaxCachedTiles: 100
