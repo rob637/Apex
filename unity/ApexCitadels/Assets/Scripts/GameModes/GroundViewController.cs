@@ -1,6 +1,6 @@
 // ============================================================================
 // APEX CITADELS - GROUND VIEW CONTROLLER
-// Third-person character controller for ground level exploration
+// First-person character controller for ground level exploration
 // ============================================================================
 using UnityEngine;
 
@@ -8,11 +8,15 @@ namespace ApexCitadels.GameModes
 {
     /// <summary>
     /// Controls the player character and camera in Ground View mode.
-    /// Third-person perspective with character visible from behind.
+    /// First-person perspective with visible arms when walking.
     /// </summary>
     public class GroundViewController : MonoBehaviour
     {
         #region Inspector Fields
+        
+        [Header("View Mode")]
+        [SerializeField] private bool firstPersonMode = true;  // Default to first-person
+        [SerializeField] private float eyeHeight = 1.6f;       // Camera height for first-person
         
         [Header("Movement")]
         [SerializeField] private float walkSpeed = 4f;
@@ -20,13 +24,13 @@ namespace ApexCitadels.GameModes
         [SerializeField] private float rotationSpeed = 120f;
         [SerializeField] private float gravity = 20f;
         
-        [Header("Camera")]
+        [Header("Camera - Third Person")]
         [SerializeField] private float cameraDistance = 5f;
         [SerializeField] private float cameraHeight = 2f;
         [SerializeField] private float cameraLookAhead = 1f;
         [SerializeField] private float cameraSmoothTime = 0.15f;
-        [SerializeField] private float minVerticalAngle = -20f;
-        [SerializeField] private float maxVerticalAngle = 60f;
+        [SerializeField] private float minVerticalAngle = -80f;
+        [SerializeField] private float maxVerticalAngle = 80f;
         
         [Header("Mouse Look")]
         [SerializeField] private float mouseSensitivity = 2f;
@@ -58,6 +62,16 @@ namespace ApexCitadels.GameModes
         #region Properties
         
         public GameObject Player => _player;
+        public bool IsFirstPerson => firstPersonMode;
+        
+        /// <summary>
+        /// Set view mode: true = first-person, false = third-person
+        /// </summary>
+        public void SetFirstPersonMode(bool enabled)
+        {
+            firstPersonMode = enabled;
+            Debug.Log($"[GroundView] Set to {(enabled ? "First" : "Third")} Person mode");
+        }
         
         #endregion
         
@@ -107,6 +121,13 @@ namespace ApexCitadels.GameModes
             
             // Running
             _isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            
+            // Toggle first/third person with V key
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                firstPersonMode = !firstPersonMode;
+                Debug.Log($"[GroundView] Switched to {(firstPersonMode ? "First" : "Third")} Person mode");
+            }
         }
         
         private void HandleMovement()
@@ -121,14 +142,15 @@ namespace ApexCitadels.GameModes
             
             if (_isMoving)
             {
-                // Calculate move direction relative to camera
+                // Calculate move direction relative to camera yaw (horizontal only)
                 Vector3 cameraForward = Quaternion.Euler(0, _cameraYaw, 0) * Vector3.forward;
                 Vector3 cameraRight = Quaternion.Euler(0, _cameraYaw, 0) * Vector3.right;
                 
                 Vector3 moveDir = (cameraForward * vertical + cameraRight * horizontal).normalized;
                 
-                // Rotate character to face movement direction
-                if (moveDir.magnitude > 0.1f)
+                // In first person, player always faces camera direction
+                // In third person, rotate character to face movement direction
+                if (!firstPersonMode && moveDir.magnitude > 0.1f)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDir);
                     _player.transform.rotation = Quaternion.RotateTowards(
@@ -187,6 +209,32 @@ namespace ApexCitadels.GameModes
         {
             if (_player == null || _camera == null) return;
             
+            if (firstPersonMode)
+            {
+                UpdateFirstPersonCamera();
+            }
+            else
+            {
+                UpdateThirdPersonCamera();
+            }
+        }
+        
+        private void UpdateFirstPersonCamera()
+        {
+            // Position camera at eye level
+            Vector3 eyePos = _player.transform.position + Vector3.up * eyeHeight;
+            _camera.transform.position = eyePos;
+            
+            // Look in direction based on pitch/yaw
+            Quaternion rotation = Quaternion.Euler(_cameraPitch, _cameraYaw, 0);
+            _camera.transform.rotation = rotation;
+            
+            // Rotate player body to match yaw (but not pitch)
+            _player.transform.rotation = Quaternion.Euler(0, _cameraYaw, 0);
+        }
+        
+        private void UpdateThirdPersonCamera()
+        {
             // Calculate desired camera position
             Quaternion rotation = Quaternion.Euler(_cameraPitch, _cameraYaw, 0);
             Vector3 offset = rotation * new Vector3(0, 0, -cameraDistance);

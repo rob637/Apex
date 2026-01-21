@@ -195,7 +195,7 @@ namespace ApexCitadels.GameModes
                             "WASD - Walk\n" +
                             "Mouse - Look\n" +
                             "Shift - Run\n" +
-                            "Scroll - Camera Zoom\n" +
+                            "V - Toggle 1st/3rd Person\n" +
                             "SPACE - Take Off";
                         break;
                     default:
