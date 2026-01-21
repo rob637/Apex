@@ -314,12 +314,8 @@ namespace ApexCitadels.FantasyWorld.Editor
             light.shadowStrength = 0.8f;
             sunObj.transform.rotation = Quaternion.Euler(50, -30, 0);
             
-            // Try to add URP additional light data
-            var additionalData = sunObj.AddComponent<UniversalAdditionalLightData>();
-            if (additionalData != null)
-            {
-                additionalData.shadowBias = 0.05f;
-            }
+            // Add URP additional light data (shadow settings are on the Light component in newer URP)
+            sunObj.AddComponent<UniversalAdditionalLightData>();
             
             // Set ambient lighting via RenderSettings
             RenderSettings.ambientMode = AmbientMode.Trilight;
