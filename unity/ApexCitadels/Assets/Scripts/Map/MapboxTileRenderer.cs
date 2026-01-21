@@ -62,6 +62,7 @@ namespace ApexCitadels.Map
         private float _lastStreamCheck;
         private int _currentLoadingCount;
         private Camera _mainCamera;
+        private bool _isStreaming; // Lock to prevent concurrent streaming
         
         /// <summary>
         /// Get the geometric center of the center tile (where world 0,0,0 is)
@@ -152,6 +153,7 @@ namespace ApexCitadels.Map
         private void Update()
         {
             if (!_isInitialized || !enableStreaming) return;
+            if (_isLoading || _isStreaming) return; // Don't stream during initial load or if already streaming
             
             // Get camera for position tracking
             if (_mainCamera == null)
@@ -182,6 +184,9 @@ namespace ApexCitadels.Map
         /// </summary>
         private IEnumerator StreamTilesAroundPosition(Vector3 worldPos)
         {
+            if (_isStreaming) yield break;
+            _isStreaming = true;
+            
             // Convert world position to lat/lon
             var (lat, lon) = WorldToLatLon(worldPos);
             
@@ -290,6 +295,8 @@ namespace ApexCitadels.Map
                     }
                 }
             }
+            
+            _isStreaming = false;
         }
         
         /// <summary>
@@ -354,7 +361,8 @@ namespace ApexCitadels.Map
             tile.IsLoading = true;
             _currentLoadingCount++;
             
-            string url = $"https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{key}?access_token={config.AccessToken}";
+            // Use the same URL format as LoadTileCoroutine (via config)
+            string url = config.GetTileUrl(tile.TileX, tile.TileY, zoomLevel);
             
             using (var request = UnityWebRequest.Get(url))
             {
@@ -520,12 +528,15 @@ namespace ApexCitadels.Map
             
             Debug.Log($"[Mapbox] Starting to load {_tiles.Count} tiles...");
             
+            // Take a snapshot of keys to avoid collection modified exception
+            var tileKeys = new List<string>(_tiles.Keys);
+            
             // Load tiles sequentially to avoid overwhelming the network
-            foreach (var kvp in _tiles)
+            foreach (var key in tileKeys)
             {
-                if (!kvp.Value.IsLoaded && !kvp.Value.IsLoading)
+                if (_tiles.TryGetValue(key, out var tile) && !tile.IsLoaded && !tile.IsLoading)
                 {
-                    yield return StartCoroutine(LoadTileCoroutine(kvp.Key, kvp.Value));
+                    yield return StartCoroutine(LoadTileCoroutine(key, tile));
                 }
             }
             
