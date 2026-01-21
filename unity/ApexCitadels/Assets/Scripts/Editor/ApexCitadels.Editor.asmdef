@@ -6,6 +6,7 @@
         "Unity.TextMeshPro",
         "ApexCitadels.FantasyWorld",
         "ApexCitadels.Core",
+        "ApexCitadels.GameModes",
         "Unity.RenderPipelines.Universal.Runtime",
         "Unity.RenderPipelines.Core.Runtime"
     ],

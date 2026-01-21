@@ -1402,22 +1402,6 @@ namespace ApexCitadels.FantasyWorld
             }
         }
 
-        /// <summary>
-        /// Clear all generated content
-        /// </summary>
-        public void ClearWorld()
-        {
-            // Clear all children of parent objects
-            ClearChildren(buildingsParent);
-            ClearChildren(vegetationParent);
-            ClearChildren(propsParent);
-            ClearChildren(pathsParent);
-            
-            _cells.Clear();
-            
-            Logger.Log("World cleared", "FantasyWorld");
-        }
-        
         private void ClearChildren(Transform parent)
         {
             if (parent == null) return;

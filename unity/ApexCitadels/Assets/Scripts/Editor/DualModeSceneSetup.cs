@@ -8,8 +8,9 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using ApexCitadels.Map;
 using ApexCitadels.FantasyWorld;
+using ApexCitadels.GameModes;
 
-namespace ApexCitadels.GameModes.Editor
+namespace ApexCitadels.Editor
 {
     public class DualModeSceneSetup
     {
