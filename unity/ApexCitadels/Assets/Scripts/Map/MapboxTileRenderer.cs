@@ -19,9 +19,14 @@ namespace ApexCitadels.Map
         [SerializeField] private MapboxConfiguration config;
         
         [Header("Tile Grid")]
-        [SerializeField] private int gridSize = 11;           // 11x11 = 121 tiles
+        [SerializeField] private int gridSize = 7;            // 7x7 = 49 tiles (reduced for performance)
         [SerializeField] private float tileWorldSize = 80f;   // World units per tile
         [SerializeField] private float groundHeight = 0f;  // Y position of tiles (0 = aligned with buildings)
+        
+        [Header("Streaming")]
+        [SerializeField] private bool enableStreaming = true;  // Enable infinite tile streaming
+        [SerializeField] private float streamCheckInterval = 0.5f; // How often to check for needed tiles
+        [SerializeField] private int maxConcurrentLoads = 4;   // Max simultaneous tile downloads
         
         [Header("Location")]
         [SerializeField] private double centerLatitude = 38.9032;   // Vienna, VA
@@ -51,6 +56,12 @@ namespace ApexCitadels.Map
         public System.Action<double, double> OnLocationChanged;
         public bool IsLoading => _isLoading;
         public float LoadProgress => _totalCount > 0 ? (float)_loadedCount / _totalCount : 0f;
+        
+        // Streaming state
+        private Vector3 _lastCameraPosition;
+        private float _lastStreamCheck;
+        private int _currentLoadingCount;
+        private Camera _mainCamera;
         
         /// <summary>
         /// Get the geometric center of the center tile (where world 0,0,0 is)
@@ -136,6 +147,235 @@ namespace ApexCitadels.Map
                 if (tile.Material != null) Destroy(tile.Material);
             }
             _tiles.Clear();
+        }
+        
+        private void Update()
+        {
+            if (!_isInitialized || !enableStreaming) return;
+            
+            // Get camera for position tracking
+            if (_mainCamera == null)
+            {
+                _mainCamera = Camera.main;
+            }
+            if (_mainCamera == null) return;
+            
+            // Check periodically, not every frame
+            if (Time.time - _lastStreamCheck < streamCheckInterval) return;
+            _lastStreamCheck = Time.time;
+            
+            // Get camera position projected to ground
+            Vector3 camPos = _mainCamera.transform.position;
+            Vector3 groundPos = new Vector3(camPos.x, 0, camPos.z);
+            
+            // Check if camera moved significantly
+            float moveDist = Vector3.Distance(groundPos, _lastCameraPosition);
+            if (moveDist > tileWorldSize * 0.3f) // Moved 30% of a tile
+            {
+                _lastCameraPosition = groundPos;
+                StartCoroutine(StreamTilesAroundPosition(groundPos));
+            }
+        }
+        
+        /// <summary>
+        /// Stream tiles around a world position, loading new ones and unloading distant ones
+        /// </summary>
+        private IEnumerator StreamTilesAroundPosition(Vector3 worldPos)
+        {
+            // Convert world position to lat/lon
+            var (lat, lon) = WorldToLatLon(worldPos);
+            
+            // Calculate what tile this corresponds to
+            double n = System.Math.Pow(2, zoomLevel);
+            double latRad = lat * System.Math.PI / 180.0;
+            int newCenterTileX = (int)((lon + 180.0) / 360.0 * n);
+            int newCenterTileY = (int)((1.0 - System.Math.Log(System.Math.Tan(latRad) + 1.0 / System.Math.Cos(latRad)) / System.Math.PI) / 2.0 * n);
+            
+            // Check if we need to shift the grid
+            int dx = newCenterTileX - _centerTileX;
+            int dy = newCenterTileY - _centerTileY;
+            
+            if (System.Math.Abs(dx) > 0 || System.Math.Abs(dy) > 0)
+            {
+                Debug.Log($"[Mapbox] Streaming: shifting grid by ({dx}, {dy})");
+                
+                // Update center
+                centerLatitude = lat;
+                centerLongitude = lon;
+                _centerTileX = newCenterTileX;
+                _centerTileY = newCenterTileY;
+                
+                // Recalculate tile offset
+                _tileCenterLon = (_centerTileX + 0.5) / n * 360.0 - 180.0;
+                double tileCenterLatRad = System.Math.Atan(System.Math.Sinh(System.Math.PI * (1.0 - 2.0 * (_centerTileY + 0.5) / n)));
+                _tileCenterLat = tileCenterLatRad * 180.0 / System.Math.PI;
+                
+                double metersPerUnit = GetMetersPerWorldUnit();
+                _tileOffsetX = (float)((_tileCenterLon - centerLongitude) * 111320 * System.Math.Cos(latRad) / metersPerUnit);
+                _tileOffsetZ = (float)((_tileCenterLat - centerLatitude) * 110540 / metersPerUnit);
+                
+                // Find tiles to remove (too far from new center)
+                int halfGrid = gridSize / 2;
+                var tilesToRemove = new List<string>();
+                
+                foreach (var kvp in _tiles)
+                {
+                    int tileDx = kvp.Value.TileX - _centerTileX;
+                    int tileDy = kvp.Value.TileY - _centerTileY;
+                    
+                    if (System.Math.Abs(tileDx) > halfGrid || System.Math.Abs(tileDy) > halfGrid)
+                    {
+                        tilesToRemove.Add(kvp.Key);
+                    }
+                }
+                
+                // Remove distant tiles
+                foreach (var key in tilesToRemove)
+                {
+                    if (_tiles.TryGetValue(key, out var tile))
+                    {
+                        if (tile.GameObject != null) Destroy(tile.GameObject);
+                        if (tile.Texture != null) Destroy(tile.Texture);
+                        if (tile.Material != null) Destroy(tile.Material);
+                        _tiles.Remove(key);
+                    }
+                }
+                
+                if (tilesToRemove.Count > 0)
+                {
+                    Debug.Log($"[Mapbox] Unloaded {tilesToRemove.Count} distant tiles");
+                }
+                
+                // Create new tiles that are needed
+                int tilesCreated = 0;
+                for (int localY = -halfGrid; localY <= halfGrid; localY++)
+                {
+                    for (int localX = -halfGrid; localX <= halfGrid; localX++)
+                    {
+                        int tileX = _centerTileX + localX;
+                        int tileY = _centerTileY + localY;
+                        string key = $"{zoomLevel}/{tileX}/{tileY}";
+                        
+                        if (!_tiles.ContainsKey(key))
+                        {
+                            CreateTileAt(tileX, tileY, localX, localY);
+                            tilesCreated++;
+                            
+                            // Limit concurrent loads
+                            if (_currentLoadingCount >= maxConcurrentLoads)
+                            {
+                                yield return null;
+                            }
+                        }
+                    }
+                }
+                
+                if (tilesCreated > 0)
+                {
+                    Debug.Log($"[Mapbox] Created {tilesCreated} new tiles");
+                }
+                
+                // Reposition all tiles relative to new center
+                foreach (var kvp in _tiles)
+                {
+                    if (kvp.Value.GameObject != null)
+                    {
+                        int localX = kvp.Value.TileX - _centerTileX;
+                        int localY = kvp.Value.TileY - _centerTileY;
+                        kvp.Value.GameObject.transform.localPosition = new Vector3(
+                            localX * tileWorldSize + _tileOffsetX,
+                            groundHeight,
+                            -localY * tileWorldSize + _tileOffsetZ
+                        );
+                    }
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Create a tile at specific tile coordinates
+        /// </summary>
+        private void CreateTileAt(int tileX, int tileY, int localX, int localY)
+        {
+            string key = $"{zoomLevel}/{tileX}/{tileY}";
+            if (_tiles.ContainsKey(key)) return;
+            
+            // Create quad
+            var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            quad.name = $"Tile_{localX}_{localY}";
+            quad.transform.SetParent(_tilesContainer);
+            
+            // Position tile
+            quad.transform.localPosition = new Vector3(
+                localX * tileWorldSize + _tileOffsetX,
+                groundHeight,
+                -localY * tileWorldSize + _tileOffsetZ
+            );
+            quad.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            quad.transform.localScale = new Vector3(tileWorldSize, tileWorldSize, 1);
+            
+            // Remove collider
+            var collider = quad.GetComponent<Collider>();
+            if (collider != null) Destroy(collider);
+            
+            // Create material
+            var shader = Shader.Find("Universal Render Pipeline/Unlit") ?? 
+                         Shader.Find("Unlit/Texture") ?? 
+                         Shader.Find("Standard");
+            var material = new Material(shader);
+            material.color = new Color(0.15f, 0.15f, 0.18f); // Dark loading color
+            
+            var renderer = quad.GetComponent<Renderer>();
+            renderer.material = material;
+            renderer.shadowCastingMode = ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+            
+            // Store tile data
+            var tileData = new TileData
+            {
+                GameObject = quad,
+                Renderer = renderer,
+                Material = material,
+                TileX = tileX,
+                TileY = tileY,
+                IsLoading = false,
+                IsLoaded = false
+            };
+            _tiles[key] = tileData;
+            
+            // Start loading texture
+            StartCoroutine(LoadTileTexture(key, tileData));
+        }
+        
+        private IEnumerator LoadTileTexture(string key, TileData tile)
+        {
+            if (tile.IsLoading || tile.IsLoaded) yield break;
+            
+            tile.IsLoading = true;
+            _currentLoadingCount++;
+            
+            string url = $"https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{key}?access_token={config.AccessToken}";
+            
+            using (var request = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return request.SendWebRequest();
+                
+                _currentLoadingCount--;
+                
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    var texture = DownloadHandlerTexture.GetContent(request);
+                    texture.filterMode = filterMode;
+                    texture.anisoLevel = anisotropicLevel;
+                    
+                    tile.Texture = texture;
+                    tile.Material.mainTexture = texture;
+                    tile.Material.color = Color.white;
+                    tile.IsLoaded = true;
+                }
+                
+                tile.IsLoading = false;
+            }
         }
         
         #endregion
