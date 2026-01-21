@@ -77,12 +77,12 @@ namespace ApexCitadels.FantasyWorld
         public float cellSize = 100f; // For chunked loading
         
         [Header("Building Settings")]
-        public bool generateBuildings = true;
+        public bool generateBuildings = false; // DISABLED - focus on roads first
         public float buildingScaleMultiplier = 1f;
         public bool randomizeRotation = true;
         
         [Header("Vegetation Settings")]
-        public bool generateVegetation = true;
+        public bool generateVegetation = false; // DISABLED - focus on roads first
         [Range(0f, 1f)]
         public float treeDensity = 0.7f;
         [Range(0f, 1f)]
@@ -94,7 +94,7 @@ namespace ApexCitadels.FantasyWorld
         public float pathWidth = 4f;
         
         [Header("Props & Details")]
-        public bool generateProps = true;
+        public bool generateProps = false; // DISABLED - focus on roads first
         [Range(0f, 1f)]
         public float propDensity = 0.5f;
         
