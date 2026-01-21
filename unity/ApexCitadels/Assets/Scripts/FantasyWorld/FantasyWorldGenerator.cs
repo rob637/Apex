@@ -158,6 +158,8 @@ namespace ApexCitadels.FantasyWorld
         private double _originLon;
         private bool _isInitialized;
         private int _proceduralBuildingCount; // Debug counter
+        private float _worldScale = 1f; // Meters per world unit (from Mapbox)
+        private float _prefabScale = 1f; // Scale to apply to prefabs (1/worldScale)
         
         // Generation queue
         private Queue<Vector2Int> _cellGenerationQueue = new Queue<Vector2Int>();
@@ -436,7 +438,10 @@ namespace ApexCitadels.FantasyWorld
         private void ConvertCoordinatesToWorldSpace(OSMData osmData)
         {
             // Get scale from Mapbox if available, otherwise use default
-            float scale = GetMapboxScale();
+            _worldScale = GetMapboxScale();
+            _prefabScale = 1f / _worldScale;
+            
+            Logger.Log($"World scale: {_worldScale:F2} m/unit, Prefab scale: {_prefabScale:F4}", "FantasyWorld");
             
             double metersPerDegreeLat = 110540; // More accurate value
             double metersPerDegreeLon = 111320 * Math.Cos(_originLat * Math.PI / 180);
@@ -448,8 +453,8 @@ namespace ApexCitadels.FantasyWorld
                 foreach (var p in building.FootprintPoints)
                 {
                     // p.x is lon, p.y is lat (from OSM parser)
-                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / scale);
-                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / scale);
+                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / _worldScale);
+                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / _worldScale);
                     building.WorldPoints.Add(new Vector3(x, 0, z));
                 }
             }
@@ -457,7 +462,7 @@ namespace ApexCitadels.FantasyWorld
             // Convert roads
             foreach (var road in osmData.Roads)
             {
-                road.ConvertToWorldSpaceScaled(_originLat, _originLon, scale);
+                road.ConvertToWorldSpaceScaled(_originLat, _originLon, _worldScale);
             }
             
             // Convert areas
@@ -466,8 +471,8 @@ namespace ApexCitadels.FantasyWorld
                 area.WorldPoints = new List<Vector3>();
                 foreach (var p in area.Polygon)
                 {
-                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / scale);
-                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / scale);
+                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / _worldScale);
+                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / _worldScale);
                     area.WorldPoints.Add(new Vector3(x, 0, z));
                 }
             }
@@ -669,7 +674,7 @@ namespace ApexCitadels.FantasyWorld
                     }
                 }
                 
-                // Calculate dimensions from OSM data
+                // Calculate dimensions from OSM data (already in scaled world units)
                 var dimensions = osmBuilding.CalculateDimensions();
                 
                 // Get appropriate prefab - or use procedural fallback
@@ -677,21 +682,17 @@ namespace ApexCitadels.FantasyWorld
                 var prefab = prefabLibrary?.GetBuilding(size, fantasyType);
                 if (prefab != null)
                 {
-                    // Use Synty prefab
-                    var prefabBounds = GetPrefabBounds(prefab);
-                    float scaleX = dimensions.x / Mathf.Max(prefabBounds.size.x, 0.1f);
-                    float scaleZ = dimensions.z / Mathf.Max(prefabBounds.size.z, 0.1f);
-                    float scale = Mathf.Max(scaleX, scaleZ) * config.buildingScaleMultiplier;
-                    scale = Mathf.Clamp(scale, 0.5f, 3f);
-                    
+                    // Use Synty prefab - scale to match world scale
                     building = Instantiate(prefab, position, Quaternion.Euler(0, rotation, 0), buildingsParent);
-                    building.transform.localScale = Vector3.one * scale;
+                    
+                    // Apply base scale to match world coordinate scale
+                    building.transform.localScale = Vector3.one * _prefabScale;
                     prefabCount++;
                 }
                 else
                 {
-                    // Create procedural fantasy building as fallback
-                    building = CreateProceduralBuilding(position, rotation, dimensions, fantasyType, size);
+                    // Create procedural fantasy building as fallback (also scaled)
+                    building = CreateProceduralBuilding(position, rotation, dimensions * _prefabScale, fantasyType, size);
                     building.transform.SetParent(buildingsParent);
                     proceduralCount++;
                 }
@@ -715,7 +716,7 @@ namespace ApexCitadels.FantasyWorld
                 }
             }
             
-            Logger.Log($"Generated {count} buildings ({prefabCount} prefabs, {proceduralCount} procedural)", "FantasyWorld");
+            Logger.Log($"Generated {count} buildings ({prefabCount} prefabs, {proceduralCount} procedural) at scale {_prefabScale:F3}", "FantasyWorld");
         }
         
         /// <summary>
@@ -778,14 +779,14 @@ namespace ApexCitadels.FantasyWorld
                     if (treePrefab != null)
                     {
                         tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                        tree.transform.localScale = Vector3.one * scale * _prefabScale;
                     }
                     else
                     {
                         tree = CreateProceduralTree(pos, rotation);
                         tree.transform.SetParent(vegetationParent);
+                        tree.transform.localScale = Vector3.one * scale * _prefabScale;
                     }
-                    
-                    tree.transform.localScale = Vector3.one * scale;
                     tree.name = $"Tree_{treeCount}";
                     
                     treeCount++;
@@ -809,14 +810,14 @@ namespace ApexCitadels.FantasyWorld
                     if (bushPrefab != null)
                     {
                         bush = Instantiate(bushPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                        bush.transform.localScale = Vector3.one * scale * _prefabScale;
                     }
                     else
                     {
                         bush = CreateProceduralBush(pos, rotation);
                         bush.transform.SetParent(vegetationParent);
+                        bush.transform.localScale = Vector3.one * scale * _prefabScale;
                     }
-                    
-                    bush.transform.localScale = Vector3.one * scale;
                     bush.name = $"Bush_{bushCount}";
                     
                     bushCount++;
@@ -873,14 +874,15 @@ namespace ApexCitadels.FantasyWorld
                         if (treePrefab != null)
                         {
                             tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, treeRotation, 0), vegetationParent);
+                            tree.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.1f) * _prefabScale;
                         }
                         else
                         {
                             tree = CreateProceduralTree(pos, treeRotation);
                             tree.transform.SetParent(vegetationParent);
+                            tree.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.1f) * _prefabScale;
                         }
                         
-                        tree.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.1f);
                         tree.name = $"StreetTree_{treeCount}";
                         
                         treeCount++;
@@ -994,7 +996,7 @@ namespace ApexCitadels.FantasyWorld
                         grassCount++;
                     }
                     
-                    groundItem.transform.localScale = Vector3.one * scale;
+                    groundItem.transform.localScale = Vector3.one * scale * _prefabScale;
                     
                     // Yield occasionally for smooth performance
                     if ((grassCount + rockCount) % 50 == 0)
@@ -1115,7 +1117,7 @@ namespace ApexCitadels.FantasyWorld
                         prop.transform.SetParent(propsParent);
                     }
                     
-                    prop.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.2f);
+                    prop.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.2f) * _prefabScale;
                     prop.name = $"Prop_{propType}_{propCount}";
                     
                     propCount++;
@@ -1848,14 +1850,19 @@ namespace ApexCitadels.FantasyWorld
                 yield break;
             }
             
-            // Pre-calculate segment length from sample prefab
+            Logger.Log($"Cobblestone prefab scale: {_prefabScale:F3} (world scale: {_worldScale:F2})", "FantasyWorld");
+            
+            // Pre-calculate segment length from sample prefab (in scaled world units)
             var samplePrefab = validPrefabs[0];
             var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
-            float baseSegmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
-            if (baseSegmentLength < 0.5f) baseSegmentLength = 2f;
+            float nativeSegmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
+            if (nativeSegmentLength < 0.5f) nativeSegmentLength = 2f;
+            float scaledSegmentLength = nativeSegmentLength * _prefabScale; // Segment length after scaling
+            
+            Logger.Log($"Cobblestone segment: native={nativeSegmentLength:F2}m, scaled={scaledSegmentLength:F3} world units", "FantasyWorld");
             
             // Batch instantiation for performance
-            int instantiationsPerFrame = 50; // Higher = faster but may hitch
+            int instantiationsPerFrame = 50;
             int instantiationCount = 0;
             
             foreach (var road in roads)
@@ -1867,43 +1874,47 @@ namespace ApexCitadels.FantasyWorld
                 roadContainer.transform.SetParent(pathsParent);
                 roadContainer.transform.localPosition = Vector3.zero;
                 
-                // Calculate road length and segment spacing
+                // Calculate road length in scaled world units
                 float totalLength = 0f;
                 for (int i = 1; i < road.Points.Count; i++)
                 {
                     totalLength += Vector3.Distance(road.Points[i], road.Points[i - 1]);
                 }
                 
-                float segmentLength = baseSegmentLength;
-                
-                // Walk along the path and place prefabs
+                // Walk along the path and place scaled prefabs
                 float distanceCovered = 0f;
                 int pointIndex = 0;
                 float segmentProgress = 0f;
                 
                 while (distanceCovered < totalLength && pointIndex < road.Points.Count - 1)
                 {
-                    // Get current position on path
                     Vector3 currentPoint = road.Points[pointIndex];
                     Vector3 nextPoint = road.Points[pointIndex + 1];
                     float segmentDistance = Vector3.Distance(currentPoint, nextPoint);
                     
+                    if (segmentDistance < 0.001f)
+                    {
+                        pointIndex++;
+                        continue;
+                    }
+                    
                     // Calculate position along this segment
-                    float t = segmentProgress / segmentDistance;
+                    float t = Mathf.Clamp01(segmentProgress / segmentDistance);
                     Vector3 position = Vector3.Lerp(currentPoint, nextPoint, t);
-                    position.y = 0.05f; // Slightly above ground
+                    position.y = 0.02f; // Slightly above ground
                     
                     // Calculate rotation to face along path
                     Vector3 direction = (nextPoint - currentPoint).normalized;
-                    Quaternion rotation = direction != Vector3.zero ? 
+                    Quaternion rotation = direction.sqrMagnitude > 0.001f ? 
                         Quaternion.LookRotation(direction, Vector3.up) : 
                         Quaternion.identity;
                     
                     // Pick a random valid prefab variant
                     var prefab = validPrefabs[UnityEngine.Random.Range(0, validPrefabs.Count)];
                     
-                    // Instantiate
+                    // Instantiate and SCALE to match world
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
+                    segment.transform.localScale = Vector3.one * _prefabScale;
                     segment.name = $"Cobble_{prefabsPlaced}";
                     
                     prefabsPlaced++;
@@ -1916,9 +1927,10 @@ namespace ApexCitadels.FantasyWorld
                         yield return null;
                     }
                     
-                    // Move along the path
-                    segmentProgress += segmentLength * 0.9f; // Slight overlap
-                    distanceCovered += segmentLength * 0.9f;
+                    // Move along the path using SCALED segment length
+                    float step = scaledSegmentLength * 0.85f; // Overlap for continuity
+                    segmentProgress += step;
+                    distanceCovered += step;
                     
                     // Check if we need to move to next path segment
                     while (segmentProgress >= segmentDistance && pointIndex < road.Points.Count - 2)
