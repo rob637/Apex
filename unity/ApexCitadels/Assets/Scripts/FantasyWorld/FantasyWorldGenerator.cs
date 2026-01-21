@@ -505,47 +505,95 @@ namespace ApexCitadels.FantasyWorld
         
         /// <summary>
         /// Convert all lat/lon coordinates to world space relative to origin
-        /// Uses same scale as MapboxTileRenderer for alignment
+        /// Uses MapboxTileRenderer.LatLonToWorld for EXACT alignment with satellite tiles
         /// </summary>
         private void ConvertCoordinatesToWorldSpace(OSMData osmData)
         {
+            // Get MapboxTileRenderer to use its coordinate conversion
+            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            
             // Get scale from Mapbox if available, otherwise use default
             _worldScale = GetMapboxScale();
             _prefabScale = 1f / _worldScale;
             
             Logger.Log($"World scale: {_worldScale:F2} m/unit, Prefab scale: {_prefabScale:F4}", "FantasyWorld");
             
-            double metersPerDegreeLat = 110540; // More accurate value
-            double metersPerDegreeLon = 111320 * Math.Cos(_originLat * Math.PI / 180);
-            
-            // Convert buildings
-            foreach (var building in osmData.Buildings)
+            if (mapbox != null)
             {
-                building.WorldPoints = new List<Vector3>();
-                foreach (var p in building.FootprintPoints)
+                Logger.Log("Using MapboxTileRenderer.LatLonToWorld for coordinate conversion", "FantasyWorld");
+                
+                // Convert buildings using Mapbox's coordinate system
+                foreach (var building in osmData.Buildings)
                 {
-                    // p.x is lon, p.y is lat (from OSM parser)
-                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / _worldScale);
-                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / _worldScale);
-                    building.WorldPoints.Add(new Vector3(x, 0, z));
+                    building.WorldPoints = new List<Vector3>();
+                    foreach (var p in building.FootprintPoints)
+                    {
+                        // p.x is lon, p.y is lat (from OSM parser)
+                        Vector3 worldPos = mapbox.LatLonToWorld(p.y, p.x);
+                        building.WorldPoints.Add(worldPos);
+                    }
+                }
+                
+                // Convert roads using Mapbox's coordinate system
+                foreach (var road in osmData.Roads)
+                {
+                    road.Points.Clear();
+                    foreach (var p in road.LatLonPoints)
+                    {
+                        // p.x is lon, p.y is lat
+                        Vector3 worldPos = mapbox.LatLonToWorld(p.y, p.x);
+                        road.Points.Add(worldPos);
+                    }
+                }
+                
+                // Convert areas using Mapbox's coordinate system
+                foreach (var area in osmData.Areas)
+                {
+                    area.WorldPoints = new List<Vector3>();
+                    foreach (var p in area.Polygon)
+                    {
+                        // p.x is lon, p.y is lat
+                        Vector3 worldPos = mapbox.LatLonToWorld(p.y, p.x);
+                        area.WorldPoints.Add(worldPos);
+                    }
                 }
             }
-            
-            // Convert roads
-            foreach (var road in osmData.Roads)
+            else
             {
-                road.ConvertToWorldSpaceScaled(_originLat, _originLon, _worldScale);
-            }
-            
-            // Convert areas
-            foreach (var area in osmData.Areas)
-            {
-                area.WorldPoints = new List<Vector3>();
-                foreach (var p in area.Polygon)
+                // Fallback: use manual calculation (may not align with Mapbox)
+                Logger.LogWarning("No MapboxTileRenderer - using fallback coordinate conversion", "FantasyWorld");
+                
+                double metersPerDegreeLat = 110540;
+                double metersPerDegreeLon = 111320 * Math.Cos(_originLat * Math.PI / 180);
+                
+                // Convert buildings
+                foreach (var building in osmData.Buildings)
                 {
-                    float x = (float)((p.x - _originLon) * metersPerDegreeLon / _worldScale);
-                    float z = (float)((p.y - _originLat) * metersPerDegreeLat / _worldScale);
-                    area.WorldPoints.Add(new Vector3(x, 0, z));
+                    building.WorldPoints = new List<Vector3>();
+                    foreach (var p in building.FootprintPoints)
+                    {
+                        float x = (float)((p.x - _originLon) * metersPerDegreeLon / _worldScale);
+                        float z = (float)((p.y - _originLat) * metersPerDegreeLat / _worldScale);
+                        building.WorldPoints.Add(new Vector3(x, 0, z));
+                    }
+                }
+                
+                // Convert roads
+                foreach (var road in osmData.Roads)
+                {
+                    road.ConvertToWorldSpaceScaled(_originLat, _originLon, _worldScale);
+                }
+                
+                // Convert areas
+                foreach (var area in osmData.Areas)
+                {
+                    area.WorldPoints = new List<Vector3>();
+                    foreach (var p in area.Polygon)
+                    {
+                        float x = (float)((p.x - _originLon) * metersPerDegreeLon / _worldScale);
+                        float z = (float)((p.y - _originLat) * metersPerDegreeLat / _worldScale);
+                        area.WorldPoints.Add(new Vector3(x, 0, z));
+                    }
                 }
             }
         }
