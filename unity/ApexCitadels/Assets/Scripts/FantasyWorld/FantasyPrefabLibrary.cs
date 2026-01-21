@@ -185,11 +185,18 @@ namespace ApexCitadels.FantasyWorld
         
         [Header("Industrial/Farm")]
         public GameObject[] mills;
+        public GameObject[] windmills;
         public GameObject[] warehouses;
         public GameObject[] workshops;
         public GameObject[] barns;
         public GameObject[] farmhouses;
         public GameObject[] silos;
+        public GameObject[] stables;
+        
+        [Header("Castles/Fortifications")]
+        public GameObject[] castles;
+        public GameObject[] keeps;
+        public GameObject[] docks;
         
         [Header("Special")]
         public GameObject[] mageTowers;
@@ -199,6 +206,9 @@ namespace ApexCitadels.FantasyWorld
         public GameObject[] wells;
         
         [Header("=== NATURE ===")]
+        
+        [Header("Trees - General")]
+        public GameObject[] trees;
         
         [Header("Trees")]
         public GameObject[] treesOak;
@@ -260,6 +270,7 @@ namespace ApexCitadels.FantasyWorld
         public GameObject[] fenceWood;
         public GameObject[] fenceStone;
         public GameObject[] hedges;
+        public GameObject[] fences;  // General fences array
         
         [Header("Decoration")]
         public GameObject[] flags;
@@ -267,6 +278,7 @@ namespace ApexCitadels.FantasyWorld
         public GameObject[] statues;
         public GameObject[] scarecrows;
         public GameObject[] haystacks;
+        public GameObject[] hayBales;
         
         [Header("=== CHARACTERS (Optional) ===")]
         public GameObject[] peasants;
