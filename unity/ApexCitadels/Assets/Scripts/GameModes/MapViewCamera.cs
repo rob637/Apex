@@ -24,7 +24,7 @@ namespace ApexCitadels.GameModes
         [SerializeField] private float lookSensitivity = 2f;
         [SerializeField] private float smoothTime = 0.1f;
         [SerializeField] private float minHeight = 50f;
-        [SerializeField] private float maxHeight = 500f;
+        [SerializeField] private float maxHeight = 300f; // Reduced from 500 to prevent losing map
         
         #endregion
         
