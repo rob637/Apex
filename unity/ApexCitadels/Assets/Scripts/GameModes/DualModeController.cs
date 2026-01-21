@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine;
 using ApexCitadels.Core;
 using ApexCitadels.FantasyWorld;
+using ApexCitadels.Map;
 
 namespace ApexCitadels.GameModes
 {
@@ -118,7 +119,7 @@ namespace ApexCitadels.GameModes
         private void Start()
         {
             // Get initial location from config
-            var config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            var config = UnityEngine.Resources.Load<MapboxConfiguration>("MapboxConfig");
             if (config != null)
             {
                 _currentLatitude = config.DefaultLatitude;
@@ -278,7 +279,7 @@ namespace ApexCitadels.GameModes
             
             // Setup third-person camera
             _mapCamera.enabled = false;
-            SetupThirdPersonCamera();
+            // Camera will be controlled by GroundViewController
             
             // Generate fantasy world around player
             if (_fantasyGenerator != null)
@@ -527,7 +528,7 @@ namespace ApexCitadels.GameModes
             }
             
             // Or use skybox if available
-            var skyMat = Resources.Load<Material>("Skyboxes/DaySkybox");
+            var skyMat = UnityEngine.Resources.Load<Material>("Skyboxes/DaySkybox");
             if (skyMat != null)
             {
                 RenderSettings.skybox = skyMat;

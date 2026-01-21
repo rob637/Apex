@@ -138,7 +138,7 @@ namespace ApexCitadels.GameModes
             var text = textObj.AddComponent<Text>();
             text.text = content;
             text.fontSize = fontSize;
-            text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            text.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             if (text.font == null)
                 text.font = Font.CreateDynamicFontFromOSFont("Arial", fontSize);
             text.alignment = TextAnchor.UpperLeft;
