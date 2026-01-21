@@ -19,14 +19,14 @@ namespace ApexCitadels.Map
         [SerializeField] private MapboxConfiguration config;
         
         [Header("Tile Grid")]
-        [SerializeField] private int gridSize = 7;            // 7x7 = 49 tiles (reduced for performance)
+        [SerializeField] private int gridSize = 9;            // 9x9 = 81 tiles for full coverage at zoom 18
         [SerializeField] private float tileWorldSize = 80f;   // World units per tile
         [SerializeField] private float groundHeight = 0f;  // Y position of tiles (0 = aligned with buildings)
         
         [Header("Streaming")]
         [SerializeField] private bool enableStreaming = true;  // Enable infinite tile streaming
-        [SerializeField] private float streamCheckInterval = 0.5f; // How often to check for needed tiles
-        [SerializeField] private int maxConcurrentLoads = 4;   // Max simultaneous tile downloads
+        [SerializeField] private float streamCheckInterval = 0.1f; // Check every 0.1s for responsive streaming
+        [SerializeField] private int maxConcurrentLoads = 8;   // More concurrent downloads for speed
         
         [Header("Location")]
         [SerializeField] private double centerLatitude = 38.9032;   // Vienna, VA
@@ -190,9 +190,9 @@ namespace ApexCitadels.Map
             Vector3 camPos = _mainCamera.transform.position;
             Vector3 groundPos = new Vector3(camPos.x, 0, camPos.z);
             
-            // Check if camera moved significantly - use 50% of tile to reduce streaming frequency
+            // Check if camera moved significantly - use 25% of tile for early streaming
             float moveDist = Vector3.Distance(groundPos, _lastCameraPosition);
-            if (moveDist > tileWorldSize * 0.5f) // Moved 50% of a tile
+            if (moveDist > tileWorldSize * 0.25f) // Moved 25% of a tile - stream early
             {
                 _lastCameraPosition = groundPos;
                 StartCoroutine(StreamTilesAroundPosition(groundPos));

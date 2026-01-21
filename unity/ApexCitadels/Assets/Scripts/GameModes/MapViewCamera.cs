@@ -71,13 +71,12 @@ namespace ApexCitadels.GameModes
             _latitude = latitude;
             _longitude = longitude;
             
-            // Reset to center of map - use a reasonable height (not too high)
-            // Clamp height to prevent camera from disappearing
-            float useHeight = Mathf.Clamp(_height, 100f, 200f);
-            _height = useHeight; // Also update internal height
-            _targetPosition = new Vector3(0, useHeight, -useHeight * 0.5f);
+            // Use lower height at zoom 18 for better tile coverage (no blue corners)
+            float useHeight = 80f; // Fixed lower height
+            _height = useHeight;
+            _targetPosition = new Vector3(0, useHeight, -useHeight * 0.3f); // Less Z offset
             transform.position = _targetPosition;
-            transform.rotation = Quaternion.Euler(_angle, 0, 0);
+            transform.rotation = Quaternion.Euler(60f, 0, 0); // Steeper angle looking more down
             _currentYaw = 0f;
             
             // Update Mapbox if available
