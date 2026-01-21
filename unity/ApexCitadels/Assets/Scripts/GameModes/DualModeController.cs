@@ -177,19 +177,18 @@ namespace ApexCitadels.GameModes
         
         private void GoToPreset(int preset)
         {
-            var p = ApexCitadels.Map.GeocodingService.Presets;
             (double lat, double lon, string name) location = preset switch
             {
-                1 => p.NewYorkCity,
-                2 => p.LosAngeles,
-                3 => p.Chicago,
-                4 => p.SanFrancisco,
-                5 => p.Seattle,
-                6 => p.Miami,
-                7 => p.Boston,
-                8 => p.Denver,
-                9 => p.Austin,
-                _ => p.ViennaVA
+                1 => ApexCitadels.Map.GeocodingService.Presets.NewYorkCity,
+                2 => ApexCitadels.Map.GeocodingService.Presets.LosAngeles,
+                3 => ApexCitadels.Map.GeocodingService.Presets.Chicago,
+                4 => ApexCitadels.Map.GeocodingService.Presets.SanFrancisco,
+                5 => ApexCitadels.Map.GeocodingService.Presets.Seattle,
+                6 => ApexCitadels.Map.GeocodingService.Presets.Miami,
+                7 => ApexCitadels.Map.GeocodingService.Presets.Boston,
+                8 => ApexCitadels.Map.GeocodingService.Presets.Denver,
+                9 => ApexCitadels.Map.GeocodingService.Presets.Austin,
+                _ => ApexCitadels.Map.GeocodingService.Presets.ViennaVA
             };
             
             Debug.Log($"[DualMode] Going to preset {preset}: {location.name}");
