@@ -140,11 +140,47 @@ namespace ApexCitadels.FantasyWorld
             EditorUtility.SetDirty(targetLibrary);
             AssetDatabase.SaveAssetIfDirty(targetLibrary);
             AssetDatabase.SaveAssets();
+            
+            // Also copy to Resources folder for runtime loading
+            SyncToResourcesFolder();
+            
             AssetDatabase.Refresh();
             
             Debug.Log($"[PrefabPopulator] === COMPLETE: Added {totalAdded} prefabs total ===");
             Debug.Log($"[PrefabPopulator] Final cobblestone count in library: {targetLibrary.cobblestoneSegments?.Length ?? 0}");
             EditorUtility.DisplayDialog("Complete", $"Added {totalAdded} prefabs to the library.\n\nCobblestones: {targetLibrary.cobblestoneSegments?.Length ?? 0}", "OK");
+        }
+        
+        /// <summary>
+        /// Copies the target library to Resources folder so Resources.Load() can find it at runtime
+        /// </summary>
+        private void SyncToResourcesFolder()
+        {
+            string sourcePath = AssetDatabase.GetAssetPath(targetLibrary);
+            string resourcesPath = "Assets/Resources/MainFantasyPrefabLibrary.asset";
+            
+            // Only copy if source is not already in Resources
+            if (!sourcePath.Contains("/Resources/"))
+            {
+                // Copy the asset file
+                if (AssetDatabase.CopyAsset(sourcePath, resourcesPath))
+                {
+                    Debug.Log($"[PrefabPopulator] Synced library to Resources folder: {resourcesPath}");
+                }
+                else
+                {
+                    // If copy fails (file exists), delete and retry
+                    AssetDatabase.DeleteAsset(resourcesPath);
+                    if (AssetDatabase.CopyAsset(sourcePath, resourcesPath))
+                    {
+                        Debug.Log($"[PrefabPopulator] Replaced Resources library: {resourcesPath}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[PrefabPopulator] Failed to sync to Resources folder");
+                    }
+                }
+            }
         }
         
         private void PopulateLibrary()
