@@ -1927,29 +1927,66 @@ namespace ApexCitadels.FantasyWorld
             int prefabsPlaced = 0;
             System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
             
-            // Build list of valid (non-null) prefabs
+            // Build list of valid (non-null) prefabs - FILTER for straight segments only
+            // We want consistent straight road pieces, not corners/intersections/grass variants
             var validPrefabs = new List<GameObject>();
+            GameObject preferredPrefab = null;
+            
             foreach (var p in prefabLibrary.cobblestoneSegments)
             {
-                if (p != null) validPrefabs.Add(p);
+                if (p == null) continue;
+                
+                string name = p.name.ToLower();
+                
+                // Skip unwanted types
+                bool isCorner = name.Contains("corner") || name.Contains("turn");
+                bool isIntersection = name.Contains("cross") || name.Contains("intersection") || name.Contains("4way") || name.Contains("tsection");
+                bool isEnd = name.Contains("end") || name.Contains("cap");
+                bool hasGrass = name.Contains("grass") || name.Contains("green") || name.Contains("flower");
+                bool isSnow = name.Contains("snow");
+                bool isWood = name.Contains("wood");
+                bool isDirt = name.Contains("dirt");
+                
+                // PRIORITIZE: Small cobblestone paths from PolygonKnights
+                // Look for: SM_Env_Path_Cobble_01, SM_Env_Path_Cobble_02
+                if (name.Contains("cobble") && !name.Contains("stone_01") && !isSnow && !hasGrass)
+                {
+                    // This is a good cobblestone - prefer Cobble_01 or Cobble_02
+                    if (preferredPrefab == null || name.Contains("cobble_01"))
+                    {
+                        preferredPrefab = p;
+                    }
+                    validPrefabs.Add(p);
+                }
+                // Secondary: Stone paths
+                else if (name.Contains("stone") && name.Contains("path") && !isSnow && !hasGrass && !isDirt && !isWood)
+                {
+                    if (!isCorner && !isIntersection && !isEnd)
+                    {
+                        validPrefabs.Add(p);
+                    }
+                }
             }
             
-            if (validPrefabs.Count == 0)
+            // Use the preferred prefab (small cobblestone) or fall back to first valid
+            GameObject singlePrefab = preferredPrefab ?? (validPrefabs.Count > 0 ? validPrefabs[0] : null);
+            
+            if (singlePrefab == null)
             {
                 Logger.LogError("No valid cobblestone prefabs found - falling back to mesh", "FantasyWorld");
                 yield return GenerateRoadsWithMesh(roads);
                 yield break;
             }
             
+            Logger.Log($"Using cobblestone prefab: {singlePrefab.name} (selected from {validPrefabs.Count} candidates)", "FantasyWorld");
             Logger.Log($"Cobblestone prefab scale: {_prefabScale:F3} (world scale: {_worldScale:F2})", "FantasyWorld");
             
             // Pre-calculate segment length from sample prefab using LOCAL mesh bounds (not world bounds)
             // World bounds include prefab transform scale and can be misleadingly large
-            var samplePrefab = validPrefabs[0];
             float nativeSegmentLength = 2f; // Default: 2 meters
             
             // Try to get the actual mesh bounds (unscaled local space)
-            var meshFilter = samplePrefab.GetComponentInChildren<MeshFilter>();
+            var meshFilter = singlePrefab.GetComponentInChildren<MeshFilter>();
             if (meshFilter != null && meshFilter.sharedMesh != null)
             {
                 // Use the mesh's local bounds - this is the true unscaled size
@@ -1965,7 +2002,7 @@ namespace ApexCitadels.FantasyWorld
             else
             {
                 // Fallback to renderer bounds but with sanity check
-                var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
+                var sampleRenderer = singlePrefab.GetComponentInChildren<Renderer>();
                 if (sampleRenderer != null)
                 {
                     nativeSegmentLength = sampleRenderer.bounds.size.z;
@@ -2032,8 +2069,8 @@ namespace ApexCitadels.FantasyWorld
                         Quaternion.LookRotation(direction, Vector3.up) : 
                         Quaternion.identity;
                     
-                    // Pick a random valid prefab variant
-                    var prefab = validPrefabs[UnityEngine.Random.Range(0, validPrefabs.Count)];
+                    // Use the SINGLE consistent prefab (not random - we want uniform roads)
+                    var prefab = singlePrefab;
                     
                     // Instantiate and SCALE to match world
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
