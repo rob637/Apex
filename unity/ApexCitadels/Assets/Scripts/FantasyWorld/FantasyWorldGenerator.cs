@@ -1539,6 +1539,122 @@ namespace ApexCitadels.FantasyWorld
         {
             int count = 0;
             
+            // Check if we have Synty prefabs to use
+            bool usePrefabs = prefabLibrary != null && 
+                              prefabLibrary.cobblestoneSegments != null && 
+                              prefabLibrary.cobblestoneSegments.Length > 0;
+            
+            if (usePrefabs)
+            {
+                Logger.Log($"Using {prefabLibrary.cobblestoneSegments.Length} Synty cobblestone prefabs for roads", "FantasyWorld");
+                yield return GenerateRoadsWithPrefabs(roads);
+            }
+            else
+            {
+                Logger.Log("No path prefabs found - using procedural cobblestone mesh", "FantasyWorld");
+                yield return GenerateRoadsWithMesh(roads);
+            }
+        }
+        
+        /// <summary>
+        /// Generate roads using Synty prefab segments placed along the path
+        /// </summary>
+        private IEnumerator GenerateRoadsWithPrefabs(List<OSMRoad> roads)
+        {
+            int count = 0;
+            int prefabsPlaced = 0;
+            
+            foreach (var road in roads)
+            {
+                if (road.Points == null || road.Points.Count < 2) continue;
+                
+                // Create container for this road
+                GameObject roadContainer = new GameObject($"Road_{road.Name ?? count.ToString()}");
+                roadContainer.transform.SetParent(pathsParent);
+                roadContainer.transform.localPosition = Vector3.zero;
+                
+                // Calculate road length and segment spacing
+                float totalLength = 0f;
+                for (int i = 1; i < road.Points.Count; i++)
+                {
+                    totalLength += Vector3.Distance(road.Points[i], road.Points[i - 1]);
+                }
+                
+                // Get a random prefab to determine segment size
+                var samplePrefab = prefabLibrary.cobblestoneSegments[0];
+                var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
+                float segmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
+                if (segmentLength < 0.5f) segmentLength = 2f; // Minimum segment length
+                
+                // Walk along the path and place prefabs
+                float distanceCovered = 0f;
+                int pointIndex = 0;
+                float segmentProgress = 0f;
+                
+                while (distanceCovered < totalLength && pointIndex < road.Points.Count - 1)
+                {
+                    // Get current position on path
+                    Vector3 currentPoint = road.Points[pointIndex];
+                    Vector3 nextPoint = road.Points[pointIndex + 1];
+                    float segmentDistance = Vector3.Distance(currentPoint, nextPoint);
+                    
+                    // Calculate position along this segment
+                    float t = segmentProgress / segmentDistance;
+                    Vector3 position = Vector3.Lerp(currentPoint, nextPoint, t);
+                    position.y = 0.05f; // Slightly above ground
+                    
+                    // Calculate rotation to face along path
+                    Vector3 direction = (nextPoint - currentPoint).normalized;
+                    Quaternion rotation = direction != Vector3.zero ? 
+                        Quaternion.LookRotation(direction, Vector3.up) : 
+                        Quaternion.identity;
+                    
+                    // Pick a random prefab variant
+                    var prefab = prefabLibrary.cobblestoneSegments[
+                        UnityEngine.Random.Range(0, prefabLibrary.cobblestoneSegments.Length)];
+                    
+                    // Instantiate
+                    var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
+                    segment.name = $"Cobble_{prefabsPlaced}";
+                    
+                    // Scale to match road width if needed
+                    float roadWidth = road.Width > 0 ? road.Width : config.pathWidth;
+                    // Don't scale prefabs too much - they look better at native size
+                    
+                    prefabsPlaced++;
+                    
+                    // Move along the path
+                    segmentProgress += segmentLength * 0.9f; // Slight overlap
+                    distanceCovered += segmentLength * 0.9f;
+                    
+                    // Check if we need to move to next path segment
+                    while (segmentProgress >= segmentDistance && pointIndex < road.Points.Count - 2)
+                    {
+                        segmentProgress -= segmentDistance;
+                        pointIndex++;
+                        if (pointIndex < road.Points.Count - 1)
+                        {
+                            segmentDistance = Vector3.Distance(road.Points[pointIndex], road.Points[pointIndex + 1]);
+                        }
+                    }
+                    
+                    if (pointIndex >= road.Points.Count - 1) break;
+                }
+                
+                count++;
+                if (count % 5 == 0) yield return null;
+            }
+            
+            Logger.Log($"Generated {count} roads with {prefabsPlaced} prefab segments", "FantasyWorld");
+        }
+        
+        /// <summary>
+        /// Fallback: Generate roads using procedural mesh
+        /// </summary>
+        private IEnumerator GenerateRoadsWithMesh(List<OSMRoad> roads)
+        {
+            int count = 0;
+            
             // Pre-generate road texture (share across all roads)
             Color c1 = new Color(0.35f, 0.28f, 0.18f); // Dark Cobblestone
             Color c2 = new Color(0.5f, 0.42f, 0.32f);  // Light Cobblestone
@@ -1583,7 +1699,7 @@ namespace ApexCitadels.FantasyWorld
                 if (count % 10 == 0) yield return null;
             }
             
-            Logger.Log($"Generated {count} roads", "FantasyWorld");
+            Logger.Log($"Generated {count} roads with procedural mesh", "FantasyWorld");
         }
         
         private Mesh GenerateRoadMesh(List<Vector3> points, float width)

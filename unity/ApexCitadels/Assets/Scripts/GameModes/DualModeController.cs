@@ -246,6 +246,21 @@ namespace ApexCitadels.GameModes
             if (playerCharacter != null)
                 playerCharacter.SetActive(false);
             
+            // IMPORTANT: Hide/clear fantasy world objects - they should NOT appear in Map View
+            if (_fantasyGenerator != null)
+            {
+                _fantasyGenerator.ClearWorld();
+                _fantasyGenerator.gameObject.SetActive(false);
+            }
+            
+            // Also hide any debug visualization
+            var debugView = FindAnyObjectByType<FantasyWorld.FantasyWorldDebugView>();
+            if (debugView != null)
+            {
+                debugView.ClearDebugVisuals();
+                debugView.showDebugView = false;
+            }
+            
             // Enable map view
             mapViewContainer.gameObject.SetActive(true);
             _mapCamera.enabled = true;
@@ -292,9 +307,10 @@ namespace ApexCitadels.GameModes
             _groundController.SetPlayer(playerCharacter);
             _groundController.SetCamera(mainCamera);
             
-            // Generate fantasy world around player
+            // Enable and generate fantasy world around player
             if (_fantasyGenerator != null)
             {
+                _fantasyGenerator.gameObject.SetActive(true);
                 _fantasyGenerator.SetGenerationRadius(groundViewRadius);
                 _fantasyGenerator.Initialize(_currentLatitude, _currentLongitude);
                 yield return _fantasyGenerator.GenerateWorldCoroutine();
@@ -366,6 +382,7 @@ namespace ApexCitadels.GameModes
             Coroutine worldGen = null;
             if (_fantasyGenerator != null)
             {
+                _fantasyGenerator.gameObject.SetActive(true);
                 groundViewContainer.gameObject.SetActive(true);
                 _fantasyGenerator.SetGenerationRadius(groundViewRadius);
                 _fantasyGenerator.Initialize(_currentLatitude, _currentLongitude);
@@ -452,11 +469,21 @@ namespace ApexCitadels.GameModes
             if (playerCharacter != null)
                 playerCharacter.SetActive(false);
             
-            // Clear fantasy world objects to free memory
+            // Clear fantasy world objects to free memory and hide generator
             if (_fantasyGenerator != null)
             {
                 _fantasyGenerator.ClearWorld();
+                _fantasyGenerator.gameObject.SetActive(false);
             }
+            
+            // Hide debug view
+            var debugView = FindAnyObjectByType<FantasyWorld.FantasyWorldDebugView>();
+            if (debugView != null)
+            {
+                debugView.ClearDebugVisuals();
+                debugView.showDebugView = false;
+            }
+            
             groundViewContainer.gameObject.SetActive(false);
             
             // Enable map controls
