@@ -133,11 +133,8 @@ namespace ApexCitadels.GameModes
             _longitude += (move.x * speed) / metersPerDegreeLon;
             _latitude += (move.z * speed) / MetersPerDegreeLat;
             
-            // Update Mapbox tile center for streaming
-            if (_mapbox != null && Time.frameCount % 30 == 0) // Update every 30 frames
-            {
-                _mapbox.UpdateCenterSmooth(_latitude, _longitude);
-            }
+            // Streaming in MapboxTileRenderer handles tile loading based on camera position
+            // No need to call UpdateCenterSmooth - it conflicts with streaming
         }
         
         private void HandleRotation()

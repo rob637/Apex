@@ -300,20 +300,8 @@ namespace ApexCitadels.Map
                     Debug.Log($"[Mapbox] Created {tilesCreated} new tiles");
                 }
                 
-                // Reposition all tiles relative to new center
-                foreach (var kvp in _tiles)
-                {
-                    if (kvp.Value.GameObject != null)
-                    {
-                        int localX = kvp.Value.TileX - _centerTileX;
-                        int localY = kvp.Value.TileY - _centerTileY;
-                        kvp.Value.GameObject.transform.localPosition = new Vector3(
-                            localX * tileWorldSize + _tileOffsetX,
-                            groundHeight,
-                            -localY * tileWorldSize + _tileOffsetZ
-                        );
-                    }
-                }
+                // DON'T reposition existing tiles - they're already in correct world positions
+                // Only new tiles need positioning, which happens in CreateTileAt
             }
             
             _isStreaming = false;
@@ -329,14 +317,24 @@ namespace ApexCitadels.Map
             
             // Create quad
             var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            quad.name = $"Tile_{localX}_{localY}";
+            quad.name = $"Tile_{tileX}_{tileY}";
             quad.transform.SetParent(_tilesContainer);
             
-            // Position tile
+            // Position tile based on ABSOLUTE tile coordinates
+            // Calculate world position from tile's geographic center
+            double n = System.Math.Pow(2, zoomLevel);
+            double tileLon = (tileX + 0.5) / n * 360.0 - 180.0;
+            double tileLatRad = System.Math.Atan(System.Math.Sinh(System.Math.PI * (1.0 - 2.0 * (tileY + 0.5) / n)));
+            double tileLat = tileLatRad * 180.0 / System.Math.PI;
+            
+            // Convert to world position (origin is at _tileCenterLat/_tileCenterLon of initial center tile)
+            float worldX = (float)((tileLon - _tileCenterLon) * 111320 * System.Math.Cos(_tileCenterLat * System.Math.PI / 180) / GetMetersPerWorldUnit());
+            float worldZ = (float)((tileLat - _tileCenterLat) * 110540 / GetMetersPerWorldUnit());
+            
             quad.transform.localPosition = new Vector3(
-                localX * tileWorldSize + _tileOffsetX,
+                worldX + _tileOffsetX,
                 groundHeight,
-                -localY * tileWorldSize + _tileOffsetZ
+                worldZ + _tileOffsetZ
             );
             quad.transform.localRotation = Quaternion.Euler(90, 0, 0);
             quad.transform.localScale = new Vector3(tileWorldSize, tileWorldSize, 1);
@@ -683,7 +681,7 @@ namespace ApexCitadels.Map
         
         private MonoBehaviour FindFirstObjectByTypeName(string typeName)
         {
-            foreach (var mb in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+            foreach (var mb in FindObjectsOfType<MonoBehaviour>())
             {
                 if (mb.GetType().Name == typeName)
                     return mb;
