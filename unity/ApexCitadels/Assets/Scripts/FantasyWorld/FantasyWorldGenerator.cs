@@ -165,6 +165,11 @@ namespace ApexCitadels.FantasyWorld
         // Fallback material for pink/missing shader prefabs
         private Material _fallbackRoadMaterial;
         
+        // Player tracking for dynamic road generation
+        private Vector3 _lastGenerationPosition = Vector3.zero;
+        private float _regenerationDistance = 50f; // Regenerate when player moves this far
+        private bool _isRegenerating = false;
+        
         // Generation queue
         private Queue<Vector2Int> _cellGenerationQueue = new Queue<Vector2Int>();
         private bool _isGenerating;
@@ -210,6 +215,31 @@ namespace ApexCitadels.FantasyWorld
         }
         
         /// <summary>
+        /// Track player movement and regenerate roads when they've moved far enough
+        /// </summary>
+        private void Update()
+        {
+            if (!_isInitialized || _isRegenerating) return;
+            if (playerTransform == null) return;
+            
+            // Check if player has moved far enough to regenerate
+            float distanceMoved = Vector3.Distance(playerTransform.position, _lastGenerationPosition);
+            if (distanceMoved > _regenerationDistance)
+            {
+                // Convert player world position to lat/lon and regenerate
+                StartCoroutine(RegenerateAtPlayerPosition());
+            }
+        }
+        
+        /// <summary>
+        /// Regenerate roads centered on player's current position
+        /// </summary>
+        private IEnumerator RegenerateAtPlayerPosition()
+        {
+            if (_isRegenerating) yield break;
+            _isRegenerating = true;
+            
+            Logger.Log($\"Player moved {_regenerationDistance}m - regenerating roads at new position\", \"FantasyWorld\");\n            \n            // Get player's world position and convert to lat/lon\n            Vector3 playerPos = playerTransform.position;\n            _lastGenerationPosition = playerPos;\n            \n            // Convert world position to lat/lon using MapboxTileRenderer\n            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();\n            if (mapbox != null)\n            {\n                var (newLat, newLon) = mapbox.WorldToLatLon(playerPos);\n                _originLat = newLat;\n                _originLon = newLon;\n                \n                Logger.Log($\"New origin: {_originLat:F6}, {_originLon:F6}\", \"FantasyWorld\");\n                \n                // Clear existing roads\n                if (pathsParent != null)\n                {\n                    foreach (Transform child in pathsParent)\n                    {\n                        Destroy(child.gameObject);\n                    }\n                }\n                \n                // Fetch and generate new roads\n                yield return StartCoroutine(GenerateWorldCoroutine());\n            }\n            \n            _isRegenerating = false;\n        }\n        \n        /// <summary>
         /// Create a fallback URP-compatible material for pink/missing shader prefabs
         /// </summary>
         private void CreateFallbackMaterial()
@@ -2135,23 +2165,28 @@ namespace ApexCitadels.FantasyWorld
                     Vector3 position = Vector3.Lerp(currentPoint, nextPoint, t);
                     position.y = 0.02f; // Slightly above ground
                     
-                    // Calculate rotation to face along path
+                    // Calculate rotation to face along path, then add random 180° flip for variety
                     Vector3 direction = (nextPoint - currentPoint).normalized;
-                    Quaternion rotation = direction.sqrMagnitude > 0.001f ? 
-                        Quaternion.LookRotation(direction, Vector3.up) : 
-                        Quaternion.identity;
+                    float baseYRotation = direction.sqrMagnitude > 0.001f ? 
+                        Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg : 0f;
                     
-                    // Use the SINGLE consistent prefab (not random - we want uniform roads)
-                    var prefab = singlePrefab;
+                    // Add variation: 50% chance to flip 180° (maintains path direction but varies look)
+                    float rotationVariation = UnityEngine.Random.value > 0.5f ? 180f : 0f;
+                    Quaternion rotation = Quaternion.Euler(0, baseYRotation + rotationVariation, 0);
+                    
+                    // Pick random prefab from valid list for variation
+                    var prefab = validPrefabs.Count > 1 ? 
+                        validPrefabs[UnityEngine.Random.Range(0, validPrefabs.Count)] : singlePrefab;
                     
                     // Instantiate and SCALE to match world
                     // Roads need to be WIDER to match actual road widths
-                    // Scale X (width) by multiplier, keep Z (length) normal for tiling
+                    // Add slight random scale variation (95%-105%) for organic look
+                    float scaleVariation = UnityEngine.Random.Range(0.95f, 1.05f);
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
                     segment.transform.localScale = new Vector3(
-                        _prefabScale * _roadWidthMultiplier,  // Wider
-                        _prefabScale,                          // Normal height
-                        _prefabScale                           // Normal length for tiling
+                        _prefabScale * _roadWidthMultiplier * scaleVariation,  // Wider with variation
+                        _prefabScale * scaleVariation,                          // Height with variation
+                        _prefabScale * scaleVariation                           // Length with variation
                     );
                     segment.name = $"Cobble_{prefabsPlaced}";
                     
