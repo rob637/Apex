@@ -15,7 +15,7 @@ namespace ApexCitadels.Map
         
         [Header("Map Style")]
         [Tooltip("The visual style of the map")]
-        public MapboxStyle Style = MapboxStyle.Streets;
+        public MapboxStyle Style = MapboxStyle.SatelliteStreets;
         
         [Header("Default Location")]
         [Tooltip("Default latitude when no GPS is available")]

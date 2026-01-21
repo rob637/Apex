@@ -346,7 +346,35 @@ namespace ApexCitadels.FantasyWorld
             _originLon = longitude;
             _isInitialized = true;
             
+            // Ensure pathsParent exists (may have been lost if scene-root object was destroyed)
+            EnsurePathsParentExists();
+            
             Logger.Log($"FantasyWorldGenerator initialized at {latitude}, {longitude}", "FantasyWorld");
+        }
+        
+        /// <summary>
+        /// Ensure pathsParent exists - find existing or create new
+        /// </summary>
+        private void EnsurePathsParentExists()
+        {
+            if (pathsParent == null)
+            {
+                // Try to find existing Paths object in scene
+                var existingPaths = GameObject.Find("Paths");
+                if (existingPaths != null)
+                {
+                    pathsParent = existingPaths.transform;
+                    Logger.Log("Found existing Paths container in scene", "FantasyWorld");
+                }
+                else
+                {
+                    // Create new
+                    pathsParent = new GameObject("Paths").transform;
+                    pathsParent.position = Vector3.zero;
+                    pathsParent.rotation = Quaternion.identity;
+                    Logger.Log("Created new Paths container", "FantasyWorld");
+                }
+            }
         }
         
         /// <summary>

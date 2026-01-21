@@ -454,6 +454,14 @@ namespace ApexCitadels.Map
             
             _isInitialized = true;
             
+            // Initialize streaming camera position to current camera position
+            if (_mainCamera == null) _mainCamera = Camera.main;
+            if (_mainCamera != null)
+            {
+                Vector3 camPos = _mainCamera.transform.position;
+                _lastCameraPosition = new Vector3(camPos.x, 0, camPos.z);
+            }
+            
             // Start loading
             StartCoroutine(LoadAllTilesCoroutine());
         }
@@ -793,30 +801,13 @@ namespace ApexCitadels.Map
             double metersLon = lonDiff * 111320 * System.Math.Cos(latitude * System.Math.PI / 180);
             double distance = System.Math.Sqrt(metersLat * metersLat + metersLon * metersLon);
             
-            // If we've moved more than half a tile, recenter
+            // If we've moved more than half a tile, let streaming handle it (don't reload everything)
             double tileSizeMeters = 40075016.686 * System.Math.Cos(latitude * System.Math.PI / 180) / System.Math.Pow(2, zoomLevel);
             
-            if (distance > tileSizeMeters * 0.5)
-            {
-                // Significant movement - reload tiles
-                SetLocation(latitude, longitude, zoomLevel);
-            }
-            else
-            {
-                // Small movement - just shift the container
-                centerLatitude = latitude;
-                centerLongitude = longitude;
-                
-                // Offset tiles to create illusion of movement
-                if (_tilesContainer != null)
-                {
-                    float offsetX = (float)(lonDiff * 111320 * System.Math.Cos(latitude * System.Math.PI / 180) / GetMetersPerWorldUnit());
-                    float offsetZ = (float)(latDiff * 110540 / GetMetersPerWorldUnit());
-                    // Keep tiles centered, we move the camera not the tiles
-                }
-                
-                OnLocationChanged?.Invoke(latitude, longitude);
-            }
+            // Just update position - streaming will handle tile loading/unloading
+            centerLatitude = latitude;
+            centerLongitude = longitude;
+            OnLocationChanged?.Invoke(latitude, longitude);
         }
         
         #endregion

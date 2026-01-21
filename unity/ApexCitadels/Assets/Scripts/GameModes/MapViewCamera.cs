@@ -71,8 +71,11 @@ namespace ApexCitadels.GameModes
             _latitude = latitude;
             _longitude = longitude;
             
-            // Reset to center of map
-            _targetPosition = new Vector3(0, _height, -_height * 0.5f);
+            // Reset to center of map - use a reasonable height (not too high)
+            // Clamp height to prevent camera from disappearing
+            float useHeight = Mathf.Clamp(_height, 100f, 200f);
+            _height = useHeight; // Also update internal height
+            _targetPosition = new Vector3(0, useHeight, -useHeight * 0.5f);
             transform.position = _targetPosition;
             transform.rotation = Quaternion.Euler(_angle, 0, 0);
             _currentYaw = 0f;
