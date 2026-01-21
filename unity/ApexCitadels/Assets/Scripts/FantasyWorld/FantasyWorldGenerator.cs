@@ -161,6 +161,9 @@ namespace ApexCitadels.FantasyWorld
         private float _worldScale = 1f; // Meters per world unit (from Mapbox)
         private float _prefabScale = 1f; // Scale to apply to prefabs (1/worldScale)
         
+        // Fallback material for pink/missing shader prefabs
+        private Material _fallbackRoadMaterial;
+        
         // Generation queue
         private Queue<Vector2Int> _cellGenerationQueue = new Queue<Vector2Int>();
         private bool _isGenerating;
@@ -173,6 +176,9 @@ namespace ApexCitadels.FantasyWorld
         private void Awake()
         {
             _osmFetcher = gameObject.AddComponent<OSMDataFetcher>();
+            
+            // Create fallback material for URP (fixes pink Synty prefabs)
+            CreateFallbackMaterial();
             
             // Create parent objects if not assigned
             if (buildingsParent == null)
@@ -194,6 +200,72 @@ namespace ApexCitadels.FantasyWorld
             {
                 pathsParent = new GameObject("Paths").transform;
                 pathsParent.SetParent(transform);
+            }
+        }
+        
+        /// <summary>
+        /// Create a fallback URP-compatible material for pink/missing shader prefabs
+        /// </summary>
+        private void CreateFallbackMaterial()
+        {
+            // Try to find URP Lit shader
+            Shader urpShader = Shader.Find("Universal Render Pipeline/Lit");
+            if (urpShader == null)
+            {
+                urpShader = Shader.Find("Universal Render Pipeline/Simple Lit");
+            }
+            if (urpShader == null)
+            {
+                urpShader = Shader.Find("Sprites/Default"); // Last resort
+            }
+            
+            if (urpShader != null)
+            {
+                _fallbackRoadMaterial = new Material(urpShader);
+                _fallbackRoadMaterial.name = "FallbackRoadMaterial";
+                // Cobblestone-ish gray color
+                _fallbackRoadMaterial.color = new Color(0.45f, 0.42f, 0.38f, 1f);
+                Logger.Log($"Created fallback road material with shader: {urpShader.name}", "FantasyWorld");
+            }
+            else
+            {
+                Logger.LogWarning("Could not find URP shader for fallback material", "FantasyWorld");
+            }
+        }
+        
+        /// <summary>
+        /// Apply fallback material to fix pink/magenta missing shader issues
+        /// </summary>
+        private void ApplyFallbackMaterial(GameObject obj)
+        {
+            if (_fallbackRoadMaterial == null) return;
+            
+            var renderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (var renderer in renderers)
+            {
+                // Check if material is pink/missing (Standard shader in URP shows as magenta)
+                bool needsFix = false;
+                foreach (var mat in renderer.sharedMaterials)
+                {
+                    if (mat == null || mat.shader == null || 
+                        mat.shader.name.Contains("Standard") || 
+                        mat.shader.name.Contains("Hidden/InternalErrorShader"))
+                    {
+                        needsFix = true;
+                        break;
+                    }
+                }
+                
+                if (needsFix)
+                {
+                    // Replace all materials with fallback
+                    var newMats = new Material[renderer.sharedMaterials.Length];
+                    for (int i = 0; i < newMats.Length; i++)
+                    {
+                        newMats[i] = _fallbackRoadMaterial;
+                    }
+                    renderer.sharedMaterials = newMats;
+                }
             }
         }
         
@@ -1967,6 +2039,9 @@ namespace ApexCitadels.FantasyWorld
                     var segment = Instantiate(prefab, position, rotation, roadContainer.transform);
                     segment.transform.localScale = Vector3.one * _prefabScale;
                     segment.name = $"Cobble_{prefabsPlaced}";
+                    
+                    // Fix pink/magenta materials (Synty uses Standard shader, URP shows as pink)
+                    ApplyFallbackMaterial(segment);
                     
                     prefabsPlaced++;
                     instantiationCount++;
