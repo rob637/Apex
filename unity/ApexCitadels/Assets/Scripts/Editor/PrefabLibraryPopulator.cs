@@ -109,6 +109,7 @@ namespace ApexCitadels.FantasyWorld
         
         private void PopulateAll()
         {
+            Debug.Log("[PrefabPopulator] === POPULATE ALL v2.0 - Multi-Pack Search ===");
             Undo.RecordObject(targetLibrary, "Populate All Prefabs");
             
             int totalAdded = 0;
@@ -641,20 +642,43 @@ namespace ApexCitadels.FantasyWorld
         
         /// <summary>
         /// All Synty pack paths to search for consistent art style
+        /// Updated to match actual folder structure from your Assets folder
+        /// Includes both Prefabs and Models folders
         /// </summary>
         private static readonly string[] AllSyntyPaths = new[]
         {
+            // In Assets/Synty/ folder - Prefabs
             "Assets/Synty/PolygonFantasyKingdom/Prefabs",
             "Assets/Synty/PolygonGeneric/Prefabs",
+            // In Assets/Synty/ folder - Models (some packs put prefabs here)
+            "Assets/Synty/PolygonFantasyKingdom/Models",
+            "Assets/Synty/PolygonGeneric/Models",
+            // In Assets/ root folder - Prefabs
             "Assets/PolygonAdventure/Prefabs",
-            "Assets/PolygonKnights/Prefabs",
-            "Assets/PolygonVikings/Prefabs",
-            "Assets/PolygonFarm/Prefabs",
-            "Assets/PolygonTown/Prefabs",
-            "Assets/PolygonNature/Prefabs",
             "Assets/PolygonDungeon/Prefabs",
+            "Assets/PolygonFantasyCharacters/Prefabs",
+            "Assets/PolygonFantasyHeroCharacters/Prefabs",
+            "Assets/PolygonFantasyRivals/Prefabs",
+            "Assets/PolygonFarm/Prefabs",
+            "Assets/PolygonIcons/Prefabs",
+            "Assets/PolygonKnights/Prefabs",
+            "Assets/PolygonNature/Prefabs",
+            "Assets/PolygonParticleFX/Prefabs",
             "Assets/PolygonPirates/Prefabs",
-            "Assets/PolygonSamurai/Prefabs"
+            "Assets/PolygonSamurai/Prefabs",
+            "Assets/PolygonTown/Prefabs",
+            "Assets/PolygonVikings/Prefabs",
+            // In Assets/ root folder - Models (fallback)
+            "Assets/PolygonAdventure/Models",
+            "Assets/PolygonDungeon/Models",
+            "Assets/PolygonFarm/Models",
+            "Assets/PolygonKnights/Models",
+            "Assets/PolygonNature/Models",
+            "Assets/PolygonPirates/Models",
+            "Assets/PolygonSamurai/Models",
+            "Assets/PolygonTown/Models",
+            "Assets/PolygonVikings/Models"
+            "Assets/PolygonVikings/Prefabs"
         };
         
         /// <summary>
@@ -666,7 +690,11 @@ namespace ApexCitadels.FantasyWorld
             "Assets/PolygonKnights/Prefabs",
             "Assets/PolygonVikings/Prefabs",
             "Assets/PolygonAdventure/Prefabs",
-            "Assets/PolygonFarm/Prefabs"
+            "Assets/PolygonFarm/Prefabs",
+            "Assets/PolygonTown/Prefabs",
+            "Assets/PolygonPirates/Prefabs",
+            "Assets/PolygonSamurai/Prefabs",
+            "Assets/PolygonDungeon/Prefabs"
         };
         
         private GameObject[] FindPrefabsMatching(string searchPath, params string[] patterns)
