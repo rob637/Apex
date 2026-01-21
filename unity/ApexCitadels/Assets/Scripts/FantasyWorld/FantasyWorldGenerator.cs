@@ -157,6 +157,7 @@ namespace ApexCitadels.FantasyWorld
         private double _originLat;
         private double _originLon;
         private bool _isInitialized;
+        private int _proceduralBuildingCount; // Debug counter
         
         // Generation queue
         private Queue<Vector2Int> _cellGenerationQueue = new Queue<Vector2Int>();
@@ -260,6 +261,7 @@ namespace ApexCitadels.FantasyWorld
             _cells.Clear();
             _cellGenerationQueue.Clear();
             _isGenerating = false;
+            _proceduralBuildingCount = 0; // Reset counter
             
             Logger.Log("Fantasy world cleared", "FantasyWorld");
         }
@@ -502,6 +504,9 @@ namespace ApexCitadels.FantasyWorld
                 yield return StartCoroutine(GenerateRoadsCoroutine(osmData.Roads));
             }
 
+            // DEBUG: Create origin marker so we can see where (0,0,0) is
+            CreateOriginMarker();
+
             // Generate buildings
             if (config.generateBuildings)
             {
@@ -577,6 +582,27 @@ namespace ApexCitadels.FantasyWorld
                 }
             }
             miniMap.RegisterRoads(roadPaths);
+        }
+        
+        /// <summary>
+        /// DEBUG: Create a highly visible marker at the origin to help visualize coordinate system
+        /// </summary>
+        private void CreateOriginMarker()
+        {
+            // Red cube at origin
+            var marker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            marker.name = "DEBUG_ORIGIN_MARKER";
+            marker.transform.SetParent(buildingsParent);
+            marker.transform.position = new Vector3(0, 5f, 0); // 5m up
+            marker.transform.localScale = new Vector3(3f, 10f, 3f); // Tall red pillar
+            
+            var renderer = marker.GetComponent<Renderer>();
+            var mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Unlit/Color") ?? Shader.Find("Standard"));
+            mat.color = Color.red;
+            if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", Color.red);
+            renderer.material = mat;
+            
+            Logger.Log("DEBUG: Created red origin marker at (0, 5, 0)", "FantasyWorld");
         }
         
         /// <summary>
@@ -918,7 +944,12 @@ namespace ApexCitadels.FantasyWorld
         /// </summary>
         private GameObject CreateProceduralBuilding(Vector3 position, float rotation, Vector3 dimensions, FantasyBuildingType type, BuildingSize size)
         {
-            Logger.Log($"Creating PROCEDURAL building at {position} - Type: {type}, Size: {size}", "FantasyWorld");
+            // Only log first few to avoid spam
+            if (_proceduralBuildingCount < 3)
+            {
+                Logger.Log($"Creating PROCEDURAL building #{_proceduralBuildingCount} at {position} - Type: {type}, Size: {size}, Dims: {dimensions}", "FantasyWorld");
+            }
+            _proceduralBuildingCount++;
             
             GameObject building = new GameObject("ProceduralBuilding");
             building.transform.position = position;
@@ -936,9 +967,10 @@ namespace ApexCitadels.FantasyWorld
                 _ => 6f
             };
             
-            // Ensure dimensions are reasonable
-            float width = Mathf.Max(dimensions.x, 3f);
-            float depth = Mathf.Max(dimensions.z, 3f);
+            // Ensure dimensions are reasonable - buildings should be visible!
+            float width = Mathf.Max(dimensions.x, 5f);  // Minimum 5m wide
+            float depth = Mathf.Max(dimensions.z, 5f);  // Minimum 5m deep
+            height = Mathf.Max(height, 4f);              // Minimum 4m tall
             
             // Create main building body (cube)
             GameObject body = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -948,20 +980,29 @@ namespace ApexCitadels.FantasyWorld
             body.transform.localScale = new Vector3(width, height, depth);
             body.transform.localRotation = Quaternion.identity;
             
-            // Choose colors based on building type
+            // Make sure the building is on the Default layer and visible
+            body.layer = 0; // Default layer
+            
+            // Choose colors based on building type - use BRIGHT colors for debugging
             Color wallColor = GetBuildingWallColor(type);
             Color roofColor = GetBuildingRoofColor(type);
             
-            // Apply material to body
+            // Apply material to body - TRY MULTIPLE APPROACHES
             var bodyRenderer = body.GetComponent<Renderer>();
+            Material wallMat = null;
+            
+            // Try URP Lit first
             var shader = Shader.Find("Universal Render Pipeline/Lit");
             if (shader == null) shader = Shader.Find("Universal Render Pipeline/Simple Lit");
+            if (shader == null) shader = Shader.Find("Unlit/Color"); // Fallback to unlit
             if (shader == null) shader = Shader.Find("Standard");
             
             if (shader != null)
             {
-                var wallMat = new Material(shader);
+                wallMat = new Material(shader);
                 wallMat.color = wallColor;
+                if (wallMat.HasProperty("_BaseColor"))
+                    wallMat.SetColor("_BaseColor", wallColor);
                 if (wallMat.HasProperty("_Smoothness"))
                     wallMat.SetFloat("_Smoothness", 0.1f);
                 bodyRenderer.material = wallMat;
