@@ -143,6 +143,9 @@ namespace ApexCitadels.FantasyWorld
         public Transform propsParent;
         public Transform pathsParent;
         
+        [Header("Debug")]
+        public FantasyWorldDebugView debugView;
+        
         // OSM Data Fetcher
         private OSMDataFetcher _osmFetcher;
         
@@ -341,6 +344,18 @@ namespace ApexCitadels.FantasyWorld
             
             // Convert all lat/lon coordinates to world space
             ConvertCoordinatesToWorldSpace(osmData);
+            
+            // Pass to debug view if available
+            if (debugView == null)
+            {
+                debugView = GetComponent<FantasyWorldDebugView>();
+                if (debugView == null)
+                {
+                    debugView = gameObject.AddComponent<FantasyWorldDebugView>();
+                    debugView.generator = this;
+                }
+            }
+            debugView?.SetOSMData(osmData);
             
             OnGenerationProgress?.Invoke($"Found {osmData.Buildings.Count} buildings, {osmData.Roads.Count} roads");
             Logger.Log($"OSM Data: {osmData.Buildings.Count} buildings, {osmData.Roads.Count} roads, {osmData.Areas.Count} areas", "FantasyWorld");
