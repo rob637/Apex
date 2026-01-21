@@ -356,22 +356,28 @@ namespace ApexCitadels.Map
             
             string url = $"https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{key}?access_token={config.AccessToken}";
             
-            using (var request = UnityWebRequestTexture.GetTexture(url))
+            using (var request = UnityWebRequest.Get(url))
             {
+                request.timeout = 15;
                 yield return request.SendWebRequest();
                 
                 _currentLoadingCount--;
                 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                    var texture = DownloadHandlerTexture.GetContent(request);
-                    texture.filterMode = filterMode;
-                    texture.anisoLevel = anisotropicLevel;
-                    
-                    tile.Texture = texture;
-                    tile.Material.mainTexture = texture;
-                    tile.Material.color = Color.white;
-                    tile.IsLoaded = true;
+                    // Create texture from downloaded data
+                    var texture = new Texture2D(2, 2, TextureFormat.RGB24, false);
+                    if (texture.LoadImage(request.downloadHandler.data))
+                    {
+                        texture.filterMode = filterMode;
+                        texture.wrapMode = TextureWrapMode.Clamp;
+                        texture.anisoLevel = anisotropicLevel;
+                        
+                        tile.Texture = texture;
+                        tile.Material.mainTexture = texture;
+                        tile.Material.color = Color.white;
+                        tile.IsLoaded = true;
+                    }
                 }
                 
                 tile.IsLoading = false;
