@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using UnityResources = UnityEngine.Resources;
 
 namespace ApexCitadels.Editor
 {
@@ -25,14 +26,14 @@ namespace ApexCitadels.Editor
             string assetPath = "Assets/Resources/MapboxConfig.asset";
             
             // Clear any cached references
-            Resources.UnloadUnusedAssets();
+            UnityResources.UnloadUnusedAssets();
             
             // Force reimport the asset
             AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
             
             // Load and verify
-            var config = Resources.Load<ScriptableObject>("MapboxConfig");
+            var config = UnityResources.Load<ScriptableObject>("MapboxConfig");
             if (config != null)
             {
                 EditorUtility.SetDirty(config);
@@ -92,7 +93,7 @@ namespace ApexCitadels.Editor
             EditorGUILayout.LabelField("2. VALUES IN MEMORY (Unity's Cache)", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox("These are the values Unity is actually using (may be stale!)", MessageType.Warning);
             
-            var config = Resources.Load<ScriptableObject>("MapboxConfig");
+            var config = UnityResources.Load<ScriptableObject>("MapboxConfig");
             if (config != null)
             {
                 var so = new SerializedObject(config);
@@ -150,7 +151,7 @@ namespace ApexCitadels.Editor
             
             if (GUILayout.Button("Open Config in Inspector", GUILayout.Height(50)))
             {
-                var loadedConfig = Resources.Load<ScriptableObject>("MapboxConfig");
+                var loadedConfig = UnityResources.Load<ScriptableObject>("MapboxConfig");
                 if (loadedConfig != null)
                 {
                     Selection.activeObject = loadedConfig;
@@ -194,7 +195,7 @@ namespace ApexCitadels.Editor
             
             if (GUILayout.Button("Set to 504 Mashie Drive + Satellite View", GUILayout.Height(40)))
             {
-                var loadedConfig = Resources.Load<ScriptableObject>("MapboxConfig");
+                var loadedConfig = UnityResources.Load<ScriptableObject>("MapboxConfig");
                 if (loadedConfig != null)
                 {
                     var so = new SerializedObject(loadedConfig);
@@ -225,7 +226,7 @@ namespace ApexCitadels.Editor
             
             if (GUILayout.Button("Add Runtime Config Logger to Scene", GUILayout.Height(30)))
             {
-                var existing = FindObjectOfType<MapboxConfigRuntimeLogger>();
+                var existing = FindFirstObjectByType<MapboxConfigRuntimeLogger>();
                 if (existing == null)
                 {
                     var go = new GameObject("_MapboxConfigLogger");
@@ -259,7 +260,7 @@ namespace ApexCitadels.Editor
         
         void LogConfig(string phase)
         {
-            var config = Resources.Load<ScriptableObject>("MapboxConfig");
+            var config = UnityResources.Load<ScriptableObject>("MapboxConfig");
             if (config == null)
             {
                 Debug.LogError($"[RuntimeLogger] [{phase}] MapboxConfig is NULL!");
