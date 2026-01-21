@@ -188,7 +188,8 @@ namespace ApexCitadels.GameModes
                             "Q/E - Rotate\n" +
                             "Scroll - Zoom\n" +
                             "Shift - Fast Move\n" +
-                            "SPACE - Land Here";
+                            "SPACE - Land Here\n" +
+                            "1-9 - Preset Cities";
                         break;
                     case ViewMode.GroundView:
                         _controlsLabel.text = "Controls:\n" +
@@ -196,7 +197,8 @@ namespace ApexCitadels.GameModes
                             "Mouse - Look\n" +
                             "Shift - Run\n" +
                             "V - Toggle 1st/3rd Person\n" +
-                            "SPACE - Take Off";
+                            "SPACE - Take Off\n" +
+                            "1-9 - Preset Cities";
                         break;
                     default:
                         _controlsLabel.text = "Please wait...";

@@ -161,7 +161,39 @@ namespace ApexCitadels.GameModes
                 {
                     LandAtCurrentPosition();
                 }
+                
+                // Number keys for preset locations (1-9)
+                if (Input.GetKeyDown(KeyCode.Alpha1)) GoToPreset(1);
+                if (Input.GetKeyDown(KeyCode.Alpha2)) GoToPreset(2);
+                if (Input.GetKeyDown(KeyCode.Alpha3)) GoToPreset(3);
+                if (Input.GetKeyDown(KeyCode.Alpha4)) GoToPreset(4);
+                if (Input.GetKeyDown(KeyCode.Alpha5)) GoToPreset(5);
+                if (Input.GetKeyDown(KeyCode.Alpha6)) GoToPreset(6);
+                if (Input.GetKeyDown(KeyCode.Alpha7)) GoToPreset(7);
+                if (Input.GetKeyDown(KeyCode.Alpha8)) GoToPreset(8);
+                if (Input.GetKeyDown(KeyCode.Alpha9)) GoToPreset(9);
             }
+        }
+        
+        private void GoToPreset(int preset)
+        {
+            var p = ApexCitadels.Map.GeocodingService.Presets;
+            (double lat, double lon, string name) location = preset switch
+            {
+                1 => p.NewYorkCity,
+                2 => p.LosAngeles,
+                3 => p.Chicago,
+                4 => p.SanFrancisco,
+                5 => p.Seattle,
+                6 => p.Miami,
+                7 => p.Boston,
+                8 => p.Denver,
+                9 => p.Austin,
+                _ => p.ViennaVA
+            };
+            
+            Debug.Log($"[DualMode] Going to preset {preset}: {location.name}");
+            GoToLocation(location.lat, location.lon);
         }
         
         #endregion
@@ -758,6 +790,63 @@ namespace ApexCitadels.GameModes
             if (_currentMode == ViewMode.MapView)
             {
                 _mapCamera.SetPosition(latitude, longitude);
+            }
+            
+            OnLocationChanged?.Invoke(latitude, longitude);
+        }
+        
+        /// <summary>
+        /// Go to a specific address (geocode and teleport)
+        /// </summary>
+        public void GoToAddress(string address, Action<bool, string> callback = null)
+        {
+            Debug.Log($"[DualMode] Searching for address: {address}");
+            
+            ApexCitadels.Map.GeocodingService.Instance.SearchAddress(address, result =>
+            {
+                if (result.Success)
+                {
+                    Debug.Log($"[DualMode] Found: {result.DisplayName}");
+                    GoToLocation(result.Latitude, result.Longitude);
+                    callback?.Invoke(true, result.DisplayName);
+                }
+                else
+                {
+                    Debug.LogWarning($"[DualMode] Address not found: {result.Error}");
+                    callback?.Invoke(false, result.Error);
+                }
+            });
+        }
+        
+        /// <summary>
+        /// Go to a specific lat/lon and regenerate world
+        /// </summary>
+        public void GoToLocation(double latitude, double longitude)
+        {
+            Debug.Log($"[DualMode] Going to {latitude:F6}, {longitude:F6}");
+            
+            _currentLatitude = latitude;
+            _currentLongitude = longitude;
+            
+            // Update mapbox
+            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapbox != null)
+            {
+                mapbox.SetLocation(latitude, longitude);
+            }
+            
+            // Update map camera
+            if (_mapCamera != null)
+            {
+                _mapCamera.SetPosition(latitude, longitude);
+            }
+            
+            // Regenerate fantasy world at new location
+            if (_fantasyGenerator != null && _currentMode == ViewMode.GroundView)
+            {
+                _fantasyGenerator.ClearWorld();
+                _fantasyGenerator.Initialize(latitude, longitude);
+                StartCoroutine(_fantasyGenerator.GenerateWorldCoroutine());
             }
             
             OnLocationChanged?.Invoke(latitude, longitude);

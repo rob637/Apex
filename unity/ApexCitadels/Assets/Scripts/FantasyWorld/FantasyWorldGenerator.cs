@@ -407,22 +407,13 @@ namespace ApexCitadels.FantasyWorld
             
             OnGenerationProgress?.Invoke("Fetching map data...");
             
-            // Fetch OSM data centered on the TILE CENTER (where player spawns at world 0,0,0)
-            // not the user-specified coordinates which may be offset within the tile
-            var mapbox = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
-            double fetchLat = _originLat;
-            double fetchLon = _originLon;
+            // Fetch OSM data for user's specified location
+            // Coordinates will be converted using tile center as origin in ConvertCoordinatesToWorldSpace
+            // Use larger radius (200m instead of 100m) to ensure roads are visible
+            float fetchRadius = Mathf.Max(config.radiusMeters, 200f);
+            Logger.Log($"Fetching OSM data for {_originLat:F6}, {_originLon:F6} with radius {fetchRadius}m", "FantasyWorld");
             
-            if (mapbox != null)
-            {
-                // Get tile center coordinates - this is where world (0,0,0) is
-                var tileCenter = mapbox.GetTileCenterLatLon();
-                fetchLat = tileCenter.lat;
-                fetchLon = tileCenter.lon;
-                Logger.Log($"Fetching OSM data centered on tile center: {fetchLat:F6}, {fetchLon:F6}", "FantasyWorld");
-            }
-            
-            _osmFetcher.FetchArea(fetchLat, fetchLon, config.radiusMeters, OnOSMDataReceived);
+            _osmFetcher.FetchArea(_originLat, _originLon, fetchRadius, OnOSMDataReceived);
         }
         
         /// <summary>
