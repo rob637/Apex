@@ -1,0 +1,20 @@
+{
+    "name": "ApexCitadels.GameModes.Editor",
+    "rootNamespace": "ApexCitadels.GameModes.Editor",
+    "references": [
+        "ApexCitadels.Core",
+        "ApexCitadels.FantasyWorld",
+        "ApexCitadels.GameModes"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

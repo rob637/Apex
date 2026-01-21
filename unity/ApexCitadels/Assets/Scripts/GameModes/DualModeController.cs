@@ -1,0 +1,567 @@
+// ============================================================================
+// APEX CITADELS - DUAL MODE CONTROLLER
+// Manages seamless transition between Map View and Ground View
+// ============================================================================
+using System;
+using System.Collections;
+using UnityEngine;
+using ApexCitadels.Core;
+using ApexCitadels.FantasyWorld;
+
+namespace ApexCitadels.GameModes
+{
+    public enum ViewMode
+    {
+        MapView,    // Flying over the map, tiles only
+        GroundView, // On the ground, full fantasy world
+        Transitioning
+    }
+    
+    /// <summary>
+    /// Master controller for the two-mode game system.
+    /// Map View: Fly around looking at Mapbox tiles from above
+    /// Ground View: Walk around in the fantasy world at street level
+    /// </summary>
+    public class DualModeController : MonoBehaviour
+    {
+        #region Singleton
+        
+        private static DualModeController _instance;
+        public static DualModeController Instance => _instance;
+        
+        #endregion
+        
+        #region Inspector Fields
+        
+        [Header("Mode Settings")]
+        [SerializeField] private ViewMode startMode = ViewMode.MapView;
+        
+        [Header("Map View Settings")]
+        [Tooltip("Height above ground for map view (meters)")]
+        [SerializeField] private float mapViewHeight = 150f;
+        
+        [Tooltip("Camera angle in map view (degrees from horizontal)")]
+        [SerializeField] private float mapViewAngle = 55f;
+        
+        [Tooltip("Movement speed in map view (meters/second)")]
+        [SerializeField] private float mapMoveSpeed = 50f;
+        
+        [Header("Ground View Settings")]
+        [Tooltip("Radius around player to generate fantasy world (meters)")]
+        [SerializeField] private float groundViewRadius = 100f;
+        
+        [Tooltip("Camera distance behind player")]
+        [SerializeField] private float thirdPersonDistance = 5f;
+        
+        [Tooltip("Camera height above player")]
+        [SerializeField] private float thirdPersonHeight = 2f;
+        
+        [Header("Transition Settings")]
+        [Tooltip("Duration of zoom transition (seconds)")]
+        [SerializeField] private float transitionDuration = 1.5f;
+        
+        [Header("References")]
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private GameObject playerCharacter;
+        [SerializeField] private Transform mapViewContainer;
+        [SerializeField] private Transform groundViewContainer;
+        
+        [Header("Prefabs")]
+        [SerializeField] private GameObject playerPrefab;
+        
+        #endregion
+        
+        #region Private Fields
+        
+        private ViewMode _currentMode = ViewMode.MapView;
+        private Vector3 _mapPosition; // Current position in world coordinates (lat/lon mapped)
+        private double _currentLatitude;
+        private double _currentLongitude;
+        
+        // Components
+        private MapViewCamera _mapCamera;
+        private GroundViewController _groundController;
+        private FantasyWorldGenerator _fantasyGenerator;
+        
+        #endregion
+        
+        #region Events
+        
+        public event Action<ViewMode> OnModeChanged;
+        public event Action<double, double> OnLocationChanged;
+        
+        #endregion
+        
+        #region Properties
+        
+        public ViewMode CurrentMode => _currentMode;
+        public double CurrentLatitude => _currentLatitude;
+        public double CurrentLongitude => _currentLongitude;
+        public float GroundViewRadius => groundViewRadius;
+        
+        #endregion
+        
+        #region Unity Lifecycle
+        
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _instance = this;
+            
+            SetupComponents();
+        }
+        
+        private void Start()
+        {
+            // Get initial location from config
+            var config = Resources.Load<MapboxConfiguration>("MapboxConfig");
+            if (config != null)
+            {
+                _currentLatitude = config.DefaultLatitude;
+                _currentLongitude = config.DefaultLongitude;
+            }
+            else
+            {
+                // Default to Vienna, VA
+                _currentLatitude = 38.9012;
+                _currentLongitude = -77.2653;
+            }
+            
+            Debug.Log($"[DualMode] Starting at {_currentLatitude}, {_currentLongitude}");
+            
+            // Start in configured mode
+            StartCoroutine(InitializeMode(startMode));
+        }
+        
+        private void Update()
+        {
+            // Check for mode switch input
+            if (_currentMode != ViewMode.Transitioning)
+            {
+                // Space or click to land/take off
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (_currentMode == ViewMode.MapView)
+                    {
+                        LandAtCurrentPosition();
+                    }
+                    else
+                    {
+                        TakeOff();
+                    }
+                }
+                
+                // Right-click also lands
+                if (Input.GetMouseButtonDown(1) && _currentMode == ViewMode.MapView)
+                {
+                    LandAtCurrentPosition();
+                }
+            }
+        }
+        
+        #endregion
+        
+        #region Setup
+        
+        private void SetupComponents()
+        {
+            // Find or create camera
+            if (mainCamera == null)
+            {
+                mainCamera = Camera.main;
+                if (mainCamera == null)
+                {
+                    var camObj = new GameObject("MainCamera");
+                    mainCamera = camObj.AddComponent<Camera>();
+                    camObj.AddComponent<AudioListener>();
+                    camObj.tag = "MainCamera";
+                }
+            }
+            
+            // Create containers
+            if (mapViewContainer == null)
+            {
+                var mapObj = new GameObject("MapViewContainer");
+                mapObj.transform.SetParent(transform);
+                mapViewContainer = mapObj.transform;
+            }
+            
+            if (groundViewContainer == null)
+            {
+                var groundObj = new GameObject("GroundViewContainer");
+                groundObj.transform.SetParent(transform);
+                groundViewContainer = groundObj.transform;
+                groundViewContainer.gameObject.SetActive(false);
+            }
+            
+            // Setup map camera controller
+            _mapCamera = mainCamera.GetComponent<MapViewCamera>();
+            if (_mapCamera == null)
+            {
+                _mapCamera = mainCamera.gameObject.AddComponent<MapViewCamera>();
+            }
+            _mapCamera.Initialize(mapViewHeight, mapViewAngle, mapMoveSpeed);
+            
+            // Setup ground controller
+            _groundController = GetComponent<GroundViewController>();
+            if (_groundController == null)
+            {
+                _groundController = gameObject.AddComponent<GroundViewController>();
+            }
+            
+            // Find fantasy world generator
+            _fantasyGenerator = FindAnyObjectByType<FantasyWorldGenerator>();
+        }
+        
+        #endregion
+        
+        #region Mode Initialization
+        
+        private IEnumerator InitializeMode(ViewMode mode)
+        {
+            Debug.Log($"[DualMode] Initializing {mode}");
+            
+            if (mode == ViewMode.MapView)
+            {
+                yield return InitializeMapView();
+            }
+            else
+            {
+                yield return InitializeGroundView();
+            }
+            
+            _currentMode = mode;
+            OnModeChanged?.Invoke(mode);
+        }
+        
+        private IEnumerator InitializeMapView()
+        {
+            // Disable ground view stuff
+            groundViewContainer.gameObject.SetActive(false);
+            if (playerCharacter != null)
+                playerCharacter.SetActive(false);
+            
+            // Enable map view
+            mapViewContainer.gameObject.SetActive(true);
+            _mapCamera.enabled = true;
+            _mapCamera.SetPosition(_currentLatitude, _currentLongitude);
+            
+            // Setup sky for map view (blue sky)
+            SetupMapViewSky();
+            
+            // Make sure Mapbox tiles are rendering
+            var mapbox = FindAnyObjectByType<Map.MapboxTileRenderer>();
+            if (mapbox != null)
+            {
+                mapbox.gameObject.SetActive(true);
+            }
+            
+            yield return null;
+        }
+        
+        private IEnumerator InitializeGroundView()
+        {
+            // Enable ground view container
+            groundViewContainer.gameObject.SetActive(true);
+            
+            // Create or enable player character
+            if (playerCharacter == null)
+            {
+                playerCharacter = CreatePlayerCharacter();
+            }
+            playerCharacter.SetActive(true);
+            playerCharacter.transform.position = Vector3.zero;
+            
+            // Setup third-person camera
+            _mapCamera.enabled = false;
+            SetupThirdPersonCamera();
+            
+            // Generate fantasy world around player
+            if (_fantasyGenerator != null)
+            {
+                _fantasyGenerator.SetGenerationRadius(groundViewRadius);
+                _fantasyGenerator.Initialize(_currentLatitude, _currentLongitude);
+                yield return _fantasyGenerator.GenerateWorldCoroutine();
+            }
+            
+            // Keep Mapbox tiles but they'll be under the fantasy elements
+            yield return null;
+        }
+        
+        #endregion
+        
+        #region Mode Transitions
+        
+        /// <summary>
+        /// Land at the current map view position
+        /// </summary>
+        public void LandAtCurrentPosition()
+        {
+            if (_currentMode != ViewMode.MapView) return;
+            
+            // Get current map camera position and convert to lat/lon
+            var pos = _mapCamera.GetCurrentWorldPosition();
+            _currentLatitude = _mapCamera.CurrentLatitude;
+            _currentLongitude = _mapCamera.CurrentLongitude;
+            
+            Debug.Log($"[DualMode] Landing at {_currentLatitude}, {_currentLongitude}");
+            
+            StartCoroutine(TransitionToGround());
+        }
+        
+        /// <summary>
+        /// Take off from ground view back to map view
+        /// </summary>
+        public void TakeOff()
+        {
+            if (_currentMode != ViewMode.GroundView) return;
+            
+            Debug.Log($"[DualMode] Taking off from {_currentLatitude}, {_currentLongitude}");
+            
+            StartCoroutine(TransitionToMap());
+        }
+        
+        private IEnumerator TransitionToGround()
+        {
+            _currentMode = ViewMode.Transitioning;
+            OnModeChanged?.Invoke(ViewMode.Transitioning);
+            
+            // Store start position
+            Vector3 startPos = mainCamera.transform.position;
+            Quaternion startRot = mainCamera.transform.rotation;
+            
+            // Calculate end position (ground level, behind where player will be)
+            Vector3 groundPos = new Vector3(0, thirdPersonHeight, -thirdPersonDistance);
+            Quaternion groundRot = Quaternion.Euler(15f, 0, 0); // Slight downward angle
+            
+            // Create player character at destination
+            if (playerCharacter == null)
+            {
+                playerCharacter = CreatePlayerCharacter();
+            }
+            playerCharacter.transform.position = Vector3.zero;
+            playerCharacter.SetActive(true);
+            
+            // Start generating fantasy world during transition
+            Coroutine worldGen = null;
+            if (_fantasyGenerator != null)
+            {
+                groundViewContainer.gameObject.SetActive(true);
+                _fantasyGenerator.SetGenerationRadius(groundViewRadius);
+                _fantasyGenerator.Initialize(_currentLatitude, _currentLongitude);
+                worldGen = StartCoroutine(_fantasyGenerator.GenerateWorldCoroutine());
+            }
+            
+            // Animate camera down
+            float elapsed = 0f;
+            while (elapsed < transitionDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / transitionDuration;
+                
+                // Use smooth step for nice easing
+                float smooth = t * t * (3f - 2f * t);
+                
+                mainCamera.transform.position = Vector3.Lerp(startPos, groundPos, smooth);
+                mainCamera.transform.rotation = Quaternion.Slerp(startRot, groundRot, smooth);
+                
+                yield return null;
+            }
+            
+            // Ensure final position
+            mainCamera.transform.position = groundPos;
+            mainCamera.transform.rotation = groundRot;
+            
+            // Wait for world generation if still running
+            if (worldGen != null)
+            {
+                yield return worldGen;
+            }
+            
+            // Disable map camera controls, enable ground controls
+            _mapCamera.enabled = false;
+            _groundController.enabled = true;
+            _groundController.SetPlayer(playerCharacter);
+            _groundController.SetCamera(mainCamera);
+            
+            _currentMode = ViewMode.GroundView;
+            OnModeChanged?.Invoke(ViewMode.GroundView);
+            
+            Debug.Log("[DualMode] Now in Ground View");
+        }
+        
+        private IEnumerator TransitionToMap()
+        {
+            _currentMode = ViewMode.Transitioning;
+            OnModeChanged?.Invoke(ViewMode.Transitioning);
+            
+            // Store start
+            Vector3 startPos = mainCamera.transform.position;
+            Quaternion startRot = mainCamera.transform.rotation;
+            
+            // Calculate map view position
+            Vector3 mapPos = new Vector3(0, mapViewHeight, -mapViewHeight * 0.5f);
+            Quaternion mapRot = Quaternion.Euler(mapViewAngle, 0, 0);
+            
+            // Disable ground controls
+            _groundController.enabled = false;
+            
+            // Animate camera up
+            float elapsed = 0f;
+            while (elapsed < transitionDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / transitionDuration;
+                float smooth = t * t * (3f - 2f * t);
+                
+                mainCamera.transform.position = Vector3.Lerp(startPos, mapPos, smooth);
+                mainCamera.transform.rotation = Quaternion.Slerp(startRot, mapRot, smooth);
+                
+                yield return null;
+            }
+            
+            // Final position
+            mainCamera.transform.position = mapPos;
+            mainCamera.transform.rotation = mapRot;
+            
+            // Hide player and ground view elements
+            if (playerCharacter != null)
+                playerCharacter.SetActive(false);
+            
+            // Clear fantasy world objects to free memory
+            if (_fantasyGenerator != null)
+            {
+                _fantasyGenerator.ClearWorld();
+            }
+            groundViewContainer.gameObject.SetActive(false);
+            
+            // Enable map controls
+            _mapCamera.enabled = true;
+            _mapCamera.SetPosition(_currentLatitude, _currentLongitude);
+            
+            // Setup map sky
+            SetupMapViewSky();
+            
+            _currentMode = ViewMode.MapView;
+            OnModeChanged?.Invoke(ViewMode.MapView);
+            
+            Debug.Log("[DualMode] Now in Map View");
+        }
+        
+        #endregion
+        
+        #region Player Character
+        
+        private GameObject CreatePlayerCharacter()
+        {
+            GameObject player;
+            
+            if (playerPrefab != null)
+            {
+                player = Instantiate(playerPrefab, groundViewContainer);
+            }
+            else
+            {
+                // Create placeholder character - will be replaced with Synty character
+                player = CreatePlaceholderCharacter();
+            }
+            
+            player.name = "PlayerCharacter";
+            player.transform.SetParent(groundViewContainer);
+            
+            // Add character controller if needed
+            if (player.GetComponent<CharacterController>() == null)
+            {
+                var cc = player.AddComponent<CharacterController>();
+                cc.height = 1.8f;
+                cc.radius = 0.3f;
+                cc.center = new Vector3(0, 0.9f, 0);
+            }
+            
+            return player;
+        }
+        
+        private GameObject CreatePlaceholderCharacter()
+        {
+            // Simple capsule as placeholder
+            var player = new GameObject("PlaceholderCharacter");
+            
+            // Body
+            var body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            body.name = "Body";
+            body.transform.SetParent(player.transform);
+            body.transform.localPosition = new Vector3(0, 1f, 0);
+            body.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            
+            // Remove collider from visual
+            var col = body.GetComponent<Collider>();
+            if (col != null) Destroy(col);
+            
+            // Set material
+            var renderer = body.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                var mat = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
+                mat.color = new Color(0.3f, 0.5f, 0.8f); // Blue-ish
+                renderer.material = mat;
+            }
+            
+            return player;
+        }
+        
+        #endregion
+        
+        #region Sky Setup
+        
+        private void SetupMapViewSky()
+        {
+            // Set a nice blue sky for map view
+            if (mainCamera != null)
+            {
+                mainCamera.clearFlags = CameraClearFlags.SolidColor;
+                mainCamera.backgroundColor = new Color(0.4f, 0.6f, 0.9f); // Nice sky blue
+            }
+            
+            // Or use skybox if available
+            var skyMat = Resources.Load<Material>("Skyboxes/DaySkybox");
+            if (skyMat != null)
+            {
+                RenderSettings.skybox = skyMat;
+                mainCamera.clearFlags = CameraClearFlags.Skybox;
+            }
+        }
+        
+        #endregion
+        
+        #region Public API
+        
+        /// <summary>
+        /// Move to a specific location (in map view)
+        /// </summary>
+        public void GoToLocation(double latitude, double longitude)
+        {
+            _currentLatitude = latitude;
+            _currentLongitude = longitude;
+            
+            if (_currentMode == ViewMode.MapView)
+            {
+                _mapCamera.SetPosition(latitude, longitude);
+            }
+            
+            OnLocationChanged?.Invoke(latitude, longitude);
+        }
+        
+        /// <summary>
+        /// Get current mode
+        /// </summary>
+        public bool IsInMapView() => _currentMode == ViewMode.MapView;
+        public bool IsInGroundView() => _currentMode == ViewMode.GroundView;
+        public bool IsTransitioning() => _currentMode == ViewMode.Transitioning;
+        
+        #endregion
+    }
+}

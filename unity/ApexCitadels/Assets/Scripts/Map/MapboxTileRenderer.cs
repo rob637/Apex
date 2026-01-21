@@ -450,6 +450,56 @@ namespace ApexCitadels.Map
             SetLocation(centerLatitude, centerLongitude, zoomLevel + delta);
         }
         
+        /// <summary>
+        /// Set center location without reloading all tiles
+        /// </summary>
+        public void SetCenter(double latitude, double longitude)
+        {
+            centerLatitude = latitude;
+            centerLongitude = longitude;
+            OnLocationChanged?.Invoke(latitude, longitude);
+        }
+        
+        /// <summary>
+        /// Smoothly update center and stream new tiles as needed
+        /// </summary>
+        public void UpdateCenterSmooth(double latitude, double longitude)
+        {
+            // Calculate how far we've moved from the current center
+            double latDiff = latitude - centerLatitude;
+            double lonDiff = longitude - centerLongitude;
+            
+            // Convert to approximate meters
+            double metersLat = latDiff * 110540;
+            double metersLon = lonDiff * 111320 * System.Math.Cos(latitude * System.Math.PI / 180);
+            double distance = System.Math.Sqrt(metersLat * metersLat + metersLon * metersLon);
+            
+            // If we've moved more than half a tile, recenter
+            double tileSizeMeters = 40075016.686 * System.Math.Cos(latitude * System.Math.PI / 180) / System.Math.Pow(2, zoomLevel);
+            
+            if (distance > tileSizeMeters * 0.5)
+            {
+                // Significant movement - reload tiles
+                SetLocation(latitude, longitude, zoomLevel);
+            }
+            else
+            {
+                // Small movement - just shift the container
+                centerLatitude = latitude;
+                centerLongitude = longitude;
+                
+                // Offset tiles to create illusion of movement
+                if (_tilesContainer != null)
+                {
+                    float offsetX = (float)(lonDiff * 111320 * System.Math.Cos(latitude * System.Math.PI / 180) / GetMetersPerWorldUnit());
+                    float offsetZ = (float)(latDiff * 110540 / GetMetersPerWorldUnit());
+                    // Keep tiles centered, we move the camera not the tiles
+                }
+                
+                OnLocationChanged?.Invoke(latitude, longitude);
+            }
+        }
+        
         #endregion
     }
 }

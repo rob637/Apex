@@ -1,0 +1,17 @@
+{
+    "name": "ApexCitadels.GameModes",
+    "rootNamespace": "ApexCitadels.GameModes",
+    "references": [
+        "ApexCitadels.Core",
+        "ApexCitadels.FantasyWorld"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

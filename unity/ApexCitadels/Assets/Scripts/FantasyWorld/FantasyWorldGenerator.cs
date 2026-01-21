@@ -202,6 +202,83 @@ namespace ApexCitadels.FantasyWorld
         }
         
         /// <summary>
+        /// Set the generation radius (for Ground View mode)
+        /// </summary>
+        public void SetGenerationRadius(float radiusMeters)
+        {
+            config.radiusMeters = radiusMeters;
+            Logger.Log($"Generation radius set to {radiusMeters}m", "FantasyWorld");
+        }
+        
+        /// <summary>
+        /// Clear all generated world objects (for mode transitions)
+        /// </summary>
+        public void ClearWorld()
+        {
+            Logger.Log("Clearing fantasy world...", "FantasyWorld");
+            
+            // Clear buildings
+            if (buildingsParent != null)
+            {
+                foreach (Transform child in buildingsParent)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            
+            // Clear vegetation
+            if (vegetationParent != null)
+            {
+                foreach (Transform child in vegetationParent)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            
+            // Clear props
+            if (propsParent != null)
+            {
+                foreach (Transform child in propsParent)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            
+            // Clear paths
+            if (pathsParent != null)
+            {
+                foreach (Transform child in pathsParent)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            
+            // Clear cell tracking
+            _cells.Clear();
+            _cellGenerationQueue.Clear();
+            _isGenerating = false;
+            
+            Logger.Log("Fantasy world cleared", "FantasyWorld");
+        }
+        
+        /// <summary>
+        /// Public coroutine for generating world (for DualModeController)
+        /// </summary>
+        public IEnumerator GenerateWorldCoroutine()
+        {
+            GenerateWorld();
+            
+            // Wait for generation to complete
+            while (_isGenerating)
+            {
+                yield return null;
+            }
+            
+            // Give a little extra time for final setup
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        /// <summary>
         /// Generate fantasy world around the current location
         /// </summary>
         public void GenerateWorld()
