@@ -139,7 +139,11 @@ namespace ApexCitadels.Map
             // Use config values
             centerLatitude = config.DefaultLatitude;
             centerLongitude = config.DefaultLongitude;
-            zoomLevel = Mathf.Clamp(config.DefaultZoom, 14, 18);
+            
+            // FORCE zoom to 18 (max detail) - ignore config value
+            // This ensures close-up view of buildings and reduces tile count
+            zoomLevel = 18;
+            Debug.Log($"[Mapbox] FORCED zoom to 18 (max detail)");
             
             Debug.Log($"[Mapbox] Location: {centerLatitude}, {centerLongitude} @ zoom {zoomLevel}");
             
