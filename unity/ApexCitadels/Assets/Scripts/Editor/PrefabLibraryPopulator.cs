@@ -388,12 +388,21 @@ namespace ApexCitadels.FantasyWorld
         // =====================================================================
         private int PopulateCobblestoneSegments()
         {
-            // Search all packs for cobblestone/brick paths
+            // Search all packs for cobblestone/brick paths - EXPANDED patterns
+            // PolygonFantasyKingdom has: SM_Env_Path_01 through SM_Env_Path_05, SM_Env_Path_Brick_Group_01-07
             var cobblestones = FindPrefabsInAllSyntyPacks(
-                "SM_Env_Path_Brick", "SM_Env_Path_Cobble", "SM_Env_Path_Stone",
-                "SM_Env_Path_01", "SM_Env_Path_02", "SM_Env_Path_03",
+                // Numbered paths (SM_Env_Path_01, _02, _03, _04, _05)
+                "SM_Env_Path_01", "SM_Env_Path_02", "SM_Env_Path_03", "SM_Env_Path_04", "SM_Env_Path_05",
+                // Brick groups
+                "SM_Env_Path_Brick", "Path_Brick_Group",
+                // Raised paths
+                "SM_Env_Path_Raised",
+                // Generic patterns
+                "SM_Env_Path_Cobble", "SM_Env_Path_Stone",
                 "SM_Gen_Path_Brick", "SM_Gen_Path_Cobble", "SM_Gen_Path_Stone",
-                "Cobblestone", "Brick_Path"
+                "Cobblestone", "Brick_Path",
+                // Floor tiles that can work as paths
+                "SM_Bld_Base_Floor"
             );
             
             targetLibrary.cobblestoneSegments = cobblestones;
@@ -405,7 +414,12 @@ namespace ApexCitadels.FantasyWorld
         {
             // Search all packs for dirt/gravel paths
             var dirtPaths = FindPrefabsInAllSyntyPacks(
-                "Road_Gravel", "Road_Dirt", "Path_Dirt", "Path_Gravel",
+                // Gravel roads from PolygonGeneric
+                "SM_Gen_Env_Road_Gravel", "Road_Gravel", "Road_Dirt", 
+                // Wood paths (can be dirt paths in fantasy)
+                "SM_Env_Path_Wood", "Path_Wood",
+                // Generic patterns
+                "Path_Dirt", "Path_Gravel",
                 "SM_Env_Path_Dirt", "SM_Gen_Path_Dirt", "SM_Gen_Road",
                 "Trail", "Footpath"
             );
@@ -847,9 +861,14 @@ namespace ApexCitadels.FantasyWorld
         /// </summary>
         private static readonly string[] AllSyntyPaths = new[]
         {
-            // In Assets/Synty/ folder - Prefabs
+            // In Assets/Synty/ folder - ALL subfolders
             "Assets/Synty/PolygonFantasyKingdom/Prefabs",
+            "Assets/Synty/PolygonFantasyKingdom/Prefabs/Environments",
+            "Assets/Synty/PolygonFantasyKingdom/Prefabs/Buildings",
+            "Assets/Synty/PolygonFantasyKingdom/Prefabs/Castle",
             "Assets/Synty/PolygonGeneric/Prefabs",
+            "Assets/Synty/PolygonGeneric/Prefabs/Environment",
+            "Assets/Synty/PolygonGeneric/Prefabs/Base",
             // In Assets/Synty/ folder - Models (some packs put prefabs here)
             "Assets/Synty/PolygonFantasyKingdom/Models",
             "Assets/Synty/PolygonGeneric/Models",
@@ -868,6 +887,7 @@ namespace ApexCitadels.FantasyWorld
             "Assets/PolygonSamurai/Prefabs",
             "Assets/PolygonTown/Prefabs",
             "Assets/PolygonVikings/Prefabs",
+            "Assets/PolygonVikings/Prefabs/Environments",
             // In Assets/ root folder - Models (fallback)
             "Assets/PolygonAdventure/Models",
             "Assets/PolygonDungeon/Models",
