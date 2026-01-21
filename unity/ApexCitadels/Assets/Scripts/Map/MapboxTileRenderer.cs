@@ -101,6 +101,13 @@ namespace ApexCitadels.Map
             Debug.Log("[Mapbox] MapboxTileRenderer Starting");
             Debug.Log("[Mapbox] ========================================");
             
+            // Force 7x7 grid for performance (override any serialized value > 9)
+            if (gridSize > 9)
+            {
+                Debug.Log($"[Mapbox] Reducing grid from {gridSize}x{gridSize} to 7x7 for performance");
+                gridSize = 7;
+            }
+            
             // Register with SystemCoordinator if available
             var coordinator = SystemCoordinator.Instance;
             if (coordinator != null)
@@ -170,9 +177,9 @@ namespace ApexCitadels.Map
             Vector3 camPos = _mainCamera.transform.position;
             Vector3 groundPos = new Vector3(camPos.x, 0, camPos.z);
             
-            // Check if camera moved significantly
+            // Check if camera moved significantly - use 50% of tile to reduce streaming frequency
             float moveDist = Vector3.Distance(groundPos, _lastCameraPosition);
-            if (moveDist > tileWorldSize * 0.3f) // Moved 30% of a tile
+            if (moveDist > tileWorldSize * 0.5f) // Moved 50% of a tile
             {
                 _lastCameraPosition = groundPos;
                 StartCoroutine(StreamTilesAroundPosition(groundPos));
@@ -373,6 +380,13 @@ namespace ApexCitadels.Map
                 
                 if (request.result == UnityWebRequest.Result.Success)
                 {
+                    // Check if tile was destroyed while loading (use ReferenceEquals for destroyed object check)
+                    if (tile == null || tile.Material == null || tile.GameObject == null || 
+                        ReferenceEquals(tile.Material, null) || !tile.Material)
+                    {
+                        yield break;
+                    }
+                    
                     // Create texture from downloaded data
                     var texture = new Texture2D(2, 2, TextureFormat.RGB24, false);
                     if (texture.LoadImage(request.downloadHandler.data))
@@ -382,13 +396,33 @@ namespace ApexCitadels.Map
                         texture.anisoLevel = anisotropicLevel;
                         
                         tile.Texture = texture;
-                        tile.Material.mainTexture = texture;
-                        tile.Material.color = Color.white;
+                        
+                        // Triple-check material still exists before assigning (Unity destroyed check)
+                        if (tile.Material != null && tile.Material)
+                        {
+                            try
+                            {
+                                tile.Material.mainTexture = texture;
+                                tile.Material.color = Color.white;
+                            }
+                            catch (MissingReferenceException)
+                            {
+                                // Material was destroyed between check and assignment
+                                Destroy(texture);
+                                yield break;
+                            }
+                        }
+                        else
+                        {
+                            // Material gone, destroy texture to avoid leak
+                            Destroy(texture);
+                            yield break;
+                        }
                         tile.IsLoaded = true;
                     }
                 }
                 
-                tile.IsLoading = false;
+                if (tile != null) tile.IsLoading = false;
             }
         }
         
