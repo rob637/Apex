@@ -1852,11 +1852,43 @@ namespace ApexCitadels.FantasyWorld
             
             Logger.Log($"Cobblestone prefab scale: {_prefabScale:F3} (world scale: {_worldScale:F2})", "FantasyWorld");
             
-            // Pre-calculate segment length from sample prefab (in scaled world units)
+            // Pre-calculate segment length from sample prefab using LOCAL mesh bounds (not world bounds)
+            // World bounds include prefab transform scale and can be misleadingly large
             var samplePrefab = validPrefabs[0];
-            var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
-            float nativeSegmentLength = sampleRenderer != null ? sampleRenderer.bounds.size.z : 2f;
-            if (nativeSegmentLength < 0.5f) nativeSegmentLength = 2f;
+            float nativeSegmentLength = 2f; // Default: 2 meters
+            
+            // Try to get the actual mesh bounds (unscaled local space)
+            var meshFilter = samplePrefab.GetComponentInChildren<MeshFilter>();
+            if (meshFilter != null && meshFilter.sharedMesh != null)
+            {
+                // Use the mesh's local bounds - this is the true unscaled size
+                Vector3 meshSize = meshFilter.sharedMesh.bounds.size;
+                // Multiply by the prefab's local scale to get actual native size
+                Vector3 prefabScale = meshFilter.transform.localScale;
+                float actualZ = meshSize.z * Mathf.Abs(prefabScale.z);
+                float actualX = meshSize.x * Mathf.Abs(prefabScale.x);
+                // Use the larger of X or Z as segment length (path could be oriented either way)
+                nativeSegmentLength = Mathf.Max(actualZ, actualX);
+                Logger.Log($"Cobblestone mesh bounds: {meshSize}, prefab scale: {prefabScale}, calculated native: {nativeSegmentLength:F2}m", "FantasyWorld");
+            }
+            else
+            {
+                // Fallback to renderer bounds but with sanity check
+                var sampleRenderer = samplePrefab.GetComponentInChildren<Renderer>();
+                if (sampleRenderer != null)
+                {
+                    nativeSegmentLength = sampleRenderer.bounds.size.z;
+                    Logger.Log($"Using renderer bounds fallback: {nativeSegmentLength:F2}m", "FantasyWorld");
+                }
+            }
+            
+            // Synty cobblestone paths are typically 2-6 meters - clamp to reasonable range
+            if (nativeSegmentLength < 1f || nativeSegmentLength > 10f)
+            {
+                Logger.Log($"Segment length {nativeSegmentLength:F2}m outside expected range (1-10m), using 3m default", "FantasyWorld");
+                nativeSegmentLength = 3f;
+            }
+            
             float scaledSegmentLength = nativeSegmentLength * _prefabScale; // Segment length after scaling
             
             Logger.Log($"Cobblestone segment: native={nativeSegmentLength:F2}m, scaled={scaledSegmentLength:F3} world units", "FantasyWorld");
