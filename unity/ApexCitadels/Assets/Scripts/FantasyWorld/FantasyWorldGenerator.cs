@@ -1681,12 +1681,23 @@ namespace ApexCitadels.FantasyWorld
 
         private void CreateGround()
         {
-            // Always create fantasy grass ground for immersive experience
-            Logger.Log("Creating fantasy grass ground", "FantasyWorld");
+            // Check if Mapbox is providing satellite imagery as the ground
+            var mapboxRenderer = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
+            if (mapboxRenderer != null && mapboxRenderer.gameObject.activeInHierarchy)
+            {
+                Logger.Log("Using Mapbox satellite tiles as ground - skipping procedural grass", "FantasyWorld");
+                // Remove any existing procedural ground
+                Transform existingGround = transform.Find("GeneratedGround");
+                if (existingGround != null) DestroyImmediate(existingGround.gameObject);
+                return;
+            }
+            
+            // Fallback: Create fantasy grass ground if no Mapbox
+            Logger.Log("Creating fantasy grass ground (no Mapbox tiles)", "FantasyWorld");
             
             // Check if ground already exists
-            Transform existingGround = transform.Find("GeneratedGround");
-            if (existingGround != null) DestroyImmediate(existingGround.gameObject);
+            Transform existingGround2 = transform.Find("GeneratedGround");
+            if (existingGround2 != null) DestroyImmediate(existingGround2.gameObject);
 
             // Create a large plane
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);

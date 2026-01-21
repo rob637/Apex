@@ -392,12 +392,8 @@ namespace ApexCitadels.GameModes
                 worldGen = StartCoroutine(_fantasyGenerator.GenerateWorldCoroutine());
             }
             
-            // Hide Mapbox satellite tiles - we use fantasy grass ground instead
-            var mapbox = FindAnyObjectByType<Map.MapboxTileRenderer>();
-            if (mapbox != null)
-            {
-                mapbox.gameObject.SetActive(false);
-            }
+            // Keep Mapbox satellite tiles visible - they show real streets under fantasy overlay
+            // This helps verify roads align with reality
             
             // Animate camera down
             float elapsed = 0f;
