@@ -780,22 +780,6 @@ namespace ApexCitadels.GameModes
         #region Public API
         
         /// <summary>
-        /// Move to a specific location (in map view)
-        /// </summary>
-        public void GoToLocation(double latitude, double longitude)
-        {
-            _currentLatitude = latitude;
-            _currentLongitude = longitude;
-            
-            if (_currentMode == ViewMode.MapView)
-            {
-                _mapCamera.SetPosition(latitude, longitude);
-            }
-            
-            OnLocationChanged?.Invoke(latitude, longitude);
-        }
-        
-        /// <summary>
         /// Go to a specific address (geocode and teleport)
         /// </summary>
         public void GoToAddress(string address, Action<bool, string> callback = null)
