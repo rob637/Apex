@@ -40,7 +40,9 @@ namespace ApexCitadels.FantasyWorld
         public MapboxTileRenderer mapboxRenderer;
         
         private MapboxConfiguration _mapboxConfig;
+        #pragma warning disable 0414 // May be used for future initialization checks
         private bool _isInitialized;
+        #pragma warning restore 0414
         
         private void Start()
         {

@@ -421,7 +421,7 @@ namespace ApexCitadels.FantasyWorld
             var grass = FindPrefabsMatching(envPath, "SM_Env_Grass");
             if (grass.Length > 0)
             {
-                targetLibrary.grassPatches = grass;
+                targetLibrary.grassClumps = grass;
                 count += grass.Length;
             }
             
@@ -522,7 +522,7 @@ namespace ApexCitadels.FantasyWorld
             var signs = FindPrefabsMatching(propsPath, "SM_Prop_Sign");
             if (signs.Length > 0)
             {
-                targetLibrary.signposts = signs;
+                targetLibrary.signs = signs;
                 count += signs.Length;
             }
             

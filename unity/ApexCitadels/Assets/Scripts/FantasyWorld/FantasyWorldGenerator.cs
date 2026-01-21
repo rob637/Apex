@@ -163,7 +163,9 @@ namespace ApexCitadels.FantasyWorld
         private Queue<Vector2Int> _cellGenerationQueue = new Queue<Vector2Int>();
         private bool _isGenerating;
         
+        #pragma warning disable 0067 // Event may be used in future for chunked loading
         public event Action<FantasyWorldCell> OnCellGenerated;
+        #pragma warning restore 0067
         public event Action<string> OnGenerationProgress;
         
         private void Awake()
@@ -1497,7 +1499,6 @@ namespace ApexCitadels.FantasyWorld
         {
             // Check if Mapbox is providing the ground - skip procedural ground if so
             var mapIntegration = GetComponent<FantasyMapIntegration>();
-            bool mapboxIsActive = false;
             
             if (mapIntegration != null && mapIntegration.useMapboxGround)
             {
@@ -1505,7 +1506,6 @@ namespace ApexCitadels.FantasyWorld
                 var mapboxRenderer = FindAnyObjectByType<ApexCitadels.Map.MapboxTileRenderer>();
                 if (mapboxRenderer != null && mapboxRenderer.gameObject.activeInHierarchy && !mapboxRenderer.IsLoading)
                 {
-                    mapboxIsActive = true;
                     Logger.Log("Skipping procedural ground - Mapbox is providing map tiles", "FantasyWorld");
                     // Remove any existing procedural ground
                     Transform existingGround = transform.Find("GeneratedGround");
@@ -1588,8 +1588,6 @@ namespace ApexCitadels.FantasyWorld
 
         private IEnumerator GenerateRoadsCoroutine(List<OSMRoad> roads)
         {
-            int count = 0;
-            
             // Check if we have Synty prefabs to use
             bool usePrefabs = prefabLibrary != null && 
                               prefabLibrary.cobblestoneSegments != null && 
