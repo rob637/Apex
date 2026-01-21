@@ -199,7 +199,12 @@ namespace ApexCitadels.FantasyWorld
             if (pathsParent == null)
             {
                 pathsParent = new GameObject("Paths").transform;
-                pathsParent.SetParent(transform);
+                // CRITICAL: Place paths at world origin, NOT parented to FantasyWorldGenerator
+                // This ensures road coordinates from MapboxTileRenderer.LatLonToWorld align correctly
+                pathsParent.position = Vector3.zero;
+                pathsParent.rotation = Quaternion.identity;
+                // Parent to scene root (not this transform) to avoid coordinate offsets
+                pathsParent.SetParent(null);
             }
         }
         
@@ -520,6 +525,11 @@ namespace ApexCitadels.FantasyWorld
             
             if (mapbox != null)
             {
+                // Debug: Log positions to verify alignment
+                Logger.Log($"MapboxTileRenderer position: {mapbox.transform.position}", "FantasyWorld");
+                Logger.Log($"FantasyWorldGenerator position: {transform.position}", "FantasyWorld");
+                Logger.Log($"PathsParent position: {(pathsParent != null ? pathsParent.position.ToString() : "null")}", "FantasyWorld");
+                
                 Logger.Log("Using MapboxTileRenderer.LatLonToWorld for coordinate conversion", "FantasyWorld");
                 
                 // Convert buildings using Mapbox's coordinate system
@@ -535,6 +545,7 @@ namespace ApexCitadels.FantasyWorld
                 }
                 
                 // Convert roads using Mapbox's coordinate system
+                int roadDebugCount = 0;
                 foreach (var road in osmData.Roads)
                 {
                     road.Points.Clear();
@@ -543,6 +554,13 @@ namespace ApexCitadels.FantasyWorld
                         // p.x is lon, p.y is lat
                         Vector3 worldPos = mapbox.LatLonToWorld(p.y, p.x);
                         road.Points.Add(worldPos);
+                    }
+                    
+                    // Debug: Log first 2 roads to verify coordinate conversion
+                    if (roadDebugCount < 2 && road.Points.Count > 0)
+                    {
+                        Logger.Log($"Road '{road.Name}' first point: lat={road.LatLonPoints[0].y:F6}, lon={road.LatLonPoints[0].x:F6} -> world {road.Points[0]}", "FantasyWorld");
+                        roadDebugCount++;
                     }
                 }
                 
