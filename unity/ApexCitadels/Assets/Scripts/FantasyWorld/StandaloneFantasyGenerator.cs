@@ -255,6 +255,10 @@ namespace ApexCitadels.FantasyWorld
             Debug.Log($"[FantasyKingdom] Props: {propsParent.childCount}");
             Debug.Log("[FantasyKingdom] ========================================");
             
+            // Run material debug analysis
+            Debug.Log("[FantasyKingdom] Running Material Debug Analysis...");
+            MaterialDebugAnalyzer.AnalyzeGameObject(gameObject, true);
+            
             OnGenerationComplete?.Invoke();
         }
         

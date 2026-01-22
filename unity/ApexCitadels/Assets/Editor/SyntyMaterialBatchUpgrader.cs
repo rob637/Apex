@@ -182,20 +182,31 @@ namespace ApexCitadels.Editor
                         Material mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
                         if (mat == null) continue;
                         
-                        // Store original properties
+                        // Store original properties BEFORE changing shader
                         Texture mainTex = null;
                         Color color = Color.white;
                         Texture normalMap = null;
                         Texture metallicMap = null;
+                        Texture occlusionMap = null;
+                        Texture emissionMap = null;
+                        Color emissionColor = Color.black;
                         float metallic = 0f;
                         float smoothness = 0.5f;
+                        float bumpScale = 1f;
+                        float occlusionStrength = 1f;
                         
+                        // Get textures from Standard shader properties
                         if (mat.HasProperty("_MainTex")) mainTex = mat.GetTexture("_MainTex");
                         if (mat.HasProperty("_Color")) color = mat.GetColor("_Color");
                         if (mat.HasProperty("_BumpMap")) normalMap = mat.GetTexture("_BumpMap");
                         if (mat.HasProperty("_MetallicGlossMap")) metallicMap = mat.GetTexture("_MetallicGlossMap");
+                        if (mat.HasProperty("_OcclusionMap")) occlusionMap = mat.GetTexture("_OcclusionMap");
+                        if (mat.HasProperty("_EmissionMap")) emissionMap = mat.GetTexture("_EmissionMap");
+                        if (mat.HasProperty("_EmissionColor")) emissionColor = mat.GetColor("_EmissionColor");
                         if (mat.HasProperty("_Metallic")) metallic = mat.GetFloat("_Metallic");
                         if (mat.HasProperty("_Glossiness")) smoothness = mat.GetFloat("_Glossiness");
+                        if (mat.HasProperty("_BumpScale")) bumpScale = mat.GetFloat("_BumpScale");
+                        if (mat.HasProperty("_OcclusionStrength")) occlusionStrength = mat.GetFloat("_OcclusionStrength");
                         
                         // Get texture scale/offset
                         Vector2 scale = Vector2.one;
@@ -206,16 +217,30 @@ namespace ApexCitadels.Editor
                             offset = mat.GetTextureOffset("_MainTex");
                         }
                         
+                        // Log what we found for debugging
+                        if (mainTex != null)
+                        {
+                            Debug.Log($"[SyntyBatchUpgrader] {Path.GetFileName(matPath)}: Found _MainTex = {mainTex.name}");
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"[SyntyBatchUpgrader] {Path.GetFileName(matPath)}: No _MainTex found!");
+                        }
+                        
                         // Change shader to URP Lit
                         mat.shader = urpLit;
                         
-                        // Apply properties to URP material
+                        // Apply properties to URP material AFTER shader change
+                        // _BaseMap is the URP equivalent of _MainTex
                         if (mainTex != null)
                         {
                             mat.SetTexture("_BaseMap", mainTex);
                             mat.SetTextureScale("_BaseMap", scale);
                             mat.SetTextureOffset("_BaseMap", offset);
+                            Debug.Log($"[SyntyBatchUpgrader] {Path.GetFileName(matPath)}: Set _BaseMap to {mainTex.name}");
                         }
+                        
+                        // Set base color
                         mat.SetColor("_BaseColor", color);
                         mat.SetFloat("_Metallic", metallic);
                         mat.SetFloat("_Smoothness", smoothness);
@@ -223,6 +248,7 @@ namespace ApexCitadels.Editor
                         if (normalMap != null)
                         {
                             mat.SetTexture("_BumpMap", normalMap);
+                            mat.SetFloat("_BumpScale", bumpScale);
                             mat.EnableKeyword("_NORMALMAP");
                         }
                         
@@ -230,6 +256,20 @@ namespace ApexCitadels.Editor
                         {
                             mat.SetTexture("_MetallicGlossMap", metallicMap);
                             mat.EnableKeyword("_METALLICGLOSSMAP");
+                        }
+                        
+                        if (occlusionMap != null)
+                        {
+                            mat.SetTexture("_OcclusionMap", occlusionMap);
+                            mat.SetFloat("_OcclusionStrength", occlusionStrength);
+                        }
+                        
+                        if (emissionMap != null)
+                        {
+                            mat.SetTexture("_EmissionMap", emissionMap);
+                            mat.SetColor("_EmissionColor", emissionColor);
+                            mat.EnableKeyword("_EMISSION");
+                            mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.BakedEmissive;
                         }
                         
                         EditorUtility.SetDirty(mat);
