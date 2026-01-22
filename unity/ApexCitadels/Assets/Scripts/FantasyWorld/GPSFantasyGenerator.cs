@@ -295,21 +295,27 @@ namespace ApexCitadels.FantasyWorld
             double east = longitude + lonOffset;
             
             // Overpass API query for buildings and roads
-            string overpassQuery = $@"
-                [out:json][timeout:25];
-                (
-                  way[""building""]({south},{west},{north},{east});
-                  way[""highway""]({south},{west},{north},{east});
-                );
-                out body;
-                >;
-                out skel qt;
-            ";
+            string overpassQuery = $@"[out:json][timeout:25];(way[""building""]({south},{west},{north},{east});way[""highway""]({south},{west},{north},{east}););out body;>;out skel qt;";
             
-            // Try multiple Overpass API servers with retries
+            // Check for cached data first
+            string cacheKey = $"osm_{latitude:F4}_{longitude:F4}";
+            string cachedData = PlayerPrefs.GetString(cacheKey, "");
+            
+            if (!string.IsNullOrEmpty(cachedData) && cachedData.Contains("\"elements\""))
+            {
+                Debug.Log("[GPSFantasy] Using cached OSM data");
+                ParseOverpassResponse(cachedData);
+                if (buildings.Count > 0 || roads.Count > 0)
+                {
+                    Debug.Log($"[GPSFantasy] Loaded from cache: {buildings.Count} buildings, {roads.Count} roads");
+                    yield break;
+                }
+            }
+            
+            // Try multiple Overpass API servers - Kumi first (most reliable)
             string[] servers = new string[] {
-                "https://overpass-api.de/api/interpreter",
                 "https://overpass.kumi.systems/api/interpreter",
+                "https://overpass-api.de/api/interpreter",
                 "https://maps.mail.ru/osm/tools/overpass/api/interpreter"
             };
             
@@ -324,7 +330,7 @@ namespace ApexCitadels.FantasyWorld
                 
                 using (UnityWebRequest request = UnityWebRequest.Post(server, form))
                 {
-                    request.timeout = 30;
+                    request.timeout = 45; // Longer timeout
                     yield return request.SendWebRequest();
                     
                     if (request.result == UnityWebRequest.Result.Success)
@@ -334,6 +340,15 @@ namespace ApexCitadels.FantasyWorld
                         {
                             ParseOverpassResponse(response);
                             Debug.Log($"[GPSFantasy] Fetched {buildings.Count} buildings, {roads.Count} roads from {server}");
+                            
+                            // Cache successful response for next time
+                            if (buildings.Count > 0 || roads.Count > 0)
+                            {
+                                PlayerPrefs.SetString(cacheKey, response);
+                                PlayerPrefs.Save();
+                                Debug.Log("[GPSFantasy] Cached OSM data for future use");
+                            }
+                            
                             success = true;
                             break;
                         }
