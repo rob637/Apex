@@ -1007,7 +1007,7 @@ namespace ApexCitadels.FantasyWorld
         
         private IEnumerator GenerateTerrain()
         {
-            // Create ground plane
+            // FORCE RECOMPILE - Creating flat ground plane
             var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "Ground";
             ground.transform.SetParent(terrainParent);
