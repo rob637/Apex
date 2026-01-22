@@ -76,7 +76,7 @@ namespace ApexCitadels.FantasyWorld
             // Try to load prefab library
             if (prefabLibrary == null)
             {
-                prefabLibrary = Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
+                prefabLibrary = UnityEngine.Resources.Load<FantasyPrefabLibrary>("MainFantasyPrefabLibrary");
             }
             
             CreateParentTransforms();
@@ -241,7 +241,11 @@ namespace ApexCitadels.FantasyWorld
             
             string url = "https://overpass-api.de/api/interpreter";
             
-            using (UnityWebRequest request = UnityWebRequest.Post(url, overpassQuery, "application/x-www-form-urlencoded"))
+            // Create POST request with form data
+            WWWForm form = new WWWForm();
+            form.AddField("data", overpassQuery);
+            
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
             {
                 yield return request.SendWebRequest();
                 
@@ -554,17 +558,43 @@ namespace ApexCitadels.FantasyWorld
         
         private GameObject SelectBuildingPrefab(BuildingData building)
         {
-            var prefabs = prefabLibrary.GetBuildingsForCategory(
-                building.buildingType == "house" ? BuildingCategory.Residential :
-                building.buildingType == "commercial" ? BuildingCategory.Commercial :
-                building.buildingType == "religious" ? BuildingCategory.Religious :
-                building.buildingType == "industrial" ? BuildingCategory.Industrial :
-                BuildingCategory.Residential
-            );
+            // Select appropriate building array based on type
+            GameObject[] prefabs = null;
             
+            switch (building.buildingType)
+            {
+                case "house":
+                    prefabs = prefabLibrary.houses;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.smallHouses;
+                    break;
+                case "commercial":
+                    prefabs = prefabLibrary.shops;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.taverns;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.marketStalls;
+                    break;
+                case "religious":
+                    prefabs = prefabLibrary.churches;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.chapels;
+                    break;
+                case "industrial":
+                    prefabs = prefabLibrary.warehouses;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.barns;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.workshops;
+                    break;
+                default:
+                    prefabs = prefabLibrary.houses;
+                    break;
+            }
+            
+            // Fallback to any available buildings
             if (prefabs == null || prefabs.Length == 0)
             {
-                prefabs = prefabLibrary.GetBuildingsForCategory(BuildingCategory.Residential);
+                prefabs = prefabLibrary.houses;
+            }
+            if (prefabs == null || prefabs.Length == 0)
+            {
+                prefabs = prefabLibrary.cottages;
             }
             
             if (prefabs == null || prefabs.Length == 0) return null;
@@ -609,8 +639,11 @@ namespace ApexCitadels.FantasyWorld
         {
             if (prefabLibrary == null) yield break;
             
-            var trees = prefabLibrary.GetTreePrefabs();
-            if (trees == null || trees.Length == 0) yield break;
+            // Get tree prefabs from the library
+            var treePrefabs = prefabLibrary.trees;
+            if (treePrefabs == null || treePrefabs.Length == 0) treePrefabs = prefabLibrary.treesOak;
+            if (treePrefabs == null || treePrefabs.Length == 0) treePrefabs = prefabLibrary.treesPine;
+            if (treePrefabs == null || treePrefabs.Length == 0) yield break;
             
             int treeCount = 0;
             int attempts = 0;
@@ -638,7 +671,7 @@ namespace ApexCitadels.FantasyWorld
                 if (tooClose) continue;
                 
                 // Place tree
-                var treePrefab = trees[UnityEngine.Random.Range(0, trees.Length)];
+                var treePrefab = treePrefabs[UnityEngine.Random.Range(0, treePrefabs.Length)];
                 var tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0), vegetationParent);
                 tree.transform.localScale = Vector3.one * UnityEngine.Random.Range(0.8f, 1.2f);
                 
