@@ -119,11 +119,11 @@ namespace ApexCitadels.Editor
             // Set coordinates using SerializedObject
             var serializedGen = new SerializedObject(generator);
             
-            // Set to 504 Mashie Drive, Vienna, VA
+            // Set to 6709 Reynard Drive, Springfield, VA 22152
             var latProp = serializedGen.FindProperty("latitude");
             var lonProp = serializedGen.FindProperty("longitude");
-            if (latProp != null) latProp.doubleValue = 38.9065479;
-            if (lonProp != null) lonProp.doubleValue = -77.2476970;
+            if (latProp != null) latProp.doubleValue = 38.7700021;
+            if (lonProp != null) lonProp.doubleValue = -77.2481544;
             serializedGen.ApplyModifiedProperties();
             
             // Try to assign prefab library
@@ -180,12 +180,12 @@ namespace ApexCitadels.Editor
             AssetDatabase.Refresh();
             
             Debug.Log($"[ApexMenu] Created GPS Fantasy scene at {scenePath}");
-            Debug.Log("[ApexMenu] Location: 504 Mashie Drive, Vienna, VA (38.9065, -77.2477)");
+            Debug.Log("[ApexMenu] Location: 6709 Reynard Drive, Springfield, VA (38.7700, -77.2482)");
             
             EditorUtility.DisplayDialog("GPS Fantasy Scene Created", 
                 "Scene created with your home location!\n\n" +
-                "504 Mashie Drive, Vienna, VA\n" +
-                "Lat: 38.9065, Lon: -77.2477\n\n" +
+                "6709 Reynard Drive, Springfield, VA 22152\n" +
+                "Lat: 38.7700, Lon: -77.2482\n\n" +
                 "Press Play to see your neighborhood as a fantasy kingdom!", 
                 "OK");
         }

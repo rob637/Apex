@@ -19,8 +19,9 @@ namespace ApexCitadels.FantasyWorld
     public class GPSFantasyGenerator : MonoBehaviour
     {
         [Header("=== LOCATION ===")]
-        [SerializeField] private double latitude = 38.9065479;
-        [SerializeField] private double longitude = -77.2476970;
+        // Default: 6709 Reynard Drive, Springfield, VA 22152
+        [SerializeField] private double latitude = 38.7700021;
+        [SerializeField] private double longitude = -77.2481544;
         [SerializeField] private float worldRadius = 200f; // meters from center to generate
         
         [Header("=== REFERENCES ===")]
@@ -629,11 +630,11 @@ namespace ApexCitadels.FantasyWorld
             // Generate a realistic neighborhood layout when OSM data unavailable
             Debug.Log("[GPSFantasy] Creating realistic neighborhood layout (OSM data unavailable)");
             
-            // Create a main street through the center (like "Mashie Drive")
+            // Create a main street through the center (like "Reynard Drive")
             roads.Add(new RoadData
             {
                 id = 1,
-                streetName = "Mashie Way",
+                streetName = "Reynard Way",
                 points = new[] { 
                     new Vector3(-worldRadius, 0, 0), 
                     new Vector3(-50, 0, 0),
@@ -986,27 +987,29 @@ namespace ApexCitadels.FantasyWorld
             // Convert to fantasy-style street name
             string fantasyName = ConvertToFantasyStreetName(streetName);
             
-            // Create sign post
+            Debug.Log($"[GPSFantasy] Creating street sign: {fantasyName} at {position}");
+            
+            // Create sign post - make it BIG and visible!
             var signPost = new GameObject($"StreetSign_{streetName}");
             signPost.transform.SetParent(roadsParent);
-            signPost.transform.position = position + Vector3.right * 2f; // Offset from road center
+            signPost.transform.position = position + Vector3.right * 5f; // Offset from road center
             
-            // Create the pole
+            // Create the pole - taller!
             var pole = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             pole.name = "Pole";
             pole.transform.SetParent(signPost.transform);
-            pole.transform.localPosition = new Vector3(0, 1.5f, 0);
-            pole.transform.localScale = new Vector3(0.1f, 1.5f, 0.1f);
+            pole.transform.localPosition = new Vector3(0, 3f, 0);
+            pole.transform.localScale = new Vector3(0.3f, 3f, 0.3f);
             var poleMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             poleMat.SetColor("_BaseColor", new Color(0.4f, 0.25f, 0.1f)); // Wood brown
             pole.GetComponent<Renderer>().material = poleMat;
             
-            // Create the sign board
+            // Create the sign board - MUCH bigger!
             var signBoard = GameObject.CreatePrimitive(PrimitiveType.Cube);
             signBoard.name = "SignBoard";
             signBoard.transform.SetParent(signPost.transform);
-            signBoard.transform.localPosition = new Vector3(0, 3f, 0);
-            signBoard.transform.localScale = new Vector3(2.5f, 0.6f, 0.1f);
+            signBoard.transform.localPosition = new Vector3(0, 6.5f, 0);
+            signBoard.transform.localScale = new Vector3(6f, 1.5f, 0.2f);
             signBoard.transform.rotation = Quaternion.LookRotation(Vector3.Cross(roadDirection, Vector3.up));
             var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             boardMat.SetColor("_BaseColor", new Color(0.6f, 0.4f, 0.2f)); // Lighter wood
