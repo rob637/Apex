@@ -22,20 +22,21 @@ namespace ApexCitadels.AR
         public static MockGPSProvider Instance { get; private set; }
 
         [Header("Current Location")]
-        [SerializeField] private double latitude = 37.7749;
-        [SerializeField] private double longitude = -122.4194;
+        [SerializeField] private double latitude = 38.9065479;  // 504 Mashie Drive, Vienna, VA
+        [SerializeField] private double longitude = -77.2476970;
         [SerializeField] private double altitude = 10.0;
         [SerializeField] private float heading = 0f;
 
         [Header("Saved Locations")]
         [SerializeField] private List<SavedLocation> savedLocations = new List<SavedLocation>
         {
+            new SavedLocation("Home - 504 Mashie Dr, Vienna", 38.9065479, -77.2476970),
+            new SavedLocation("Vienna Town Green", 38.9032, -77.2646),
+            new SavedLocation("Wolf Trap", 38.9381, -77.2653),
+            new SavedLocation("Tysons Corner", 38.9187, -77.2311),
+            new SavedLocation("Great Falls Park", 38.9985, -77.2525),
             new SavedLocation("San Francisco", 37.7749, -122.4194),
             new SavedLocation("New York", 40.7128, -74.0060),
-            new SavedLocation("London", 51.5074, -0.1278),
-            new SavedLocation("Tokyo", 35.6762, 139.6503),
-            new SavedLocation("Sydney", -33.8688, 151.2093),
-            new SavedLocation("Home Base", 0, 0) // Player can set this
         };
 
         [Header("Movement Simulation")]
