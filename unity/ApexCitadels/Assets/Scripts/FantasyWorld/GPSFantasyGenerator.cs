@@ -60,6 +60,7 @@ namespace ApexCitadels.FantasyWorld
             public long id;
             public Vector2[] footprint; // local coordinates
             public float height;
+            public float area; // square meters - calculated from footprint
             public string buildingType; // house, commercial, etc.
             public Vector3 center;
         }
@@ -456,6 +457,7 @@ namespace ApexCitadels.FantasyWorld
                             {
                                 building.center = sum / validNodes;
                                 building.height = EstimateBuildingHeight(tags);
+                                building.area = CalculatePolygonArea(building.footprint, validNodes);
                                 buildings.Add(building);
                             }
                         }
@@ -817,6 +819,23 @@ namespace ApexCitadels.FantasyWorld
             return UnityEngine.Random.Range(5f, 10f);
         }
         
+        /// <summary>
+        /// Calculate polygon area using Shoelace formula (in square meters)
+        /// </summary>
+        private float CalculatePolygonArea(Vector2[] polygon, int validPoints)
+        {
+            if (validPoints < 3) return 0;
+            
+            float area = 0;
+            for (int i = 0; i < validPoints; i++)
+            {
+                int j = (i + 1) % validPoints;
+                area += polygon[i].x * polygon[j].y;
+                area -= polygon[j].x * polygon[i].y;
+            }
+            return Mathf.Abs(area / 2f);
+        }
+        
         private float GetRoadWidth(string roadType)
         {
             switch (roadType)
@@ -934,7 +953,22 @@ namespace ApexCitadels.FantasyWorld
                 
                 // Instantiate
                 var instance = Instantiate(prefab, building.center, Quaternion.Euler(0, rotation, 0), buildingsParent);
-                instance.name = $"Building_{building.id}";
+                instance.name = $"Building_{building.id}_{building.area:F0}sqm";
+                
+                // Scale based on building footprint area
+                // Average suburban house is ~150-250 sqm footprint
+                // Small cottage: < 80 sqm
+                // Regular house: 80-200 sqm
+                // Large house: 200-400 sqm
+                // Mansion/castle: > 400 sqm
+                float scale = 1.0f;
+                if (building.area < 50f) scale = 0.6f;
+                else if (building.area < 100f) scale = 0.8f;
+                else if (building.area < 200f) scale = 1.0f;
+                else if (building.area < 350f) scale = 1.3f;
+                else scale = 1.6f;
+                
+                instance.transform.localScale = Vector3.one * scale;
                 
                 // Fix materials
                 URPMaterialFixer.FixGameObject(instance);
@@ -948,44 +982,76 @@ namespace ApexCitadels.FantasyWorld
         
         private GameObject SelectBuildingPrefab(BuildingData building)
         {
-            // Select appropriate building array based on type
+            // Use building area to determine size category
+            // Small: < 100 sqm (cottage, small house)
+            // Medium: 100-250 sqm (regular house)
+            // Large: 250-500 sqm (manor, large house)
+            // Huge: > 500 sqm (castle, palace)
+            
             GameObject[] prefabs = null;
             
-            switch (building.buildingType)
+            if (building.buildingType == "house" || building.buildingType == "residential")
             {
-                case "house":
+                if (building.area > 500f)
+                {
+                    // Huge - use castles/manors
+                    prefabs = prefabLibrary.castles;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.manors;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.nobleEstates;
+                }
+                else if (building.area > 250f)
+                {
+                    // Large - manors or large houses
+                    prefabs = prefabLibrary.manors;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+                }
+                else if (building.area > 100f)
+                {
+                    // Medium - regular houses
                     prefabs = prefabLibrary.houses;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
+                }
+                else
+                {
+                    // Small - cottages
+                    prefabs = prefabLibrary.cottages;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.smallHouses;
-                    break;
-                case "commercial":
-                    prefabs = prefabLibrary.shops;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.taverns;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.marketStalls;
-                    break;
-                case "religious":
-                    prefabs = prefabLibrary.churches;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.chapels;
-                    break;
-                case "industrial":
-                    prefabs = prefabLibrary.warehouses;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.barns;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.workshops;
-                    break;
-                default:
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+                }
+            }
+            else if (building.buildingType == "commercial")
+            {
+                prefabs = prefabLibrary.shops;
+                if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.taverns;
+                if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.marketStalls;
+            }
+            else if (building.buildingType == "religious")
+            {
+                prefabs = prefabLibrary.churches;
+                if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.chapels;
+            }
+            else if (building.buildingType == "industrial")
+            {
+                prefabs = prefabLibrary.warehouses;
+                if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.barns;
+                if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.workshops;
+            }
+            else
+            {
+                // Default based on size
+                if (building.area > 300f)
+                    prefabs = prefabLibrary.townHouses;
+                else if (building.area > 120f)
                     prefabs = prefabLibrary.houses;
-                    break;
+                else
+                    prefabs = prefabLibrary.cottages;
             }
             
             // Fallback to any available buildings
-            if (prefabs == null || prefabs.Length == 0)
-            {
-                prefabs = prefabLibrary.houses;
-            }
-            if (prefabs == null || prefabs.Length == 0)
-            {
-                prefabs = prefabLibrary.cottages;
-            }
+            if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+            if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
+            if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.smallHouses;
             
             if (prefabs == null || prefabs.Length == 0) return null;
             
@@ -1241,20 +1307,20 @@ namespace ApexCitadels.FantasyWorld
             signBoard.transform.localPosition = localPos;
             signBoard.transform.localScale = new Vector3(5f, 1f, 0.15f);
             
-            // Make sign perpendicular to road direction so it faces drivers
-            Vector3 faceDirection = Vector3.Cross(direction, Vector3.up);
-            if (faceDirection.sqrMagnitude < 0.01f) faceDirection = Vector3.forward;
-            signBoard.transform.rotation = Quaternion.LookRotation(faceDirection);
+            // Sign should be PARALLEL to road direction (text runs along road)
+            // We look ALONG the road, so text is readable from the sides
+            if (direction.sqrMagnitude < 0.01f) direction = Vector3.forward;
+            signBoard.transform.rotation = Quaternion.LookRotation(direction);
             
             var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             boardMat.SetColor("_BaseColor", new Color(0.0f, 0.4f, 0.2f)); // Green like real signs
             signBoard.GetComponent<Renderer>().material = boardMat;
             
-            // White text - REAL street name - FRONT facing
+            // White text on the LEFT side of sign (perpendicular to road)
             var textObj = new GameObject("Text");
             textObj.transform.SetParent(signBoard.transform);
-            textObj.transform.localPosition = new Vector3(0, 0, -0.55f); // In front of sign
-            textObj.transform.localRotation = Quaternion.identity;
+            textObj.transform.localPosition = new Vector3(0, 0, -0.55f);
+            textObj.transform.localRotation = Quaternion.Euler(0, 90, 0); // Rotate text 90 degrees
             textObj.transform.localScale = new Vector3(0.16f, 0.8f, 1f);
             
             var textMesh = textObj.AddComponent<TextMesh>();
@@ -1266,11 +1332,11 @@ namespace ApexCitadels.FantasyWorld
             textMesh.color = Color.white;
             textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             
-            // Back side text - flipped 180
+            // Back side text - on the RIGHT side of sign
             var textObjBack = new GameObject("TextBack");
             textObjBack.transform.SetParent(signBoard.transform);
-            textObjBack.transform.localPosition = new Vector3(0, 0, 0.55f); // Behind sign
-            textObjBack.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            textObjBack.transform.localPosition = new Vector3(0, 0, 0.55f);
+            textObjBack.transform.localRotation = Quaternion.Euler(0, -90, 0); // Opposite rotation
             textObjBack.transform.localScale = new Vector3(0.16f, 0.8f, 1f);
             
             var textMeshBack = textObjBack.AddComponent<TextMesh>();
