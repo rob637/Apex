@@ -75,6 +75,32 @@ namespace ApexCitadels.FantasyWorld
             public string streetName; // Real street name from OSM
         }
         
+        [ContextMenu("Clear OSM Cache")]
+        public void ClearOSMCache()
+        {
+            string cacheKey = $"osm_{latitude:F4}_{longitude:F4}_{worldRadius:F0}";
+            PlayerPrefs.DeleteKey(cacheKey);
+            PlayerPrefs.Save();
+            Debug.Log($"[GPSFantasy] Cleared cache for {cacheKey}");
+        }
+        
+        [ContextMenu("Log Building Positions")]
+        public void LogBuildingPositions()
+        {
+            Debug.Log($"[GPSFantasy] Total buildings in list: {buildings.Count}");
+            int nearHome = 0;
+            foreach (var b in buildings)
+            {
+                float dist = Vector3.Distance(b.center, Vector3.zero);
+                if (dist < 50f)
+                {
+                    Debug.Log($"[GPSFantasy] Near home: Building {b.id} at {b.center}, area={b.area:F0}sqm, type={b.buildingType}");
+                    nearHome++;
+                }
+            }
+            Debug.Log($"[GPSFantasy] Buildings within 50m of home: {nearHome}");
+        }
+        
         private void Start()
         {
             // Try to load prefab library
@@ -933,11 +959,18 @@ namespace ApexCitadels.FantasyWorld
             }
             
             int count = 0;
+            int nearHome = 0;
+            int skipped = 0;
+            
             foreach (var building in buildings)
             {
                 // Select prefab based on building type and size
                 GameObject prefab = SelectBuildingPrefab(building);
-                if (prefab == null) continue;
+                if (prefab == null) 
+                {
+                    skipped++;
+                    continue;
+                }
                 
                 // Calculate rotation (align with first edge of footprint if available)
                 float rotation = 0f;
@@ -954,6 +987,10 @@ namespace ApexCitadels.FantasyWorld
                 // Instantiate
                 var instance = Instantiate(prefab, building.center, Quaternion.Euler(0, rotation, 0), buildingsParent);
                 instance.name = $"Building_{building.id}_{building.area:F0}sqm";
+                
+                // Track buildings near home
+                float distFromHome = Vector3.Distance(building.center, Vector3.zero);
+                if (distFromHome < 100f) nearHome++;
                 
                 // Scale based on building footprint area
                 // Average suburban house is ~150-250 sqm footprint
@@ -977,7 +1014,8 @@ namespace ApexCitadels.FantasyWorld
                 if (count % 10 == 0) yield return null;
             }
             
-            Debug.Log($"[GPSFantasy] Placed {count} fantasy buildings");
+            Debug.Log($"[GPSFantasy] Placed {count} fantasy buildings ({nearHome} within 100m of home, {skipped} skipped)");
+            Debug.Log($"[GPSFantasy] Building distribution: check Hierarchy > Buildings to see all {count} buildings");
         }
         
         private GameObject SelectBuildingPrefab(BuildingData building)
@@ -1307,41 +1345,41 @@ namespace ApexCitadels.FantasyWorld
             signBoard.transform.localPosition = localPos;
             signBoard.transform.localScale = new Vector3(5f, 1f, 0.15f);
             
-            // Sign should be PARALLEL to road direction (text runs along road)
-            // We look ALONG the road, so text is readable from the sides
-            if (direction.sqrMagnitude < 0.01f) direction = Vector3.forward;
-            signBoard.transform.rotation = Quaternion.LookRotation(direction);
+            // Sign faces perpendicular to road so drivers can read it
+            Vector3 faceDir = Vector3.Cross(direction, Vector3.up).normalized;
+            if (faceDir.sqrMagnitude < 0.01f) faceDir = Vector3.forward;
+            signBoard.transform.rotation = Quaternion.LookRotation(faceDir);
             
             var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             boardMat.SetColor("_BaseColor", new Color(0.0f, 0.4f, 0.2f)); // Green like real signs
             signBoard.GetComponent<Renderer>().material = boardMat;
             
-            // White text on the LEFT side of sign (perpendicular to road)
+            // White text on front of sign - facing the faceDir
             var textObj = new GameObject("Text");
             textObj.transform.SetParent(signBoard.transform);
-            textObj.transform.localPosition = new Vector3(0, 0, -0.55f);
-            textObj.transform.localRotation = Quaternion.Euler(0, 90, 0); // Rotate text 90 degrees
-            textObj.transform.localScale = new Vector3(0.16f, 0.8f, 1f);
+            textObj.transform.localPosition = new Vector3(0, 0, -0.6f); // In front
+            textObj.transform.localRotation = Quaternion.identity;
+            textObj.transform.localScale = new Vector3(0.18f, 0.85f, 1f);
             
             var textMesh = textObj.AddComponent<TextMesh>();
             textMesh.text = streetName.ToUpper();
-            textMesh.fontSize = 64;
+            textMesh.fontSize = 60;
             textMesh.characterSize = 0.1f;
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = Color.white;
             textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             
-            // Back side text - on the RIGHT side of sign
+            // Add text on back too (for people approaching from other side)
             var textObjBack = new GameObject("TextBack");
             textObjBack.transform.SetParent(signBoard.transform);
-            textObjBack.transform.localPosition = new Vector3(0, 0, 0.55f);
-            textObjBack.transform.localRotation = Quaternion.Euler(0, -90, 0); // Opposite rotation
-            textObjBack.transform.localScale = new Vector3(0.16f, 0.8f, 1f);
+            textObjBack.transform.localPosition = new Vector3(0, 0, 0.6f); // Behind
+            textObjBack.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            textObjBack.transform.localScale = new Vector3(0.18f, 0.85f, 1f);
             
             var textMeshBack = textObjBack.AddComponent<TextMesh>();
             textMeshBack.text = streetName.ToUpper();
-            textMeshBack.fontSize = 64;
+            textMeshBack.fontSize = 60;
             textMeshBack.characterSize = 0.1f;
             textMeshBack.anchor = TextAnchor.MiddleCenter;
             textMeshBack.alignment = TextAlignment.Center;
@@ -1457,16 +1495,18 @@ namespace ApexCitadels.FantasyWorld
             if (length < 0.1f) return;
             
             var road = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            road.name = "RoadSegment";
+            road.name = "CobblestoneRoad";
             road.transform.SetParent(parent);
             road.transform.position = (start + end) / 2f + Vector3.up * 0.02f;
             road.transform.rotation = Quaternion.LookRotation(direction);
             road.transform.localScale = new Vector3(width, 0.1f, length);
             
-            // Cobblestone color
+            // Cobblestone appearance - tan/brown with some variation
             var renderer = road.GetComponent<Renderer>();
             var roadMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            roadMat.SetColor("_BaseColor", new Color(0.4f, 0.35f, 0.3f));
+            // Warm tan/brown cobblestone color
+            roadMat.SetColor("_BaseColor", new Color(0.65f, 0.55f, 0.4f));
+            roadMat.SetFloat("_Smoothness", 0.1f); // Rough surface
             renderer.material = roadMat;
         }
         
