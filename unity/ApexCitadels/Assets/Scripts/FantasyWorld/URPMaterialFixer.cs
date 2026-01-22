@@ -1,7 +1,7 @@
 // ============================================================================
 // APEX CITADELS - URP MATERIAL FIXER
 // Automatically fixes pink/magenta materials at runtime by upgrading
-// Standard shaders to URP equivalents
+// Standard shaders to URP equivalents while PRESERVING TEXTURES
 // ============================================================================
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +12,7 @@ namespace ApexCitadels.FantasyWorld
     /// <summary>
     /// Fixes materials that appear pink/magenta due to shader incompatibility.
     /// Automatically converts Standard shader materials to URP Lit.
+    /// IMPORTANT: Only fixes truly broken shaders, preserves working materials.
     /// </summary>
     public class URPMaterialFixer : MonoBehaviour
     {
@@ -30,7 +31,6 @@ namespace ApexCitadels.FantasyWorld
         
         // URP shader reference
         private static Shader _urpLitShader;
-        private static Shader _urpUnlitShader;
         private static Shader _urpSimpleLitShader;
         
         private int _fixedCount = 0;
@@ -52,10 +52,6 @@ namespace ApexCitadels.FantasyWorld
             if (_urpLitShader == null)
             {
                 _urpLitShader = Shader.Find("Universal Render Pipeline/Lit");
-            }
-            if (_urpUnlitShader == null)
-            {
-                _urpUnlitShader = Shader.Find("Universal Render Pipeline/Unlit");
             }
             if (_urpSimpleLitShader == null)
             {
@@ -91,7 +87,7 @@ namespace ApexCitadels.FantasyWorld
                 FixRendererMaterials(renderer);
             }
             
-            if (verboseLogging || _fixedCount > 0)
+            if (_fixedCount > 0 || verboseLogging)
             {
                 Debug.Log($"[URPMaterialFixer] Fixed {_fixedCount} materials, skipped {_skippedCount} (already OK)");
             }
@@ -112,11 +108,16 @@ namespace ApexCitadels.FantasyWorld
                 var mat = materials[i];
                 if (mat == null) continue;
                 
-                if (NeedsFixing(mat))
+                if (IsBrokenShader(mat))
                 {
                     materials[i] = GetFixedMaterial(mat);
                     anyChanged = true;
                     _fixedCount++;
+                    
+                    if (verboseLogging)
+                    {
+                        Debug.Log($"[URPMaterialFixer] Fixed broken shader on: {mat.name}");
+                    }
                 }
                 else
                 {
@@ -131,50 +132,45 @@ namespace ApexCitadels.FantasyWorld
         }
         
         /// <summary>
-        /// Check if a material needs to be fixed (uses incompatible shader)
+        /// Check if a material has a BROKEN shader (pink/magenta indicator)
+        /// Only returns true for shaders that are genuinely broken - not just "old"
         /// </summary>
-        private bool NeedsFixing(Material mat)
+        private bool IsBrokenShader(Material mat)
         {
-            if (mat == null || mat.shader == null) return true;
+            if (mat == null) return true;
+            if (mat.shader == null) return true;
             
             string shaderName = mat.shader.name;
             
-            // Already URP shader
-            if (shaderName.Contains("Universal Render Pipeline") ||
-                shaderName.Contains("URP") ||
-                shaderName.Contains("Sprites/Default") ||
-                shaderName.Contains("UI/") ||
-                shaderName.Contains("TextMeshPro/"))
-            {
-                return false;
-            }
-            
-            // Check if shader is broken (pink material indicator)
-            // Hidden/InternalErrorShader is what Unity uses for broken shaders
+            // Hidden/InternalErrorShader is what Unity uses for truly broken shaders (pink)
             if (shaderName.Contains("Hidden/InternalErrorShader") ||
-                shaderName.Contains("Error"))
+                shaderName.Contains("Error") ||
+                shaderName == "Hidden/InternalErrorShader")
             {
                 return true;
             }
             
-            // Standard shader or other built-in shaders need fixing
-            if (shaderName == "Standard" ||
-                shaderName == "Standard (Specular setup)" ||
-                shaderName.StartsWith("Legacy Shaders/") ||
-                shaderName.StartsWith("Mobile/") ||
-                shaderName.StartsWith("Nature/") ||
-                shaderName.StartsWith("Particles/"))
+            // Check if the shader failed to compile (another pink indicator)
+            // This happens when Standard shader is used in URP
+            if (!mat.shader.isSupported)
             {
                 return true;
             }
             
-            // Synty often uses these
-            if (shaderName.Contains("Synty") ||
-                shaderName.Contains("POLYGON"))
+            // Standard shader in URP will show pink - needs fixing
+            if (shaderName == "Standard" || shaderName == "Standard (Specular setup)")
             {
                 return true;
             }
             
+            // Legacy shaders are definitely broken in URP
+            if (shaderName.StartsWith("Legacy Shaders/"))
+            {
+                return true;
+            }
+            
+            // Everything else is probably fine - DON'T touch it!
+            // This includes Synty shaders, custom shaders, URP shaders, etc.
             return false;
         }
         
@@ -195,7 +191,7 @@ namespace ApexCitadels.FantasyWorld
             Material newMat = new Material(_urpLitShader);
             newMat.name = original.name + "_URP";
             
-            // Copy properties from original
+            // Copy ALL properties from original - be comprehensive!
             CopyMaterialProperties(original, newMat);
             
             // Cache it
@@ -204,165 +200,229 @@ namespace ApexCitadels.FantasyWorld
                 _fixedMaterialCache[original] = newMat;
             }
             
-            if (verboseLogging)
-            {
-                Debug.Log($"[URPMaterialFixer] Fixed: {original.name} ({original.shader.name} -> URP/Lit)");
-            }
-            
             return newMat;
         }
         
         /// <summary>
         /// Copy relevant properties from original material to URP material
+        /// Handles both Standard shader AND URP shader property names
         /// </summary>
         private void CopyMaterialProperties(Material source, Material dest)
         {
-            // Main texture (albedo)
-            if (source.HasProperty("_MainTex"))
+            // ===== MAIN TEXTURE / ALBEDO =====
+            // Try multiple property names that different shaders use
+            Texture mainTex = null;
+            string[] mainTexNames = { "_BaseMap", "_MainTex", "_Albedo", "_AlbedoMap", "_Diffuse", "_DiffuseMap" };
+            foreach (var propName in mainTexNames)
             {
-                Texture mainTex = source.GetTexture("_MainTex");
-                if (mainTex != null)
+                if (source.HasProperty(propName))
                 {
-                    dest.SetTexture("_BaseMap", mainTex);
-                    dest.SetTexture("_MainTex", mainTex); // URP also uses this
+                    mainTex = source.GetTexture(propName);
+                    if (mainTex != null) break;
                 }
             }
             
-            // Base color
-            if (source.HasProperty("_Color"))
+            if (mainTex != null)
             {
-                Color color = source.GetColor("_Color");
-                dest.SetColor("_BaseColor", color);
-                dest.SetColor("_Color", color);
-            }
-            else
-            {
-                // Default to white if no color
-                dest.SetColor("_BaseColor", Color.white);
-            }
-            
-            // Normal map
-            if (source.HasProperty("_BumpMap"))
-            {
-                Texture bumpMap = source.GetTexture("_BumpMap");
-                if (bumpMap != null)
+                dest.SetTexture("_BaseMap", mainTex);
+                dest.SetTexture("_MainTex", mainTex);
+                
+                if (verboseLogging)
                 {
-                    dest.SetTexture("_BumpMap", bumpMap);
-                    dest.EnableKeyword("_NORMALMAP");
+                    Debug.Log($"[URPMaterialFixer] Copied texture: {mainTex.name}");
                 }
             }
             
-            // Metallic
+            // ===== BASE COLOR =====
+            Color baseColor = Color.white;
+            string[] colorNames = { "_BaseColor", "_Color", "_Albedo", "_MainColor" };
+            foreach (var propName in colorNames)
+            {
+                if (source.HasProperty(propName))
+                {
+                    baseColor = source.GetColor(propName);
+                    break;
+                }
+            }
+            dest.SetColor("_BaseColor", baseColor);
+            dest.SetColor("_Color", baseColor);
+            
+            // ===== NORMAL MAP =====
+            Texture bumpMap = null;
+            string[] bumpNames = { "_BumpMap", "_NormalMap", "_Normal" };
+            foreach (var propName in bumpNames)
+            {
+                if (source.HasProperty(propName))
+                {
+                    bumpMap = source.GetTexture(propName);
+                    if (bumpMap != null) break;
+                }
+            }
+            if (bumpMap != null)
+            {
+                dest.SetTexture("_BumpMap", bumpMap);
+                dest.EnableKeyword("_NORMALMAP");
+                
+                // Copy bump scale if available
+                if (source.HasProperty("_BumpScale"))
+                {
+                    dest.SetFloat("_BumpScale", source.GetFloat("_BumpScale"));
+                }
+            }
+            
+            // ===== METALLIC =====
+            float metallic = 0f;
             if (source.HasProperty("_Metallic"))
             {
-                float metallic = source.GetFloat("_Metallic");
-                dest.SetFloat("_Metallic", metallic);
+                metallic = source.GetFloat("_Metallic");
             }
-            else
-            {
-                dest.SetFloat("_Metallic", 0f);
-            }
+            dest.SetFloat("_Metallic", metallic);
             
-            // Smoothness/Glossiness
-            if (source.HasProperty("_Glossiness"))
+            // Metallic map
+            if (source.HasProperty("_MetallicGlossMap"))
             {
-                float smoothness = source.GetFloat("_Glossiness");
-                dest.SetFloat("_Smoothness", smoothness);
-            }
-            else if (source.HasProperty("_Smoothness"))
-            {
-                dest.SetFloat("_Smoothness", source.GetFloat("_Smoothness"));
-            }
-            else
-            {
-                dest.SetFloat("_Smoothness", 0.5f);
-            }
-            
-            // Emission
-            if (source.HasProperty("_EmissionColor"))
-            {
-                Color emission = source.GetColor("_EmissionColor");
-                if (emission != Color.black)
+                Texture metallicMap = source.GetTexture("_MetallicGlossMap");
+                if (metallicMap != null)
                 {
-                    dest.SetColor("_EmissionColor", emission);
-                    dest.EnableKeyword("_EMISSION");
-                    dest.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+                    dest.SetTexture("_MetallicGlossMap", metallicMap);
+                    dest.EnableKeyword("_METALLICGLOSSMAP");
                 }
             }
             
-            // Emission map
+            // ===== SMOOTHNESS / GLOSSINESS =====
+            float smoothness = 0.5f;
+            string[] smoothNames = { "_Smoothness", "_Glossiness", "_Gloss" };
+            foreach (var propName in smoothNames)
+            {
+                if (source.HasProperty(propName))
+                {
+                    smoothness = source.GetFloat(propName);
+                    break;
+                }
+            }
+            dest.SetFloat("_Smoothness", smoothness);
+            
+            // ===== EMISSION =====
+            Color emission = Color.black;
+            if (source.HasProperty("_EmissionColor"))
+            {
+                emission = source.GetColor("_EmissionColor");
+            }
+            
+            Texture emissionMap = null;
             if (source.HasProperty("_EmissionMap"))
             {
-                Texture emissionMap = source.GetTexture("_EmissionMap");
+                emissionMap = source.GetTexture("_EmissionMap");
+            }
+            
+            if (emission != Color.black || emissionMap != null)
+            {
+                dest.SetColor("_EmissionColor", emission);
                 if (emissionMap != null)
                 {
                     dest.SetTexture("_EmissionMap", emissionMap);
-                    dest.EnableKeyword("_EMISSION");
                 }
+                dest.EnableKeyword("_EMISSION");
+                dest.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
             }
             
-            // Occlusion map
+            // ===== OCCLUSION =====
             if (source.HasProperty("_OcclusionMap"))
             {
                 Texture occlusionMap = source.GetTexture("_OcclusionMap");
                 if (occlusionMap != null)
                 {
                     dest.SetTexture("_OcclusionMap", occlusionMap);
+                    
+                    if (source.HasProperty("_OcclusionStrength"))
+                    {
+                        dest.SetFloat("_OcclusionStrength", source.GetFloat("_OcclusionStrength"));
+                    }
                 }
             }
             
-            // Copy render queue
+            // ===== TILING AND OFFSET =====
+            if (source.HasProperty("_MainTex"))
+            {
+                dest.SetTextureScale("_BaseMap", source.GetTextureScale("_MainTex"));
+                dest.SetTextureOffset("_BaseMap", source.GetTextureOffset("_MainTex"));
+            }
+            else if (source.HasProperty("_BaseMap"))
+            {
+                dest.SetTextureScale("_BaseMap", source.GetTextureScale("_BaseMap"));
+                dest.SetTextureOffset("_BaseMap", source.GetTextureOffset("_BaseMap"));
+            }
+            
+            // ===== RENDER QUEUE =====
             dest.renderQueue = source.renderQueue;
             
-            // Handle transparency
-            if (source.HasProperty("_Mode"))
-            {
-                int mode = (int)source.GetFloat("_Mode");
-                SetupSurfaceType(dest, mode);
-            }
-            else if (source.renderQueue >= 3000) // Transparent queue
-            {
-                SetupSurfaceType(dest, 3); // Transparent
-            }
+            // ===== TRANSPARENCY =====
+            SetupSurfaceType(source, dest);
         }
         
         /// <summary>
         /// Set up URP surface type (opaque, cutout, transparent)
         /// </summary>
-        private void SetupSurfaceType(Material mat, int mode)
+        private void SetupSurfaceType(Material source, Material dest)
         {
-            // 0 = Opaque, 1 = Cutout, 2 = Fade, 3 = Transparent
-            switch (mode)
+            bool isTransparent = false;
+            bool isCutout = false;
+            
+            // Check Standard shader mode
+            if (source.HasProperty("_Mode"))
             {
-                case 1: // Cutout
-                    mat.SetFloat("_Surface", 0); // Opaque
-                    mat.SetFloat("_AlphaClip", 1);
-                    mat.EnableKeyword("_ALPHATEST_ON");
-                    break;
-                case 2: // Fade
-                case 3: // Transparent
-                    mat.SetFloat("_Surface", 1); // Transparent
-                    mat.SetFloat("_Blend", 0); // Alpha
-                    mat.SetOverrideTag("RenderType", "Transparent");
-                    mat.renderQueue = (int)RenderQueue.Transparent;
-                    mat.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
-                    mat.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
-                    mat.SetInt("_ZWrite", 0);
-                    mat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-                    break;
-                default: // Opaque
-                    mat.SetFloat("_Surface", 0);
-                    mat.SetOverrideTag("RenderType", "Opaque");
-                    mat.renderQueue = (int)RenderQueue.Geometry;
-                    mat.SetInt("_SrcBlend", (int)BlendMode.One);
-                    mat.SetInt("_DstBlend", (int)BlendMode.Zero);
-                    mat.SetInt("_ZWrite", 1);
-                    break;
+                int mode = (int)source.GetFloat("_Mode");
+                isCutout = mode == 1;
+                isTransparent = mode == 2 || mode == 3;
+            }
+            
+            // Check by render queue
+            if (source.renderQueue >= 3000)
+            {
+                isTransparent = true;
+            }
+            else if (source.renderQueue >= 2450 && source.renderQueue < 3000)
+            {
+                isCutout = true;
+            }
+            
+            // Check for cutout keywords
+            if (source.IsKeywordEnabled("_ALPHATEST_ON"))
+            {
+                isCutout = true;
+            }
+            
+            if (isCutout)
+            {
+                dest.SetFloat("_Surface", 0); // Opaque
+                dest.SetFloat("_AlphaClip", 1);
+                dest.EnableKeyword("_ALPHATEST_ON");
+                dest.renderQueue = (int)RenderQueue.AlphaTest;
+            }
+            else if (isTransparent)
+            {
+                dest.SetFloat("_Surface", 1); // Transparent
+                dest.SetFloat("_Blend", 0); // Alpha
+                dest.SetOverrideTag("RenderType", "Transparent");
+                dest.renderQueue = (int)RenderQueue.Transparent;
+                dest.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+                dest.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+                dest.SetInt("_ZWrite", 0);
+                dest.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            }
+            else
+            {
+                // Opaque
+                dest.SetFloat("_Surface", 0);
+                dest.SetOverrideTag("RenderType", "Opaque");
+                dest.SetInt("_SrcBlend", (int)BlendMode.One);
+                dest.SetInt("_DstBlend", (int)BlendMode.Zero);
+                dest.SetInt("_ZWrite", 1);
             }
         }
         
         /// <summary>
-        /// Create a default material if original is null
+        /// Create a default gray material if original is null
         /// </summary>
         private Material CreateDefaultMaterial()
         {
@@ -392,21 +452,43 @@ namespace ApexCitadels.FantasyWorld
                 return;
             }
             
-            var fixer = go.GetComponent<URPMaterialFixer>();
-            if (fixer == null)
+            // Check if ANY materials need fixing before adding the component
+            bool needsFix = false;
+            var renderers = go.GetComponentsInChildren<Renderer>(true);
+            foreach (var renderer in renderers)
             {
-                fixer = go.AddComponent<URPMaterialFixer>();
-                fixer.autoFixOnStart = false;
-                fixer.verboseLogging = verbose;
+                foreach (var mat in renderer.sharedMaterials)
+                {
+                    if (mat != null && mat.shader != null)
+                    {
+                        string shaderName = mat.shader.name;
+                        if (shaderName.Contains("InternalErrorShader") ||
+                            shaderName == "Standard" ||
+                            shaderName == "Standard (Specular setup)" ||
+                            shaderName.StartsWith("Legacy Shaders/") ||
+                            !mat.shader.isSupported)
+                        {
+                            needsFix = true;
+                            break;
+                        }
+                    }
+                }
+                if (needsFix) break;
             }
             
+            // Only add fixer if actually needed
+            if (!needsFix)
+            {
+                return;
+            }
+            
+            var fixer = go.AddComponent<URPMaterialFixer>();
+            fixer.autoFixOnStart = false;
+            fixer.verboseLogging = verbose;
             fixer.FixAllMaterialsInChildren();
             
-            // Remove fixer after use if we added it
-            if (!fixer.autoFixOnStart)
-            {
-                Destroy(fixer);
-            }
+            // Remove fixer after use
+            Destroy(fixer);
         }
         
         /// <summary>
