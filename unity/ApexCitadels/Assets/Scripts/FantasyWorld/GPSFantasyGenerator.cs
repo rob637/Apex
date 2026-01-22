@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -89,16 +90,33 @@ namespace ApexCitadels.FantasyWorld
         {
             Debug.Log($"[GPSFantasy] Total buildings in list: {buildings.Count}");
             int nearHome = 0;
+            int onReynard = 0;
+            
+            // Sort buildings by distance from home
+            var sortedBuildings = buildings.OrderBy(b => Vector3.Distance(b.center, Vector3.zero)).ToList();
+            
+            Debug.Log("[GPSFantasy] === CLOSEST 20 BUILDINGS TO HOME ===");
+            for (int i = 0; i < Math.Min(20, sortedBuildings.Count); i++)
+            {
+                var b = sortedBuildings[i];
+                float dist = Vector3.Distance(b.center, Vector3.zero);
+                Debug.Log($"[GPSFantasy] #{i+1}: Building {b.id} at ({b.center.x:F1}, {b.center.z:F1}), dist={dist:F1}m, area={b.area:F0}sqm");
+            }
+            
+            // Count buildings near Reynard Drive (roughly x: -100 to 300, z: -150 to 200)
             foreach (var b in buildings)
             {
                 float dist = Vector3.Distance(b.center, Vector3.zero);
-                if (dist < 50f)
+                if (dist < 50f) nearHome++;
+                
+                // Approximate Reynard Drive corridor
+                if (b.center.x > -150 && b.center.x < 300 && b.center.z > -200 && b.center.z < 250)
                 {
-                    Debug.Log($"[GPSFantasy] Near home: Building {b.id} at {b.center}, area={b.area:F0}sqm, type={b.buildingType}");
-                    nearHome++;
+                    onReynard++;
                 }
             }
             Debug.Log($"[GPSFantasy] Buildings within 50m of home: {nearHome}");
+            Debug.Log($"[GPSFantasy] Buildings in Reynard Drive area: {onReynard}");
         }
         
         private void Start()
@@ -992,15 +1010,19 @@ namespace ApexCitadels.FantasyWorld
                 float distFromHome = Vector3.Distance(building.center, Vector3.zero);
                 if (distFromHome < 100f) nearHome++;
                 
-                // Scale based on building footprint area
-                // Suburban houses in this area are 150-300 sqm
-                // Make them look like proper medieval hamlets/houses, not tiny cottages
-                float scale = 1.5f; // Base scale - bigger than before
-                if (building.area < 80f) scale = 1.2f;       // Small shed/garage
-                else if (building.area < 150f) scale = 1.5f; // Small house
-                else if (building.area < 250f) scale = 1.8f; // Medium house (most common)
-                else if (building.area < 400f) scale = 2.2f; // Large house
-                else scale = 2.8f;                           // Very large/mansion
+                // Scale based on actual building footprint
+                // Real suburban houses: ~150-250 sqm footprint, ~12-15m wide
+                // We want buildings to fit their actual footprint, not overlap neighbors
+                // Typical Synty house prefab is ~10m wide at scale 1.0
+                
+                // Calculate approximate building width from area (assume roughly square)
+                float buildingWidth = Mathf.Sqrt(building.area);
+                
+                // Scale to match actual footprint (prefab is ~10m at scale 1.0)
+                float scale = buildingWidth / 10f;
+                
+                // Clamp to reasonable range
+                scale = Mathf.Clamp(scale, 0.8f, 2.5f);
                 
                 instance.transform.localScale = Vector3.one * scale;
                 
