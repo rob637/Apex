@@ -33,6 +33,11 @@ namespace ApexCitadels.FantasyWorld
         [SerializeField] private bool enableWASDMovement = true;
         [SerializeField] private float moveSpeed = 5f;
         
+        [Header("=== DEBUG OPTIONS ===")]
+        [Tooltip("Use only one house prefab style for testing placement")]
+        [SerializeField] private bool useUniformHouseStyle = true;
+        [SerializeField] private bool showControlsHelp = true;
+        
         [Header("=== RUNTIME STATE ===")]
         [SerializeField] private bool isGenerating = false;
         [SerializeField] private string statusMessage = "Ready";
@@ -85,6 +90,56 @@ namespace ApexCitadels.FantasyWorld
             Debug.Log($"[GPSFantasy] Cleared cache for {cacheKey}");
         }
         
+        private void OnGUI()
+        {
+            if (!showControlsHelp) return;
+            
+            // Semi-transparent background box
+            GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
+            boxStyle.normal.background = MakeTexture(2, 2, new Color(0, 0, 0, 0.7f));
+            
+            GUIStyle titleStyle = new GUIStyle(GUI.skin.label);
+            titleStyle.fontStyle = FontStyle.Bold;
+            titleStyle.fontSize = 16;
+            titleStyle.normal.textColor = Color.yellow;
+            
+            GUIStyle textStyle = new GUIStyle(GUI.skin.label);
+            textStyle.fontSize = 14;
+            textStyle.normal.textColor = Color.white;
+            
+            // Position in top-left corner
+            float boxWidth = 220;
+            float boxHeight = 200;
+            Rect boxRect = new Rect(10, 10, boxWidth, boxHeight);
+            
+            GUI.Box(boxRect, "", boxStyle);
+            
+            GUILayout.BeginArea(new Rect(20, 15, boxWidth - 20, boxHeight - 10));
+            GUILayout.Label("⌨️ CONTROLS", titleStyle);
+            GUILayout.Space(5);
+            GUILayout.Label("W/S - Move Forward/Back", textStyle);
+            GUILayout.Label("A/D - Strafe Left/Right", textStyle);
+            GUILayout.Label("Q/E - Move Down/Up", textStyle);
+            GUILayout.Space(5);
+            GUILayout.Label("Mouse - Look Around", textStyle);
+            GUILayout.Label("Right-Click + Drag - Rotate", textStyle);
+            GUILayout.Space(5);
+            GUILayout.Label("Shift - Move Faster", textStyle);
+            GUILayout.Label("H - Toggle This Help", textStyle);
+            GUILayout.EndArea();
+        }
+        
+        private Texture2D MakeTexture(int width, int height, Color color)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = color;
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
+        
         [ContextMenu("Log Building Positions")]
         public void LogBuildingPositions()
         {
@@ -135,6 +190,12 @@ namespace ApexCitadels.FantasyWorld
         
         private void Update()
         {
+            // Toggle controls help with H key
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                showControlsHelp = !showControlsHelp;
+            }
+            
             // Desktop simulation - WASD to move around
             if (enableWASDMovement && useSimulatedLocation)
             {
@@ -1037,11 +1098,39 @@ namespace ApexCitadels.FantasyWorld
             Debug.Log($"[GPSFantasy] Building distribution: check Hierarchy > Buildings to see all {count} buildings");
         }
         
+        // Cached uniform house prefab for debug testing
+        private GameObject uniformHousePrefab = null;
+        
         private GameObject SelectBuildingPrefab(BuildingData building)
         {
+            // DEBUG MODE: Use single uniform house style for all buildings
+            // This helps see where buildings should be without visual noise
+            if (useUniformHouseStyle)
+            {
+                // Skip very tiny buildings
+                if (building.area < 30f) return null;
+                
+                // Use cached prefab if we have one
+                if (uniformHousePrefab != null) return uniformHousePrefab;
+                
+                // Find the best "house" looking prefab - try townHouses first (nice white houses)
+                GameObject[] candidates = prefabLibrary.townHouses;
+                if (candidates == null || candidates.Length == 0) candidates = prefabLibrary.houses;
+                if (candidates == null || candidates.Length == 0) candidates = prefabLibrary.manors;
+                
+                if (candidates != null && candidates.Length > 0)
+                {
+                    // Use the FIRST one consistently (usually the nicest looking)
+                    uniformHousePrefab = candidates[0];
+                    Debug.Log($"[GPSFantasy] UNIFORM MODE: Using '{uniformHousePrefab.name}' for all buildings");
+                    return uniformHousePrefab;
+                }
+                return null;
+            }
+            
+            // NORMAL MODE: Varied building selection
             // Suburban neighborhood - most houses are 150-300 sqm
             // Use townHouses and houses primarily - these look like proper medieval homes
-            // AVOID cottages for main houses (too small/shabby looking)
             
             GameObject[] prefabs = null;
             
