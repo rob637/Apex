@@ -324,7 +324,10 @@ namespace ApexCitadels.FantasyWorld
             Mesh groundMesh = CreateGroundMesh(config.kingdomSize, config.generateHills);
             meshFilter.mesh = groundMesh;
             meshCollider.sharedMesh = groundMesh;
-            groundCollision.layer = LayerMask.NameToLayer("Ground");
+            
+            // Try to set Ground layer, fallback to Default (0) if it doesn't exist
+            int groundLayer = LayerMask.NameToLayer("Ground");
+            groundCollision.layer = groundLayer >= 0 ? groundLayer : 0;
             
             yield return null;
         }
@@ -489,7 +492,7 @@ namespace ApexCitadels.FantasyWorld
                 
                 if (keepPrefab != null)
                 {
-                    var keep = Instantiate(keepPrefab, Vector3.zero, Quaternion.identity, buildingsParent);
+                    var keep = InstantiateAndFix(keepPrefab, Vector3.zero, Quaternion.identity, buildingsParent);
                     keep.name = "Castle_Keep";
                     keep.transform.localScale = Vector3.one; // 1:1 scale!
                     
@@ -528,12 +531,12 @@ namespace ApexCitadels.FantasyWorld
                         
                         if (isGatePosition && gatePrefab != null)
                         {
-                            var gate = Instantiate(gatePrefab, pos, Quaternion.Euler(0, i * angleStep + 90, 0), wallsParent);
+                            var gate = InstantiateAndFix(gatePrefab, pos, Quaternion.Euler(0, i * angleStep + 90, 0), wallsParent);
                             gate.name = $"Gate_{i}";
                         }
                         else
                         {
-                            var wall = Instantiate(wallPrefab, pos, Quaternion.Euler(0, i * angleStep + 90, 0), wallsParent);
+                            var wall = InstantiateAndFix(wallPrefab, pos, Quaternion.Euler(0, i * angleStep + 90, 0), wallsParent);
                             wall.name = $"Wall_{i}";
                         }
                         
@@ -546,7 +549,7 @@ namespace ApexCitadels.FantasyWorld
                                 0,
                                 Mathf.Sin(towerAngle) * (config.wallRadius + 2f)
                             );
-                            var tower = Instantiate(towerPrefab, towerPos, Quaternion.Euler(0, i * angleStep, 0), wallsParent);
+                            var tower = InstantiateAndFix(towerPrefab, towerPos, Quaternion.Euler(0, i * angleStep, 0), wallsParent);
                             tower.name = $"Tower_{i}";
                         }
                         
@@ -603,7 +606,7 @@ namespace ApexCitadels.FantasyWorld
                     rotation = Mathf.Atan2(toRoad.x, toRoad.z) * Mathf.Rad2Deg;
                 }
                 
-                var building = Instantiate(prefab, position, Quaternion.Euler(0, rotation, 0), buildingsParent);
+                var building = InstantiateAndFix(prefab, position, Quaternion.Euler(0, rotation, 0), buildingsParent);
                 building.name = $"{type}_{i}";
                 building.transform.localScale = Vector3.one; // 1:1 scale!
                 
@@ -748,7 +751,7 @@ namespace ApexCitadels.FantasyWorld
                         Vector3 perpendicular = new Vector3(-direction.z, 0, direction.x);
                         Vector3 offsetPos = pos + perpendicular * (w - (widthSegments - 1) / 2f) * segmentSize;
                         
-                        var segment = Instantiate(cobblePrefab, offsetPos, Quaternion.Euler(0, rotation, 0), roadsParent);
+                        var segment = InstantiateAndFix(cobblePrefab, offsetPos, Quaternion.Euler(0, rotation, 0), roadsParent);
                         segment.name = $"Road_Segment";
                         segment.transform.localScale = Vector3.one;
                         
@@ -784,7 +787,7 @@ namespace ApexCitadels.FantasyWorld
                 float scale = UnityEngine.Random.Range(0.8f, 1.3f);
                 float rotation = UnityEngine.Random.Range(0f, 360f);
                 
-                var tree = Instantiate(treePrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                var tree = InstantiateAndFix(treePrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
                 tree.name = $"Tree_{i}";
                 tree.transform.localScale = Vector3.one * scale;
                 
@@ -811,7 +814,7 @@ namespace ApexCitadels.FantasyWorld
                 float scale = UnityEngine.Random.Range(0.7f, 1.2f);
                 float rotation = UnityEngine.Random.Range(0f, 360f);
                 
-                var bush = Instantiate(bushPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
+                var bush = InstantiateAndFix(bushPrefab, pos, Quaternion.Euler(0, rotation, 0), vegetationParent);
                 bush.name = $"Bush_{i}";
                 bush.transform.localScale = Vector3.one * scale;
                 
@@ -888,7 +891,7 @@ namespace ApexCitadels.FantasyWorld
                 var fountainPrefab = GetRandomFromArray(prefabLibrary.fountains) ?? GetRandomFromArray(prefabLibrary.wells);
                 if (fountainPrefab != null)
                 {
-                    var fountain = Instantiate(fountainPrefab, new Vector3(0, 0, 25), Quaternion.identity, propsParent);
+                    var fountain = InstantiateAndFix(fountainPrefab, new Vector3(0, 0, 25), Quaternion.identity, propsParent);
                     fountain.name = "Central_Fountain";
                     fountain.transform.localScale = Vector3.one;
                 }
@@ -907,7 +910,7 @@ namespace ApexCitadels.FantasyWorld
                         float angle = (i * 60f + 30f) * Mathf.Deg2Rad;
                         Vector3 pos = new Vector3(Mathf.Cos(angle) * 35f, 0, Mathf.Sin(angle) * 35f);
                         
-                        var stall = Instantiate(stallPrefab, pos, Quaternion.Euler(0, i * 60f, 0), propsParent);
+                        var stall = InstantiateAndFix(stallPrefab, pos, Quaternion.Euler(0, i * 60f, 0), propsParent);
                         stall.name = $"MarketStall_{i}";
                         stall.transform.localScale = Vector3.one;
                         
@@ -935,7 +938,7 @@ namespace ApexCitadels.FantasyWorld
                 
                 float rotation = UnityEngine.Random.Range(0f, 360f);
                 
-                var prop = Instantiate(propPrefab, pos, Quaternion.Euler(0, rotation, 0), propsParent);
+                var prop = InstantiateAndFix(propPrefab, pos, Quaternion.Euler(0, rotation, 0), propsParent);
                 prop.name = $"Prop_{i}";
                 prop.transform.localScale = Vector3.one;
                 
@@ -973,7 +976,7 @@ namespace ApexCitadels.FantasyWorld
                             {
                                 Vector3 torchPos = pos + perpendicular * side * (road.width / 2f + 1f);
                                 
-                                var torch = Instantiate(torchPrefab, torchPos, Quaternion.identity, propsParent);
+                                var torch = InstantiateAndFix(torchPrefab, torchPos, Quaternion.identity, propsParent);
                                 torch.name = $"Torch_{torchIndex++}";
                                 torch.transform.localScale = Vector3.one;
                                 
@@ -988,6 +991,23 @@ namespace ApexCitadels.FantasyWorld
         // ====================================================================
         // UTILITY METHODS
         // ====================================================================
+        
+        /// <summary>
+        /// Instantiate a prefab and fix its materials for URP compatibility
+        /// This prevents the pink/magenta shader issue
+        /// </summary>
+        private GameObject InstantiateAndFix(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent)
+        {
+            if (prefab == null) return null;
+            
+            var instance = Instantiate(prefab, position, rotation, parent);
+            
+            // Fix materials for URP compatibility (prevents pink shader)
+            URPMaterialFixer.FixGameObject(instance);
+            
+            return instance;
+        }
+        
         private GameObject GetRandomFromArray(GameObject[] array)
         {
             if (array == null || array.Length == 0) return null;

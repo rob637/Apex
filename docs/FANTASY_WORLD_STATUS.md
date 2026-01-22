@@ -1,6 +1,6 @@
 # Fantasy World System - Comprehensive Status Document
 
-> **Last Updated**: January 20, 2026  
+> **Last Updated**: January 22, 2026  
 > **Purpose**: Single source of truth for Fantasy World configuration, setup decisions, and troubleshooting history.
 
 ---
@@ -12,6 +12,27 @@ Create an AAA-quality fantasy world overlay on real-world geography, centered on
 - Use Synty POLYGON asset packs for high-quality visuals
 - Use Mapbox for satellite/street map ground tiles
 - Use OpenStreetMap data for building/road geometry
+
+---
+
+## ✅ MAJOR MILESTONE: Fantasy Kingdom Generation Working!
+
+**January 22, 2026** - The standalone fantasy kingdom generator is now working! The world generates with:
+- 71 Buildings (houses, taverns, blacksmiths, etc.)
+- 280 Trees/Bushes
+- 137 Props (barrels, crates, torches, etc.)
+- Castle, walls, gates, and guard towers
+- Cobblestone road network
+- Player with first/third person controls
+
+### Pink/Magenta Shader Fix
+Materials appearing pink/magenta (broken shaders) are now automatically fixed at runtime by `URPMaterialFixer.cs`.
+
+**To permanently fix materials in your project:**
+1. In Unity: **Apex Citadels > Tools > URP Material Upgrade Tool**
+2. Click "Scan for Materials to Upgrade"
+3. Click "Upgrade All Materials to URP Lit"
+4. Save the project
 
 ---
 
