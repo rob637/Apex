@@ -331,88 +331,238 @@ namespace ApexCitadels.FantasyWorld
         {
             try
             {
-                // Parse OSM JSON response
-                var data = JsonUtility.FromJson<OverpassResponse>(json);
-                if (data == null || data.elements == null)
+                Debug.Log($"[GPSFantasy] Parsing response ({json.Length} chars)...");
+                
+                // Manual JSON parsing since JsonUtility can't handle Dictionary<string,string>
+                // Parse elements array
+                int elementsStart = json.IndexOf("\"elements\"");
+                if (elementsStart < 0)
                 {
+                    Debug.LogWarning("[GPSFantasy] No elements found in response");
                     GenerateProceduralFallback();
                     return;
                 }
                 
-                // Build node lookup
+                // Build node lookup first (nodes have lat/lon)
                 var nodes = new Dictionary<long, Vector2>();
-                foreach (var element in data.elements)
+                
+                // Find all nodes
+                int searchPos = 0;
+                while ((searchPos = json.IndexOf("\"type\":\"node\"", searchPos)) >= 0)
                 {
-                    if (element.type == "node")
+                    int blockStart = json.LastIndexOf('{', searchPos);
+                    int blockEnd = FindMatchingBrace(json, blockStart);
+                    if (blockEnd > blockStart)
                     {
-                        nodes[element.id] = new Vector2((float)element.lon, (float)element.lat);
+                        string nodeBlock = json.Substring(blockStart, blockEnd - blockStart + 1);
+                        
+                        long id = ExtractLong(nodeBlock, "\"id\":");
+                        double lat = ExtractDouble(nodeBlock, "\"lat\":");
+                        double lon = ExtractDouble(nodeBlock, "\"lon\":");
+                        
+                        if (id > 0)
+                        {
+                            nodes[id] = new Vector2((float)lon, (float)lat);
+                        }
                     }
+                    searchPos = blockEnd > 0 ? blockEnd : searchPos + 1;
                 }
                 
-                // Process ways (buildings and roads)
-                foreach (var element in data.elements)
+                Debug.Log($"[GPSFantasy] Found {nodes.Count} nodes");
+                
+                // Find all ways (buildings and roads)
+                searchPos = 0;
+                while ((searchPos = json.IndexOf("\"type\":\"way\"", searchPos)) >= 0)
                 {
-                    if (element.type != "way" || element.nodes == null) continue;
-                    
-                    if (element.tags != null && element.tags.ContainsKey("building"))
+                    int blockStart = json.LastIndexOf('{', searchPos);
+                    int blockEnd = FindMatchingBrace(json, blockStart);
+                    if (blockEnd > blockStart)
                     {
-                        var building = new BuildingData
-                        {
-                            id = element.id,
-                            buildingType = GetBuildingType(element.tags),
-                            footprint = new Vector2[element.nodes.Length]
-                        };
+                        string wayBlock = json.Substring(blockStart, blockEnd - blockStart + 1);
                         
-                        Vector3 sum = Vector3.zero;
-                        for (int i = 0; i < element.nodes.Length; i++)
+                        long id = ExtractLong(wayBlock, "\"id\":");
+                        long[] nodeIds = ExtractNodeIds(wayBlock);
+                        var tags = ExtractTags(wayBlock);
+                        
+                        // Is it a building?
+                        if (tags.ContainsKey("building"))
                         {
-                            if (nodes.TryGetValue(element.nodes[i], out var coord))
+                            var building = new BuildingData
                             {
-                                Vector3 local = GeoToLocal(coord.y, coord.x);
-                                building.footprint[i] = new Vector2(local.x, local.z);
-                                sum += local;
+                                id = id,
+                                buildingType = GetBuildingType(tags),
+                                footprint = new Vector2[nodeIds.Length]
+                            };
+                            
+                            Vector3 sum = Vector3.zero;
+                            int validNodes = 0;
+                            for (int i = 0; i < nodeIds.Length; i++)
+                            {
+                                if (nodes.TryGetValue(nodeIds[i], out var coord))
+                                {
+                                    Vector3 local = GeoToLocal(coord.y, coord.x);
+                                    building.footprint[i] = new Vector2(local.x, local.z);
+                                    sum += local;
+                                    validNodes++;
+                                }
+                            }
+                            if (validNodes > 0)
+                            {
+                                building.center = sum / validNodes;
+                                building.height = EstimateBuildingHeight(tags);
+                                buildings.Add(building);
                             }
                         }
-                        building.center = sum / element.nodes.Length;
-                        building.height = EstimateBuildingHeight(element.tags);
-                        
-                        buildings.Add(building);
-                    }
-                    else if (element.tags != null && element.tags.ContainsKey("highway"))
-                    {
-                        // Get street name from OSM tags
-                        string streetName = "";
-                        if (element.tags.TryGetValue("name", out var name))
-                            streetName = name;
-                        else if (element.tags.TryGetValue("addr:street", out var addrStreet))
-                            streetName = addrStreet;
-                        
-                        var road = new RoadData
+                        // Is it a road?
+                        else if (tags.ContainsKey("highway"))
                         {
-                            id = element.id,
-                            roadType = element.tags["highway"],
-                            points = new Vector3[element.nodes.Length],
-                            width = GetRoadWidth(element.tags["highway"]),
-                            streetName = streetName
-                        };
-                        
-                        for (int i = 0; i < element.nodes.Length; i++)
-                        {
-                            if (nodes.TryGetValue(element.nodes[i], out var coord))
+                            string streetName = "";
+                            if (tags.TryGetValue("name", out var name))
+                                streetName = name;
+                            
+                            var road = new RoadData
                             {
-                                road.points[i] = GeoToLocal(coord.y, coord.x);
+                                id = id,
+                                roadType = tags["highway"],
+                                points = new Vector3[nodeIds.Length],
+                                width = GetRoadWidth(tags["highway"]),
+                                streetName = streetName
+                            };
+                            
+                            int validPoints = 0;
+                            for (int i = 0; i < nodeIds.Length; i++)
+                            {
+                                if (nodes.TryGetValue(nodeIds[i], out var coord))
+                                {
+                                    road.points[validPoints] = GeoToLocal(coord.y, coord.x);
+                                    validPoints++;
+                                }
+                            }
+                            
+                            if (validPoints >= 2)
+                            {
+                                // Trim array to valid points
+                                Array.Resize(ref road.points, validPoints);
+                                roads.Add(road);
+                                
+                                if (!string.IsNullOrEmpty(streetName))
+                                {
+                                    Debug.Log($"[GPSFantasy] Road: {streetName}");
+                                }
                             }
                         }
-                        
-                        roads.Add(road);
                     }
+                    searchPos = blockEnd > 0 ? blockEnd : searchPos + 1;
+                }
+                
+                Debug.Log($"[GPSFantasy] Parsed {buildings.Count} buildings, {roads.Count} roads");
+                
+                if (buildings.Count == 0 && roads.Count == 0)
+                {
+                    Debug.LogWarning("[GPSFantasy] No features found, using fallback");
+                    GenerateProceduralFallback();
                 }
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"[GPSFantasy] Parse error: {e.Message}. Using procedural fallback.");
+                Debug.LogError($"[GPSFantasy] Parse error: {e.Message}\n{e.StackTrace}");
                 GenerateProceduralFallback();
             }
+        }
+        
+        private int FindMatchingBrace(string json, int start)
+        {
+            if (start < 0 || json[start] != '{') return -1;
+            int depth = 0;
+            for (int i = start; i < json.Length; i++)
+            {
+                if (json[i] == '{') depth++;
+                else if (json[i] == '}') depth--;
+                if (depth == 0) return i;
+            }
+            return -1;
+        }
+        
+        private long ExtractLong(string block, string key)
+        {
+            int idx = block.IndexOf(key);
+            if (idx < 0) return 0;
+            idx += key.Length;
+            int end = block.IndexOfAny(new char[] { ',', '}', ']' }, idx);
+            if (end < 0) return 0;
+            string val = block.Substring(idx, end - idx).Trim();
+            return long.TryParse(val, out long result) ? result : 0;
+        }
+        
+        private double ExtractDouble(string block, string key)
+        {
+            int idx = block.IndexOf(key);
+            if (idx < 0) return 0;
+            idx += key.Length;
+            int end = block.IndexOfAny(new char[] { ',', '}', ']' }, idx);
+            if (end < 0) return 0;
+            string val = block.Substring(idx, end - idx).Trim();
+            return double.TryParse(val, System.Globalization.NumberStyles.Float, 
+                System.Globalization.CultureInfo.InvariantCulture, out double result) ? result : 0;
+        }
+        
+        private long[] ExtractNodeIds(string block)
+        {
+            var result = new List<long>();
+            int nodesStart = block.IndexOf("\"nodes\"");
+            if (nodesStart < 0) return result.ToArray();
+            
+            int arrStart = block.IndexOf('[', nodesStart);
+            int arrEnd = block.IndexOf(']', arrStart);
+            if (arrStart < 0 || arrEnd < 0) return result.ToArray();
+            
+            string arrContent = block.Substring(arrStart + 1, arrEnd - arrStart - 1);
+            string[] parts = arrContent.Split(',');
+            foreach (var part in parts)
+            {
+                if (long.TryParse(part.Trim(), out long id))
+                {
+                    result.Add(id);
+                }
+            }
+            return result.ToArray();
+        }
+        
+        private Dictionary<string, string> ExtractTags(string block)
+        {
+            var tags = new Dictionary<string, string>();
+            int tagsStart = block.IndexOf("\"tags\"");
+            if (tagsStart < 0) return tags;
+            
+            int objStart = block.IndexOf('{', tagsStart);
+            int objEnd = FindMatchingBrace(block, objStart);
+            if (objStart < 0 || objEnd < 0) return tags;
+            
+            string tagsBlock = block.Substring(objStart + 1, objEnd - objStart - 1);
+            
+            // Parse key-value pairs: "key":"value"
+            int pos = 0;
+            while (pos < tagsBlock.Length)
+            {
+                // Find key
+                int keyStart = tagsBlock.IndexOf('"', pos);
+                if (keyStart < 0) break;
+                int keyEnd = tagsBlock.IndexOf('"', keyStart + 1);
+                if (keyEnd < 0) break;
+                string key = tagsBlock.Substring(keyStart + 1, keyEnd - keyStart - 1);
+                
+                // Find value
+                int valStart = tagsBlock.IndexOf('"', keyEnd + 1);
+                if (valStart < 0) break;
+                int valEnd = tagsBlock.IndexOf('"', valStart + 1);
+                if (valEnd < 0) break;
+                string val = tagsBlock.Substring(valStart + 1, valEnd - valStart - 1);
+                
+                tags[key] = val;
+                pos = valEnd + 1;
+            }
+            
+            return tags;
         }
         
         private void GenerateProceduralFallback()
