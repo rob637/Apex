@@ -4,6 +4,7 @@
     "references": [
         "ApexCitadels.Core",
         "ApexCitadels.PC",
+        "ApexCitadels.FantasyWorld",
         "Unity.TextMeshPro",
         "Unity.RenderPipelines.Universal.Runtime",
         "Unity.RenderPipelines.Core.Runtime"
