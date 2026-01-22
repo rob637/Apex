@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -333,6 +334,9 @@ namespace ApexCitadels.FantasyWorld
             {
                 Debug.Log($"[GPSFantasy] Parsing response ({json.Length} chars)...");
                 
+                // Normalize JSON - remove whitespace around colons for easier parsing
+                json = System.Text.RegularExpressions.Regex.Replace(json, @"\s*:\s*", ":");
+                
                 // Manual JSON parsing since JsonUtility can't handle Dictionary<string,string>
                 // Parse elements array
                 int elementsStart = json.IndexOf("\"elements\"");
@@ -346,7 +350,7 @@ namespace ApexCitadels.FantasyWorld
                 // Build node lookup first (nodes have lat/lon)
                 var nodes = new Dictionary<long, Vector2>();
                 
-                // Find all nodes
+                // Find all nodes - search for "type":"node"
                 int searchPos = 0;
                 while ((searchPos = json.IndexOf("\"type\":\"node\"", searchPos)) >= 0)
                 {
