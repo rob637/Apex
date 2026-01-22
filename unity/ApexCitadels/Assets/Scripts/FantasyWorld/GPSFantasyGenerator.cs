@@ -1040,7 +1040,8 @@ namespace ApexCitadels.FantasyWorld
         private GameObject SelectBuildingPrefab(BuildingData building)
         {
             // Suburban neighborhood - most houses are 150-300 sqm
-            // Use townHouses and houses primarily (not tiny cottages)
+            // Use townHouses and houses primarily - these look like proper medieval homes
+            // AVOID cottages for main houses (too small/shabby looking)
             
             GameObject[] prefabs = null;
             
@@ -1048,29 +1049,43 @@ namespace ApexCitadels.FantasyWorld
             {
                 if (building.area > 400f)
                 {
-                    // Very large - use manors
+                    // Very large - use manors (big estates)
                     prefabs = prefabLibrary.manors;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.nobleEstates;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
                 }
                 else if (building.area > 200f)
                 {
-                    // Large suburban house - use townHouses (good size)
+                    // Large suburban house - use townHouses (2-story, substantial)
                     prefabs = prefabLibrary.townHouses;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.manors;
                 }
-                else if (building.area > 100f)
+                else if (building.area > 80f)
                 {
-                    // Medium house - use houses (most common)
+                    // Standard house (most common) - prefer houses array
+                    // Mix of houses and townHouses for variety
+                    if (UnityEngine.Random.value < 0.7f)
+                    {
+                        prefabs = prefabLibrary.houses;
+                        if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
+                    }
+                    else
+                    {
+                        prefabs = prefabLibrary.townHouses;
+                        if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+                    }
+                }
+                else if (building.area > 30f)
+                {
+                    // Small structure - garage/shed - still use small houses, not cottages
                     prefabs = prefabLibrary.houses;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
                 }
                 else
                 {
-                    // Small - shed/garage, use houses anyway (not tiny cottages)
-                    prefabs = prefabLibrary.houses;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
+                    // Very small - skip these (likely sheds, garages, not real buildings)
+                    return null;
                 }
             }
             else if (building.buildingType == "commercial")
@@ -1359,9 +1374,11 @@ namespace ApexCitadels.FantasyWorld
             signBoard.transform.localScale = new Vector3(5f, 1f, 0.5f); // THICK sign board (0.5 instead of 0.15)
             
             // Sign faces perpendicular to road so drivers can read it
+            // We want text to be readable when approaching, so face OPPOSITE of road direction
             Vector3 faceDir = Vector3.Cross(direction, Vector3.up).normalized;
             if (faceDir.sqrMagnitude < 0.01f) faceDir = Vector3.forward;
-            signBoard.transform.rotation = Quaternion.LookRotation(faceDir);
+            // The sign board's local -Z is forward (where text appears), so rotate 180 to flip text
+            signBoard.transform.rotation = Quaternion.LookRotation(-faceDir);
             
             var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             boardMat.SetColor("_BaseColor", new Color(0.0f, 0.4f, 0.2f)); // Green like real signs
@@ -1491,6 +1508,7 @@ namespace ApexCitadels.FantasyWorld
             float length = direction.magnitude;
             if (length < 0.1f) return;
             
+            // Base road surface - gray cobblestone base
             var road = GameObject.CreatePrimitive(PrimitiveType.Cube);
             road.name = "CobblestoneRoad";
             road.transform.SetParent(parent);
@@ -1498,13 +1516,84 @@ namespace ApexCitadels.FantasyWorld
             road.transform.rotation = Quaternion.LookRotation(direction);
             road.transform.localScale = new Vector3(width, 0.1f, length);
             
-            // Cobblestone appearance - tan/brown with some variation
+            // Gray cobblestone base color
             var renderer = road.GetComponent<Renderer>();
             var roadMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            // Warm tan/brown cobblestone color
-            roadMat.SetColor("_BaseColor", new Color(0.65f, 0.55f, 0.4f));
-            roadMat.SetFloat("_Smoothness", 0.1f); // Rough surface
+            roadMat.SetColor("_BaseColor", new Color(0.45f, 0.42f, 0.38f)); // Gray stone base
+            roadMat.SetFloat("_Smoothness", 0.05f); // Very rough surface
             renderer.material = roadMat;
+            
+            // Add cobblestone pattern overlay with individual stones
+            AddCobblestonePattern(road.transform, width, length);
+        }
+        
+        private void AddCobblestonePattern(Transform roadBase, float width, float length)
+        {
+            // Create raised stone pattern to simulate cobblestones
+            float stoneSize = 0.8f;
+            float gap = 0.15f;
+            float stoneSpacing = stoneSize + gap;
+            
+            // Calculate number of stones that fit
+            int stonesAcross = Mathf.FloorToInt(width / stoneSpacing);
+            int stonesAlong = Mathf.FloorToInt(length / stoneSpacing);
+            
+            // Limit density for performance
+            if (stonesAcross * stonesAlong > 200)
+            {
+                stoneSpacing *= 2f;
+                stonesAcross = Mathf.FloorToInt(width / stoneSpacing);
+                stonesAlong = Mathf.FloorToInt(length / stoneSpacing);
+            }
+            
+            // Dark mortar lines (grooves between stones)
+            var mortarMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            mortarMat.SetColor("_BaseColor", new Color(0.25f, 0.22f, 0.18f)); // Dark mortar
+            mortarMat.SetFloat("_Smoothness", 0.0f);
+            
+            // Stone material variations
+            Color[] stoneColors = new Color[]
+            {
+                new Color(0.5f, 0.48f, 0.42f),  // Medium gray
+                new Color(0.55f, 0.5f, 0.45f),  // Light gray
+                new Color(0.4f, 0.38f, 0.35f),  // Dark gray  
+                new Color(0.52f, 0.47f, 0.4f),  // Warm gray
+            };
+            
+            // Create stone grid pattern
+            for (int row = 0; row < stonesAlong; row++)
+            {
+                float zOffset = (row - stonesAlong / 2f + 0.5f) * stoneSpacing / length;
+                bool offsetRow = row % 2 == 1; // Stagger alternate rows
+                
+                for (int col = 0; col < stonesAcross; col++)
+                {
+                    float xOffset = (col - stonesAcross / 2f + 0.5f) * stoneSpacing / width;
+                    if (offsetRow) xOffset += (stoneSpacing * 0.5f) / width; // Stagger
+                    
+                    // Skip some stones randomly for natural look
+                    if (UnityEngine.Random.value < 0.05f) continue;
+                    
+                    var stone = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    stone.name = "Stone";
+                    stone.transform.SetParent(roadBase);
+                    
+                    // Random size variation
+                    float sizeVar = UnityEngine.Random.Range(0.85f, 1.0f);
+                    float stoneW = (stoneSize / width) * sizeVar;
+                    float stoneL = (stoneSize / length) * sizeVar;
+                    
+                    stone.transform.localPosition = new Vector3(xOffset, 0.55f, zOffset);
+                    stone.transform.localScale = new Vector3(stoneW, 0.08f, stoneL);
+                    stone.transform.localRotation = Quaternion.Euler(0, UnityEngine.Random.Range(-3f, 3f), 0);
+                    
+                    // Random stone color
+                    var stoneMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                    stoneMat.SetColor("_BaseColor", stoneColors[UnityEngine.Random.Range(0, stoneColors.Length)]);
+                    stoneMat.SetFloat("_Smoothness", UnityEngine.Random.Range(0.0f, 0.15f));
+                    stone.GetComponent<Renderer>().material = stoneMat;
+                }
+            }
         }
         
         private IEnumerator GenerateVegetation()
