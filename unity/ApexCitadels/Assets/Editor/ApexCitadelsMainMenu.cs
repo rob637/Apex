@@ -114,20 +114,28 @@ namespace ApexCitadels.Editor
             
             // Add GPS Fantasy Generator
             var generatorObj = new GameObject("GPSFantasyGenerator");
-            generatorObj.AddComponent<ApexCitadels.FantasyWorld.GPSFantasyGenerator>();
+            var generator = generatorObj.AddComponent<ApexCitadels.FantasyWorld.GPSFantasyGenerator>();
+            
+            // Set coordinates using SerializedObject
+            var serializedGen = new SerializedObject(generator);
+            
+            // Set to 504 Mashie Drive, Vienna, VA
+            var latProp = serializedGen.FindProperty("latitude");
+            var lonProp = serializedGen.FindProperty("longitude");
+            if (latProp != null) latProp.doubleValue = 38.9065479;
+            if (lonProp != null) lonProp.doubleValue = -77.2476970;
+            serializedGen.ApplyModifiedProperties();
             
             // Try to assign prefab library
             var prefabLibrary = AssetDatabase.LoadAssetAtPath<ApexCitadels.FantasyWorld.FantasyPrefabLibrary>(
                 "Assets/Resources/MainFantasyPrefabLibrary.asset");
             if (prefabLibrary != null)
             {
-                var generator = generatorObj.GetComponent<ApexCitadels.FantasyWorld.GPSFantasyGenerator>();
-                var serializedObj = new SerializedObject(generator);
-                var prefabProp = serializedObj.FindProperty("prefabLibrary");
+                var prefabProp = serializedGen.FindProperty("prefabLibrary");
                 if (prefabProp != null)
                 {
                     prefabProp.objectReferenceValue = prefabLibrary;
-                    serializedObj.ApplyModifiedProperties();
+                    serializedGen.ApplyModifiedProperties();
                 }
             }
             

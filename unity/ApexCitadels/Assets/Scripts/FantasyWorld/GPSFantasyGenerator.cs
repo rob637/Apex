@@ -466,12 +466,67 @@ namespace ApexCitadels.FantasyWorld
                     Debug.LogWarning("[GPSFantasy] No features found, using fallback");
                     GenerateProceduralFallback();
                 }
+                else if (buildings.Count == 0 && roads.Count > 0)
+                {
+                    // We have roads but no buildings - generate houses along the roads
+                    Debug.Log("[GPSFantasy] Roads found but no buildings - generating houses along roads");
+                    GenerateHousesAlongRoads();
+                }
             }
             catch (Exception e)
             {
                 Debug.LogError($"[GPSFantasy] Parse error: {e.Message}\n{e.StackTrace}");
                 GenerateProceduralFallback();
             }
+        }
+        
+        private void GenerateHousesAlongRoads()
+        {
+            int houseId = 1000;
+            foreach (var road in roads)
+            {
+                if (road.roadType == "residential" || road.roadType == "tertiary" || road.roadType == "secondary")
+                {
+                    // Generate houses along both sides of residential roads
+                    for (int i = 0; i < road.points.Length - 1; i++)
+                    {
+                        Vector3 start = road.points[i];
+                        Vector3 end = road.points[i + 1];
+                        Vector3 direction = (end - start).normalized;
+                        Vector3 perpendicular = new Vector3(-direction.z, 0, direction.x);
+                        float segmentLength = Vector3.Distance(start, end);
+                        
+                        // Place houses every 30 meters along the road
+                        int housesPerSegment = Mathf.Max(1, Mathf.FloorToInt(segmentLength / 30f));
+                        for (int h = 0; h < housesPerSegment; h++)
+                        {
+                            float t = (h + 0.5f) / housesPerSegment;
+                            Vector3 roadPoint = Vector3.Lerp(start, end, t);
+                            
+                            // House on left side
+                            buildings.Add(new BuildingData
+                            {
+                                id = houseId++,
+                                center = roadPoint + perpendicular * 20f + new Vector3(
+                                    UnityEngine.Random.Range(-3f, 3f), 0, UnityEngine.Random.Range(-3f, 3f)),
+                                buildingType = "house",
+                                height = UnityEngine.Random.Range(6f, 10f)
+                            });
+                            
+                            // House on right side
+                            buildings.Add(new BuildingData
+                            {
+                                id = houseId++,
+                                center = roadPoint - perpendicular * 20f + new Vector3(
+                                    UnityEngine.Random.Range(-3f, 3f), 0, UnityEngine.Random.Range(-3f, 3f)),
+                                buildingType = "house",
+                                height = UnityEngine.Random.Range(6f, 10f)
+                            });
+                        }
+                    }
+                }
+            }
+            Debug.Log($"[GPSFantasy] Generated {buildings.Count} houses along {roads.Count} roads");
         }
         
         private int FindMatchingBrace(string json, int start)
@@ -571,44 +626,110 @@ namespace ApexCitadels.FantasyWorld
         
         private void GenerateProceduralFallback()
         {
-            // Generate random buildings and roads if map fetch fails
-            Debug.Log("[GPSFantasy] Using procedural fallback generation");
+            // Generate a realistic neighborhood layout when OSM data unavailable
+            Debug.Log("[GPSFantasy] Creating realistic neighborhood layout (OSM data unavailable)");
             
-            // Generate some buildings in a grid pattern
-            for (int x = -3; x <= 3; x++)
+            // Create a main street through the center (like "Mashie Drive")
+            roads.Add(new RoadData
             {
-                for (int z = -3; z <= 3; z++)
+                id = 1,
+                streetName = "Mashie Way",
+                points = new[] { 
+                    new Vector3(-worldRadius, 0, 0), 
+                    new Vector3(-50, 0, 0),
+                    new Vector3(0, 0, 0),  // YOUR HOUSE is at the origin
+                    new Vector3(50, 0, 0),
+                    new Vector3(worldRadius, 0, 0) 
+                },
+                width = 8f,
+                roadType = "residential"
+            });
+            
+            // Cross streets
+            roads.Add(new RoadData
+            {
+                id = 2,
+                streetName = "Oak Lane",
+                points = new[] { new Vector3(-80, 0, -worldRadius), new Vector3(-80, 0, worldRadius) },
+                width = 6f,
+                roadType = "residential"
+            });
+            
+            roads.Add(new RoadData
+            {
+                id = 3,
+                streetName = "Elm Trail",
+                points = new[] { new Vector3(80, 0, -worldRadius), new Vector3(80, 0, worldRadius) },
+                width = 6f,
+                roadType = "residential"
+            });
+            
+            // Generate houses along the main street (YOUR house is at origin)
+            float[] housePositionsX = { -120, -90, -60, -30, 30, 60, 90, 120 };
+            float[] houseOffsetsZ = { 25, -25 }; // Both sides of street
+            
+            int houseId = 100;
+            foreach (float x in housePositionsX)
+            {
+                foreach (float zOffset in houseOffsetsZ)
                 {
-                    if (UnityEngine.Random.value > 0.6f) continue;
-                    
-                    float px = x * 30f + UnityEngine.Random.Range(-5f, 5f);
-                    float pz = z * 30f + UnityEngine.Random.Range(-5f, 5f);
-                    
                     buildings.Add(new BuildingData
                     {
-                        id = x * 100 + z,
-                        center = new Vector3(px, 0, pz),
-                        buildingType = UnityEngine.Random.value > 0.8f ? "commercial" : "house",
-                        height = UnityEngine.Random.Range(5f, 15f)
+                        id = houseId++,
+                        center = new Vector3(x + UnityEngine.Random.Range(-5f, 5f), 0, zOffset + UnityEngine.Random.Range(-3f, 3f)),
+                        buildingType = "house",
+                        height = UnityEngine.Random.Range(6f, 10f)
                     });
                 }
             }
             
-            // Generate main roads
-            roads.Add(new RoadData
+            // Add YOUR house right at the center (origin)
+            buildings.Add(new BuildingData
             {
-                id = 1,
-                points = new[] { new Vector3(-worldRadius, 0, 0), new Vector3(worldRadius, 0, 0) },
-                width = 8f,
-                roadType = "primary"
+                id = 504, // Your address number!
+                center = new Vector3(0, 0, 20), // Slightly off the road
+                buildingType = "house",
+                height = 8f
             });
-            roads.Add(new RoadData
+            
+            // Houses on cross streets
+            float[] crossStreetZ = { -60, -30, 30, 60 };
+            foreach (float z in crossStreetZ)
             {
-                id = 2,
-                points = new[] { new Vector3(0, 0, -worldRadius), new Vector3(0, 0, worldRadius) },
-                width = 8f,
-                roadType = "primary"
-            });
+                // Houses on Oak Lane (x = -80)
+                buildings.Add(new BuildingData
+                {
+                    id = houseId++,
+                    center = new Vector3(-100, 0, z),
+                    buildingType = "house",
+                    height = UnityEngine.Random.Range(6f, 9f)
+                });
+                buildings.Add(new BuildingData
+                {
+                    id = houseId++,
+                    center = new Vector3(-60, 0, z),
+                    buildingType = "house",
+                    height = UnityEngine.Random.Range(6f, 9f)
+                });
+                
+                // Houses on Elm Trail (x = 80)
+                buildings.Add(new BuildingData
+                {
+                    id = houseId++,
+                    center = new Vector3(60, 0, z),
+                    buildingType = "house",
+                    height = UnityEngine.Random.Range(6f, 9f)
+                });
+                buildings.Add(new BuildingData
+                {
+                    id = houseId++,
+                    center = new Vector3(100, 0, z),
+                    buildingType = "house",
+                    height = UnityEngine.Random.Range(6f, 9f)
+                });
+            }
+            
+            Debug.Log($"[GPSFantasy] Created neighborhood: {buildings.Count} houses, {roads.Count} streets");
         }
         
         private string GetBuildingType(Dictionary<string, string> tags)
