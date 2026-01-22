@@ -28,7 +28,7 @@ namespace ApexCitadels.Editor
         private int effectsSfxCount;
         private int uiSfxCount;
         
-        [MenuItem("Apex Citadels/Assets/Generate SFX Library", false, 42)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Generate SFX Library", false, 42)]
         public static void ShowWindow()
         {
             var window = GetWindow<SFXLibraryGenerator>("SFX Generator");
@@ -36,7 +36,7 @@ namespace ApexCitadels.Editor
             window.Show();
         }
 
-        [MenuItem("Apex Citadels/Assets/Quick Generate SFX Library", false, 43)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Quick Generate SFX Library", false, 43)]
         public static void QuickGenerate()
         {
             var lib = LoadOrCreateLibrary();

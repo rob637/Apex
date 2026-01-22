@@ -11,7 +11,7 @@ namespace ApexCitadels.Editor
     /// </summary>
     public static class GameAssetDatabaseSetup
     {
-        [MenuItem("Apex Citadels/Setup/Create Game Asset Database (Auto)", false, 200)]
+        [MenuItem("Apex Citadels/Advanced/Setup/Create Game Asset Database (Auto)", false, 200)]
         public static void CreateAndPopulateDatabase()
         {
             // Ensure Resources folder exists
@@ -251,7 +251,7 @@ namespace ApexCitadels.Editor
             return WallType.Straight;
         }
 
-        [MenuItem("Apex Citadels/Debug/Verify GameAssetDatabase", false, 300)]
+        [MenuItem("Apex Citadels/Advanced/Debug/Verify GameAssetDatabase", false, 300)]
         public static void VerifyDatabase()
         {
             // Try to load from Resources (like runtime does)

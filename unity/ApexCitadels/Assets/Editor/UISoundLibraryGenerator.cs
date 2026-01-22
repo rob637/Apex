@@ -18,7 +18,7 @@ namespace ApexCitadels.Editor
     {
         private UISoundLibrary library;
 
-        [MenuItem("Apex Citadels/Assets/Generate UI Sound Library", false, 44)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Generate UI Sound Library", false, 44)]
         public static void ShowWindow()
         {
             var window = GetWindow<UISoundLibraryGenerator>("UI Sound Generator");
@@ -26,7 +26,7 @@ namespace ApexCitadels.Editor
             window.Show();
         }
 
-        [MenuItem("Apex Citadels/Assets/Quick Generate UI Sounds", false, 45)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Quick Generate UI Sounds", false, 45)]
         public static void QuickGenerate()
         {
             var lib = LoadOrCreateLibrary();

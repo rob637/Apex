@@ -21,7 +21,7 @@ namespace ApexCitadels.Editor
         private bool _scanned = false;
         private int _upgradedCount = 0;
         
-        [MenuItem("Apex Citadels/Tools/Synty Material Batch Upgrader")]
+        [MenuItem("Apex Citadels/Advanced/Tools/Synty Material Batch Upgrader")]
         public static void ShowWindow()
         {
             var window = GetWindow<SyntyMaterialBatchUpgrader>("Synty Batch Upgrader");

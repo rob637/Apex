@@ -15,7 +15,7 @@ namespace ApexCitadels.Editor
         private Texture2D _previewTexture;
         private bool _isLoading;
         
-        [MenuItem("Apex Citadels/PC/Configure Mapbox API", false, 100)]
+        [MenuItem("Apex Citadels/Advanced/PC/Configure Mapbox API", false, 100)]
         public static void ShowWindow()
         {
             var window = GetWindow<MapboxConfigWindow>("Mapbox Config");

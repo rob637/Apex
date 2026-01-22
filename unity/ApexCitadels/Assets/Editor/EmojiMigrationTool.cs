@@ -117,7 +117,7 @@ namespace ApexCitadels.Editor
             { "⏹", "[]" }, // Stop
         };
 
-        [MenuItem("Apex Citadels/Utilities/Migrate Emojis to GameIcons", false, 120)]
+        [MenuItem("Apex Citadels/Advanced/Utilities/Migrate Emojis to GameIcons", false, 120)]
         public static void ShowWindow()
         {
             GetWindow<EmojiMigrationTool>("Emoji Migration");

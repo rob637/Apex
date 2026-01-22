@@ -59,7 +59,7 @@ namespace ApexCitadels.Editor
         private bool _hasAnimationsFolder;
         private bool _hasSkyboxesFolder;
 
-        [MenuItem("Apex Citadels/★ Quick Start/Setup Status Dashboard", false, 3)]
+        [MenuItem("Apex Citadels/Advanced/Quick Start/Setup Status Dashboard", false, 3)]
         public static void ShowWindow()
         {
             var window = GetWindow<SetupStatusDashboard>("Setup Status");
@@ -129,7 +129,7 @@ namespace ApexCitadels.Editor
             
             if (GUILayout.Button("Open One-Click Setup", GUILayout.Height(30)))
             {
-                EditorApplication.ExecuteMenuItem("Apex Citadels/★ Quick Start/ONE-CLICK SETUP (Start Here!)");
+                EditorApplication.ExecuteMenuItem("Apex Citadels/Advanced/Quick Start/ONE-CLICK SETUP (Start Here!)");
             }
 
             EditorGUILayout.EndScrollView();

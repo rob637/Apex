@@ -28,7 +28,7 @@ namespace ApexCitadels.Editor
             public Texture suggestedTexture;
         }
         
-        [MenuItem("Apex Citadels/Tools/Material Repair Tool")]
+        [MenuItem("Apex Citadels/Advanced/Tools/Material Repair Tool")]
         public static void ShowWindow()
         {
             var window = GetWindow<MaterialRepairTool>("Material Repair");

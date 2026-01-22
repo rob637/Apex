@@ -21,7 +21,7 @@ namespace ApexCitadels.Editor
         private bool _includePackages = false;
         private string _searchPath = "Assets";
         
-        [MenuItem("Apex Citadels/Tools/URP Material Upgrade Tool")]
+        [MenuItem("Apex Citadels/Advanced/Tools/URP Material Upgrade Tool")]
         public static void ShowWindow()
         {
             var window = GetWindow<URPMaterialUpgradeTool>("URP Material Upgrade");

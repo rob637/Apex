@@ -89,7 +89,7 @@ namespace ApexCitadels.PC.Editor
             }
         }
 
-        [MenuItem("Apex Citadels/Scene Setup/Complete PC Setup (Options)", false, 21)]
+        [MenuItem("Apex Citadels/Advanced/Scene Setup/Complete PC Setup (Options)", false, 21)]
         public static void ShowWindow()
         {
             var window = GetWindow<PCCompleteSetup>("PC Complete Setup");

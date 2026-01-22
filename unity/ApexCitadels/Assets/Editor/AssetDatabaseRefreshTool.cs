@@ -32,7 +32,7 @@ namespace ApexCitadels.Editor
         private int animationsFound;
         private int skyboxesFound;
 
-        [MenuItem("Apex Citadels/Assets/Refresh Asset Database", false, 40)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Refresh Asset Database", false, 40)]
         public static void ShowWindow()
         {
             var window = GetWindow<AssetDatabaseRefreshTool>("Asset Database");
@@ -40,7 +40,7 @@ namespace ApexCitadels.Editor
             window.Show();
         }
 
-        [MenuItem("Apex Citadels/Assets/Quick Refresh All Assets", false, 41)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Quick Refresh All Assets", false, 41)]
         public static void QuickRefreshAll()
         {
             var db = LoadOrCreateDatabase();

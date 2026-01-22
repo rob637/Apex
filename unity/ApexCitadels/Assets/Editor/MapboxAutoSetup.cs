@@ -50,7 +50,7 @@ namespace ApexCitadels.Editor
             }
         }
         
-        [MenuItem("Apex Citadels/PC/Setup Mapbox (Auto)", false, 101)]
+        [MenuItem("Apex Citadels/Advanced/PC/Setup Mapbox (Auto)", false, 101)]
         public static void CreateMapboxConfig()
         {
             // Ensure Resources folder exists

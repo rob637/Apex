@@ -62,7 +62,7 @@ namespace ApexCitadels.Editor
             { "PolygonVikings_Mat_01_A", new[] { "PolygonVikings_01_A", "PolygonVikings_Texture_01_A" } },
         };
         
-        [MenuItem("Apex Citadels/Tools/Synty Texture Assignment Tool")]
+        [MenuItem("Apex Citadels/Advanced/Tools/Synty Texture Assignment Tool")]
         public static void ShowWindow()
         {
             var window = GetWindow<SyntyTextureAssignmentTool>("Synty Texture Fixer");

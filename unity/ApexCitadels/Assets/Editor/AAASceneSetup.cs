@@ -31,7 +31,7 @@ namespace ApexCitadels.Editor
 
         private Vector2 scrollPos;
 
-        [MenuItem("Apex Citadels/Scene Setup/AAA Scene Setup Wizard", false, 20)]
+        [MenuItem("Apex Citadels/Advanced/Scene Setup/AAA Scene Setup Wizard", false, 20)]
         public static void ShowWindow()
         {
             var window = GetWindow<AAASceneSetup>("AAA Scene Setup");
@@ -39,7 +39,7 @@ namespace ApexCitadels.Editor
             window.Show();
         }
 
-        [MenuItem("Apex Citadels/Scene Setup/Quick Setup (All Features)", false, 22)]
+        [MenuItem("Apex Citadels/Advanced/Scene Setup/Quick Setup (All Features)", false, 22)]
         public static void QuickSetupAll()
         {
             if (EditorUtility.DisplayDialog("AAA Scene Setup",

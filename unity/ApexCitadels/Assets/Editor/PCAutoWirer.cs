@@ -6,7 +6,7 @@ namespace ApexCitadels.PC.Editor
 {
     public class PCAutoWirer
     {
-        [MenuItem("Apex Citadels/Scene Setup/Auto-Wire Scene References", false, 25)]
+        [MenuItem("Apex Citadels/Advanced/Scene Setup/Auto-Wire Scene References", false, 25)]
         public static void WireScene()
         {
             Debug.Log("--- Starting Auto-Wire ---");

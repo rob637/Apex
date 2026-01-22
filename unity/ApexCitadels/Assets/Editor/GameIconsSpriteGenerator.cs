@@ -25,7 +25,7 @@ namespace ApexCitadels.Editor
         private Color glowColor = new Color(1f, 0.9f, 0.5f, 0.5f);
         private int glowRadius = 2;
         
-        [MenuItem("Apex Citadels/Assets/Generate Icon Sprites", false, 48)]
+        [MenuItem("Apex Citadels/Advanced/Assets/Generate Icon Sprites", false, 48)]
         public static void ShowWindow()
         {
             var window = GetWindow<GameIconsSpriteGenerator>("Icon Generator");

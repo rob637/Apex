@@ -13,14 +13,14 @@ namespace ApexCitadels.Editor
     {
         private Vector2 scrollPos;
         
-        [MenuItem("Apex Citadels/Debug/Mapbox Config Debug Tool")]
+        [MenuItem("Apex Citadels/Advanced/Debug/Mapbox Config Debug Tool")]
         public static void ShowWindow()
         {
             var window = GetWindow<MapboxConfigDebugTool>("Mapbox Config Debug");
             window.minSize = new Vector2(500, 400);
         }
         
-        [MenuItem("Apex Citadels/Debug/Force Reload MapboxConfig %#r")]
+        [MenuItem("Apex Citadels/Advanced/Debug/Force Reload MapboxConfig %#r")]
         public static void ForceReloadMapboxConfig()
         {
             string assetPath = "Assets/Resources/MapboxConfig.asset";
