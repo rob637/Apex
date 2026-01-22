@@ -22,7 +22,7 @@ namespace ApexCitadels.FantasyWorld
         // Default: 6709 Reynard Drive, Springfield, VA 22152
         [SerializeField] private double latitude = 38.7700021;
         [SerializeField] private double longitude = -77.2481544;
-        [SerializeField] private float worldRadius = 500f; // meters from center (500m = ~5-6 blocks each direction)
+        [SerializeField] private float worldRadius = 250f; // meters from center (250m = ~2-3 blocks, denser buildings)
         
         [Header("=== REFERENCES ===")]
         [SerializeField] private FantasyPrefabLibrary prefabLibrary;
@@ -993,17 +993,14 @@ namespace ApexCitadels.FantasyWorld
                 if (distFromHome < 100f) nearHome++;
                 
                 // Scale based on building footprint area
-                // Average suburban house is ~150-250 sqm footprint
-                // Small cottage: < 80 sqm
-                // Regular house: 80-200 sqm
-                // Large house: 200-400 sqm
-                // Mansion/castle: > 400 sqm
-                float scale = 1.0f;
-                if (building.area < 50f) scale = 0.6f;
-                else if (building.area < 100f) scale = 0.8f;
-                else if (building.area < 200f) scale = 1.0f;
-                else if (building.area < 350f) scale = 1.3f;
-                else scale = 1.6f;
+                // Suburban houses in this area are 150-300 sqm
+                // Make them look like proper medieval hamlets/houses, not tiny cottages
+                float scale = 1.5f; // Base scale - bigger than before
+                if (building.area < 80f) scale = 1.2f;       // Small shed/garage
+                else if (building.area < 150f) scale = 1.5f; // Small house
+                else if (building.area < 250f) scale = 1.8f; // Medium house (most common)
+                else if (building.area < 400f) scale = 2.2f; // Large house
+                else scale = 2.8f;                           // Very large/mansion
                 
                 instance.transform.localScale = Vector3.one * scale;
                 
@@ -1020,42 +1017,38 @@ namespace ApexCitadels.FantasyWorld
         
         private GameObject SelectBuildingPrefab(BuildingData building)
         {
-            // Use building area to determine size category
-            // Small: < 100 sqm (cottage, small house)
-            // Medium: 100-250 sqm (regular house)
-            // Large: 250-500 sqm (manor, large house)
-            // Huge: > 500 sqm (castle, palace)
+            // Suburban neighborhood - most houses are 150-300 sqm
+            // Use townHouses and houses primarily (not tiny cottages)
             
             GameObject[] prefabs = null;
             
             if (building.buildingType == "house" || building.buildingType == "residential")
             {
-                if (building.area > 500f)
+                if (building.area > 400f)
                 {
-                    // Huge - use castles/manors
-                    prefabs = prefabLibrary.castles;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.manors;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.nobleEstates;
-                }
-                else if (building.area > 250f)
-                {
-                    // Large - manors or large houses
+                    // Very large - use manors
                     prefabs = prefabLibrary.manors;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.nobleEstates;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
+                }
+                else if (building.area > 200f)
+                {
+                    // Large suburban house - use townHouses (good size)
+                    prefabs = prefabLibrary.townHouses;
                     if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.manors;
                 }
                 else if (building.area > 100f)
                 {
-                    // Medium - regular houses
+                    // Medium house - use houses (most common)
                     prefabs = prefabLibrary.houses;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
                 }
                 else
                 {
-                    // Small - cottages
-                    prefabs = prefabLibrary.cottages;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.smallHouses;
-                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+                    // Small - shed/garage, use houses anyway (not tiny cottages)
+                    prefabs = prefabLibrary.houses;
+                    if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
                 }
             }
             else if (building.buildingType == "commercial")
@@ -1077,19 +1070,17 @@ namespace ApexCitadels.FantasyWorld
             }
             else
             {
-                // Default based on size
-                if (building.area > 300f)
+                // Default - use proper houses not cottages
+                if (building.area > 250f)
                     prefabs = prefabLibrary.townHouses;
-                else if (building.area > 120f)
-                    prefabs = prefabLibrary.houses;
                 else
-                    prefabs = prefabLibrary.cottages;
+                    prefabs = prefabLibrary.houses;
             }
             
-            // Fallback to any available buildings
+            // Fallback to any available buildings - prefer houses over cottages
             if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.houses;
+            if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.townHouses;
             if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.cottages;
-            if (prefabs == null || prefabs.Length == 0) prefabs = prefabLibrary.smallHouses;
             
             if (prefabs == null || prefabs.Length == 0) return null;
             
@@ -1338,12 +1329,12 @@ namespace ApexCitadels.FantasyWorld
         
         private void CreateStreetNamePlate(Transform parent, string streetName, Vector3 localPos, Vector3 direction)
         {
-            // Green background like real street signs
+            // Green background like real street signs - THICK so text doesn't show through
             var signBoard = GameObject.CreatePrimitive(PrimitiveType.Cube);
             signBoard.name = $"Sign_{streetName}";
             signBoard.transform.SetParent(parent);
             signBoard.transform.localPosition = localPos;
-            signBoard.transform.localScale = new Vector3(5f, 1f, 0.15f);
+            signBoard.transform.localScale = new Vector3(5f, 1f, 0.5f); // THICK sign board (0.5 instead of 0.15)
             
             // Sign faces perpendicular to road so drivers can read it
             Vector3 faceDir = Vector3.Cross(direction, Vector3.up).normalized;
@@ -1354,10 +1345,10 @@ namespace ApexCitadels.FantasyWorld
             boardMat.SetColor("_BaseColor", new Color(0.0f, 0.4f, 0.2f)); // Green like real signs
             signBoard.GetComponent<Renderer>().material = boardMat;
             
-            // White text on front of sign - facing the faceDir
+            // White text on front of sign ONLY - no back text to avoid see-through
             var textObj = new GameObject("Text");
             textObj.transform.SetParent(signBoard.transform);
-            textObj.transform.localPosition = new Vector3(0, 0, -0.6f); // In front
+            textObj.transform.localPosition = new Vector3(0, 0, -0.52f); // Just in front of thick sign
             textObj.transform.localRotation = Quaternion.identity;
             textObj.transform.localScale = new Vector3(0.18f, 0.85f, 1f);
             
@@ -1369,22 +1360,6 @@ namespace ApexCitadels.FantasyWorld
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = Color.white;
             textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            
-            // Add text on back too (for people approaching from other side)
-            var textObjBack = new GameObject("TextBack");
-            textObjBack.transform.SetParent(signBoard.transform);
-            textObjBack.transform.localPosition = new Vector3(0, 0, 0.6f); // Behind
-            textObjBack.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            textObjBack.transform.localScale = new Vector3(0.18f, 0.85f, 1f);
-            
-            var textMeshBack = textObjBack.AddComponent<TextMesh>();
-            textMeshBack.text = streetName.ToUpper();
-            textMeshBack.fontSize = 60;
-            textMeshBack.characterSize = 0.1f;
-            textMeshBack.anchor = TextAnchor.MiddleCenter;
-            textMeshBack.alignment = TextAlignment.Center;
-            textMeshBack.color = Color.white;
-            textMeshBack.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         }
         
         // Keep the old method for backward compatibility but it won't be used for intersections
