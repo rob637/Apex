@@ -132,7 +132,7 @@ namespace ApexCitadels.FantasyWorld
         }
         
         /// <summary>
-        /// Check if a material has a BROKEN shader (pink/magenta or renders white)
+        /// Check if a material has a BROKEN shader (pink/magenta or renders white/wrong)
         /// </summary>
         private bool IsBrokenShader(Material mat)
         {
@@ -141,22 +141,29 @@ namespace ApexCitadels.FantasyWorld
             
             string shaderName = mat.shader.name;
             
+            // Already URP - skip!
+            if (shaderName.Contains("Universal Render Pipeline") || shaderName.Contains("URP"))
+            {
+                return false;
+            }
+            
             // Hidden/InternalErrorShader is what Unity uses for truly broken shaders (pink)
             if (shaderName.Contains("Hidden/InternalErrorShader") ||
-                shaderName.Contains("Error") ||
-                shaderName == "Hidden/InternalErrorShader")
+                shaderName.Contains("Error"))
             {
                 return true;
             }
             
-            // Check if the shader failed to compile (another pink indicator)
+            // Check if the shader failed to compile
             if (!mat.shader.isSupported)
             {
                 return true;
             }
             
-            // Standard shader in URP will show pink - needs fixing
-            if (shaderName == "Standard" || shaderName == "Standard (Specular setup)")
+            // Standard shader in URP needs fixing - check multiple ways
+            if (shaderName == "Standard" || 
+                shaderName == "Standard (Specular setup)" ||
+                shaderName.Contains("Standard"))
             {
                 return true;
             }
@@ -181,6 +188,15 @@ namespace ApexCitadels.FantasyWorld
             
             // Particles shaders need URP equivalents
             if (shaderName.StartsWith("Particles/") && !shaderName.Contains("Universal"))
+            {
+                return true;
+            }
+            
+            // Heuristic: if it has Standard shader properties but isn't URP Lit, probably needs fixing
+            if (mat.HasProperty("_MainTex") && 
+                mat.HasProperty("_Color") && 
+                mat.HasProperty("_Glossiness") &&
+                !shaderName.Contains("Lit"))
             {
                 return true;
             }
@@ -474,18 +490,42 @@ namespace ApexCitadels.FantasyWorld
             {
                 foreach (var mat in renderer.sharedMaterials)
                 {
-                    if (mat != null && mat.shader != null)
+                    if (mat == null) continue;
+                    if (mat.shader == null)
                     {
-                        string shaderName = mat.shader.name;
-                        if (shaderName.Contains("InternalErrorShader") ||
-                            shaderName == "Standard" ||
-                            shaderName == "Standard (Specular setup)" ||
-                            shaderName.StartsWith("Legacy Shaders/") ||
-                            !mat.shader.isSupported)
-                        {
-                            needsFix = true;
-                            break;
-                        }
+                        needsFix = true;
+                        break;
+                    }
+                    
+                    string shaderName = mat.shader.name;
+                    
+                    // Skip if already URP
+                    if (shaderName.Contains("Universal Render Pipeline")) continue;
+                    
+                    // Check for broken/incompatible shaders
+                    if (shaderName.Contains("InternalErrorShader") ||
+                        shaderName.Contains("Error") ||
+                        shaderName == "Standard" ||
+                        shaderName == "Standard (Specular setup)" ||
+                        shaderName.Contains("Standard") ||
+                        shaderName.StartsWith("Legacy Shaders/") ||
+                        shaderName.StartsWith("Mobile/") ||
+                        shaderName.StartsWith("Nature/") ||
+                        !mat.shader.isSupported)
+                    {
+                        needsFix = true;
+                        break;
+                    }
+                    
+                    // Heuristic: Standard shader properties without URP shader
+                    if (mat.HasProperty("_MainTex") && 
+                        mat.HasProperty("_Color") && 
+                        mat.HasProperty("_Glossiness") &&
+                        !shaderName.Contains("Lit") &&
+                        !shaderName.Contains("URP"))
+                    {
+                        needsFix = true;
+                        break;
                     }
                 }
                 if (needsFix) break;
