@@ -69,6 +69,7 @@ namespace ApexCitadels.FantasyWorld
             public Vector3[] points;
             public float width;
             public string roadType;
+            public string streetName; // Real street name from OSM
         }
         
         private void Start()
@@ -203,14 +204,78 @@ namespace ApexCitadels.FantasyWorld
             SetStatus("Growing forest...");
             yield return GenerateVegetation();
             
-            // Step 6: Spawn player at origin
+            // Step 6: Mark YOUR house at origin (center of map)
+            CreateHomeMarker();
+            
+            // Step 7: Spawn player at origin
             SpawnPlayer();
             
             isGenerating = false;
             SetStatus("Fantasy Kingdom ready!");
             
             Debug.Log($"[GPSFantasy] Generated world with {buildings.Count} buildings, {roads.Count} roads");
+            Debug.Log($"[GPSFantasy] YOUR HOME is at the center (0, 0) - look for the banner!");
             OnGenerationComplete?.Invoke();
+        }
+        
+        private void CreateHomeMarker()
+        {
+            // Create a special marker at YOUR location (center of the map)
+            var homeMarker = new GameObject("YourHome_Marker");
+            homeMarker.transform.SetParent(buildingsParent);
+            homeMarker.transform.position = Vector3.zero;
+            
+            // Create a tall banner pole
+            var pole = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            pole.name = "BannerPole";
+            pole.transform.SetParent(homeMarker.transform);
+            pole.transform.localPosition = new Vector3(0, 5f, 0);
+            pole.transform.localScale = new Vector3(0.15f, 5f, 0.15f);
+            var poleMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            poleMat.SetColor("_BaseColor", new Color(0.5f, 0.3f, 0.1f));
+            pole.GetComponent<Renderer>().material = poleMat;
+            
+            // Create banner flag
+            var banner = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            banner.name = "Banner";
+            banner.transform.SetParent(homeMarker.transform);
+            banner.transform.localPosition = new Vector3(0.8f, 8.5f, 0);
+            banner.transform.localScale = new Vector3(1.5f, 2f, 1f);
+            var bannerMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            bannerMat.SetColor("_BaseColor", new Color(0.8f, 0.1f, 0.1f)); // Red banner
+            banner.GetComponent<Renderer>().material = bannerMat;
+            UnityEngine.Object.Destroy(banner.GetComponent<Collider>()); // No collision for banner
+            
+            // Create "YOUR HOME" text
+            var textObj = new GameObject("HomeText");
+            textObj.transform.SetParent(homeMarker.transform);
+            textObj.transform.localPosition = new Vector3(0, 11f, 0);
+            
+            var textMesh = textObj.AddComponent<TextMesh>();
+            textMesh.text = "★ YOUR HOME ★";
+            textMesh.fontSize = 48;
+            textMesh.characterSize = 0.15f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = new Color(1f, 0.85f, 0f); // Gold
+            textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            
+            // Make text always face camera (billboard)
+            var billboard = textObj.AddComponent<BillboardText>();
+            
+            // Create a glowing base
+            var glowBase = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            glowBase.name = "GlowBase";
+            glowBase.transform.SetParent(homeMarker.transform);
+            glowBase.transform.localPosition = new Vector3(0, 0.1f, 0);
+            glowBase.transform.localScale = new Vector3(3f, 0.1f, 3f);
+            var glowMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            glowMat.SetColor("_BaseColor", new Color(1f, 0.9f, 0.3f)); // Golden glow
+            glowMat.SetColor("_EmissionColor", new Color(1f, 0.8f, 0.2f) * 2f);
+            glowMat.EnableKeyword("_EMISSION");
+            glowBase.GetComponent<Renderer>().material = glowMat;
+            
+            Debug.Log("[GPSFantasy] Created home marker at origin - YOUR HOUSE!");
         }
         
         private IEnumerator FetchMapData()
@@ -315,12 +380,20 @@ namespace ApexCitadels.FantasyWorld
                     }
                     else if (element.tags != null && element.tags.ContainsKey("highway"))
                     {
+                        // Get street name from OSM tags
+                        string streetName = "";
+                        if (element.tags.TryGetValue("name", out var name))
+                            streetName = name;
+                        else if (element.tags.TryGetValue("addr:street", out var addrStreet))
+                            streetName = addrStreet;
+                        
                         var road = new RoadData
                         {
                             id = element.id,
                             roadType = element.tags["highway"],
                             points = new Vector3[element.nodes.Length],
-                            width = GetRoadWidth(element.tags["highway"])
+                            width = GetRoadWidth(element.tags["highway"]),
+                            streetName = streetName
                         };
                         
                         for (int i = 0; i < element.nodes.Length; i++)
@@ -604,6 +677,8 @@ namespace ApexCitadels.FantasyWorld
         
         private IEnumerator GenerateRoads()
         {
+            HashSet<string> signedStreets = new HashSet<string>(); // Track which streets already have signs
+            
             foreach (var road in roads)
             {
                 // Create road mesh from polyline
@@ -611,8 +686,122 @@ namespace ApexCitadels.FantasyWorld
                 {
                     CreateRoadSegment(road.points[i], road.points[i + 1], road.width, roadsParent);
                 }
+                
+                // Create street sign at start of named roads (only once per street name)
+                if (!string.IsNullOrEmpty(road.streetName) && !signedStreets.Contains(road.streetName))
+                {
+                    signedStreets.Add(road.streetName);
+                    
+                    if (road.points.Length >= 2)
+                    {
+                        Vector3 signPos = road.points[0] + Vector3.up * 0.1f;
+                        Vector3 direction = (road.points[1] - road.points[0]).normalized;
+                        CreateStreetSign(signPos, direction, road.streetName);
+                    }
+                }
+                
                 yield return null;
             }
+            
+            Debug.Log($"[GPSFantasy] Created {signedStreets.Count} street signs");
+        }
+        
+        private void CreateStreetSign(Vector3 position, Vector3 roadDirection, string streetName)
+        {
+            // Convert to fantasy-style street name
+            string fantasyName = ConvertToFantasyStreetName(streetName);
+            
+            // Create sign post
+            var signPost = new GameObject($"StreetSign_{streetName}");
+            signPost.transform.SetParent(roadsParent);
+            signPost.transform.position = position + Vector3.right * 2f; // Offset from road center
+            
+            // Create the pole
+            var pole = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            pole.name = "Pole";
+            pole.transform.SetParent(signPost.transform);
+            pole.transform.localPosition = new Vector3(0, 1.5f, 0);
+            pole.transform.localScale = new Vector3(0.1f, 1.5f, 0.1f);
+            var poleMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            poleMat.SetColor("_BaseColor", new Color(0.4f, 0.25f, 0.1f)); // Wood brown
+            pole.GetComponent<Renderer>().material = poleMat;
+            
+            // Create the sign board
+            var signBoard = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            signBoard.name = "SignBoard";
+            signBoard.transform.SetParent(signPost.transform);
+            signBoard.transform.localPosition = new Vector3(0, 3f, 0);
+            signBoard.transform.localScale = new Vector3(2.5f, 0.6f, 0.1f);
+            signBoard.transform.rotation = Quaternion.LookRotation(Vector3.Cross(roadDirection, Vector3.up));
+            var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            boardMat.SetColor("_BaseColor", new Color(0.6f, 0.4f, 0.2f)); // Lighter wood
+            signBoard.GetComponent<Renderer>().material = boardMat;
+            
+            // Create 3D text for street name
+            var textObj = new GameObject("StreetNameText");
+            textObj.transform.SetParent(signBoard.transform);
+            textObj.transform.localPosition = new Vector3(0, 0, -0.06f);
+            textObj.transform.localRotation = Quaternion.identity;
+            textObj.transform.localScale = new Vector3(0.4f, 1.6f, 1f);
+            
+            var textMesh = textObj.AddComponent<TextMesh>();
+            textMesh.text = fantasyName;
+            textMesh.fontSize = 32;
+            textMesh.characterSize = 0.1f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = new Color(0.1f, 0.05f, 0f);
+            textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            
+            // Add text on back side too
+            var textObjBack = new GameObject("StreetNameTextBack");
+            textObjBack.transform.SetParent(signBoard.transform);
+            textObjBack.transform.localPosition = new Vector3(0, 0, 0.06f);
+            textObjBack.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            textObjBack.transform.localScale = new Vector3(0.4f, 1.6f, 1f);
+            
+            var textMeshBack = textObjBack.AddComponent<TextMesh>();
+            textMeshBack.text = fantasyName;
+            textMeshBack.fontSize = 32;
+            textMeshBack.characterSize = 0.1f;
+            textMeshBack.anchor = TextAnchor.MiddleCenter;
+            textMeshBack.alignment = TextAlignment.Center;
+            textMeshBack.color = new Color(0.1f, 0.05f, 0f);
+            textMeshBack.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        }
+        
+        private string ConvertToFantasyStreetName(string realName)
+        {
+            // Convert real street names to fantasy equivalents
+            // "Mashie Drive" -> "Mashie Way" or keep original with fantasy suffix
+            
+            string result = realName;
+            
+            // Replace common suffixes with fantasy versions
+            var replacements = new Dictionary<string, string>
+            {
+                { " Drive", " Way" },
+                { " Street", " Lane" },
+                { " Road", " Path" },
+                { " Avenue", " Road" },
+                { " Boulevard", " Thoroughfare" },
+                { " Court", " Close" },
+                { " Circle", " Ring" },
+                { " Lane", " Trail" },
+                { " Place", " Square" },
+                { " Way", " Passage" }
+            };
+            
+            foreach (var kvp in replacements)
+            {
+                if (result.EndsWith(kvp.Key, StringComparison.OrdinalIgnoreCase))
+                {
+                    result = result.Substring(0, result.Length - kvp.Key.Length) + kvp.Value;
+                    break;
+                }
+            }
+            
+            return result;
         }
         
         private void CreateRoadSegment(Vector3 start, Vector3 end, float width, Transform parent)
