@@ -140,7 +140,7 @@ namespace ApexCitadels.Editor
             
             string shaderName = mat.shader.name;
             
-            // Already URP or other compatible shaders
+            // Already URP or other compatible shaders - skip these
             if (shaderName.Contains("Universal Render Pipeline") ||
                 shaderName.Contains("URP") ||
                 shaderName.Contains("Sprites/") ||
@@ -151,21 +151,52 @@ namespace ApexCitadels.Editor
                 return false;
             }
             
-            // Shaders that need upgrading
-            if (shaderName == "Standard" ||
-                shaderName == "Standard (Specular setup)" ||
-                shaderName.StartsWith("Legacy Shaders/") ||
-                shaderName.StartsWith("Mobile/") ||
-                shaderName.StartsWith("Nature/") ||
-                shaderName.StartsWith("Particles/") ||
-                shaderName.Contains("Synty") ||
-                shaderName.Contains("POLYGON"))
+            // Check if shader is not supported (will render pink or incorrectly)
+            if (!mat.shader.isSupported)
             {
                 return true;
             }
             
+            // Standard shader - check by name OR by checking typical Standard properties
+            if (shaderName == "Standard" ||
+                shaderName == "Standard (Specular setup)" ||
+                shaderName.Contains("Standard"))
+            {
+                return true;
+            }
+            
+            // Legacy, Mobile, Nature, Particles all need upgrading
+            if (shaderName.StartsWith("Legacy Shaders/") ||
+                shaderName.StartsWith("Mobile/") ||
+                shaderName.StartsWith("Nature/") ||
+                shaderName.StartsWith("Particles/"))
+            {
+                return true;
+            }
+            
+            // Synty custom shaders that may need upgrade
+            if (shaderName.Contains("Synty") || shaderName.Contains("SyntyStudios"))
+            {
+                // Only upgrade if they seem broken
+                if (!mat.shader.isSupported)
+                {
+                    return true;
+                }
+            }
+            
             // Check for broken shaders
             if (shaderName.Contains("Error") || shaderName.Contains("InternalErrorShader"))
+            {
+                return true;
+            }
+            
+            // Heuristic: if the material has Standard shader properties, it probably needs upgrading
+            // Standard shader has _MainTex + _Color + _Glossiness + _Metallic
+            if (mat.HasProperty("_MainTex") && 
+                mat.HasProperty("_Color") && 
+                mat.HasProperty("_Glossiness") &&
+                mat.HasProperty("_Metallic") &&
+                !shaderName.Contains("Lit"))
             {
                 return true;
             }

@@ -304,9 +304,23 @@ namespace ApexCitadels.FantasyWorld
             }
             else
             {
-                // Create a simple grass-colored material
-                var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-                mat.color = new Color(0.2f, 0.5f, 0.15f); // Grass green
+                // Create a proper grass material with URP Lit shader
+                var urpShader = Shader.Find("Universal Render Pipeline/Lit");
+                if (urpShader == null) urpShader = Shader.Find("Universal Render Pipeline/Simple Lit");
+                if (urpShader == null) urpShader = Shader.Find("Sprites/Default");
+                
+                var mat = new Material(urpShader);
+                mat.name = "FantasyGround_Grass";
+                
+                // Set a nice grass green color
+                Color grassColor = new Color(0.15f, 0.35f, 0.1f); // Darker forest grass
+                mat.SetColor("_BaseColor", grassColor);
+                mat.SetColor("_Color", grassColor);
+                
+                // Set reasonable PBR values for grass
+                mat.SetFloat("_Metallic", 0f);
+                mat.SetFloat("_Smoothness", 0.2f); // Grass isn't shiny
+                
                 renderer.material = mat;
             }
             

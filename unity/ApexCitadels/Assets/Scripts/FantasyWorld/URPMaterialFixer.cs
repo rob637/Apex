@@ -132,8 +132,7 @@ namespace ApexCitadels.FantasyWorld
         }
         
         /// <summary>
-        /// Check if a material has a BROKEN shader (pink/magenta indicator)
-        /// Only returns true for shaders that are genuinely broken - not just "old"
+        /// Check if a material has a BROKEN shader (pink/magenta or renders white)
         /// </summary>
         private bool IsBrokenShader(Material mat)
         {
@@ -151,7 +150,6 @@ namespace ApexCitadels.FantasyWorld
             }
             
             // Check if the shader failed to compile (another pink indicator)
-            // This happens when Standard shader is used in URP
             if (!mat.shader.isSupported)
             {
                 return true;
@@ -169,8 +167,25 @@ namespace ApexCitadels.FantasyWorld
                 return true;
             }
             
-            // Everything else is probably fine - DON'T touch it!
-            // This includes Synty shaders, custom shaders, URP shaders, etc.
+            // Mobile shaders don't work in URP
+            if (shaderName.StartsWith("Mobile/"))
+            {
+                return true;
+            }
+            
+            // Nature shaders (trees, terrain) don't work in URP
+            if (shaderName.StartsWith("Nature/"))
+            {
+                return true;
+            }
+            
+            // Particles shaders need URP equivalents
+            if (shaderName.StartsWith("Particles/") && !shaderName.Contains("Universal"))
+            {
+                return true;
+            }
+            
+            // Everything else is probably fine
             return false;
         }
         
