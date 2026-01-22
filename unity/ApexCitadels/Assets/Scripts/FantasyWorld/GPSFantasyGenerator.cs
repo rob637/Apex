@@ -22,7 +22,7 @@ namespace ApexCitadels.FantasyWorld
         // Default: 6709 Reynard Drive, Springfield, VA 22152
         [SerializeField] private double latitude = 38.7700021;
         [SerializeField] private double longitude = -77.2481544;
-        [SerializeField] private float worldRadius = 200f; // meters from center to generate
+        [SerializeField] private float worldRadius = 500f; // meters from center (500m = ~5-6 blocks each direction)
         
         [Header("=== REFERENCES ===")]
         [SerializeField] private FantasyPrefabLibrary prefabLibrary;
@@ -294,11 +294,11 @@ namespace ApexCitadels.FantasyWorld
             double west = longitude - lonOffset;
             double east = longitude + lonOffset;
             
-            // Overpass API query for buildings and roads
-            string overpassQuery = $@"[out:json][timeout:25];(way[""building""]({south},{west},{north},{east});way[""highway""]({south},{west},{north},{east}););out body;>;out skel qt;";
+            // Overpass API query for buildings and roads - increased timeout for larger radius
+            string overpassQuery = $@"[out:json][timeout:60];(way[""building""]({south},{west},{north},{east});way[""highway""]({south},{west},{north},{east}););out body;>;out skel qt;";
             
-            // Check for cached data first
-            string cacheKey = $"osm_{latitude:F4}_{longitude:F4}";
+            // Check for cached data first - include radius in cache key so radius changes invalidate cache
+            string cacheKey = $"osm_{latitude:F4}_{longitude:F4}_{worldRadius:F0}";
             string cachedData = PlayerPrefs.GetString(cacheKey, "");
             
             if (!string.IsNullOrEmpty(cachedData) && cachedData.Contains("\"elements\""))
@@ -1027,19 +1027,8 @@ namespace ApexCitadels.FantasyWorld
                             }
                         }
                         
-                        // Get direction from adjacent points
-                        Vector3 direction = Vector3.forward;
-                        if (bestIndex < road.points.Length - 1)
-                        {
-                            direction = (road.points[bestIndex + 1] - bestPos).normalized;
-                        }
-                        else if (bestIndex > 0)
-                        {
-                            direction = (bestPos - road.points[bestIndex - 1]).normalized;
-                        }
-                        
-                        Vector3 signPos = bestPos + Vector3.up * 0.1f;
-                        CreateStreetSign(signPos, direction, road.streetName);
+                        // Skip individual street signs - we use intersection signs only
+                        // This prevents duplicate/overlapping signs
                     }
                 }
                 
@@ -1138,12 +1127,31 @@ namespace ApexCitadels.FantasyWorld
             }
             
             // Create signs at each intersection
+            // De-duplicate intersections that are too close together
+            var dedupedIntersections = new List<IntersectionData>();
             foreach (var intersection in intersections)
+            {
+                bool tooClose = false;
+                foreach (var existing in dedupedIntersections)
+                {
+                    if (Vector3.Distance(intersection.position, existing.position) < 20f)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+                if (!tooClose)
+                {
+                    dedupedIntersections.Add(intersection);
+                }
+            }
+            
+            foreach (var intersection in dedupedIntersections)
             {
                 CreateIntersectionSign(intersection);
             }
             
-            return intersections.Count;
+            return dedupedIntersections.Count;
         }
         
         private struct IntersectionData
@@ -1232,38 +1240,42 @@ namespace ApexCitadels.FantasyWorld
             signBoard.transform.SetParent(parent);
             signBoard.transform.localPosition = localPos;
             signBoard.transform.localScale = new Vector3(5f, 1f, 0.15f);
-            signBoard.transform.rotation = Quaternion.LookRotation(direction);
+            
+            // Make sign perpendicular to road direction so it faces drivers
+            Vector3 faceDirection = Vector3.Cross(direction, Vector3.up);
+            if (faceDirection.sqrMagnitude < 0.01f) faceDirection = Vector3.forward;
+            signBoard.transform.rotation = Quaternion.LookRotation(faceDirection);
             
             var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             boardMat.SetColor("_BaseColor", new Color(0.0f, 0.4f, 0.2f)); // Green like real signs
             signBoard.GetComponent<Renderer>().material = boardMat;
             
-            // White text - REAL street name
+            // White text - REAL street name - FRONT facing
             var textObj = new GameObject("Text");
             textObj.transform.SetParent(signBoard.transform);
-            textObj.transform.localPosition = new Vector3(0, 0, -0.1f);
+            textObj.transform.localPosition = new Vector3(0, 0, -0.55f); // In front of sign
             textObj.transform.localRotation = Quaternion.identity;
-            textObj.transform.localScale = new Vector3(0.18f, 0.9f, 1f);
+            textObj.transform.localScale = new Vector3(0.16f, 0.8f, 1f);
             
             var textMesh = textObj.AddComponent<TextMesh>();
             textMesh.text = streetName.ToUpper();
-            textMesh.fontSize = 48;
+            textMesh.fontSize = 64;
             textMesh.characterSize = 0.1f;
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = Color.white;
             textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             
-            // Back side text
+            // Back side text - flipped 180
             var textObjBack = new GameObject("TextBack");
             textObjBack.transform.SetParent(signBoard.transform);
-            textObjBack.transform.localPosition = new Vector3(0, 0, 0.1f);
+            textObjBack.transform.localPosition = new Vector3(0, 0, 0.55f); // Behind sign
             textObjBack.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            textObjBack.transform.localScale = new Vector3(0.18f, 0.9f, 1f);
+            textObjBack.transform.localScale = new Vector3(0.16f, 0.8f, 1f);
             
             var textMeshBack = textObjBack.AddComponent<TextMesh>();
             textMeshBack.text = streetName.ToUpper();
-            textMeshBack.fontSize = 48;
+            textMeshBack.fontSize = 64;
             textMeshBack.characterSize = 0.1f;
             textMeshBack.anchor = TextAnchor.MiddleCenter;
             textMeshBack.alignment = TextAlignment.Center;
@@ -1414,7 +1426,7 @@ namespace ApexCitadels.FantasyWorld
                 float z = UnityEngine.Random.Range(-worldRadius, worldRadius);
                 Vector3 pos = new Vector3(x, 0, z);
                 
-                // Check if position is far from buildings and roads
+                // Check if position is far from buildings
                 bool tooClose = false;
                 foreach (var building in buildings)
                 {
@@ -1423,6 +1435,23 @@ namespace ApexCitadels.FantasyWorld
                         tooClose = true;
                         break;
                     }
+                }
+                
+                if (tooClose) continue;
+                
+                // Check if position is far from roads (avoid trees in streets!)
+                foreach (var road in roads)
+                {
+                    foreach (var roadPoint in road.points)
+                    {
+                        float dist = Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(roadPoint.x, 0, roadPoint.z));
+                        if (dist < 12f) // Road width buffer
+                        {
+                            tooClose = true;
+                            break;
+                        }
+                    }
+                    if (tooClose) break;
                 }
                 
                 if (tooClose) continue;
