@@ -306,26 +306,52 @@ namespace ApexCitadels.FantasyWorld
                 out skel qt;
             ";
             
-            string url = "https://overpass-api.de/api/interpreter";
+            // Try multiple Overpass API servers with retries
+            string[] servers = new string[] {
+                "https://overpass-api.de/api/interpreter",
+                "https://overpass.kumi.systems/api/interpreter",
+                "https://maps.mail.ru/osm/tools/overpass/api/interpreter"
+            };
             
-            // Create POST request with form data
-            WWWForm form = new WWWForm();
-            form.AddField("data", overpassQuery);
+            bool success = false;
             
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            foreach (string server in servers)
             {
-                yield return request.SendWebRequest();
+                Debug.Log($"[GPSFantasy] Trying OSM server: {server}");
                 
-                if (request.result == UnityWebRequest.Result.Success)
+                WWWForm form = new WWWForm();
+                form.AddField("data", overpassQuery);
+                
+                using (UnityWebRequest request = UnityWebRequest.Post(server, form))
                 {
-                    ParseOverpassResponse(request.downloadHandler.text);
-                    Debug.Log($"[GPSFantasy] Fetched {buildings.Count} buildings, {roads.Count} roads");
+                    request.timeout = 30;
+                    yield return request.SendWebRequest();
+                    
+                    if (request.result == UnityWebRequest.Result.Success)
+                    {
+                        string response = request.downloadHandler.text;
+                        if (response.Contains("\"elements\""))
+                        {
+                            ParseOverpassResponse(response);
+                            Debug.Log($"[GPSFantasy] Fetched {buildings.Count} buildings, {roads.Count} roads from {server}");
+                            success = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[GPSFantasy] Server {server} failed: {request.error}");
+                    }
                 }
-                else
-                {
-                    Debug.LogWarning($"[GPSFantasy] Map fetch failed: {request.error}. Using procedural generation.");
-                    GenerateProceduralFallback();
-                }
+                
+                // Small delay before trying next server
+                yield return new WaitForSeconds(0.5f);
+            }
+            
+            if (!success)
+            {
+                Debug.LogWarning("[GPSFantasy] All OSM servers failed. Using procedural generation.");
+                GenerateProceduralFallback();
             }
         }
         
@@ -963,15 +989,41 @@ namespace ApexCitadels.FantasyWorld
                     CreateRoadSegment(road.points[i], road.points[i + 1], road.width, roadsParent);
                 }
                 
-                // Create street sign at start of named roads (only once per street name)
+                // Create street sign near the CENTER of the road (not at edges)
                 if (!string.IsNullOrEmpty(road.streetName) && !signedStreets.Contains(road.streetName))
                 {
                     signedStreets.Add(road.streetName);
                     
                     if (road.points.Length >= 2)
                     {
-                        Vector3 signPos = road.points[0] + Vector3.up * 0.1f;
-                        Vector3 direction = (road.points[1] - road.points[0]).normalized;
+                        // Find the point on the road closest to world center (0,0)
+                        Vector3 bestPos = road.points[0];
+                        float bestDist = float.MaxValue;
+                        int bestIndex = 0;
+                        
+                        for (int i = 0; i < road.points.Length; i++)
+                        {
+                            float dist = new Vector2(road.points[i].x, road.points[i].z).magnitude;
+                            if (dist < bestDist)
+                            {
+                                bestDist = dist;
+                                bestPos = road.points[i];
+                                bestIndex = i;
+                            }
+                        }
+                        
+                        // Get direction from adjacent points
+                        Vector3 direction = Vector3.forward;
+                        if (bestIndex < road.points.Length - 1)
+                        {
+                            direction = (road.points[bestIndex + 1] - bestPos).normalized;
+                        }
+                        else if (bestIndex > 0)
+                        {
+                            direction = (bestPos - road.points[bestIndex - 1]).normalized;
+                        }
+                        
+                        Vector3 signPos = bestPos + Vector3.up * 0.1f;
                         CreateStreetSign(signPos, direction, road.streetName);
                     }
                 }
@@ -979,9 +1031,232 @@ namespace ApexCitadels.FantasyWorld
                 yield return null;
             }
             
-            Debug.Log($"[GPSFantasy] Created {signedStreets.Count} street signs");
+            // Find and create signs at intersections
+            int signCount = CreateIntersectionSigns();
+            Debug.Log($"[GPSFantasy] Created {signCount} intersection signs");
         }
         
+        private int CreateIntersectionSigns()
+        {
+            // Find all intersections (where roads cross or meet)
+            var intersections = new List<IntersectionData>();
+            
+            for (int i = 0; i < roads.Count; i++)
+            {
+                for (int j = i + 1; j < roads.Count; j++)
+                {
+                    var road1 = roads[i];
+                    var road2 = roads[j];
+                    
+                    // Check each segment of road1 against each segment of road2
+                    for (int p1 = 0; p1 < road1.points.Length - 1; p1++)
+                    {
+                        for (int p2 = 0; p2 < road2.points.Length - 1; p2++)
+                        {
+                            Vector3 intersection;
+                            if (LineSegmentsIntersect(
+                                road1.points[p1], road1.points[p1 + 1],
+                                road2.points[p2], road2.points[p2 + 1],
+                                out intersection))
+                            {
+                                intersections.Add(new IntersectionData
+                                {
+                                    position = intersection,
+                                    street1 = road1.streetName,
+                                    street2 = road2.streetName,
+                                    direction1 = (road1.points[p1 + 1] - road1.points[p1]).normalized,
+                                    direction2 = (road2.points[p2 + 1] - road2.points[p2]).normalized
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Also check for road endpoints that are close together (T-intersections)
+            for (int i = 0; i < roads.Count; i++)
+            {
+                for (int j = 0; j < roads.Count; j++)
+                {
+                    if (i == j) continue;
+                    
+                    var road1 = roads[i];
+                    var road2 = roads[j];
+                    
+                    // Check if road1's start or end is near any point on road2
+                    Vector3[] endpoints = { road1.points[0], road1.points[road1.points.Length - 1] };
+                    
+                    foreach (var endpoint in endpoints)
+                    {
+                        for (int p = 0; p < road2.points.Length - 1; p++)
+                        {
+                            float dist = DistanceToLineSegment(endpoint, road2.points[p], road2.points[p + 1]);
+                            if (dist < 5f) // Within 5 meters
+                            {
+                                // Check if we already have an intersection nearby
+                                bool exists = false;
+                                foreach (var existing in intersections)
+                                {
+                                    if (Vector3.Distance(existing.position, endpoint) < 10f)
+                                    {
+                                        exists = true;
+                                        break;
+                                    }
+                                }
+                                
+                                if (!exists)
+                                {
+                                    intersections.Add(new IntersectionData
+                                    {
+                                        position = endpoint,
+                                        street1 = road1.streetName,
+                                        street2 = road2.streetName,
+                                        direction1 = (road1.points.Length > 1) ? 
+                                            (road1.points[1] - road1.points[0]).normalized : Vector3.forward,
+                                        direction2 = (road2.points[p + 1] - road2.points[p]).normalized
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Create signs at each intersection
+            foreach (var intersection in intersections)
+            {
+                CreateIntersectionSign(intersection);
+            }
+            
+            return intersections.Count;
+        }
+        
+        private struct IntersectionData
+        {
+            public Vector3 position;
+            public string street1;
+            public string street2;
+            public Vector3 direction1;
+            public Vector3 direction2;
+        }
+        
+        private bool LineSegmentsIntersect(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, out Vector3 intersection)
+        {
+            intersection = Vector3.zero;
+            
+            // Project to 2D (ignore Y)
+            float x1 = p1.x, y1 = p1.z;
+            float x2 = p2.x, y2 = p2.z;
+            float x3 = p3.x, y3 = p3.z;
+            float x4 = p4.x, y4 = p4.z;
+            
+            float denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+            if (Mathf.Abs(denom) < 0.0001f) return false; // Parallel
+            
+            float t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+            float u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+            
+            if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
+            {
+                float x = x1 + t * (x2 - x1);
+                float z = y1 + t * (y2 - y1);
+                intersection = new Vector3(x, 0, z);
+                return true;
+            }
+            
+            return false;
+        }
+        
+        private float DistanceToLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+        {
+            Vector3 line = lineEnd - lineStart;
+            float len = line.magnitude;
+            if (len < 0.001f) return Vector3.Distance(point, lineStart);
+            
+            line /= len;
+            float t = Mathf.Clamp01(Vector3.Dot(point - lineStart, line) / len);
+            Vector3 closest = lineStart + t * len * line;
+            return Vector3.Distance(point, closest);
+        }
+        
+        private void CreateIntersectionSign(IntersectionData intersection)
+        {
+            // Use REAL street names (not fantasy converted)
+            string street1 = !string.IsNullOrEmpty(intersection.street1) ? intersection.street1 : "Main St";
+            string street2 = !string.IsNullOrEmpty(intersection.street2) ? intersection.street2 : "Cross St";
+            
+            Debug.Log($"[GPSFantasy] Creating intersection sign: {street1} & {street2} at {intersection.position}");
+            
+            // Create sign post
+            var signPost = new GameObject($"IntersectionSign_{street1}_{street2}");
+            signPost.transform.SetParent(roadsParent);
+            signPost.transform.position = intersection.position + new Vector3(3f, 0, 3f); // Corner offset
+            
+            // Create the pole
+            var pole = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            pole.name = "Pole";
+            pole.transform.SetParent(signPost.transform);
+            pole.transform.localPosition = new Vector3(0, 4f, 0);
+            pole.transform.localScale = new Vector3(0.2f, 4f, 0.2f);
+            var poleMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            poleMat.SetColor("_BaseColor", new Color(0.3f, 0.3f, 0.3f)); // Metal gray
+            pole.GetComponent<Renderer>().material = poleMat;
+            
+            // Create sign for street 1 (horizontal)
+            CreateStreetNamePlate(signPost.transform, street1, new Vector3(0, 8f, 0), intersection.direction1);
+            
+            // Create sign for street 2 (perpendicular, slightly lower)
+            CreateStreetNamePlate(signPost.transform, street2, new Vector3(0, 7.2f, 0), intersection.direction2);
+        }
+        
+        private void CreateStreetNamePlate(Transform parent, string streetName, Vector3 localPos, Vector3 direction)
+        {
+            // Green background like real street signs
+            var signBoard = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            signBoard.name = $"Sign_{streetName}";
+            signBoard.transform.SetParent(parent);
+            signBoard.transform.localPosition = localPos;
+            signBoard.transform.localScale = new Vector3(5f, 1f, 0.15f);
+            signBoard.transform.rotation = Quaternion.LookRotation(direction);
+            
+            var boardMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            boardMat.SetColor("_BaseColor", new Color(0.0f, 0.4f, 0.2f)); // Green like real signs
+            signBoard.GetComponent<Renderer>().material = boardMat;
+            
+            // White text - REAL street name
+            var textObj = new GameObject("Text");
+            textObj.transform.SetParent(signBoard.transform);
+            textObj.transform.localPosition = new Vector3(0, 0, -0.1f);
+            textObj.transform.localRotation = Quaternion.identity;
+            textObj.transform.localScale = new Vector3(0.18f, 0.9f, 1f);
+            
+            var textMesh = textObj.AddComponent<TextMesh>();
+            textMesh.text = streetName.ToUpper();
+            textMesh.fontSize = 48;
+            textMesh.characterSize = 0.1f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = Color.white;
+            textMesh.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            
+            // Back side text
+            var textObjBack = new GameObject("TextBack");
+            textObjBack.transform.SetParent(signBoard.transform);
+            textObjBack.transform.localPosition = new Vector3(0, 0, 0.1f);
+            textObjBack.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            textObjBack.transform.localScale = new Vector3(0.18f, 0.9f, 1f);
+            
+            var textMeshBack = textObjBack.AddComponent<TextMesh>();
+            textMeshBack.text = streetName.ToUpper();
+            textMeshBack.fontSize = 48;
+            textMeshBack.characterSize = 0.1f;
+            textMeshBack.anchor = TextAnchor.MiddleCenter;
+            textMeshBack.alignment = TextAlignment.Center;
+            textMeshBack.color = Color.white;
+            textMeshBack.font = UnityEngine.Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        }
+        
+        // Keep the old method for backward compatibility but it won't be used for intersections
         private void CreateStreetSign(Vector3 position, Vector3 roadDirection, string streetName)
         {
             // Convert to fantasy-style street name
