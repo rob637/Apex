@@ -26,10 +26,12 @@ namespace ApexCitadels.FantasyWorld
         
         private void Start()
         {
+            Debug.Log("[GlassUI] Starting UI Initialization...");
             InitializeCanvas();
             
             if (showHUDOnStart)
             {
+                Debug.Log("[GlassUI] Creating Layouts...");
                 CreateMainHUD();
                 CreateTravelMenu(); // Create but hide initially
             }
