@@ -309,36 +309,72 @@ namespace ApexCitadels.FantasyWorld
         
         /// <summary>
         /// Apply fallback material to fix pink/magenta missing shader issues
+        /// Smart Version: Adapts Standard materials to URP Lit to preserve textures
         /// </summary>
         private void ApplyFallbackMaterial(GameObject obj)
         {
-            if (_fallbackRoadMaterial == null) return;
-            
             var renderers = obj.GetComponentsInChildren<Renderer>();
             foreach (var renderer in renderers)
             {
-                // Check if material is pink/missing (Standard shader in URP shows as magenta)
-                bool needsFix = false;
-                foreach (var mat in renderer.sharedMaterials)
+                var newMaterials = new Material[renderer.sharedMaterials.Length];
+                bool modificationsMade = false;
+
+                for (int i = 0; i < renderer.sharedMaterials.Length; i++)
                 {
-                    if (mat == null || mat.shader == null || 
-                        mat.shader.name.Contains("Standard") || 
-                        mat.shader.name.Contains("Hidden/InternalErrorShader"))
+                    Material oldMat = renderer.sharedMaterials[i];
+                    
+                    // Check if material is broken (Standard shader in URP or Error shader)
+                    bool isBroken = false;
+                    if (oldMat == null || oldMat.shader == null || 
+                        oldMat.shader.name.Contains("Standard") || 
+                        oldMat.shader.name.Contains("Hidden/InternalErrorShader") ||
+                        oldMat.shader.name == "Hidden/InternalErrorShader")
                     {
-                        needsFix = true;
-                        break;
+                        isBroken = true;
+                    }
+
+                    if (isBroken)
+                    {
+                        // Attempt to fix by swapping shader to URP Lit
+                        if (oldMat != null)
+                        {
+                            // Create new URP material instance
+                            Material newMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                            newMat.name = oldMat.name + "_URP_Fix";
+                            
+                            // Try to carry over the main texture (Albedo)
+                            if (oldMat.HasProperty("_MainTex") && oldMat.GetTexture("_MainTex") != null)
+                            {
+                                newMat.SetTexture("_BaseMap", oldMat.GetTexture("_MainTex"));
+                                // If original had a color tint, try to carry it over, otherwise white
+                                if (oldMat.HasProperty("_Color"))
+                                     newMat.SetColor("_BaseColor", oldMat.GetColor("_Color"));
+                                else
+                                     newMat.SetColor("_BaseColor", Color.white);
+                            }
+                            else
+                            {
+                                // No texture found? Use the grey fallback material
+                                if (_fallbackRoadMaterial != null)
+                                {
+                                    newMat = _fallbackRoadMaterial;
+                                }
+                            }
+                            
+                            newMaterials[i] = newMat;
+                            modificationsMade = true;
+                        }
+                    }
+                    else
+                    {
+                        // Keep good material
+                        newMaterials[i] = oldMat;
                     }
                 }
                 
-                if (needsFix)
+                if (modificationsMade)
                 {
-                    // Replace all materials with fallback
-                    var newMats = new Material[renderer.sharedMaterials.Length];
-                    for (int i = 0; i < newMats.Length; i++)
-                    {
-                        newMats[i] = _fallbackRoadMaterial;
-                    }
-                    renderer.sharedMaterials = newMats;
+                    renderer.sharedMaterials = newMaterials;
                 }
             }
         }
@@ -1143,6 +1179,7 @@ namespace ApexCitadels.FantasyWorld
                         }
                         
                         tree.name = $"StreetTree_{treeCount}";
+                        ApplyFallbackMaterial(tree);
                         
                         treeCount++;
                     }
@@ -1256,6 +1293,7 @@ namespace ApexCitadels.FantasyWorld
                     }
                     
                     groundItem.transform.localScale = Vector3.one * scale * _prefabScale;
+                    ApplyFallbackMaterial(groundItem);
                     
                     // Yield occasionally for smooth performance
                     if ((grassCount + rockCount) % 50 == 0)
