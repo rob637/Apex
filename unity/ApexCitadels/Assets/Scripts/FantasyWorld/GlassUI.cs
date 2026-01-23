@@ -37,19 +37,18 @@ namespace ApexCitadels.FantasyWorld
         
         private void InitializeCanvas()
         {
-            var canvas = FindObjectOfType<Canvas>();
-            if (canvas == null)
-            {
-                canvasObj = new GameObject("GlassUICanvas");
-                canvas = canvasObj.AddComponent<Canvas>();
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvasObj.AddComponent<CanvasScaler>();
-                canvasObj.AddComponent<GraphicRaycaster>();
-            }
-            else
-            {
-                canvasObj = canvas.gameObject;
-            }
+            // ALWAYS create a dedicated canvas for the Glass UI to ensure it renders on top
+            // and doesn't get messed up by existing AR/WorldSpace canvases.
+            canvasObj = new GameObject("GlassUICanvas");
+            var canvas = canvasObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 100; // Ensure it's on top of other UI
+            
+            var scaler = canvasObj.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+            
+            canvasObj.AddComponent<GraphicRaycaster>();
         }
 
         private void CreateMainHUD()
