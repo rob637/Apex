@@ -181,6 +181,12 @@ namespace ApexCitadels.FantasyWorld
         
         private void Awake()
         {
+             // DESIGN SPIKE: Inject Glass UI for immediate testing
+            if (gameObject.GetComponent<GlassUI>() == null)
+            {
+                gameObject.AddComponent<GlassUI>();
+            }
+
             _osmFetcher = gameObject.AddComponent<OSMDataFetcher>();
             
             // Create fallback material for URP (fixes pink Synty prefabs)
