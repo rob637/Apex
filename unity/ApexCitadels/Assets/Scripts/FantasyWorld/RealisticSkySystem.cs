@@ -117,6 +117,12 @@ namespace ApexCitadels.FantasyWorld
             // Use gradient ambient instead of skybox for now
             RenderSettings.ambientMode = AmbientMode.Trilight;
             
+            // Fix dark scenes: Boost ambient light intensity
+            RenderSettings.ambientSkyColor = daySkyColor;
+            RenderSettings.ambientEquatorColor = Color.Lerp(daySkyColor, Color.gray, 0.5f);
+            RenderSettings.ambientGroundColor = Color.gray;
+            RenderSettings.ambientIntensity = 1.2f;
+
             // Disable any existing skybox to show procedural gradient
             // We'll use fog to create atmosphere
             RenderSettings.fog = true;
