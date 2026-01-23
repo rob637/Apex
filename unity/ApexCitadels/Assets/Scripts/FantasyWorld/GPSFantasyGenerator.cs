@@ -177,9 +177,9 @@ namespace ApexCitadels.FantasyWorld
         private void Start()
         {
             // DESIGN SPIKE: Inject Glass UI for immediate testing
-            if (gameObject.GetComponent<ApexCitadels.UI.GlassUI>() == null)
+            if (gameObject.GetComponent<GlassUI>() == null)
             {
-                gameObject.AddComponent<ApexCitadels.UI.GlassUI>();
+                gameObject.AddComponent<GlassUI>();
             }
 
             // Try to load prefab library
